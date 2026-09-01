@@ -69,10 +69,7 @@ export interface RngLease {
  * @param seed - The seed applied for the tour — a string, a number, or state words.
  * @returns A fire-once {@link RngLease} whose `restore()` returns `rng` to normal.
  */
-export function seedRngForTour(
-    rng: Rng,
-    seed: string | number | number[],
-): RngLease {
+export function seedRngForTour(rng: Rng, seed: string | number | number[]): RngLease {
     const snapshot = rng.getState();
     rng.seed(seed);
     let done = false;

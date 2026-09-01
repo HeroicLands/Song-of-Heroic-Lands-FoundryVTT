@@ -40,8 +40,7 @@ export class SohlSet<T> {
      * @param data - Optional iterable whose values seed the set.
      */
     constructor(data?: Iterable<T>) {
-        this.setData =
-            data !== undefined ? new Set(Array.from(data)) : new Set();
+        this.setData = data !== undefined ? new Set(Array.from(data)) : new Set();
     }
 
     /**

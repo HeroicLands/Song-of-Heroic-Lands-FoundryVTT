@@ -33,39 +33,27 @@ describe("shock (#550)", () => {
     describe("shockStateFromStatuses", () => {
         it("is NONE when no shock status is active", () => {
             expect(shockStateFromStatuses(new Set())).toBe(SHOCK_STATE.NONE);
-            expect(shockStateFromStatuses(new Set(["prone", "bleeding"]))).toBe(
-                SHOCK_STATE.NONE,
-            );
+            expect(shockStateFromStatuses(new Set(["prone", "bleeding"]))).toBe(SHOCK_STATE.NONE);
         });
 
         it("maps each shock status to its level", () => {
-            expect(shockStateFromStatuses(new Set([STATUS_EFFECT.STUN]))).toBe(
-                SHOCK_STATE.STUNNED,
+            expect(shockStateFromStatuses(new Set([STATUS_EFFECT.STUN]))).toBe(SHOCK_STATE.STUNNED);
+            expect(shockStateFromStatuses(new Set([STATUS_EFFECT.INCAPACITATED]))).toBe(
+                SHOCK_STATE.INCAPACITATED,
             );
-            expect(
-                shockStateFromStatuses(new Set([STATUS_EFFECT.INCAPACITATED])),
-            ).toBe(SHOCK_STATE.INCAPACITATED);
-            expect(
-                shockStateFromStatuses(new Set([STATUS_EFFECT.UNCONSCIOUS])),
-            ).toBe(SHOCK_STATE.UNCONSCIOUS);
-            expect(shockStateFromStatuses(new Set([STATUS_EFFECT.DEAD]))).toBe(
-                SHOCK_STATE.DEAD,
+            expect(shockStateFromStatuses(new Set([STATUS_EFFECT.UNCONSCIOUS]))).toBe(
+                SHOCK_STATE.UNCONSCIOUS,
             );
+            expect(shockStateFromStatuses(new Set([STATUS_EFFECT.DEAD]))).toBe(SHOCK_STATE.DEAD);
         });
 
         it("reports the most severe when several are active", () => {
             expect(
-                shockStateFromStatuses(
-                    new Set([STATUS_EFFECT.STUN, STATUS_EFFECT.UNCONSCIOUS]),
-                ),
+                shockStateFromStatuses(new Set([STATUS_EFFECT.STUN, STATUS_EFFECT.UNCONSCIOUS])),
             ).toBe(SHOCK_STATE.UNCONSCIOUS);
             expect(
                 shockStateFromStatuses(
-                    new Set([
-                        STATUS_EFFECT.STUN,
-                        STATUS_EFFECT.DEAD,
-                        STATUS_EFFECT.INCAPACITATED,
-                    ]),
+                    new Set([STATUS_EFFECT.STUN, STATUS_EFFECT.DEAD, STATUS_EFFECT.INCAPACITATED]),
                 ),
             ).toBe(SHOCK_STATE.DEAD);
         });
@@ -79,12 +67,8 @@ describe("shock (#550)", () => {
         });
 
         it("returns the status id for each shock level", () => {
-            expect(shockStatusForLevel(SHOCK_STATE.STUNNED)).toBe(
-                STATUS_EFFECT.STUN,
-            );
-            expect(shockStatusForLevel(SHOCK_STATE.DEAD)).toBe(
-                STATUS_EFFECT.DEAD,
-            );
+            expect(shockStatusForLevel(SHOCK_STATE.STUNNED)).toBe(STATUS_EFFECT.STUN);
+            expect(shockStatusForLevel(SHOCK_STATE.DEAD)).toBe(STATUS_EFFECT.DEAD);
         });
     });
 
@@ -139,21 +123,15 @@ describe("shock (#550)", () => {
 
     describe("shockStateLabelKey (#850)", () => {
         it("maps each level to its label key", () => {
-            expect(shockStateLabelKey(SHOCK_STATE.NONE)).toBe(
-                "SOHL.Being.ShockState.none",
-            );
-            expect(shockStateLabelKey(SHOCK_STATE.STUNNED)).toBe(
-                "SOHL.Being.ShockState.stunned",
-            );
+            expect(shockStateLabelKey(SHOCK_STATE.NONE)).toBe("SOHL.Being.ShockState.none");
+            expect(shockStateLabelKey(SHOCK_STATE.STUNNED)).toBe("SOHL.Being.ShockState.stunned");
             expect(shockStateLabelKey(SHOCK_STATE.INCAPACITATED)).toBe(
                 "SOHL.Being.ShockState.incapacitated",
             );
             expect(shockStateLabelKey(SHOCK_STATE.UNCONSCIOUS)).toBe(
                 "SOHL.Being.ShockState.unconscious",
             );
-            expect(shockStateLabelKey(SHOCK_STATE.DEAD)).toBe(
-                "SOHL.Being.ShockState.dead",
-            );
+            expect(shockStateLabelKey(SHOCK_STATE.DEAD)).toBe("SOHL.Being.ShockState.dead");
         });
 
         it("clamps out-of-range levels", () => {
@@ -164,36 +142,40 @@ describe("shock (#550)", () => {
 
     describe("shockReTestOutcome (#556)", () => {
         it("critical success recovers from all shock", () => {
-            expect(
-                shockReTestOutcome(SHOCK_STATE.INCAPACITATED, CRITICAL_SUCCESS),
-            ).toEqual({ kind: "recover" });
-            expect(
-                shockReTestOutcome(SHOCK_STATE.UNCONSCIOUS, CRITICAL_SUCCESS),
-            ).toEqual({ kind: "recover" });
+            expect(shockReTestOutcome(SHOCK_STATE.INCAPACITATED, CRITICAL_SUCCESS)).toEqual({
+                kind: "recover",
+            });
+            expect(shockReTestOutcome(SHOCK_STATE.UNCONSCIOUS, CRITICAL_SUCCESS)).toEqual({
+                kind: "recover",
+            });
         });
 
         it("marginal success improves to Stunned", () => {
-            expect(
-                shockReTestOutcome(SHOCK_STATE.UNCONSCIOUS, MARGINAL_SUCCESS),
-            ).toEqual({ kind: "improve", state: SHOCK_STATE.STUNNED });
+            expect(shockReTestOutcome(SHOCK_STATE.UNCONSCIOUS, MARGINAL_SUCCESS)).toEqual({
+                kind: "improve",
+                state: SHOCK_STATE.STUNNED,
+            });
         });
 
         it("marginal failure drops into Extended Shock at HR 5", () => {
-            expect(
-                shockReTestOutcome(SHOCK_STATE.INCAPACITATED, MARGINAL_FAILURE),
-            ).toEqual({ kind: "extendedShock", hr: 5 });
-            expect(
-                shockReTestOutcome(SHOCK_STATE.UNCONSCIOUS, MARGINAL_FAILURE),
-            ).toEqual({ kind: "extendedShock", hr: 5 });
+            expect(shockReTestOutcome(SHOCK_STATE.INCAPACITATED, MARGINAL_FAILURE)).toEqual({
+                kind: "extendedShock",
+                hr: 5,
+            });
+            expect(shockReTestOutcome(SHOCK_STATE.UNCONSCIOUS, MARGINAL_FAILURE)).toEqual({
+                kind: "extendedShock",
+                hr: 5,
+            });
         });
 
         it("critical failure: Incapacitated → Extended Shock HR 4, Unconscious → Coma", () => {
-            expect(
-                shockReTestOutcome(SHOCK_STATE.INCAPACITATED, CRITICAL_FAILURE),
-            ).toEqual({ kind: "extendedShock", hr: 4 });
-            expect(
-                shockReTestOutcome(SHOCK_STATE.UNCONSCIOUS, CRITICAL_FAILURE),
-            ).toEqual({ kind: "coma" });
+            expect(shockReTestOutcome(SHOCK_STATE.INCAPACITATED, CRITICAL_FAILURE)).toEqual({
+                kind: "extendedShock",
+                hr: 4,
+            });
+            expect(shockReTestOutcome(SHOCK_STATE.UNCONSCIOUS, CRITICAL_FAILURE)).toEqual({
+                kind: "coma",
+            });
         });
     });
 

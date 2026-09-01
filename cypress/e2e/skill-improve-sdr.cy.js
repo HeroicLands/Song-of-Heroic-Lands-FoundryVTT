@@ -53,9 +53,7 @@ describe("skill improveWithSDR persistence (#716)", () => {
             // exactly as the context-menu invocation does.
             await s.logic.executeAction("improveWithSDR");
             // executeAction awaits the update, so system now reflects the write.
-            const sys = win.game.actors
-                .get(actor.id)
-                .items.get(skill.id).system;
+            const sys = win.game.actors.get(actor.id).items.get(skill.id).system;
             return {
                 masteryLevelBase: sys.masteryLevelBase,
                 improveFlag: sys.improveFlag,
@@ -68,12 +66,8 @@ describe("skill improveWithSDR persistence (#716)", () => {
             makeFlaggedSkill(actor).then((skill) => {
                 cy.prepare(actor);
                 runSdr(actor, skill, 100).should((r) => {
-                    expect(
-                        r.masteryLevelBase,
-                        "base raised by sdrIncr (1)",
-                    ).to.eq(51);
-                    expect(r.improveFlag, "flag cleared after roll").to.be
-                        .false;
+                    expect(r.masteryLevelBase, "base raised by sdrIncr (1)").to.eq(51);
+                    expect(r.improveFlag, "flag cleared after roll").to.be.false;
                 });
             });
         });
@@ -85,8 +79,7 @@ describe("skill improveWithSDR persistence (#716)", () => {
                 cy.prepare(actor);
                 runSdr(actor, skill, 5).should((r) => {
                     expect(r.masteryLevelBase, "base unchanged").to.eq(50);
-                    expect(r.improveFlag, "flag cleared after roll").to.be
-                        .false;
+                    expect(r.improveFlag, "flag cleared after roll").to.be.false;
                 });
             });
         });
@@ -110,13 +103,10 @@ describe("skill improveWithSDR persistence (#716)", () => {
                     );
                     expect(card, "SDR card posted").to.exist;
                     expect(card.content, "target rendered").to.contain(">50<");
-                    expect(card.content, "roll total rendered").to.contain(
-                        ">100<",
+                    expect(card.content, "roll total rendered").to.contain(">100<");
+                    expect(card.content, "no result-edit pencil").to.not.contain(
+                        'data-action="resultEdit"',
                     );
-                    expect(
-                        card.content,
-                        "no result-edit pencil",
-                    ).to.not.contain('data-action="resultEdit"');
                 });
             });
         });

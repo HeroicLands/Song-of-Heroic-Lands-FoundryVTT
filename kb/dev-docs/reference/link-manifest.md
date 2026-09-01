@@ -337,9 +337,7 @@ best placed to notice.
 Both surfaces mark it, in the same markup:
 
 ```html
-<span class="sohl-unresolved-link" title="Unresolved link: being-nosuch"
-  >Name</span
->
+<span class="sohl-unresolved-link" title="Unresolved link: being-nosuch">Name</span>
 ```
 
 The appearance is not shared, because the two hosts theme differently. In

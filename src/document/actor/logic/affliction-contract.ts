@@ -135,9 +135,7 @@ export async function promptContagionTest(
     const afflictions = await fvttFindDiseases();
     const result = (await dialog({
         title: "Contagion Test",
-        template: toFilePath(
-            "systems/sohl/templates/dialog/contagion-test-dialog.hbs",
-        ),
+        template: toFilePath("systems/sohl/templates/dialog/contagion-test-dialog.hbs"),
         data: {
             afflictions: afflictions.map((a) => ({
                 shortcode: a.shortcode,
@@ -145,8 +143,7 @@ export async function promptContagionTest(
             })),
             record: recordDefault,
         },
-        callback: (data: Record<string, unknown>) =>
-            readContagionTestForm(data, afflictions),
+        callback: (data: Record<string, unknown>) => readContagionTestForm(data, afflictions),
         rejectClose: false,
     })) as ContagionTestChoice | null;
     return result ?? null;

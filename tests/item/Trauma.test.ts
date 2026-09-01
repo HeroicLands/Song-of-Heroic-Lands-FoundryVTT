@@ -1,10 +1,5 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
-import {
-    TraumaLogic,
-    SHOCK,
-    isShock,
-    UNTREATED,
-} from "@src/document/item/logic/TraumaLogic";
+import { TraumaLogic, SHOCK, isShock, UNTREATED } from "@src/document/item/logic/TraumaLogic";
 import { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
 import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
@@ -31,9 +26,7 @@ import * as ActionCard from "@src/document/chat/action-card";
  */
 function sched(actionName: string, anchor: number, interval: number) {
     return {
-        scheduledActions: [
-            { actionName, anchor, interval, sceneUuid: "", payload: {} },
-        ],
+        scheduledActions: [{ actionName, anchor, interval, sceneUuid: "", payload: {} }],
     };
 }
 
@@ -207,9 +200,7 @@ describe("time-based healing / blood-loss on the generic store (#482, #579, #588
 
     it("healingCheck only posts a card — it rolls nothing and changes nothing (#1181)", async () => {
         const { schedule } = withSchedule();
-        const post = vi
-            .spyOn(ActionCard, "postActionCard")
-            .mockResolvedValue(undefined as never);
+        const post = vi.spyOn(ActionCard, "postActionCard").mockResolvedValue(undefined as never);
         const logic = trauma({
             subType: "injury",
             levelBase: 3,
@@ -303,16 +294,8 @@ function traumaFields(overrides: Record<string, unknown> = {}) {
     };
 }
 
-function makeTrauma(
-    overrides: Record<string, unknown> = {},
-    opts: Record<string, unknown> = {},
-) {
-    return makeItemLogic(
-        TraumaLogic,
-        ITEM_KIND.TRAUMA,
-        traumaFields(overrides),
-        opts,
-    );
+function makeTrauma(overrides: Record<string, unknown> = {}, opts: Record<string, unknown> = {}) {
+    return makeItemLogic(TraumaLogic, ITEM_KIND.TRAUMA, traumaFields(overrides), opts);
 }
 
 /**
@@ -504,9 +487,7 @@ describe("Blood Loss Advance Test effect (#487)", () => {
     /** A bleeding injury on an actor with a Strength ML and shock-advance op. */
     function bleeder(strMl = 60) {
         const actor = makeMockActor();
-        (actor.logic as any).advanceShockState = vi
-            .fn()
-            .mockResolvedValue(undefined);
+        (actor.logic as any).advanceShockState = vi.fn().mockResolvedValue(undefined);
         (actor.logic as any).getItemLogic = vi.fn((code: string) =>
             code === "str" ? { masteryLevel: { effective: strMl } } : undefined,
         );
@@ -547,9 +528,7 @@ describe("Blood Loss Advance Test effect (#487)", () => {
             mockRoll(sl);
             const { logic, actor } = bleeder();
             await logic.bloodLossAdvanceTest({} as any);
-            expect((actor.logic as any).advanceShockState).toHaveBeenCalledWith(
-                blp,
-            );
+            expect((actor.logic as any).advanceShockState).toHaveBeenCalledWith(blp);
             expect(create).toHaveBeenCalledWith(actor.logic, [
                 expect.objectContaining({
                     system: expect.objectContaining({
@@ -577,10 +556,7 @@ describe("Blood Loss Advance Test effect (#487)", () => {
     it("rolls against the victim's Strength Mastery Level", async () => {
         withEvents();
         vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(1300);
-        vi.spyOn(
-            FoundryHelpersMock,
-            "fvttCreateEmbeddedItems",
-        ).mockResolvedValue([]);
+        vi.spyOn(FoundryHelpersMock, "fvttCreateEmbeddedItems").mockResolvedValue([]);
         const spy = mockRoll(MARGINAL_SUCCESS);
         const { logic } = bleeder(72);
         await logic.bloodLossAdvanceTest({} as any);
@@ -593,10 +569,7 @@ describe("Blood Loss Advance Test effect (#487)", () => {
         // pass. One check yields one test — a bleeding wound left unattended
         // costs one advance per consented test, not a silent cascade.
         vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(1600);
-        vi.spyOn(
-            FoundryHelpersMock,
-            "fvttCreateEmbeddedItems",
-        ).mockResolvedValue([]);
+        vi.spyOn(FoundryHelpersMock, "fvttCreateEmbeddedItems").mockResolvedValue([]);
         const spy = mockRoll(MARGINAL_FAILURE, MARGINAL_FAILURE);
         const { logic, actor } = bleeder();
         await logic.bloodLossAdvanceTest({} as any);
@@ -902,8 +875,7 @@ describe("Infection lifecycle (#557)", () => {
 
     function mockRoll(...levels: number[]) {
         const spy = vi.spyOn(MasteryLevelModifier.prototype, "successTest");
-        for (const lvl of levels)
-            spy.mockResolvedValueOnce({ normSuccessLevel: lvl } as any);
+        for (const lvl of levels) spy.mockResolvedValueOnce({ normSuccessLevel: lvl } as any);
         return spy;
     }
 
@@ -967,10 +939,9 @@ describe("Infection lifecycle (#557)", () => {
                 uuid: "Item.infect00000",
                 system: { courseDurationBase: 86400 },
             };
-            vi.spyOn(
-                FoundryHelpersMock,
-                "fvttCreateEmbeddedItems",
-            ).mockResolvedValue([infectionItem]);
+            vi.spyOn(FoundryHelpersMock, "fvttCreateEmbeddedItems").mockResolvedValue([
+                infectionItem,
+            ]);
             const schedule = vi.spyOn((globalThis as any).sohl, "schedule");
             mockRoll(CRITICAL_FAILURE);
             const logic = injury(true, 3);
@@ -979,18 +950,12 @@ describe("Infection lifecycle (#557)", () => {
                 skipDialog: true,
                 scope: { schedule: true },
             } as any);
-            expect(schedule).toHaveBeenCalledWith(
-                infectionItem,
-                "courseCheck",
-                86400,
-            );
+            expect(schedule).toHaveBeenCalledWith(infectionItem, "courseCheck", 86400);
         });
     });
 
     describe("Infection Healing Test (course)", () => {
-        function infection(
-            opts: { healingRateBase?: number; spanHrs?: number } = {},
-        ) {
+        function infection(opts: { healingRateBase?: number; spanHrs?: number } = {}) {
             const { healingRateBase = 3, spanHrs = 24 } = opts;
             const interval = spanHrs * HOUR;
             const actor = makeMockActor();
@@ -1009,18 +974,13 @@ describe("Infection lifecycle (#557)", () => {
             );
             (logic.item as any).uuid = "Item.infect00000";
             logic.initialize();
-            vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(
-                interval,
-            );
+            vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(interval);
             return { logic, actor };
         }
 
         it("adjusts the infection Healing Rate by the test result", async () => {
             withEvents();
-            vi.spyOn(
-                FoundryHelpersMock,
-                "fvttCreateEmbeddedItems",
-            ).mockResolvedValue([]);
+            vi.spyOn(FoundryHelpersMock, "fvttCreateEmbeddedItems").mockResolvedValue([]);
             mockRoll(MARGINAL_SUCCESS); // HR 3 → 4
             const { logic } = infection({ healingRateBase: 3 });
             await logic.courseTest({} as any);
@@ -1031,10 +991,7 @@ describe("Infection lifecycle (#557)", () => {
 
         it("floors the Healing Rate at 1 (an infection never kills)", async () => {
             withEvents();
-            vi.spyOn(
-                FoundryHelpersMock,
-                "fvttCreateEmbeddedItems",
-            ).mockResolvedValue([]);
+            vi.spyOn(FoundryHelpersMock, "fvttCreateEmbeddedItems").mockResolvedValue([]);
             mockRoll(CRITICAL_FAILURE); // HR 1 → -1, floored to 1
             const { logic, actor } = infection({ healingRateBase: 1 });
             await logic.courseTest({} as any);
@@ -1117,9 +1074,7 @@ describe("Extended Shock / Coma course test (#556)", () => {
         const actor = makeMockActor();
         (actor.logic as any).healingBase = { effective: hb };
         (actor.logic as any).fatiguePenalty = { effective: fatigue };
-        (actor.logic as any).setShockState = vi
-            .fn()
-            .mockResolvedValue(undefined);
+        (actor.logic as any).setShockState = vi.fn().mockResolvedValue(undefined);
         const logic = makeTrauma(
             {
                 subType,
@@ -1154,8 +1109,7 @@ describe("Extended Shock / Coma course test (#556)", () => {
 
     function mockRoll(...levels: number[]) {
         const spy = vi.spyOn(MasteryLevelModifier.prototype, "successTest");
-        for (const lvl of levels)
-            spy.mockResolvedValueOnce({ normSuccessLevel: lvl } as any);
+        for (const lvl of levels) spy.mockResolvedValueOnce({ normSuccessLevel: lvl } as any);
         return spy;
     }
 
@@ -1261,8 +1215,7 @@ describe("Permanent impairment on heal (#554)", () => {
         const actor = makeMockActor();
         (actor.logic as any).healingBase = { effective: 4 };
         const applyPermanentImpairment = vi.fn().mockResolvedValue(undefined);
-        (actor.logic as any).applyPermanentImpairment =
-            applyPermanentImpairment;
+        (actor.logic as any).applyPermanentImpairment = applyPermanentImpairment;
         const logic = makeTrauma(
             {
                 subType: TRAUMA_SUBTYPE.INJURY,
@@ -1285,10 +1238,9 @@ describe("Permanent impairment on heal (#554)", () => {
     }
 
     function mockRoll(sl: number) {
-        vi.spyOn(
-            MasteryLevelModifier.prototype,
-            "successTest",
-        ).mockResolvedValue({ normSuccessLevel: sl } as any);
+        vi.spyOn(MasteryLevelModifier.prototype, "successTest").mockResolvedValue({
+            normSuccessLevel: sl,
+        } as any);
     }
 
     it("applies permanent impairment scaled by time-to-heal on heal to 0", async () => {
@@ -1351,9 +1303,7 @@ describe("Treatment action cards — requestTreatment / treatInjury", () => {
 
     describe("requestTreatment (context-menu trigger)", () => {
         it("posts an open Perform Treatment Test card targeting the wound (@self)", async () => {
-            const post = vi
-                .spyOn(ActionCard, "postActionCard")
-                .mockResolvedValue(undefined);
+            const post = vi.spyOn(ActionCard, "postActionCard").mockResolvedValue(undefined);
             await injury().requestTreatment({} as any);
             expect(post).toHaveBeenCalledOnce();
             const spec = post.mock.calls[0][1];
@@ -1369,21 +1319,15 @@ describe("Treatment action cards — requestTreatment / treatInjury", () => {
         });
 
         it("warns and posts nothing for a non-injury trauma", async () => {
-            const post = vi
-                .spyOn(ActionCard, "postActionCard")
-                .mockResolvedValue(undefined);
+            const post = vi.spyOn(ActionCard, "postActionCard").mockResolvedValue(undefined);
             const warn = vi.spyOn(sohl.log, "uiWarn");
-            await injury({ subType: TRAUMA_SUBTYPE.FEAR }).requestTreatment(
-                {} as any,
-            );
+            await injury({ subType: TRAUMA_SUBTYPE.FEAR }).requestTreatment({} as any);
             expect(post).not.toHaveBeenCalled();
             expect(warn).toHaveBeenCalled();
         });
 
         it("warns and posts nothing for an already-healed injury", async () => {
-            const post = vi
-                .spyOn(ActionCard, "postActionCard")
-                .mockResolvedValue(undefined);
+            const post = vi.spyOn(ActionCard, "postActionCard").mockResolvedValue(undefined);
             await injury({ levelBase: 0 }).requestTreatment({} as any);
             expect(post).not.toHaveBeenCalled();
         });
@@ -1435,9 +1379,7 @@ describe("Treatment action cards — requestTreatment / treatInjury", () => {
         });
 
         it("run by hand on an untreated wound, opens the dialog blank — an undetermined rate is not 0 (#1087)", async () => {
-            const dlg = vi
-                .spyOn(FoundryHelpersMock, "dialog")
-                .mockResolvedValue(null);
+            const dlg = vi.spyOn(FoundryHelpersMock, "dialog").mockResolvedValue(null);
             const logic = injury({ healingRateBase: null });
             await logic.treatInjury({ scope: {} } as any);
             // `null` is "no Healing Rate determined yet", not the dire rate 0:
@@ -1452,9 +1394,7 @@ describe("Treatment action cards — requestTreatment / treatInjury", () => {
                 healingRate: "",
             });
             const logic = injury({ healingRateBase: null });
-            await expect(
-                logic.treatInjury({ scope: {} } as any),
-            ).resolves.toBeUndefined();
+            await expect(logic.treatInjury({ scope: {} } as any)).resolves.toBeUndefined();
             // Number("") is 0 — a blank field must not record a Healing Rate of 0.
             expect(logic.item.update).not.toHaveBeenCalled();
         });
@@ -1480,9 +1420,7 @@ describe("Treatment action cards — requestTreatment / treatInjury", () => {
         it("run by hand, is a no-op when the dialog is cancelled", async () => {
             vi.spyOn(FoundryHelpersMock, "dialog").mockResolvedValue(null);
             const logic = injury();
-            await expect(
-                logic.treatInjury({ scope: {} } as any),
-            ).resolves.toBeUndefined();
+            await expect(logic.treatInjury({ scope: {} } as any)).resolves.toBeUndefined();
             expect(logic.item.update).not.toHaveBeenCalled();
         });
 
@@ -1518,9 +1456,7 @@ describe("Injury Treatment Test effect (#553)", () => {
         } = opts;
         const actor = makeMockActor();
         (actor.logic as any).getItemLogic = vi.fn((code: string) =>
-            code === "pysn" ?
-                { masteryLevel: { effective: pysnMl } }
-            :   undefined,
+            code === "pysn" ? { masteryLevel: { effective: pysnMl } } : undefined,
         );
         const logic = makeTrauma(
             {
@@ -1596,11 +1532,7 @@ describe("Injury Treatment Test effect (#553)", () => {
                 "system.bloodLossAdvanceDurationBase": 300,
             }),
         );
-        expect(schedule).toHaveBeenCalledWith(
-            logic.item,
-            "bloodLossAdvanceCheck",
-            300,
-        );
+        expect(schedule).toHaveBeenCalledWith(logic.item, "bloodLossAdvanceCheck", 300);
     });
 
     it("marks a poorly-treated wound infectable, a well-treated one not (#557)", async () => {
@@ -1646,10 +1578,7 @@ describe("Injury Treatment Test effect (#553)", () => {
     it("resolves an unowned (headless) treatment as a critical failure", async () => {
         vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(0);
         // successTest returns false when the speaker is not owned.
-        vi.spyOn(
-            MasteryLevelModifier.prototype,
-            "successTest",
-        ).mockResolvedValue(false as any);
+        vi.spyOn(MasteryLevelModifier.prototype, "successTest").mockResolvedValue(false as any);
         const { logic } = injury({ levelBase: 2, aspect: "edged" }); // serious CF → HR 3
         const result = await logic.treatmentTest({} as any);
         expect(result).toBeNull();
@@ -1732,9 +1661,7 @@ describe("TraumaLogic.categoryLabel", () => {
             subType: TRAUMA_SUBTYPE.FATIGUE,
             category: "weariness",
         });
-        expect(logic.categoryLabel).toBe(
-            "SOHL.Trauma.FATIGUE_CATEGORY.weariness",
-        );
+        expect(logic.categoryLabel).toBe("SOHL.Trauma.FATIGUE_CATEGORY.weariness");
     });
 
     it("returns the raw category for other subtypes", () => {
@@ -1766,9 +1693,7 @@ describe("TraumaLogic.categoryLabel", () => {
             subType: TRAUMA_SUBTYPE.PHYSICAL_CONDITION,
             category: TRAUMA_PHYSCOND_CATEGORY.DEBILITY,
         });
-        expect(logic.categoryLabel).toBe(
-            "SOHL.Trauma.PHYSCOND_CATEGORY.debility",
-        );
+        expect(logic.categoryLabel).toBe("SOHL.Trauma.PHYSCOND_CATEGORY.debility");
     });
 
     it("returns the raw category for an unknown PSYCOND/PHYSCOND category", () => {
@@ -1812,21 +1737,13 @@ describe("TraumaLogic.nextRecoveryTestAt (#939 — view-only next-test date)", (
         [TRAUMA_SUBTYPE.PALL, "pallRecovery"],
         [TRAUMA_SUBTYPE.PSYCHOLOGICAL_CONDITION, "psycheRecovery"],
         [TRAUMA_SUBTYPE.AURALSHOCK, "auralShockRecovery"],
-    ])(
-        "%s returns anchor+interval of its %s schedule",
-        (subType, actionName) => {
-            const logic = withSched(subType, actionName, 1000, 500);
-            expect(logic.nextRecoveryTestAt).toBe(1500);
-        },
-    );
+    ])("%s returns anchor+interval of its %s schedule", (subType, actionName) => {
+        const logic = withSched(subType, actionName, 1000, 500);
+        expect(logic.nextRecoveryTestAt).toBe(1500);
+    });
 
     it("is undefined for a subtype with no recovery action (e.g. fatigue)", () => {
-        const logic = withSched(
-            TRAUMA_SUBTYPE.FATIGUE,
-            "healingCheck",
-            1000,
-            500,
-        );
+        const logic = withSched(TRAUMA_SUBTYPE.FATIGUE, "healingCheck", 1000, 500);
         expect(logic.nextRecoveryTestAt).toBeUndefined();
     });
 
@@ -1839,22 +1756,16 @@ describe("TraumaLogic.nextRecoveryTestAt (#939 — view-only next-test date)", (
     });
 
     it("ignores an event-driven (non-time) schedule for the same action", () => {
-        const logic = withSched(
-            TRAUMA_SUBTYPE.SHOCK,
-            "courseCheck",
-            1000,
-            500,
-            { triggerName: "turnEnd" },
-        );
+        const logic = withSched(TRAUMA_SUBTYPE.SHOCK, "courseCheck", 1000, 500, {
+            triggerName: "turnEnd",
+        });
         expect(logic.nextRecoveryTestAt).toBeUndefined();
     });
 
     it("treats an absent triggerName as time-based", () => {
         const logic = makeTrauma({
             subType: TRAUMA_SUBTYPE.INJURY,
-            scheduledActions: [
-                { actionName: "healingCheck", anchor: 2000, interval: 250 },
-            ],
+            scheduledActions: [{ actionName: "healingCheck", anchor: 2000, interval: 250 }],
         });
         expect(logic.nextRecoveryTestAt).toBe(2250);
     });
@@ -1868,9 +1779,7 @@ describe("Psyche Stress & Aural Shock recovery (#560)", () => {
     function recoveryTrauma(subType: string, levelBase: number, category = "") {
         const actor = makeMockActor();
         (actor.logic as any).getItemLogic = () => undefined;
-        (actor.logic as any).setShockState = vi
-            .fn()
-            .mockResolvedValue(undefined);
+        (actor.logic as any).setShockState = vi.fn().mockResolvedValue(undefined);
         const logic = makeTrauma({ subType, levelBase, category }, { actor });
         (logic.item as any).uuid = "Item.recover0000";
         (logic.item as any).delete = vi.fn().mockResolvedValue(undefined);
@@ -1881,21 +1790,16 @@ describe("Psyche Stress & Aural Shock recovery (#560)", () => {
     }
 
     function mockRoll(level: number) {
-        vi.spyOn(
-            MasteryLevelModifier.prototype,
-            "successTest",
-        ).mockResolvedValue({ normSuccessLevel: level } as any);
+        vi.spyOn(MasteryLevelModifier.prototype, "successTest").mockResolvedValue({
+            normSuccessLevel: level,
+        } as any);
     }
 
     const NO = { skipDialog: true, scope: { schedule: false } } as any;
 
     it("Psyche recovery reduces PSY by 1 on a marginal success", async () => {
         mockRoll(MARGINAL_SUCCESS);
-        const logic = recoveryTrauma(
-            TRAUMA_SUBTYPE.PSYCHOLOGICAL_CONDITION,
-            3,
-            "indefinite",
-        );
+        const logic = recoveryTrauma(TRAUMA_SUBTYPE.PSYCHOLOGICAL_CONDITION, 3, "indefinite");
         await logic.psycheRecoveryTest(NO);
         expect(logic.item.update).toHaveBeenCalledWith(
             expect.objectContaining({ "system.levelBase": 2 }),
@@ -1904,22 +1808,14 @@ describe("Psyche Stress & Aural Shock recovery (#560)", () => {
 
     it("an indefinite condition goes away when PSY reaches 0", async () => {
         mockRoll(MARGINAL_SUCCESS);
-        const logic = recoveryTrauma(
-            TRAUMA_SUBTYPE.PSYCHOLOGICAL_CONDITION,
-            1,
-            "indefinite",
-        );
+        const logic = recoveryTrauma(TRAUMA_SUBTYPE.PSYCHOLOGICAL_CONDITION, 1, "indefinite");
         await logic.psycheRecoveryTest(NO);
         expect(logic.item.delete).toHaveBeenCalledTimes(1);
     });
 
     it("a Grievous Stress critical failure makes an indefinite condition permanent", async () => {
         mockRoll(CRITICAL_FAILURE);
-        const logic = recoveryTrauma(
-            TRAUMA_SUBTYPE.PSYCHOLOGICAL_CONDITION,
-            2,
-            "indefinite",
-        );
+        const logic = recoveryTrauma(TRAUMA_SUBTYPE.PSYCHOLOGICAL_CONDITION, 2, "indefinite");
         await logic.psycheRecoveryTest(NO);
         expect(logic.item.update).toHaveBeenCalledWith(
             expect.objectContaining({ "system.category": "permanent" }),
@@ -1929,11 +1825,7 @@ describe("Psyche Stress & Aural Shock recovery (#560)", () => {
 
     it("a critical failure on a permanent condition raises PSY by one", async () => {
         mockRoll(CRITICAL_FAILURE);
-        const logic = recoveryTrauma(
-            TRAUMA_SUBTYPE.PSYCHOLOGICAL_CONDITION,
-            2,
-            "permanent",
-        );
+        const logic = recoveryTrauma(TRAUMA_SUBTYPE.PSYCHOLOGICAL_CONDITION, 2, "permanent");
         await logic.psycheRecoveryTest(NO);
         expect(logic.item.update).toHaveBeenCalledWith(
             expect.objectContaining({ "system.levelBase": 3 }),
@@ -2000,9 +1892,7 @@ describe("Psyche Stress & Aural Shock recovery (#560)", () => {
 
     it("a Critical-Failure Pall recovery offers Face the Pall (no removal)", async () => {
         mockRoll(CRITICAL_FAILURE);
-        const post = vi
-            .spyOn(ActionCard, "postActionCard")
-            .mockResolvedValue(undefined as any);
+        const post = vi.spyOn(ActionCard, "postActionCard").mockResolvedValue(undefined as any);
         const logic = recoveryTrauma(TRAUMA_SUBTYPE.PALL, 3);
         await logic.pallRecoveryTest(NO);
         expect(post).toHaveBeenCalledTimes(1);
@@ -2035,9 +1925,7 @@ describe("interactive Blood Stoppage flow (#547)", () => {
     }
 
     it("requestBloodStoppage posts an open Perform Blood Stoppage card for a bleeder", async () => {
-        const post = vi
-            .spyOn(ActionCard, "postActionCard")
-            .mockResolvedValue(undefined as any);
+        const post = vi.spyOn(ActionCard, "postActionCard").mockResolvedValue(undefined as any);
         const logic = bleedingWound();
         await logic.requestBloodStoppage({} as any);
         const spec = post.mock.calls.at(-1)![1] as any;
@@ -2148,11 +2036,7 @@ describe("descriptive conditions as trauma subtypes (#648)", () => {
     it("exposes the psychological- and physical-condition subtypes and their categories", () => {
         expect(TRAUMA_SUBTYPE.PSYCHOLOGICAL_CONDITION).toBe("psycond");
         expect(TRAUMA_SUBTYPE.PHYSICAL_CONDITION).toBe("physcond");
-        expect(Object.values(TRAUMA_PSYCOND_CATEGORY)).toEqual([
-            "quirk",
-            "impulse",
-            "disorder",
-        ]);
+        expect(Object.values(TRAUMA_PSYCOND_CATEGORY)).toEqual(["quirk", "impulse", "disorder"]);
         expect(Object.values(TRAUMA_PHYSCOND_CATEGORY)).toEqual([
             "trait",
             "impediment",

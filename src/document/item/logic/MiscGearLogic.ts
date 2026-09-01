@@ -23,9 +23,7 @@ import { GearLogic, GearData } from "@src/document/item/logic/GearLogic";
  *
  * @typeParam TData - The MiscGear data interface.
  */
-export class MiscGearLogic<
-    TData extends MiscGearData = MiscGearData,
-> extends GearLogic<TData> {
+export class MiscGearLogic<TData extends MiscGearData = MiscGearData> extends GearLogic<TData> {
     /* --------------------------------------------- */
     /* Common Lifecycle Actions                      */
     /* --------------------------------------------- */

@@ -48,9 +48,7 @@ describe("icon color-scheme (#917)", () => {
 
     after(() =>
         cy.foundry(async (win) => {
-            const cfg = win.foundry.utils.deepClone(
-                win.game.settings.get("core", "uiConfig"),
-            );
+            const cfg = win.foundry.utils.deepClone(win.game.settings.get("core", "uiConfig"));
             cfg.colorScheme = originalScheme;
             await win.game.settings.set("core", "uiConfig", cfg);
             return null;
@@ -60,14 +58,11 @@ describe("icon color-scheme (#917)", () => {
     // Helper: force Foundry's UI theme (applications + interface) to a value.
     const setFoundryTheme = (theme) =>
         cy.foundry(async (win) => {
-            const cfg = win.foundry.utils.deepClone(
-                win.game.settings.get("core", "uiConfig"),
-            );
+            const cfg = win.foundry.utils.deepClone(win.game.settings.get("core", "uiConfig"));
             cfg.colorScheme.applications = theme;
             cfg.colorScheme.interface = theme;
             await win.game.settings.set("core", "uiConfig", cfg);
-            return win.game.settings.get("core", "uiConfig").colorScheme
-                .interface;
+            return win.game.settings.get("core", "uiConfig").colorScheme.interface;
         });
 
     it("pins the being sheet's color-scheme to `light dark`, regardless of Foundry's theme", () => {
@@ -79,18 +74,14 @@ describe("icon color-scheme (#917)", () => {
             // vellum surface, not Foundry's chrome.
             setFoundryTheme("dark").should("eq", "dark");
             cy.get(".sohl.being").should(($el) => {
-                expect(getComputedStyle($el[0]).colorScheme).to.eq(
-                    "light dark",
-                );
+                expect(getComputedStyle($el[0]).colorScheme).to.eq("light dark");
             });
 
             // Toggling Foundry to LIGHT must NOT change it — the sheet's icons
             // are decoupled from Foundry's independent UI theme (the whole bug).
             setFoundryTheme("light").should("eq", "light");
             cy.get(".sohl.being").should(($el) => {
-                expect(getComputedStyle($el[0]).colorScheme).to.eq(
-                    "light dark",
-                );
+                expect(getComputedStyle($el[0]).colorScheme).to.eq("light dark");
             });
         });
     });
@@ -111,9 +102,7 @@ describe("icon color-scheme (#917)", () => {
             expect(images, "default art paths").to.have.length.greaterThan(0);
             for (const src of images) {
                 cy.request(`/${src}`).then((res) => {
-                    expect(res.body, `${src} is themed`).to.contain(
-                        "prefers-color-scheme",
-                    );
+                    expect(res.body, `${src} is themed`).to.contain("prefers-color-scheme");
                     // The cream ink the dark branch swaps in.
                     expect(res.body, `${src} dark ink`).to.contain("#ece3cf");
                 });
@@ -133,10 +122,7 @@ describe("icon color-scheme (#917)", () => {
             // poll until a rendered Compendium instance with an element exists.
             const findApp = () =>
                 [...win.foundry.applications.instances.values()].find(
-                    (a) =>
-                        a.constructor.name.includes("Compendium") &&
-                        a.rendered &&
-                        a.element,
+                    (a) => a.constructor.name.includes("Compendium") && a.rendered && a.element,
                 );
             let app = findApp();
             for (let i = 0; i < 40 && !app; i++) {
@@ -151,9 +137,7 @@ describe("icon color-scheme (#917)", () => {
         }).should((res) => {
             expect(res.underSohlScope, "compendium under .sohl").to.eq(false);
             // Follows Foundry's theme (here `dark`), NOT the `.sohl` pin.
-            expect(res.colorScheme, "compendium color-scheme").to.not.eq(
-                "light dark",
-            );
+            expect(res.colorScheme, "compendium color-scheme").to.not.eq("light dark");
         });
     });
 });

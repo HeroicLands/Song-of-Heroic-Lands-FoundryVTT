@@ -141,9 +141,7 @@ export function canAmputate(
     aspect: string,
 ): boolean {
     return (
-        amputability !== AMPUTABILITY.NONE &&
-        severity === "G5" &&
-        aspect === IMPACT_ASPECT.EDGED
+        amputability !== AMPUTABILITY.NONE && severity === "G5" && aspect === IMPACT_ASPECT.EDGED
     );
 }
 

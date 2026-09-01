@@ -8,9 +8,7 @@ describe("resolveGroupSeeding", () => {
             [],
         );
         expect(result.groupsToCreate).toEqual(["Opponents"]);
-        expect(result.assignments).toEqual([
-            { combatantId: "c1", groupName: "Opponents" },
-        ]);
+        expect(result.assignments).toEqual([{ combatantId: "c1", groupName: "Opponents" }]);
     });
 
     it("creates a new group only once when several combatants want the same name", () => {
@@ -37,9 +35,7 @@ describe("resolveGroupSeeding", () => {
         );
         expect(result.groupsToCreate).toEqual([]);
         // Resolves to the existing group's name as stored.
-        expect(result.assignments).toEqual([
-            { combatantId: "c1", groupName: "Heroes" },
-        ]);
+        expect(result.assignments).toEqual([{ combatantId: "c1", groupName: "Heroes" }]);
     });
 
     it("deduplicates new names case-insensitively across the batch", () => {
@@ -81,9 +77,7 @@ describe("resolveGroupSeeding", () => {
             [],
         );
         expect(result.groupsToCreate).toEqual(["Villains"]);
-        expect(result.assignments).toEqual([
-            { combatantId: "c2", groupName: "Villains" },
-        ]);
+        expect(result.assignments).toEqual([{ combatantId: "c2", groupName: "Villains" }]);
     });
 
     it("returns nothing to do when there are no ungrouped combatants", () => {

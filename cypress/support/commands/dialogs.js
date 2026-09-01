@@ -40,22 +40,17 @@ Cypress.Commands.add("submitDialog", (action = "ok") => {
                     /dialog/i.test(app.constructor.name) &&
                     app.rendered &&
                     app.element &&
-                    app.element.querySelector(
-                        `button[data-action="${action}"]`,
-                    ),
+                    app.element.querySelector(`button[data-action="${action}"]`),
             );
     // cy.window().should(...) genuinely retries until such a dialog is rendered.
     cy.window({ log: false }).should((win) => {
-        expect(findDlg(win), `open dialog with [data-action="${action}"]`).to
-            .exist;
+        expect(findDlg(win), `open dialog with [data-action="${action}"]`).to.exist;
     });
     // Activate it through the app instance — reliable across the modal <dialog>.
     return cy.foundry((win) => {
         const dlg = findDlg(win);
         if (!dlg) {
-            throw new Error(
-                `submitDialog: no open dialog has a [data-action="${action}"] button`,
-            );
+            throw new Error(`submitDialog: no open dialog has a [data-action="${action}"] button`);
         }
         dlg.element.querySelector(`button[data-action="${action}"]`).click();
         return action;
@@ -74,8 +69,7 @@ Cypress.Commands.add("submitDialog", (action = "ok") => {
  * @param {string} [action] - the button's `data-action` (default `"yes"`).
  */
 Cypress.Commands.add("submitDialogMatching", (text, action = "yes") => {
-    const matches = (s) =>
-        text instanceof RegExp ? text.test(s) : String(s).includes(text);
+    const matches = (s) => (text instanceof RegExp ? text.test(s) : String(s).includes(text));
     const findDlg = (win) =>
         Array.from(win.foundry.applications.instances.values())
             .reverse()
@@ -101,11 +95,8 @@ Cypress.Commands.add("submitDialogMatching", (text, action = "yes") => {
     // Click through the matching app instance (reliable across the modal <dialog>).
     return cy.foundry((win) => {
         const dlg = findDlg(win);
-        if (!dlg)
-            throw new Error(`submitDialogMatching: no dialog matching ${text}`);
-        const btn = dlg.element.querySelector(
-            `button[data-action="${action}"]`,
-        );
+        if (!dlg) throw new Error(`submitDialogMatching: no dialog matching ${text}`);
+        const btn = dlg.element.querySelector(`button[data-action="${action}"]`);
         if (!btn)
             throw new Error(
                 `submitDialogMatching: dialog matching ${text} has no [data-action="${action}"]`,

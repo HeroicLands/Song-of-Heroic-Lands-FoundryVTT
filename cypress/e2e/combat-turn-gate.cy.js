@@ -44,9 +44,7 @@ import { toRealm } from "../support/resolve";
 
 /** The combatant of `actorId` in `combatId`. */
 function combatantOf(win, combatId, actorId) {
-    return win.game.combats
-        .get(combatId)
-        .combatants.find((c) => c.actorId === actorId);
+    return win.game.combats.get(combatId).combatants.find((c) => c.actorId === actorId);
 }
 
 /**
@@ -103,9 +101,7 @@ describe("automated combat turn gate (#384)", () => {
                 // target validation.
                 cy.foundry(async (win) => {
                     const c = win.game.combats.get(combat.id);
-                    const idx = c.turns.findIndex(
-                        (t) => t.actorId === defenderId,
-                    );
+                    const idx = c.turns.findIndex((t) => t.actorId === defenderId);
                     if (idx >= 0) await c.update(toRealm(win, { turn: idx }));
                     return c.combatant?.actorId ?? null;
                 }).should((currentActorId) => {
@@ -118,9 +114,7 @@ describe("automated combat turn gate (#384)", () => {
                     driveStart(win, combatantOf(win, combat.id, attackerId)),
                 ).should((r) => {
                     expect(r.result, "aborts (returns undefined)").to.be.null;
-                    expect(r.warnings, "warns about the turn").to.match(
-                        /turn/i,
-                    );
+                    expect(r.warnings, "warns about the turn").to.match(/turn/i);
                     expect(r.posted, "no attack card posted").to.eq(0);
                 });
             });

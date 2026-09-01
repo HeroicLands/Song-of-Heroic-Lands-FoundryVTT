@@ -26,15 +26,11 @@ describe("isSharedWithCohort", () => {
     });
 
     it("matches a cohort's document id as well as its shortcode", () => {
-        expect(isSharedWithCohort(["abc123"], ["wardens", "abc123"])).toBe(
-            true,
-        );
+        expect(isSharedWithCohort(["abc123"], ["wardens", "abc123"])).toBe(true);
     });
 
     it("matches a cohort UUID", () => {
-        expect(
-            isSharedWithCohort(["Actor.abc123"], ["wardens", "Actor.abc123"]),
-        ).toBe(true);
+        expect(isSharedWithCohort(["Actor.abc123"], ["wardens", "Actor.abc123"])).toBe(true);
     });
 
     it("does not match a different cohort", () => {
@@ -83,11 +79,7 @@ describe("collectSharedGear", () => {
     it("orders rows by carrier name, then item name", () => {
         const rows = collectSharedGear(
             [
-                carrier(
-                    "Brunjar",
-                    gear("Tent", ["wardens"]),
-                    gear("Axe", ["wardens"]),
-                ),
+                carrier("Brunjar", gear("Tent", ["wardens"]), gear("Axe", ["wardens"])),
                 carrier("Aldric", gear("Rope", ["wardens"])),
             ],
             ["wardens"],
@@ -101,10 +93,7 @@ describe("collectSharedGear", () => {
     });
 
     it("ignores gear shared with a different cohort", () => {
-        const rows = collectSharedGear(
-            [carrier("Aldric", gear("Rope", ["bandits"]))],
-            ["wardens"],
-        );
+        const rows = collectSharedGear([carrier("Aldric", gear("Rope", ["bandits"]))], ["wardens"]);
         expect(rows).toEqual([]);
     });
 

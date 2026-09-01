@@ -77,20 +77,18 @@ describe("CombatResult constructor", () => {
     it("throws when attackResult is missing", () => {
         expect(
             () =>
-                new CombatResult(
-                    { defendResult: makeSide({ level: 0 }) } as any,
-                    { parent: {} as any },
-                ),
+                new CombatResult({ defendResult: makeSide({ level: 0 }) } as any, {
+                    parent: {} as any,
+                }),
         ).toThrow(/attackResult/);
     });
 
     it("throws when defendResult is missing", () => {
         expect(
             () =>
-                new CombatResult(
-                    { attackResult: makeSide({ level: 1 }) } as any,
-                    { parent: {} as any },
-                ),
+                new CombatResult({ attackResult: makeSide({ level: 1 }) } as any, {
+                    parent: {} as any,
+                }),
         ).toThrow(/defendResult/);
     });
 
@@ -359,11 +357,7 @@ describe("impact rolled on the blow landing", () => {
 });
 
 describe("evaluate — snapshot attacker, evaluate only the defender", () => {
-    function evaluatable(opts: {
-        level: number;
-        testType?: string;
-        evalReturn?: boolean;
-    }): any {
+    function evaluatable(opts: { level: number; testType?: string; evalReturn?: boolean }): any {
         const side = makeSide(opts);
         side.evaluated = false;
         side.evaluate = async () => {
@@ -436,10 +430,9 @@ describe("CombatResult deduplication (#203)", () => {
     it("construction with only attackResult/defendResult — no sourceTestResult needed", () => {
         const atk = makeSide({ level: 1 });
         const def = makeSide({ level: 0 });
-        const cr = new CombatResult(
-            { attackResult: atk, defendResult: def } as any,
-            { parent: {} as any },
-        );
+        const cr = new CombatResult({ attackResult: atk, defendResult: def } as any, {
+            parent: {} as any,
+        });
         expect(cr.attackResult).toBe(atk);
         expect(cr.defendResult).toBe(def);
     });

@@ -28,10 +28,7 @@ import { readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-const testsRoot = path.resolve(
-    path.dirname(fileURLToPath(import.meta.url)),
-    "..",
-);
+const testsRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
 // Matches `globalThis.game` and `(globalThis as any).game` member access.
 const FORBIDDEN = /\bglobalThis\b[^\n]*?\.\s*game\b/;
@@ -40,9 +37,7 @@ const files = globSync("**/*.test.ts", {
     cwd: testsRoot,
     absolute: true,
 }).filter(
-    (f) =>
-        !f.includes(`${path.sep}mocks${path.sep}`) &&
-        !f.endsWith("no-foundry-globals.test.ts"),
+    (f) => !f.includes(`${path.sep}mocks${path.sep}`) && !f.endsWith("no-foundry-globals.test.ts"),
 );
 
 describe("unit tests stay within the logic-layer boundary (issue #125)", () => {

@@ -55,20 +55,14 @@ import {
 } from "@tests/mocks/logicHarness";
 
 /** Construct a BeingLogic against a plain-object BeingData. */
-function makeBeing(
-    fields: Record<string, unknown> = {},
-    opts: Record<string, unknown> = {},
-) {
+function makeBeing(fields: Record<string, unknown> = {}, opts: Record<string, unknown> = {}) {
     return makeActorLogic(BeingLogic, ACTOR_KIND.BEING, fields, opts);
 }
 
 /** Minimal persisted body structure: a head (skull) and a thorax (chest). */
 const BODY_STRUCTURE_DATA: BodyStructure.Data = {
     zones: [zoneData("headzone", 1), zoneData("bodyzone", 2)],
-    parts: [
-        partData("head", "headzone", 15),
-        partData("thorax", "bodyzone", 30),
-    ],
+    parts: [partData("head", "headzone", 15), partData("thorax", "bodyzone", 30)],
     locations: [
         locationData("skull", "head", 10, {
             bleedingSusceptibility: "medium",
@@ -89,10 +83,7 @@ function bodyData(overrides: Record<string, unknown> = {}) {
 }
 
 /** A being carrying a `str` attribute of the given score (for `weight.calc`). */
-function makeBeingWithStr(
-    str: number,
-    bodyOverrides: Record<string, unknown> = {},
-) {
+function makeBeingWithStr(str: number, bodyOverrides: Record<string, unknown> = {}) {
     const being = makeBeing({ body: bodyData(bodyOverrides) });
     (being.actor as any).itemTypes = {
         [ITEM_KIND.ATTRIBUTE]: [
@@ -134,11 +125,7 @@ function makeMeleeMode(
     overrides: Record<string, unknown> = {},
     id = "sm1",
 ): MeleeStrikeMode {
-    return new MeleeStrikeMode(
-        meleeModeData(overrides) as any,
-        parentLogic,
-        id,
-    );
+    return new MeleeStrikeMode(meleeModeData(overrides) as any, parentLogic, id);
 }
 
 /**
@@ -474,8 +461,7 @@ describe("BeingLogic", () => {
         describe("per-item encumbrance value (#1010)", () => {
             function makeEncBeing() {
                 const being = makeBeing({ body: bodyData() });
-                (being.data as any).currentMoveMedium =
-                    MOVEMENT_MEDIUM.TERRESTRIAL;
+                (being.data as any).currentMoveMedium = MOVEMENT_MEDIUM.TERRESTRIAL;
                 (being.data as any).movementProfiles = [
                     {
                         medium: MOVEMENT_MEDIUM.TERRESTRIAL,
@@ -596,8 +582,7 @@ describe("BeingLogic", () => {
 
             it("stacks per-item encumbrance on top of the weight-derived base", () => {
                 const being = makeBeing({ body: bodyData() });
-                (being.data as any).currentMoveMedium =
-                    MOVEMENT_MEDIUM.TERRESTRIAL;
+                (being.data as any).currentMoveMedium = MOVEMENT_MEDIUM.TERRESTRIAL;
                 (being.data as any).movementProfiles = [
                     {
                         medium: MOVEMENT_MEDIUM.TERRESTRIAL,
@@ -756,9 +741,7 @@ describe("BeingLogic", () => {
             (logic as any).body = { structure: { limbsHolding } };
             actor.itemTypes = {
                 [ITEM_KIND.SKILL]: [ct],
-                [ITEM_KIND.WEAPONGEAR]: [
-                    { id: "wpn1", logic: { strikeModes: [weaponMode] } },
-                ],
+                [ITEM_KIND.WEAPONGEAR]: [{ id: "wpn1", logic: { strikeModes: [weaponMode] } }],
             };
             expect(logic.reach).toBe(6);
             expect(limbsHolding).toHaveBeenCalledWith("wpn1");
@@ -777,9 +760,7 @@ describe("BeingLogic", () => {
             };
             actor.itemTypes = {
                 [ITEM_KIND.SKILL]: [ct],
-                [ITEM_KIND.WEAPONGEAR]: [
-                    { id: "wpn1", logic: { strikeModes: [weaponMode] } },
-                ],
+                [ITEM_KIND.WEAPONGEAR]: [{ id: "wpn1", logic: { strikeModes: [weaponMode] } }],
             };
             expect(logic.reach).toBe(4);
         });
@@ -926,9 +907,7 @@ describe("BeingLogic", () => {
         });
 
         it.todo("moraleTest / fearTest - roll the Initiative skill");
-        it.todo(
-            "calcImpact - calculates location and damage from CombatResult",
-        );
+        it.todo("calcImpact - calculates location and damage from CombatResult");
     });
 
     describe("shockTest (#850)", () => {
@@ -937,12 +916,8 @@ describe("BeingLogic", () => {
         /** A being with `setShockState` / `offerShockReTest` stubbed for isolation. */
         function makeShockBeing() {
             const being = makeBeing();
-            const setState = vi
-                .spyOn(being as any, "setShockState")
-                .mockResolvedValue(undefined);
-            const reTest = vi
-                .spyOn(being as any, "offerShockReTest")
-                .mockResolvedValue(undefined);
+            const setState = vi.spyOn(being as any, "setShockState").mockResolvedValue(undefined);
+            const reTest = vi.spyOn(being as any, "offerShockReTest").mockResolvedValue(undefined);
             return { being, setState, reTest };
         }
 
@@ -982,18 +957,15 @@ describe("BeingLogic", () => {
             [CRITICAL_FAILURE, SHOCK_STATE.UNCONSCIOUS], // 7 + 2 = 9
             [MARGINAL_FAILURE, SHOCK_STATE.INCAPACITATED], // 7 + 1 = 8
             [MARGINAL_SUCCESS, SHOCK_STATE.STUNNED], // 7 + 0 = 7
-        ])(
-            "base SSI 7 with success level %i maps to and applies state %i",
-            async (sl, state) => {
-                const { being, setState } = makeShockBeing();
-                mockRoll(sl);
-                await being.shockTest({
-                    skipDialog: true,
-                    scope: { shockIndex: 7, applyShockState: true },
-                } as any);
-                expect(setState).toHaveBeenCalledWith(state);
-            },
-        );
+        ])("base SSI 7 with success level %i maps to and applies state %i", async (sl, state) => {
+            const { being, setState } = makeShockBeing();
+            mockRoll(sl);
+            await being.shockTest({
+                skipDialog: true,
+                scope: { shockIndex: 7, applyShockState: true },
+            } as any);
+            expect(setState).toHaveBeenCalledWith(state);
+        });
 
         it("a Critical Success on base SSI 7 maps to None and (worsen-only) changes nothing", async () => {
             const { being, setState } = makeShockBeing();
@@ -1021,10 +993,9 @@ describe("BeingLogic", () => {
         it("rolls the Shock skill through a being-parented modifier (no impairment penalty)", async () => {
             const { being } = makeShockBeing();
             let capturedParent: unknown;
-            vi.spyOn(
-                MasteryLevelModifier.prototype,
-                "successTest",
-            ).mockImplementation(function (this: any) {
+            vi.spyOn(MasteryLevelModifier.prototype, "successTest").mockImplementation(function (
+                this: any,
+            ) {
                 capturedParent = this.parent;
                 return Promise.resolve({
                     normSuccessLevel: MARGINAL_FAILURE,
@@ -1042,9 +1013,7 @@ describe("BeingLogic", () => {
         it("offers to set the state via dialog and applies on Yes", async () => {
             const { being, setState } = makeShockBeing();
             mockRoll(MARGINAL_FAILURE); // 7 + 1 = 8 → Incapacitated
-            const dlg = vi
-                .spyOn(FoundryHelpersMock, "dialog")
-                .mockResolvedValue(true);
+            const dlg = vi.spyOn(FoundryHelpersMock, "dialog").mockResolvedValue(true);
             await being.shockTest({ scope: { shockIndex: 7 } } as any);
             expect(dlg).toHaveBeenCalled();
             expect(setState).toHaveBeenCalledWith(SHOCK_STATE.INCAPACITATED);
@@ -1074,9 +1043,7 @@ describe("BeingLogic", () => {
             const { being, setState } = makeShockBeing();
             const roll = mockRoll();
             vi.spyOn(FoundryHelpersMock, "dialog").mockResolvedValue(null);
-            await expect(
-                being.shockTest({ scope: {} } as any),
-            ).resolves.toBeNull();
+            await expect(being.shockTest({ scope: {} } as any)).resolves.toBeNull();
             expect(roll).not.toHaveBeenCalled();
             expect(setState).not.toHaveBeenCalled();
         });
@@ -1097,21 +1064,16 @@ describe("BeingLogic", () => {
 
         function makeShockBeing() {
             const being = makeBeing();
-            const setState = vi
-                .spyOn(being as any, "setShockState")
-                .mockResolvedValue(undefined);
-            const reTest = vi
-                .spyOn(being as any, "offerShockReTest")
-                .mockResolvedValue(undefined);
+            const setState = vi.spyOn(being as any, "setShockState").mockResolvedValue(undefined);
+            const reTest = vi.spyOn(being as any, "offerShockReTest").mockResolvedValue(undefined);
             return { being, setState, reTest };
         }
 
         it("rolls, worsens the shock state, and offers the re-test", async () => {
             const { being, setState, reTest } = makeShockBeing();
-            vi.spyOn(
-                MasteryLevelModifier.prototype,
-                "successTest",
-            ).mockResolvedValue({ normSuccessLevel: MARGINAL_FAILURE } as any); // 7 + 1 = 8
+            vi.spyOn(MasteryLevelModifier.prototype, "successTest").mockResolvedValue({
+                normSuccessLevel: MARGINAL_FAILURE,
+            } as any); // 7 + 1 = 8
             await (being as any).injuryShock({
                 scope: { shockIndex: 7, shockBonus: 0 },
             });
@@ -1121,10 +1083,9 @@ describe("BeingLogic", () => {
 
         it("applies the state directly (no offer dialog — the card click was the consent)", async () => {
             const { being, setState } = makeShockBeing();
-            vi.spyOn(
-                MasteryLevelModifier.prototype,
-                "successTest",
-            ).mockResolvedValue({ normSuccessLevel: MARGINAL_FAILURE } as any);
+            vi.spyOn(MasteryLevelModifier.prototype, "successTest").mockResolvedValue({
+                normSuccessLevel: MARGINAL_FAILURE,
+            } as any);
             const dlg = vi.spyOn(FoundryHelpersMock, "dialog");
             await (being as any).injuryShock({ scope: { shockIndex: 7 } });
             expect(dlg).not.toHaveBeenCalled();
@@ -1133,10 +1094,7 @@ describe("BeingLogic", () => {
 
         it("short-circuits to Dead without rolling when the wound's index exceeds 10", async () => {
             const { being, setState } = makeShockBeing();
-            const roll = vi.spyOn(
-                MasteryLevelModifier.prototype,
-                "successTest",
-            );
+            const roll = vi.spyOn(MasteryLevelModifier.prototype, "successTest");
             await (being as any).injuryShock({ scope: { shockIndex: 11 } });
             expect(roll).not.toHaveBeenCalled();
             expect(setState).toHaveBeenCalledWith(SHOCK_STATE.DEAD);
@@ -1149,10 +1107,7 @@ describe("BeingLogic", () => {
         /** A being with an Endurance attribute of the given score. */
         function beingWithEndurance(score = 13) {
             const logic = makeBeing();
-            (logic as any).actor.items.set(
-                "end",
-                makeAttributeStub("end", score),
-            );
+            (logic as any).actor.items.set("end", makeAttributeStub("end", score));
             return logic;
         }
 
@@ -1167,45 +1122,34 @@ describe("BeingLogic", () => {
 
         /** Stub the contagion dialog to answer with `overrides`. */
         function stubPrompt(overrides: Record<string, unknown> = {}) {
-            return vi
-                .spyOn(AfflictionContract, "promptContagionTest")
-                .mockResolvedValue({
-                    affliction: grippe,
-                    situationalModifier: 0,
-                    successLevelMod: 0,
-                    record: true,
-                    ...overrides,
-                } as any);
+            return vi.spyOn(AfflictionContract, "promptContagionTest").mockResolvedValue({
+                affliction: grippe,
+                situationalModifier: 0,
+                successLevelMod: 0,
+                record: true,
+                ...overrides,
+            } as any);
         }
 
         /** Stub the success test to settle at `sl`. */
         function stubTest(sl: number) {
-            return vi
-                .spyOn(MasteryLevelModifier.prototype, "successTest")
-                .mockResolvedValue({
-                    normSuccessLevel: sl,
-                    isSuccess: sl >= MARGINAL_SUCCESS,
-                } as any);
+            return vi.spyOn(MasteryLevelModifier.prototype, "successTest").mockResolvedValue({
+                normSuccessLevel: sl,
+                isSuccess: sl >= MARGINAL_SUCCESS,
+            } as any);
         }
 
         it("warns and returns null when the being has no Endurance attribute", async () => {
             const warn = vi.spyOn(sohl.log, "uiWarn");
             const logic = makeBeing();
-            await expect(
-                (logic as any).contagionTest({ scope: {} }),
-            ).resolves.toBeNull();
+            await expect((logic as any).contagionTest({ scope: {} })).resolves.toBeNull();
             expect(warn).toHaveBeenCalled();
         });
 
         it("returns null when the dialog is dismissed", async () => {
             const logic = beingWithEndurance();
-            vi.spyOn(
-                AfflictionContract,
-                "promptContagionTest",
-            ).mockResolvedValue(null);
-            await expect(
-                (logic as any).contagionTest({ scope: {} }),
-            ).resolves.toBeNull();
+            vi.spyOn(AfflictionContract, "promptContagionTest").mockResolvedValue(null);
+            await expect((logic as any).contagionTest({ scope: {} })).resolves.toBeNull();
         });
 
         it("rolls against Contagion Index × Endurance", async () => {
@@ -1221,10 +1165,7 @@ describe("BeingLogic", () => {
             const logic = beingWithEndurance();
             stubPrompt();
             stubTest(MARGINAL_FAILURE);
-            const create = vi.spyOn(
-                FoundryHelpersMock,
-                "fvttCreateEmbeddedItems",
-            );
+            const create = vi.spyOn(FoundryHelpersMock, "fvttCreateEmbeddedItems");
             await (logic as any).contagionTest({ scope: {} });
             expect(create).toHaveBeenCalledTimes(1);
             const [, items] = create.mock.calls[0];
@@ -1235,10 +1176,7 @@ describe("BeingLogic", () => {
             const logic = beingWithEndurance();
             stubPrompt();
             stubTest(MARGINAL_SUCCESS);
-            const create = vi.spyOn(
-                FoundryHelpersMock,
-                "fvttCreateEmbeddedItems",
-            );
+            const create = vi.spyOn(FoundryHelpersMock, "fvttCreateEmbeddedItems");
             await (logic as any).contagionTest({ scope: {} });
             expect(create).not.toHaveBeenCalled();
         });
@@ -1247,43 +1185,30 @@ describe("BeingLogic", () => {
             const logic = beingWithEndurance();
             stubPrompt({ record: false });
             stubTest(MARGINAL_FAILURE);
-            const create = vi.spyOn(
-                FoundryHelpersMock,
-                "fvttCreateEmbeddedItems",
-            );
+            const create = vi.spyOn(FoundryHelpersMock, "fvttCreateEmbeddedItems");
             await (logic as any).contagionTest({ scope: {} });
             expect(create).not.toHaveBeenCalled();
         });
 
         it("a marginal failure uses the rolled onset; a critical failure halves it", async () => {
-            const create = vi.spyOn(
-                FoundryHelpersMock,
-                "fvttCreateEmbeddedItems",
-            );
+            const create = vi.spyOn(FoundryHelpersMock, "fvttCreateEmbeddedItems");
 
             const mf = beingWithEndurance();
             stubPrompt();
             stubTest(MARGINAL_FAILURE);
             await (mf as any).contagionTest({ scope: {} });
             // onsetFormula "6" → 6 days at MF.
-            expect(
-                (create.mock.calls[0][1] as any[])[0].system.onsetDurationBase,
-            ).toBe(6 * 86400);
+            expect((create.mock.calls[0][1] as any[])[0].system.onsetDurationBase).toBe(6 * 86400);
 
             create.mockClear();
             vi.restoreAllMocks();
             const cf = beingWithEndurance();
             stubPrompt();
             stubTest(CRITICAL_FAILURE);
-            const create2 = vi.spyOn(
-                FoundryHelpersMock,
-                "fvttCreateEmbeddedItems",
-            );
+            const create2 = vi.spyOn(FoundryHelpersMock, "fvttCreateEmbeddedItems");
             await (cf as any).contagionTest({ scope: {} });
             // …and 3 days at CF (6 / 2, rounded down).
-            expect(
-                (create2.mock.calls[0][1] as any[])[0].system.onsetDurationBase,
-            ).toBe(3 * 86400);
+            expect((create2.mock.calls[0][1] as any[])[0].system.onsetDurationBase).toBe(3 * 86400);
         });
 
         it("OFFERS the new affliction's onset check after contracting (#1183)", async () => {
@@ -1291,20 +1216,15 @@ describe("BeingLogic", () => {
             stubPrompt();
             stubTest(MARGINAL_FAILURE);
             const created = { uuid: "Item.aff1", system: {} };
-            vi.spyOn(
-                FoundryHelpersMock,
-                "fvttCreateEmbeddedItems",
-            ).mockResolvedValue([created] as any);
+            vi.spyOn(FoundryHelpersMock, "fvttCreateEmbeddedItems").mockResolvedValue([
+                created,
+            ] as any);
             const schedule = vi.spyOn((globalThis as any).sohl, "schedule");
             await (logic as any).contagionTest({
                 scope: { schedule: true },
             });
             // onsetFormula "6" → 6 days at MF, offered (here pre-answered yes).
-            expect(schedule).toHaveBeenCalledWith(
-                created,
-                "onsetCheck",
-                6 * 86400,
-            );
+            expect(schedule).toHaveBeenCalledWith(created, "onsetCheck", 6 * 86400);
         });
 
         it("declining the onset offer arms nothing (#1183)", async () => {
@@ -1312,10 +1232,9 @@ describe("BeingLogic", () => {
             stubPrompt();
             stubTest(MARGINAL_FAILURE);
             const created = { uuid: "Item.aff1", system: {} };
-            vi.spyOn(
-                FoundryHelpersMock,
-                "fvttCreateEmbeddedItems",
-            ).mockResolvedValue([created] as any);
+            vi.spyOn(FoundryHelpersMock, "fvttCreateEmbeddedItems").mockResolvedValue([
+                created,
+            ] as any);
             const schedule = vi.spyOn((globalThis as any).sohl, "schedule");
             await (logic as any).contagionTest({
                 scope: { schedule: false },
@@ -1342,9 +1261,7 @@ describe("BeingLogic", () => {
             const lang = JSON.parse(
                 readFileSync(resolve(process.cwd(), "lang/en.json"), "utf8"),
             ) as Record<string, string>;
-            vi.spyOn(sohl.i18n, "localize").mockImplementation(
-                (key: string) => lang[key] ?? key,
-            );
+            vi.spyOn(sohl.i18n, "localize").mockImplementation((key: string) => lang[key] ?? key);
         });
 
         /** A real action context (so `.clone()` works) with an owned speaker. */
@@ -1445,14 +1362,10 @@ describe("BeingLogic", () => {
 
         it("warns and does not roll when neither ability is present", async () => {
             const being = makeBeing();
-            const warn = vi
-                .spyOn(sohl.log, "uiWarn")
-                .mockImplementation(() => undefined);
+            const warn = vi.spyOn(sohl.log, "uiWarn").mockImplementation(() => undefined);
             const spy = spySuccessTest();
 
-            await expect(
-                (being as any).stumbleTest(makeCtx()),
-            ).resolves.toBeNull();
+            await expect((being as any).stumbleTest(makeCtx())).resolves.toBeNull();
             expect(spy).not.toHaveBeenCalled();
             expect(warn).toHaveBeenCalledTimes(1);
         });
@@ -1472,18 +1385,10 @@ describe("BeingLogic", () => {
 
         it("keepControlTable maps each success level to bespoke result text", () => {
             const being = makeBeing();
-            const table = keepControlTable(
-                being as any,
-                "SOHL.Being.StumbleTest",
-            );
+            const table = keepControlTable(being as any, "SOHL.Being.StumbleTest");
             expect(table).toHaveLength(4);
             // Boundaries: CF ≤ -1, MF ≤ 0, MS ≤ 1, CS beyond.
-            expect(table.map((r) => r.maxValue)).toEqual([
-                -1,
-                0,
-                1,
-                Number.MAX_SAFE_INTEGER,
-            ]);
+            expect(table.map((r) => r.maxValue)).toEqual([-1, 0, 1, Number.MAX_SAFE_INTEGER]);
             expect(table[1].label).toBe("Stumbles"); // marginal failure
             expect(table[2].label).toBe("Keeps Footing"); // marginal success
             expect(table[2].success).toBe(true);
@@ -1503,19 +1408,13 @@ describe("BeingLogic", () => {
 
         it("the bespoke result text renders on the standard test card", () => {
             const being = makeBeing();
-            const row = keepControlTable(
-                being as any,
-                "SOHL.Being.StumbleTest",
-            )[2]; // marginal success → "Keeps Footing"
-            const html = renderTemplateReal(
-                "systems/sohl/templates/chat/standard-test-card.hbs",
-                {
-                    title: sohl.i18n.localize("SOHL.Being.Action.stumbleTest"),
-                    isSuccess: true,
-                    resultText: row.label,
-                    resultDesc: row.description,
-                },
-            );
+            const row = keepControlTable(being as any, "SOHL.Being.StumbleTest")[2]; // marginal success → "Keeps Footing"
+            const html = renderTemplateReal("systems/sohl/templates/chat/standard-test-card.hbs", {
+                title: sohl.i18n.localize("SOHL.Being.Action.stumbleTest"),
+                isSuccess: true,
+                resultText: row.label,
+                resultDesc: row.description,
+            });
             expect(html).toContain("Stumble Test");
             expect(html).toContain("Keeps Footing");
             expect(html).toContain("Recovers balance and stays upright.");
@@ -1528,23 +1427,13 @@ describe("BeingLogic", () => {
         /** A being with a Will attribute of the given score. */
         function beingWithWill(score = 15) {
             const logic = makeBeing();
-            (logic as any).actor.items.set(
-                "wil",
-                makeAttributeStub("wil", score),
-            );
+            (logic as any).actor.items.set("wil", makeAttributeStub("wil", score));
             return logic;
         }
 
         /** Force the Fear Test's headless roll to a given outcome. */
-        function forceRoll(
-            normSuccessLevel: number,
-            lastDigit: number,
-            isSuccess: boolean,
-        ) {
-            vi.spyOn(
-                MasteryLevelModifier.prototype,
-                "successTest",
-            ).mockResolvedValue({
+        function forceRoll(normSuccessLevel: number, lastDigit: number, isSuccess: boolean) {
+            vi.spyOn(MasteryLevelModifier.prototype, "successTest").mockResolvedValue({
                 normSuccessLevel,
                 lastDigit,
                 isSuccess,
@@ -1553,28 +1442,18 @@ describe("BeingLogic", () => {
 
         /** Stub the Foundry-touching side effects; return the create spy. */
         function stubEffects(statuses: Set<string> = new Set()) {
-            vi.spyOn(FoundryHelpersMock, "fvttActorStatuses").mockReturnValue(
-                statuses,
-            );
-            vi.spyOn(
-                FoundryHelpersMock,
-                "fvttToggleActorStatus",
-            ).mockResolvedValue(undefined as any);
-            vi.spyOn(ActionCard, "postActionCard").mockResolvedValue(
+            vi.spyOn(FoundryHelpersMock, "fvttActorStatuses").mockReturnValue(statuses);
+            vi.spyOn(FoundryHelpersMock, "fvttToggleActorStatus").mockResolvedValue(
                 undefined as any,
             );
-            return vi
-                .spyOn(FoundryHelpersMock, "fvttCreateEmbeddedItems")
-                .mockResolvedValue([]);
+            vi.spyOn(ActionCard, "postActionCard").mockResolvedValue(undefined as any);
+            return vi.spyOn(FoundryHelpersMock, "fvttCreateEmbeddedItems").mockResolvedValue([]);
         }
 
         it("records a fresh Afraid result as a fear trauma with no PSY", async () => {
             forceRoll(MARGINAL_FAILURE, 7, false);
             const create = stubEffects();
-            const toggle = vi.spyOn(
-                FoundryHelpersMock,
-                "fvttToggleActorStatus",
-            );
+            const toggle = vi.spyOn(FoundryHelpersMock, "fvttToggleActorStatus");
             const being = beingWithWill();
 
             await (being as any).fearTest({ scope: { sourceName: "Wraith" } });
@@ -1589,11 +1468,7 @@ describe("BeingLogic", () => {
                 },
             });
             // FEARFUL status is switched on.
-            expect(toggle).toHaveBeenCalledWith(
-                expect.anything(),
-                "fear",
-                true,
-            );
+            expect(toggle).toHaveBeenCalledWith(expect.anything(), "fear", true);
         });
 
         it("Terrified (CF5) records the state and inflicts +1 PSY", async () => {
@@ -1655,10 +1530,7 @@ describe("BeingLogic", () => {
         it("a Steady (MS) result records nothing and clears an existing fear source", async () => {
             forceRoll(MARGINAL_SUCCESS, 3, true);
             const create = stubEffects(new Set(["fear"]));
-            const toggle = vi.spyOn(
-                FoundryHelpersMock,
-                "fvttToggleActorStatus",
-            );
+            const toggle = vi.spyOn(FoundryHelpersMock, "fvttToggleActorStatus");
             const being = beingWithWill();
             const del = vi.fn().mockResolvedValue(undefined);
             // An existing Afraid trauma for the same source.
@@ -1671,9 +1543,7 @@ describe("BeingLogic", () => {
                 },
                 { actor: (being as any).actor, name: "Wraith" },
             );
-            const wraith = (
-                being.logicTypes[ITEM_KIND.TRAUMA] as TraumaLogic[]
-            )[0];
+            const wraith = (being.logicTypes[ITEM_KIND.TRAUMA] as TraumaLogic[])[0];
             (wraith.item as any).delete = del;
 
             await (being as any).fearTest({ scope: { sourceName: "Wraith" } });
@@ -1681,11 +1551,7 @@ describe("BeingLogic", () => {
             expect(create).not.toHaveBeenCalled();
             expect(del).toHaveBeenCalledTimes(1);
             // No other fear sources remain → FEARFUL switched off.
-            expect(toggle).toHaveBeenCalledWith(
-                expect.anything(),
-                "fear",
-                false,
-            );
+            expect(toggle).toHaveBeenCalledWith(expect.anything(), "fear", false);
         });
 
         it("fearState reports the most severe active fear source", async () => {
@@ -1715,15 +1581,8 @@ describe("BeingLogic", () => {
     describe("Morale, Rally & Reaction (#559)", () => {
         afterEach(() => vi.restoreAllMocks());
 
-        function forceRoll(
-            normSuccessLevel: number,
-            lastDigit: number,
-            isSuccess: boolean,
-        ) {
-            vi.spyOn(
-                MasteryLevelModifier.prototype,
-                "successTest",
-            ).mockResolvedValue({
+        function forceRoll(normSuccessLevel: number, lastDigit: number, isSuccess: boolean) {
+            vi.spyOn(MasteryLevelModifier.prototype, "successTest").mockResolvedValue({
                 normSuccessLevel,
                 lastDigit,
                 isSuccess,
@@ -1731,29 +1590,21 @@ describe("BeingLogic", () => {
         }
 
         function stubEffects() {
-            vi.spyOn(ActionCard, "postActionCard").mockResolvedValue(
-                undefined as any,
-            );
-            return vi
-                .spyOn(FoundryHelpersMock, "fvttCreateEmbeddedItems")
-                .mockResolvedValue([]);
+            vi.spyOn(ActionCard, "postActionCard").mockResolvedValue(undefined as any);
+            return vi.spyOn(FoundryHelpersMock, "fvttCreateEmbeddedItems").mockResolvedValue([]);
         }
 
         /** Attach a morale trauma at `category` (source `name`) and return it. */
-        function attachMorale(
-            being: any,
-            category: MoraleCategory,
-            name: string,
-        ) {
+        function attachMorale(being: any, category: MoraleCategory, name: string) {
             makeItemLogic(
                 TraumaLogic,
                 ITEM_KIND.TRAUMA,
                 { subType: TRAUMA_SUBTYPE.MORALE, category },
                 { actor: being.actor, name },
             );
-            const t = (
-                being.logicTypes[ITEM_KIND.TRAUMA] as TraumaLogic[]
-            ).find((x) => x.item?.name === name)!;
+            const t = (being.logicTypes[ITEM_KIND.TRAUMA] as TraumaLogic[]).find(
+                (x) => x.item?.name === name,
+            )!;
             (t.item as any).delete = vi.fn().mockResolvedValue(undefined);
             (t.item as any).update = vi.fn().mockResolvedValue(undefined);
             return t;
@@ -1803,11 +1654,7 @@ describe("BeingLogic", () => {
             forceRoll(MARGINAL_SUCCESS, 3, true);
             stubEffects();
             const being = makeBeing();
-            const routed = attachMorale(
-                being,
-                MORALE_CATEGORY.ROUTED,
-                "Broken line",
-            );
+            const routed = attachMorale(being, MORALE_CATEGORY.ROUTED, "Broken line");
             await (being as any).reactionTest({ scope: {} });
             expect((routed.item as any).delete).toHaveBeenCalledTimes(1);
         });
@@ -1816,11 +1663,7 @@ describe("BeingLogic", () => {
             forceRoll(MARGINAL_SUCCESS, 3, true);
             stubEffects();
             const being = makeBeing();
-            const cat = attachMorale(
-                being,
-                MORALE_CATEGORY.CATATONIC,
-                "Terror",
-            );
+            const cat = attachMorale(being, MORALE_CATEGORY.CATATONIC, "Terror");
             await (being as any).reactionTest({ scope: {} });
             expect((cat.item as any).update).toHaveBeenCalledWith({
                 "system.category": MORALE_CATEGORY.ROUTED,
@@ -1831,17 +1674,13 @@ describe("BeingLogic", () => {
         it("a Reaction Test warns and returns null when not shaken", async () => {
             const warn = vi.spyOn(sohl.log, "uiWarn");
             stubEffects();
-            await expect(
-                (makeBeing() as any).reactionTest({ scope: {} }),
-            ).resolves.toBeNull();
+            await expect((makeBeing() as any).reactionTest({ scope: {} })).resolves.toBeNull();
             expect(warn).toHaveBeenCalled();
         });
 
         it("a Rally critical success OFFERS to steady allies (open acceptRally card)", async () => {
             forceRoll(CRITICAL_SUCCESS, 0, true);
-            const post = vi
-                .spyOn(ActionCard, "postActionCard")
-                .mockResolvedValue(undefined as any);
+            const post = vi.spyOn(ActionCard, "postActionCard").mockResolvedValue(undefined as any);
             await (makeBeing() as any).rallyTest({ scope: {} });
             const spec = post.mock.calls.at(-1)![1] as any;
             expect(spec.buttons).toMatchObject({
@@ -1853,9 +1692,7 @@ describe("BeingLogic", () => {
 
         it("a Rally failure posts an informational card with no accept button", async () => {
             forceRoll(CRITICAL_FAILURE, 0, false);
-            const post = vi
-                .spyOn(ActionCard, "postActionCard")
-                .mockResolvedValue(undefined as any);
+            const post = vi.spyOn(ActionCard, "postActionCard").mockResolvedValue(undefined as any);
             await (makeBeing() as any).rallyTest({ scope: {} });
             const spec = post.mock.calls.at(-1)![1] as any;
             expect(spec.buttons).toBeUndefined();
@@ -1872,15 +1709,8 @@ describe("BeingLogic", () => {
     describe("The Pall (#561)", () => {
         afterEach(() => vi.restoreAllMocks());
 
-        function forceRoll(
-            normSuccessLevel: number,
-            lastDigit: number,
-            isSuccess: boolean,
-        ) {
-            vi.spyOn(
-                MasteryLevelModifier.prototype,
-                "successTest",
-            ).mockResolvedValue({
+        function forceRoll(normSuccessLevel: number, lastDigit: number, isSuccess: boolean) {
+            vi.spyOn(MasteryLevelModifier.prototype, "successTest").mockResolvedValue({
                 normSuccessLevel,
                 lastDigit,
                 isSuccess,
@@ -1888,12 +1718,8 @@ describe("BeingLogic", () => {
         }
 
         function stubEffects() {
-            vi.spyOn(ActionCard, "postActionCard").mockResolvedValue(
-                undefined as any,
-            );
-            return vi
-                .spyOn(FoundryHelpersMock, "fvttCreateEmbeddedItems")
-                .mockResolvedValue([]);
+            vi.spyOn(ActionCard, "postActionCard").mockResolvedValue(undefined as any);
+            return vi.spyOn(FoundryHelpersMock, "fvttCreateEmbeddedItems").mockResolvedValue([]);
         }
 
         it("Disturbed (MF) accrues +1 Pall Stress Level", async () => {
@@ -1924,9 +1750,7 @@ describe("BeingLogic", () => {
                 { subType: TRAUMA_SUBTYPE.PALL, levelBase: 1 },
                 { actor: (being as any).actor, name: "The Pall" },
             );
-            const pall = (
-                being.logicTypes[ITEM_KIND.TRAUMA] as TraumaLogic[]
-            )[0];
+            const pall = (being.logicTypes[ITEM_KIND.TRAUMA] as TraumaLogic[])[0];
             (pall.item as any).update = vi.fn().mockResolvedValue(undefined);
             await (being as any).pallResist({ scope: { totalPal: 0 } });
             expect((pall.item as any).update).toHaveBeenCalledWith({
@@ -2022,9 +1846,7 @@ describe("BeingLogic", () => {
         it("excludes a role made unusable by a grievous injury (that is auto-CF, not a penalty)", () => {
             const being = beingWithHands();
             injure(being, "rhand", 4); // grievous → unusable, no numeric penalty
-            expect(being.impairedRolePenalties().has("manipulator")).toBe(
-                false,
-            );
+            expect(being.impairedRolePenalties().has("manipulator")).toBe(false);
             expect(being.unusableRoles().has("manipulator")).toBe(true);
         });
 
@@ -2096,11 +1918,7 @@ describe("BeingLogic", () => {
          * Embed a trauma and run its `initialize()` — in the production order,
          * i.e. after the actor's own `initialize()` has built the body.
          */
-        function addTrauma(
-            being: any,
-            shortcode: string,
-            fields: Record<string, unknown>,
-        ) {
+        function addTrauma(being: any, shortcode: string, fields: Record<string, unknown>) {
             const t = makeItemLogic(
                 TraumaLogic,
                 ITEM_KIND.TRAUMA,
@@ -2115,8 +1933,7 @@ describe("BeingLogic", () => {
             return t;
         }
 
-        const part = (being: any, code: string) =>
-            being.body.structure.getPartByCode(code)!;
+        const part = (being: any, code: string) => being.body.structure.getPartByCode(code)!;
 
         it("an Immobilized trauma pins the limb owning its location — and only that limb", () => {
             const being = armedBeing();
@@ -2493,11 +2310,7 @@ describe("BeingLogic", () => {
             const being = makeBeing();
             await being.setShockState(1); // → STUNNED
             // Unconscious removed, stun added; incapacitated/dead untouched.
-            expect(toggle).toHaveBeenCalledWith(
-                being.actor,
-                "unconscious",
-                false,
-            );
+            expect(toggle).toHaveBeenCalledWith(being.actor, "unconscious", false);
             expect(toggle).toHaveBeenCalledWith(being.actor, "stun", true);
             expect(toggle).toHaveBeenCalledTimes(2);
         });
@@ -2517,9 +2330,7 @@ describe("BeingLogic", () => {
         });
 
         it("setShockState clamps out-of-range levels", async () => {
-            vi.spyOn(FoundryHelpersMock, "fvttActorStatuses").mockReturnValue(
-                new Set(),
-            );
+            vi.spyOn(FoundryHelpersMock, "fvttActorStatuses").mockReturnValue(new Set());
             const toggle = vi
                 .spyOn(FoundryHelpersMock, "fvttToggleActorStatus")
                 .mockResolvedValue(undefined);
@@ -2538,11 +2349,7 @@ describe("BeingLogic", () => {
             const being = makeBeing();
             await being.advanceShockState(2); // 1 → 3 (UNCONSCIOUS)
             expect(toggle).toHaveBeenCalledWith(being.actor, "stun", false);
-            expect(toggle).toHaveBeenCalledWith(
-                being.actor,
-                "unconscious",
-                true,
-            );
+            expect(toggle).toHaveBeenCalledWith(being.actor, "unconscious", true);
         });
     });
 
@@ -2557,36 +2364,21 @@ describe("BeingLogic", () => {
                 fatigue?: number;
             } = {},
         ) {
-            const {
-                current = new Set<string>(),
-                sl = 0,
-                shockMl = 50,
-                fatigue = 0,
-            } = opts;
-            vi.spyOn(FoundryHelpersMock, "fvttActorStatuses").mockReturnValue(
-                current,
-            );
-            vi.spyOn(
-                FoundryHelpersMock,
-                "fvttToggleActorStatus",
-            ).mockResolvedValue(undefined);
+            const { current = new Set<string>(), sl = 0, shockMl = 50, fatigue = 0 } = opts;
+            vi.spyOn(FoundryHelpersMock, "fvttActorStatuses").mockReturnValue(current);
+            vi.spyOn(FoundryHelpersMock, "fvttToggleActorStatus").mockResolvedValue(undefined);
             const create = vi
                 .spyOn(FoundryHelpersMock, "fvttCreateEmbeddedItems")
                 .mockResolvedValue([]);
             const being = makeBeing();
             (being as any).fatiguePenalty = { effective: fatigue };
-            vi.spyOn(being, "getItemLogic").mockImplementation(
-                (code: string) =>
-                    code === "shok" ?
-                        ({ masteryLevel: { effective: shockMl } } as any)
-                    :   undefined,
+            vi.spyOn(being, "getItemLogic").mockImplementation((code: string) =>
+                code === "shok" ? ({ masteryLevel: { effective: shockMl } } as any) : undefined,
             );
             const roll = vi
                 .spyOn(MasteryLevelModifier.prototype, "successTest")
                 .mockResolvedValue({ normSuccessLevel: sl } as any);
-            const set = vi
-                .spyOn(being, "setShockState")
-                .mockResolvedValue(undefined);
+            const set = vi.spyOn(being, "setShockState").mockResolvedValue(undefined);
             return { being, roll, set, create };
         }
 
@@ -2659,11 +2451,7 @@ describe("BeingLogic", () => {
                 skipDialog: true,
                 scope: { schedule: true },
             } as any);
-            expect(schedule).toHaveBeenCalledWith(
-                shockItem,
-                "courseCheck",
-                14400,
-            );
+            expect(schedule).toHaveBeenCalledWith(shockItem, "courseCheck", 14400);
         });
 
         it("drops an Unconscious victim into a Coma on a critical failure", async () => {
@@ -2686,13 +2474,8 @@ describe("BeingLogic", () => {
 
         /** A being reporting `statuses`, with sohl.schedule/unschedule spied. */
         function setup(statuses: string[] = []) {
-            vi.spyOn(FoundryHelpersMock, "fvttActorStatuses").mockReturnValue(
-                new Set(statuses),
-            );
-            vi.spyOn(
-                FoundryHelpersMock,
-                "fvttToggleActorStatus",
-            ).mockResolvedValue(undefined);
+            vi.spyOn(FoundryHelpersMock, "fvttActorStatuses").mockReturnValue(new Set(statuses));
+            vi.spyOn(FoundryHelpersMock, "fvttToggleActorStatus").mockResolvedValue(undefined);
             const being = makeBeing();
             const schedule = vi
                 .spyOn((globalThis as any).sohl, "schedule")
@@ -2709,9 +2492,7 @@ describe("BeingLogic", () => {
         }
 
         it("Incapacitated → offers an event-driven turnEnd Re-Test schedule", async () => {
-            const { being, schedule, unschedule, accept } = setup([
-                "incapacitated",
-            ]);
+            const { being, schedule, unschedule, accept } = setup(["incapacitated"]);
             await being.offerShockReTest(accept);
             expect(schedule).toHaveBeenCalledWith(
                 being.actor,
@@ -2727,15 +2508,9 @@ describe("BeingLogic", () => {
         });
 
         it("Unconscious → offers a +10-minute time Re-Test schedule", async () => {
-            const { being, schedule, unschedule, accept } = setup([
-                "unconscious",
-            ]);
+            const { being, schedule, unschedule, accept } = setup(["unconscious"]);
             await being.offerShockReTest(accept);
-            expect(schedule).toHaveBeenCalledWith(
-                being.actor,
-                "shockReTest",
-                600,
-            );
+            expect(schedule).toHaveBeenCalledWith(being.actor, "shockReTest", 600);
             expect(unschedule).not.toHaveBeenCalled();
         });
 
@@ -2747,15 +2522,11 @@ describe("BeingLogic", () => {
         });
 
         it("a lasting Extended Shock trauma suppresses the ordinary Re-Test even while Incapacitated", async () => {
-            const { being, schedule, unschedule, accept } = setup([
-                "incapacitated",
-            ]);
+            const { being, schedule, unschedule, accept } = setup(["incapacitated"]);
             // Extended Shock is a shock-subtype trauma; recovery is a Course Test,
             // not the ordinary Re-Test — so no ordinary reminder should arm.
             (being.actor as any).itemTypes = {
-                [ITEM_KIND.TRAUMA]: [
-                    { logic: { data: { subType: TRAUMA_SUBTYPE.SHOCK } } },
-                ],
+                [ITEM_KIND.TRAUMA]: [{ logic: { data: { subType: TRAUMA_SUBTYPE.SHOCK } } }],
             };
             await being.offerShockReTest(accept);
             expect(schedule).not.toHaveBeenCalled();
@@ -2766,13 +2537,10 @@ describe("BeingLogic", () => {
             const { being, accept } = setup(["incapacitated"]);
             vi.spyOn(being, "setShockState").mockResolvedValue(undefined);
             vi.spyOn(being, "getItemLogic").mockReturnValue(undefined as any);
-            vi.spyOn(
-                MasteryLevelModifier.prototype,
-                "successTest",
-            ).mockResolvedValue({ normSuccessLevel: MARGINAL_FAILURE } as any);
-            const offer = vi
-                .spyOn(being, "offerShockReTest")
-                .mockResolvedValue(undefined);
+            vi.spyOn(MasteryLevelModifier.prototype, "successTest").mockResolvedValue({
+                normSuccessLevel: MARGINAL_FAILURE,
+            } as any);
+            const offer = vi.spyOn(being, "offerShockReTest").mockResolvedValue(undefined);
             await being.injuryShock({
                 ...accept,
                 scope: { shockIndex: 8, shockBonus: 0 },
@@ -2784,22 +2552,15 @@ describe("BeingLogic", () => {
             vi.spyOn(FoundryHelpersMock, "fvttActorStatuses").mockReturnValue(
                 new Set(["incapacitated"]),
             );
-            vi.spyOn(
-                FoundryHelpersMock,
-                "fvttToggleActorStatus",
-            ).mockResolvedValue(undefined);
-            vi.spyOn(
-                FoundryHelpersMock,
-                "fvttCreateEmbeddedItems",
-            ).mockResolvedValue([]);
+            vi.spyOn(FoundryHelpersMock, "fvttToggleActorStatus").mockResolvedValue(undefined);
+            vi.spyOn(FoundryHelpersMock, "fvttCreateEmbeddedItems").mockResolvedValue([]);
             const being = makeBeing();
             (being as any).fatiguePenalty = { effective: 0 };
             vi.spyOn(being, "getItemLogic").mockReturnValue(undefined as any);
             vi.spyOn(being, "setShockState").mockResolvedValue(undefined);
-            vi.spyOn(
-                MasteryLevelModifier.prototype,
-                "successTest",
-            ).mockResolvedValue({ normSuccessLevel: MARGINAL_SUCCESS } as any);
+            vi.spyOn(MasteryLevelModifier.prototype, "successTest").mockResolvedValue({
+                normSuccessLevel: MARGINAL_SUCCESS,
+            } as any);
             const unschedule = vi
                 .spyOn((globalThis as any).sohl, "unschedule")
                 .mockResolvedValue(undefined);
@@ -2850,28 +2611,23 @@ describe("BeingLogic", () => {
 
         function physician(pysnMl: number | null) {
             const being = makeBeing();
-            vi.spyOn(being, "getItemLogic").mockImplementation(
-                (code: string) =>
-                    code === "pysn" && pysnMl !== null ?
-                        ({ masteryLevel: { effective: pysnMl } } as any)
-                    :   undefined,
+            vi.spyOn(being, "getItemLogic").mockImplementation((code: string) =>
+                code === "pysn" && pysnMl !== null ?
+                    ({ masteryLevel: { effective: pysnMl } } as any)
+                :   undefined,
             );
             return being;
         }
 
         it("rolls the physician's Physician skill and posts a result with an owner-gated Accept button", async () => {
             const being = physician(70);
-            const post = vi
-                .spyOn(ActionCard, "postActionCard")
-                .mockResolvedValue(undefined as any);
-            vi.spyOn(
-                FoundryHelpersMock,
-                "fvttLogicFromUuidSync",
-            ).mockReturnValue({ item: { name: "Gash" } } as any);
-            vi.spyOn(
-                MasteryLevelModifier.prototype,
-                "successTest",
-            ).mockResolvedValue({ normSuccessLevel: CRITICAL_SUCCESS } as any);
+            const post = vi.spyOn(ActionCard, "postActionCard").mockResolvedValue(undefined as any);
+            vi.spyOn(FoundryHelpersMock, "fvttLogicFromUuidSync").mockReturnValue({
+                item: { name: "Gash" },
+            } as any);
+            vi.spyOn(MasteryLevelModifier.prototype, "successTest").mockResolvedValue({
+                normSuccessLevel: CRITICAL_SUCCESS,
+            } as any);
 
             const res = await (being as any).performBloodStoppage({
                 scope: { injuryUuid: "Item.bleeder", stoppageBonus: 0 },
@@ -2908,31 +2664,24 @@ describe("BeingLogic", () => {
         /** A being whose Physician skill ML is `pysnMl`, or absent when `null`. */
         function physician(pysnMl: number | null) {
             const being = makeBeing();
-            vi.spyOn(being, "getItemLogic").mockImplementation(
-                (code: string) =>
-                    code === "pysn" && pysnMl !== null ?
-                        ({ masteryLevel: { effective: pysnMl } } as any)
-                    :   undefined,
+            vi.spyOn(being, "getItemLogic").mockImplementation((code: string) =>
+                code === "pysn" && pysnMl !== null ?
+                    ({ masteryLevel: { effective: pysnMl } } as any)
+                :   undefined,
             );
             return being;
         }
 
         it("card path: rolls the physician's own skill and posts a Result card with an owner-gated Accept button", async () => {
             const being = physician(60);
-            const post = vi
-                .spyOn(ActionCard, "postActionCard")
-                .mockResolvedValue(undefined);
+            const post = vi.spyOn(ActionCard, "postActionCard").mockResolvedValue(undefined);
             // Grievous edged wound resolved from the pre-filled injury uuid.
-            vi.spyOn(
-                FoundryHelpersMock,
-                "fvttLogicFromUuidSync",
-            ).mockReturnValue({
+            vi.spyOn(FoundryHelpersMock, "fvttLogicFromUuidSync").mockReturnValue({
                 data: { levelBase: 4, aspect: "edged" },
             } as any);
-            vi.spyOn(
-                MasteryLevelModifier.prototype,
-                "successTest",
-            ).mockResolvedValue({ normSuccessLevel: MARGINAL_SUCCESS } as any);
+            vi.spyOn(MasteryLevelModifier.prototype, "successTest").mockResolvedValue({
+                normSuccessLevel: MARGINAL_SUCCESS,
+            } as any);
 
             const res = await being.performTreatmentTest({
                 scope: { injuryUuid: "Item.w" },
@@ -2954,19 +2703,16 @@ describe("BeingLogic", () => {
 
         it("GM-directed (no target wound): posts an informational result with no button", async () => {
             const being = physician(60);
-            const post = vi
-                .spyOn(ActionCard, "postActionCard")
-                .mockResolvedValue(undefined);
+            const post = vi.spyOn(ActionCard, "postActionCard").mockResolvedValue(undefined);
             // No pre-filled uuid; dialog describes a grievous edged wound, no uuid.
             vi.spyOn(FoundryHelpersMock, "dialog").mockResolvedValue({
                 injuryUuid: "",
                 severity: 4,
                 aspect: "edged",
             });
-            vi.spyOn(
-                MasteryLevelModifier.prototype,
-                "successTest",
-            ).mockResolvedValue({ normSuccessLevel: MARGINAL_SUCCESS } as any);
+            vi.spyOn(MasteryLevelModifier.prototype, "successTest").mockResolvedValue({
+                normSuccessLevel: MARGINAL_SUCCESS,
+            } as any);
 
             const res = await being.performTreatmentTest({ scope: {} } as any);
 
@@ -2977,9 +2723,7 @@ describe("BeingLogic", () => {
 
         it("self-gates: aborts (undefined + warns) when the responder has no Physician skill", async () => {
             const being = physician(null);
-            const post = vi
-                .spyOn(ActionCard, "postActionCard")
-                .mockResolvedValue(undefined);
+            const post = vi.spyOn(ActionCard, "postActionCard").mockResolvedValue(undefined);
             const warn = vi.spyOn(sohl.log, "uiWarn");
             await expect(
                 being.performTreatmentTest({
@@ -2993,10 +2737,7 @@ describe("BeingLogic", () => {
 
         it("returns undefined when a pre-filled wound uuid cannot be resolved", async () => {
             const being = physician(60);
-            vi.spyOn(
-                FoundryHelpersMock,
-                "fvttLogicFromUuidSync",
-            ).mockReturnValue(undefined);
+            vi.spyOn(FoundryHelpersMock, "fvttLogicFromUuidSync").mockReturnValue(undefined);
             await expect(
                 being.performTreatmentTest({
                     scope: { injuryUuid: "x" },
@@ -3017,33 +2758,18 @@ describe("BeingLogic", () => {
                 fatigue?: number;
             } = {},
         ) {
-            const {
-                current = new Set<string>(),
-                sl = 0,
-                shockMl = 50,
-                fatigue = 0,
-            } = opts;
-            vi.spyOn(FoundryHelpersMock, "fvttActorStatuses").mockReturnValue(
-                current,
-            );
-            vi.spyOn(
-                FoundryHelpersMock,
-                "fvttToggleActorStatus",
-            ).mockResolvedValue(undefined);
+            const { current = new Set<string>(), sl = 0, shockMl = 50, fatigue = 0 } = opts;
+            vi.spyOn(FoundryHelpersMock, "fvttActorStatuses").mockReturnValue(current);
+            vi.spyOn(FoundryHelpersMock, "fvttToggleActorStatus").mockResolvedValue(undefined);
             const being = makeBeing();
             (being as any).fatiguePenalty = { effective: fatigue };
-            vi.spyOn(being, "getItemLogic").mockImplementation(
-                (code: string) =>
-                    code === "shok" ?
-                        ({ masteryLevel: { effective: shockMl } } as any)
-                    :   undefined,
+            vi.spyOn(being, "getItemLogic").mockImplementation((code: string) =>
+                code === "shok" ? ({ masteryLevel: { effective: shockMl } } as any) : undefined,
             );
             const roll = vi
                 .spyOn(MasteryLevelModifier.prototype, "successTest")
                 .mockResolvedValue({ normSuccessLevel: sl } as any);
-            const set = vi
-                .spyOn(being, "setShockState")
-                .mockResolvedValue(undefined);
+            const set = vi.spyOn(being, "setShockState").mockResolvedValue(undefined);
             return { being, roll, set };
         }
 
@@ -3082,16 +2808,11 @@ describe("BeingLogic", () => {
         });
 
         it("returns null and changes nothing when the roll is refused", async () => {
-            vi.spyOn(FoundryHelpersMock, "fvttActorStatuses").mockReturnValue(
-                new Set(),
-            );
+            vi.spyOn(FoundryHelpersMock, "fvttActorStatuses").mockReturnValue(new Set());
             const being = makeBeing();
             (being as any).fatiguePenalty = { effective: 0 };
             vi.spyOn(being, "getItemLogic").mockReturnValue(undefined as any);
-            vi.spyOn(
-                MasteryLevelModifier.prototype,
-                "successTest",
-            ).mockResolvedValue(false as any);
+            vi.spyOn(MasteryLevelModifier.prototype, "successTest").mockResolvedValue(false as any);
             const set = vi.spyOn(being, "setShockState");
             const res = await being.injuryShock({
                 scope: { shockIndex: 8 },
@@ -3192,14 +2913,8 @@ describe("BeingLogic", () => {
         /** A being carrying END and WIL attributes of the given scores. */
         function beingWithAttrs(end: number, wil: number) {
             const being = makeBeing();
-            (being as any).actor.items.set(
-                "end",
-                makeAttributeStub("end", end),
-            );
-            (being as any).actor.items.set(
-                "wil",
-                makeAttributeStub("wil", wil),
-            );
+            (being as any).actor.items.set("end", makeAttributeStub("end", end));
+            (being as any).actor.items.set("wil", makeAttributeStub("wil", wil));
             return being;
         }
 
@@ -3385,9 +3100,7 @@ describe("BeingLogic health (#470)", () => {
     });
 
     it("reads the dead status via the fvttActorStatuses shim → value 0 / Dead", () => {
-        vi.spyOn(FoundryHelpersMock, "fvttActorStatuses").mockReturnValue(
-            new Set(["dead"]),
-        );
+        vi.spyOn(FoundryHelpersMock, "fvttActorStatuses").mockReturnValue(new Set(["dead"]));
         const logic = makeBeing();
         logic.initialize();
         logic.finalize();
@@ -3426,9 +3139,7 @@ describe("dominantSide (#1253)", () => {
     });
 
     it("has no dominant side with both — ambidextrous", () => {
-        expect(
-            beingWithDominance("ldmnc", "rdmnc").dominantSide,
-        ).toBeUndefined();
+        expect(beingWithDominance("ldmnc", "rdmnc").dominantSide).toBeUndefined();
     });
 });
 

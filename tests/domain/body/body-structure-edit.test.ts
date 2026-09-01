@@ -20,21 +20,11 @@ import {
 
 describe("moveArrayElement", () => {
     it("moves an element forward, preserving the others' order", () => {
-        expect(moveArrayElement(["a", "b", "c", "d"], 0, 2)).toEqual([
-            "b",
-            "c",
-            "a",
-            "d",
-        ]);
+        expect(moveArrayElement(["a", "b", "c", "d"], 0, 2)).toEqual(["b", "c", "a", "d"]);
     });
 
     it("moves an element backward", () => {
-        expect(moveArrayElement(["a", "b", "c", "d"], 3, 1)).toEqual([
-            "a",
-            "d",
-            "b",
-            "c",
-        ]);
+        expect(moveArrayElement(["a", "b", "c", "d"], 3, 1)).toEqual(["a", "d", "b", "c"]);
     });
 
     it("is a no-op copy when from === to", () => {
@@ -91,9 +81,7 @@ describe("moveGroupedElement", () => {
     it("re-parents an element to another group at the given position", () => {
         const out = move(makeLocs(), 0, "arm", 0);
         expect(out.map((l) => l.shortcode)).toEqual(["face", "skull", "hand"]);
-        expect(out.find((l) => l.shortcode === "skull")!.bodyPartCode).toBe(
-            "arm",
-        );
+        expect(out.find((l) => l.shortcode === "skull")!.bodyPartCode).toBe("arm");
     });
 
     it("inserts after the group's last member when the position is past the end", () => {
@@ -109,9 +97,11 @@ describe("moveGroupedElement", () => {
     });
 
     it("clamps a negative position to the group's first slot", () => {
-        expect(move(makeLocs(), 2, "head", -5).map((l) => l.shortcode)).toEqual(
-            ["hand", "skull", "face"],
-        );
+        expect(move(makeLocs(), 2, "head", -5).map((l) => l.shortcode)).toEqual([
+            "hand",
+            "skull",
+            "face",
+        ]);
     });
 
     it("leaves the parent code untouched on a same-group move", () => {
@@ -120,8 +110,7 @@ describe("moveGroupedElement", () => {
             out.every(
                 (l) =>
                     l.bodyPartCode ===
-                    makeLocs().find((s) => s.shortcode === l.shortcode)!
-                        .bodyPartCode,
+                    makeLocs().find((s) => s.shortcode === l.shortcode)!.bodyPartCode,
             ),
         ).toBe(true);
     });
@@ -141,11 +130,7 @@ describe("moveGroupedElement", () => {
 });
 
 describe("countGroupMembers", () => {
-    const locs = [
-        { bodyPartCode: "head" },
-        { bodyPartCode: "head" },
-        { bodyPartCode: "arm" },
-    ];
+    const locs = [{ bodyPartCode: "head" }, { bodyPartCode: "head" }, { bodyPartCode: "arm" }];
     const by = (l: { bodyPartCode: string }) => l.bodyPartCode;
 
     it("counts the children of a parent", () => {

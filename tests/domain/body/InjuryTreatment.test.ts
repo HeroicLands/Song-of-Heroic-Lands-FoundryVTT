@@ -58,9 +58,7 @@ describe("treatmentHealingRate — Healing Rate by roll × severity", () => {
     });
 
     it("a critical success on a minor wound heals immediately", () => {
-        expect(treatmentHealingRate(CRITICAL_SUCCESS, "minor")).toBe(
-            TREATMENT_HEAL,
-        );
+        expect(treatmentHealingRate(CRITICAL_SUCCESS, "minor")).toBe(TREATMENT_HEAL);
     });
 });
 
@@ -78,43 +76,26 @@ describe("requiredTreatment — action + difficulty by aspect × severity", () =
         [IMPACT_ASPECT.FIRE, "minor", TREATMENT_CODE.COMPRESS, 20],
         [IMPACT_ASPECT.FIRE, "serious", TREATMENT_CODE.CLEAN, 10],
         [IMPACT_ASPECT.FIRE, "grievous", TREATMENT_CODE.CLEAN, 0],
-    ] as const)(
-        "%s / %s → %s at modifier %i",
-        (aspect, band, code, modifier) => {
-            expect(requiredTreatment(aspect, band)).toEqual({ code, modifier });
-        },
-    );
+    ] as const)("%s / %s → %s at modifier %i", (aspect, band, code, modifier) => {
+        expect(requiredTreatment(aspect, band)).toEqual({ code, modifier });
+    });
 });
 
 describe("treatmentCausesBleeder — surgical mishap", () => {
     it("EXT or SUR on a marginal or critical failure causes a bleeder", () => {
-        expect(
-            treatmentCausesBleeder(TREATMENT_CODE.SURGERY, MARGINAL_FAILURE),
-        ).toBe(true);
-        expect(
-            treatmentCausesBleeder(TREATMENT_CODE.SURGERY, CRITICAL_FAILURE),
-        ).toBe(true);
-        expect(
-            treatmentCausesBleeder(TREATMENT_CODE.EXTRACT, MARGINAL_FAILURE),
-        ).toBe(true);
+        expect(treatmentCausesBleeder(TREATMENT_CODE.SURGERY, MARGINAL_FAILURE)).toBe(true);
+        expect(treatmentCausesBleeder(TREATMENT_CODE.SURGERY, CRITICAL_FAILURE)).toBe(true);
+        expect(treatmentCausesBleeder(TREATMENT_CODE.EXTRACT, MARGINAL_FAILURE)).toBe(true);
     });
 
     it("EXT or SUR on a success does not cause a bleeder", () => {
-        expect(
-            treatmentCausesBleeder(TREATMENT_CODE.SURGERY, MARGINAL_SUCCESS),
-        ).toBe(false);
-        expect(
-            treatmentCausesBleeder(TREATMENT_CODE.SURGERY, CRITICAL_SUCCESS),
-        ).toBe(false);
+        expect(treatmentCausesBleeder(TREATMENT_CODE.SURGERY, MARGINAL_SUCCESS)).toBe(false);
+        expect(treatmentCausesBleeder(TREATMENT_CODE.SURGERY, CRITICAL_SUCCESS)).toBe(false);
     });
 
     it("non-surgical treatments never cause a bleeder", () => {
-        expect(
-            treatmentCausesBleeder(TREATMENT_CODE.CLEAN, CRITICAL_FAILURE),
-        ).toBe(false);
-        expect(
-            treatmentCausesBleeder(TREATMENT_CODE.COMPRESS, MARGINAL_FAILURE),
-        ).toBe(false);
+        expect(treatmentCausesBleeder(TREATMENT_CODE.CLEAN, CRITICAL_FAILURE)).toBe(false);
+        expect(treatmentCausesBleeder(TREATMENT_CODE.COMPRESS, MARGINAL_FAILURE)).toBe(false);
         expect(treatmentCausesBleeder(undefined, CRITICAL_FAILURE)).toBe(false);
     });
 });
@@ -132,91 +113,47 @@ describe("isBleederFromHealingRate — grievous HR 2/3 bleeders", () => {
     });
 
     it("is not a bleeder outside HR 2–3, non-grievous, or for fire", () => {
-        expect(
-            isBleederFromHealingRate(IMPACT_ASPECT.BLUNT, "grievous", 4),
-        ).toBe(false);
-        expect(
-            isBleederFromHealingRate(IMPACT_ASPECT.EDGED, "serious", 3),
-        ).toBe(false);
-        expect(
-            isBleederFromHealingRate(IMPACT_ASPECT.FIRE, "grievous", 2),
-        ).toBe(false);
+        expect(isBleederFromHealingRate(IMPACT_ASPECT.BLUNT, "grievous", 4)).toBe(false);
+        expect(isBleederFromHealingRate(IMPACT_ASPECT.EDGED, "serious", 3)).toBe(false);
+        expect(isBleederFromHealingRate(IMPACT_ASPECT.FIRE, "grievous", 2)).toBe(false);
     });
 });
 
 describe("isPermanentImpairmentEligible", () => {
     // Serious HR 3–4 or Grievous HR 2–4 blunt
     it("blunt: serious HR 3–4, grievous HR 2–4", () => {
-        expect(
-            isPermanentImpairmentEligible(IMPACT_ASPECT.BLUNT, "serious", 3),
-        ).toBe(true);
-        expect(
-            isPermanentImpairmentEligible(IMPACT_ASPECT.BLUNT, "serious", 4),
-        ).toBe(true);
-        expect(
-            isPermanentImpairmentEligible(IMPACT_ASPECT.BLUNT, "serious", 5),
-        ).toBe(false);
-        expect(
-            isPermanentImpairmentEligible(IMPACT_ASPECT.BLUNT, "grievous", 2),
-        ).toBe(true);
-        expect(
-            isPermanentImpairmentEligible(IMPACT_ASPECT.BLUNT, "grievous", 4),
-        ).toBe(true);
-        expect(
-            isPermanentImpairmentEligible(IMPACT_ASPECT.BLUNT, "grievous", 5),
-        ).toBe(false);
+        expect(isPermanentImpairmentEligible(IMPACT_ASPECT.BLUNT, "serious", 3)).toBe(true);
+        expect(isPermanentImpairmentEligible(IMPACT_ASPECT.BLUNT, "serious", 4)).toBe(true);
+        expect(isPermanentImpairmentEligible(IMPACT_ASPECT.BLUNT, "serious", 5)).toBe(false);
+        expect(isPermanentImpairmentEligible(IMPACT_ASPECT.BLUNT, "grievous", 2)).toBe(true);
+        expect(isPermanentImpairmentEligible(IMPACT_ASPECT.BLUNT, "grievous", 4)).toBe(true);
+        expect(isPermanentImpairmentEligible(IMPACT_ASPECT.BLUNT, "grievous", 5)).toBe(false);
     });
 
     // Grievous HR 2–4 edged
     it("edged: only grievous HR 2–4", () => {
-        expect(
-            isPermanentImpairmentEligible(IMPACT_ASPECT.EDGED, "serious", 3),
-        ).toBe(false);
-        expect(
-            isPermanentImpairmentEligible(IMPACT_ASPECT.EDGED, "grievous", 2),
-        ).toBe(true);
-        expect(
-            isPermanentImpairmentEligible(IMPACT_ASPECT.EDGED, "grievous", 4),
-        ).toBe(true);
+        expect(isPermanentImpairmentEligible(IMPACT_ASPECT.EDGED, "serious", 3)).toBe(false);
+        expect(isPermanentImpairmentEligible(IMPACT_ASPECT.EDGED, "grievous", 2)).toBe(true);
+        expect(isPermanentImpairmentEligible(IMPACT_ASPECT.EDGED, "grievous", 4)).toBe(true);
     });
 
     // Serious HR 3 or Grievous HR 2–4 piercing
     it("piercing: serious HR 3 only, grievous HR 2–4", () => {
-        expect(
-            isPermanentImpairmentEligible(IMPACT_ASPECT.PIERCING, "serious", 3),
-        ).toBe(true);
-        expect(
-            isPermanentImpairmentEligible(IMPACT_ASPECT.PIERCING, "serious", 4),
-        ).toBe(false);
-        expect(
-            isPermanentImpairmentEligible(
-                IMPACT_ASPECT.PIERCING,
-                "grievous",
-                3,
-            ),
-        ).toBe(true);
+        expect(isPermanentImpairmentEligible(IMPACT_ASPECT.PIERCING, "serious", 3)).toBe(true);
+        expect(isPermanentImpairmentEligible(IMPACT_ASPECT.PIERCING, "serious", 4)).toBe(false);
+        expect(isPermanentImpairmentEligible(IMPACT_ASPECT.PIERCING, "grievous", 3)).toBe(true);
     });
 
     // Grievous HR 1–3 fire
     it("fire: only grievous HR 1–3", () => {
-        expect(
-            isPermanentImpairmentEligible(IMPACT_ASPECT.FIRE, "grievous", 1),
-        ).toBe(true);
-        expect(
-            isPermanentImpairmentEligible(IMPACT_ASPECT.FIRE, "grievous", 3),
-        ).toBe(true);
-        expect(
-            isPermanentImpairmentEligible(IMPACT_ASPECT.FIRE, "grievous", 4),
-        ).toBe(false);
-        expect(
-            isPermanentImpairmentEligible(IMPACT_ASPECT.FIRE, "serious", 3),
-        ).toBe(false);
+        expect(isPermanentImpairmentEligible(IMPACT_ASPECT.FIRE, "grievous", 1)).toBe(true);
+        expect(isPermanentImpairmentEligible(IMPACT_ASPECT.FIRE, "grievous", 3)).toBe(true);
+        expect(isPermanentImpairmentEligible(IMPACT_ASPECT.FIRE, "grievous", 4)).toBe(false);
+        expect(isPermanentImpairmentEligible(IMPACT_ASPECT.FIRE, "serious", 3)).toBe(false);
     });
 
     it("minor wounds are never eligible", () => {
-        expect(
-            isPermanentImpairmentEligible(IMPACT_ASPECT.BLUNT, "minor", 4),
-        ).toBe(false);
+        expect(isPermanentImpairmentEligible(IMPACT_ASPECT.BLUNT, "minor", 4)).toBe(false);
     });
 });
 
@@ -231,23 +168,15 @@ describe("amputationInjury — the new edged wound an AMP inflicts", () => {
         [MARGINAL_FAILURE, "G", 4, true],
         [MARGINAL_SUCCESS, "S", 3, true],
         [CRITICAL_SUCCESS, "S", 2, false],
-    ] as const)(
-        "roll %i → %s%i edged (bleeder=%s)",
-        (sl, severity, level, bleeder) => {
-            expect(amputationInjury(sl)).toEqual({ severity, level, bleeder });
-        },
-    );
+    ] as const)("roll %i → %s%i edged (bleeder=%s)", (sl, severity, level, bleeder) => {
+        expect(amputationInjury(sl)).toEqual({ severity, level, bleeder });
+    });
 });
 
 describe("treatmentOutcome — every special effect a treatment produces", () => {
     it("a clean success leaves no special effects", () => {
         expect(
-            treatmentOutcome(
-                IMPACT_ASPECT.EDGED,
-                "minor",
-                TREATMENT_CODE.CLEAN,
-                CRITICAL_SUCCESS,
-            ),
+            treatmentOutcome(IMPACT_ASPECT.EDGED, "minor", TREATMENT_CODE.CLEAN, CRITICAL_SUCCESS),
         ).toEqual({
             healingRate: TREATMENT_HEAL,
             infectable: false,
@@ -269,12 +198,8 @@ describe("treatmentOutcome — every special effect a treatment produces", () =>
 
     it("a marginal/critical success clears the infection risk", () => {
         expect(
-            treatmentOutcome(
-                IMPACT_ASPECT.EDGED,
-                "serious",
-                TREATMENT_CODE.CLEAN,
-                MARGINAL_SUCCESS,
-            ).infectable,
+            treatmentOutcome(IMPACT_ASPECT.EDGED, "serious", TREATMENT_CODE.CLEAN, MARGINAL_SUCCESS)
+                .infectable,
         ).toBe(false);
     });
 

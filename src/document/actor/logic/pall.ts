@@ -24,11 +24,7 @@
  * Pall" offer live on {@link BeingLogic} / {@link TraumaLogic}.
  */
 
-import {
-    CRITICAL_SUCCESS,
-    MARGINAL_SUCCESS,
-    MARGINAL_FAILURE,
-} from "@src/utils/constants";
+import { CRITICAL_SUCCESS, MARGINAL_SUCCESS, MARGINAL_FAILURE } from "@src/utils/constants";
 
 /** The Pall Depth penalty is **5 × total PAL** (Pall rules — Resisting the Pall). */
 export const PALL_DEPTH_PER_PAL = 5;
@@ -68,11 +64,7 @@ export const PALL_LIGHT_REDUCTION = {
  * @param lightReduction - A {@link PALL_LIGHT_REDUCTION} value (default none).
  * @returns The effective Pall Strength at that distance.
  */
-export function pallStrengthAt(
-    pal: number,
-    distanceFt: number,
-    lightReduction = 0,
-): number {
+export function pallStrengthAt(pal: number, distanceFt: number, lightReduction = 0): number {
     const distanceReduction = Math.ceil(Math.max(0, distanceFt) / 5);
     return Math.max(0, pal - distanceReduction - lightReduction);
 }
@@ -103,10 +95,7 @@ export const PALL_STATE = {
  * @param lastDigit - The ones digit of the d100 roll.
  * @returns The resulting Pall state.
  */
-export function pallResistState(
-    normSuccessLevel: number,
-    lastDigit: number,
-): number {
+export function pallResistState(normSuccessLevel: number, lastDigit: number): number {
     if (normSuccessLevel >= CRITICAL_SUCCESS) return PALL_STATE.IMMUNE;
     if (normSuccessLevel === MARGINAL_SUCCESS) return PALL_STATE.RESIST;
     if (normSuccessLevel === MARGINAL_FAILURE) return PALL_STATE.DISTURBED;
@@ -191,9 +180,7 @@ export interface PallRecoveryOutcome {
  * @param normSuccessLevel - The Will-test result (CF −1 … CS 2).
  * @returns The recovery outcome.
  */
-export function pallRecoveryOutcome(
-    normSuccessLevel: number,
-): PallRecoveryOutcome {
+export function pallRecoveryOutcome(normSuccessLevel: number): PallRecoveryOutcome {
     if (normSuccessLevel >= CRITICAL_SUCCESS) {
         return { kind: "recover", pslDelta: -2, criticalSuccess: true };
     }

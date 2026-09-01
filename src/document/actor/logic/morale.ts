@@ -79,14 +79,10 @@ function moraleRank(category: MoraleCategory): number {
  * @param lastDigit - The ones digit of the d100 roll (distinguishes CF0 from CF5).
  * @returns The resulting morale level.
  */
-export function moraleStateFromTest(
-    normSuccessLevel: number,
-    lastDigit: number,
-): MoraleCategory {
+export function moraleStateFromTest(normSuccessLevel: number, lastDigit: number): MoraleCategory {
     if (normSuccessLevel >= CRITICAL_SUCCESS) return MORALE_CATEGORY.BRAVE;
     if (normSuccessLevel === MARGINAL_SUCCESS) return MORALE_CATEGORY.STEADY;
-    if (normSuccessLevel === MARGINAL_FAILURE)
-        return MORALE_CATEGORY.WITHDRAWING;
+    if (normSuccessLevel === MARGINAL_FAILURE) return MORALE_CATEGORY.WITHDRAWING;
     // Critical failure — CF0 (last digit 0) is Catatonic, CF5 (5) Routed.
     return lastDigit === 0 ? MORALE_CATEGORY.CATATONIC : MORALE_CATEGORY.ROUTED;
 }
@@ -111,9 +107,7 @@ export function moralePsyGain(category: MoraleCategory): number {
  * @param categories - The morale categories of every active morale-failure source.
  * @returns The most severe morale category.
  */
-export function mostSevereMorale(
-    categories: readonly MoraleCategory[],
-): MoraleCategory {
+export function mostSevereMorale(categories: readonly MoraleCategory[]): MoraleCategory {
     return categories.reduce<MoraleCategory>(
         (m, c) => (moraleRank(c) > moraleRank(m) ? c : m),
         MORALE_CATEGORY.NONE,
@@ -129,10 +123,7 @@ export function mostSevereMorale(
  * @param b - The category to compare against.
  * @returns `true` when `a` outranks `b`.
  */
-export function moraleMoreSevere(
-    a: MoraleCategory,
-    b: MoraleCategory,
-): boolean {
+export function moraleMoreSevere(a: MoraleCategory, b: MoraleCategory): boolean {
     return moraleRank(a) > moraleRank(b);
 }
 
@@ -192,10 +183,7 @@ export function moraleWithdraws(category: MoraleCategory): boolean {
  * @param isSuccess - Whether the Reaction Test succeeded.
  * @returns The resulting morale category.
  */
-export function reactionOutcome(
-    current: MoraleCategory,
-    isSuccess: boolean,
-): MoraleCategory {
+export function reactionOutcome(current: MoraleCategory, isSuccess: boolean): MoraleCategory {
     if (!isSuccess) return current;
     if (moraleRank(current) >= moraleRank(MORALE_CATEGORY.CATATONIC)) {
         return MORALE_CATEGORY.ROUTED;
@@ -213,9 +201,7 @@ export function reactionOutcome(
  *   Test for `lockout` seconds (five minutes on CF, one minute on MF).
  */
 export type RallyOutcome =
-    | { kind: "steady" }
-    | { kind: "reaction" }
-    | { kind: "unresponsive"; lockout: number };
+    { kind: "steady" } | { kind: "reaction" } | { kind: "unresponsive"; lockout: number };
 
 /** How long (seconds) a Critical-Failure Rally locks out further Rally Tests. */
 export const RALLY_LOCKOUT_LONG = 300;

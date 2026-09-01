@@ -367,9 +367,7 @@ describe("createUniqueName", () => {
     });
 
     it("appends index when name is taken", () => {
-        const siblings = new Map<string, { name: string }>([
-            ["1", { name: "Item" }],
-        ]);
+        const siblings = new Map<string, { name: string }>([["1", { name: "Item" }]]);
         expect(createUniqueName("Item", siblings)).toBe("Item (2)");
     });
 
@@ -382,9 +380,7 @@ describe("createUniqueName", () => {
     });
 
     it("throws on empty baseName", () => {
-        expect(() => createUniqueName("", new Map())).toThrow(
-            "Must provide baseName",
-        );
+        expect(() => createUniqueName("", new Map())).toThrow("Must provide baseName");
     });
 });
 
@@ -426,46 +422,32 @@ describe("textToFunction", () => {
     });
 
     it("throws on disallowed keywords", () => {
-        expect(() => textToFunction("eval('bad')", [])).toThrow(
-            /Disallowed keyword/,
-        );
+        expect(() => textToFunction("eval('bad')", [])).toThrow(/Disallowed keyword/);
     });
 
     it("throws on window access", () => {
-        expect(() => textToFunction("window.location", [])).toThrow(
-            /Disallowed keyword/,
-        );
+        expect(() => textToFunction("window.location", [])).toThrow(/Disallowed keyword/);
     });
 
     it("blocks the Function-constructor escape via .constructor", () => {
-        expect(() =>
-            textToFunction("({}).constructor.constructor('x')", []),
-        ).toThrow(/Disallowed pattern/);
+        expect(() => textToFunction("({}).constructor.constructor('x')", [])).toThrow(
+            /Disallowed pattern/,
+        );
     });
 
     it('blocks the Function-constructor escape via ["constructor"]', () => {
-        expect(() => textToFunction('({})["constructor"]("x")', [])).toThrow(
-            /Disallowed pattern/,
-        );
+        expect(() => textToFunction('({})["constructor"]("x")', [])).toThrow(/Disallowed pattern/);
     });
 
     it("blocks __proto__ chain access", () => {
-        expect(() => textToFunction("({}).__proto__", [])).toThrow(
-            /Disallowed pattern/,
-        );
-        expect(() => textToFunction('({})["__proto__"]', [])).toThrow(
-            /Disallowed pattern/,
-        );
+        expect(() => textToFunction("({}).__proto__", [])).toThrow(/Disallowed pattern/);
+        expect(() => textToFunction('({})["__proto__"]', [])).toThrow(/Disallowed pattern/);
     });
 
     it("blocks new Function regardless of whitespace between tokens", () => {
         // Caught by the `Function` keyword scan, which is whitespace-agnostic.
-        expect(() => textToFunction("new   Function('x')", [])).toThrow(
-            /Disallowed/,
-        );
-        expect(() => textToFunction("new\tFunction('x')", [])).toThrow(
-            /Disallowed/,
-        );
+        expect(() => textToFunction("new   Function('x')", [])).toThrow(/Disallowed/);
+        expect(() => textToFunction("new\tFunction('x')", [])).toThrow(/Disallowed/);
     });
 
     it("blocks additional dangerous globals", () => {
@@ -477,9 +459,7 @@ describe("textToFunction", () => {
             "location",
             "localStorage",
         ]) {
-            expect(() => textToFunction(`${keyword}.foo`, [])).toThrow(
-                /Disallowed keyword/,
-            );
+            expect(() => textToFunction(`${keyword}.foo`, [])).toThrow(/Disallowed keyword/);
         }
     });
 
@@ -489,10 +469,7 @@ describe("textToFunction", () => {
     });
 
     it("does not false-positive on flagged words inside comments", () => {
-        const fn = textToFunction(
-            "// uses fetch internally\nreturn 1;",
-            [],
-        ) as Function;
+        const fn = textToFunction("// uses fetch internally\nreturn 1;", []) as Function;
         expect(fn()).toBe(1);
     });
 
@@ -500,12 +477,8 @@ describe("textToFunction", () => {
         expect(() => textToFunction("return x;", ["x = sideEffect()"])).toThrow(
             /Invalid parameter name/,
         );
-        expect(() => textToFunction("return 1;", ["a, b"])).toThrow(
-            /Invalid parameter name/,
-        );
-        expect(() => textToFunction("return 1;", ["1abc"])).toThrow(
-            /Invalid parameter name/,
-        );
+        expect(() => textToFunction("return 1;", ["a, b"])).toThrow(/Invalid parameter name/);
+        expect(() => textToFunction("return 1;", ["1abc"])).toThrow(/Invalid parameter name/);
     });
 
     it("does not mutate the caller-supplied args array", () => {
@@ -681,9 +654,7 @@ describe("getStatic", () => {
     it("throws for non-existent static property", () => {
         class MyClass {}
         const inst = new MyClass();
-        expect(() => getStatic(inst, "nope")).toThrow(
-            'Static property "nope" not found',
-        );
+        expect(() => getStatic(inst, "nope")).toThrow('Static property "nope" not found');
     });
 });
 
@@ -755,9 +726,9 @@ describe("defaultFromJSON — ClientDocument revival via registered resolver", (
 
     it("throws a clear error when no resolver is registered", () => {
         setUuidResolver(undefined);
-        expect(() =>
-            defaultFromJSON({ __type: "ClientDocument", uuid: "Actor.z" }),
-        ).toThrow(/resolver/i);
+        expect(() => defaultFromJSON({ __type: "ClientDocument", uuid: "Actor.z" })).toThrow(
+            /resolver/i,
+        );
     });
 });
 
@@ -794,9 +765,7 @@ describe("buildActionScope — rejects legacy code payloads", () => {
         const dataset = {
             scope: JSON.stringify({ cb: "__func__:[]return 1" }),
         } as unknown as DOMStringMap;
-        expect(() => buildActionScope(dataset, undefined)).toThrow(
-            /legacy code marker/i,
-        );
+        expect(() => buildActionScope(dataset, undefined)).toThrow(/legacy code marker/i);
     });
 
     it("revives a normal scope payload unchanged", () => {
@@ -825,17 +794,11 @@ describe("subTypeOptionsFromChoices", () => {
 
     it("preserves the choice map insertion order", () => {
         const choices = { c: "kc", a: "ka", b: "kb" };
-        expect(subTypeOptionsFromChoices(choices).map((o) => o.value)).toEqual([
-            "c",
-            "a",
-            "b",
-        ]);
+        expect(subTypeOptionsFromChoices(choices).map((o) => o.value)).toEqual(["c", "a", "b"]);
     });
 
     it("defaults the localizer to identity on the label key", () => {
-        expect(subTypeOptionsFromChoices({ x: "key.x" })).toEqual([
-            { value: "x", label: "key.x" },
-        ]);
+        expect(subTypeOptionsFromChoices({ x: "key.x" })).toEqual([{ value: "x", label: "key.x" }]);
     });
 
     it("returns an empty array when there are no choices (no subtypes)", () => {
@@ -882,9 +845,7 @@ describe("uniqueShortcode", () => {
 
     it("appends an incrementing suffix when taken", () => {
         expect(uniqueShortcode("arrow", new Set(["arrow"]))).toBe("arrow2");
-        expect(uniqueShortcode("arrow", new Set(["arrow", "arrow2"]))).toBe(
-            "arrow3",
-        );
+        expect(uniqueShortcode("arrow", new Set(["arrow", "arrow2"]))).toBe("arrow3");
     });
 });
 
@@ -913,12 +874,9 @@ describe("resolveShortcodeKey (shortcodeDedupe matrix)", () => {
                 }),
             ).toEqual({ shortcode: "arrow2" });
             expect(
-                resolveShortcodeKey(
-                    "arrow",
-                    "Arrow",
-                    new Set(["arrow", "arrow2"]),
-                    { dedupe: true },
-                ),
+                resolveShortcodeKey("arrow", "Arrow", new Set(["arrow", "arrow2"]), {
+                    dedupe: true,
+                }),
             ).toEqual({ shortcode: "arrow3" });
         });
 
@@ -993,9 +951,10 @@ describe("resolveShortcodeKey (shortcodeDedupe matrix)", () => {
         });
 
         it("rejects when dedupe is false/absent", () => {
-            expect(
-                resolveShortcodeKey("", "—", new Set(), { dedupe: false }),
-            ).toEqual({ reject: true, reason: "missing" });
+            expect(resolveShortcodeKey("", "—", new Set(), { dedupe: false })).toEqual({
+                reject: true,
+                reason: "missing",
+            });
         });
     });
 
@@ -1007,12 +966,9 @@ describe("resolveShortcodeKey (shortcodeDedupe matrix)", () => {
                 }),
             ).toEqual({ reject: true, reason: "invalid" });
             expect(
-                resolveShortcodeKey(
-                    "self-pro",
-                    "Self-protective",
-                    new Set(["selfpro"]),
-                    { dedupe: false },
-                ),
+                resolveShortcodeKey("self-pro", "Self-protective", new Set(["selfpro"]), {
+                    dedupe: false,
+                }),
             ).toEqual({ reject: true, reason: "invalid" });
         });
 
@@ -1023,12 +979,9 @@ describe("resolveShortcodeKey (shortcodeDedupe matrix)", () => {
                 }),
             ).toEqual({ shortcode: "BCFl" });
             expect(
-                resolveShortcodeKey(
-                    "self-pro",
-                    "Self-protective",
-                    new Set(["selfpro"]),
-                    { dedupe: true },
-                ),
+                resolveShortcodeKey("self-pro", "Self-protective", new Set(["selfpro"]), {
+                    dedupe: true,
+                }),
             ).toEqual({ shortcode: "selfpro2" });
         });
 

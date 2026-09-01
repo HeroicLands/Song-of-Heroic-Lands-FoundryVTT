@@ -38,10 +38,7 @@ function makeContainer(empty: boolean) {
  * `button[data-action="…"]` against `buttons`; `querySelectorAll` returns the
  * given `.card-buttons` containers.
  */
-function makeElement(
-    buttons: Record<string, any>,
-    containers: any[] = [],
-): HTMLElement {
+function makeElement(buttons: Record<string, any>, containers: any[] = []): HTMLElement {
     return {
         querySelector: (sel: string) => {
             const m = sel.match(/data-action="([^"]+)"/);
@@ -83,12 +80,8 @@ function makeDefender(
             statuses,
             logic: {
                 logicTypes: {
-                    [ITEM_KIND.WEAPONGEAR]:
-                        hasMelee ? [{ strikeModes: [meleeMode] }] : [],
-                    [ITEM_KIND.SKILL]:
-                        hasDodge ?
-                            [{ data: { shortcode: SKILL_CODE.DODGE } }]
-                        :   [],
+                    [ITEM_KIND.WEAPONGEAR]: hasMelee ? [{ strikeModes: [meleeMode] }] : [],
+                    [ITEM_KIND.SKILL]: hasDodge ? [{ data: { shortcode: SKILL_CODE.DODGE } }] : [],
                 },
             },
         },
@@ -99,8 +92,7 @@ describe("gateEditActionPencil (#856)", () => {
     /** A stub root whose `querySelectorAll("a.edit-action")` yields `pencils`. */
     function makeElement(pencils: any[]): HTMLElement {
         return {
-            querySelectorAll: (sel: string) =>
-                sel === "a.edit-action" ? pencils : [],
+            querySelectorAll: (sel: string) => (sel === "a.edit-action" ? pencils : []),
         } as unknown as HTMLElement;
     }
 
@@ -191,9 +183,7 @@ describe("gateAutomatedDefenseButtons", () => {
     it("removes Block (only) when an owned, healthy defender has no block-capable mode", () => {
         canBlock.mockReturnValue([]);
         const buttons = allButtons();
-        gateAutomatedDefenseButtons(makeElement(buttons), () =>
-            makeDefender(true),
-        );
+        gateAutomatedDefenseButtons(makeElement(buttons), () => makeDefender(true));
         expect(buttons[ACTIONS.block].remove).toHaveBeenCalled();
         expect(buttons[ACTIONS.counter].remove).not.toHaveBeenCalled();
         expect(buttons[ACTIONS.dodge].remove).not.toHaveBeenCalled();
@@ -212,9 +202,7 @@ describe("gateAutomatedDefenseButtons", () => {
 
     it("keeps all four for an owned, healthy, fully-capable defender", () => {
         const buttons = allButtons();
-        gateAutomatedDefenseButtons(makeElement(buttons), () =>
-            makeDefender(true),
-        );
+        gateAutomatedDefenseButtons(makeElement(buttons), () => makeDefender(true));
         for (const key of Object.values(ACTIONS)) {
             expect(buttons[key].remove).not.toHaveBeenCalled();
         }
@@ -262,8 +250,7 @@ describe("gateActionCardButtons", () => {
     /** A stub root: `button.action-card-button` → buttons; `.card-buttons` → none. */
     function acElement(buttons: any[]): HTMLElement {
         return {
-            querySelectorAll: (sel: string) =>
-                sel.includes("action-card-button") ? buttons : [],
+            querySelectorAll: (sel: string) => (sel.includes("action-card-button") ? buttons : []),
         } as unknown as HTMLElement;
     }
 

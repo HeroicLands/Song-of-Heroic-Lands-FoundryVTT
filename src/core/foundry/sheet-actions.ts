@@ -90,12 +90,8 @@ export function buildActionRows(doc: ActionOwner): ActionRows {
             unavailableReason: a.unavailableReason,
         }));
     return {
-        customActions: rows.filter(
-            (r) => r.data.subType === ACTION_SUBTYPE.SCRIPT,
-        ),
-        intrinsicActions: rows.filter(
-            (r) => r.data.subType === ACTION_SUBTYPE.INTRINSIC,
-        ),
+        customActions: rows.filter((r) => r.data.subType === ACTION_SUBTYPE.SCRIPT),
+        intrinsicActions: rows.filter((r) => r.data.subType === ACTION_SUBTYPE.INTRINSIC),
     };
 }
 
@@ -129,13 +125,8 @@ function esc(v: unknown): string {
  * @param target - The clicked control inside an action row.
  * @returns The action, or `undefined` if the row or action is missing.
  */
-export function actionFromRow(
-    doc: ActionOwner,
-    target: HTMLElement,
-): SohlAction | undefined {
-    const shortcode = target
-        .closest("[data-action-name]")
-        ?.getAttribute("data-action-name");
+export function actionFromRow(doc: ActionOwner, target: HTMLElement): SohlAction | undefined {
+    const shortcode = target.closest("[data-action-name]")?.getAttribute("data-action-name");
     if (!shortcode) return undefined;
     return (doc as any).logic?.actions.get(shortcode) as SohlAction | undefined;
 }
@@ -150,10 +141,7 @@ export function actionFromRow(
  */
 export async function createAction(doc: ActionOwner): Promise<void> {
     const options = (game as any).macros.contents
-        .map(
-            (m: any) =>
-                `<option value="${esc(m.uuid)}">${esc(m.name)}</option>`,
-        )
+        .map((m: any) => `<option value="${esc(m.uuid)}">${esc(m.name)}</option>`)
         .join("");
     const content = `<form><div class="form-group"><label>${esc(
         game.i18n.localize("SOHL.Action.name.label"),
@@ -169,9 +157,7 @@ export async function createAction(doc: ActionOwner): Promise<void> {
         ok: {
             label: game.i18n.localize("SOHL.Action.create"),
             callback: (_e: Event, button: any) =>
-                new (foundry.applications.ux as any).FormDataExtended(
-                    button.form,
-                ).object,
+                new (foundry.applications.ux as any).FormDataExtended(button.form).object,
         },
     })) as { title?: string; macro?: string } | null;
     if (!result?.macro) return;
@@ -214,10 +200,7 @@ export async function createAction(doc: ActionOwner): Promise<void> {
         iconFAClass: "fa-solid fa-bolt",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
     };
-    const actionDefs = [
-        ...(((doc.system as any).actionDefs as any[]) ?? []),
-        def,
-    ];
+    const actionDefs = [...(((doc.system as any).actionDefs as any[]) ?? []), def];
     await doc.update({ "system.actionDefs": actionDefs } as any);
 }
 
@@ -228,10 +211,7 @@ export async function createAction(doc: ActionOwner): Promise<void> {
  * @param doc - The action-owning document.
  * @param target - The clicked control inside an action row.
  */
-export async function editAction(
-    doc: ActionOwner,
-    target: HTMLElement,
-): Promise<void> {
+export async function editAction(doc: ActionOwner, target: HTMLElement): Promise<void> {
     const action = actionFromRow(doc, target);
     const uuid = (action?.data as any)?.executor;
     if (!uuid) return;
@@ -247,13 +227,8 @@ export async function editAction(
  * @param doc - The action-owning document.
  * @param target - The clicked control inside an action row.
  */
-export async function deleteAction(
-    doc: ActionOwner,
-    target: HTMLElement,
-): Promise<void> {
-    const shortcode = target
-        .closest("[data-action-name]")
-        ?.getAttribute("data-action-name");
+export async function deleteAction(doc: ActionOwner, target: HTMLElement): Promise<void> {
+    const shortcode = target.closest("[data-action-name]")?.getAttribute("data-action-name");
     if (!shortcode) return;
     const current = ((doc.system as any).actionDefs as any[]) ?? [];
     const actionDefs = current.filter((d) => d.shortcode !== shortcode);

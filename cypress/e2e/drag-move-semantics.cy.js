@@ -32,33 +32,21 @@ describe("actor-to-actor drag semantics", () => {
     it("moves a non-gear item (skill) between actors", () => {
         cy.createActor("being", { name: "A" }).then((a) => {
             cy.createActor("being", { name: "B" }).then((b) => {
-                cy.createItemOn(a, "skill", { name: "Stealth" }).then(
-                    (skill) => {
-                        cy.foundry((win) =>
-                            Cypress.Promise.resolve(
-                                drop(
-                                    win,
-                                    b.id,
-                                    win.game.actors
-                                        .get(a.id)
-                                        .items.get(skill.id),
-                                ),
-                            ).then(() => null),
-                        );
-                        cy.wait(400);
-                        cy.foundry((win) => ({
-                            srcHas: win.game.actors
-                                .get(a.id)
-                                .items.has(skill.id),
-                            destHas: win.game.actors
-                                .get(b.id)
-                                .items.some((i) => i.name === "Stealth"),
-                        })).should((r) => {
-                            expect(r.srcHas, "removed from source").to.be.false;
-                            expect(r.destHas, "created on dest").to.be.true;
-                        });
-                    },
-                );
+                cy.createItemOn(a, "skill", { name: "Stealth" }).then((skill) => {
+                    cy.foundry((win) =>
+                        Cypress.Promise.resolve(
+                            drop(win, b.id, win.game.actors.get(a.id).items.get(skill.id)),
+                        ).then(() => null),
+                    );
+                    cy.wait(400);
+                    cy.foundry((win) => ({
+                        srcHas: win.game.actors.get(a.id).items.has(skill.id),
+                        destHas: win.game.actors.get(b.id).items.some((i) => i.name === "Stealth"),
+                    })).should((r) => {
+                        expect(r.srcHas, "removed from source").to.be.false;
+                        expect(r.destHas, "created on dest").to.be.true;
+                    });
+                });
             });
         });
     });
@@ -72,20 +60,14 @@ describe("actor-to-actor drag semantics", () => {
                 }).then((g) => {
                     cy.foundry((win) =>
                         Cypress.Promise.resolve(
-                            drop(
-                                win,
-                                b.id,
-                                win.game.actors.get(a.id).items.get(g.id),
-                            ),
+                            drop(win, b.id, win.game.actors.get(a.id).items.get(g.id)),
                         ).then(() => null),
                     );
                     cy.wait(400);
                     cy.foundry((win) => ({
                         srcHas: win.game.actors.get(a.id).items.has(g.id),
-                        destQty: win.game.actors
-                            .get(b.id)
-                            .items.find((i) => i.name === "Torch")?.system
-                            .quantity,
+                        destQty: win.game.actors.get(b.id).items.find((i) => i.name === "Torch")
+                            ?.system.quantity,
                     })).should((r) => {
                         expect(r.srcHas, "source removed").to.be.false;
                         expect(r.destQty, "whole stack moved").to.equal(1);
@@ -104,21 +86,14 @@ describe("actor-to-actor drag semantics", () => {
                 }).then((g) => {
                     cy.foundry((win) =>
                         Cypress.Promise.resolve(
-                            drop(
-                                win,
-                                b.id,
-                                win.game.actors.get(a.id).items.get(g.id),
-                                true,
-                            ),
+                            drop(win, b.id, win.game.actors.get(a.id).items.get(g.id), true),
                         ).then(() => null),
                     );
                     cy.wait(400);
                     cy.foundry((win) => ({
                         srcHas: win.game.actors.get(a.id).items.has(g.id),
-                        destQty: win.game.actors
-                            .get(b.id)
-                            .items.find((i) => i.name === "Arrows")?.system
-                            .quantity,
+                        destQty: win.game.actors.get(b.id).items.find((i) => i.name === "Arrows")
+                            ?.system.quantity,
                     })).should((r) => {
                         expect(r.srcHas, "source removed").to.be.false;
                         expect(r.destQty, "all 20 moved").to.equal(20);
@@ -137,32 +112,24 @@ describe("actor-to-actor drag semantics", () => {
                 }).then((g) => {
                     // Fire the drop (blocks on the dialog); don't await here.
                     cy.foundry((win) => {
-                        void drop(
-                            win,
-                            b.id,
-                            win.game.actors.get(a.id).items.get(g.id),
-                        );
+                        void drop(win, b.id, win.game.actors.get(a.id).items.get(g.id));
                         return null;
                     });
                     cy.wait(700);
                     // Enter 2 in the qty field, then confirm.
                     cy.foundry((win) => {
-                        const dlg = [
-                            ...win.foundry.applications.instances.values(),
-                        ].find((app) => /dialog/i.test(app.constructor.name));
-                        dlg.element.querySelector('input[name="qty"]').value =
-                            "2";
+                        const dlg = [...win.foundry.applications.instances.values()].find((app) =>
+                            /dialog/i.test(app.constructor.name),
+                        );
+                        dlg.element.querySelector('input[name="qty"]').value = "2";
                         return null;
                     });
                     cy.submitDialog("move");
                     cy.wait(700);
                     cy.foundry((win) => ({
-                        srcQty: win.game.actors.get(a.id).items.get(g.id)
+                        srcQty: win.game.actors.get(a.id).items.get(g.id)?.system.quantity,
+                        destQty: win.game.actors.get(b.id).items.find((i) => i.name === "Rations")
                             ?.system.quantity,
-                        destQty: win.game.actors
-                            .get(b.id)
-                            .items.find((i) => i.name === "Rations")?.system
-                            .quantity,
                     })).should((r) => {
                         expect(r.destQty, "moved 2 to dest").to.equal(2);
                         expect(r.srcQty, "source left with 3").to.equal(3);

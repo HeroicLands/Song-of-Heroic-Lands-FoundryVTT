@@ -28,17 +28,14 @@ describe("active effects", () => {
             const id = this.item.id;
             cy.foundry(async (win) => {
                 const doc = win.game.items.get(id);
-                const [eff] = await doc.createEmbeddedDocuments(
-                    "ActiveEffect",
-                    [
-                        win.JSON.parse(
-                            JSON.stringify({
-                                name: "Buff",
-                                type: "sohleffectdata",
-                            }),
-                        ),
-                    ],
-                );
+                const [eff] = await doc.createEmbeddedDocuments("ActiveEffect", [
+                    win.JSON.parse(
+                        JSON.stringify({
+                            name: "Buff",
+                            type: "sohleffectdata",
+                        }),
+                    ),
+                ]);
                 return {
                     created: !!eff,
                     type: eff?.type,
@@ -51,13 +48,10 @@ describe("active effects", () => {
             }).then((r) => {
                 expect(r.created, "effect created").to.be.true;
                 expect(r.type, "sohl effect subtype").to.eq("sohleffectdata");
-                expect(r.hasScope, "system.scope present (data model applied)")
-                    .to.be.true;
+                expect(r.hasScope, "system.scope present (data model applied)").to.be.true;
                 expect(r.hasChanges, "system.changes array present").to.be.true;
                 // Default 'this' scope on a miscgear item ⇒ "This Misc Gear".
-                expect(r.targetLabel, "targetLabel populated").to.eq(
-                    "This Misc Gear",
-                );
+                expect(r.targetLabel, "targetLabel populated").to.eq("This Misc Gear");
             });
         });
     });

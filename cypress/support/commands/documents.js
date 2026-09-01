@@ -40,9 +40,7 @@ function actorRef(win, actor) {
 Cypress.Commands.add("foundry", (fn) =>
     cy
         .window({ log: false })
-        .then((win) =>
-            cy.wrap(Cypress.Promise.resolve(fn(win)), { log: false }),
-        ),
+        .then((win) => cy.wrap(Cypress.Promise.resolve(fn(win)), { log: false })),
 );
 
 /**
@@ -70,9 +68,7 @@ Cypress.Commands.add("createItemOn", (actor, kind, overrides = {}) => {
     const data = itemFactory(kind, overrides);
     return cy.foundry(async (win) => {
         const a = actorRef(win, actor);
-        const [created] = await a.createEmbeddedDocuments("Item", [
-            toRealm(win, data),
-        ]);
+        const [created] = await a.createEmbeddedDocuments("Item", [toRealm(win, data)]);
         return created;
     });
 });
@@ -103,9 +99,7 @@ Cypress.Commands.add("ensureSkillML", (actor, shortcode, masteryLevelBase) =>
             name: shortcode,
             system: { shortcode, masteryLevelBase },
         });
-        const [created] = await a.createEmbeddedDocuments("Item", [
-            toRealm(win, data),
-        ]);
+        const [created] = await a.createEmbeddedDocuments("Item", [toRealm(win, data)]);
         return created;
     }),
 );
@@ -140,14 +134,9 @@ Cypress.Commands.add("createItemsOn", (actor, items) => {
 Cypress.Commands.add("getFromCompendium", (packName, itemType, shortcode) =>
     cy.foundry(async (win) => {
         const pack = win.game.packs.get(packName);
-        if (!pack)
-            throw new Error(
-                `getFromCompendium: no compendium pack "${packName}"`,
-            );
+        if (!pack) throw new Error(`getFromCompendium: no compendium pack "${packName}"`);
         const index = await pack.getIndex({ fields: ["system.shortcode"] });
-        const entry = index.find(
-            (e) => e.type === itemType && e.system?.shortcode === shortcode,
-        );
+        const entry = index.find((e) => e.type === itemType && e.system?.shortcode === shortcode);
         if (!entry)
             throw new Error(
                 `getFromCompendium: no ${itemType} with shortcode "${shortcode}" in "${packName}"`,
@@ -173,8 +162,7 @@ Cypress.Commands.add("getFromCompendium", (packName, itemType, shortcode) =>
 Cypress.Commands.add("dropOnActor", (actor, doc) =>
     cy.foundry(async (win) => {
         const a = actorRef(win, actor);
-        if (!a)
-            throw new Error(`dropOnActor: no actor "${actor?.id ?? actor}"`);
+        if (!a) throw new Error(`dropOnActor: no actor "${actor?.id ?? actor}"`);
         // Re-resolve to a live doc in case the passed reference is stale.
         const src = (doc?.uuid && win.fromUuidSync?.(doc.uuid)) || doc;
         if (!src) throw new Error("dropOnActor: doc did not resolve");
@@ -250,16 +238,13 @@ Cypress.Commands.add("cleanupWorld", () =>
         await del(win.Item, items);
         await del(win.Scene, scenes);
 
-        if (g.combats.size)
-            await win.Combat.deleteDocuments(g.combats.map((c) => c.id));
-        if (g.messages.size)
-            await win.ChatMessage.deleteDocuments(g.messages.map((m) => m.id));
+        if (g.combats.size) await win.Combat.deleteDocuments(g.combats.map((c) => c.id));
+        if (g.messages.size) await win.ChatMessage.deleteDocuments(g.messages.map((m) => m.id));
 
         // Belt-and-suspenders: sweep any already-orphaned sheet elements left in
         // the DOM by an earlier fire-and-forget close (closed instance whose root
         // element is still attached), so no stale sheet can survive a cleanup.
-        for (const app of win.foundry.applications.instances?.values?.() ??
-            []) {
+        for (const app of win.foundry.applications.instances?.values?.() ?? []) {
             if (
                 app?.document &&
                 !app.rendered &&

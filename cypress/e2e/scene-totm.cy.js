@@ -55,9 +55,7 @@ describe("scene: Theatre of the Mind", () => {
 
         cy.then(function () {
             cy.openSheet(this.scene).within(() => {
-                cy.get('[data-action="tab"][data-tab="sohl"]')
-                    .first()
-                    .click({ force: true });
+                cy.get('[data-action="tab"][data-tab="sohl"]').first().click({ force: true });
                 cy.get('input[name="flags.sohl.isTotm"]').check({
                     force: true,
                 });
@@ -67,8 +65,7 @@ describe("scene: Theatre of the Mind", () => {
             // The submit is async; poll the document until the flag lands.
             cy.window().should((win) => {
                 const s = win.game.scenes.get(this.scene.id);
-                expect(s.getFlag("sohl", "isTotm"), "flag persisted").to.be
-                    .true;
+                expect(s.getFlag("sohl", "isTotm"), "flag persisted").to.be.true;
                 expect(s.logic.isTotm, "logic reads it back").to.be.true;
             });
         });

@@ -75,21 +75,19 @@ describe("Opposed test — the responder rolls its own mastery level (#1164)", (
 
                     // Objects handed to the action pipeline are merged into, so
                     // build them in the game realm.
-                    const inRealm = (props) =>
-                        win.Object.assign(new win.Object(), props);
+                    const inRealm = (props) => win.Object.assign(new win.Object(), props);
 
                     // Phase 1: only the source rolls.
                     SimpleRoll.forceValues(44);
-                    const source =
-                        await srcSkill.logic.masteryLevel.successTest(
-                            new CTX({
-                                type: "successTest",
-                                speaker: srcActor.getSpeaker(),
-                                skipDialog: true,
-                                noChat: true,
-                                scope: inRealm({}),
-                            }),
-                        );
+                    const source = await srcSkill.logic.masteryLevel.successTest(
+                        new CTX({
+                            type: "successTest",
+                            speaker: srcActor.getSpeaker(),
+                            skipDialog: true,
+                            noChat: true,
+                            scope: inRealm({}),
+                        }),
+                    );
 
                     // The contest exactly as phase 1 leaves it: no target result,
                     // so the constructor supplies the unrolled placeholder.
@@ -100,32 +98,28 @@ describe("Opposed test — the responder rolls its own mastery level (#1164)", (
                         }),
                         inRealm({ parent: srcSkill.logic }),
                     );
-                    const placeholderEml =
-                        opposed.targetTestResult.masteryLevelModifier.effective;
+                    const placeholderEml = opposed.targetTestResult.masteryLevelModifier.effective;
 
                     // Phase 2: the responder answers with ITS skill (ML 90).
                     // 70 ≤ 90 passes; against the empty placeholder it could only
                     // fail, and against the source's 50 it would also fail.
                     SimpleRoll.forceValues(70);
-                    const settled =
-                        await tgtSkill.logic.masteryLevel.opposedTestResume(
-                            new CTX({
-                                type: "opposedTestResume",
-                                speaker: tgtActor.getSpeaker(),
-                                skipDialog: true,
-                                noChat: true,
-                                scope: inRealm({ priorTestResult: opposed }),
-                            }),
-                        );
+                    const settled = await tgtSkill.logic.masteryLevel.opposedTestResume(
+                        new CTX({
+                            type: "opposedTestResume",
+                            speaker: tgtActor.getSpeaker(),
+                            skipDialog: true,
+                            noChat: true,
+                            scope: inRealm({ priorTestResult: opposed }),
+                        }),
+                    );
 
                     const target = opposed.targetTestResult;
                     return {
                         settled: !!settled,
                         placeholderEml,
-                        sourceEml:
-                            source.masteryLevelModifier.constrainedEffective,
-                        targetEml:
-                            target.masteryLevelModifier.constrainedEffective,
+                        sourceEml: source.masteryLevelModifier.constrainedEffective,
+                        targetEml: target.masteryLevelModifier.constrainedEffective,
                         targetRoll: target.roll.total,
                         targetSuccess: target.isSuccess,
                         targetItemName: target.item?.name,
@@ -140,14 +134,10 @@ describe("Opposed test — the responder rolls its own mastery level (#1164)", (
                     expect(r.placeholderEml, "placeholder is empty").to.eq(0);
 
                     expect(r.sourceEml, "source ML").to.eq(50);
-                    expect(
-                        r.targetEml,
-                        "target rolled against ITS OWN ML",
-                    ).to.eq(90);
-                    expect(
-                        r.targetItemName,
-                        "target result names its skill",
-                    ).to.eq("Resp Awareness");
+                    expect(r.targetEml, "target rolled against ITS OWN ML").to.eq(90);
+                    expect(r.targetItemName, "target result names its skill").to.eq(
+                        "Resp Awareness",
+                    );
 
                     expect(r.targetRoll, "responder's forced die").to.eq(70);
                     expect(r.targetSuccess, "70 ≤ 90 passes").to.be.true;
@@ -172,20 +162,18 @@ describe("Opposed test — the responder rolls its own mastery level (#1164)", (
                     const tgtActor = win.game.actors.get(tgt.actorId);
                     const srcSkill = srcActor.items.get(src.skillId);
                     const tgtSkill = tgtActor.items.get(tgt.skillId);
-                    const inRealm = (props) =>
-                        win.Object.assign(new win.Object(), props);
+                    const inRealm = (props) => win.Object.assign(new win.Object(), props);
 
                     SimpleRoll.forceValues(44);
-                    const source =
-                        await srcSkill.logic.masteryLevel.successTest(
-                            new CTX({
-                                type: "successTest",
-                                speaker: srcActor.getSpeaker(),
-                                skipDialog: true,
-                                noChat: true,
-                                scope: inRealm({}),
-                            }),
-                        );
+                    const source = await srcSkill.logic.masteryLevel.successTest(
+                        new CTX({
+                            type: "successTest",
+                            speaker: srcActor.getSpeaker(),
+                            skipDialog: true,
+                            noChat: true,
+                            scope: inRealm({}),
+                        }),
+                    );
                     const opposed = new OpposedTestResult(
                         inRealm({
                             sourceTestResult: source,
@@ -212,8 +200,7 @@ describe("Opposed test — the responder rolls its own mastery level (#1164)", (
 
                     const target = opposed.targetTestResult;
                     return {
-                        targetEml:
-                            target.masteryLevelModifier.constrainedEffective,
+                        targetEml: target.masteryLevelModifier.constrainedEffective,
                         targetRoll: target.roll.total,
                         targetSuccess: target.isSuccess,
                     };

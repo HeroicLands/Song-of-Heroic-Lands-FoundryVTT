@@ -47,9 +47,7 @@ export class SohlMap<K extends string, V> {
      * @param predicate - Receives the value, key, and this map.
      * @returns `true` if all entries pass (vacuously `true` when empty).
      */
-    every(
-        predicate: (value: V, key: K, map: SohlMap<K, V>) => boolean,
-    ): boolean {
+    every(predicate: (value: V, key: K, map: SohlMap<K, V>) => boolean): boolean {
         for (const [key, value] of this.mapData.entries()) {
             if (!predicate(value, key, this)) {
                 return false;
@@ -64,9 +62,7 @@ export class SohlMap<K extends string, V> {
      * @param predicate - Receives the value, key, and backing map.
      * @returns The matching value, or `undefined` if none match.
      */
-    find(
-        predicate: (value: V, key: K, map: Map<K, V>) => boolean,
-    ): V | undefined {
+    find(predicate: (value: V, key: K, map: Map<K, V>) => boolean): V | undefined {
         for (const [key, value] of this.mapData.entries()) {
             if (predicate(value, key, this.mapData)) {
                 return value;

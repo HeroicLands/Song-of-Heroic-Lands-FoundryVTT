@@ -99,9 +99,7 @@ function creditsUuid(config) {
  * @returns {Record<string, object>} Namespaced flags.
  */
 export function flags(config) {
-    const pkg = JSON.parse(
-        fs.readFileSync(path.join(config.rootDir, "package.json"), "utf8"),
-    );
+    const pkg = JSON.parse(fs.readFileSync(path.join(config.rootDir, "package.json"), "utf8"));
 
     return {
         sohl: {

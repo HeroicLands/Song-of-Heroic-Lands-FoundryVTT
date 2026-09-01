@@ -97,10 +97,7 @@ export interface ValueDescBand {
  * @param bands - The attribute's `valueDesc` bands (any order).
  * @returns The matching descriptor label, or `""` when no bands are defined.
  */
-export function attributeDescriptor(
-    score: number,
-    bands: readonly ValueDescBand[],
-): string {
+export function attributeDescriptor(score: number, bands: readonly ValueDescBand[]): string {
     if (bands.length === 0) return "";
     const sorted = [...bands].sort((a, b) => a.maxValue - b.maxValue);
     const match = sorted.find((band) => band.maxValue >= score);
@@ -222,9 +219,7 @@ export interface BodyZoneLike {
  * @param zones - The body zones with their parts and locations.
  * @returns The zone tree with per-location totals, in input order.
  */
-export function buildBodyLocationTree(
-    zones: readonly BodyZoneLike[],
-): BodyZoneNode[] {
+export function buildBodyLocationTree(zones: readonly BodyZoneLike[]): BodyZoneNode[] {
     return zones.map((zone) => ({
         shortcode: zone.shortcode,
         index: zone.index,
@@ -306,9 +301,7 @@ export function buildHoldableGear<T extends HoldableOption>(
     holdableKinds: ReadonlySet<string>,
 ): HoldableOption[] {
     return gear
-        .filter(
-            (item) => holdableKinds.has(getKind(item)) && !getContainerId(item),
-        )
+        .filter((item) => holdableKinds.has(getKind(item)) && !getContainerId(item))
         .map((item) => ({ id: item.id, name: item.name }));
 }
 
@@ -378,9 +371,7 @@ export function htmlToPlainText(html: string): string {
  * @param affiliations - The affiliation items, in display order.
  * @returns The affiliation rows.
  */
-export function buildAffiliationRows(
-    affiliations: readonly AffiliationLike[],
-): AffiliationRow[] {
+export function buildAffiliationRows(affiliations: readonly AffiliationLike[]): AffiliationRow[] {
     return affiliations.map((aff) => ({
         id: aff.id,
         uuid: aff.uuid,
@@ -664,8 +655,7 @@ export function resolveGearContainerMove(
     destContainerId: string | null | undefined,
     gear: readonly GearContainerRef[],
 ): GearContainerMove {
-    const norm = (id: string | null | undefined): string | undefined =>
-        id || undefined;
+    const norm = (id: string | null | undefined): string | undefined => id || undefined;
     const dest = norm(destContainerId);
     const current = norm(gear.find((g) => g.id === droppedId)?.containerId);
 
@@ -678,9 +668,7 @@ export function resolveGearContainerMove(
     // walk the destination's ancestor chain and reject if it reaches the dropped
     // item. The `seen` set also guards against a pre-existing corrupt cycle.
     if (dest) {
-        const parentOf = new Map(
-            gear.map((g) => [g.id, norm(g.containerId)] as const),
-        );
+        const parentOf = new Map(gear.map((g) => [g.id, norm(g.containerId)] as const));
         const seen = new Set<string>();
         let cursor: string | undefined = dest;
         while (cursor && !seen.has(cursor)) {
@@ -799,10 +787,7 @@ export function buildStatusPills(
 ): StatusPill[] {
     return STATUS_PILL_DEFS.map((def) => ({
         ...def,
-        active:
-            def.toggleable ?
-                activeStatusIds.has(def.id)
-            :   activeTraumaSubTypes.has(def.id),
+        active: def.toggleable ? activeStatusIds.has(def.id) : activeTraumaSubTypes.has(def.id),
     }));
 }
 
@@ -911,8 +896,7 @@ export function splitWeaponsByRange<W, SM extends Partial<StrikeModeRangeInfo>>(
         const melee = modes.filter((sm) => sm.isMelee);
         const missile = modes.filter((sm) => sm.isMissile);
         if (melee.length > 0) meleeWeapons.push({ weapon, strikeModes: melee });
-        if (missile.length > 0)
-            missileWeapons.push({ weapon, strikeModes: missile });
+        if (missile.length > 0) missileWeapons.push({ weapon, strikeModes: missile });
     }
     return { meleeWeapons, missileWeapons };
 }
@@ -957,9 +941,7 @@ export function usableHeldStrikeModes<SM extends object>(
     heldLimbs: number | null,
 ): SM[] {
     if (heldLimbs === null) return [...modes];
-    return modes.filter(
-        (sm) => ((sm as { minParts?: number }).minParts ?? 1) <= heldLimbs,
-    );
+    return modes.filter((sm) => ((sm as { minParts?: number }).minParts ?? 1) <= heldLimbs);
 }
 
 /* -------------------------------------------- */
@@ -987,8 +969,7 @@ export function selectStrikeModeModifier(
     testKind: string,
 ): CombatModifier | undefined {
     if (testKind === "block") return (sm as MeleeStrikeMode).defense?.block;
-    if (testKind === "counterstrike")
-        return (sm as MeleeStrikeMode).defense?.counterstrike;
+    if (testKind === "counterstrike") return (sm as MeleeStrikeMode).defense?.counterstrike;
     if (testKind === "attack") return sm.attack;
     return undefined;
 }
@@ -1118,11 +1099,7 @@ const col = (
 ): TraumaColumn => ({ kind, labelKey, width, ...opts });
 
 // Shared, sub-type-agnostic columns.
-const CATEGORY = col(
-    "category",
-    "SOHL.Trauma.COLUMN.category",
-    "minmax(64px,1fr)",
-);
+const CATEGORY = col("category", "SOHL.Trauma.COLUMN.category", "minmax(64px,1fr)");
 const NOTES = col("notes", "SOHL.Trauma.COLUMN.notes", "minmax(90px,1.4fr)");
 const AREA = col("area", "SOHL.Trauma.COLUMN.area", "minmax(64px,1fr)");
 const SEV = col("severity", "SOHL.Trauma.COLUMN.sev", "2.8rem", {
@@ -1172,18 +1149,8 @@ export const TRAUMA_SUBTYPE_COLUMNS: Record<string, TraumaColumn[]> = {
         levelCol("SOHL.Trauma.COLUMN.asl", "SOHL.Trauma.COLTIP.asl"),
         nextCol("SOHL.Trauma.COLUMN.nextAural"),
     ],
-    [TRAUMA_SUBTYPE.INFECTION]: [
-        SEV,
-        HR,
-        AREA,
-        nextCol("SOHL.Trauma.COLUMN.nextHeal"),
-    ],
-    [TRAUMA_SUBTYPE.INJURY]: [
-        SEV,
-        HR,
-        AREA,
-        nextCol("SOHL.Trauma.COLUMN.nextHeal"),
-    ],
+    [TRAUMA_SUBTYPE.INFECTION]: [SEV, HR, AREA, nextCol("SOHL.Trauma.COLUMN.nextHeal")],
+    [TRAUMA_SUBTYPE.INJURY]: [SEV, HR, AREA, nextCol("SOHL.Trauma.COLUMN.nextHeal")],
     [TRAUMA_SUBTYPE.SHOCK]: [HR, nextCol("SOHL.Trauma.COLUMN.nextCourse")],
     [TRAUMA_SUBTYPE.COMA]: [HR, nextCol("SOHL.Trauma.COLUMN.nextCourse")],
 };
@@ -1209,11 +1176,7 @@ const TRAUMA_LEDGER_TRAIL = "1.6rem";
  * @returns The space-joined grid-template track list.
  */
 export function traumaLedgerCols(columns: readonly TraumaColumn[]): string {
-    return [
-        ...TRAUMA_LEDGER_LEAD,
-        ...columns.map((c) => c.width),
-        TRAUMA_LEDGER_TRAIL,
-    ].join(" ");
+    return [...TRAUMA_LEDGER_LEAD, ...columns.map((c) => c.width), TRAUMA_LEDGER_TRAIL].join(" ");
 }
 
 /** Which row field a Mystical Ability ledger column renders (#990). */
@@ -1247,32 +1210,19 @@ const maCol = (
 const MA_SKILL = maCol("skill", "SOHL.MysticalAbility.COLUMN.skill", "5.4rem");
 // Spirit-power subtypes (spiritrite / spiritaction) label the same assoc
 // column "Spirit Power" — the reference is a SPIRITPOWER ability, not a skill.
-const MA_SPIRITPOWER = maCol(
-    "skill",
-    "SOHL.MysticalAbility.COLUMN.spiritpower",
-    "5.4rem",
-);
+const MA_SPIRITPOWER = maCol("skill", "SOHL.MysticalAbility.COLUMN.spiritpower", "5.4rem");
 // The faction/Affiliation whose standing gates this ability (#1012) — a
 // religion, arcane/alchemical school, or ancestor/totem/spirit. Shown right
 // after the assoc (Skill) column for the affiliation-bearing subtypes.
-const MA_AFFILIATION = maCol(
-    "affiliation",
-    "SOHL.MysticalAbility.COLUMN.affiliation",
-    "5.4rem",
-);
+const MA_AFFILIATION = maCol("affiliation", "SOHL.MysticalAbility.COLUMN.affiliation", "5.4rem");
 const MA_LEVEL = maCol("level", "SOHL.MysticalAbility.COLUMN.lvl", "2.6rem", {
     tooltipKey: "SOHL.MysticalAbility.COLTIP.lvl",
     headClass: "ledger__head-num",
 });
-const MA_EML = maCol(
-    "eml",
-    "SOHL.Skill.Heading.EffectiveMasteryLevel.label",
-    "3.4rem",
-    {
-        tooltipKey: "SOHL.Skill.Heading.EffectiveMasteryLevel.tooltip",
-        headClass: "ledger__head-num",
-    },
-);
+const MA_EML = maCol("eml", "SOHL.Skill.Heading.EffectiveMasteryLevel.label", "3.4rem", {
+    tooltipKey: "SOHL.Skill.Heading.EffectiveMasteryLevel.tooltip",
+    headClass: "ledger__head-num",
+});
 // The ledger grid carries no column-gap — head and rows must share one track
 // template to stay aligned — so a fixed-width column's gutter is its spare
 // track width, halved by the centered `ledger__head-num` alignment.
@@ -1283,20 +1233,11 @@ const MA_EML = maCol(
 // 5rem (80px) leaves ~8px — a legible word gap. Notes is `minmax(90px,1.4fr)`
 // and absorbs the difference, so the ledger's overall width is unchanged. The
 // data cells below are narrower, which is why only the header collided.
-const MA_CHARGES = maCol(
-    "charges",
-    "SOHL.MysticalAbility.COLUMN.charges",
-    "5rem",
-    {
-        tooltipKey: "SOHL.MysticalAbility.COLTIP.charges",
-        headClass: "ledger__head-num",
-    },
-);
-const MA_NOTES = maCol(
-    "notes",
-    "SOHL.MysticalAbility.COLUMN.notes",
-    "minmax(90px,1.4fr)",
-);
+const MA_CHARGES = maCol("charges", "SOHL.MysticalAbility.COLUMN.charges", "5rem", {
+    tooltipKey: "SOHL.MysticalAbility.COLTIP.charges",
+    headClass: "ledger__head-num",
+});
+const MA_NOTES = maCol("notes", "SOHL.MysticalAbility.COLUMN.notes", "minmax(90px,1.4fr)");
 
 /**
  * The ordered column set each Mystical Ability sub-type shows on the Being
@@ -1307,22 +1248,9 @@ const MA_NOTES = maCol(
  * the intrinsic talents (they have no associated skill) and `level` only shows
  * where the sub-type has a meaningful power level.
  */
-export const MYSTICALABILITY_SUBTYPE_COLUMNS: Record<
-    string,
-    MysticalAbilityColumn[]
-> = {
-    [MYSTICALABILITY_SUBTYPE.SPIRITRITE]: [
-        MA_SPIRITPOWER,
-        MA_EML,
-        MA_CHARGES,
-        MA_NOTES,
-    ],
-    [MYSTICALABILITY_SUBTYPE.SPIRITACTION]: [
-        MA_SPIRITPOWER,
-        MA_EML,
-        MA_CHARGES,
-        MA_NOTES,
-    ],
+export const MYSTICALABILITY_SUBTYPE_COLUMNS: Record<string, MysticalAbilityColumn[]> = {
+    [MYSTICALABILITY_SUBTYPE.SPIRITRITE]: [MA_SPIRITPOWER, MA_EML, MA_CHARGES, MA_NOTES],
+    [MYSTICALABILITY_SUBTYPE.SPIRITACTION]: [MA_SPIRITPOWER, MA_EML, MA_CHARGES, MA_NOTES],
     [MYSTICALABILITY_SUBTYPE.SPIRITPOWER]: [
         MA_SKILL,
         MA_AFFILIATION,
@@ -1354,31 +1282,10 @@ export const MYSTICALABILITY_SUBTYPE_COLUMNS: Record<
         MA_CHARGES,
         MA_NOTES,
     ],
-    [MYSTICALABILITY_SUBTYPE.ARCANETALENT]: [
-        MA_LEVEL,
-        MA_EML,
-        MA_CHARGES,
-        MA_NOTES,
-    ],
-    [MYSTICALABILITY_SUBTYPE.SPIRITTALENT]: [
-        MA_LEVEL,
-        MA_EML,
-        MA_CHARGES,
-        MA_NOTES,
-    ],
-    [MYSTICALABILITY_SUBTYPE.ALCHEMY]: [
-        MA_SKILL,
-        MA_AFFILIATION,
-        MA_EML,
-        MA_CHARGES,
-        MA_NOTES,
-    ],
-    [MYSTICALABILITY_SUBTYPE.DIVINATION]: [
-        MA_SKILL,
-        MA_EML,
-        MA_CHARGES,
-        MA_NOTES,
-    ],
+    [MYSTICALABILITY_SUBTYPE.ARCANETALENT]: [MA_LEVEL, MA_EML, MA_CHARGES, MA_NOTES],
+    [MYSTICALABILITY_SUBTYPE.SPIRITTALENT]: [MA_LEVEL, MA_EML, MA_CHARGES, MA_NOTES],
+    [MYSTICALABILITY_SUBTYPE.ALCHEMY]: [MA_SKILL, MA_AFFILIATION, MA_EML, MA_CHARGES, MA_NOTES],
+    [MYSTICALABILITY_SUBTYPE.DIVINATION]: [MA_SKILL, MA_EML, MA_CHARGES, MA_NOTES],
 };
 
 /**
@@ -1386,13 +1293,7 @@ export const MYSTICALABILITY_SUBTYPE_COLUMNS: Record<
  * {@link MYSTICALABILITY_SUBTYPE_COLUMNS} — defensive only (the sub-type set is
  * closed), chosen to never brick the sheet render (the full column set).
  */
-const DEFAULT_MYSTICALABILITY_COLUMNS = [
-    MA_SKILL,
-    MA_LEVEL,
-    MA_EML,
-    MA_CHARGES,
-    MA_NOTES,
-];
+const DEFAULT_MYSTICALABILITY_COLUMNS = [MA_SKILL, MA_LEVEL, MA_EML, MA_CHARGES, MA_NOTES];
 
 /**
  * The ordered column set for a Mystical Ability sub-type, falling back to the
@@ -1401,13 +1302,8 @@ const DEFAULT_MYSTICALABILITY_COLUMNS = [
  * @param subType - A `MYSTICALABILITY_SUBTYPE` value.
  * @returns The columns to render for that sub-type.
  */
-export function mysticalAbilityColumns(
-    subType: string,
-): MysticalAbilityColumn[] {
-    return (
-        MYSTICALABILITY_SUBTYPE_COLUMNS[subType] ??
-        DEFAULT_MYSTICALABILITY_COLUMNS
-    );
+export function mysticalAbilityColumns(subType: string): MysticalAbilityColumn[] {
+    return MYSTICALABILITY_SUBTYPE_COLUMNS[subType] ?? DEFAULT_MYSTICALABILITY_COLUMNS;
 }
 
 // Fixed grid tracks framing every Mystical Ability ledger: icon, name … controls.
@@ -1423,14 +1319,8 @@ const MA_LEDGER_TRAIL = "2.8rem";
  * @param columns - The sub-type's variable columns.
  * @returns The space-joined grid-template track list.
  */
-export function mysticalAbilityLedgerCols(
-    columns: readonly MysticalAbilityColumn[],
-): string {
-    return [
-        ...MA_LEDGER_LEAD,
-        ...columns.map((c) => c.width),
-        MA_LEDGER_TRAIL,
-    ].join(" ");
+export function mysticalAbilityLedgerCols(columns: readonly MysticalAbilityColumn[]): string {
+    return [...MA_LEDGER_LEAD, ...columns.map((c) => c.width), MA_LEDGER_TRAIL].join(" ");
 }
 
 /**
@@ -1508,8 +1398,7 @@ export function buildInjurySections(
 ): InjurySection[] {
     const buckets = groupBySubType(traumas, (t) => t.subType);
     const build = (subType: string, bucket: TraumaLike[]): InjurySection => {
-        const columns =
-            TRAUMA_SUBTYPE_COLUMNS[subType] ?? DEFAULT_TRAUMA_COLUMNS;
+        const columns = TRAUMA_SUBTYPE_COLUMNS[subType] ?? DEFAULT_TRAUMA_COLUMNS;
         return {
             subType,
             label: subTypeLabel(subType),

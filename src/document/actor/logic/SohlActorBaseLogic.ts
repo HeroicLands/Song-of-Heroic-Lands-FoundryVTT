@@ -34,14 +34,8 @@ import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import type { SohlAction } from "@src/entity/action/SohlAction";
 import { SohlTriggerContext } from "@src/entity/event/event-trigger";
 import { SohlActionContext } from "@src/entity/action/SohlActionContext";
-import {
-    selectMoveProfile,
-    type MovementProfile,
-} from "@src/document/actor/logic/movement";
-import type {
-    ItemLogicByKind,
-    ItemLogicArrayByKind,
-} from "@src/core/foundry/sohl-config";
+import { selectMoveProfile, type MovementProfile } from "@src/document/actor/logic/movement";
+import type { ItemLogicByKind, ItemLogicArrayByKind } from "@src/core/foundry/sohl-config";
 
 /**
  * The Foundry-free foundation of the actor logic layer.
@@ -60,9 +54,7 @@ import type {
  * Logic interface implemented by all actor logic classes — {@link sohl.core.logic.SohlLogic}
  * specialized for `SohlActor` data.
  */
-export interface SohlActorLogic<
-    TData extends SohlLogicData<SohlActor>,
-> extends SohlLogic<TData> {
+export interface SohlActorLogic<TData extends SohlLogicData<SohlActor>> extends SohlLogic<TData> {
     /**
      * Find an embedded item's logic by its `shortcode` and item kind.
      * @typeParam K The item kind, inferred from the `type` argument.
@@ -70,10 +62,7 @@ export interface SohlActorLogic<
      * @param type - The {@link ItemKind} to match (e.g. `ITEM_KIND.SKILL`).
      * @returns The matching item's logic typed for `type`, or `undefined`.
      */
-    getItemLogic<K extends ItemKind>(
-        shortcode: string,
-        type: K,
-    ): ItemLogicByKind[K] | undefined;
+    getItemLogic<K extends ItemKind>(shortcode: string, type: K): ItemLogicByKind[K] | undefined;
 
     /**
      * Find an embedded item's logic by its `shortcode` and item kind.
@@ -204,10 +193,7 @@ export class SohlActorBaseLogic<
      * @returns The matching item's logic typed for `type`, or `undefined` if
      *   no item matches.
      */
-    getItemLogic<K extends ItemKind>(
-        shortcode: string,
-        type: K,
-    ): ItemLogicByKind[K] | undefined;
+    getItemLogic<K extends ItemKind>(shortcode: string, type: K): ItemLogicByKind[K] | undefined;
 
     /**
      * Find an embedded item's logic by its `id`.
@@ -224,20 +210,13 @@ export class SohlActorBaseLogic<
      * @param type - The item kind to filter by; omit for id-based lookup.
      * @returns The matching logic instance, or `undefined` if not found.
      */
-    getItemLogic(
-        idOrShortcode: string,
-        type?: ItemKind,
-    ): SohlItemLogic<any> | undefined {
+    getItemLogic(idOrShortcode: string, type?: ItemKind): SohlItemLogic<any> | undefined {
         if (type !== undefined) {
             return this.data.itemLogics.find(
-                (logic) =>
-                    logic.data.kind === type &&
-                    logic.data.shortcode === idOrShortcode,
+                (logic) => logic.data.kind === type && logic.data.shortcode === idOrShortcode,
             );
         }
-        return this.data.itemLogics.find(
-            (logic) => logic.data.id === idOrShortcode,
-        );
+        return this.data.itemLogics.find((logic) => logic.data.id === idOrShortcode);
     }
 
     /**
@@ -295,9 +274,7 @@ export class SohlActorBaseLogic<
         _context: SohlTriggerContext,
         _payload?: Record<string, unknown>,
     ): Promise<void> {
-        console.warn(
-            `SoHL | ${this.name} (Actor) received unhandled event "${kind}"`,
-        );
+        console.warn(`SoHL | ${this.name} (Actor) received unhandled event "${kind}"`);
     }
 
     /** @inheritDoc */
@@ -371,17 +348,14 @@ export class SohlActorBaseLogic<
             [MOVEMENT_MEDIUM.NONE]: MovementMediumChoices[MOVEMENT_MEDIUM.NONE],
         };
         for (const profile of this.data.movementProfiles ?? []) {
-            mediumChoices[profile.medium] =
-                MovementMediumChoices[profile.medium];
+            mediumChoices[profile.medium] = MovementMediumChoices[profile.medium];
         }
 
         const form = (await dialog({
             title: sohl.i18n.format("SOHL.Actor.makeDefaultMedium.title", {
                 name: this.name,
             }),
-            template: toFilePath(
-                "systems/sohl/templates/dialog/select-medium-dialog.hbs",
-            ),
+            template: toFilePath("systems/sohl/templates/dialog/select-medium-dialog.hbs"),
             data: {
                 actorName: this.name,
                 medium: this.data.currentMoveMedium ?? MOVEMENT_MEDIUM.NONE,
@@ -443,9 +417,7 @@ export class SohlActorBaseLogic<
 
         const opposed = context.scope?.opposedTestResult;
         if (!opposed) {
-            sohl.log.warn(
-                "opposedResultEdit invoked without an opposedTestResult in scope.",
-            );
+            sohl.log.warn("opposedResultEdit invoked without an opposedTestResult in scope.");
             return undefined;
         }
 
@@ -467,10 +439,9 @@ export class SohlActorBaseLogic<
                 skipDialog: context.skipDialog,
                 situationalModifier: side.scope?.situationalModifier,
                 successLevelMod: side.scope?.successLevelMod,
-                title: sohl.i18n.format(
-                    "SOHL.OpposedTestResult.resultEdit.dialogTitle",
-                    { name: side.result.token?.name ?? side.result.title },
-                ),
+                title: sohl.i18n.format("SOHL.OpposedTestResult.resultEdit.dialogTitle", {
+                    name: side.result.token?.name ?? side.result.title,
+                }),
             });
             // A dismissed dialog cancels the whole edit.
             if (!edit) return undefined;
@@ -491,9 +462,7 @@ export class SohlActorBaseLogic<
         await opposed.evaluate();
         await opposed.toChat({
             template: "systems/sohl/templates/chat/opposed-result-card.hbs",
-            title: sohl.i18n.localize(
-                "SOHL.OpposedTestResult.toChat.resultTitle",
-            ),
+            title: sohl.i18n.localize("SOHL.OpposedTestResult.toChat.resultTitle"),
         });
         return opposed;
     }

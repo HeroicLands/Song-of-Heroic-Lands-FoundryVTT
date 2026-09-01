@@ -45,9 +45,7 @@ describe("impact → injury → trauma", () => {
         // closeAllSheets skips DialogV2s (no `.document`); close any lingering
         // dialog so a prior test's window can't shadow this test's.
         cy.foundry(async (win) => {
-            for (const app of Array.from(
-                win.foundry.applications.instances.values(),
-            )) {
+            for (const app of Array.from(win.foundry.applications.instances.values())) {
                 if (/dialog/i.test(app.constructor.name)) {
                     try {
                         await app.close({ animate: false });
@@ -76,11 +74,8 @@ describe("impact → injury → trauma", () => {
                 };
             }).should((r) => {
                 expect(r.hasBody, "body exposes a body structure").to.be.true;
-                expect(r.nLocations, "hit locations defined").to.be.greaterThan(
-                    0,
-                );
-                expect(r.hasShortcodes, "each location has a shortcode").to.be
-                    .true;
+                expect(r.nLocations, "hit locations defined").to.be.greaterThan(0);
+                expect(r.hasShortcodes, "each location has a shortcode").to.be.true;
             });
         });
     });
@@ -90,8 +85,7 @@ describe("impact → injury → trauma", () => {
             cy.prepare(actor);
             cy.foundry((win) => {
                 const a = win.game.actors.get(actor.id);
-                const loc =
-                    a.logic.body.structure.getAllLocations()[0].shortcode;
+                const loc = a.logic.body.structure.getAllLocations()[0].shortcode;
                 // Headless resolve (skipDialog) → no dialog opens. `schedule:
                 // false` pre-answers the healing-check offer (issue #579) so the
                 // flow stays dialog-free; `autoAddInjury` defaults from the world
@@ -109,9 +103,7 @@ describe("impact → injury → trauma", () => {
             });
             cy.foundry((win) =>
                 win.__injury.then(() =>
-                    win.game.actors
-                        .get(actor.id)
-                        .itemTypes.trauma.map((t) => t.name),
+                    win.game.actors.get(actor.id).itemTypes.trauma.map((t) => t.name),
                 ),
             ).should((names) => {
                 expect(names, "one trauma recorded").to.have.length(1);
@@ -124,8 +116,7 @@ describe("impact → injury → trauma", () => {
             cy.prepare(actor);
             cy.foundry((win) => {
                 const a = win.game.actors.get(actor.id);
-                const loc =
-                    a.logic.body.structure.getAllLocations()[0].shortcode;
+                const loc = a.logic.body.structure.getAllLocations()[0].shortcode;
                 // A zero-impact blow resolves to no injury (band: ≤0 → none):
                 // the card posts but no trauma is recorded.
                 win.__injury = a.logic.resolveInjury({
@@ -140,9 +131,7 @@ describe("impact → injury → trauma", () => {
                 return null;
             });
             cy.foundry((win) =>
-                win.__injury.then(
-                    () => win.game.actors.get(actor.id).itemTypes.trauma.length,
-                ),
+                win.__injury.then(() => win.game.actors.get(actor.id).itemTypes.trauma.length),
             ).should("eq", 0);
         });
     });
@@ -152,8 +141,7 @@ describe("impact → injury → trauma", () => {
             cy.prepare(actor);
             cy.foundry((win) => {
                 const a = win.game.actors.get(actor.id);
-                const loc =
-                    a.logic.body.structure.getAllLocations()[0].shortcode;
+                const loc = a.logic.body.structure.getAllLocations()[0].shortcode;
                 // Drive the real Resolve Injury dialog (skipDialog off). The
                 // scope seeds its fields; `schedule: false` pre-answers the
                 // healing-check offer so only the resolve dialog needs a click.
@@ -170,9 +158,7 @@ describe("impact → injury → trauma", () => {
             });
             cy.submitDialog("ok");
             cy.foundry((win) =>
-                win.__injury.then(
-                    () => win.game.actors.get(actor.id).itemTypes.trauma.length,
-                ),
+                win.__injury.then(() => win.game.actors.get(actor.id).itemTypes.trauma.length),
             ).should("eq", 1);
         });
     });
@@ -189,9 +175,7 @@ describe("impact → injury → trauma", () => {
                 // Resolve Injury dialog (no follow-up amputation prompt).
                 const part = structure.parts[0].shortcode;
                 const locs = structure.getAllLocations();
-                const loc = (
-                    locs.find((l) => l.amputability === "none") || locs[0]
-                ).shortcode;
+                const loc = (locs.find((l) => l.amputability === "none") || locs[0]).shortcode;
                 // The combat injury button forwards impact/aspect + an aimed
                 // zone (targetZoneNumber/zoneDie) as data-scope; here an explicit
                 // location pins a non-amputable hit so the flow stays a single
@@ -217,9 +201,7 @@ describe("impact → injury → trauma", () => {
             });
             cy.submitDialog("ok");
             cy.foundry((win) =>
-                win.__injury.then(
-                    () => win.game.actors.get(actor.id).itemTypes.trauma.length,
-                ),
+                win.__injury.then(() => win.game.actors.get(actor.id).itemTypes.trauma.length),
             ).should("eq", 1);
         });
     });

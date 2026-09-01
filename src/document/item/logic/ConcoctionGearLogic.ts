@@ -12,10 +12,7 @@
  */
 
 import { GearLogic, GearData } from "@src/document/item/logic/GearLogic";
-import {
-    ConcoctionGearPotency,
-    ConcoctionGearSubType,
-} from "@src/utils/constants";
+import { ConcoctionGearPotency, ConcoctionGearSubType } from "@src/utils/constants";
 
 /**
  * A consumable alchemical mixture.
@@ -71,8 +68,7 @@ export class ConcoctionGearLogic<
  * @remarks The shape of `system` on a `concoctiongear` item — i.e. `item.system` (equivalently `item.logic.data`) when `item.type === "concoctiongear"`. The backing DataModel implements this interface.
  */
 export interface ConcoctionGearData<
-    TLogic extends ConcoctionGearLogic<ConcoctionGearData> =
-        ConcoctionGearLogic<any>,
+    TLogic extends ConcoctionGearLogic<ConcoctionGearData> = ConcoctionGearLogic<any>,
 > extends GearData<TLogic> {
     /** Concoction category (Mundane, Exotic, Elixir) */
     subType: ConcoctionGearSubType;

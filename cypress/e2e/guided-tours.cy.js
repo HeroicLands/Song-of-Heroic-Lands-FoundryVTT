@@ -28,9 +28,7 @@ function gateState(win) {
     const tour = win.game.tours.get(TOUR_KEY);
     // The Next button lives in the centered step card (SoHL never uses the shared
     // tooltip), so read it from there.
-    const btn = win.document.querySelector(
-        '.tour-center-step .step-button[data-action="next"]',
-    );
+    const btn = win.document.querySelector('.tour-center-step .step-button[data-action="next"]');
     return {
         stepIndex: tour?.stepIndex ?? null,
         hasButton: !!btn,
@@ -40,9 +38,7 @@ function gateState(win) {
 
 /** Delete every Being actor so `canStart`/`firstOwnedBeing` are deterministic. */
 function deleteAllBeings(win) {
-    const ids = win.game.actors.contents
-        .filter((a) => a.type === "being")
-        .map((a) => a.id);
+    const ids = win.game.actors.contents.filter((a) => a.type === "being").map((a) => a.id);
     return win.Actor.deleteDocuments(ids).then(() => ids.length);
 }
 
@@ -95,16 +91,14 @@ describe("guided-tour framework (SohlTour)", () => {
             expect(tour.stepIndex, "on the free intro step").to.eq(0);
             // A centered intro step points at nothing, so there is no fade ring;
             // the overlay is what would block input, and it must let clicks through.
-            expect(
-                tour.overlayElement?.style.pointerEvents,
-                "overlay lets clicks through",
-            ).to.eq("none");
+            expect(tour.overlayElement?.style.pointerEvents, "overlay lets clicks through").to.eq(
+                "none",
+            );
             // If a fade exists it must also be click-through.
             if (tour.fadeElement) {
-                expect(
-                    tour.fadeElement.style.pointerEvents,
-                    "fade lets clicks through",
-                ).to.eq("none");
+                expect(tour.fadeElement.style.pointerEvents, "fade lets clicks through").to.eq(
+                    "none",
+                );
             }
         });
     });
@@ -112,16 +106,10 @@ describe("guided-tour framework (SohlTour)", () => {
     it("canStart gates on owning a Being actor", () => {
         // No Being at all → not startable.
         cy.foundry(deleteAllBeings);
-        cy.foundry((win) => win.game.tours.get(TOUR_KEY).canStart).should(
-            "eq",
-            false,
-        );
+        cy.foundry((win) => win.game.tours.get(TOUR_KEY).canStart).should("eq", false);
         // Import a Basic Folk (a Being) → now startable.
         cy.importActor();
-        cy.foundry((win) => win.game.tours.get(TOUR_KEY).canStart).should(
-            "eq",
-            true,
-        );
+        cy.foundry((win) => win.game.tours.get(TOUR_KEY).canStart).should("eq", true);
     });
 
     it("value- and action-gated steps hold Next until the user acts", () => {
@@ -154,30 +142,24 @@ describe("guided-tour framework (SohlTour)", () => {
             return true;
         });
         cy.window().should((win) => {
-            expect(gateState(win).gated, "Next enabled after typing").to.be
-                .false;
+            expect(gateState(win).gated, "Next enabled after typing").to.be.false;
         });
 
         // Click the real Next button (in the step card) → the action-gate step.
         cy.foundry((win) => {
             win.document
-                .querySelector(
-                    '.tour-center-step .step-button[data-action="next"]',
-                )
+                .querySelector('.tour-center-step .step-button[data-action="next"]')
                 .click();
             return true;
         });
         cy.window().should((win) => {
-            expect(gateState(win).stepIndex, "advanced to action-gate").to.eq(
-                3,
-            );
+            expect(gateState(win).stepIndex, "advanced to action-gate").to.eq(3);
         });
 
         // The action gate wants the Combat tab active; the sheet is still on
         // Skills → Next disabled.
         cy.window().should((win) => {
-            expect(gateState(win).gated, "Next disabled before combat tab").to
-                .be.true;
+            expect(gateState(win).gated, "Next disabled before combat tab").to.be.true;
         });
 
         // The user switches to the Combat tab themselves (the ringed tab control)
@@ -187,16 +169,13 @@ describe("guided-tour framework (SohlTour)", () => {
             return true;
         });
         cy.window().should((win) => {
-            expect(gateState(win).gated, "Next enabled after combat tab").to.be
-                .false;
+            expect(gateState(win).gated, "Next enabled after combat tab").to.be.false;
         });
 
         // Finish: Next → the free wrap-up step (index 4).
         cy.foundry((win) => {
             win.document
-                .querySelector(
-                    '.tour-center-step .step-button[data-action="next"]',
-                )
+                .querySelector('.tour-center-step .step-button[data-action="next"]')
                 .click();
             return true;
         });

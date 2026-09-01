@@ -1,8 +1,5 @@
 import { describe, it, expect } from "vitest";
-import {
-    computeActorReach,
-    type MeleeReachOption,
-} from "@src/document/actor/logic/reach-helpers";
+import { computeActorReach, type MeleeReachOption } from "@src/document/actor/logic/reach-helpers";
 
 /** A combat-technique mode: intrinsic, always available. */
 const technique = (reach: number, minParts = 1): MeleeReachOption => ({
@@ -12,11 +9,11 @@ const technique = (reach: number, minParts = 1): MeleeReachOption => ({
 });
 
 /** A weapon mode held in `heldLimbs` limbs, needing `minParts`. */
-const weapon = (
-    reach: number,
-    minParts: number,
-    heldLimbs: number,
-): MeleeReachOption => ({ reach, minParts, heldLimbs });
+const weapon = (reach: number, minParts: number, heldLimbs: number): MeleeReachOption => ({
+    reach,
+    minParts,
+    heldLimbs,
+});
 
 describe("computeActorReach", () => {
     it("returns 0 when there are no melee strike modes", () => {

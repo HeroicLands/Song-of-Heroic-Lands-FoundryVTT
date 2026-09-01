@@ -94,9 +94,7 @@ export async function resolveStrikeMode(
     if (scopeId) {
         const found = modes.find((m) => m.shortcode === scopeId);
         if (!found) {
-            sohl.log.warn(
-                `Strike mode "${scopeId}" not found on "${logic.name}".`,
-            );
+            sohl.log.warn(`Strike mode "${scopeId}" not found on "${logic.name}".`);
         }
         return found;
     }
@@ -138,9 +136,7 @@ export async function resolveStrikeMode(
             },
         ],
         callback: (formData, action) =>
-            action === "select" ?
-                (formData as { strikeModeId?: string }).strikeModeId
-            :   undefined,
+            action === "select" ? (formData as { strikeModeId?: string }).strikeModeId : undefined,
         rejectClose: false,
     });
 
@@ -193,9 +189,7 @@ export async function runStrikeModeTest(
     // own scope fields alongside it; widen the scope type at this one boundary.
     return (
         (await modifier.successTest(
-            context as SohlActionContext<
-                Partial<SuccessTestResult.ContextScope>
-            >,
+            context as SohlActionContext<Partial<SuccessTestResult.ContextScope>>,
         )) ?? false
     );
 }

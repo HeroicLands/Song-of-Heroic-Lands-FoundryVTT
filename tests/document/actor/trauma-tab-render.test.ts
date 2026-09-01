@@ -116,9 +116,7 @@ describe("Being Trauma tab — per-sub-type columns (#939)", () => {
     });
 
     it("shows the FL header tooltip spelling out the abbreviation", () => {
-        const html = render([
-            traumaLike({ subType: TRAUMA_SUBTYPE.FATIGUE, level: 1 }),
-        ]);
+        const html = render([traumaLike({ subType: TRAUMA_SUBTYPE.FATIGUE, level: 1 })]);
         expect(html).toContain('data-tooltip="Fatigue Level"');
     });
 

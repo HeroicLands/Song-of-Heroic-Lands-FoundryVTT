@@ -113,9 +113,7 @@ describe("eligibleFateSources — scope + charge availability", () => {
             proj({ ref: "fate", subType: FATE }),
             proj({ ref: "blessing", subType: MYSTERY_SUBTYPE.OTHER }),
         ];
-        expect(
-            eligibleFateSources(sources, FATE, "melee").map((p) => p.ref),
-        ).toEqual(["fate"]);
+        expect(eligibleFateSources(sources, FATE, "melee").map((p) => p.ref)).toEqual(["fate"]);
     });
 
     it("excludes depleted finite sources but keeps infinite ones", () => {
@@ -124,18 +122,16 @@ describe("eligibleFateSources — scope + charge availability", () => {
             proj({ ref: "left", remaining: 2 }),
             proj({ ref: "infinite", infinite: true, remaining: 0 }),
         ];
-        expect(
-            eligibleFateSources(sources, FATE, "melee").map((p) => p.ref),
-        ).toEqual(["left", "infinite"]);
+        expect(eligibleFateSources(sources, FATE, "melee").map((p) => p.ref)).toEqual([
+            "left",
+            "infinite",
+        ]);
     });
 });
 
 describe("fatePointsAvailable", () => {
     it("sums finite remaining charges", () => {
-        const eligible = [
-            proj({ ref: "a", remaining: 2 }),
-            proj({ ref: "b", remaining: 3 }),
-        ];
+        const eligible = [proj({ ref: "a", remaining: 2 }), proj({ ref: "b", remaining: 3 })];
         expect(fatePointsAvailable(eligible)).toBe(5);
     });
 

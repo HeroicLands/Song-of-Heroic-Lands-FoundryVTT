@@ -21,8 +21,7 @@ export class ContainerGearSheet extends SohlItemSheetBase {
         ...super.PARTS,
         properties: {
             container: { classes: ["tab-body"], id: "tabs" },
-            template:
-                "systems/sohl/templates/item/containergear-properties.hbs",
+            template: "systems/sohl/templates/item/containergear-properties.hbs",
             scrollable: [""],
         },
     };
@@ -37,9 +36,7 @@ export class ContainerGearSheet extends SohlItemSheetBase {
     protected override async _preparePropertiesContext(
         context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
         options: foundry.applications.api.DocumentSheetV2.RenderOptions,
-    ): Promise<
-        foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>
-    > {
+    ): Promise<foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>> {
         await super._preparePropertiesContext(context, options);
         const system = this.document.system as any;
         return Object.assign(context, {

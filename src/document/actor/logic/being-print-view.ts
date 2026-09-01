@@ -24,10 +24,7 @@
  */
 
 import type { BodyPartStatus } from "@src/entity/body/impairment";
-import type {
-    StatusPill,
-    BodyPartLozenge,
-} from "@src/document/actor/logic/being-sheet-view";
+import type { StatusPill, BodyPartLozenge } from "@src/document/actor/logic/being-sheet-view";
 
 /** The em dash the print view uses for a disabled / not-applicable value. */
 export const PRINT_EM_DASH = "—";
@@ -56,10 +53,7 @@ export const BODY_PART_STATUS_PRINT_LABEL: Record<BodyPartStatus, string> = {
  * @param pct - The integer health percentage.
  * @returns The composed health line.
  */
-export function formatPrintHealthLine(
-    band: string | undefined,
-    pct: number,
-): string {
+export function formatPrintHealthLine(band: string | undefined, pct: number): string {
     return band ? `${band} · ${pct}%` : `${pct}%`;
 }
 

@@ -46,7 +46,5 @@ function isAvailable(option: MeleeReachOption): boolean {
  * @returns The greatest reach among available modes, or 0 if none are available.
  */
 export function computeActorReach(options: MeleeReachOption[]): number {
-    return options
-        .filter(isAvailable)
-        .reduce((max, option) => Math.max(max, option.reach), 0);
+    return options.filter(isAvailable).reduce((max, option) => Math.max(max, option.reach), 0);
 }

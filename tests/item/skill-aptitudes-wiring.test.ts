@@ -1,12 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { MysteryLogic } from "@src/document/item/logic/MysteryLogic";
 import { SkillLogic } from "@src/document/item/logic/SkillLogic";
-import {
-    ITEM_KIND,
-    MYSTERY_SUBTYPE,
-    SKILL_SUBTYPE,
-    VALUE_DELTA_INFO,
-} from "@src/utils/constants";
+import { ITEM_KIND, MYSTERY_SUBTYPE, SKILL_SUBTYPE, VALUE_DELTA_INFO } from "@src/utils/constants";
 import { makeItemLogic, makeMockActor } from "@tests/mocks/logicHarness";
 
 /**
@@ -47,12 +42,7 @@ function makeBirthsign(
 }
 
 /** Embed a Skill and run it up to (but not through) finalize. */
-function makeSkill(
-    actor: any,
-    shortcode: string,
-    subType: string,
-    masteryLevelBase = 40,
-) {
+function makeSkill(actor: any, shortcode: string, subType: string, masteryLevelBase = 40) {
     const logic = makeItemLogic(
         SkillLogic,
         ITEM_KIND.SKILL,

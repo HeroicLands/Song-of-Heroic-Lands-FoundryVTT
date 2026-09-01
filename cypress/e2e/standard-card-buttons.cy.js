@@ -92,29 +92,20 @@ describe("Standard test card — follow-up buttons (#853)", () => {
                         // same card. #856 gave it its own action
                         // (`resultEdit`); it is a GM-only control, and the e2e
                         // user is a GM, so it renders here.
-                        hasEditPencil: !!div.querySelector(
-                            '[data-action="resultEdit"]',
-                        ),
+                        hasEditPencil: !!div.querySelector('[data-action="resultEdit"]'),
                     };
                 }).should((r) => {
-                    expect(r.hasButton, "the follow-up button rendered").to.be
-                        .true;
-                    expect(
-                        r.handlerUuid,
-                        "targeted to the supplied handler",
-                    ).to.eq(`Actor.${actor.id}`);
+                    expect(r.hasButton, "the follow-up button rendered").to.be.true;
+                    expect(r.handlerUuid, "targeted to the supplied handler").to.eq(
+                        `Actor.${actor.id}`,
+                    );
                     expect(
                         r.scope,
                         "scope survived JSON round-trip through the attribute",
                     ).to.deep.eq({ probe: 42 });
-                    expect(r.skipDialog, "skipDialog defaulted to true").to.eq(
-                        "true",
-                    );
-                    expect(r.label, "the label rendered").to.contain(
-                        "Follow Up",
-                    );
-                    expect(r.hasEditPencil, "edit pencil still present").to.be
-                        .true;
+                    expect(r.skipDialog, "skipDialog defaulted to true").to.eq("true");
+                    expect(r.label, "the label rendered").to.contain("Follow Up");
+                    expect(r.hasEditPencil, "edit pencil still present").to.be.true;
                 });
             });
         });

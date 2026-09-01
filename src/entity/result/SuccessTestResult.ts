@@ -196,10 +196,7 @@ export class SuccessTestResult extends TestResult {
      *   {@link TestResult}). `options.testResult`, `options.mlMod`, and
      *   `options.chatSpeaker` seed the corresponding fields when present.
      */
-    constructor(
-        data: Partial<SuccessTestResult.Data>,
-        options: Partial<SuccessTestResult.Options>,
-    );
+    constructor(data: Partial<SuccessTestResult.Data>, options: Partial<SuccessTestResult.Options>);
     /**
      * Implementation backing the constructor overloads: normalizes the
      * `(parent)` shorthand and requires a resolved parent.
@@ -218,17 +215,10 @@ export class SuccessTestResult extends TestResult {
                 inplace: false,
             }) as Partial<SuccessTestResult.Data>;
         }
-        super(
-            data,
-            SohlEntity.optionsOf<SuccessTestResult.Options>(
-                dataOrParent,
-                options,
-            ),
-        );
+        super(data, SohlEntity.optionsOf<SuccessTestResult.Options>(dataOrParent, options));
         if (options.mlMod)
             this._masteryLevelModifier =
-                data.masteryLevelModifier ??
-                new entity.MasteryLevelModifier(this.parent);
+                data.masteryLevelModifier ?? new entity.MasteryLevelModifier(this.parent);
         // Restore a previously-evaluated success level so a result can cross to
         // another client as a read-only snapshot (e.g. the attacker's
         // AttackResult shown on the defender's card). A fresh test leaves this
@@ -236,9 +226,7 @@ export class SuccessTestResult extends TestResult {
         // owning client re-evaluates and overwrites it regardless.
         this._successLevel = data.successLevel ?? MARGINAL_FAILURE;
         if (data.tokenUuid) {
-            this._tokenLogic = fvttLogicFromUuidSync<SohlTokenDocumentLogic>(
-                data.tokenUuid,
-            );
+            this._tokenLogic = fvttLogicFromUuidSync<SohlTokenDocumentLogic>(data.tokenUuid);
         }
         this._masteryLevelModifier =
             data.masteryLevelModifier ??
@@ -268,12 +256,10 @@ export class SuccessTestResult extends TestResult {
                 { numDice: 1, dieFaces: 100, modifier: 0, rolls: [] },
                 { parent: this.parent },
             );
-        this._movement =
-            data.movement || SUCCESS_TEST_RESULT_MOVEMENT.STATIONARY;
+        this._movement = data.movement || SUCCESS_TEST_RESULT_MOVEMENT.STATIONARY;
         this._mishaps = new Set<string>(data.mishaps || []);
         this._item = this.parent;
-        this._canFate =
-            (this._item as any).availableFate?.length > 0 && !!data.canFate;
+        this._canFate = (this._item as any).availableFate?.length > 0 && !!data.canFate;
         this._isSuccessValue = !!data.isSuccessValue;
         if (options.chatSpeaker) {
             this._speaker = options.chatSpeaker;
@@ -288,9 +274,7 @@ export class SuccessTestResult extends TestResult {
         // serialized data, falls back to identity so revived data can never turn
         // into a callable code payload.
         this._targetValueFunc =
-            typeof data.targetValueFunc === "function" ?
-                data.targetValueFunc
-            :   (sl: number) => sl;
+            typeof data.targetValueFunc === "function" ? data.targetValueFunc : (sl: number) => sl;
     }
 
     /**
@@ -330,9 +314,7 @@ export class SuccessTestResult extends TestResult {
             successLevel: this._successLevel,
             tokenUuid: this._tokenLogic?.uuid,
             masteryLevelModifier: this._masteryLevelModifier.toJSON(),
-            resultDescTable: serializeLimitedDescriptionTable(
-                this._resultDescTable,
-            ),
+            resultDescTable: serializeLimitedDescriptionTable(this._resultDescTable),
             rollMode: this.rollMode,
             testType: this._testType,
             roll: this._roll.toJSON(),
@@ -508,8 +490,7 @@ export class SuccessTestResult extends TestResult {
             .find(
                 (entry) =>
                     entry.maxValue >= targetValue &&
-                    (entry.lastDigits.length === 0 ||
-                        entry.lastDigits.includes(lastDigit)),
+                    (entry.lastDigits.length === 0 || entry.lastDigits.includes(lastDigit)),
             );
         if (!row) return empty;
         // Bindings a row's SafeExpression may reference.
@@ -519,9 +500,7 @@ export class SuccessTestResult extends TestResult {
             lastDigit,
         });
         const label =
-            row.label instanceof SafeExpression ?
-                String(row.label.evaluate(bindings))
-            :   row.label;
+            row.label instanceof SafeExpression ? String(row.label.evaluate(bindings)) : row.label;
         const description =
             row.description instanceof SafeExpression ?
                 String(row.description.evaluate(bindings))
@@ -628,8 +607,7 @@ export class SuccessTestResult extends TestResult {
         return (
             this._autoCriticalFail ||
             (this.critAllowed &&
-                (this.successLevel <= CRITICAL_FAILURE ||
-                    this.successLevel >= CRITICAL_SUCCESS))
+                (this.successLevel <= CRITICAL_FAILURE || this.successLevel >= CRITICAL_SUCCESS))
         );
     }
 
@@ -679,9 +657,7 @@ export class SuccessTestResult extends TestResult {
         const ctor = this.constructor as typeof SuccessTestResult;
         let testData: PlainObject = {
             ...this.toJSON(),
-            template: toFilePath(
-                "systems/sohl/templates/dialog/standard-test-dialog.hbs",
-            ),
+            template: toFilePath("systems/sohl/templates/dialog/standard-test-dialog.hbs"),
             title: sohl.i18n.format("SOHL.SuccessTestResult.testDialog.title", {
                 name: this._speaker.name,
                 title: this._title,
@@ -710,10 +686,7 @@ export class SuccessTestResult extends TestResult {
             callback: (formData: PlainObject) => {
                 const formSituationalModifier = formData.situationalModifier;
                 if (formSituationalModifier) {
-                    this.masteryLevelModifier.add(
-                        VALUE_DELTA_INFO.PLAYER,
-                        formSituationalModifier,
-                    );
+                    this.masteryLevelModifier.add(VALUE_DELTA_INFO.PLAYER, formSituationalModifier);
                 }
 
                 this.masteryLevelModifier.successLevelMod =
@@ -775,20 +748,14 @@ export class SuccessTestResult extends TestResult {
         // not offer is ignored rather than thrown on: this is an edit of a
         // settled result, and an unrecognized mode must not cancel it.
         let newRollMode: string =
-            isSohlSpeakerRollMode(String(opts.rollMode)) ?
-                String(opts.rollMode)
-            :   priorRollMode;
+            isSohlSpeakerRollMode(String(opts.rollMode)) ? String(opts.rollMode) : priorRollMode;
         if (opts.skipDialog) {
             newSit = opts.situationalModifier ?? priorSit;
             newSLM = opts.successLevelMod ?? priorSLM;
         } else {
             const dlgResult = await dialog({
-                title:
-                    opts.title ??
-                    sohl.i18n.localize("SOHL.ResultEdit.dialogTitle"),
-                template: toFilePath(
-                    "systems/sohl/templates/dialog/standard-test-dialog.hbs",
-                ),
+                title: opts.title ?? sohl.i18n.localize("SOHL.ResultEdit.dialogTitle"),
+                template: toFilePath("systems/sohl/templates/dialog/standard-test-dialog.hbs"),
                 data: {
                     type: this._testType,
                     mlMod,
@@ -797,10 +764,8 @@ export class SuccessTestResult extends TestResult {
                     rollModes: speakerRollModeOptions(),
                 },
                 callback: (formData: PlainObject) => ({
-                    situationalModifier:
-                        parseInt(String(formData.situationalModifier), 10) || 0,
-                    successLevelMod:
-                        parseInt(String(formData.successLevelMod), 10) || 0,
+                    situationalModifier: parseInt(String(formData.situationalModifier), 10) || 0,
+                    successLevelMod: parseInt(String(formData.successLevelMod), 10) || 0,
                     rollMode: String(formData.rollMode ?? ""),
                 }),
                 rejectClose: false,
@@ -809,18 +774,13 @@ export class SuccessTestResult extends TestResult {
             if (!dlgResult) return undefined;
             newSit = dlgResult.situationalModifier;
             newSLM = dlgResult.successLevelMod;
-            if (isSohlSpeakerRollMode(dlgResult.rollMode))
-                newRollMode = dlgResult.rollMode;
+            if (isSohlSpeakerRollMode(dlgResult.rollMode)) newRollMode = dlgResult.rollMode;
         }
 
         // OK-without-change is a no-op: the caller re-evaluates nothing. A
         // visibility change alone still counts — the corrected card has to be
         // reposted for it to take effect.
-        if (
-            newSit === priorSit &&
-            newSLM === priorSLM &&
-            newRollMode === priorRollMode
-        )
+        if (newSit === priorSit && newSLM === priorSLM && newRollMode === priorRollMode)
             return { changed: false };
 
         // Replace (or clear) the situational delta — a 0 removes it so the
@@ -882,35 +842,21 @@ export class SuccessTestResult extends TestResult {
         }
 
         if (this.critAllowed) {
-            if (
-                this.roll.total <=
-                this.masteryLevelModifier.constrainedEffective
-            ) {
-                if (
-                    this.masteryLevelModifier.critSuccessDigits.includes(
-                        this.lastDigit,
-                    )
-                ) {
+            if (this.roll.total <= this.masteryLevelModifier.constrainedEffective) {
+                if (this.masteryLevelModifier.critSuccessDigits.includes(this.lastDigit)) {
                     this._successLevel = CRITICAL_SUCCESS;
                 } else {
                     this._successLevel = MARGINAL_SUCCESS;
                 }
             } else {
-                if (
-                    this.masteryLevelModifier.critFailureDigits.includes(
-                        this.lastDigit,
-                    )
-                ) {
+                if (this.masteryLevelModifier.critFailureDigits.includes(this.lastDigit)) {
                     this._successLevel = CRITICAL_FAILURE;
                 } else {
                     this._successLevel = MARGINAL_FAILURE;
                 }
             }
         } else {
-            if (
-                this.roll.total <=
-                this.masteryLevelModifier.constrainedEffective
-            ) {
+            if (this.roll.total <= this.masteryLevelModifier.constrainedEffective) {
                 this._successLevel = MARGINAL_SUCCESS;
             } else {
                 this._successLevel = MARGINAL_FAILURE;
@@ -972,20 +918,16 @@ export class SuccessTestResult extends TestResult {
         // spec, not raw template data, and must be normalized (scope
         // pre-serialized) before it reaches the card.
         const { buttons, ...rest } = data;
-        const { label, description, result, success } =
-            this.resolveDescription();
+        const { label, description, result, success } = this.resolveDescription();
         // Serialize this result once under `priorTestResult` — the reconstruction
         // seam a card control revives to act on *this* result without re-rolling.
         // The GM edit pencil (`editScopeJSON`, #856) carries it on every card; the
         // Fate button (`fateScopeJSON`, #854) carries it only when Fate is offered.
         // (The item/actor uuids these controls dispatch against are folded into
         // the card data below.)
-        const priorResultScopeJSON = JSON.stringify(
-            defaultToJSON({ priorTestResult: this }),
-        );
+        const priorResultScopeJSON = JSON.stringify(defaultToJSON({ priorTestResult: this }));
         const editScopeJSON = priorResultScopeJSON;
-        const fateScopeJSON =
-            this._canFate && data.canFate !== false ? priorResultScopeJSON : "";
+        const fateScopeJSON = this._canFate && data.canFate !== false ? priorResultScopeJSON : "";
         let chatData = fvttMergeObject(this.toJSON() as PlainObject, {
             ...rest,
             editScopeJSON,
@@ -1011,8 +953,7 @@ export class SuccessTestResult extends TestResult {
             // roll gains its `total` (a getter absent from `SimpleRoll.toJSON`);
             // and the outcome booleans drive the styling and localized footer.
             mlMod: {
-                constrainedEffective:
-                    this._masteryLevelModifier.constrainedEffective,
+                constrainedEffective: this._masteryLevelModifier.constrainedEffective,
                 effective: this._masteryLevelModifier.effective,
                 chatHtml: this._masteryLevelModifier.chatHtml,
                 empty: this._masteryLevelModifier.empty,
@@ -1057,8 +998,7 @@ export class SuccessTestResult extends TestResult {
         // with the mode chosen in the edit dialog, #1099). Without one the
         // speaker resolves the mode as it always has, so the ordinary pre-roll
         // post is unchanged.
-        if (isSohlSpeakerRollMode(String(rest.rollMode)))
-            options.rollMode = String(rest.rollMode);
+        if (isSohlSpeakerRollMode(String(rest.rollMode))) options.rollMode = String(rest.rollMode);
         void this._speaker.toChat(chatData.template, chatData, options);
     }
 }
@@ -1337,8 +1277,7 @@ export namespace SuccessTestResult {
 export function serializeLimitedDescriptionTable(
     table: SuccessTestResult.LimitedDescription[],
 ): PlainObject[] {
-    const ser = (v: unknown): unknown =>
-        v instanceof SafeExpression ? v.toJSON() : v;
+    const ser = (v: unknown): unknown => (v instanceof SafeExpression ? v.toJSON() : v);
     return table.map((row) => ({
         ...row,
         label: ser(row.label),

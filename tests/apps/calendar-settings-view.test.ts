@@ -28,11 +28,7 @@ const registry: [string, CalendarRegEntry][] = [
 describe("calendar-settings-view", () => {
     describe("buildCalendarViewModel", () => {
         it("builds a dropdown row per calendar, localizing labels", () => {
-            const { calendars } = buildCalendarViewModel(
-                registry,
-                "harn",
-                upper,
-            );
+            const { calendars } = buildCalendarViewModel(registry, "harn", upper);
             expect(calendars).toEqual([
                 { id: "greg", label: "GREG", active: false },
                 { id: "harn", label: "HARN", active: true },
@@ -41,20 +37,12 @@ describe("calendar-settings-view", () => {
         });
 
         it("lists only non-builtin calendars as imported", () => {
-            const { imported } = buildCalendarViewModel(
-                registry,
-                "greg",
-                upper,
-            );
+            const { imported } = buildCalendarViewModel(registry, "greg", upper);
             expect(imported).toEqual([{ id: "custom", label: "CUSTOM" }]);
         });
 
         it("marks no row active when the active id is unknown", () => {
-            const { calendars } = buildCalendarViewModel(
-                registry,
-                "none",
-                upper,
-            );
+            const { calendars } = buildCalendarViewModel(registry, "none", upper);
             expect(calendars.some((c) => c.active)).toBe(false);
         });
 

@@ -81,9 +81,7 @@ export const THROWN_IMPACT_ABBREV = "Thrwn";
  */
 export function strengthImpactModifier(strength: number): number {
     const str = Math.floor(strength);
-    return str >= STRENGTH_IMPACT_LOW_TAIL ?
-            Math.floor((str - 10) / 2)
-        :   2 * str - 12;
+    return str >= STRENGTH_IMPACT_LOW_TAIL ? Math.floor((str - 10) / 2) : 2 * str - 12;
 }
 
 /**
@@ -137,10 +135,7 @@ export interface StrengthImpactOptions {
  * @param sm - The strike mode whose impact is modified, in place.
  * @param options - The wielder's Strength and how the weapon is being wielded.
  */
-export function applyStrengthImpact(
-    sm: StrikeModeBase,
-    options: StrengthImpactOptions,
-): void {
+export function applyStrengthImpact(sm: StrikeModeBase, options: StrengthImpactOptions): void {
     if (!strengthImpactApplies(sm)) return;
 
     const contributions: Array<[string, string, number]> = [
@@ -154,19 +149,13 @@ export function applyStrengthImpact(
             OFF_HAND_IMPACT_ABBREV,
             options.offHand ? OFF_HAND_IMPACT_PENALTY : 0,
         ],
-        [
-            "SOHL.INFO.Thrown",
-            THROWN_IMPACT_ABBREV,
-            options.thrown ? THROWN_IMPACT_PENALTY : 0,
-        ],
+        ["SOHL.INFO.Thrown", THROWN_IMPACT_ABBREV, options.thrown ? THROWN_IMPACT_PENALTY : 0],
     ];
 
     for (const [name, abbrev, value] of contributions) {
         // Drop any prior application before re-adding, so a repeated lifecycle
         // phase restates the contribution instead of stacking it.
-        const existing = sm.impact.deltas.findIndex(
-            (d: { abbrev: string }) => d.abbrev === abbrev,
-        );
+        const existing = sm.impact.deltas.findIndex((d: { abbrev: string }) => d.abbrev === abbrev);
         if (existing >= 0) sm.impact.deltas.splice(existing, 1);
         if (value) sm.impact.add(name, abbrev, value);
     }

@@ -170,9 +170,7 @@ describe("skills.hbs EML/Fate value tooltips (#769)", () => {
     it("positions the EML and Fate tooltips above the row (direction UP)", () => {
         const html = renderTemplateReal(SKILLS, { skillGroups });
         const cells = html.match(/<div\b[^>]*\bdata-tooltip=[^>]*>/g) ?? [];
-        const valueCells = cells.filter(
-            (c) => c.includes("successTest") || c.includes("fateTest"),
-        );
+        const valueCells = cells.filter((c) => c.includes("successTest") || c.includes("fateTest"));
         expect(valueCells.length).toBe(2);
         for (const cell of valueCells) {
             expect(cell).toContain('data-tooltip-direction="UP"');
@@ -208,9 +206,7 @@ describe("mysteries.hbs value tooltips (#769)", () => {
             {
                 subType: MYSTICALABILITY_SUBTYPE.SPIRITPOWER,
                 label: "Spirit",
-                columns: mysticalAbilityColumns(
-                    MYSTICALABILITY_SUBTYPE.SPIRITPOWER,
-                ),
+                columns: mysticalAbilityColumns(MYSTICALABILITY_SUBTYPE.SPIRITPOWER),
                 ledgerCols: mysticalAbilityLedgerCols(
                     mysticalAbilityColumns(MYSTICALABILITY_SUBTYPE.SPIRITPOWER),
                 ),
@@ -242,9 +238,7 @@ describe("mysteries.hbs value tooltips (#769)", () => {
 
     it("positions the ML tooltip above the row (direction UP)", () => {
         const html = renderTemplateReal(MYSTERIES, context);
-        const cell = (html.match(
-            /<div\b[^>]*\bdata-tooltip="ML Base \+30"[^>]*>/,
-        ) ?? [])[0];
+        const cell = (html.match(/<div\b[^>]*\bdata-tooltip="ML Base \+30"[^>]*>/) ?? [])[0];
         expect(cell).toContain('data-tooltip-direction="UP"');
     });
 });

@@ -276,19 +276,16 @@ export class SohlTour extends TourBase {
                 await doc.sheet.render({ force: true });
                 await this.#nextFrame();
                 if (step.nav?.tab) {
-                    const group =
-                        step.nav.group ?? this.#primaryGroup(doc.sheet);
+                    const group = step.nav.group ?? this.#primaryGroup(doc.sheet);
                     doc.sheet.changeTab(step.nav.tab, group);
                     await this.#nextFrame();
                 }
                 this.#sheetDoc = doc;
-                this.#sheetElement =
-                    (doc.sheet.element as HTMLElement) ?? undefined;
+                this.#sheetElement = (doc.sheet.element as HTMLElement) ?? undefined;
             }
         } else if (this.#sheetDoc?.sheet?.rendered) {
             // Carry the previously-opened sheet forward for later steps on it.
-            this.#sheetElement =
-                (this.#sheetDoc.sheet.element as HTMLElement) ?? undefined;
+            this.#sheetElement = (this.#sheetDoc.sheet.element as HTMLElement) ?? undefined;
         }
 
         // Open a sidebar directory (e.g. the Actors tab) so a control that lives
@@ -301,10 +298,7 @@ export class SohlTour extends TourBase {
         // setting only; the user still clicks the control.
         if (step.nav?.sidebarTab) {
             const sidebar = (globalThis as any).ui?.sidebar;
-            sidebar?.changeTab?.(
-                step.nav.sidebarTab,
-                step.nav.group ?? "primary",
-            );
+            sidebar?.changeTab?.(step.nav.sidebarTab, step.nav.group ?? "primary");
             if (sidebar && !sidebar.expanded) sidebar.expand?.();
             await this.#nextFrame();
         }
@@ -317,16 +311,13 @@ export class SohlTour extends TourBase {
         // Waiting for a stable rect then avoids ringing a mid-scroll/reflow rect.
         const ringSelector = step.selector ?? step.spotlight;
         if (ringSelector) {
-            const el = this._getTargetElement(
-                ringSelector,
-            ) as HTMLElement | null;
+            const el = this._getTargetElement(ringSelector) as HTMLElement | null;
             if (el) {
                 // A tall target (e.g. the Dossier editor block) can't fit on
                 // screen; `"nearest"` would align its bottom and hide its top
                 // label/toolbar, so align its TOP. A short target scrolls minimally.
                 const tall =
-                    el.getBoundingClientRect().height >
-                    (globalThis as any).innerHeight * 0.7;
+                    el.getBoundingClientRect().height > (globalThis as any).innerHeight * 0.7;
                 el.scrollIntoView?.({
                     block: tall ? "start" : "nearest",
                     inline: "nearest",
@@ -383,10 +374,7 @@ export class SohlTour extends TourBase {
         }
         // super rendered the centered card as `targetElement`; track it so
         // teardown removes the card, not the (restored-selector) real element.
-        this.#cardEl =
-            this.targetElement instanceof HTMLElement ?
-                this.targetElement
-            :   undefined;
+        this.#cardEl = this.targetElement instanceof HTMLElement ? this.targetElement : undefined;
 
         // Re-check after the `super._renderStep()` await: the top-of-method guard
         // only covers an `exit()` that lands BEFORE this render begins. But
@@ -472,10 +460,7 @@ export class SohlTour extends TourBase {
         let p = el.parentElement;
         while (p) {
             const oy = getComputedStyle(p).overflowY;
-            if (
-                (oy === "auto" || oy === "scroll") &&
-                p.scrollHeight > p.clientHeight
-            ) {
+            if ((oy === "auto" || oy === "scroll") && p.scrollHeight > p.clientHeight) {
                 return p;
             }
             p = p.parentElement;
@@ -577,9 +562,7 @@ export class SohlTour extends TourBase {
         // card (SoHL never uses the shared tooltip), so always look there.
         const root = this.targetElement as HTMLElement | undefined;
         this.#nextButton =
-            (root?.querySelector(
-                '.step-button[data-action="next"]',
-            ) as HTMLElement) ?? undefined;
+            (root?.querySelector('.step-button[data-action="next"]') as HTMLElement) ?? undefined;
         if (this.#nextButton) {
             this.#nextButton.addEventListener("click", this.#onNextCapture, {
                 capture: true,
@@ -612,10 +595,7 @@ export class SohlTour extends TourBase {
         if (this.#nextButton) {
             const disabled = !this.#nextEnabled;
             this.#nextButton.classList.toggle("disabled", disabled);
-            this.#nextButton.classList.toggle(
-                "sohl-tour-gate-disabled",
-                disabled,
-            );
+            this.#nextButton.classList.toggle("sohl-tour-gate-disabled", disabled);
             this.#nextButton.setAttribute("aria-disabled", String(disabled));
         }
     }
@@ -631,8 +611,7 @@ export class SohlTour extends TourBase {
             const selector = step.control ?? step.selector;
             if (!selector) return {};
             const el =
-                this.#sheetElement?.querySelector(selector) ??
-                document.querySelector(selector);
+                this.#sheetElement?.querySelector(selector) ?? document.querySelector(selector);
             return { value: this.#readControlValue(el) };
         }
         if (kind === TOUR_STEP_KIND.STATE_GATE) {
@@ -698,10 +677,7 @@ export class SohlTour extends TourBase {
         this.#rngLease?.restore();
         this.#rngLease = undefined;
         if (this.#unloadHandler) {
-            (globalThis as any).removeEventListener?.(
-                "pagehide",
-                this.#unloadHandler,
-            );
+            (globalThis as any).removeEventListener?.("pagehide", this.#unloadHandler);
             this.#unloadHandler = undefined;
         }
     }
@@ -765,8 +741,7 @@ export class SohlTour extends TourBase {
      * @param drive - The start-combat descriptor.
      */
     async #startCombat(drive: StartCombatDrive): Promise<void> {
-        const scene: any =
-            (globalThis as any).canvas?.scene ?? (game as any).scenes?.active;
+        const scene: any = (globalThis as any).canvas?.scene ?? (game as any).scenes?.active;
         if (!scene) return;
 
         let tokens: any[];
@@ -836,9 +811,7 @@ export class SohlTour extends TourBase {
         }
 
         if (this.#sheetElement) {
-            this.#observer = new MutationObserver(() =>
-                this.#onSheetMutation(),
-            );
+            this.#observer = new MutationObserver(() => this.#onSheetMutation());
             this.#observer.observe(this.#sheetElement, {
                 childList: true,
                 subtree: true,
@@ -850,16 +823,8 @@ export class SohlTour extends TourBase {
     /** Disconnect all watchers armed by {@link #setupWatchers}. */
     #teardownWatchers(): void {
         if (this.#watchTarget && this.#onInputChange) {
-            this.#watchTarget.removeEventListener(
-                "input",
-                this.#onInputChange,
-                true,
-            );
-            this.#watchTarget.removeEventListener(
-                "change",
-                this.#onInputChange,
-                true,
-            );
+            this.#watchTarget.removeEventListener("input", this.#onInputChange, true);
+            this.#watchTarget.removeEventListener("change", this.#onInputChange, true);
         }
         this.#onInputChange = undefined;
         this.#watchTarget = undefined;
@@ -893,8 +858,7 @@ export class SohlTour extends TourBase {
         const ringSelector = step?.spotlight ?? step?.selector;
         if (!ringSelector || this.#reanchoring) return;
         const resolved = this._getTargetElement(ringSelector);
-        const stale =
-            !this.#spotlightEl || !document.contains(this.#spotlightEl);
+        const stale = !this.#spotlightEl || !document.contains(this.#spotlightEl);
         if (resolved && (resolved !== this.#spotlightEl || stale)) {
             this.#reanchoring = true;
             requestAnimationFrame(() => {
@@ -1053,9 +1017,7 @@ export class SohlTour extends TourBase {
         // tour start clears any residual ghost before painting its own card. Only
         // one tour is active at a time (base `Tour` enforces this), so no live
         // card other than the one being torn down can exist here.
-        document
-            .querySelectorAll(".tour-center-step")
-            .forEach((stray) => stray.remove());
+        document.querySelectorAll(".tour-center-step").forEach((stray) => stray.remove());
         (game as any).tooltip?.deactivate?.();
         if (this.fadeElement) {
             this.fadeElement.remove();

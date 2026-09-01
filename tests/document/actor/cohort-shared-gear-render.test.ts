@@ -15,10 +15,7 @@
 
 import { describe, it, expect } from "vitest";
 import Handlebars from "handlebars";
-import {
-    renderTemplateReal,
-    registerTestHbsHelpers,
-} from "@tests/mocks/hbs-helpers";
+import { renderTemplateReal, registerTestHbsHelpers } from "@tests/mocks/hbs-helpers";
 
 const SHARED_GEAR = "systems/sohl/templates/actor/cohort/shared-gear.hbs";
 
@@ -116,9 +113,7 @@ describe("cohort Shared Gear tab", () => {
         const html = renderTemplateReal(SHARED_GEAR, { sharedGear: [] });
 
         expect(html).not.toContain("ledger__head");
-        expect(html).toContain(
-            "No member has shared any gear with this cohort",
-        );
+        expect(html).toContain("No member has shared any gear with this cohort");
     });
 
     it("marks itself active only for the selected tab", () => {
@@ -152,9 +147,7 @@ describe("sharedWithCohortsField partial (gear sheets)", () => {
             sharedWithCohortIds: ["wardens"],
         });
 
-        expect(html).toContain(
-            '<select name="system.sharedWithCohortIds" multiple',
-        );
+        expect(html).toContain('<select name="system.sharedWithCohortIds" multiple');
         expect(html).toContain('<option value="wardens" selected>');
         expect(html).toContain("The Wardens");
         expect(html).toContain('<option value="bandits">');

@@ -27,9 +27,7 @@ import { globSync } from "glob";
 import { describe, expect, it } from "vitest";
 import { ActorKinds, ItemKinds } from "@src/utils/constants";
 
-const lang: Record<string, string> = JSON.parse(
-    readFileSync("lang/en.json", "utf8"),
-);
+const lang: Record<string, string> = JSON.parse(readFileSync("lang/en.json", "utf8"));
 const keys = Object.keys(lang);
 
 /** The distinct second segment of every `SOHL.*` key. */
@@ -49,18 +47,12 @@ describe("lang/en.json key naming", () => {
         it("labels every actor and item kind under TYPES.*, singular and plural", () => {
             const missing: string[] = [];
             for (const kind of ActorKinds) {
-                for (const key of [
-                    `TYPES.Actor.${kind}`,
-                    `TYPES.Actor.${kind}Pl`,
-                ]) {
+                for (const key of [`TYPES.Actor.${kind}`, `TYPES.Actor.${kind}Pl`]) {
                     if (!(key in lang)) missing.push(key);
                 }
             }
             for (const kind of ItemKinds) {
-                for (const key of [
-                    `TYPES.Item.${kind}`,
-                    `TYPES.Item.${kind}Pl`,
-                ]) {
+                for (const key of [`TYPES.Item.${kind}`, `TYPES.Item.${kind}Pl`]) {
                     if (!(key in lang)) missing.push(key);
                 }
             }
@@ -124,12 +116,7 @@ describe("lang/en.json key naming", () => {
             }
             expect(declared.size).toBeGreaterThan(0);
             const dangling = [...declared]
-                .filter(
-                    (prefix) =>
-                        !keys.some(
-                            (k) => k === prefix || k.startsWith(`${prefix}.`),
-                        ),
-                )
+                .filter((prefix) => !keys.some((k) => k === prefix || k.startsWith(`${prefix}.`)))
                 .sort();
             expect(dangling).toEqual([]);
         });
@@ -155,13 +142,7 @@ describe("lang/en.json key naming", () => {
                 "ProjectileGear",
                 "WeaponGear",
             ];
-            const SHARED = [
-                "WEIGHT",
-                "VALUE",
-                "QUALITY",
-                "DURABILITY",
-                "ENCUMBRANCE",
-            ];
+            const SHARED = ["WEIGHT", "VALUE", "QUALITY", "DURABILITY", "ENCUMBRANCE"];
             const restated = SUBTYPES.flatMap((s) =>
                 SHARED.map((m) => `SOHL.${s}.EffectKey.${m}`),
             ).filter((k) => k in lang);
@@ -175,14 +156,10 @@ describe("lang/en.json key naming", () => {
                 "SOHL.Affliction.FEAR.",
                 "SOHL.Affliction.FATIGUE.",
             ];
-            const survivors = keys.filter((k) =>
-                retired.some((prefix) => k.startsWith(prefix)),
-            );
+            const survivors = keys.filter((k) => retired.some((prefix) => k.startsWith(prefix)));
             expect(survivors).toEqual([]);
             // …and the owners are still there.
-            expect(lang["SOHL.AttackResult.TacticalAdvantage.action"]).toBe(
-                "Action",
-            );
+            expect(lang["SOHL.AttackResult.TacticalAdvantage.action"]).toBe("Action");
             expect(lang["SOHL.AttackResult.Mishap.fumble"]).toBe("Fumble");
             expect(lang["SOHL.Trauma.FEAR_CATEGORY.brave"]).toBe("Brave");
         });
@@ -197,13 +174,9 @@ describe("lang/en.json key naming", () => {
                 if (!value) continue;
                 byValue.set(value, [...(byValue.get(value) ?? []), key]);
             }
-            const duplicated = [...byValue.values()].filter(
-                (ks) => ks.length > 1,
-            );
+            const duplicated = [...byValue.values()].filter((ks) => ks.length > 1);
             expect(duplicated.length).toBeLessThanOrEqual(279);
-            expect(
-                duplicated.reduce((n, ks) => n + ks.length, 0),
-            ).toBeLessThanOrEqual(728);
+            expect(duplicated.reduce((n, ks) => n + ks.length, 0)).toBeLessThanOrEqual(728);
         });
     });
 
@@ -222,9 +195,7 @@ describe("lang/en.json key naming", () => {
         it("uses single-braced {camelCase} names throughout", () => {
             const offenders = Object.entries(lang)
                 .flatMap(([key, value]) =>
-                    [...value.matchAll(/\{([^{}]*)\}/g)].map(
-                        (m) => [key, m[1]!] as const,
-                    ),
+                    [...value.matchAll(/\{([^{}]*)\}/g)].map((m) => [key, m[1]!] as const),
                 )
                 .filter(([, name]) => !/^[a-z][A-Za-z0-9]*$/.test(name))
                 .map(([key, name]) => `${key} → {${name}}`);

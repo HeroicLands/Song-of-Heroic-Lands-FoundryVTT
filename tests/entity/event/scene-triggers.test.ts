@@ -43,9 +43,7 @@ describe("scene-triggers", () => {
         });
 
         it("returns undefined when the update does not touch darknessLevel", () => {
-            expect(
-                buildDarknessTriggerContext("Scene.s", { name: "New name" }),
-            ).toBeUndefined();
+            expect(buildDarknessTriggerContext("Scene.s", { name: "New name" })).toBeUndefined();
             expect(
                 buildDarknessTriggerContext("Scene.s", {
                     environment: { globalLight: { enabled: true } },

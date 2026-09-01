@@ -16,11 +16,7 @@ import { registerEntity } from "@src/entity/entityRegistry";
 import { StrikeModeBase } from "../strikemode/StrikeModeBase";
 import type { SohlCombatantLogic } from "@src/document/combatant/logic/SohlCombatantLogic";
 import { registerKind } from "@src/utils/kindRegistry";
-import {
-    ATTACK_MISHAP,
-    TEST_TYPE,
-    VALUE_DELTA_INFO,
-} from "@src/utils/constants";
+import { ATTACK_MISHAP, TEST_TYPE, VALUE_DELTA_INFO } from "@src/utils/constants";
 import { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
 import type { ImpactModifier } from "@src/entity/modifier/ImpactModifier";
 import { fvttLogicFromUuidSync } from "@src/core/FoundryHelpers";
@@ -105,9 +101,7 @@ export class AttackResult extends SuccessTestResult {
     ) {
         super(data, options);
         if (!data.mode) {
-            throw new Error(
-                "AttackResult requires a strike mode (data.mode) to be provided.",
-            );
+            throw new Error("AttackResult requires a strike mode (data.mode) to be provided.");
         }
         if (!data.combatantUuid) {
             throw new Error(
@@ -118,9 +112,7 @@ export class AttackResult extends SuccessTestResult {
         this._modePointer = data.mode;
         this.mode = StrikeModeBase.fromPointerData(data.mode);
         this.label = data.label ?? "Attack";
-        const combatant = fvttLogicFromUuidSync<SohlCombatantLogic>(
-            data.combatantUuid,
-        );
+        const combatant = fvttLogicFromUuidSync<SohlCombatantLogic>(data.combatantUuid);
         if (!combatant) {
             throw new Error(
                 `AttackResult could not find combatant with UUID ${data.combatantUuid}.`,
@@ -128,10 +120,7 @@ export class AttackResult extends SuccessTestResult {
         }
         this.combatant = combatant;
         if (data.situationalModifier) {
-            this.masteryLevelModifier.add(
-                VALUE_DELTA_INFO.PLAYER,
-                data.situationalModifier,
-            );
+            this.masteryLevelModifier.add(VALUE_DELTA_INFO.PLAYER, data.situationalModifier);
         }
     }
 
@@ -175,9 +164,7 @@ export class AttackResult extends SuccessTestResult {
      * The player-entered situational modifier from the attack dialog.
      */
     get situationalModifier(): number {
-        const val = this.masteryLevelModifier.get(
-            VALUE_DELTA_INFO.PLAYER,
-        )?.value;
+        const val = this.masteryLevelModifier.get(VALUE_DELTA_INFO.PLAYER)?.value;
         return Number(val) || 0;
     }
 
@@ -247,26 +234,17 @@ export class AttackResult extends SuccessTestResult {
             impact: this.impact,
         };
 
-        return await super.testDialog(
-            newData,
-            (formData: StrictObject<string | number>) => {
-                const formImpactSituationalModifier =
-                    Number.parseInt(
-                        String(formData.impactSituationalModifier),
-                        10,
-                    ) || 0;
+        return await super.testDialog(newData, (formData: StrictObject<string | number>) => {
+            const formImpactSituationalModifier =
+                Number.parseInt(String(formData.impactSituationalModifier), 10) || 0;
 
-                if (this.impact && formImpactSituationalModifier) {
-                    this.impact.add(
-                        VALUE_DELTA_INFO.PLAYER,
-                        formImpactSituationalModifier,
-                    );
-                }
+            if (this.impact && formImpactSituationalModifier) {
+                this.impact.add(VALUE_DELTA_INFO.PLAYER, formImpactSituationalModifier);
+            }
 
-                // Chain the new callback
-                if (callback) callback.call(this, formData);
-            },
-        );
+            // Chain the new callback
+            if (callback) callback.call(this, formData);
+        });
     }
 
     /**

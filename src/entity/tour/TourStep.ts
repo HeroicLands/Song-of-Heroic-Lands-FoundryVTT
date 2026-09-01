@@ -12,12 +12,7 @@
  */
 
 import type { TourDrive } from "./TourDrive";
-import {
-    TOUR_STEP_KIND,
-    TourGate,
-    type TourGateContext,
-    type TourStepKind,
-} from "./TourGate";
+import { TOUR_STEP_KIND, TourGate, type TourGateContext, type TourStepKind } from "./TourGate";
 
 /**
  * The pure step-configuration shape and the Foundry-free "should Next be
@@ -133,10 +128,7 @@ export function stepKind(step: SohlTourStepConfig): TourStepKind {
  * @param ctx - The context read from the live sheet (value or state).
  * @returns Whether **Next** should be enabled for this step.
  */
-export function isNextEnabled(
-    step: SohlTourStepConfig,
-    ctx: TourGateContext = {},
-): boolean {
+export function isNextEnabled(step: SohlTourStepConfig, ctx: TourGateContext = {}): boolean {
     if (stepKind(step) === TOUR_STEP_KIND.FREE) return true;
     return step.gate ? step.gate.evaluate(ctx) : true;
 }
@@ -150,9 +142,6 @@ export function isNextEnabled(
  * @param ctx - The context read from the live sheet (value or state).
  * @returns Whether the tour may advance past this step.
  */
-export function canAdvance(
-    step: SohlTourStepConfig,
-    ctx: TourGateContext = {},
-): boolean {
+export function canAdvance(step: SohlTourStepConfig, ctx: TourGateContext = {}): boolean {
     return isNextEnabled(step, ctx);
 }

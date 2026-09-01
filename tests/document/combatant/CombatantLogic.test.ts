@@ -32,18 +32,10 @@ describe("CombatantLogic", () => {
             const ctx = { scope: {} } as any;
             // block/dodge/ignore return silently (undefined, no warn) when
             // attackResult is missing; only counterstrike warns.
-            await expect(
-                logic.automatedBlockResume(ctx),
-            ).resolves.toBeUndefined();
-            await expect(
-                logic.automatedDodgeResume(ctx),
-            ).resolves.toBeUndefined();
-            await expect(
-                logic.automatedIgnoreResume(ctx),
-            ).resolves.toBeUndefined();
-            await expect(
-                logic.automatedCounterstrikeResume(ctx),
-            ).resolves.toBeUndefined();
+            await expect(logic.automatedBlockResume(ctx)).resolves.toBeUndefined();
+            await expect(logic.automatedDodgeResume(ctx)).resolves.toBeUndefined();
+            await expect(logic.automatedIgnoreResume(ctx)).resolves.toBeUndefined();
+            await expect(logic.automatedCounterstrikeResume(ctx)).resolves.toBeUndefined();
             expect(warn).toHaveBeenCalledTimes(1);
             expect(warn).toHaveBeenCalledWith(
                 expect.stringMatching(/requires an attack result in scope/),
@@ -65,9 +57,7 @@ describe("CombatantLogic", () => {
             await logic.automatedDodgeResume({
                 scope: { attackResult: {} },
             } as any);
-            expect(warn).toHaveBeenCalledWith(
-                expect.stringMatching(/no Dodge skill/),
-            );
+            expect(warn).toHaveBeenCalledWith(expect.stringMatching(/no Dodge skill/));
         });
 
         it("automatedCounterstrikeResume warns when no target combatant is available", async () => {
@@ -79,18 +69,14 @@ describe("CombatantLogic", () => {
                 target: null,
             } as any);
             expect(warn).toHaveBeenCalledWith(
-                expect.stringMatching(
-                    /automated attack requires a target combatant/,
-                ),
+                expect.stringMatching(/automated attack requires a target combatant/),
             );
         });
     });
 
     describe("intrinsic actions", () => {
         it("declares the combat-start, move-to-group, and four defense-resume actions", () => {
-            const shortcodes = SohlCombatantLogic.defineIntrinsicActions().map(
-                (a) => a.shortcode,
-            );
+            const shortcodes = SohlCombatantLogic.defineIntrinsicActions().map((a) => a.shortcode);
             expect(shortcodes).toEqual(
                 expect.arrayContaining([
                     "automatedCombatStart",
@@ -141,9 +127,7 @@ describe("CombatantLogic", () => {
             expect(entry).toBeTruthy();
 
             const action = logic.actions.get("automatedCombatStart");
-            const exec = vi
-                .spyOn(action, "execute")
-                .mockResolvedValue(undefined);
+            const exec = vi.spyOn(action, "execute").mockResolvedValue(undefined);
 
             // An element with no [data-actor-id]/[data-item-id] ancestor.
             const el = { closest: () => null } as unknown as HTMLElement;
@@ -210,28 +194,20 @@ describe("CombatantLogic", () => {
         });
 
         it("attacker: returns the blocking status when present", () => {
-            expect(
-                attackerBlockingStatus([STATUS_EFFECT.INCAPACITATED], false),
-            ).toBe(STATUS_EFFECT.INCAPACITATED);
+            expect(attackerBlockingStatus([STATUS_EFFECT.INCAPACITATED], false)).toBe(
+                STATUS_EFFECT.INCAPACITATED,
+            );
         });
 
         it("attacker: folds Foundry DEFEATED in as vanquished", () => {
-            expect(attackerBlockingStatus([], true)).toBe(
-                STATUS_EFFECT.VANQUISHED,
-            );
+            expect(attackerBlockingStatus([], true)).toBe(STATUS_EFFECT.VANQUISHED);
         });
 
         it("target: invalid when dead or vanquished/defeated, else null", () => {
             expect(targetInvalidStatus([], false)).toBeNull();
-            expect(
-                targetInvalidStatus([STATUS_EFFECT.INCAPACITATED], false),
-            ).toBeNull(); // incapacitated is still a valid target
-            expect(targetInvalidStatus([STATUS_EFFECT.DEAD], false)).toBe(
-                STATUS_EFFECT.DEAD,
-            );
-            expect(targetInvalidStatus([], true)).toBe(
-                STATUS_EFFECT.VANQUISHED,
-            );
+            expect(targetInvalidStatus([STATUS_EFFECT.INCAPACITATED], false)).toBeNull(); // incapacitated is still a valid target
+            expect(targetInvalidStatus([STATUS_EFFECT.DEAD], false)).toBe(STATUS_EFFECT.DEAD);
+            expect(targetInvalidStatus([], true)).toBe(STATUS_EFFECT.VANQUISHED);
         });
     });
 
@@ -241,21 +217,13 @@ describe("CombatantLogic", () => {
         });
 
         it("blocks when it is a different combatant's turn", () => {
-            expect(outOfTurnAttackReason("c1", "c2")).toMatch(
-                /not this combatant's turn/,
-            );
+            expect(outOfTurnAttackReason("c1", "c2")).toMatch(/not this combatant's turn/);
         });
 
         it("blocks when there is no active combat turn", () => {
-            expect(outOfTurnAttackReason(undefined, "c2")).toMatch(
-                /no active combat turn/,
-            );
-            expect(outOfTurnAttackReason(null, "c2")).toMatch(
-                /no active combat turn/,
-            );
-            expect(outOfTurnAttackReason("c1", undefined)).toMatch(
-                /no active combat turn/,
-            );
+            expect(outOfTurnAttackReason(undefined, "c2")).toMatch(/no active combat turn/);
+            expect(outOfTurnAttackReason(null, "c2")).toMatch(/no active combat turn/);
+            expect(outOfTurnAttackReason("c1", undefined)).toMatch(/no active combat turn/);
         });
     });
 
@@ -304,29 +272,21 @@ describe("CombatantLogic", () => {
             await expect(
                 logic.startAutomatedAttack({ target: target() } as any),
             ).resolves.toBeUndefined();
-            expect(warn).toHaveBeenCalledWith(
-                expect.stringMatching(/not this combatant's turn/),
-            );
+            expect(warn).toHaveBeenCalledWith(expect.stringMatching(/not this combatant's turn/));
         });
 
         it("refuses when there is no active combat turn", async () => {
             const logic = makeCombatantLogic();
-            vi.spyOn(FoundryHelpers, "getActiveCombat").mockReturnValue(
-                undefined,
-            );
+            vi.spyOn(FoundryHelpers, "getActiveCombat").mockReturnValue(undefined);
             await expect(
                 logic.startAutomatedAttack({ target: target() } as any),
             ).resolves.toBeUndefined();
-            expect(warn).toHaveBeenCalledWith(
-                expect.stringMatching(/no active combat turn/),
-            );
+            expect(warn).toHaveBeenCalledWith(expect.stringMatching(/no active combat turn/));
         });
 
         it("refuses (warns, no roll) when there is no target", async () => {
             const logic = makeCombatantLogic();
-            await expect(
-                logic.startAutomatedAttack({} as any),
-            ).resolves.toBeUndefined();
+            await expect(logic.startAutomatedAttack({} as any)).resolves.toBeUndefined();
             expect(warn).toHaveBeenCalled();
         });
 
@@ -342,9 +302,7 @@ describe("CombatantLogic", () => {
                 statuses: new Set<string>(),
                 isDefeated: false,
             });
-            await expect(
-                logic.startAutomatedAttack({ scope: {} } as any),
-            ).resolves.toBeUndefined();
+            await expect(logic.startAutomatedAttack({ scope: {} } as any)).resolves.toBeUndefined();
             expect(warn).not.toHaveBeenCalledWith(
                 expect.stringMatching(/requires a target combatant/),
             );
@@ -352,15 +310,9 @@ describe("CombatantLogic", () => {
 
         it("still refuses when neither the context nor the user supplies a target (#1079)", async () => {
             const logic = makeCombatantLogic();
-            vi.spyOn(FoundryHelpers, "fvttGetTargetedTokens").mockReturnValue(
-                undefined,
-            );
-            await expect(
-                logic.startAutomatedAttack({ scope: {} } as any),
-            ).resolves.toBeUndefined();
-            expect(warn).toHaveBeenCalledWith(
-                expect.stringMatching(/requires a target combatant/),
-            );
+            vi.spyOn(FoundryHelpers, "fvttGetTargetedTokens").mockReturnValue(undefined);
+            await expect(logic.startAutomatedAttack({ scope: {} } as any)).resolves.toBeUndefined();
+            expect(warn).toHaveBeenCalledWith(expect.stringMatching(/requires a target combatant/));
         });
 
         it("hands the resolved target combatant to the attack dialog as the defender (#1079)", async () => {
@@ -382,9 +334,7 @@ describe("CombatantLogic", () => {
             expect(warn).not.toHaveBeenCalledWith(
                 expect.stringMatching(/valid defender combatant/),
             );
-            expect(warn).toHaveBeenCalledWith(
-                expect.stringMatching(/no usable strike mode/),
-            );
+            expect(warn).toHaveBeenCalledWith(expect.stringMatching(/no usable strike mode/));
         });
 
         it("refuses when the attacker is defeated", async () => {
@@ -402,9 +352,7 @@ describe("CombatantLogic", () => {
             await expect(
                 logic.startAutomatedAttack({ target: target() } as any),
             ).resolves.toBeUndefined();
-            expect(warn).toHaveBeenCalledWith(
-                expect.stringContaining(STATUS_EFFECT.INCAPACITATED),
-            );
+            expect(warn).toHaveBeenCalledWith(expect.stringContaining(STATUS_EFFECT.INCAPACITATED));
         });
 
         it("refuses when the target is not a combatant in the current combat", async () => {
@@ -413,9 +361,7 @@ describe("CombatantLogic", () => {
             await expect(
                 logic.startAutomatedAttack({ target: target() } as any),
             ).resolves.toBeUndefined();
-            expect(warn).toHaveBeenCalledWith(
-                expect.stringContaining("not a combatant"),
-            );
+            expect(warn).toHaveBeenCalledWith(expect.stringContaining("not a combatant"));
         });
 
         it("refuses when the target is dead", async () => {
@@ -439,9 +385,7 @@ describe("CombatantLogic", () => {
             await expect(
                 logic.startAutomatedAttack({ target: target() } as any),
             ).resolves.toBeUndefined();
-            expect(warn).toHaveBeenCalledWith(
-                expect.stringContaining(STATUS_EFFECT.VANQUISHED),
-            );
+            expect(warn).toHaveBeenCalledWith(expect.stringContaining(STATUS_EFFECT.VANQUISHED));
         });
     });
 });

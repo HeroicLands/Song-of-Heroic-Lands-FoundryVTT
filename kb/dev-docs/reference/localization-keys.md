@@ -106,11 +106,13 @@ numeric values and for change-paths containing `.` or `:`). So the prefix you pa
 _is_ the namespace-plus-group, and the leaves are the **stored values**:
 
 ```ts
-export const { kind: ACTION_SUBTYPE, choices: ActionSubTypeChoices } =
-  defineType("SOHL.Action.SubType", {
+export const { kind: ACTION_SUBTYPE, choices: ActionSubTypeChoices } = defineType(
+  "SOHL.Action.SubType",
+  {
     INTRINSIC: "intrinsic",
     SCRIPT: "script",
-  });
+  },
+);
 ```
 
 ```jsonc

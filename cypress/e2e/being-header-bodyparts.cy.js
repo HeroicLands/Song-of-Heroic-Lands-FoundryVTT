@@ -47,9 +47,7 @@ describe("Being sheet header: body-part impairment grid (#464)", () => {
             cy.prepare(actor);
             cy.openSheet(actor);
             cy.get(".body-lozenge").should("have.length.greaterThan", 0);
-            cy.get('.body-lozenge:not([data-status="none"])').should(
-                "not.exist",
-            );
+            cy.get('.body-lozenge:not([data-status="none"])').should("not.exist");
         });
     });
 

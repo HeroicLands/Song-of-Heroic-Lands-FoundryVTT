@@ -32,10 +32,7 @@
  * (whose `toChat` accepts raw HTML directly).
  */
 
-import {
-    toHTMLWithTemplate,
-    toHTMLWithContent,
-} from "@src/core/FoundryHelpers";
+import { toHTMLWithTemplate, toHTMLWithContent } from "@src/core/FoundryHelpers";
 import {
     toFilePath,
     toHTMLString,
@@ -45,8 +42,7 @@ import {
 } from "@src/utils/helpers";
 
 /** Path to the generic action-card button block appended by {@link buildActionCard}. */
-const ACTION_BUTTONS_TEMPLATE =
-    "systems/sohl/templates/chat/action-buttons.hbs";
+const ACTION_BUTTONS_TEMPLATE = "systems/sohl/templates/chat/action-buttons.hbs";
 
 /**
  * One button on an action card — a pre-filled invocation of a self-sufficient
@@ -120,9 +116,7 @@ export interface RenderableButton {
  * @param buttons - The spec's buttons.
  * @returns The renderable button array (possibly empty).
  */
-export function toRenderableButtons(
-    buttons: ActionCardSpec["buttons"],
-): RenderableButton[] {
+export function toRenderableButtons(buttons: ActionCardSpec["buttons"]): RenderableButton[] {
     if (!buttons) return [];
     const list = Array.isArray(buttons) ? buttons : [buttons];
     return list.map((b) => ({
@@ -146,31 +140,20 @@ export function toRenderableButtons(
  * @param spec - The card body (template or content) and its buttons.
  * @returns The finished card HTML, ready to post (e.g. via `speaker.toChat`).
  */
-export async function buildActionCard(
-    spec: ActionCardSpec,
-): Promise<HTMLString> {
+export async function buildActionCard(spec: ActionCardSpec): Promise<HTMLString> {
     const body =
-        spec.template ?
-            await toHTMLWithTemplate(toFilePath(spec.template), spec.data)
-        : spec.content ?
-            await toHTMLWithContent(toHTMLString(spec.content), spec.data)
-        :   "";
+        spec.template ? await toHTMLWithTemplate(toFilePath(spec.template), spec.data)
+        : spec.content ? await toHTMLWithContent(toHTMLString(spec.content), spec.data)
+        : "";
     const buttons = toRenderableButtons(spec.buttons);
     if (!buttons.length) return toHTMLString(body);
-    const buttonHtml = await toHTMLWithTemplate(
-        toFilePath(ACTION_BUTTONS_TEMPLATE),
-        { buttons },
-    );
+    const buttonHtml = await toHTMLWithTemplate(toFilePath(ACTION_BUTTONS_TEMPLATE), { buttons });
     return toHTMLString(body + buttonHtml);
 }
 
 /** The minimal speaker surface {@link postActionCard} needs. */
 interface CardSpeaker {
-    toChat: (
-        input: HTMLString | FilePath,
-        data?: any,
-        options?: any,
-    ) => Promise<unknown>;
+    toChat: (input: HTMLString | FilePath, data?: any, options?: any) => Promise<unknown>;
 }
 
 /**
@@ -183,9 +166,6 @@ interface CardSpeaker {
  * @param spec - The card body and its buttons.
  * @returns The posted message (whatever `toChat` resolves to).
  */
-export async function postActionCard(
-    speaker: CardSpeaker,
-    spec: ActionCardSpec,
-): Promise<unknown> {
+export async function postActionCard(speaker: CardSpeaker, spec: ActionCardSpec): Promise<unknown> {
     return speaker.toChat(await buildActionCard(spec));
 }

@@ -34,11 +34,7 @@
  * @param to - The destination index in the resulting array.
  * @returns A new array with the element moved.
  */
-export function moveArrayElement<T>(
-    arr: readonly T[],
-    from: number,
-    to: number,
-): T[] {
+export function moveArrayElement<T>(arr: readonly T[], from: number, to: number): T[] {
     const out = [...arr];
     if (from < 0 || from >= out.length || to < 0 || to >= out.length) {
         return out;
@@ -89,8 +85,7 @@ export function moveGroupedElement<T>(
     if (fromIndex < 0 || fromIndex >= out.length) return out;
 
     const [moved] = out.splice(fromIndex, 1);
-    const reparented =
-        getGroup(moved) === toGroup ? moved : setGroup(moved, toGroup);
+    const reparented = getGroup(moved) === toGroup ? moved : setGroup(moved, toGroup);
 
     // Flat slots currently held by the destination group, in order.
     const memberSlots: number[] = [];
@@ -101,9 +96,8 @@ export function moveGroupedElement<T>(
     const position = Math.max(0, toPosition);
     const insertAt =
         memberSlots.length === 0 ? out.length
-        : position >= memberSlots.length ?
-            memberSlots[memberSlots.length - 1] + 1
-        :   memberSlots[position];
+        : position >= memberSlots.length ? memberSlots[memberSlots.length - 1] + 1
+        : memberSlots[position];
 
     out.splice(insertAt, 0, reparented);
     return out;

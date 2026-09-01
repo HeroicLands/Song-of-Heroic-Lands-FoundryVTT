@@ -16,18 +16,10 @@
     gap: 0.6rem;
     padding: 0.5rem 0.95rem;
     // Band = ink mixed into the header base, per the manuscript.
-    background: color-mix(
-        in srgb,
-        var(--sohl-color-text-primary) 20%,
-        var(--sohl-color-bg-header)
-    );
+    background: color-mix(in srgb, var(--sohl-color-text-primary) 20%, var(--sohl-color-bg-header));
     border-top: 1px solid var(--sohl-color-border-default);
     border-bottom: 1px solid
-        color-mix(
-            in srgb,
-            var(--sohl-color-text-primary) 30%,
-            var(--sohl-color-border-default)
-        );
+        color-mix(in srgb, var(--sohl-color-text-primary) 30%, var(--sohl-color-border-default));
 
     &__name {
         font-family: var(--sohl-font-title);

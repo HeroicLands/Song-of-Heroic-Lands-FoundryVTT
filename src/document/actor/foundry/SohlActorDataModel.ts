@@ -15,20 +15,10 @@ import type { SohlActor } from "./SohlActor";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { SohlItemLogic } from "@src/document/item/logic/SohlItemBaseLogic";
 import type { FilePath, HTMLString } from "@src/utils/helpers";
-import {
-    SohlDataModel,
-    defineSohlDataSchema,
-} from "@src/core/foundry/SohlDataModel";
-import type {
-    SohlActorLogic,
-    SohlActorData,
-} from "@src/document/actor/logic/SohlActorBaseLogic";
+import { SohlDataModel, defineSohlDataSchema } from "@src/core/foundry/SohlDataModel";
+import type { SohlActorLogic, SohlActorData } from "@src/document/actor/logic/SohlActorBaseLogic";
 import type { MovementProfile } from "@src/document/actor/logic/movement";
-import {
-    MOVEMENT_MEDIUM,
-    MovementMediumChoices,
-    type MovementMedium,
-} from "@src/utils/constants";
+import { MOVEMENT_MEDIUM, MovementMediumChoices, type MovementMedium } from "@src/utils/constants";
 const {
     HTMLField,
     FilePathField,
@@ -120,8 +110,7 @@ type SohlActorDataSchema = ReturnType<typeof defineSohlActorDataSchema>;
  */
 export abstract class SohlActorDataModel<
     TSchema extends foundry.data.fields.DataSchema = SohlActorDataSchema,
-    TLogic extends SohlActorLogic<SohlActorData> =
-        SohlActorLogic<SohlActorData>,
+    TLogic extends SohlActorLogic<SohlActorData> = SohlActorLogic<SohlActorData>,
 >
     extends SohlDataModel<TSchema, SohlActor, TLogic>
     implements SohlActorData<TLogic>
@@ -158,11 +147,7 @@ export abstract class SohlActorDataModel<
         options: PlainObject,
         user: User,
     ): Promise<boolean | void> {
-        const allowed = await super._preUpdate(
-            changes as any,
-            options as any,
-            user as any,
-        );
+        const allowed = await super._preUpdate(changes as any, options as any, user as any);
         if (allowed === false) return false;
         // Handle both expanded (`system.health`) and flat (`system.health.value`)
         // update shapes.

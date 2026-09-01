@@ -65,9 +65,7 @@ export class SohlActiveEffect extends ActiveEffect {
 
     /** The owning `SohlItem` when the effect is on an item, else `null`. */
     override get item(): SohlItem | null {
-        return ItemKinds.includes(this.parent?.type as any) ?
-                (this.parent as SohlItem)
-            :   null;
+        return ItemKinds.includes(this.parent?.type as any) ? (this.parent as SohlItem) : null;
     }
 
     /** The owning `SohlActor` (the item's actor, or the actor parent). */
@@ -191,18 +189,14 @@ export class SohlActiveEffect extends ActiveEffect {
                 continue;
             }
             try {
-                if (expression.evaluate(scope.bind({ itemLogic: item.logic })))
-                    matched.push(item);
+                if (expression.evaluate(scope.bind({ itemLogic: item.logic }))) matched.push(item);
             } catch (err) {
-                sohl.log.warn(
-                    "Test script threw on Active Effect evaluation:",
-                    {
-                        test: this.sohlData?.test,
-                        effect: this,
-                        item,
-                        error: err,
-                    },
-                );
+                sohl.log.warn("Test script threw on Active Effect evaluation:", {
+                    test: this.sohlData?.test,
+                    effect: this,
+                    item,
+                    error: err,
+                });
             }
         }
         return matched;
@@ -221,11 +215,9 @@ export class SohlActiveEffect extends ActiveEffect {
      */
     matchingStrikeModes(item: SohlItem): StrikeModeBase[] {
         const effectScope = this.sohlData?.scope;
-        const smType =
-            effectScope ? STRIKE_MODE_SCOPES[effectScope] : undefined;
+        const smType = effectScope ? STRIKE_MODE_SCOPES[effectScope] : undefined;
         if (!smType) return [];
-        const strikeModes: StrikeModeBase[] =
-            (item.logic as any)?.strikeModes ?? [];
+        const strikeModes: StrikeModeBase[] = (item.logic as any)?.strikeModes ?? [];
         if (!strikeModes.length) return [];
 
         const scope = expressionScopes.require("effect.strikeModeTest");
@@ -240,13 +232,14 @@ export class SohlActiveEffect extends ActiveEffect {
                 continue;
             }
             try {
-                if (expression.evaluate(scope.bind({ itemLogic, sm })))
-                    matched.push(sm);
+                if (expression.evaluate(scope.bind({ itemLogic, sm }))) matched.push(sm);
             } catch (err) {
-                sohl.log.warn(
-                    "Test script threw on strike-mode Active Effect evaluation:",
-                    { test: this.sohlData?.test, effect: this, sm, error: err },
-                );
+                sohl.log.warn("Test script threw on strike-mode Active Effect evaluation:", {
+                    test: this.sohlData?.test,
+                    effect: this,
+                    sm,
+                    error: err,
+                });
             }
         }
         return matched;
@@ -307,9 +300,7 @@ export class SohlActiveEffect extends ActiveEffect {
      * @param doc - The active-effect document to get context options for.
      * @returns The context menu options for the specified document.
      */
-    protected static _getContextOptions(
-        doc: SohlActiveEffect,
-    ): SohlContextMenu.Entry[] {
+    protected static _getContextOptions(doc: SohlActiveEffect): SohlContextMenu.Entry[] {
         return doc.getContextOptions();
     }
 
@@ -344,10 +335,7 @@ export class SohlActiveEffect extends ActiveEffect {
                     this.disabled ?
                         "SOHL.Effect.contextMenu.enable"
                     :   "SOHL.Effect.contextMenu.disable",
-                iconFAClass:
-                    this.disabled ?
-                        "fa-solid fa-toggle-on"
-                    :   "fa-solid fa-toggle-off",
+                iconFAClass: this.disabled ? "fa-solid fa-toggle-on" : "fa-solid fa-toggle-off",
                 condition: always,
                 callback: () => {
                     void this.toggleEnabledState();
@@ -375,8 +363,7 @@ export class SohlActiveEffect extends ActiveEffect {
      * @returns The updated effect, or `undefined` if the update did not apply.
      */
     async toggleEnabledState(): Promise<this | undefined> {
-        return (await this.update({ disabled: !this.disabled })) as
-            this | undefined;
+        return (await this.update({ disabled: !this.disabled })) as this | undefined;
     }
 }
 
@@ -390,11 +377,7 @@ export class SohlActiveEffect extends ActiveEffect {
  * @param path - The doc-rooted property path to the target ValueModifier.
  * @returns Always `undefined`; the modifier is mutated in place.
  */
-function dispatchModifierChange(
-    targetDoc: any,
-    change: any,
-    path: string,
-): unknown {
+function dispatchModifierChange(targetDoc: any, change: any, path: string): unknown {
     const node = foundry.utils.getProperty(targetDoc, path);
     if (!(node instanceof ValueModifier)) {
         sohl.log.warn(
@@ -417,11 +400,7 @@ function dispatchModifierChange(
  * @param change - The effect change to apply; its key must be `mod:<path>`.
  * @returns Always `undefined`; strike modes are mutated in place.
  */
-function applyStrikeModeChange(
-    effect: SohlActiveEffect,
-    targetDoc: any,
-    change: any,
-): unknown {
+function applyStrikeModeChange(effect: SohlActiveEffect, targetDoc: any, change: any): unknown {
     const rawKey: string = change?.key ?? "";
     if (!rawKey.startsWith("mod:")) return undefined;
     const path = rawKey.slice(4);

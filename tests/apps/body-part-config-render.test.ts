@@ -55,12 +55,8 @@ describe("body-part-config template", () => {
     it("renders an identity header: large name and small unique shortcode", () => {
         const html = renderTemplateReal(TEMPLATE, context());
         expect(html).toContain("body-part-config__header");
-        expect(html).toMatch(
-            /class="body-part-config__name"[^>]*>\s*<input[^>]*name="name"/,
-        );
-        expect(html).toMatch(
-            /<input[^>]*class="body-part-config__shortcode"[^>]*name="shortcode"/,
-        );
+        expect(html).toMatch(/class="body-part-config__name"[^>]*>\s*<input[^>]*name="name"/);
+        expect(html).toMatch(/<input[^>]*class="body-part-config__shortcode"[^>]*name="shortcode"/);
         expect(html).toMatch(/name="shortcode"[^>]*value="larm"/);
         expect(html).toContain('value="Left Arm"');
     });
@@ -83,10 +79,7 @@ describe("body-part-config template", () => {
     });
 
     it("flags a dangling bodyZoneCode as an unresolved option, never blanked (#982)", () => {
-        const html = renderTemplateReal(
-            TEMPLATE,
-            context("Left Arm", "larm", [], "gone"),
-        );
+        const html = renderTemplateReal(TEMPLATE, context("Left Arm", "larm", [], "gone"));
         expect(html).toMatch(
             /<option value="gone"[^>]*selected[^>]*>\s*gone \(unresolved\)\s*<\/option>/,
         );

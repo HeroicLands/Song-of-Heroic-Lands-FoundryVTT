@@ -145,11 +145,7 @@ describe("SohlHookBridge", () => {
     });
 
     describe("scheduled-action re-arm (#588)", () => {
-        const doc = (
-            uuid: string,
-            scheduledActions: any[],
-            items: any[] = [],
-        ) => ({
+        const doc = (uuid: string, scheduledActions: any[], items: any[] = []) => ({
             uuid,
             system: { scheduledActions },
             items,
@@ -168,12 +164,8 @@ describe("SohlHookBridge", () => {
                 doc("Actor.plain", []),
             ]);
             captured.hooks.get("ready")![0]();
-            expect(queue.isScheduled("Actor.world", "checkForBandits")).toBe(
-                true,
-            );
-            expect(queue.nextFireTime("Actor.world", "checkForBandits")).toBe(
-                1100,
-            );
+            expect(queue.isScheduled("Actor.world", "checkForBandits")).toBe(true);
+            expect(queue.nextFireTime("Actor.world", "checkForBandits")).toBe(1100);
         });
 
         it("`ready` also arms each actor's embedded items' scheduledActions", () => {
@@ -194,12 +186,8 @@ describe("SohlHookBridge", () => {
                 ),
             ]);
             captured.hooks.get("ready")![0]();
-            expect(queue.isScheduled("Item.affliction", "courseTest")).toBe(
-                true,
-            );
-            expect(queue.nextFireTime("Item.affliction", "courseTest")).toBe(
-                740,
-            );
+            expect(queue.isScheduled("Item.affliction", "courseTest")).toBe(true);
+            expect(queue.nextFireTime("Item.affliction", "courseTest")).toBe(740);
         });
     });
 
@@ -257,9 +245,7 @@ describe("SohlHookBridge", () => {
             initial: { round: number; turn: number; combatantId: string },
             combatantIds: string[],
         ): any {
-            const combatants = new Map(
-                combatantIds.map((id) => [id, makeCombatant(id)]),
-            );
+            const combatants = new Map(combatantIds.map((id) => [id, makeCombatant(id)]));
             return {
                 id: "combat-1",
                 round: initial.round,
@@ -272,10 +258,7 @@ describe("SohlHookBridge", () => {
         }
 
         it("on combatStart, fires combatStart and initializes the per-combat prior tracker", async () => {
-            const combat = makeCombat({ round: 1, turn: 0, combatantId: "A" }, [
-                "A",
-                "B",
-            ]);
+            const combat = makeCombat({ round: 1, turn: 0, combatantId: "A" }, ["A", "B"]);
             await captured.hooks.get("combatStart")![0](combat);
             fireSpy.mockClear();
 
@@ -283,11 +266,7 @@ describe("SohlHookBridge", () => {
             combat.round = 1;
             combat.turn = 1;
             combat.combatant = combat.combatants.get("B");
-            await captured.hooks.get("combatTurn")![0](
-                combat,
-                { round: 1, turn: 1 },
-                {},
-            );
+            await captured.hooks.get("combatTurn")![0](combat, { round: 1, turn: 1 }, {});
 
             const calls = fireSpy.mock.calls.map((c: any[]) => c[0]);
             // turnEnd for prior combatant A, then turnStart for new B.
@@ -312,19 +291,13 @@ describe("SohlHookBridge", () => {
         });
 
         it("on combatRound, fires roundEnd then roundStart", async () => {
-            const combat = makeCombat({ round: 1, turn: 0, combatantId: "A" }, [
-                "A",
-            ]);
+            const combat = makeCombat({ round: 1, turn: 0, combatantId: "A" }, ["A"]);
             await captured.hooks.get("combatStart")![0](combat);
             fireSpy.mockClear();
 
             combat.round = 2;
             combat.turn = 0;
-            await captured.hooks.get("combatRound")![0](
-                combat,
-                { round: 2, turn: 0 },
-                {},
-            );
+            await captured.hooks.get("combatRound")![0](combat, { round: 2, turn: 0 }, {});
 
             const calls = fireSpy.mock.calls.map((c: any[]) => c[0]);
             expect(calls[0]).toEqual({
@@ -342,23 +315,13 @@ describe("SohlHookBridge", () => {
         });
 
         it("short-circuits combatTurn / combatRound on non-active-GM", async () => {
-            const combat = makeCombat({ round: 1, turn: 0, combatantId: "A" }, [
-                "A",
-            ]);
+            const combat = makeCombat({ round: 1, turn: 0, combatantId: "A" }, ["A"]);
             await captured.hooks.get("combatStart")![0](combat);
             fireSpy.mockClear();
             setUserFlags({ isGM: true, isActiveGM: false });
 
-            await captured.hooks.get("combatTurn")![0](
-                combat,
-                { round: 1, turn: 1 },
-                {},
-            );
-            await captured.hooks.get("combatRound")![0](
-                combat,
-                { round: 2, turn: 0 },
-                {},
-            );
+            await captured.hooks.get("combatTurn")![0](combat, { round: 1, turn: 1 }, {});
+            await captured.hooks.get("combatRound")![0](combat, { round: 2, turn: 0 }, {});
             expect(fireSpy).not.toHaveBeenCalled();
         });
     });

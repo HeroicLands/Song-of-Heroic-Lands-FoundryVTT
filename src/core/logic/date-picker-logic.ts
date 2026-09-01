@@ -11,10 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type {
-    SohlCalendarData,
-    SohlCalendarComponents,
-} from "@src/core/foundry/SohlCalendar";
+import type { SohlCalendarData, SohlCalendarComponents } from "@src/core/foundry/SohlCalendar";
 
 /**
  * The Foundry-free conversion between a stored **worldTime** value (seconds
@@ -91,10 +88,7 @@ export function calendarSecondsPerDay(calendar: SohlCalendarData): number {
  * @param time - The worldTime value (seconds since epoch).
  * @returns The month index, 1-based day, era year, before-era flag, and time of day.
  */
-export function worldTimeToDateParts(
-    calendar: SohlCalendarData,
-    time: number,
-): DateParts {
+export function worldTimeToDateParts(calendar: SohlCalendarData, time: number): DateParts {
     const c = calendar.timeToComponents(time) as SohlCalendarComponents;
     return {
         monthIndex: c.month,
@@ -168,8 +162,7 @@ function dayOfYear(
     let doy = 0;
     for (let i = 0; i < monthIndex; i++) {
         const m = calendar.months.values[i];
-        doy +=
-            leap ? ((m as { leapDays?: number }).leapDays ?? m.days) : m.days;
+        doy += leap ? ((m as { leapDays?: number }).leapDays ?? m.days) : m.days;
     }
     return doy + (day - 1);
 }
@@ -186,10 +179,7 @@ function dayOfYear(
  * @param parts - The editable calendar parts.
  * @returns The worldTime value (seconds since epoch), or `null` if invalid.
  */
-export function datePartsToWorldTime(
-    calendar: SohlCalendarData,
-    parts: DateParts,
-): number | null {
+export function datePartsToWorldTime(calendar: SohlCalendarData, parts: DateParts): number | null {
     const { monthIndex, day, eraYear, beforeEra, hour, minute, second } = parts;
     const { hoursPerDay, minutesPerHour, secondsPerMinute } = calendar.days;
     if (

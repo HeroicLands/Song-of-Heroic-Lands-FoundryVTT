@@ -37,12 +37,8 @@ describe("region-triggers", () => {
 
     describe("regionTriggerForEvent", () => {
         it("returns the SoHL trigger name for a curated event", () => {
-            expect(regionTriggerForEvent("tokenEnter")).toBe(
-                "regionTokenEnter",
-            );
-            expect(regionTriggerForEvent("tokenRoundEnd")).toBe(
-                "regionTokenRoundEnd",
-            );
+            expect(regionTriggerForEvent("tokenEnter")).toBe("regionTokenEnter");
+            expect(regionTriggerForEvent("tokenRoundEnd")).toBe("regionTokenRoundEnd");
         });
 
         it("returns undefined for an excluded high-frequency event", () => {
@@ -77,9 +73,7 @@ describe("region-triggers", () => {
         it("never maps an excluded event", () => {
             for (const excluded of EXCLUDED_REGION_EVENTS) {
                 expect(
-                    (REGION_EVENT_TO_TRIGGER as Record<string, string>)[
-                        excluded
-                    ],
+                    (REGION_EVENT_TO_TRIGGER as Record<string, string>)[excluded],
                 ).toBeUndefined();
             }
         });
@@ -109,12 +103,8 @@ describe("region-triggers", () => {
         });
 
         it("returns undefined for an excluded/unknown event (caller does nothing)", () => {
-            expect(
-                buildRegionTriggerContext({ eventName: "tokenMoveWithin" }),
-            ).toBeUndefined();
-            expect(
-                buildRegionTriggerContext({ eventName: "nope" }),
-            ).toBeUndefined();
+            expect(buildRegionTriggerContext({ eventName: "tokenMoveWithin" })).toBeUndefined();
+            expect(buildRegionTriggerContext({ eventName: "nope" })).toBeUndefined();
         });
 
         it("normalizes missing identifiers to blank and a missing actor to undefined", () => {
@@ -134,9 +124,7 @@ describe("region-triggers", () => {
     describe("SOHL_REGION_TRIGGERS", () => {
         it("lists every region trigger name with an i18n label", () => {
             const names = SOHL_REGION_TRIGGERS.map((t) => t.name).sort();
-            expect(names).toEqual(
-                Object.values(REGION_EVENT_TO_TRIGGER).sort(),
-            );
+            expect(names).toEqual(Object.values(REGION_EVENT_TO_TRIGGER).sort());
             for (const t of SOHL_REGION_TRIGGERS) {
                 expect(t.label).toMatch(/^SOHL\./);
             }

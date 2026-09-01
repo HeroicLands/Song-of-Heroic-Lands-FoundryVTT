@@ -14,7 +14,8 @@
 import { SohlItemDataModel } from "@src/document/item/foundry/SohlItemDataModel";
 import {
     worldTimeDateField,
-    durationFields,
+    durationBaseField,
+    durationFormulaField,
 } from "@src/document/item/foundry/temporal-fields";
 import { TraumaLogic, TraumaData } from "@src/document/item/logic/TraumaLogic";
 import {
@@ -87,11 +88,23 @@ function defineTraumaDataSchema(): foundry.data.fields.DataSchema {
         }),
         contractDate: worldTimeDateField(),
         treatmentDate: worldTimeDateField(),
-        ...durationFields("healingCheck"),
-        ...durationFields("bloodLossAdvance"),
+        // The recurring intervals, written out rather than generated from a
+        // name. `durationFields("healingCheck")` built its keys with a template
+        // literal, so the names existed only once the argument was applied —
+        // and the schema is now read from this source as data by
+        // `package-build schema`, which does not evaluate arguments. Generated,
+        // these six fields were absent from the published schema entirely.
+        //
+        // The helpers still carry the field *definitions*; only the names are
+        // spelled here, where they can be read.
+        healingCheckDurationFormula: durationFormulaField(),
+        healingCheckDurationBase: durationBaseField(),
+        bloodLossAdvanceDurationFormula: durationFormulaField(),
+        bloodLossAdvanceDurationBase: durationBaseField(),
         // Extended Shock / Coma recovery Course Test (#556): its own recurring
         // cadence (Extended Shock every 4 hours; Coma every d10 days).
-        ...durationFields("course"),
+        courseDurationFormula: durationFormulaField(),
+        courseDurationBase: durationBaseField(),
         // Whether this injury, once treated, is eligible for permanent
         // impairment if it heals slowly (#553 sets it; #554 applies the
         // magnitude). A blank sentinel (`false`), not nullable: "not eligible"
@@ -122,10 +135,7 @@ export class TraumaDataModel<
     implements TraumaData<TLogic>
 {
     /** @inheritDoc */
-    static override readonly LOCALIZATION_PREFIXES = [
-        "SOHL.Trauma",
-        "SOHL.Item",
-    ];
+    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Trauma", "SOHL.Item"];
     /** @inheritDoc */
     static override readonly kind = ITEM_KIND.TRAUMA;
     subType!: TraumaSubType;
@@ -179,17 +189,11 @@ export class TraumaDataModel<
         options: PlainObject,
         user: User,
     ): Promise<boolean | void> {
-        const allowed = await super._preCreate(
-            data as any,
-            options as any,
-            user as any,
-        );
+        const allowed = await super._preCreate(data as any, options as any, user as any);
         if (allowed === false) return false;
 
         const now = game.time.worldTime;
-        const healFormula = String(
-            game.settings.get("sohl", "healingCheckDurationFormula") ?? "",
-        );
+        const healFormula = String(game.settings.get("sohl", "healingCheckDurationFormula") ?? "");
         const bloodFormula = String(
             game.settings.get("sohl", "bloodLossAdvanceDurationFormula") ?? "",
         );
@@ -259,36 +263,23 @@ export class TraumaDataModel<
         options: PlainObject,
         user: User,
     ): Promise<boolean | void> {
-        const allowed = await super._preUpdate(
-            changes as any,
-            options as any,
-            user as any,
-        );
+        const allowed = await super._preUpdate(changes as any, options as any, user as any);
         if (allowed === false) return false;
 
         // Handle both the expanded (`{ system: { healingRateBase } }`) and flat
         // (`{ "system.healingRateBase": … }`) update shapes.
         const flatKey = "system.healingRateBase";
         const isFlat = flatKey in changes;
-        const incoming =
-            isFlat ?
-                changes[flatKey]
-            :   foundry.utils.getProperty(changes, flatKey);
+        const incoming = isFlat ? changes[flatKey] : foundry.utils.getProperty(changes, flatKey);
 
         const suppliesDate =
             "system.treatmentDate" in changes ||
-            foundry.utils.getProperty(changes, "system.treatmentDate") !==
-                undefined;
+            foundry.utils.getProperty(changes, "system.treatmentDate") !== undefined;
 
-        if (
-            typeof incoming === "number" &&
-            this.healingRateBase == null &&
-            !suppliesDate
-        ) {
+        if (typeof incoming === "number" && this.healingRateBase == null && !suppliesDate) {
             const now = game.time.worldTime;
             if (isFlat) changes["system.treatmentDate"] = now;
-            else
-                foundry.utils.setProperty(changes, "system.treatmentDate", now);
+            else foundry.utils.setProperty(changes, "system.treatmentDate", now);
         }
         return undefined;
     }

@@ -44,14 +44,8 @@ import {
     COMBATANT_LOGIC,
 } from "@src/core/foundry/sohl-config";
 const { HandlebarsApplicationMixin } = foundry.applications.api;
-const {
-    StringField,
-    SchemaField,
-    NumberField,
-    ArrayField,
-    ObjectField,
-    JavaScriptField,
-} = foundry.data.fields;
+const { StringField, SchemaField, NumberField, ArrayField, ObjectField, JavaScriptField } =
+    foundry.data.fields;
 
 /**
  * Builds the Foundry data schema shared by every SoHL data model (shortcode,
@@ -228,13 +222,9 @@ export abstract class SohlDataModel<
      * @returns The newly created Logic instance.
      * @throws If no logic constructor is registered for the kind.
      */
-    static create<L extends SohlLogic<any>>(
-        data: PlainObject,
-        options: PlainObject,
-    ): L {
+    static create<L extends SohlLogic<any>>(data: PlainObject, options: PlainObject): L {
         const kind: string = this.kind;
-        let logicCtor: Constructor<SohlLogic<any>> | undefined =
-            COMMON_ACTOR_LOGIC[kind];
+        let logicCtor: Constructor<SohlLogic<any>> | undefined = COMMON_ACTOR_LOGIC[kind];
         logicCtor ??= COMMON_ITEM_LOGIC[kind];
         //logicCtor ??= EFFECT_LOGIC[kind];
         logicCtor ??= COMBATANT_LOGIC[kind];
@@ -247,10 +237,7 @@ export abstract class SohlDataModel<
     /** The Logic instance for this data model, created lazily on first access. */
     get logic(): TLogic {
         if (!this._logic) {
-            this._logic = (this.constructor as any).create(
-                {},
-                { parent: this },
-            );
+            this._logic = (this.constructor as any).create({}, { parent: this });
         }
         return this._logic;
     }
@@ -354,11 +341,7 @@ export abstract class SohlDataModel<
         const kind = data[KIND_KEY];
 
         if (!kind) {
-            throw new Error(
-                `Data does not contain a "${KIND_KEY}" key: ${JSON.stringify(
-                    data,
-                )}`,
-            );
+            throw new Error(`Data does not contain a "${KIND_KEY}" key: ${JSON.stringify(data)}`);
         }
         let dataModel: Constructor<SohlDataModel<any, any>> | undefined;
         for (const docType of ["Item", "Actor", "ActiveEffect"] as const) {
@@ -368,9 +351,7 @@ export abstract class SohlDataModel<
             if (dataModel) break;
         }
         if (!dataModel) {
-            throw new Error(
-                `No data model found for kind "${kind}" in sohl.CONFIG`,
-            );
+            throw new Error(`No data model found for kind "${kind}" in sohl.CONFIG`);
         }
 
         if (typeof data === "string") {
@@ -397,10 +378,7 @@ export namespace SohlDataModel {
         export interface Statics {
             readonly LOCALIZATION_PREFIXES: string[];
             readonly kind: string;
-            create<L extends SohlLogic<any>>(
-                data: PlainObject,
-                options: PlainObject,
-            ): L;
+            create<L extends SohlLogic<any>>(data: PlainObject, options: PlainObject): L;
         }
 
         export const Shape: WithStatics<
@@ -440,18 +418,10 @@ export namespace SohlDataModel {
                     effectCreate(this: any): unknown {
                         return SMix._onEffectCreate.call(this);
                     },
-                    effectToggle(
-                        this: any,
-                        event: PointerEvent,
-                        target: HTMLElement,
-                    ): unknown {
+                    effectToggle(this: any, event: PointerEvent, target: HTMLElement): unknown {
                         return SMix._onEffectToggle.call(this, event, target);
                     },
-                    effectDelete(
-                        this: any,
-                        event: PointerEvent,
-                        target: HTMLElement,
-                    ): unknown {
+                    effectDelete(this: any, event: PointerEvent, target: HTMLElement): unknown {
                         return SMix._onEffectDelete.call(this, event, target);
                     },
                 },
@@ -523,15 +493,12 @@ export namespace SohlDataModel {
                 form: HTMLFormElement,
                 submitData: foundry.applications.api.DocumentSheetV2.SubmitData<any>,
                 options?: foundry.applications.api.DocumentSheetV2.ProcessSubmitOptions<any>,
-            ): Promise<
-                foundry.applications.api.DocumentSheetV2.SubmitResult<any>
-            > {
+            ): Promise<foundry.applications.api.DocumentSheetV2.SubmitResult<any>> {
                 // Walk to the primary document: an embedded document's home is
                 // its ancestor's collection, which the ancestor's deletion
                 // orphans but does not clear — so only the root's own
                 // collection tells us the edit still has somewhere to land.
-                let root: { id: string | null; parent: any; collection?: any } =
-                    this.document;
+                let root: { id: string | null; parent: any; collection?: any } = this.document;
                 while (root.parent) root = root.parent;
                 const rootId = root.id;
                 if (
@@ -540,12 +507,7 @@ export namespace SohlDataModel {
                 ) {
                     return {};
                 }
-                return super._processSubmitData(
-                    event,
-                    form,
-                    submitData,
-                    options,
-                );
+                return super._processSubmitData(event, form, submitData, options);
             }
 
             /** @inheritDoc */
@@ -572,9 +534,7 @@ export namespace SohlDataModel {
                             dragover: this._onDragOver.bind(this),
                             drop: this._onDrop.bind(this),
                         };
-                        return new foundry.applications.ux.DragDrop(
-                            d,
-                        ) as DragDrop;
+                        return new foundry.applications.ux.DragDrop(d) as DragDrop;
                     }) ?? []
                 );
             }
@@ -611,9 +571,7 @@ export namespace SohlDataModel {
              * @param options - The render options for this pass.
              * @returns The prepared render context.
              */
-            protected override async _prepareContext(
-                options: any,
-            ): Promise<PlainObject> {
+            protected override async _prepareContext(options: any): Promise<PlainObject> {
                 const data: PlainObject = await super._prepareContext(options);
                 data.config = sohl.CONFIG;
                 data.owner = !!this.document.isOwner;
@@ -634,13 +592,11 @@ export namespace SohlDataModel {
 
                 // Collect all effects from other Items/Actors that are affecting this item
                 data.trxEffects = {};
-                (this.document as any).transferredEffects?.forEach(
-                    (effect: SohlActiveEffect) => {
-                        if (effect.id && !effect.disabled) {
-                            data.trxEffects[effect.id] = effect;
-                        }
-                    },
-                );
+                (this.document as any).transferredEffects?.forEach((effect: SohlActiveEffect) => {
+                    if (effect.id && !effect.disabled) {
+                        data.trxEffects[effect.id] = effect;
+                    }
+                });
 
                 return data;
             }
@@ -676,9 +632,7 @@ export namespace SohlDataModel {
                 if (!element) return;
                 const visibleCategories = new Set<string>();
 
-                for (const entry of Array.from(
-                    element.querySelectorAll<HTMLElement>(".item"),
-                )) {
+                for (const entry of Array.from(element.querySelectorAll<HTMLElement>(".item"))) {
                     if (!query) {
                         entry.classList.remove("hidden");
                         continue;
@@ -689,8 +643,7 @@ export namespace SohlDataModel {
                     entry.classList.toggle("hidden", !match);
                     if (match) {
                         const cat = entry.closest<HTMLElement>(".category");
-                        if (cat?.dataset.category)
-                            visibleCategories.add(cat.dataset.category);
+                        if (cat?.dataset.category) visibleCategories.add(cat.dataset.category);
                     }
                 }
 
@@ -736,9 +689,7 @@ export namespace SohlDataModel {
              * @param element - The element the context menu was opened on.
              * @returns An empty array; the menu items are set on the UI context as a side effect.
              */
-            protected _onItemContextMenuOpen(
-                element: HTMLElement,
-            ): SohlContextMenu.Entry[] {
+            protected _onItemContextMenuOpen(element: HTMLElement): SohlContextMenu.Entry[] {
                 const anyDoc = this.document as any;
                 let ele = element.closest("[data-item-id]") as HTMLElement;
                 if (!ele) return [];
@@ -750,9 +701,7 @@ export namespace SohlDataModel {
                     doc = anyDoc.system.actions.get(docId);
                 } else {
                     let actor: SohlActor | null =
-                        ActorKinds.includes(anyDoc.type) ?
-                            (anyDoc as SohlActor)
-                        :   anyDoc.actor;
+                        ActorKinds.includes(anyDoc.type) ? (anyDoc as SohlActor) : anyDoc.actor;
                     if (!actor) return [];
                     doc = actor.items.get(docId);
                 }
@@ -777,8 +726,7 @@ export namespace SohlDataModel {
                 const effect = (this.document as any).effects.get(effectId);
                 const uiContext = (foundry as any).ui.context;
                 if (uiContext) {
-                    uiContext.menuItems =
-                        effect ? effect.getContextOptions(effect) : [];
+                    uiContext.menuItems = effect ? effect.getContextOptions(effect) : [];
                 }
             }
 
@@ -789,25 +737,18 @@ export namespace SohlDataModel {
              * @param doc
              * @returns
              */
-            protected static _getContextOptions(
-                doc: SohlDocument,
-            ): SohlContextMenu.Entry[] {
-                let result = (
-                    doc as any
-                ).getContextOptions() as SohlContextMenu.Entry[];
+            protected static _getContextOptions(doc: SohlDocument): SohlContextMenu.Entry[] {
+                let result = (doc as any).getContextOptions() as SohlContextMenu.Entry[];
                 if (!result || !result.length) return [];
 
-                result = result.filter(
-                    (co) => co.group !== SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
-                );
+                result = result.filter((co) => co.group !== SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN);
 
                 // Sort the menu items according to group.  Expect items with no group
                 // at the top, items in the "primary" group next, and items in the
                 // "secondary" group last.
                 const collator = new Intl.Collator(sohl.i18n.lang);
-                result.sort(
-                    (a: SohlContextMenu.Entry, b: SohlContextMenu.Entry) =>
-                        collator.compare(a.group || "", b.group || ""),
+                result.sort((a: SohlContextMenu.Entry, b: SohlContextMenu.Entry) =>
+                    collator.compare(a.group || "", b.group || ""),
                 );
                 return result;
             }
@@ -822,9 +763,7 @@ export namespace SohlDataModel {
                 event: PointerEvent,
                 target: HTMLElement,
             ): Promise<void> {
-                const li = target.closest(
-                    "[data-effect-id]",
-                ) as HTMLElement | null;
+                const li = target.closest("[data-effect-id]") as HTMLElement | null;
                 const effectId = li?.dataset.effectId;
                 if (!effectId) return;
                 const effect = this.document.effects.get(effectId);
@@ -840,16 +779,12 @@ export namespace SohlDataModel {
                 const doc = this.document;
                 const createEffect = doc.createEffect as Function | undefined;
                 if (!createEffect) {
-                    throw new Error(
-                        "SohlDataModel.Sheet._onEffectCreate: createEffect not found",
-                    );
+                    throw new Error("SohlDataModel.Sheet._onEffectCreate: createEffect not found");
                 }
                 let name = game.i18n.localize("SOHL.Effect.newName");
                 let base = name;
                 let i = 0;
-                while (
-                    doc.effects.some((e: SohlActiveEffect) => e.name === name)
-                ) {
+                while (doc.effects.some((e: SohlActiveEffect) => e.name === name)) {
                     name = `${base} ${++i}`;
                 }
                 await doc.createEffect({
@@ -871,22 +806,17 @@ export namespace SohlDataModel {
                 event: PointerEvent,
                 target: HTMLElement,
             ): Promise<void> {
-                const li = target.closest(
-                    "[data-effect-id]",
-                ) as HTMLElement | null;
+                const li = target.closest("[data-effect-id]") as HTMLElement | null;
                 const effectId = li?.dataset.effectId;
                 if (!effectId) return;
                 const effect = this.document.effects.get(effectId);
                 if (!effect) return;
-                const confirmed =
-                    await foundry.applications.api.DialogV2.confirm({
-                        window: {
-                            title: game.i18n.localize(
-                                "SOHL.Effect.contextMenu.delete",
-                            ),
-                        },
-                        content: `<p>${game.i18n.format("SOHL.Effect.deleteHint", { name: effect.name })}</p>`,
-                    } as any);
+                const confirmed = await foundry.applications.api.DialogV2.confirm({
+                    window: {
+                        title: game.i18n.localize("SOHL.Effect.contextMenu.delete"),
+                    },
+                    content: `<p>${game.i18n.format("SOHL.Effect.deleteHint", { name: effect.name })}</p>`,
+                } as any);
                 if (!confirmed) return;
                 await effect.delete();
             }
@@ -910,19 +840,14 @@ export namespace SohlDataModel {
 
                 // Active Effect
                 else if (li.dataset.effectId && this.actor) {
-                    const effect = (this.actor as any).effects.get(
-                        li.dataset.effectId,
-                    );
+                    const effect = (this.actor as any).effects.get(li.dataset.effectId);
                     dragData = effect?.toDragData() || null;
                 }
 
                 if (!dragData) return;
 
                 // Set data transfer
-                event.dataTransfer?.setData(
-                    "text/plain",
-                    JSON.stringify(dragData),
-                );
+                event.dataTransfer?.setData("text/plain", JSON.stringify(dragData));
             }
 
             /**
@@ -936,9 +861,7 @@ export namespace SohlDataModel {
              * @param event - The originating DragEvent
              */
             protected async _onDrop(event: DragEvent): Promise<void> {
-                const data = JSON.parse(
-                    event.dataTransfer?.getData("text/plain") || "{}",
-                );
+                const data = JSON.parse(event.dataTransfer?.getData("text/plain") || "{}");
                 const documentClass = foundry.utils.getDocumentClass(data.type);
                 if (documentClass) {
                     const document = await documentClass.fromDropData(data);
@@ -986,20 +909,14 @@ export namespace SohlDataModel {
              * @param event - The originating drop event.
              * @param droppedFolder - The folder that was dropped.
              */
-            protected async _onDropFolder(
-                event: DragEvent,
-                droppedFolder: Folder,
-            ): Promise<void> {}
+            protected async _onDropFolder(event: DragEvent, droppedFolder: Folder): Promise<void> {}
 
             /**
              * Handle an item dropped onto the sheet.
              * @param event - The originating drop event.
              * @param droppedItem - The item that was dropped.
              */
-            protected async _onDropItem(
-                event: DragEvent,
-                droppedItem: SohlItem,
-            ): Promise<void> {}
+            protected async _onDropItem(event: DragEvent, droppedItem: SohlItem): Promise<void> {}
 
             /**
              * Prompt for a primitive (string or number) value via a dialog and
@@ -1023,9 +940,7 @@ export namespace SohlDataModel {
                 const choices = dataset.choices;
                 const defaultValue =
                     dataset.dtype === "Number" ?
-                        String(
-                            Number.parseFloat(dataset.defaultValue || "0") || 0,
-                        )
+                        String(Number.parseFloat(dataset.defaultValue || "0") || 0)
                     :   String(dataset.defaultValue);
 
                 const dialogData = {
@@ -1062,14 +977,11 @@ export namespace SohlDataModel {
                         },
                     ],
                     callback: (formData: PlainObject) => {
-                        const expanded = foundry.utils.expandObject(
-                            formData,
-                        ) as PlainObject;
+                        const expanded = foundry.utils.expandObject(formData) as PlainObject;
                         let formValue = expanded.newValue;
                         if (datatype === "Number") {
                             formValue = Number.parseFloat(formValue);
-                            if (Number.isNaN(formValue))
-                                formValue = dataset.defaultValue;
+                            if (Number.isNaN(formValue)) formValue = dataset.defaultValue;
                         }
                         return formValue;
                     },
@@ -1092,14 +1004,11 @@ export namespace SohlDataModel {
              * chosen value to the array field named in the trigger's dataset.
              * @param event - The pointer event whose target carries the choices and array dataset.
              */
-            protected async _addChoiceArrayItem(
-                event: PointerEvent,
-            ): Promise<void> {
+            protected async _addChoiceArrayItem(event: PointerEvent): Promise<void> {
                 const dataset = (event.currentTarget as HTMLElement).dataset;
                 if (!dataset.choices || !dataset.array) return;
                 let array: string[] = (
-                    (foundry.utils.getProperty(this.document, dataset.array) ||
-                        []) as any[]
+                    (foundry.utils.getProperty(this.document, dataset.array) || []) as any[]
                 ).concat();
                 const choices: string[] = dataset.choices.split(";");
                 let formHtml =
@@ -1119,12 +1028,8 @@ export namespace SohlDataModel {
                     label: `Add ${dataset.title}`,
                     callback: (element) => {
                         const form = element.querySelector("form");
-                        const fd = new (
-                            foundry.applications as any
-                        ).ux.FormDataExtended(form);
-                        const formData = foundry.utils.expandObject(
-                            fd.object,
-                        ) as PlainObject;
+                        const fd = new (foundry.applications as any).ux.FormDataExtended(form);
+                        const formData = foundry.utils.expandObject(fd.object) as PlainObject;
                         return formData.choice;
                     },
                     rejectClose: false,
@@ -1135,9 +1040,7 @@ export namespace SohlDataModel {
                 if (!dlgResult) return;
 
                 if (array.some((a: string) => a === dlgResult)) {
-                    sohl.log.uiWarn(
-                        `Choice with value "${dlgResult} already exists, ignoring`,
-                    );
+                    sohl.log.uiWarn(`Choice with value "${dlgResult} already exists, ignoring`);
                     return;
                 }
 
@@ -1151,14 +1054,14 @@ export namespace SohlDataModel {
              * it to the array field named in the trigger's dataset.
              * @param event - The pointer event whose target carries the aim and array dataset.
              */
-            protected async _addAimArrayItem(
-                event: PointerEvent,
-            ): Promise<void> {
+            protected async _addAimArrayItem(event: PointerEvent): Promise<void> {
                 const dataset = (event.currentTarget as HTMLElement).dataset;
                 if (!dataset.aim || !dataset.array) return;
                 let array: { name: string; probWeightBase: number }[] = (
-                    (foundry.utils.getProperty(this.document, dataset.array) ||
-                        []) as Array<{ name: string; probWeightBase: number }>
+                    (foundry.utils.getProperty(this.document, dataset.array) || []) as Array<{
+                        name: string;
+                        probWeightBase: number;
+                    }>
                 ).concat();
                 const compiled = Handlebars.compile(`<form id="aim">
         <div class="form-group flexrow">
@@ -1183,17 +1086,11 @@ export namespace SohlDataModel {
                     label: `Add ${dataset.title}`,
                     callback: (element) => {
                         const form = element.querySelector("form");
-                        const fd = new (
-                            foundry.applications as any
-                        ).ux.FormDataExtended(form);
-                        const formData = foundry.utils.expandObject(
-                            fd.object,
-                        ) as PlainObject;
+                        const fd = new (foundry.applications as any).ux.FormDataExtended(form);
+                        const formData = foundry.utils.expandObject(fd.object) as PlainObject;
                         const result = {
                             name: formData.name,
-                            probWeightBase:
-                                Number.parseInt(formData.probWeightBase, 10) ||
-                                0,
+                            probWeightBase: Number.parseInt(formData.probWeightBase, 10) || 0,
                         };
                         return result;
                     },
@@ -1206,13 +1103,10 @@ export namespace SohlDataModel {
 
                 if (
                     array.some(
-                        (a: { name: string; probWeightBase: number }) =>
-                            a.name === dlgResult.name,
+                        (a: { name: string; probWeightBase: number }) => a.name === dlgResult.name,
                     )
                 ) {
-                    sohl.log.uiWarn(
-                        `Aim with name "${dlgResult.name} already exists, ignoring`,
-                    );
+                    sohl.log.uiWarn(`Aim with name "${dlgResult.name} already exists, ignoring`);
                     return;
                 }
 
@@ -1227,16 +1121,16 @@ export namespace SohlDataModel {
              * trigger's dataset.
              * @param event - The pointer event whose target carries the valueDesc and array dataset.
              */
-            protected async _addValueDescArrayItem(
-                event: PointerEvent,
-            ): Promise<void> {
+            protected async _addValueDescArrayItem(event: PointerEvent): Promise<void> {
                 const dataset = (event.currentTarget as HTMLElement).dataset;
                 // Routed here by `data-object-type="ValueDesc"` in the dispatcher;
                 // only the target array path is required.
                 if (!dataset.array) return;
                 let array: { label: string; maxValue: number }[] = (
-                    (foundry.utils.getProperty(this.document, dataset.array) ||
-                        []) as Array<{ label: string; maxValue: number }>
+                    (foundry.utils.getProperty(this.document, dataset.array) || []) as Array<{
+                        label: string;
+                        maxValue: number;
+                    }>
                 ).concat();
                 const compiled = Handlebars.compile(`<form id="aim">
                 <div class="form-group flexrow">
@@ -1261,16 +1155,11 @@ export namespace SohlDataModel {
                     label: `Add ${dataset.title}`,
                     callback: (element) => {
                         const form = element.querySelector("form");
-                        const fd = new (
-                            foundry.applications as any
-                        ).ux.FormDataExtended(form);
-                        const formData = foundry.utils.expandObject(
-                            fd.object,
-                        ) as PlainObject;
+                        const fd = new (foundry.applications as any).ux.FormDataExtended(form);
+                        const formData = foundry.utils.expandObject(fd.object) as PlainObject;
                         const result = {
                             label: formData.label,
-                            maxValue:
-                                Number.parseInt(formData.maxValue, 10) || 0,
+                            maxValue: Number.parseInt(formData.maxValue, 10) || 0,
                         };
                         return result;
                     },
@@ -1283,13 +1172,10 @@ export namespace SohlDataModel {
 
                 if (
                     array.some(
-                        (a: { label: string; maxValue: number }) =>
-                            a.label === dlgResult.label,
+                        (a: { label: string; maxValue: number }) => a.label === dlgResult.label,
                     )
                 ) {
-                    sohl.log.uiWarn(
-                        `Aim with name "${dlgResult.label} already exists, ignoring`,
-                    );
+                    sohl.log.uiWarn(`Aim with name "${dlgResult.label} already exists, ignoring`);
                     return;
                 }
 
@@ -1325,9 +1211,7 @@ export namespace SohlDataModel {
                     await this._addValueDescArrayItem(event);
                 } else if (dataset.choices) {
                     await this._addChoiceArrayItem(event);
-                } else if (
-                    ["Number", "String"].includes(dataset.dtype || "String")
-                ) {
+                } else if (["Number", "String"].includes(dataset.dtype || "String")) {
                     await this._addPrimitiveArrayItem(event, {
                         allowDuplicates: dataset.allowDuplicates === "true",
                     });
@@ -1340,9 +1224,7 @@ export namespace SohlDataModel {
              * array field, after saving any pending sheet edits.
              * @param event - The pointer event whose target carries the array and value dataset.
              */
-            protected async _deleteArrayItem(
-                event: PointerEvent,
-            ): Promise<void> {
+            protected async _deleteArrayItem(event: PointerEvent): Promise<void> {
                 const dataset = (event.currentTarget as HTMLElement).dataset;
                 if (!dataset.array) return;
                 // Flush any focused-but-unsaved field edit. ApplicationV2 saves
@@ -1350,22 +1232,14 @@ export namespace SohlDataModel {
                 // field; the optional call is a belt-and-suspenders flush that
                 // no-ops when the base sheet exposes no `_onSubmit`.
                 await (this as any)._onSubmit?.(event);
-                const current = foundry.utils.getProperty(
-                    this.document,
-                    dataset.array,
-                );
+                const current = foundry.utils.getProperty(this.document, dataset.array);
                 let array: any[] = Array.isArray(current) ? [...current] : [];
                 // Object-array rows delete by index (`data-index`); primitive
                 // rows delete by value (`data-value`). Either way the whole
                 // array is written back, never an element by index.
                 if (dataset.index !== undefined) {
                     const idx = Number.parseInt(dataset.index, 10);
-                    if (
-                        !Number.isInteger(idx) ||
-                        idx < 0 ||
-                        idx >= array.length
-                    )
-                        return;
+                    if (!Number.isInteger(idx) || idx < 0 || idx >= array.length) return;
                     array.splice(idx, 1);
                 } else {
                     array = array.filter((a: any) => a !== dataset.value);
@@ -1393,10 +1267,7 @@ export namespace SohlDataModel {
                 // no-ops when the base sheet exposes no `_onSubmit`.
                 await (this as any)._onSubmit?.(event);
 
-                let object = foundry.utils.getProperty(
-                    this.document,
-                    dataset.object,
-                ) as any;
+                let object = foundry.utils.getProperty(this.document, dataset.object) as any;
 
                 const dialogData = {
                     newKey: "",
@@ -1412,9 +1283,7 @@ export namespace SohlDataModel {
                     template: dlgTemplate,
                     data: dialogData,
                     callback: (rawForm: PlainObject) => {
-                        const formData = foundry.utils.expandObject(
-                            rawForm,
-                        ) as PlainObject;
+                        const formData = foundry.utils.expandObject(rawForm) as PlainObject;
                         let formKey = formData.newKey;
                         let formValue = formData.newValue;
                         let value: number = Number.parseFloat(formValue);

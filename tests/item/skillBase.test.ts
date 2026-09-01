@@ -27,11 +27,7 @@
 import { describe, it, expect } from "vitest";
 import { SkillLogic } from "@src/document/item/logic/SkillLogic";
 import { ITEM_KIND } from "@src/utils/constants";
-import {
-    makeItemLogic,
-    makeMockActor,
-    makeAttributeStub,
-} from "@tests/mocks/logicHarness";
+import { makeItemLogic, makeMockActor, makeAttributeStub } from "@tests/mocks/logicHarness";
 
 /** Default SkillData fields; override per test. */
 function skillFields(overrides: Record<string, unknown> = {}) {
@@ -53,10 +49,7 @@ function skillFields(overrides: Record<string, unknown> = {}) {
  * whose formula is `formula`, initialize it, and return the initialized
  * SkillLogic.
  */
-function skillFor(
-    formula: string,
-    attrs: Record<string, number> = {},
-): SkillLogic {
+function skillFor(formula: string, attrs: Record<string, number> = {}): SkillLogic {
     const actor = makeMockActor();
     for (const [code, score] of Object.entries(attrs)) {
         actor.items.set(`${code}1`, makeAttributeStub(code, score));
@@ -95,26 +88,17 @@ describe("SkillLogic Skill-Base pipeline (#972)", () => {
 
     describe("attribute averaging (value-preservation from the DSL era)", () => {
         it("averages two attribute values", () => {
-            expect(
-                skillFor("sb(attr.str, attr.dex)", { str: 60, dex: 40 })
-                    .skillBase,
-            ).toBe(50);
+            expect(skillFor("sb(attr.str, attr.dex)", { str: 60, dex: 40 }).skillBase).toBe(50);
         });
 
         it("rounds up when the primary exceeds the secondary", () => {
             // (61 + 40) / 2 = 50.5, primary > secondary → 51
-            expect(
-                skillFor("sb(attr.str, attr.dex)", { str: 61, dex: 40 })
-                    .skillBase,
-            ).toBe(51);
+            expect(skillFor("sb(attr.str, attr.dex)", { str: 61, dex: 40 }).skillBase).toBe(51);
         });
 
         it("rounds down when the primary does not exceed the secondary", () => {
             // (40 + 61) / 2 = 50.5, primary <= secondary → 50
-            expect(
-                skillFor("sb(attr.str, attr.dex)", { str: 40, dex: 61 })
-                    .skillBase,
-            ).toBe(50);
+            expect(skillFor("sb(attr.str, attr.dex)", { str: 40, dex: 61 }).skillBase).toBe(50);
         });
 
         it("uses nearest rounding for three or more attributes", () => {
@@ -130,9 +114,7 @@ describe("SkillLogic Skill-Base pipeline (#972)", () => {
 
         it("treats a missing attribute as 0", () => {
             // str=60, dex absent=0 → (60+0)/2=30, primary>secondary → 30
-            expect(
-                skillFor("sb(attr.str, attr.dex)", { str: 60 }).skillBase,
-            ).toBe(30);
+            expect(skillFor("sb(attr.str, attr.dex)", { str: 60 }).skillBase).toBe(30);
         });
 
         it("supports a single-attribute formula (now valid)", () => {
@@ -140,35 +122,23 @@ describe("SkillLogic Skill-Base pipeline (#972)", () => {
         });
 
         it("is case-insensitive on attribute references", () => {
-            expect(
-                skillFor("sb(attr.STR, attr.Dex)", { str: 60, dex: 40 })
-                    .skillBase,
-            ).toBe(50);
+            expect(skillFor("sb(attr.STR, attr.Dex)", { str: 60, dex: 40 }).skillBase).toBe(50);
         });
     });
 
     describe("arithmetic and clamping", () => {
         it("adds a flat modifier", () => {
-            expect(
-                skillFor("sb(attr.str, attr.dex) + 5", { str: 60, dex: 40 })
-                    .skillBase,
-            ).toBe(55);
+            expect(skillFor("sb(attr.str, attr.dex) + 5", { str: 60, dex: 40 }).skillBase).toBe(55);
         });
 
         it("applies a multiplier written into the expression", () => {
             // str×2 = 120, dex = 40 → sb(120, 40) = 80
-            expect(
-                skillFor("sb(attr.str * 2, attr.dex)", { str: 60, dex: 40 })
-                    .skillBase,
-            ).toBe(80);
+            expect(skillFor("sb(attr.str * 2, attr.dex)", { str: 60, dex: 40 }).skillBase).toBe(80);
         });
 
         it("clamps the final SB to a minimum of 0", () => {
             // average 50, − 60 → −10 → clamped to 0
-            expect(
-                skillFor("sb(attr.str, attr.dex) - 60", { str: 60, dex: 40 })
-                    .skillBase,
-            ).toBe(0);
+            expect(skillFor("sb(attr.str, attr.dex) - 60", { str: 60, dex: 40 }).skillBase).toBe(0);
         });
     });
 

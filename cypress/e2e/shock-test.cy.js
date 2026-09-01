@@ -40,9 +40,7 @@ describe("Shock Test action (#850)", () => {
             cy.foundry(async (win) => {
                 const a = win.game.actors.get(actor.id);
                 const result = await a.logic.shockTest(
-                    win.structuredClone(
-                        base({ shockIndex: 11, applyShockState: true }),
-                    ),
+                    win.structuredClone(base({ shockIndex: 11, applyShockState: true })),
                 );
                 return { state: a.logic.shockState, rolled: result != null };
             }).should("deep.equal", { state: 4, rolled: false });
@@ -54,9 +52,7 @@ describe("Shock Test action (#850)", () => {
             cy.foundry(async (win) => {
                 const a = win.game.actors.get(actor.id);
                 await a.logic.shockTest(
-                    win.structuredClone(
-                        base({ shockIndex: 4, applyShockState: true }),
-                    ),
+                    win.structuredClone(base({ shockIndex: 4, applyShockState: true })),
                 );
                 return a.logic.shockState;
             }).should("eq", 0);
@@ -68,9 +64,7 @@ describe("Shock Test action (#850)", () => {
             cy.foundry(async (win) => {
                 const a = win.game.actors.get(actor.id);
                 await a.logic.shockTest(
-                    win.structuredClone(
-                        base({ shockIndex: 11, applyShockState: false }),
-                    ),
+                    win.structuredClone(base({ shockIndex: 11, applyShockState: false })),
                 );
                 return a.logic.shockState;
             }).should("eq", 0);

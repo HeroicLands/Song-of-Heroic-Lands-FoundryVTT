@@ -21,24 +21,15 @@ import { AffiliationStandings } from "@src/utils/constants";
 // repository-side fact, so it is asserted here rather than travelling with the
 // pack tests into the package (#1511).
 import { descriptionLinkTarget } from "@src/utils/description-link";
-import {
-    itemDocEntryId,
-    itemDocPointer,
-} from "@heroiclands/package-build/engine/item-docs";
-import {
-    splitPages,
-    journalPageId,
-} from "@heroiclands/package-build/engine/journals";
+import { itemDocEntryId, itemDocPointer } from "@heroiclands/package-build/engine/item-docs";
+import { splitPages, journalPageId } from "@heroiclands/package-build/engine/journals";
 
 // The pipeline lives in its own repository now (#1589) and arrives here as an
 // installed dependency, so the guard walks what npm actually delivered rather
 // than a working copy. That is the stronger check: it asserts the severance of
 // the *published tarball*, which is the only form any consumer ever sees, and
 // it would catch a module that is clean in its own repository but ships broken.
-const PACKS_DIR = path.resolve(
-    __dirname,
-    "../../node_modules/@heroiclands/package-build",
-);
+const PACKS_DIR = path.resolve(__dirname, "../../node_modules/@heroiclands/package-build");
 
 /** Every `.mjs` in the installed package, recursively. */
 function packModules(dir: string): string[] {
@@ -67,16 +58,12 @@ describe("pack pipeline severance from src/ (#1510)", () => {
     it("no pack module imports anything out of src/", () => {
         const offenders: string[] = [];
         for (const file of packModules(PACKS_DIR)) {
-            for (const spec of importSpecifiers(
-                fs.readFileSync(file, "utf8"),
-            )) {
+            for (const spec of importSpecifiers(fs.readFileSync(file, "utf8"))) {
                 // A relative specifier that climbs out of the package and
                 // into `src/` resolves to garbage once this code is installed
                 // into `node_modules` as `@heroiclands/package-build`.
                 if (/(^|\/)src\//.test(spec)) {
-                    offenders.push(
-                        `${path.relative(PACKS_DIR, file)} → ${spec}`,
-                    );
+                    offenders.push(`${path.relative(PACKS_DIR, file)} → ${spec}`);
                 }
             }
         }
@@ -84,9 +71,7 @@ describe("pack pipeline severance from src/ (#1510)", () => {
     });
 
     it("shares the default-art map with the runtime from the build package", () => {
-        expect(DEFAULT_ITEM_ART.weapongear).toBe(
-            "systems/sohl/assets/icons/other/sword.svg",
-        );
+        expect(DEFAULT_ITEM_ART.weapongear).toBe("systems/sohl/assets/icons/other/sword.svg");
     });
 
     it("keeps the shared standings list identical to the runtime enum", () => {
@@ -94,26 +79,15 @@ describe("pack pipeline severance from src/ (#1510)", () => {
         // list; the runtime validates the same values through
         // `AFFILIATION_STANDING`. One diverging from the other is exactly the
         // #932-shaped drift this arrangement exists to prevent.
-        expect([...AFFILIATION_STANDINGS].sort()).toEqual(
-            [...AffiliationStandings].sort(),
-        );
+        expect([...AFFILIATION_STANDINGS].sort()).toEqual([...AffiliationStandings].sort());
     });
 });
 
 describe("the pack pipeline and the runtime agree on description pointers", () => {
     /** The pointer the items pass writes for a note, derived exactly as it does. */
-    function pointerFor(
-        itemId: string,
-        name: string,
-        markdown: string,
-    ): string {
+    function pointerFor(itemId: string, name: string, markdown: string): string {
         const [lead] = splitPages(markdown, name);
-        return itemDocPointer(
-            "sohl",
-            itemId,
-            name,
-            journalPageId(itemDocEntryId(itemId), lead, 0),
-        );
+        return itemDocPointer("sohl", itemId, name, journalPageId(itemDocEntryId(itemId), lead, 0));
     }
 
     it("is a pointer by the system's own rule", () => {

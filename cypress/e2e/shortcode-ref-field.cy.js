@@ -51,22 +51,17 @@ describe("shortcode-reference field (#974)", () => {
             cy.openSheet(this.child);
             cy.switchTab("properties", "sheet");
             // Dropdown, not a free-text input.
-            cy.get(PROPS + 'select[name="system.parentSkillCode"]').should(
-                "exist",
+            cy.get(PROPS + 'select[name="system.parentSkillCode"]').should("exist");
+            cy.get(PROPS + 'input[name="system.parentSkillCode"]').should("not.exist");
+            // Lists the sibling skill by display name…
+            cy.get(PROPS + 'select[name="system.parentSkillCode"] option[value="prnt"]').should(
+                "contain.text",
+                "Herblore",
             );
-            cy.get(PROPS + 'input[name="system.parentSkillCode"]').should(
+            // …but never the skill itself (a skill cannot be its own parent).
+            cy.get(PROPS + 'select[name="system.parentSkillCode"] option[value="chld"]').should(
                 "not.exist",
             );
-            // Lists the sibling skill by display name…
-            cy.get(
-                PROPS +
-                    'select[name="system.parentSkillCode"] option[value="prnt"]',
-            ).should("contain.text", "Herblore");
-            // …but never the skill itself (a skill cannot be its own parent).
-            cy.get(
-                PROPS +
-                    'select[name="system.parentSkillCode"] option[value="chld"]',
-            ).should("not.exist");
         });
         // Selecting an option persists exactly the shortcode string.
         cy.then(function () {
@@ -76,9 +71,7 @@ describe("shortcode-reference field (#974)", () => {
             const id = this.child.id;
             const actorId = this.child.parent.id;
             cy.foundry(
-                (win) =>
-                    win.game.actors.get(actorId).items.get(id).system
-                        .parentSkillCode,
+                (win) => win.game.actors.get(actorId).items.get(id).system.parentSkillCode,
             ).should("eq", "prnt");
         });
     });
@@ -91,12 +84,8 @@ describe("shortcode-reference field (#974)", () => {
         cy.then(function () {
             cy.openSheet(this.world);
             cy.switchTab("properties", "sheet");
-            cy.get(PROPS + 'select[name="system.parentSkillCode"]').should(
-                "not.exist",
-            );
-            cy.get(PROPS + 'input[name="system.parentSkillCode"]').should(
-                "exist",
-            );
+            cy.get(PROPS + 'select[name="system.parentSkillCode"]').should("not.exist");
+            cy.get(PROPS + 'input[name="system.parentSkillCode"]').should("exist");
         });
     });
 
@@ -111,10 +100,7 @@ describe("shortcode-reference field (#974)", () => {
         cy.then(function () {
             cy.openSheet(this.child);
             cy.switchTab("properties", "sheet");
-            cy.get(
-                PROPS +
-                    'select[name="system.parentSkillCode"] option[value="zzz"]',
-            )
+            cy.get(PROPS + 'select[name="system.parentSkillCode"] option[value="zzz"]')
                 .should("contain.text", "(unresolved)")
                 .and("be.selected");
         });
@@ -123,9 +109,7 @@ describe("shortcode-reference field (#974)", () => {
             const id = this.child.id;
             const actorId = this.child.parent.id;
             cy.foundry(
-                (win) =>
-                    win.game.actors.get(actorId).items.get(id).system
-                        .parentSkillCode,
+                (win) => win.game.actors.get(actorId).items.get(id).system.parentSkillCode,
             ).should("eq", "zzz");
         });
     });
@@ -152,28 +136,19 @@ describe("shortcode-reference field (#974)", () => {
             cy.openSheet(this.ability);
             cy.switchTab("properties", "sheet");
             // Dropdown of the actor's affiliations, listed by display name.
-            cy.get(PROPS + 'select[name="system.assocAffiliationCode"]').should(
-                "exist",
-            );
+            cy.get(PROPS + 'select[name="system.assocAffiliationCode"]').should("exist");
             cy.get(
-                PROPS +
-                    'select[name="system.assocAffiliationCode"] option[value="larani"]',
+                PROPS + 'select[name="system.assocAffiliationCode"] option[value="larani"]',
             ).should("contain.text", "Church of Larani");
         });
         cy.then(function () {
-            cy.editSheetField(
-                this.ability,
-                "system.assocAffiliationCode",
-                "larani",
-            );
+            cy.editSheetField(this.ability, "system.assocAffiliationCode", "larani");
         });
         cy.then(function () {
             const id = this.ability.id;
             const actorId = this.ability.parent.id;
             cy.foundry(
-                (win) =>
-                    win.game.actors.get(actorId).items.get(id).system
-                        .assocAffiliationCode,
+                (win) => win.game.actors.get(actorId).items.get(id).system.assocAffiliationCode,
             ).should("eq", "larani");
         });
     });
@@ -186,12 +161,8 @@ describe("shortcode-reference field (#974)", () => {
         cy.then(function () {
             cy.openSheet(this.world);
             cy.switchTab("properties", "sheet");
-            cy.get(PROPS + 'select[name="system.assocAffiliationCode"]').should(
-                "not.exist",
-            );
-            cy.get(PROPS + 'input[name="system.assocAffiliationCode"]').should(
-                "exist",
-            );
+            cy.get(PROPS + 'select[name="system.assocAffiliationCode"]').should("not.exist");
+            cy.get(PROPS + 'input[name="system.assocAffiliationCode"]').should("exist");
         });
     });
 });

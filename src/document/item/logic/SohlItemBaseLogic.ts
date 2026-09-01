@@ -34,10 +34,7 @@ import {
 // the `FoundryHelpers` shims); the path-based boundary rule can't tell it apart
 // from the Foundry-coupled files under `document/chat/`, so allow this import.
 // eslint-disable-next-line @typescript-eslint/no-restricted-imports
-import {
-    postActionCard,
-    type ActionCardSpec,
-} from "@src/document/chat/action-card";
+import { postActionCard, type ActionCardSpec } from "@src/document/chat/action-card";
 
 /**
  * The Foundry-free foundation of the item logic layer.
@@ -56,16 +53,15 @@ import {
  * Logic interface implemented by all item logic classes — {@link sohl.core.logic.SohlLogic}
  * specialized for `SohlItem` data.
  */
-export interface SohlItemLogic<
-    TData extends SohlLogicData<SohlItem>,
-> extends SohlLogic<TData> {}
+export interface SohlItemLogic<TData extends SohlLogicData<SohlItem>> extends SohlLogic<TData> {}
 
 /**
  * @remarks The base shape of `system` on every SoHL item; each concrete item type's `*Data` extends it.
  */
-export interface SohlItemData<
-    TLogic extends SohlLogic<any> = SohlLogic<any>,
-> extends SohlLogicData<SohlItem, TLogic> {
+export interface SohlItemData<TLogic extends SohlLogic<any> = SohlLogic<any>> extends SohlLogicData<
+    SohlItem,
+    TLogic
+> {
     /** The owning `SohlItem`. */
     get item(): SohlItem;
     /**
@@ -89,9 +85,7 @@ export interface SohlItemData<
  *
  * @typeParam TData - The item data interface, extending {@link SohlItemData}.
  */
-export class SohlItemBaseLogic<
-    TData extends SohlItemData = SohlItemData,
-> extends SohlLogic<TData> {
+export class SohlItemBaseLogic<TData extends SohlItemData = SohlItemData> extends SohlLogic<TData> {
     /**
      * Runtime brand identifying any item logic — inherited by every item-kind
      * logic, so `isA(x, "SohlItemLogic")` matches across the whole hierarchy
@@ -180,9 +174,7 @@ export class SohlItemBaseLogic<
 
         const original = context.scope?.priorTestResult;
         if (!original) {
-            sohl.log.warn(
-                "resultEdit invoked without a priorTestResult in scope.",
-            );
+            sohl.log.warn("resultEdit invoked without a priorTestResult in scope.");
             return undefined;
         }
 
@@ -234,9 +226,7 @@ export class SohlItemBaseLogic<
  * @param logic - The item logic whose description is being output.
  * @returns The {@link ActionCardSpec} for `item-desc-card.hbs` (no buttons).
  */
-export async function buildItemDescCardData(
-    logic: SohlItemBaseLogic,
-): Promise<ActionCardSpec> {
+export async function buildItemDescCardData(logic: SohlItemBaseLogic): Promise<ActionCardSpec> {
     const data = logic.data;
     // `charges` is a type-specific field (mysteries, mystical abilities) shaped
     // `{ value, max }`, where a null `value` means infinite and a null `max`
@@ -261,9 +251,7 @@ export async function buildItemDescCardData(
             // `textReference` is an optional, loosely-typed field present only on
             // some item kinds; read it defensively so the card's `{{#if textRef}}`
             // simply hides when it is absent.
-            textRef:
-                (data as unknown as { textReference?: string }).textReference ??
-                "",
+            textRef: (data as unknown as { textReference?: string }).textReference ?? "",
             charges,
             desc: await resolveDescriptionHtml(data.docHtml ?? ""),
         },

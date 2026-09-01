@@ -17,8 +17,7 @@ import { fvttCallHook } from "@src/core/FoundryHelpers";
 import { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import type { SohlAction } from "@src/entity/action/SohlAction";
 
-type RenderContext =
-    foundry.applications.api.DocumentSheetV2.RenderContext<any>;
+type RenderContext = foundry.applications.api.DocumentSheetV2.RenderContext<any>;
 type RenderOptions = foundry.applications.api.DocumentSheetV2.RenderOptions;
 
 /** @internal */
@@ -129,19 +128,11 @@ export class CohortSheet extends SohlActorSheetBase {
         (context as any).tab = (context as any).tabs?.[partId];
         if (partId === "members") {
             context = await this._prepareMembersContext(context, options);
-            fvttCallHook(
-                `sohl.actor.${this.document.type}.prepareMembersContext`,
-                this,
-                context,
-            );
+            fvttCallHook(`sohl.actor.${this.document.type}.prepareMembersContext`, this, context);
             return context;
         }
         context = await this._prepareSharedGearContext(context, options);
-        fvttCallHook(
-            `sohl.actor.${this.document.type}.prepareSharedGearContext`,
-            this,
-            context,
-        );
+        fvttCallHook(`sohl.actor.${this.document.type}.prepareSharedGearContext`, this, context);
         return context;
     }
 
@@ -212,10 +203,7 @@ export class CohortSheet extends SohlActorSheetBase {
      * @param scope - The action scope (e.g. the row's member handle).
      * @returns Resolves once the action completes.
      */
-    private async _runMemberAction(
-        name: string,
-        scope: PlainObject = {},
-    ): Promise<void> {
+    private async _runMemberAction(name: string, scope: PlainObject = {}): Promise<void> {
         const logic = this.document.logic as unknown as CohortLogic | undefined;
         const action = logic?.actions.get(name) as SohlAction | undefined;
         if (!logic || !action) return;
@@ -237,9 +225,8 @@ export class CohortSheet extends SohlActorSheetBase {
      */
     private static _memberRef(target: HTMLElement): string | undefined {
         return (
-            target
-                .closest<HTMLElement>("[data-member-ref]")
-                ?.getAttribute("data-member-ref") ?? undefined
+            target.closest<HTMLElement>("[data-member-ref]")?.getAttribute("data-member-ref") ??
+            undefined
         );
     }
 

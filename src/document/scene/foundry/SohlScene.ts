@@ -58,10 +58,6 @@ export class SohlScene extends Scene {
      * @returns The updated scene.
      */
     async setTotm(isTotm: boolean): Promise<this> {
-        return (await this.setFlag(
-            SCENE_FLAG_SCOPE,
-            TOTM_FLAG_KEY,
-            isTotm,
-        )) as this;
+        return (await this.setFlag(SCENE_FLAG_SCOPE, TOTM_FLAG_KEY, isTotm)) as this;
     }
 }

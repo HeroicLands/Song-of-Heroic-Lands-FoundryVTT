@@ -28,11 +28,7 @@ import { renderTemplateReal } from "@tests/mocks/hbs-helpers";
 import * as FoundryHelpersMock from "@src/core/FoundryHelpers";
 import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
 import { improveWithSDR } from "@src/document/item/logic/improve-sdr";
-import {
-    makeItemLogic,
-    makeMockActor,
-    makeAttributeStub,
-} from "@tests/mocks/logicHarness";
+import { makeItemLogic, makeMockActor, makeAttributeStub } from "@tests/mocks/logicHarness";
 import { SkillLogic } from "@src/document/item/logic/SkillLogic";
 
 const CHAT = "systems/sohl/templates/chat";
@@ -117,19 +113,14 @@ describe("improveWithSDR posts a card whose numbers are populated (#1103)", () =
             total: rollTotal,
             result: String(rollTotal),
         } as any);
-        vi.spyOn(FoundryHelpersMock, "toHTMLWithTemplate").mockImplementation(((
-            tpl: any,
-            d: any,
-        ) => Promise.resolve(renderTemplateReal(String(tpl), d))) as any);
+        vi.spyOn(FoundryHelpersMock, "toHTMLWithTemplate").mockImplementation(((tpl: any, d: any) =>
+            Promise.resolve(renderTemplateReal(String(tpl), d))) as any);
 
         const logic = makeSkill();
         let rendered = "";
         const speaker = {
             toChat: vi.fn(async (tpl: any, data: any) => {
-                rendered = await (FoundryHelpersMock as any).toHTMLWithTemplate(
-                    tpl,
-                    data,
-                );
+                rendered = await (FoundryHelpersMock as any).toHTMLWithTemplate(tpl, data);
                 return undefined;
             }),
         };

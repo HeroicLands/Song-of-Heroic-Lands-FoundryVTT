@@ -121,21 +121,16 @@ export class CombatResult extends OpposedTestResult {
      * @throws If `attackResult` or `defendResult` is missing, or if no `parent`
      *   is provided.
      */
-    constructor(
-        data: Partial<CombatResult.Data>,
-        options: Partial<CombatResult.Options> = {},
-    ) {
+    constructor(data: Partial<CombatResult.Data>, options: Partial<CombatResult.Options> = {}) {
         // Accept either the domain names (attackResult/defendResult) or the
         // inherited names (sourceTestResult/targetTestResult) so the constructor
         // works both at build-time and when defaultFromJSON revives from JSON
         // that only carries the serialized sourceTestResult/targetTestResult keys.
         const attackResult =
-            data.attackResult ??
-            (data.sourceTestResult as AttackResult | undefined);
+            data.attackResult ?? (data.sourceTestResult as AttackResult | undefined);
         const defendResult =
             data.defendResult ??
-            (data.targetTestResult as
-                (AttackResult | DefendResult) | undefined);
+            (data.targetTestResult as (AttackResult | DefendResult) | undefined);
         if (!attackResult) {
             throw new Error("CombatResult requires attackResult");
         }
@@ -195,12 +190,8 @@ export class CombatResult extends OpposedTestResult {
      */
     opposedTestEvaluate(): void {
         this.weaponBreakCheck = "none";
-        this.margin =
-            this.attackResult.normSuccessLevel -
-            this.defendResult.normSuccessLevel;
-        this.tacticalAdvantages = CombatResult.tacticalAdvantagesFor(
-            this.margin,
-        );
+        this.margin = this.attackResult.normSuccessLevel - this.defendResult.normSuccessLevel;
+        this.tacticalAdvantages = CombatResult.tacticalAdvantagesFor(this.margin);
 
         // Block forces the defender to roll for weapon (shield) breakage on a
         // tie — the blocking weapon absorbed a blow it did not out-fight, and
@@ -223,10 +214,7 @@ export class CombatResult extends OpposedTestResult {
                 this.rollImpact(this.attackResult)
             :   undefined;
         this.cxImpact =
-            (
-                this.defenderLandsBlow &&
-                this.defendResult instanceof AttackResult
-            ) ?
+            this.defenderLandsBlow && this.defendResult instanceof AttackResult ?
                 this.rollImpact(this.defendResult)
             :   undefined;
     }
@@ -306,10 +294,7 @@ export class CombatResult extends OpposedTestResult {
      * when its own roll succeeds — so both sides can land in the same exchange.
      */
     get defenderLandsBlow(): boolean {
-        return (
-            this.defendResult instanceof AttackResult &&
-            this.defendResult.isSuccess
-        );
+        return this.defendResult instanceof AttackResult && this.defendResult.isSuccess;
     }
 }
 

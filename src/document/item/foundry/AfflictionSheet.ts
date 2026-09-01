@@ -37,9 +37,7 @@ export class AfflictionSheet extends SohlItemSheetBase {
     protected override async _preparePropertiesContext(
         context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
         options: foundry.applications.api.DocumentSheetV2.RenderOptions,
-    ): Promise<
-        foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>
-    > {
+    ): Promise<foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>> {
         await super._preparePropertiesContext(context, options);
         const system = this.document.system as any;
         return Object.assign(context, {

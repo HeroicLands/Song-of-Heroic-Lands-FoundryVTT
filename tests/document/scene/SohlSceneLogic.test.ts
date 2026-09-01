@@ -50,9 +50,7 @@ describe("SohlSceneLogic", () => {
     });
 
     it("reports isTotm = true for a scene with the flag set", () => {
-        const logic = new SohlSceneLogic(
-            createSceneData(makeScene({ [TOTM_FLAG_KEY]: true })),
-        );
+        const logic = new SohlSceneLogic(createSceneData(makeScene({ [TOTM_FLAG_KEY]: true })));
         expect(logic.isTotm).toBe(true);
     });
 

@@ -27,10 +27,7 @@ import { describe, it, expect } from "vitest";
 import { FILE_PATH_REGEX, isFilePath } from "@src/utils/helpers";
 
 /** Run regex against input and require completion under `limitMs` milliseconds. */
-function assertFastMatch(
-    input: string,
-    limitMs: number = 100,
-): RegExpMatchArray | null {
+function assertFastMatch(input: string, limitMs: number = 100): RegExpMatchArray | null {
     const start = performance.now();
     const result = FILE_PATH_REGEX.exec(input);
     const elapsed = performance.now() - start;

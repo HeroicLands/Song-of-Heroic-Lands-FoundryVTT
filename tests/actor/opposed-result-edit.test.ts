@@ -47,10 +47,9 @@ const ownedSpeaker = {
 
 /** A frozen, already-rolled d100 — supplying it means `evaluate()` never re-rolls. */
 function frozenRoll(total: number, parent: any): SimpleRoll {
-    return new SimpleRoll(
-        { numDice: 1, dieFaces: 100, modifier: 0, rolls: [total] } as any,
-        { parent },
-    );
+    return new SimpleRoll({ numDice: 1, dieFaces: 100, modifier: 0, rolls: [total] } as any, {
+        parent,
+    });
 }
 
 /** A settled success test: target `base`, frozen roll `roll`, already evaluated. */
@@ -62,10 +61,7 @@ async function makeSide(
 ): Promise<SuccessTestResult> {
     const result = new SuccessTestResult(
         {
-            masteryLevelModifier: new MasteryLevelModifier(
-                { baseValue: base } as any,
-                { parent },
-            ),
+            masteryLevelModifier: new MasteryLevelModifier({ baseValue: base } as any, { parent }),
             roll: frozenRoll(roll, parent),
             title,
         } as any,
@@ -107,9 +103,7 @@ describe("SohlActorBaseLogic.opposedResultEdit — GM re-edit of a settled conte
                 name: "Aldric",
             },
         ) as BeingLogic;
-        vi.spyOn(FoundryHelpersMock, "fvttIsCurrentUserGM").mockReturnValue(
-            true,
-        );
+        vi.spyOn(FoundryHelpersMock, "fvttIsCurrentUserGM").mockReturnValue(true);
 
         // Source: 23 vs 50 → a pass. Target: 80 vs 50 → a miss. Source wins.
         const source = await makeSide(being, 50, 23, "Stealth Test");
@@ -118,17 +112,13 @@ describe("SohlActorBaseLogic.opposedResultEdit — GM re-edit of a settled conte
             { sourceTestResult: source, targetTestResult: target } as any,
             { parent: being },
         );
-        toChat = vi
-            .spyOn(opposed, "toChat")
-            .mockResolvedValue(undefined as any);
+        toChat = vi.spyOn(opposed, "toChat").mockResolvedValue(undefined as any);
     });
 
     afterEach(() => vi.restoreAllMocks());
 
     it("refuses for a non-GM — warns, never re-evaluates, never reposts", async () => {
-        vi.spyOn(FoundryHelpersMock, "fvttIsCurrentUserGM").mockReturnValue(
-            false,
-        );
+        vi.spyOn(FoundryHelpersMock, "fvttIsCurrentUserGM").mockReturnValue(false);
         const warn = vi.spyOn(sohl.log, "uiWarn").mockImplementation(() => {});
         const before = opposed.sourceTestResult.successLevel;
 
@@ -191,74 +181,49 @@ describe("SohlActorBaseLogic.opposedResultEdit — GM re-edit of a settled conte
     });
 
     it("reposts the opposed RESULT card (not the request card) once changed", async () => {
-        await being.opposedResultEdit(
-            editCtx(opposed, { source: { situationalModifier: -45 } }),
-        );
+        await being.opposedResultEdit(editCtx(opposed, { source: { situationalModifier: -45 } }));
         expect(toChat).toHaveBeenCalledTimes(1);
         const data = toChat.mock.calls[0][0] as any;
-        expect(data.template).toBe(
-            "systems/sohl/templates/chat/opposed-result-card.hbs",
-        );
+        expect(data.template).toBe("systems/sohl/templates/chat/opposed-result-card.hbs");
         expect(data.title).toBeTruthy();
     });
 
     it("replaces each side's situational delta rather than stacking it", async () => {
         const srcMod = opposed.sourceTestResult.masteryLevelModifier;
 
-        await being.opposedResultEdit(
-            editCtx(opposed, { source: { situationalModifier: 7 } }),
-        );
+        await being.opposedResultEdit(editCtx(opposed, { source: { situationalModifier: 7 } }));
         expect(srcMod.get(VALUE_DELTA_INFO.PLAYER)?.numValue).toBe(7);
         expect(srcMod.effective).toBe(57);
 
-        await being.opposedResultEdit(
-            editCtx(opposed, { source: { situationalModifier: -3 } }),
-        );
+        await being.opposedResultEdit(editCtx(opposed, { source: { situationalModifier: -3 } }));
         expect(srcMod.get(VALUE_DELTA_INFO.PLAYER)?.numValue).toBe(-3);
         expect(srcMod.effective).toBe(47);
 
         // Clearing to 0 removes the delta entirely.
-        await being.opposedResultEdit(
-            editCtx(opposed, { source: { situationalModifier: 0 } }),
-        );
+        await being.opposedResultEdit(editCtx(opposed, { source: { situationalModifier: 0 } }));
         expect(srcMod.has(VALUE_DELTA_INFO.PLAYER)).toBe(false);
         expect(srcMod.effective).toBe(50);
     });
 
     it("a success-level-modifier edit shifts a side's derived level", async () => {
-        await being.opposedResultEdit(
-            editCtx(opposed, { target: { successLevelMod: 5 } }),
-        );
-        expect(
-            opposed.targetTestResult.masteryLevelModifier.successLevelMod,
-        ).toBe(5);
+        await being.opposedResultEdit(editCtx(opposed, { target: { successLevelMod: 5 } }));
+        expect(opposed.targetTestResult.masteryLevelModifier.successLevelMod).toBe(5);
         expect(opposed.targetTestResult.roll.total).toBe(80);
     });
 
     describe("dialog path", () => {
         it("opens one dialog per side, pre-filled with that side's current modifiers", async () => {
-            const dlg = vi
-                .spyOn(FoundryHelpersMock, "dialog")
-                .mockResolvedValue({
-                    situationalModifier: 0,
-                    successLevelMod: 0,
-                } as any);
-            opposed.sourceTestResult.masteryLevelModifier.add(
-                VALUE_DELTA_INFO.PLAYER,
-                6,
-            );
+            const dlg = vi.spyOn(FoundryHelpersMock, "dialog").mockResolvedValue({
+                situationalModifier: 0,
+                successLevelMod: 0,
+            } as any);
+            opposed.sourceTestResult.masteryLevelModifier.add(VALUE_DELTA_INFO.PLAYER, 6);
 
-            await being.opposedResultEdit(
-                editCtx(opposed, {}, { skipDialog: false }),
-            );
+            await being.opposedResultEdit(editCtx(opposed, {}, { skipDialog: false }));
 
             expect(dlg).toHaveBeenCalledTimes(2);
-            expect((dlg.mock.calls[0][0] as any).data.situationalModifier).toBe(
-                6,
-            );
-            expect((dlg.mock.calls[1][0] as any).data.situationalModifier).toBe(
-                0,
-            );
+            expect((dlg.mock.calls[0][0] as any).data.situationalModifier).toBe(6);
+            expect((dlg.mock.calls[1][0] as any).data.situationalModifier).toBe(0);
         });
 
         // #1099 — the same standard-test dialog is used per side, so it offers
@@ -271,23 +236,17 @@ describe("SohlActorBaseLogic.opposedResultEdit — GM re-edit of a settled conte
                 rollMode: "gmroll",
             } as any);
 
-            await being.opposedResultEdit(
-                editCtx(opposed, {}, { skipDialog: false }),
-            );
+            await being.opposedResultEdit(editCtx(opposed, {}, { skipDialog: false }));
 
             expect(opposed.rollMode).toBe("gmroll");
             expect(toChat).toHaveBeenCalledTimes(1);
         });
 
         it("a dismissed dialog cancels the edit — nothing re-evaluated, nothing reposted", async () => {
-            vi.spyOn(FoundryHelpersMock, "dialog").mockResolvedValue(
-                undefined as any,
-            );
+            vi.spyOn(FoundryHelpersMock, "dialog").mockResolvedValue(undefined as any);
             const before = opposed.sourceTestResult.successLevel;
 
-            const ret = await being.opposedResultEdit(
-                editCtx(opposed, {}, { skipDialog: false }),
-            );
+            const ret = await being.opposedResultEdit(editCtx(opposed, {}, { skipDialog: false }));
 
             expect(ret).toBeUndefined();
             expect(toChat).not.toHaveBeenCalled();

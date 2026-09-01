@@ -47,9 +47,7 @@ export function load(app) {
 
     app.renderer.hooks.on("head.end", () => raw(HEAD_HTML));
     app.renderer.hooks.on("body.begin", () => raw(HEADER_HTML));
-    app.renderer.hooks.on("body.end", () =>
-        raw(FOOTER_HTML + NAV_TOGGLE_SCRIPT),
-    );
+    app.renderer.hooks.on("body.end", () => raw(FOOTER_HTML + NAV_TOGGLE_SCRIPT));
 }
 
 const WWW = "https://www.heroiclands.org";

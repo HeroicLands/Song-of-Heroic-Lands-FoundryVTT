@@ -25,20 +25,12 @@ import {
     deleteAction,
     runAction,
 } from "@src/core/foundry/sheet-actions";
-import {
-    fvttCallHook,
-    fvttCleanHTML,
-    fvttWorldActors,
-} from "@src/core/FoundryHelpers";
+import { fvttCallHook, fvttCleanHTML, fvttWorldActors } from "@src/core/FoundryHelpers";
 import { ACTOR_KIND, GearKinds } from "@src/utils/constants";
-import {
-    localizeSubType,
-    keyTransferredEffects,
-} from "@src/document/item/logic/item-sheet-view";
+import { localizeSubType, keyTransferredEffects } from "@src/document/item/logic/item-sheet-view";
 import { resolveDescriptionHtml } from "@src/document/item/logic/SohlItemBaseLogic";
 import { descriptionLinkTarget } from "@src/utils/description-link";
-type RenderContext =
-    foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>;
+type RenderContext = foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>;
 type RenderOptions = foundry.applications.api.DocumentSheetV2.RenderOptions;
 
 /**
@@ -53,10 +45,7 @@ type RenderOptions = foundry.applications.api.DocumentSheetV2.RenderOptions;
  * @param target - The `[data-action]` control to expose as `currentTarget`.
  * @returns A proxy that reads as `event` except for `currentTarget`.
  */
-function withCurrentTarget(
-    event: PointerEvent,
-    target: HTMLElement,
-): PointerEvent {
+function withCurrentTarget(event: PointerEvent, target: HTMLElement): PointerEvent {
     return new Proxy(event, {
         get(evt, prop, receiver) {
             if (prop === "currentTarget") return target;
@@ -282,8 +271,7 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
     ): Promise<void> {
         const path = target.dataset.fieldPath;
         if (!path) return;
-        const current = foundry.utils.getProperty(this.document, path) as
-            number | null | undefined;
+        const current = foundry.utils.getProperty(this.document, path) as number | null | undefined;
         const result = await openDatePickerDialog(current);
         if (result === undefined) return;
         await this.document.update({ [path]: result });
@@ -307,8 +295,7 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
     ): Promise<void> {
         const path = target.dataset.fieldPath;
         if (!path) return;
-        const current = foundry.utils.getProperty(this.document, path) as
-            string | null | undefined;
+        const current = foundry.utils.getProperty(this.document, path) as string | null | undefined;
         // `data-expr-scope` carries the id the SafeExpressionField declared, so
         // the editor's autocomplete and live validation come from the same
         // declaration the runtime validates against (#1142).
@@ -384,10 +371,7 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
      * @param context - The render context.
      * @param options - The render options.
      */
-    protected override async _onRender(
-        context: PlainObject,
-        options: PlainObject,
-    ): Promise<void> {
+    protected override async _onRender(context: PlainObject, options: PlainObject): Promise<void> {
         await super._onRender(context, options);
 
         const el = (this as any).element as HTMLElement | undefined;
@@ -448,9 +432,7 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
      * @param options - Sheet render options.
      * @returns The base render context shared across parts.
      */
-    protected override async _prepareContext(
-        options: RenderOptions,
-    ): Promise<RenderContext> {
+    protected override async _prepareContext(options: RenderOptions): Promise<RenderContext> {
         const context = await super._prepareContext(options);
 
         // Add any shared data needed across all parts here
@@ -487,53 +469,24 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
         (context as any).tab = (context as any).tabs?.[partId];
         switch (partId) {
             case "properties":
-                context = await this._preparePropertiesContext(
-                    context,
-                    options,
-                );
-                fvttCallHook(
-                    `sohl.${type}.preparePropertiesContext`,
-                    this,
-                    context,
-                );
+                context = await this._preparePropertiesContext(context, options);
+                fvttCallHook(`sohl.${type}.preparePropertiesContext`, this, context);
                 return context;
             case "description":
-                context = await this._prepareDescriptionContext(
-                    context,
-                    options,
-                );
-                fvttCallHook(
-                    `sohl.${type}.prepareDescriptionContext`,
-                    this,
-                    context,
-                );
+                context = await this._prepareDescriptionContext(context, options);
+                fvttCallHook(`sohl.${type}.prepareDescriptionContext`, this, context);
                 return context;
             case "actions":
                 context = await this._prepareActionsContext(context, options);
-                fvttCallHook(
-                    `sohl.${type}.prepareActionsContext`,
-                    this,
-                    context,
-                );
+                fvttCallHook(`sohl.${type}.prepareActionsContext`, this, context);
                 return context;
             case "effects":
-                context = await this._prepareEffectsTabContext(
-                    context,
-                    options,
-                );
-                fvttCallHook(
-                    `sohl.${type}.prepareEffectsContext`,
-                    this,
-                    context,
-                );
+                context = await this._prepareEffectsTabContext(context, options);
+                fvttCallHook(`sohl.${type}.prepareEffectsContext`, this, context);
                 return context;
             case "header":
                 context = await this._prepareHeaderContext(context, options);
-                fvttCallHook(
-                    `sohl.${type}.prepareHeaderContext`,
-                    this,
-                    context,
-                );
+                fvttCallHook(`sohl.${type}.prepareHeaderContext`, this, context);
                 return context;
             case "tabs":
                 context = await this._prepareTabsContext(context, options);
@@ -612,11 +565,7 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
     protected _cohortChoices(): { value: string; label: string }[] {
         if (!GearKinds.includes(this.document.type as any)) return [];
         return fvttWorldActors()
-            .filter(
-                (actor: any) =>
-                    actor.type === ACTOR_KIND.COHORT &&
-                    !!actor.system?.shortcode,
-            )
+            .filter((actor: any) => actor.type === ACTOR_KIND.COHORT && !!actor.system?.shortcode)
             .map((actor: any) => ({
                 value: actor.system.shortcode as string,
                 label: actor.name as string,
@@ -659,10 +608,7 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
             // through Foundry's allowlist sanitizer, since the tab injects it
             // as markup rather than handing it to an element that enriches for
             // itself (issue #161).
-            descriptionHtml:
-                editing ? "" : (
-                    fvttCleanHTML(await resolveDescriptionHtml(docHtml))
-                ),
+            descriptionHtml: editing ? "" : fvttCleanHTML(await resolveDescriptionHtml(docHtml)),
         });
     }
 
@@ -695,9 +641,7 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
         _options: RenderOptions,
     ): Promise<RenderContext> {
         const effects = (this.document as any).effects?.contents ?? [];
-        const trxEffects = keyTransferredEffects(
-            (this.document as any).transferredEffects,
-        );
+        const trxEffects = keyTransferredEffects((this.document as any).transferredEffects);
         return Object.assign(context, { effects, trxEffects });
     }
 }

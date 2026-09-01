@@ -43,9 +43,7 @@ import {
  * {@link sohl.utils.FearCategories} list (`none` 0 … `catatonic` 5). Ranking lets
  * "the most severe state wins" and the `>=` gates work on the string categories.
  */
-const FEAR_RANK: Record<string, number> = Object.fromEntries(
-    FearCategories.map((v, i) => [v, i]),
-);
+const FEAR_RANK: Record<string, number> = Object.fromEntries(FearCategories.map((v, i) => [v, i]));
 
 /**
  * The severity rank of a {@link sohl.utils.FEAR_CATEGORY} (an unknown value ranks
@@ -100,10 +98,7 @@ export const FEAR_AFRAID_CLEAR = 60;
  * @param lastDigit - The ones digit of the d100 roll (distinguishes CF0 from CF5).
  * @returns The resulting fear level.
  */
-export function fearStateFromTest(
-    normSuccessLevel: number,
-    lastDigit: number,
-): FearCategory {
+export function fearStateFromTest(normSuccessLevel: number, lastDigit: number): FearCategory {
     if (normSuccessLevel >= CRITICAL_SUCCESS) return FEAR_CATEGORY.BRAVE;
     if (normSuccessLevel === MARGINAL_SUCCESS) return FEAR_CATEGORY.STEADY;
     if (normSuccessLevel === MARGINAL_FAILURE) return FEAR_CATEGORY.AFRAID;
@@ -132,9 +127,7 @@ export function fearPsyGain(category: FearCategory): number {
  * @param categories - The fear categories of every active fear source.
  * @returns The most severe fear category.
  */
-export function mostSevereFear(
-    categories: readonly FearCategory[],
-): FearCategory {
+export function mostSevereFear(categories: readonly FearCategory[]): FearCategory {
     return categories.reduce<FearCategory>(
         (m, c) => (fearRank(c) > fearRank(m) ? c : m),
         FEAR_CATEGORY.NONE,
@@ -161,10 +154,7 @@ export function isFearfulState(category: FearCategory): boolean {
  * @returns `true` when defense is restricted to Block/Dodge.
  */
 export function fearDefenseRestricted(category: FearCategory): boolean {
-    return (
-        category === FEAR_CATEGORY.AFRAID ||
-        category === FEAR_CATEGORY.TERRIFIED
-    );
+    return category === FEAR_CATEGORY.AFRAID || category === FEAR_CATEGORY.TERRIFIED;
 }
 
 /**
@@ -186,10 +176,7 @@ export function fearHelpless(category: FearCategory): boolean {
  * @returns `true` when the victim must flee.
  */
 export function fearMustFlee(category: FearCategory): boolean {
-    return (
-        category === FEAR_CATEGORY.AFRAID ||
-        category === FEAR_CATEGORY.TERRIFIED
-    );
+    return category === FEAR_CATEGORY.AFRAID || category === FEAR_CATEGORY.TERRIFIED;
 }
 
 /**

@@ -28,9 +28,7 @@ describe("combat setup", () => {
         cy.createScene({ name: "arena" }).then((scene) => {
             cy.foundry((win) =>
                 win.Combat.create(
-                    win.JSON.parse(
-                        JSON.stringify({ scene: scene.id, active: true }),
-                    ),
+                    win.JSON.parse(JSON.stringify({ scene: scene.id, active: true })),
                 ),
             ).then((combat) => {
                 expect(combat, "combat document").to.exist;
@@ -76,15 +74,12 @@ describe("combat setup", () => {
                             // not asserted here — it reads the *viewed* combat
                             // via `game.combat`, which needs a canvas viewport
                             // absent in headless runs.)
-                            allHaveLogic: c.combatants.contents.every(
-                                (cb) => !!cb.system?.logic,
-                            ),
+                            allHaveLogic: c.combatants.contents.every((cb) => !!cb.system?.logic),
                         };
                     }).then((r) => {
                         expect(r.combatants, "two combatants").to.eq(2);
                         expect(r.started, "combat started").to.be.true;
-                        expect(r.allHaveLogic, "combatants have logic").to.be
-                            .true;
+                        expect(r.allHaveLogic, "combatants have logic").to.be.true;
                     });
                 });
             });
@@ -113,8 +108,7 @@ describe("combat setup", () => {
                         expect(r.g1, "combatant 1 grouped").to.not.be.null;
                         expect(r.g2, "combatant 2 grouped").to.not.be.null;
                         expect(r.g1).to.not.eq(r.g2);
-                        expect(r.enemies, "different groups are enemies").to.be
-                            .true;
+                        expect(r.enemies, "different groups are enemies").to.be.true;
                     });
                 });
             });
@@ -126,9 +120,10 @@ describe("combat setup", () => {
                 cy.createCombatWith(this.tokens).then((combat) => {
                     cy.advanceTurn(combat);
                     cy.advanceRound(combat);
-                    cy.foundry(
-                        (win) => win.game.combats.get(combat.id).round,
-                    ).should("be.greaterThan", 1);
+                    cy.foundry((win) => win.game.combats.get(combat.id).round).should(
+                        "be.greaterThan",
+                        1,
+                    );
                 });
             });
         });

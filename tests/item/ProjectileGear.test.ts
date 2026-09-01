@@ -1,10 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { ProjectileGearLogic } from "@src/document/item/logic/ProjectileGearLogic";
-import {
-    IMPACT_ASPECT,
-    ITEM_KIND,
-    PROJECTILEGEAR_SUBTYPE,
-} from "@src/utils/constants";
+import { IMPACT_ASPECT, ITEM_KIND, PROJECTILEGEAR_SUBTYPE } from "@src/utils/constants";
 import { makeItemLogic } from "@tests/mocks/logicHarness";
 
 /**

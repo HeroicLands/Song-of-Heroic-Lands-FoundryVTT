@@ -35,28 +35,20 @@ describe("mysteries", () => {
     // Mystical Ability. It still carries the shared base actions.
     it("a mystery item offers no useMystery action (#1089)", () => {
         cy.createActor("being", { name: "mystic" }).then((actor) => {
-            cy.createItemOn(actor, "mystery", { name: "Second Sight" }).then(
-                (item) => {
-                    cy.foundry((win) => {
-                        const it = win.game.actors
-                            .get(actor.id)
-                            .items.get(item.id);
-                        return {
-                            type: it?.type,
-                            hasUseMystery:
-                                !!it?.logic?.actions?.get("useMystery"),
-                            hasBaseAction:
-                                !!it?.logic?.actions?.get("editDocument"),
-                        };
-                    }).should((r) => {
-                        expect(r.type, "mystery item").to.eq("mystery");
-                        expect(r.hasUseMystery, "useMystery action absent").to
-                            .be.false;
-                        expect(r.hasBaseAction, "base actions still present").to
-                            .be.true;
-                    });
-                },
-            );
+            cy.createItemOn(actor, "mystery", { name: "Second Sight" }).then((item) => {
+                cy.foundry((win) => {
+                    const it = win.game.actors.get(actor.id).items.get(item.id);
+                    return {
+                        type: it?.type,
+                        hasUseMystery: !!it?.logic?.actions?.get("useMystery"),
+                        hasBaseAction: !!it?.logic?.actions?.get("editDocument"),
+                    };
+                }).should((r) => {
+                    expect(r.type, "mystery item").to.eq("mystery");
+                    expect(r.hasUseMystery, "useMystery action absent").to.be.false;
+                    expect(r.hasBaseAction, "base actions still present").to.be.true;
+                });
+            });
         });
     });
 
@@ -77,11 +69,9 @@ describe("mysteries", () => {
                     // ledger row does (data-item-id on .item).
                     const el = {
                         closest: (sel) =>
-                            sel === "[data-item-id]" ?
-                                { dataset: { itemId: it.id } }
-                            : sel === "[data-actor-id]" ?
-                                { dataset: { actorId: a.id } }
-                            :   null,
+                            sel === "[data-item-id]" ? { dataset: { itemId: it.id } }
+                            : sel === "[data-actor-id]" ? { dataset: { actorId: a.id } }
+                            : null,
                     };
                     return {
                         type: it?.type,
@@ -90,11 +80,8 @@ describe("mysteries", () => {
                         hasPerform: !!it?.logic?.actions?.get("perform"),
                     };
                 }).should((r) => {
-                    expect(r.type, "mysticalability item").to.eq(
-                        "mysticalability",
-                    );
-                    expect(r.hasSuccessTest, "successTest action registered").to
-                        .be.true;
+                    expect(r.type, "mysticalability item").to.eq("mysticalability");
+                    expect(r.hasSuccessTest, "successTest action registered").to.be.true;
                     expect(r.visible, "successTest is visible").to.be.true;
                     expect(r.hasPerform, "perform stub removed").to.be.false;
                 });
@@ -128,11 +115,8 @@ describe("mysteries", () => {
                         }));
                 }).should((s) => {
                     expect(s.ml, "mastery level seeded from base").to.eq(40);
-                    expect(s.hasResult, "successTest produced a result").to.be
-                        .true;
-                    expect(s.ctorName, "result is a SuccessTestResult").to.eq(
-                        "SuccessTestResult",
-                    );
+                    expect(s.hasResult, "successTest produced a result").to.be.true;
+                    expect(s.ctorName, "result is a SuccessTestResult").to.eq("SuccessTestResult");
                 });
             });
         });
@@ -155,10 +139,7 @@ describe("mysteries", () => {
                     .first()
                     .should(($el) => {
                         expect($el).to.have.attr("data-tooltip");
-                        expect($el).to.have.attr(
-                            "data-tooltip-direction",
-                            "UP",
-                        );
+                        expect($el).to.have.attr("data-tooltip-direction", "UP");
                     });
             });
         });
@@ -192,13 +173,9 @@ describe("mysteries", () => {
                 cy.switchTab("mysteries", "primary");
                 const tab = 'section.tab[data-tab="mysteries"] ';
                 // The Affiliation column header renders…
-                cy.get(tab + ".mysticalabilities-list .ledger__head").contains(
-                    "Affiliation",
-                );
+                cy.get(tab + ".mysticalabilities-list .ledger__head").contains("Affiliation");
                 // …and the ability row shows the affiliation name.
-                cy.get(tab + ".mysticalabilities-list .ledger__row").contains(
-                    "Church of Larani",
-                );
+                cy.get(tab + ".mysticalabilities-list .ledger__row").contains("Church of Larani");
             });
         });
     });
@@ -231,13 +208,9 @@ describe("mysteries", () => {
                 cy.switchTab("mysteries", "primary");
                 const tab = 'section.tab[data-tab="mysteries"] ';
                 // The Affiliation column header renders…
-                cy.get(tab + ".mysteries-list .ledger__head").contains(
-                    "Affiliation",
-                );
+                cy.get(tab + ".mysteries-list .ledger__head").contains("Affiliation");
                 // …and the mystery row shows the affiliation name.
-                cy.get(tab + ".mysteries-list .ledger__row").contains(
-                    "Church of Larani",
-                );
+                cy.get(tab + ".mysteries-list .ledger__row").contains("Church of Larani");
             });
         });
     });

@@ -81,10 +81,7 @@ function setupSystem(): SohlSystem {
     // Register the curated region + environment trigger names in Foundry's
     // expiry-event registry so they appear in the effect-config duration→expiry
     // dropdown (issue #593).
-    for (const { name, label } of [
-        ...SOHL_REGION_TRIGGERS,
-        ...SOHL_ENVIRONMENT_TRIGGERS,
-    ]) {
+    for (const { name, label } of [...SOHL_REGION_TRIGGERS, ...SOHL_ENVIRONMENT_TRIGGERS]) {
         registerSohlTrigger(name, label);
     }
 
@@ -237,10 +234,7 @@ function registerSystemSettings() {
             try {
                 SohlSystem.applyCalendar(value);
             } catch (err) {
-                sohl.log.error(
-                    `Failed to apply calendar "${value}":`,
-                    err as PlainObject,
-                );
+                sohl.log.error(`Failed to apply calendar "${value}":`, err as PlainObject);
             }
         },
     });
@@ -290,10 +284,7 @@ function registerSystemSettings() {
  * Rehydrate imported calendars from the world setting into the registry.
  */
 function rehydrateCalendars(): void {
-    const imported = game.settings.get("sohl", "importedCalendars") as Record<
-        string,
-        any
-    >;
+    const imported = game.settings.get("sohl", "importedCalendars") as Record<string, any>;
     for (const [id, reg] of Object.entries(imported)) {
         SohlSystem.registerCalendar(id, {
             ...reg,
@@ -310,22 +301,15 @@ function rehydrateCalendars(): void {
  * built (item logic runs later in the lifecycle).
  */
 function rehydrateExpressionHelpers(): void {
-    const library = game.settings.get("sohl", "expressionHelpers") as Record<
-        string,
-        unknown
-    >;
+    const library = game.settings.get("sohl", "expressionHelpers") as Record<string, unknown>;
     if (!library || !Object.keys(library).length) return;
     const { installed, skipped } = expressionHelpers.loadLibrary(library);
     if (skipped.length) {
         for (const s of skipped) {
-            sohl.log.warn(
-                `Expression helper "${s.name}" skipped on load: ${s.reason}`,
-            );
+            sohl.log.warn(`Expression helper "${s.name}" skipped on load: ${s.reason}`);
         }
     }
-    sohl.log.info(
-        `SoHL | Loaded ${installed.length} custom expression helper(s).`,
-    );
+    sohl.log.info(`SoHL | Loaded ${installed.length} custom expression helper(s).`);
 }
 
 /**
@@ -337,9 +321,7 @@ function applyActiveCalendar(): void {
     if (cal) {
         SohlSystem.applyCalendar(activeId);
     } else {
-        console.warn(
-            `SoHL | Calendar "${activeId}" not found, falling back to default`,
-        );
+        console.warn(`SoHL | Calendar "${activeId}" not found, falling back to default`);
         SohlSystem.applyCalendar(DEFAULT_CALENDAR_SHORTCODE);
     }
 }
@@ -359,23 +341,19 @@ function registerSystemHooks() {
     wireSohlHookBridge(sohl.events);
 
     // Intercept Cohort drops to offer group vs. individual token placement.
-    (Hooks as any).on(
-        "dropCanvasData",
-        (_canvas: any, data: any, _event: any) => {
-            if (data.type !== "Actor") return true;
-            const actor =
-                (Actor as any).implementation.fromDropData?.(data) ??
-                game.actors?.get(data.id);
-            if (!actor || actor.type !== ACTOR_KIND.COHORT) return true;
-            if (!actor.isOwner) return false; // silently cancel for non-owners
+    (Hooks as any).on("dropCanvasData", (_canvas: any, data: any, _event: any) => {
+        if (data.type !== "Actor") return true;
+        const actor =
+            (Actor as any).implementation.fromDropData?.(data) ?? game.actors?.get(data.id);
+        if (!actor || actor.type !== ACTOR_KIND.COHORT) return true;
+        if (!actor.isOwner) return false; // silently cancel for non-owners
 
-            // Cancel default token creation — we'll handle it in the dialog
-            CohortDataModel.handleCohortDrop(actor, data).catch((err: any) =>
-                console.error("SoHL | Cohort drop error:", err),
-            );
-            return false;
-        },
-    );
+        // Cancel default token creation — we'll handle it in the dialog
+        CohortDataModel.handleCohortDrop(actor, data).catch((err: any) =>
+            console.error("SoHL | Cohort drop error:", err),
+        );
+        return false;
+    });
 
     // Add "Expand Cohort" button to TokenHUD for Cohort tokens.
     (Hooks as any).on("renderTokenHUD", (hud: any, element: HTMLElement) => {
@@ -421,14 +399,10 @@ function registerSystemHooks() {
         (_chatMsg: ChatMessage, element: HTMLElement, _data: PlainObject) => {
             // Per-client gating: show defender-response buttons only to the
             // defender's owner, and only the defenses they're capable of.
-            gateAutomatedDefenseButtons(element, (uuid) =>
-                foundry.utils.fromUuidSync(uuid),
-            );
+            gateAutomatedDefenseButtons(element, (uuid) => foundry.utils.fromUuidSync(uuid));
             // Action-card buttons: hide owner-targeted buttons from non-owners;
             // open (`@self`) buttons stay visible to everyone.
-            gateActionCardButtons(element, (uuid) =>
-                foundry.utils.fromUuidSync(uuid),
-            );
+            gateActionCardButtons(element, (uuid) => foundry.utils.fromUuidSync(uuid));
             // GM result-edit pencil: shown only to a GM (#856).
             gateEditActionPencil(element, !!(game as any).user?.isGM);
 
@@ -445,9 +419,7 @@ function registerSystemHooks() {
                     isOwner?: boolean;
                 } | null;
             element.addEventListener("click", (ev) => {
-                const btn: HTMLButtonElement | null = (
-                    ev.target as HTMLElement
-                )?.closest("button");
+                const btn: HTMLButtonElement | null = (ev.target as HTMLElement)?.closest("button");
                 if (btn?.closest(".card-buttons")) {
                     const doc = resolveAuthorizedChatCardHandler(
                         btn.dataset,
@@ -458,20 +430,14 @@ function registerSystemHooks() {
                         doc.onChatCardButton(btn);
                     }
                 } else {
-                    const edit: HTMLElement | null = (
-                        ev.target as HTMLElement
-                    )?.closest("a.edit-action");
+                    const edit: HTMLElement | null = (ev.target as HTMLElement)?.closest(
+                        "a.edit-action",
+                    );
                     const doc =
                         edit?.dataset ?
-                            (resolveAuthorizedChatCardHandler(
-                                edit.dataset,
-                                resolveDoc,
-                            ) as any)
+                            (resolveAuthorizedChatCardHandler(edit.dataset, resolveDoc) as any)
                         :   null;
-                    if (
-                        edit &&
-                        typeof doc?.onChatCardEditAction === "function"
-                    ) {
+                    if (edit && typeof doc?.onChatCardEditAction === "function") {
                         doc.onChatCardEditAction(edit);
                     }
                 }
@@ -482,8 +448,7 @@ function registerSystemHooks() {
     (Hooks as any).on(
         "updateCombat",
         async (combat: Combat, changed: DeepPartial<Combat.Source>) => {
-            if (changed.turn === undefined && changed.round === undefined)
-                return;
+            if (changed.turn === undefined && changed.round === undefined) return;
 
             const combatant = combat.combatant as SohlCombatant | null;
             if (!combatant?.token) return;
@@ -539,9 +504,7 @@ function registerSystemHooks() {
     rehydrateCalendars();
     applyActiveCalendar();
     rehydrateExpressionHelpers();
-    sohl.log.setLogThreshold(
-        (game as any).settings.get("sohl", "logLevel") || LOGLEVEL.INFO,
-    );
+    sohl.log.setLogThreshold((game as any).settings.get("sohl", "logLevel") || LOGLEVEL.INFO);
     registerSystemHooks();
 
     CONFIG.Combat.initiative = { formula: "@initiativeRank", decimals: 2 };
@@ -605,39 +568,35 @@ function registerHandlebarsHelpers() {
      * {{clearableNumberInput fields.onsetDate name="system.onsetDate" value=system.onsetDate}}
      * ```
      */
-    Handlebars.registerHelper(
-        "clearableNumberInput",
-        function (field, options) {
-            const { class: cssClass, ...opts } = options.hash;
-            const input =
-                field && typeof field.toInput === "function" ?
-                    field.toInput(opts)
-                :   foundry.applications.fields.createNumberInput({
-                        ...opts,
-                        value: opts.value ?? field,
-                    });
-            if (cssClass) input.className = cssClass;
+    Handlebars.registerHelper("clearableNumberInput", function (field, options) {
+        const { class: cssClass, ...opts } = options.hash;
+        const input =
+            field && typeof field.toInput === "function" ?
+                field.toInput(opts)
+            :   foundry.applications.fields.createNumberInput({
+                    ...opts,
+                    value: opts.value ?? field,
+                });
+        if (cssClass) input.className = cssClass;
 
-            const wrapper = document.createElement("div");
-            wrapper.classList.add("clearable-number");
-            wrapper.append(input);
+        const wrapper = document.createElement("div");
+        wrapper.classList.add("clearable-number");
+        wrapper.append(input);
 
-            const path = opts.name ?? input.getAttribute("name");
-            const value = opts.value;
-            const hasValue =
-                value !== null && value !== undefined && value !== "";
-            if (path && hasValue) {
-                const clear = document.createElement("a");
-                clear.classList.add("clearable-number__clear");
-                clear.setAttribute("data-action", "clearField");
-                clear.setAttribute("data-field-path", path);
-                clear.setAttribute("data-tooltip", "SOHL.Clear");
-                clear.innerHTML = '<i class="fa-solid fa-xmark"></i>';
-                wrapper.append(clear);
-            }
-            return new Handlebars.SafeString(wrapper.outerHTML);
-        },
-    );
+        const path = opts.name ?? input.getAttribute("name");
+        const value = opts.value;
+        const hasValue = value !== null && value !== undefined && value !== "";
+        if (path && hasValue) {
+            const clear = document.createElement("a");
+            clear.classList.add("clearable-number__clear");
+            clear.setAttribute("data-action", "clearField");
+            clear.setAttribute("data-field-path", path);
+            clear.setAttribute("data-tooltip", "SOHL.Clear");
+            clear.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+            wrapper.append(clear);
+        }
+        return new Handlebars.SafeString(wrapper.outerHTML);
+    });
 
     /**
      * Render a calendar-aware date picker bound to a numeric worldTime field:
@@ -701,10 +660,7 @@ function registerHandlebarsHelpers() {
         try {
             return calendar.format(time, format, rest);
         } catch (err) {
-            sohl.log.warn(
-                `displayWorldTime: formatter "${format}" failed`,
-                err as PlainObject,
-            );
+            sohl.log.warn(`displayWorldTime: formatter "${format}" failed`, err as PlainObject);
             return "";
         }
     });

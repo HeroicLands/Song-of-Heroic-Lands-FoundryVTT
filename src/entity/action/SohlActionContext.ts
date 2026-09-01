@@ -155,9 +155,7 @@ export class SohlActionContext<S extends UnknownObject = UnknownObject> {
      *   carried over from this context.
      * @returns A new context with `overrides` applied over this context's values.
      */
-    clone(
-        overrides: Partial<SohlActionContext.Data<S>> = {},
-    ): SohlActionContext<S> {
+    clone(overrides: Partial<SohlActionContext.Data<S>> = {}): SohlActionContext<S> {
         return new SohlActionContext<S>({
             speaker: this.speaker,
             target: this.target as unknown as SohlActorLogic<any>,

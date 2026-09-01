@@ -36,9 +36,7 @@ describe("Scene-region & environment triggers (#593)", () => {
 
     it("registers the SoHL Event Trigger RegionBehavior subtype", () => {
         cy.foundry((win) => ({
-            registered: Object.keys(
-                win.CONFIG.RegionBehavior.dataModels,
-            ).includes("trigger"),
+            registered: Object.keys(win.CONFIG.RegionBehavior.dataModels).includes("trigger"),
             inExpiry: Object.keys(win.CONFIG.ActiveEffect.expiryEvents).filter(
                 (k) => k.startsWith("region") || k === "sceneDarknessChange",
             ),
@@ -103,12 +101,9 @@ describe("Scene-region & environment triggers (#593)", () => {
                     );
                     const obj = td.toObject();
                     obj.actorLink = true;
-                    const [token] = await td.constructor.createDocuments(
-                        [obj],
-                        {
-                            parent: s,
-                        },
-                    );
+                    const [token] = await td.constructor.createDocuments([obj], {
+                        parent: s,
+                    });
 
                     const outside = region.tokens.size;
                     const before = win.game.messages.size;
@@ -117,10 +112,9 @@ describe("Scene-region & environment triggers (#593)", () => {
                     // `animate: false` keeps the movement animation off the
                     // PIXI ticker, which headless reaches into a viewport that
                     // never finishes initializing (see map-notes.cy.js).
-                    await token.update(
-                        win.structuredClone({ x: 1100, y: 1100 }),
-                        { animate: false },
-                    );
+                    await token.update(win.structuredClone({ x: 1100, y: 1100 }), {
+                        animate: false,
+                    });
                     await new Promise((res) => win.setTimeout(res, 200));
 
                     const msg = win.game.messages.contents.at(-1);
@@ -149,10 +143,7 @@ describe("Scene-region & environment triggers (#593)", () => {
                     expect(r.behaviorEvents).to.include("tokenEnter");
                     expect(r.outside, "started outside the region").to.eq(0);
                     expect(r.inside, "and ended inside it").to.eq(1);
-                    expect(
-                        r.cardsPosted,
-                        "a [Perform] reminder was offered",
-                    ).to.be.gte(1);
+                    expect(r.cardsPosted, "a [Perform] reminder was offered").to.be.gte(1);
                     expect(r.hasPerformButton).to.be.true;
                     // Addressed to the entering token's actor (its owner performs).
                     expect(r.handlerUuid).to.eq(r.actorUuid);
@@ -201,10 +192,7 @@ describe("Scene-region & environment triggers (#593)", () => {
                         actorUuid: a.uuid,
                     };
                 }).should((r) => {
-                    expect(
-                        r.cardsPosted,
-                        "a [Perform] reminder was offered",
-                    ).to.be.gte(1);
+                    expect(r.cardsPosted, "a [Perform] reminder was offered").to.be.gte(1);
                     expect(r.hasPerformButton).to.be.true;
                     expect(r.handlerUuid).to.eq(r.actorUuid);
                 });

@@ -16,10 +16,7 @@ import { toHTMLString } from "@src/utils/helpers";
 import { SafeExpression } from "@src/entity/expr/SafeExpression";
 import { expressionHelpers } from "@src/entity/expr/ExpressionHelperRegistry";
 import type { ExpressionScope } from "@src/entity/expr/ExpressionScopeRegistry";
-import {
-    mountExpressionEditor,
-    type MountedExpressionEditor,
-} from "./expression-codemirror";
+import { mountExpressionEditor, type MountedExpressionEditor } from "./expression-codemirror";
 
 /**
  * The editor body. **Author-static** Handlebars source (Rule #10): only the
@@ -117,8 +114,7 @@ export async function openExpressionEditorDialog(
                 label: sohl.i18n.localize("SOHL.ExpressionEditor.cancel"),
             },
         ],
-        render: (element: HTMLElement) =>
-            wireEditor(element, state, options.scope),
+        render: (element: HTMLElement) => wireEditor(element, state, options.scope),
         callback: (_formData, action) => {
             state.action = action;
             if (action === "save" && state.editor) {
@@ -160,16 +156,14 @@ function wireEditor(
     const saveBtn =
         element
             .closest(".application")
-            ?.querySelector<HTMLButtonElement>('button[data-action="save"]') ??
-        null;
+            ?.querySelector<HTMLButtonElement>('button[data-action="save"]') ?? null;
     if (!container) return;
 
     const revalidate = (value: string): void => {
         state.source = value;
         const error = SafeExpression.validateSource(value, scope);
         if (status) {
-            status.textContent =
-                error ?? sohl.i18n.localize("SOHL.ExpressionEditor.valid");
+            status.textContent = error ?? sohl.i18n.localize("SOHL.ExpressionEditor.valid");
             status.classList.toggle("is-error", Boolean(error));
             status.classList.toggle("is-valid", !error);
         }
@@ -183,9 +177,7 @@ function wireEditor(
     state.editor = editor;
     // Expose the handle on the mount node so integration tests can drive the
     // editor deterministically (get/set the value) without simulating keystrokes.
-    (
-        container as unknown as { _expressionEditor: typeof editor }
-    )._expressionEditor = editor;
+    (container as unknown as { _expressionEditor: typeof editor })._expressionEditor = editor;
     // Focus after the popup is shown so the view measures and paints correctly.
     editor.focus();
 

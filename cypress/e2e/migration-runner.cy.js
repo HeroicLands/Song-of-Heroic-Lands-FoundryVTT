@@ -32,9 +32,7 @@ describe("migration runner — systemMigrationVersion (#957)", () => {
     it("stamps the stored migration version to the system version on boot", () => {
         cy.window({ timeout: 20000 }).should((win) => {
             const version = win.game.system.version;
-            expect(version, "system version")
-                .to.be.a("string")
-                .and.not.equal("");
+            expect(version, "system version").to.be.a("string").and.not.equal("");
             expect(
                 win.game.settings.get("sohl", "systemMigrationVersion"),
                 "stored migration version",
@@ -47,12 +45,11 @@ describe("migration runner — systemMigrationVersion (#957)", () => {
         // world (a fresh `cy.login()` re-fires the `ready` hook) so the real
         // migration path re-runs. Whatever the plan does to documents, the
         // runner must still advance the stamp back to the system version.
-        cy.foundry((win) =>
-            win.game.settings.set("sohl", "systemMigrationVersion", "0.0.0"),
+        cy.foundry((win) => win.game.settings.set("sohl", "systemMigrationVersion", "0.0.0"));
+        cy.foundry((win) => win.game.settings.get("sohl", "systemMigrationVersion")).should(
+            "equal",
+            "0.0.0",
         );
-        cy.foundry((win) =>
-            win.game.settings.get("sohl", "systemMigrationVersion"),
-        ).should("equal", "0.0.0");
 
         cy.login(); // fresh /game load → ready → migrateWorld → runWorldMigrations
 
@@ -140,32 +137,17 @@ describe("0.9.0 — system.docUrl is retired (#1394)", () => {
                 // Every actor, every item embedded on one, and every world item
                 // — the kinds the step migrates. Effects are untouched by it.
                 const expected =
-                    win.game.actors.reduce((n, a) => n + 1 + a.items.size, 0) +
-                    win.game.items.size;
+                    win.game.actors.reduce((n, a) => n + 1 + a.items.size, 0) + win.game.items.size;
                 const reported = win.game.system.version;
-                const stored = win.game.settings.get(
-                    "sohl",
-                    "systemMigrationVersion",
-                );
+                const stored = win.game.settings.get("sohl", "systemMigrationVersion");
                 win.game.system.version = "0.9.0";
                 try {
-                    await win.game.settings.set(
-                        "sohl",
-                        "systemMigrationVersion",
-                        "0.8.2",
-                    );
-                    const summary =
-                        await win.sohl.core.foundry.runWorldMigrations(
-                            win.game,
-                        );
+                    await win.game.settings.set("sohl", "systemMigrationVersion", "0.8.2");
+                    const summary = await win.sohl.core.foundry.runWorldMigrations(win.game);
                     return { ...summary, expected };
                 } finally {
                     win.game.system.version = reported;
-                    await win.game.settings.set(
-                        "sohl",
-                        "systemMigrationVersion",
-                        stored,
-                    );
+                    await win.game.settings.set("sohl", "systemMigrationVersion", stored);
                 }
             }).then((r) => {
                 // At least this step — 0.9.0 may carry more than one, and the
@@ -181,14 +163,10 @@ describe("0.9.0 — system.docUrl is retired (#1394)", () => {
                 const embedded = a.items.map(win.__snap);
                 return {
                     actor: win.__snap(a) === win.__before.actor,
-                    item:
-                        win.__snap(win.game.items.get(item.id)) ===
-                        win.__before.item,
+                    item: win.__snap(win.game.items.get(item.id)) === win.__before.item,
                     embedded:
                         embedded.length === win.__before.embedded.length &&
-                        embedded.every(
-                            (s, n) => s === win.__before.embedded[n],
-                        ),
+                        embedded.every((s, n) => s === win.__before.embedded[n]),
                 };
             }).should("deep.equal", {
                 actor: true,

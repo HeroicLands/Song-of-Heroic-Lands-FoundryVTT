@@ -81,9 +81,7 @@ function defineMysticalAbilityDataSchema(): foundry.data.fields.DataSchema {
     };
 }
 
-type MysticalAbilityDataSchema = ReturnType<
-    typeof defineMysticalAbilityDataSchema
->;
+type MysticalAbilityDataSchema = ReturnType<typeof defineMysticalAbilityDataSchema>;
 
 /** @internal */
 export class MysticalAbilityDataModel<

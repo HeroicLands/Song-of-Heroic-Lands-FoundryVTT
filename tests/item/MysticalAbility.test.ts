@@ -4,11 +4,7 @@ import { SkillLogic } from "@src/document/item/logic/SkillLogic";
 import { AffiliationLogic } from "@src/document/item/logic/AffiliationLogic";
 import { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
-import {
-    ITEM_KIND,
-    SOHL_CONTEXT_MENU_SORT_GROUP,
-    VALUE_DELTA_INFO,
-} from "@src/utils/constants";
+import { ITEM_KIND, SOHL_CONTEXT_MENU_SORT_GROUP, VALUE_DELTA_INFO } from "@src/utils/constants";
 import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
 import * as FoundryHelpersMock from "@src/core/FoundryHelpers";
 import { makeItemLogic, makeMockActor } from "@tests/mocks/logicHarness";
@@ -26,10 +22,7 @@ function abilityFields(overrides: Record<string, unknown> = {}) {
     };
 }
 
-function makeAbility(
-    overrides: Record<string, unknown> = {},
-    opts: Record<string, unknown> = {},
-) {
+function makeAbility(overrides: Record<string, unknown> = {}, opts: Record<string, unknown> = {}) {
     return makeItemLogic(
         MysticalAbilityLogic,
         ITEM_KIND.MYSTICALABILITY,
@@ -76,11 +69,7 @@ function makeAbilityOnActor(
 }
 
 /** Embed a real SkillLogic on the actor and register it in itemTypes. */
-function makeSkillOnActor(
-    actor: any,
-    shortcode: string,
-    masteryLevelBase = 40,
-) {
+function makeSkillOnActor(actor: any, shortcode: string, masteryLevelBase = 40) {
     const logic = makeItemLogic(
         SkillLogic,
         ITEM_KIND.SKILL,
@@ -132,9 +121,7 @@ describe("MysticalAbilityLogic", () => {
             const logic = makeAbility();
             logic.initialize();
             const result = { isSuccess: true } as any;
-            const spy = vi
-                .spyOn(logic.masteryLevel, "successTest")
-                .mockResolvedValue(result);
+            const spy = vi.spyOn(logic.masteryLevel, "successTest").mockResolvedValue(result);
             const ctx = { scope: {} } as any;
             await expect(logic.successTest(ctx)).resolves.toBe(result);
             expect(spy).toHaveBeenCalledWith(ctx);
@@ -173,12 +160,8 @@ describe("MysticalAbilityLogic", () => {
                 charges: { value: 0, max: null },
             });
             logic.initialize();
-            expect(logic.charges.value.disabled).toBe(
-                "SOHL.MysticalAbility.DoesNotUseCharges",
-            );
-            expect(logic.charges.max.disabled).toBe(
-                "SOHL.MysticalAbility.DoesNotUseCharges",
-            );
+            expect(logic.charges.value.disabled).toBe("SOHL.MysticalAbility.DoesNotUseCharges");
+            expect(logic.charges.max.disabled).toBe("SOHL.MysticalAbility.DoesNotUseCharges");
         });
 
         it("disables charges.value (infinite remaining) when value is null but max is set", () => {
@@ -188,9 +171,7 @@ describe("MysticalAbilityLogic", () => {
             logic.initialize();
             expect(logic.charges.max.disabled).toBeFalsy();
             expect(logic.charges.max.effective).toBe(5);
-            expect(logic.charges.value.disabled).toBe(
-                "SOHL.MysticalAbility.InfiniteCharges",
-            );
+            expect(logic.charges.value.disabled).toBe("SOHL.MysticalAbility.InfiniteCharges");
         });
 
         it("keeps charges.max enabled at 0 (infinite available)", () => {
@@ -260,10 +241,7 @@ describe("MysticalAbilityLogic", () => {
         it("resolves assocSkill from the actor's skills by assocSkillCode", () => {
             const actor = makeAbilityActor();
             const skill = makeSkillOnActor(actor, "spellcraft");
-            const logic = makeAbility(
-                { assocSkillCode: "spellcraft" },
-                { actor },
-            );
+            const logic = makeAbility({ assocSkillCode: "spellcraft" }, { actor });
             logic.initialize();
             logic.evaluate();
             expect(logic.assocSkill).toBe(skill);
@@ -302,10 +280,7 @@ describe("MysticalAbilityLogic", () => {
         it("leaves affiliation undefined when no shortcode matches", () => {
             const actor = makeAbilityActor();
             makeAffiliationOnActor(actor, "larani");
-            const logic = makeAbility(
-                { assocAffiliationCode: "missing" },
-                { actor },
-            );
+            const logic = makeAbility({ assocAffiliationCode: "missing" }, { actor });
             logic.initialize();
             logic.evaluate();
             expect(logic.affiliation).toBeUndefined();
@@ -321,10 +296,7 @@ describe("MysticalAbilityLogic", () => {
         it("leaves affiliation undefined when the code is blank", () => {
             const actor = makeAbilityActor();
             makeAffiliationOnActor(actor, "larani");
-            const logic = makeAbility(
-                { assocAffiliationCode: null },
-                { actor },
-            );
+            const logic = makeAbility({ assocAffiliationCode: null }, { actor });
             logic.initialize();
             logic.evaluate();
             expect(logic.affiliation).toBeUndefined();
@@ -521,10 +493,7 @@ describe("MysticalAbilityLogic", () => {
 
         // resultValue is passed explicitly (never via a defaulted parameter —
         // passing `undefined` to a default would substitute the default value).
-        function armedAbility(
-            charges: Record<string, unknown>,
-            resultValue: unknown,
-        ) {
+        function armedAbility(charges: Record<string, unknown>, resultValue: unknown) {
             const logic = makeAbility({ charges });
             logic.initialize();
             const spy = vi
@@ -572,10 +541,7 @@ describe("MysticalAbilityLogic", () => {
         });
 
         it("blocks the roll entirely when the ability is exhausted (0 charges)", async () => {
-            const { logic, spy } = armedAbility(
-                { value: 0, max: 5 },
-                realResult,
-            );
+            const { logic, spy } = armedAbility({ value: 0, max: 5 }, realResult);
             const result = await logic.successTest({ scope: {} } as any);
             expect(result).toBeUndefined();
             expect(spy).not.toHaveBeenCalled();
@@ -585,18 +551,10 @@ describe("MysticalAbilityLogic", () => {
 
     describe("spirit-power association (#990)", () => {
         it("usesSpiritPower is true only for spiritrite/spiritaction", () => {
-            expect(makeAbility({ subType: "spiritrite" }).usesSpiritPower).toBe(
-                true,
-            );
-            expect(
-                makeAbility({ subType: "spiritaction" }).usesSpiritPower,
-            ).toBe(true);
-            expect(
-                makeAbility({ subType: "spiritpower" }).usesSpiritPower,
-            ).toBe(false);
-            expect(
-                makeAbility({ subType: "ritualaction" }).usesSpiritPower,
-            ).toBe(false);
+            expect(makeAbility({ subType: "spiritrite" }).usesSpiritPower).toBe(true);
+            expect(makeAbility({ subType: "spiritaction" }).usesSpiritPower).toBe(true);
+            expect(makeAbility({ subType: "spiritpower" }).usesSpiritPower).toBe(false);
+            expect(makeAbility({ subType: "ritualaction" }).usesSpiritPower).toBe(false);
         });
 
         it("resolves the Spirit Power, is enabled, and merges its mastery level", () => {
@@ -744,9 +702,7 @@ describe("MysticalAbilityLogic — improvement flag and SDR (#1130)", () => {
             for (const shortcode of ["setImproveFlag", "unsetImproveFlag"]) {
                 const action = logic.actions.get(shortcode) as any;
                 expect(action.data.visible, shortcode).toBe("false");
-                expect(action.data.group, shortcode).toBe(
-                    SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
-                );
+                expect(action.data.group, shortcode).toBe(SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN);
             }
         });
 
@@ -754,23 +710,19 @@ describe("MysticalAbilityLogic — improvement flag and SDR (#1130)", () => {
             const logic = makeAbility();
             const toggle = logic.actions.get("toggleImproveFlag") as any;
             expect(toggle.data.visible).toBe("true");
-            expect(toggle.data.group).toBe(
-                SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
-            );
+            expect(toggle.data.group).toBe(SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL);
             const sdr = logic.actions.get("improveWithSDR") as any;
             expect(sdr.data.group).toBe(SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL);
             // Gated on canImprove *and* on the improve flag being set — the
             // SDR is the roll a flagged item is waiting for (#1102).
-            expect(sdr.data.visible).toBe(
-                "itemLogic.canImprove && itemLogic.data.improveFlag",
-            );
+            expect(sdr.data.visible).toBe("itemLogic.canImprove && itemLogic.data.improveFlag");
         });
 
         it("titles the entries from the MysticalAbility action keys", () => {
             const logic = makeAbility();
-            expect(
-                (logic.actions.get("improveWithSDR") as any).data.title,
-            ).toBe("SOHL.MysticalAbility.Action.improveWithSDR");
+            expect((logic.actions.get("improveWithSDR") as any).data.title).toBe(
+                "SOHL.MysticalAbility.Action.improveWithSDR",
+            );
         });
     });
 
@@ -799,9 +751,7 @@ describe("MysticalAbilityLogic — improvement flag and SDR (#1130)", () => {
         });
 
         it("is false when the user neither owns the item nor is a GM", () => {
-            vi.spyOn(FoundryHelpersMock, "fvttIsCurrentUserGM").mockReturnValue(
-                false,
-            );
+            vi.spyOn(FoundryHelpersMock, "fvttIsCurrentUserGM").mockReturnValue(false);
             const logic = makeAbility({ assocSkillCode: null }, {
                 isOwner: false,
             } as any);
@@ -869,9 +819,7 @@ describe("MysticalAbilityLogic — improvement flag and SDR (#1130)", () => {
 
     describe("improveWithSDR", () => {
         it("rolls 1d100 with no Skill Base of its own", async () => {
-            const spy = vi
-                .spyOn(SimpleRoll, "fromFormula")
-                .mockReturnValue(mockRoll(95));
+            const spy = vi.spyOn(SimpleRoll, "fromFormula").mockReturnValue(mockRoll(95));
             const logic = makeAbility({
                 assocSkillCode: null,
                 masteryLevelBase: 40,
@@ -924,10 +872,7 @@ describe("MysticalAbilityLogic — improvement flag and SDR (#1130)", () => {
             const actor = makeAbilityActor();
             const skill = makeSkillOnActor(actor, "swim", 40);
             skill.initialize();
-            const logic = makeAbility(
-                { assocSkillCode: "swim", masteryLevelBase: 5 },
-                { actor },
-            );
+            const logic = makeAbility({ assocSkillCode: "swim", masteryLevelBase: 5 }, { actor });
             logic.initialize();
             logic.evaluate();
             logic.finalize();
@@ -937,9 +882,7 @@ describe("MysticalAbilityLogic — improvement flag and SDR (#1130)", () => {
             expect(skill.item.update).not.toHaveBeenCalled();
             expect(logic.item.update).toHaveBeenCalledTimes(1);
             const [payload] = (logic.item.update as any).mock.calls[0];
-            expect(
-                Object.keys(payload).every((k) => k.startsWith("system.")),
-            ).toBe(true);
+            expect(Object.keys(payload).every((k) => k.startsWith("system."))).toBe(true);
         });
     });
 });
@@ -950,16 +893,12 @@ describe("MysticalAbilityDataModel", () => {
     // integration, not in unit tests.
     describe("defineSchema", () => {
         it.todo("includes SohlItemDataModel base schema fields");
-        it.todo(
-            "defines subType with MysticalAbilitySubTypes choices, required",
-        );
+        it.todo("defines subType with MysticalAbilitySubTypes choices, required");
         it.todo("defines assocSkillCode as StringField with empty initial");
         it.todo("defines masteryLevelBase as integer NumberField with min 0");
         it.todo("defines improveFlag as BooleanField defaulting to false");
         it.todo("defines levelBase as integer NumberField with min 0");
-        it.todo(
-            "defines charges as SchemaField with nullable value/max fields",
-        );
+        it.todo("defines charges as SchemaField with nullable value/max fields");
     });
 
     it.todo("has kind set to ITEM_KIND.MYSTICALABILITY");

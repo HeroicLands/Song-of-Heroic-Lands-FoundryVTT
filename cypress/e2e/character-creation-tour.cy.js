@@ -49,9 +49,7 @@ const STEP = {
 /** Read whether the tour's Next button is currently gate-disabled. */
 function isGated(win) {
     // The Next button lives in the centered step card, not the shared tooltip.
-    const btn = win.document.querySelector(
-        '.tour-center-step .step-button[data-action="next"]',
-    );
+    const btn = win.document.querySelector('.tour-center-step .step-button[data-action="next"]');
     return !!btn && btn.classList.contains("sohl-tour-gate-disabled");
 }
 
@@ -107,9 +105,7 @@ describe("Character Creation tour (SohlTour, #614)", () => {
         // The tour is recommended by the general welcome card, which posts once
         // per user on ready (in `before`), recorded by a per-user flag so it is
         // never re-shown — the tour stays launchable on demand.
-        cy.foundry(
-            (win) => !!win.game.user.getFlag("sohl", "welcomeCardShown"),
-        ).should("eq", true);
+        cy.foundry((win) => !!win.game.user.getFlag("sohl", "welcomeCardShown")).should("eq", true);
 
         // The offer surface is the welcome chat card whose Start button launches
         // the tour through the delegated `renderChatMessageHTML` handler.
@@ -133,10 +129,7 @@ describe("Character Creation tour (SohlTour, #614)", () => {
             // force: the whisper card can sit off-screen in the headless chat log;
             // this test exercises the button wiring, not its visibility.
             .click({ force: true });
-        cy.foundry((win) => win.game.tours.get(KEY).status).should(
-            "eq",
-            "in-progress",
-        );
+        cy.foundry((win) => win.game.tours.get(KEY).status).should("eq", "in-progress");
     });
 
     it("opens by selecting the Actors tab and spotlighting Create Actor", () => {
@@ -161,20 +154,13 @@ describe("Character Creation tour (SohlTour, #614)", () => {
             const tour = win.game.tours.get(KEY);
             expect(tour.stepIndex, "on the create-actor step").to.eq(0);
             // The Actors directory was auto-selected and the sidebar expanded.
-            expect(
-                win.ui.sidebar?.tabGroups?.primary,
-                "Actors tab selected",
-            ).to.eq("actors");
+            expect(win.ui.sidebar?.tabGroups?.primary, "Actors tab selected").to.eq("actors");
             expect(win.ui.sidebar?.expanded, "sidebar expanded").to.be.true;
             // The spotlight targets the Actors directory's Create Actor button.
             const spot = tour.spotlightTarget;
             expect(spot, "has a spotlight target").to.exist;
-            expect(
-                spot.classList.contains("create-entry"),
-                "the Create Actor button",
-            ).to.be.true;
-            expect(spot.closest("#actors"), "scoped to the actors directory").to
-                .exist;
+            expect(spot.classList.contains("create-entry"), "the Create Actor button").to.be.true;
+            expect(spot.closest("#actors"), "scoped to the actors directory").to.exist;
             // The step card is NOT anchored to the button (stable/centered), so a
             // sidebar hover can't hijack Foundry's shared tooltip and lose it.
             expect(
@@ -208,10 +194,7 @@ describe("Character Creation tour (SohlTour, #614)", () => {
                 0,
                 ...(shadow.match(/(\d+)px/g) || []).map((s) => parseInt(s, 10)),
             );
-            expect(
-                maxPx,
-                "fade is a ring, not a full-screen dimmer",
-            ).to.be.lessThan(100);
+            expect(maxPx, "fade is a ring, not a full-screen dimmer").to.be.lessThan(100);
         });
     });
 
@@ -236,11 +219,11 @@ describe("Character Creation tour (SohlTour, #614)", () => {
         goTo(STEP.gearWeapons).should("eq", STEP.gearWeapons);
         expectGated(true, "weapons gate closed with no weapons");
         cy.get("@being").then((being) => {
-            cy.getFromCompendium("sohl.items", "weapongear", "BrdSwd").then(
-                (bs) => cy.dropOnActor(being, bs).as("broadsword"),
+            cy.getFromCompendium("sohl.items", "weapongear", "BrdSwd").then((bs) =>
+                cy.dropOnActor(being, bs).as("broadsword"),
             );
-            cy.getFromCompendium("sohl.items", "weapongear", "RndSh").then(
-                (rs) => cy.dropOnActor(being, rs).as("roundshield"),
+            cy.getFromCompendium("sohl.items", "weapongear", "RndSh").then((rs) =>
+                cy.dropOnActor(being, rs).as("roundshield"),
             );
         });
         expectGated(false, "weapons gate opens once both exist");
@@ -257,10 +240,7 @@ describe("Character Creation tour (SohlTour, #614)", () => {
                 const struct = actor.logic.body.structure;
                 const findArm = (side) =>
                     struct.parts.find(
-                        (p) =>
-                            p.canHoldItem &&
-                            side.test(p.name) &&
-                            /arm/i.test(p.name),
+                        (p) => p.canHoldItem && side.test(p.name) && /arm/i.test(p.name),
                     );
                 const right = findArm(/right/i);
                 const left = findArm(/left/i);
@@ -277,10 +257,7 @@ describe("Character Creation tour (SohlTour, #614)", () => {
                 return actor.logic.data.update(payload).then(() => true);
             });
         });
-        expectGated(
-            false,
-            "hold gate opens once weapons are in the right arms",
-        );
+        expectGated(false, "hold gate opens once weapons are in the right arms");
 
         // strike-modes: a held weapon means the strike modes appear;
         // the gate is satisfied (and pointer pass-through makes ATK/BLK/CX live).
@@ -291,8 +268,8 @@ describe("Character Creation tour (SohlTour, #614)", () => {
         goTo(STEP.gearTunic).should("eq", STEP.gearTunic);
         expectGated(true, "tunic gate closed with no tunic");
         cy.get("@being").then((being) => {
-            cy.getFromCompendium("sohl.items", "armorgear", "LtTunic").then(
-                (t) => cy.dropOnActor(being, t).as("tunic"),
+            cy.getFromCompendium("sohl.items", "armorgear", "LtTunic").then((t) =>
+                cy.dropOnActor(being, t).as("tunic"),
             );
         });
         expectGated(true, "tunic gate still closed until it is equipped");
@@ -326,8 +303,8 @@ describe("Character Creation tour (SohlTour, #614)", () => {
         goTo(STEP.backpack).should("eq", STEP.backpack);
         expectGated(true, "backpack gate closed");
         cy.get("@being").then((being) => {
-            cy.getFromCompendium("sohl.items", "containergear", "backpk").then(
-                (b) => cy.dropOnActor(being, b).as("backpack"),
+            cy.getFromCompendium("sohl.items", "containergear", "backpk").then((b) =>
+                cy.dropOnActor(being, b).as("backpack"),
             );
         });
         expectGated(false, "backpack gate opens once it exists");
@@ -394,15 +371,9 @@ describe("Character Creation tour (SohlTour, #614)", () => {
                         .replace(/[^a-z0-9]+/g, "")
                         .replace(/[0-9]+$/, "");
                 const has = (type, base) =>
-                    a.items.some(
-                        (it) =>
-                            it.type === type &&
-                            scBase(it.system?.shortcode) === base,
-                    );
+                    a.items.some((it) => it.type === type && scBase(it.system?.shortcode) === base);
                 const tunic = a.items.find(
-                    (it) =>
-                        it.type === "armorgear" &&
-                        scBase(it.system?.shortcode) === "lttunic",
+                    (it) => it.type === "armorgear" && scBase(it.system?.shortcode) === "lttunic",
                 );
                 return {
                     broadsword: has("weapongear", "brdswd"),
@@ -410,8 +381,7 @@ describe("Character Creation tour (SohlTour, #614)", () => {
                     tunicEquipped: !!tunic?.system?.isWorn,
                     arcaneTalent: a.items.some(
                         (it) =>
-                            it.type === "mysticalability" &&
-                            it.system?.subType === "arcanetalent",
+                            it.type === "mysticalability" && it.system?.subType === "arcanetalent",
                     ),
                     backpack: has("containergear", "backpk"),
                     tinderboxOnBody: a.items.some(
@@ -427,8 +397,7 @@ describe("Character Creation tour (SohlTour, #614)", () => {
                 expect(r.tunicEquipped, "Leather Tunic equipped").to.be.true;
                 expect(r.arcaneTalent, "has an Arcane Talent").to.be.true;
                 expect(r.backpack, "has a Backpack").to.be.true;
-                expect(r.tinderboxOnBody, "Tinderbox back on the person").to.be
-                    .true;
+                expect(r.tinderboxOnBody, "Tinderbox back on the person").to.be.true;
             });
         });
     });

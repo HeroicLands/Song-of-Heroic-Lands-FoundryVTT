@@ -12,10 +12,7 @@ describe("ImpactModifier", () => {
             const im = new ImpactModifier(
                 {
                     baseValue: 3,
-                    roll: new SimpleRoll(
-                        { numDice: 2, dieFaces: 6 },
-                        { parent },
-                    ),
+                    roll: new SimpleRoll({ numDice: 2, dieFaces: 6 }, { parent }),
                     aspect: IMPACT_ASPECT.EDGED,
                 } as any,
                 { parent },
@@ -32,18 +29,14 @@ describe("ImpactModifier", () => {
             const im = new ImpactModifier(
                 {
                     baseValue: 3,
-                    roll: new SimpleRoll(
-                        { numDice: 2, dieFaces: 6, rolls: [3, 4] },
-                        { parent },
-                    ),
+                    roll: new SimpleRoll({ numDice: 2, dieFaces: 6, rolls: [3, 4] }, { parent }),
                     aspect: IMPACT_ASPECT.EDGED,
                 } as any,
                 { parent },
             );
-            const revived = defaultFromJSON(
-                JSON.parse(JSON.stringify(defaultToJSON(im))),
-                { parent },
-            ) as ImpactModifier;
+            const revived = defaultFromJSON(JSON.parse(JSON.stringify(defaultToJSON(im))), {
+                parent,
+            }) as ImpactModifier;
             expect(revived).toBeInstanceOf(ImpactModifier);
             expect(revived.numDice).toBe(2);
             expect(revived.die).toBe(6);
@@ -57,9 +50,7 @@ describe("ImpactModifier", () => {
     });
 
     describe("constructor", () => {
-        it.todo(
-            "creates an instance with default values (null roll, BLUNT aspect)",
-        );
+        it.todo("creates an instance with default values (null roll, BLUNT aspect)");
         it.todo("accepts roll data and creates a SimpleRoll");
         it.todo("accepts a valid aspect");
         it.todo("defaults to BLUNT for invalid aspect");
@@ -109,10 +100,7 @@ describe("ImpactModifier", () => {
             baseValue: number,
             aspect: string = IMPACT_ASPECT.BLUNT,
         ): ImpactModifier {
-            const roll =
-                numDice ?
-                    new SimpleRoll({ numDice, dieFaces }, { parent })
-                :   null;
+            const roll = numDice ? new SimpleRoll({ numDice, dieFaces }, { parent }) : null;
             return new ImpactModifier({ baseValue, roll, aspect } as any, {
                 parent,
             });
@@ -141,10 +129,7 @@ describe("ImpactModifier", () => {
 
     describe("label", () => {
         it("returns diceFormula plus aspect character", () => {
-            const roll = new SimpleRoll(
-                { numDice: 1, dieFaces: 8 },
-                { parent },
-            );
+            const roll = new SimpleRoll({ numDice: 1, dieFaces: 8 }, { parent });
             const im = new ImpactModifier(
                 { baseValue: 1, roll, aspect: IMPACT_ASPECT.PIERCING } as any,
                 { parent },
@@ -155,9 +140,7 @@ describe("ImpactModifier", () => {
 
     describe("evaluate()", () => {
         it.todo("returns roll total when roll already exists");
-        it.todo(
-            "creates a SimpleRoll from formula and rolls when no prior roll",
-        );
+        it.todo("creates a SimpleRoll from formula and rolls when no prior roll");
     });
 
     // Regression (#769): the base constructor applied before ImpactModifier set
@@ -168,10 +151,7 @@ describe("ImpactModifier", () => {
             const im = new ImpactModifier(
                 {
                     baseValue: 0,
-                    roll: new SimpleRoll(
-                        { numDice: 1, dieFaces: 8 },
-                        { parent },
-                    ),
+                    roll: new SimpleRoll({ numDice: 1, dieFaces: 8 }, { parent }),
                     aspect: IMPACT_ASPECT.PIERCING,
                 } as any,
                 { parent },

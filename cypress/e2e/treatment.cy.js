@@ -68,9 +68,7 @@ describe("Action cards — treatment flow", () => {
 
                 // Whoever clicks the open Perform button responds with their
                 // default character — here, this actor.
-                await win.game.user.update(
-                    win.structuredClone({ character: a.id }),
-                );
+                await win.game.user.update(win.structuredClone({ character: a.id }));
 
                 const before = win.game.messages.size;
 
@@ -80,19 +78,14 @@ describe("Action cards — treatment flow", () => {
                 // reads data-skip-dialog and runs the pre-filled action).
                 const dispatch = async (btn) => {
                     const uuid = btn.dataset.handlerUuid;
-                    const doc =
-                        uuid === "@self" ?
-                            win.game.user.character
-                        :   win.fromUuidSync(uuid);
+                    const doc = uuid === "@self" ? win.game.user.character : win.fromUuidSync(uuid);
                     await doc.onChatCardButton(btn);
                 };
                 const latestButton = (action) => {
                     const msg = win.game.messages.contents.at(-1);
                     const div = win.document.createElement("div");
                     div.innerHTML = msg.content;
-                    return div.querySelector(
-                        `button.action-card-button[data-action="${action}"]`,
-                    );
+                    return div.querySelector(`button.action-card-button[data-action="${action}"]`);
                 };
 
                 // Trigger: the patient invokes Request Treatment on the wound →
@@ -114,10 +107,7 @@ describe("Action cards — treatment flow", () => {
                 // Perform-result + (the request) cards were posted.
                 expect(r.cardsPosted, "treatment cards posted").to.be.gte(2);
                 expect(r.treated, "treatment recorded on the wound").to.be.true;
-                expect(
-                    r.healingRate,
-                    "a Healing Rate was set for the grievous wound",
-                ).to.be.gte(1);
+                expect(r.healingRate, "a Healing Rate was set for the grievous wound").to.be.gte(1);
             });
         });
     });
@@ -145,9 +135,7 @@ describe("Action cards — treatment flow", () => {
                 ]);
                 const created = await a.createEmbeddedDocuments("Item", items);
                 const injury = created.find((i) => i.type === "trauma");
-                await win.game.user.update(
-                    win.structuredClone({ character: a.id }),
-                );
+                await win.game.user.update(win.structuredClone({ character: a.id }));
 
                 // Force a critical failure: a d100 total of 100 is > ML 50
                 // (failure) and ends in 0 (critical). A grievous edged wound left
@@ -159,19 +147,14 @@ describe("Action cards — treatment flow", () => {
 
                 const dispatch = async (btn) => {
                     const uuid = btn.dataset.handlerUuid;
-                    const doc =
-                        uuid === "@self" ?
-                            win.game.user.character
-                        :   win.fromUuidSync(uuid);
+                    const doc = uuid === "@self" ? win.game.user.character : win.fromUuidSync(uuid);
                     await doc.onChatCardButton(btn);
                 };
                 const latestButton = (action) => {
                     const msg = win.game.messages.contents.at(-1);
                     const div = win.document.createElement("div");
                     div.innerHTML = msg.content;
-                    return div.querySelector(
-                        `button.action-card-button[data-action="${action}"]`,
-                    );
+                    return div.querySelector(`button.action-card-button[data-action="${action}"]`);
                 };
 
                 // Perform → posts the Treatment Result card; capture its HTML.
@@ -179,12 +162,8 @@ describe("Action cards — treatment flow", () => {
                 return win.game.messages.contents.at(-1).content;
             }).should((html) => {
                 expect(html, "infection warning").to.contain("Infection risk");
-                expect(html, "impairment warning").to.contain(
-                    "Permanent impairment risk",
-                );
-                expect(html, "bleeder warning").to.contain(
-                    "Treatment results in a bleeder",
-                );
+                expect(html, "impairment warning").to.contain("Permanent impairment risk");
+                expect(html, "bleeder warning").to.contain("Treatment results in a bleeder");
             });
         });
     });

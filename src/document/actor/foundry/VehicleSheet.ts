@@ -136,18 +136,13 @@ export class VehicleSheet extends SohlActorSheetBase {
         context: foundry.applications.api.DocumentSheetV2.RenderContext<any>,
         options: foundry.applications.api.DocumentSheetV2.RenderOptions,
     ): Promise<foundry.applications.api.DocumentSheetV2.RenderContext<any>> {
-        if (partId !== "occupants")
-            return super._preparePartContext(partId, context, options);
+        if (partId !== "occupants") return super._preparePartContext(partId, context, options);
 
         // Expose this part's tab descriptor, exactly as the base dispatcher
         // does, so the section resolves its `active` state and tab group.
         (context as any).tab = (context as any).tabs?.[partId];
         context = await this._prepareOccupantsContext(context, options);
-        fvttCallHook(
-            `sohl.actor.${this.document.type}.prepareOccupantsContext`,
-            this,
-            context,
-        );
+        fvttCallHook(`sohl.actor.${this.document.type}.prepareOccupantsContext`, this, context);
         return context;
     }
 
@@ -157,14 +152,9 @@ export class VehicleSheet extends SohlActorSheetBase {
      * @param name - The action shortcode.
      * @param scope - Scope values pre-answering the action's questions.
      */
-    private async _runOccupantAction(
-        name: string,
-        scope: PlainObject = {},
-    ): Promise<void> {
-        const logic = this.document.logic as unknown as
-            VehicleLogic | undefined;
-        const action = (logic as any)?.actions.get(name) as
-            SohlAction | undefined;
+    private async _runOccupantAction(name: string, scope: PlainObject = {}): Promise<void> {
+        const logic = this.document.logic as unknown as VehicleLogic | undefined;
+        const action = (logic as any)?.actions.get(name) as SohlAction | undefined;
         if (!logic || !action) return;
         await action.execute(
             new SohlActionContext({
@@ -183,10 +173,7 @@ export class VehicleSheet extends SohlActorSheetBase {
      * @returns The occupant's handle, or `undefined`.
      */
     private static _occupantRef(target: HTMLElement): string | undefined {
-        return (
-            target.closest<HTMLElement>("[data-occupant-ref]")?.dataset
-                .occupantRef ?? undefined
-        );
+        return target.closest<HTMLElement>("[data-occupant-ref]")?.dataset.occupantRef ?? undefined;
     }
 
     /**

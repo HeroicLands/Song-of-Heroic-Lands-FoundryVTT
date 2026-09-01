@@ -105,6 +105,4 @@ export interface DialogSpec {
  *
  * @param element - The dialog's rendered root element.
  */
-export type DialogRenderCallback = (
-    element: HTMLElement,
-) => void | Promise<void>;
+export type DialogRenderCallback = (element: HTMLElement) => void | Promise<void>;

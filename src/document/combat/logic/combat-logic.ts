@@ -81,9 +81,7 @@ export function resolveGroupSeeding(
         if (combatant.hasGroup) continue;
 
         const name =
-            combatant.desiredName?.trim() ?
-                combatant.desiredName.trim()
-            :   DEFAULT_COMBAT_GROUP;
+            combatant.desiredName?.trim() ? combatant.desiredName.trim() : DEFAULT_COMBAT_GROUP;
         const lower = name.toLowerCase();
 
         let canonical = canonicalByLower.get(lower);

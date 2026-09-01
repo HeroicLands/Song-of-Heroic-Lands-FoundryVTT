@@ -114,14 +114,12 @@ describe("assisted combat (sheet strike-mode cells)", () => {
             // successTest aborts with no card). Basic Folk already owns `melee`,
             // so raise its ML rather than add a colliding duplicate.
             cy.ensureSkillML(actor, "melee", 50);
-            cy.createItemOn(actor, "weapongear", meleeWeapon()).then(
-                (weapon) => {
-                    cy.holdItem(weapon);
-                    cy.prepare(actor);
-                    cy.openSheet(actor);
-                    cy.switchTab("combat", "primary");
-                },
-            );
+            cy.createItemOn(actor, "weapongear", meleeWeapon()).then((weapon) => {
+                cy.holdItem(weapon);
+                cy.prepare(actor);
+                cy.openSheet(actor);
+                cy.switchTab("combat", "primary");
+            });
             return cy.wrap(actor);
         });
     }
@@ -131,12 +129,7 @@ describe("assisted combat (sheet strike-mode cells)", () => {
             cy.foundry((win) => ({
                 attack: !!cell(win, actor.id, "rollStrikeModeTest", "attack"),
                 block: !!cell(win, actor.id, "rollStrikeModeTest", "block"),
-                counter: !!cell(
-                    win,
-                    actor.id,
-                    "rollStrikeModeTest",
-                    "counterstrike",
-                ),
+                counter: !!cell(win, actor.id, "rollStrikeModeTest", "counterstrike"),
                 impact: !!cell(win, actor.id, "rollStrikeModeImpact", null),
             })).should((c) => {
                 expect(c.attack, "attack cell").to.be.true;
@@ -156,17 +149,9 @@ describe("assisted combat (sheet strike-mode cells)", () => {
         weaponBeing().then((actor) => {
             cy.foundry((win) => {
                 const a = win.game.actors.get(actor.id);
-                const skillML = a.logic.getItemLogic("melee", "skill")
-                    ?.masteryLevel.effective;
+                const skillML = a.logic.getItemLogic("melee", "skill")?.masteryLevel.effective;
                 const value = (kind) =>
-                    Number(
-                        cell(
-                            win,
-                            actor.id,
-                            "rollStrikeModeTest",
-                            kind,
-                        )?.textContent.trim(),
-                    );
+                    Number(cell(win, actor.id, "rollStrikeModeTest", kind)?.textContent.trim());
                 return {
                     skillML,
                     attack: value("attack"),
@@ -191,12 +176,7 @@ describe("assisted combat (sheet strike-mode cells)", () => {
             // harness; the modifier selection is source-verified below (#178).
             cy.foundry(async (win) => {
                 const before = openDialogCount(win);
-                cell(
-                    win,
-                    actor.id,
-                    "rollStrikeModeTest",
-                    "attack",
-                ).dispatchEvent(
+                cell(win, actor.id, "rollStrikeModeTest", "attack").dispatchEvent(
                     new win.PointerEvent("click", { bubbles: true }),
                 );
                 await new Promise((r) => setTimeout(r, 500));

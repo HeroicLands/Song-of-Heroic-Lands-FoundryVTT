@@ -22,10 +22,7 @@ class Probe extends SohlEntity {
     extra: string;
 
     constructor(parent: SohlLogic<any>);
-    constructor(
-        data: Partial<Probe.Data>,
-        options: Partial<SohlEntity.Options>,
-    );
+    constructor(data: Partial<Probe.Data>, options: Partial<SohlEntity.Options>);
     constructor(
         dataOrParent: SohlEntity.DataOrParent<Probe.Data> = {},
         options: Partial<SohlEntity.Options> = {},
@@ -43,10 +40,7 @@ class Probe extends SohlEntity {
         return SohlEntity.dataOf<Probe.Data>(x);
     }
     /** Test-only passthrough to the protected static normalizer. */
-    static callOptionsOf(
-        x: SohlEntity.DataOrParent<Probe.Data>,
-        o: Partial<SohlEntity.Options>,
-    ) {
+    static callOptionsOf(x: SohlEntity.DataOrParent<Probe.Data>, o: Partial<SohlEntity.Options>) {
         return SohlEntity.optionsOf<SohlEntity.Options>(x, o);
     }
 }
@@ -76,12 +70,10 @@ describe("SohlEntity", () => {
         });
 
         it("throws the exact message when no parent resolves", () => {
-            expect(() => new Probe({}, {} as any)).toThrow(
+            expect(() => new Probe({}, {} as any)).toThrow("SohlEntity requires a parent");
+            expect(() => new Probe({ extra: "x" }, { parent: undefined } as any)).toThrow(
                 "SohlEntity requires a parent",
             );
-            expect(
-                () => new Probe({ extra: "x" }, { parent: undefined } as any),
-            ).toThrow("SohlEntity requires a parent");
         });
 
         it("rejects the data form without an options argument at compile time", () => {
@@ -116,9 +108,7 @@ describe("SohlEntity", () => {
             expect(Probe.callDataOf(sneaky)).toBe(sneaky);
             expect(Probe.callOptionsOf(sneaky, {})).toEqual({});
             // …so passing it as the sole argument resolves no parent and throws.
-            expect(() => new Probe(sneaky, {} as any)).toThrow(
-                "SohlEntity requires a parent",
-            );
+            expect(() => new Probe(sneaky, {} as any)).toThrow("SohlEntity requires a parent");
         });
     });
 });

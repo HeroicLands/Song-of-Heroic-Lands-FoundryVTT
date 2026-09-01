@@ -109,11 +109,7 @@ describe("driven-tour: seeded RNG (SohlTour #624)", () => {
 
             if (!isErrorPath) {
                 // End via this path, then let its promise (if any) settle.
-                cy.foundry((win) =>
-                    Promise.resolve(forceExit(win, win.__tour)).then(
-                        () => true,
-                    ),
-                );
+                cy.foundry((win) => Promise.resolve(forceExit(win, win.__tour)).then(() => true));
             }
 
             // The RNG is back to normal: it resumes the captured continuation.
@@ -174,9 +170,7 @@ describe("driven-tour: seeded RNG (SohlTour #624)", () => {
         // runs. Interleaving `start()` and `exit()` in one synchronous frame lands
         // the exit before any render await resolves.
         cy.foundry((win) => {
-            for (const el of win.document.querySelectorAll(
-                ".tour-center-step",
-            )) {
+            for (const el of win.document.querySelectorAll(".tour-center-step")) {
                 el.remove();
             }
             const tour = buildSeededTour(win, "e2e-ghost-679");
@@ -186,9 +180,10 @@ describe("driven-tour: seeded RNG (SohlTour #624)", () => {
         });
         // Give any stranded in-flight render a frame to (not) paint, then assert
         // the DOM holds no orphaned centered step card.
-        cy.foundry(
-            (win) => win.document.querySelectorAll(".tour-center-step").length,
-        ).should("eq", 0);
+        cy.foundry((win) => win.document.querySelectorAll(".tour-center-step").length).should(
+            "eq",
+            0,
+        );
     });
 
     it("exit interleaved with the render await leaves no ghost, and a residual ghost is swept by the next start (#737)", () => {
@@ -202,9 +197,7 @@ describe("driven-tour: seeded RNG (SohlTour #624)", () => {
         // settles and the render reaches its `super._renderStep()` await, THEN
         // exit — landing the exit inside the render window. No ghost may remain.
         cy.foundry((win) => {
-            for (const el of win.document.querySelectorAll(
-                ".tour-center-step",
-            )) {
+            for (const el of win.document.querySelectorAll(".tour-center-step")) {
                 el.remove();
             }
             const tour = buildSeededTour(win, "e2e-ghost-737a");
@@ -216,9 +209,10 @@ describe("driven-tour: seeded RNG (SohlTour #624)", () => {
                 }),
             );
         });
-        cy.foundry(
-            (win) => win.document.querySelectorAll(".tour-center-step").length,
-        ).should("eq", 0);
+        cy.foundry((win) => win.document.querySelectorAll(".tour-center-step").length).should(
+            "eq",
+            0,
+        );
 
         // (b) Safety net. Plant a residual ghost card (as an exit-interleaved
         // render would leave), then fully start a fresh tour: its first
@@ -227,24 +221,25 @@ describe("driven-tour: seeded RNG (SohlTour #624)", () => {
         cy.foundry((win) => {
             const ghost = win.document.createElement("aside");
             ghost.className = "tour-center-step";
-            ghost.innerHTML =
-                '<button class="step-button" data-action="next">Next</button>';
+            ghost.innerHTML = '<button class="step-button" data-action="next">Next</button>';
             win.document.body.appendChild(ghost);
             return buildSeededTour(win, "e2e-ghost-737b")
                 .start()
                 .then(() => true);
         });
-        cy.foundry(
-            (win) => win.document.querySelectorAll(".tour-center-step").length,
-        ).should("eq", 1);
+        cy.foundry((win) => win.document.querySelectorAll(".tour-center-step").length).should(
+            "eq",
+            1,
+        );
         // Tear it back down so the shared world/DOM is clean for the next test.
         cy.foundry((win) => {
             win.foundry.nue.Tour.activeTour?.exit?.();
             return true;
         });
-        cy.foundry(
-            (win) => win.document.querySelectorAll(".tour-center-step").length,
-        ).should("eq", 0);
+        cy.foundry((win) => win.document.querySelectorAll(".tour-center-step").length).should(
+            "eq",
+            0,
+        );
     });
 });
 
@@ -283,9 +278,7 @@ describe("driven-tour: drive steps (SohlTour #624)", () => {
                     ],
                 });
                 win.__tour = tour;
-                return tour
-                    .start()
-                    .then(() => win.game.scenes.get(scene.id).active);
+                return tour.start().then(() => win.game.scenes.get(scene.id).active);
             }).should("eq", true);
         });
     });

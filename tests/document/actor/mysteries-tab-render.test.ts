@@ -33,8 +33,7 @@ function mod(effective: number, disabled: unknown = false) {
 function abilityLike(over: Record<string, any> = {}) {
     const logic = {
         assocRef: { name: "Spellcraft" } as { name: string } | undefined,
-        affiliation: { name: "Church of Larani" } as
-            { name: string } | undefined,
+        affiliation: { name: "Church of Larani" } as { name: string } | undefined,
         level: mod(3),
         masteryLevel: mod(42),
         charges: { value: mod(3), max: mod(5) },
@@ -187,9 +186,7 @@ describe("Being Mysteries tab — per-sub-type Mystical Ability columns (#990)",
     });
 
     it("keeps the EML cell rollable while the ability is enabled", () => {
-        const html = render(MYSTICALABILITY_SUBTYPE.RITUALACTION, [
-            abilityLike({}),
-        ]);
+        const html = render(MYSTICALABILITY_SUBTYPE.RITUALACTION, [abilityLike({})]);
         expect(html).toContain('data-action="successTest"');
         expect(html).not.toContain("ledger__row--disabled");
     });

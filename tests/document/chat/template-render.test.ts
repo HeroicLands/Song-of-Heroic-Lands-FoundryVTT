@@ -15,10 +15,7 @@
 
 import { describe, it, expect } from "vitest";
 import Handlebars from "handlebars";
-import {
-    renderTemplateReal,
-    registerTestHbsHelpers,
-} from "@tests/mocks/hbs-helpers";
+import { renderTemplateReal, registerTestHbsHelpers } from "@tests/mocks/hbs-helpers";
 
 const CHAT = "systems/sohl/templates/chat";
 const DIALOG = "systems/sohl/templates/dialog";
@@ -193,10 +190,10 @@ describe("dialogs render through the same shim as cards", () => {
     });
 
     it("amputation-test-dialog binds the location + editable modifier", () => {
-        const html = renderTemplateReal(
-            `${DIALOG}/amputation-test-dialog.hbs`,
-            { locationName: "Neck", modifier: -20 },
-        );
+        const html = renderTemplateReal(`${DIALOG}/amputation-test-dialog.hbs`, {
+            locationName: "Neck",
+            modifier: -20,
+        });
         expect(html).toContain("Neck");
         expect(html).toContain('name="modifier"');
         expect(html).toContain('value="-20"');
@@ -445,25 +442,22 @@ describe("face-pall-card (TraumaLogic.pallRecovery, #561)", () => {
 
 describe("blood-stoppage cards (#547)", () => {
     it("request card announces the bleeder and wound", () => {
-        const html = renderTemplateReal(
-            `${CHAT}/blood-stoppage-request-card.hbs`,
-            { patientName: "Aldric", woundName: "a deep gash" },
-        );
+        const html = renderTemplateReal(`${CHAT}/blood-stoppage-request-card.hbs`, {
+            patientName: "Aldric",
+            woundName: "a deep gash",
+        });
         expect(html).toContain("Blood Stoppage Requested");
         expect(html).toContain("Aldric");
         expect(html).toContain("a deep gash");
     });
 
     it("result card shows the physician and the outcome", () => {
-        const html = renderTemplateReal(
-            `${CHAT}/blood-stoppage-result-card.hbs`,
-            {
-                physicianName: "Sister Mara",
-                woundName: "a deep gash",
-                outcomeLabel: "Bleeding stops immediately.",
-                stopped: true,
-            },
-        );
+        const html = renderTemplateReal(`${CHAT}/blood-stoppage-result-card.hbs`, {
+            physicianName: "Sister Mara",
+            woundName: "a deep gash",
+            outcomeLabel: "Bleeding stops immediately.",
+            stopped: true,
+        });
         expect(html).toContain("Sister Mara");
         expect(html).toContain("Bleeding stops immediately.");
         expect(html).toContain("success-text");
@@ -500,9 +494,7 @@ describe("standard-test-card follow-up buttons (#853)", () => {
         expect(html).toContain('data-action="treatInjury"');
         expect(html).toContain('data-handler-uuid="@self"');
         // scopeJSON is HTML-escaped inside the attribute (never HTML-from-data).
-        expect(html).toContain(
-            'data-scope="{&quot;woundId&quot;:&quot;w1&quot;}"',
-        );
+        expect(html).toContain('data-scope="{&quot;woundId&quot;:&quot;w1&quot;}"');
         expect(html).toContain('data-skip-dialog="true"');
         expect(html).toContain("Accept Treatment");
         expect(html).toContain("fa-kit-medical");

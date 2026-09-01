@@ -56,23 +56,19 @@ describe("shortcode uniqueness (#766)", () => {
     });
 
     it("rejects renaming a shortcode into a collision on update", () => {
-        cy.createWorldItem("skill", { system: { shortcode: "scone" } }).then(
-            () => {
-                cy.createWorldItem("skill", {
-                    system: { shortcode: "sctwo" },
-                }).then((b) => {
-                    const id = b.id;
-                    cy.foundry(async (win) => {
-                        await win.game.items
-                            .get(id)
-                            .update(
-                                toRealm(win, { "system.shortcode": "scone" }),
-                            );
-                        return win.game.items.get(id).system.shortcode;
-                    }).should("eq", "sctwo"); // update vetoed → unchanged
-                });
-            },
-        );
+        cy.createWorldItem("skill", { system: { shortcode: "scone" } }).then(() => {
+            cy.createWorldItem("skill", {
+                system: { shortcode: "sctwo" },
+            }).then((b) => {
+                const id = b.id;
+                cy.foundry(async (win) => {
+                    await win.game.items
+                        .get(id)
+                        .update(toRealm(win, { "system.shortcode": "scone" }));
+                    return win.game.items.get(id).system.shortcode;
+                }).should("eq", "sctwo"); // update vetoed → unchanged
+            });
+        });
     });
 
     it("rejects a non-alphanumeric shortcode on create (#1397)", () => {
@@ -82,17 +78,13 @@ describe("shortcode uniqueness (#766)", () => {
     });
 
     it("rejects renaming a shortcode into a non-alphanumeric one (#1397)", () => {
-        cy.createWorldItem("skill", { system: { shortcode: "okcode" } }).then(
-            (item) => {
-                const id = item.id;
-                cy.foundry(async (win) => {
-                    await win.game.items
-                        .get(id)
-                        .update(toRealm(win, { "system.shortcode": "B&CFl" }));
-                    return win.game.items.get(id).system.shortcode;
-                }).should("eq", "okcode"); // update vetoed → unchanged
-            },
-        );
+        cy.createWorldItem("skill", { system: { shortcode: "okcode" } }).then((item) => {
+            const id = item.id;
+            cy.foundry(async (win) => {
+                await win.game.items.get(id).update(toRealm(win, { "system.shortcode": "B&CFl" }));
+                return win.game.items.get(id).system.shortcode;
+            }).should("eq", "okcode"); // update vetoed → unchanged
+        });
     });
 
     it("repairs a non-alphanumeric shortcode with shortcodeDedupe (#1397)", () => {
@@ -111,17 +103,14 @@ describe("shortcode uniqueness (#766)", () => {
     });
 
     it("allows the same shortcode on a different type (key is per type)", () => {
-        cy.createWorldItem("skill", { system: { shortcode: "shared" } }).then(
-            (skill) => {
-                expect(skill).to.exist;
-                cy.createWorldItem("affliction", {
-                    system: { shortcode: "shared" },
-                }).then((affliction) => {
-                    expect(affliction, "different type, same shortcode is fine")
-                        .to.exist;
-                    expect(affliction.system.shortcode).to.eq("shared");
-                });
-            },
-        );
+        cy.createWorldItem("skill", { system: { shortcode: "shared" } }).then((skill) => {
+            expect(skill).to.exist;
+            cy.createWorldItem("affliction", {
+                system: { shortcode: "shared" },
+            }).then((affliction) => {
+                expect(affliction, "different type, same shortcode is fine").to.exist;
+                expect(affliction.system.shortcode).to.eq("shared");
+            });
+        });
     });
 });

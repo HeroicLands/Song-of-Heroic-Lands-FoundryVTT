@@ -49,12 +49,9 @@ Cypress.Commands.add("createScene", (overrides = {}) => {
 async function placeOne(win, scene, actor, x, y) {
     const s = resolveDoc(win, scene);
     const a = resolveDoc(win, actor);
-    const td = await a.getTokenDocument(
-        toRealm(win, { x, y, actorLink: true }),
-        {
-            parent: s,
-        },
-    );
+    const td = await a.getTokenDocument(toRealm(win, { x, y, actorLink: true }), {
+        parent: s,
+    });
     const obj = td.toObject();
     obj.actorLink = true;
     const [created] = await td.constructor.createDocuments([obj], {
@@ -65,25 +62,21 @@ async function placeOne(win, scene, actor, x, y) {
 
 /** Place a single token. `pos` defaults to `(200, 200)`. */
 Cypress.Commands.add("placeToken", (scene, actor, pos = {}) =>
-    cy.foundry((win) =>
-        placeOne(win, scene, actor, pos.x ?? 200, pos.y ?? 200),
-    ),
+    cy.foundry((win) => placeOne(win, scene, actor, pos.x ?? 200, pos.y ?? 200)),
 );
 
 /**
  * Place two tokens one grid cell apart (4-neighbour adjacent). Yields the pair
  * `[tokenA, tokenB]`.
  */
-Cypress.Commands.add(
-    "placeAdjacentTokens",
-    (scene, actorA, actorB, opts = {}) =>
-        cy.foundry(async (win) => {
-            const s = resolveDoc(win, scene);
-            const size = s.grid?.size ?? 100;
-            const x = opts.x ?? size * 2;
-            const y = opts.y ?? size * 2;
-            const t1 = await placeOne(win, scene, actorA, x, y);
-            const t2 = await placeOne(win, scene, actorB, x + size, y);
-            return [t1, t2];
-        }),
+Cypress.Commands.add("placeAdjacentTokens", (scene, actorA, actorB, opts = {}) =>
+    cy.foundry(async (win) => {
+        const s = resolveDoc(win, scene);
+        const size = s.grid?.size ?? 100;
+        const x = opts.x ?? size * 2;
+        const y = opts.y ?? size * 2;
+        const t1 = await placeOne(win, scene, actorA, x, y);
+        const t2 = await placeOne(win, scene, actorB, x + size, y);
+        return [t1, t2];
+    }),
 );

@@ -36,18 +36,12 @@ describe("Generic scheduled actions", () => {
                     (e) => e.actionName === "someCheck",
                 );
                 // Arm half: it's live in the queue.
-                const armedBySchedule = win.sohl.events.isScheduled(
-                    a.uuid,
-                    "someCheck",
-                );
+                const armedBySchedule = win.sohl.events.isScheduled(a.uuid, "someCheck");
 
                 // Simulate a reload's load-side re-arm from persisted state.
                 win.sohl.events.unsubscribe(a.uuid, "someCheck");
                 win.Hooks.callAll("ready");
-                const reArmed = win.sohl.events.isScheduled(
-                    a.uuid,
-                    "someCheck",
-                );
+                const reArmed = win.sohl.events.isScheduled(a.uuid, "someCheck");
 
                 // Due → the queue offers a [Perform] reminder (never performs).
                 const before = win.game.messages.size;
@@ -58,9 +52,7 @@ describe("Generic scheduled actions", () => {
                 const msg = win.game.messages.contents.at(-1);
                 const div = win.document.createElement("div");
                 div.innerHTML = msg?.content ?? "";
-                const btn = div.querySelector(
-                    'button.action-card-button[data-action="someCheck"]',
-                );
+                const btn = div.querySelector('button.action-card-button[data-action="someCheck"]');
 
                 return {
                     persisted,
@@ -71,16 +63,14 @@ describe("Generic scheduled actions", () => {
                     actorUuid: a.uuid,
                 };
             }).should((r) => {
-                expect(
-                    r.persisted,
-                    "persisted to system.scheduledActions",
-                ).to.include({ actionName: "someCheck", interval: 100 });
+                expect(r.persisted, "persisted to system.scheduledActions").to.include({
+                    actionName: "someCheck",
+                    interval: 100,
+                });
                 expect(r.armedBySchedule, "armed by sohl.schedule").to.be.true;
                 expect(r.reArmed, "re-armed by the ready hook").to.be.true;
                 expect(r.cardsPosted, "a reminder was offered").to.be.gte(1);
-                expect(r.handlerUuid, "addressed to the document").to.eq(
-                    r.actorUuid,
-                );
+                expect(r.handlerUuid, "addressed to the document").to.eq(r.actorUuid);
             });
         });
     });
@@ -107,22 +97,13 @@ describe("Generic scheduled actions", () => {
                 );
                 // Arm half: live in the queue, and — being event-driven — it has
                 // no computable next fire time.
-                const armedBySchedule = win.sohl.events.isScheduled(
-                    a.uuid,
-                    "someTurnCheck",
-                );
-                const nextFire = win.sohl.events.nextFireTime(
-                    a.uuid,
-                    "someTurnCheck",
-                );
+                const armedBySchedule = win.sohl.events.isScheduled(a.uuid, "someTurnCheck");
+                const nextFire = win.sohl.events.nextFireTime(a.uuid, "someTurnCheck");
 
                 // Reload's load-side re-arm reconstructs it as a subscription.
                 win.sohl.events.unsubscribe(a.uuid, "someTurnCheck");
                 win.Hooks.callAll("ready");
-                const reArmed = win.sohl.events.isScheduled(
-                    a.uuid,
-                    "someTurnCheck",
-                );
+                const reArmed = win.sohl.events.isScheduled(a.uuid, "someTurnCheck");
 
                 // A world-time advance must NOT fire it (it is bound to turnEnd).
                 const beforeTime = win.game.messages.size;
@@ -153,24 +134,15 @@ describe("Generic scheduled actions", () => {
                     actorUuid: a.uuid,
                 };
             }).should((r) => {
-                expect(
-                    r.persistedTrigger,
-                    "triggerName persisted on the entry",
-                ).to.eq("turnEnd");
+                expect(r.persistedTrigger, "triggerName persisted on the entry").to.eq("turnEnd");
                 expect(r.armedBySchedule, "armed as a subscription").to.be.true;
-                expect(
-                    r.nextFireDefined,
-                    "event-driven → no computable next fire",
-                ).to.be.false;
+                expect(r.nextFireDefined, "event-driven → no computable next fire").to.be.false;
                 expect(r.reArmed, "re-armed by the ready hook").to.be.true;
-                expect(
-                    r.cardsOnTime,
-                    "a world-time tick does not fire a turnEnd schedule",
-                ).to.eq(0);
-                expect(r.cardsOnTurn, "turnEnd offers a reminder").to.be.gte(1);
-                expect(r.handlerUuid, "addressed to the document").to.eq(
-                    r.actorUuid,
+                expect(r.cardsOnTime, "a world-time tick does not fire a turnEnd schedule").to.eq(
+                    0,
                 );
+                expect(r.cardsOnTurn, "turnEnd offers a reminder").to.be.gte(1);
+                expect(r.handlerUuid, "addressed to the document").to.eq(r.actorUuid);
             });
         });
     });
@@ -199,9 +171,7 @@ describe("Generic scheduled actions", () => {
                         // The party is in the vale; the check is bound to the
                         // hideout. Re-realm every payload handed to Foundry (a
                         // Cypress-realm literal makes mergeObject throw).
-                        await valeDoc.update(
-                            win.structuredClone({ active: true }),
-                        );
+                        await valeDoc.update(win.structuredClone({ active: true }));
                         await win.sohl.schedule(
                             a,
                             "checkForBandits",
@@ -219,18 +189,11 @@ describe("Generic scheduled actions", () => {
                             worldTime: 1_000_000,
                         });
                         const cardsWhileAway = countCards();
-                        const stillArmed = win.sohl.events.isScheduled(
-                            a.uuid,
-                            "checkForBandits",
-                        );
+                        const stillArmed = win.sohl.events.isScheduled(a.uuid, "checkForBandits");
 
                         // Party arrives: the hideout becomes the active scene.
-                        await valeDoc.update(
-                            win.structuredClone({ active: false }),
-                        );
-                        await hideoutDoc.update(
-                            win.structuredClone({ active: true }),
-                        );
+                        await valeDoc.update(win.structuredClone({ active: false }));
+                        await hideoutDoc.update(win.structuredClone({ active: true }));
                         const activeUuid = win.game.scenes.active?.uuid;
                         await win.sohl.events.fire({
                             name: "updateWorldTime",
@@ -246,16 +209,11 @@ describe("Generic scheduled actions", () => {
                             cardsOnArrival,
                         };
                     }).should((r) => {
-                        expect(
-                            r.cardsWhileAway,
-                            "gated while its scene is inactive",
-                        ).to.eq(0);
-                        expect(r.stillArmed, "not consumed while gated").to.be
-                            .true;
-                        expect(
-                            r.activeUuid,
-                            "hideout is now the active scene",
-                        ).to.eq(r.hideoutUuid);
+                        expect(r.cardsWhileAway, "gated while its scene is inactive").to.eq(0);
+                        expect(r.stillArmed, "not consumed while gated").to.be.true;
+                        expect(r.activeUuid, "hideout is now the active scene").to.eq(
+                            r.hideoutUuid,
+                        );
                         expect(
                             r.cardsOnArrival,
                             "surfaces the instant the scene activates",
@@ -309,18 +267,13 @@ describe("Generic scheduled actions", () => {
                 name: "checkForBandits",
                 executor: macro2.uuid,
             });
-            const dupes = world.system.actionDefs.filter(
-                (d) => d.shortcode === "checkForBandits",
-            );
+            const dupes = world.system.actionDefs.filter((d) => d.shortcode === "checkForBandits");
 
             // The action is built into the host's logic and runs its Macro.
             world.reset?.();
             world.prepareData?.();
             const action = world.logic.actions.get("checkForBandits");
-            const ran =
-                action ?
-                    await action.execute(world.logic._getContext())
-                :   undefined;
+            const ran = action ? await action.execute(world.logic._getContext()) : undefined;
 
             // End to end: schedule it, and when due a [Perform] reminder
             // addressed to the host is offered (nothing runs on its own).
@@ -356,25 +309,15 @@ describe("Generic scheduled actions", () => {
             await world.delete();
             return result;
         }).should((r) => {
-            expect(r.returnedDef, "returns the persisted def").to.eq(
-                "checkForBandits",
-            );
-            expect(r.persistedSubType, "attached as a SCRIPT action").to.eq(
-                "script",
-            );
-            expect(r.persistedTitle, "title defaults to name").to.eq(
-                "checkForBandits",
-            );
+            expect(r.returnedDef, "returns the persisted def").to.eq("checkForBandits");
+            expect(r.persistedSubType, "attached as a SCRIPT action").to.eq("script");
+            expect(r.persistedTitle, "title defaults to name").to.eq("checkForBandits");
             expect(r.dupeCount, "idempotent — one entry per name").to.eq(1);
-            expect(r.dupeExecutor, "re-attach replaces the executor").to.eq(
-                r.macro2Uuid,
-            );
+            expect(r.dupeExecutor, "re-attach replaces the executor").to.eq(r.macro2Uuid);
             expect(r.hasAction, "built into logic.actions").to.be.true;
             expect(r.ran, "runs the bound Macro").to.eq("ambush");
             expect(r.cardsPosted, "due → a [Perform] reminder").to.be.gte(1);
-            expect(r.handlerUuid, "reminder addressed to the host").to.eq(
-                r.worldUuid,
-            );
+            expect(r.handlerUuid, "reminder addressed to the host").to.eq(r.worldUuid);
         });
     });
 
@@ -392,8 +335,7 @@ describe("Generic scheduled actions", () => {
         }).should((r) => {
             expect(r.shortcode, "reserved shortcode").to.eq("sohlworld");
             expect(r.ownershipDefault, "invisible to players (NONE)").to.eq(0);
-            expect(r.singleton, "find-or-create returns the same actor").to.be
-                .true;
+            expect(r.singleton, "find-or-create returns the same actor").to.be.true;
         });
     });
 });

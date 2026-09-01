@@ -19,8 +19,7 @@ import { expressionScopes } from "@src/entity/expr/ExpressionScopeRegistry";
 function ctx(text: string, explicit = false): any {
     return {
         explicit,
-        matchBefore: (_re: RegExp) =>
-            text ? { from: 0, to: text.length, text } : null,
+        matchBefore: (_re: RegExp) => (text ? { from: 0, to: text.length, text } : null),
     };
 }
 

@@ -194,10 +194,8 @@ export function outOfTurnAttackReason(
     currentCombatantId: string | null | undefined,
     attackerCombatantId: string | null | undefined,
 ): string | null {
-    if (!currentCombatantId || !attackerCombatantId)
-        return "there is no active combat turn";
-    if (currentCombatantId !== attackerCombatantId)
-        return "it is not this combatant's turn";
+    if (!currentCombatantId || !attackerCombatantId) return "there is no active combat turn";
+    if (currentCombatantId !== attackerCombatantId) return "it is not this combatant's turn";
     return null;
 }
 
@@ -310,9 +308,8 @@ export class SohlCombatantLogic<
     static fromActorLogic(
         actorLogic: SohlActorLogic<any> | undefined,
     ): SohlCombatantLogic | undefined {
-        return getActiveCombat()?.combatants?.find(
-            (c) => c.actor?.id === actorLogic?.data.id,
-        )?.logic;
+        return getActiveCombat()?.combatants?.find((c) => c.actor?.id === actorLogic?.data.id)
+            ?.logic;
     }
 
     /**
@@ -330,9 +327,7 @@ export class SohlCombatantLogic<
     static fromTokenLogic(
         tokenLogic: SohlTokenDocumentLogic | undefined,
     ): SohlCombatantLogic | undefined {
-        return getActiveCombat()?.combatants?.find(
-            (c) => c.token?.id === tokenLogic?.id,
-        )?.logic;
+        return getActiveCombat()?.combatants?.find((c) => c.token?.id === tokenLogic?.id)?.logic;
     }
 
     /** The strike mode last used to attack, or `undefined` (combat-scoped). */
@@ -461,11 +456,7 @@ export class SohlCombatantLogic<
      * @returns `true` if they are enemies.
      */
     isEnemyOf(other: SohlCombatantLogic): boolean {
-        return areCombatantsEnemies(
-            this.groupId,
-            other.groupId,
-            other === this,
-        );
+        return areCombatantsEnemies(this.groupId, other.groupId, other === this);
     }
 
     /**
@@ -474,9 +465,7 @@ export class SohlCombatantLogic<
      */
     get allies(): SohlCombatantLogic[] {
         if (!this.groupId) return [];
-        return this.combatantLogics.filter(
-            (cl) => cl !== this && !this.isEnemyOf(cl),
-        );
+        return this.combatantLogics.filter((cl) => cl !== this && !this.isEnemyOf(cl));
     }
 
     /**
@@ -531,9 +520,7 @@ export class SohlCombatantLogic<
             this.combatant?.id,
         );
         if (outOfTurn) {
-            sohl.log.uiWarn(
-                `${this.name} cannot start an automated attack: ${outOfTurn}.`,
-            );
+            sohl.log.uiWarn(`${this.name} cannot start an automated attack: ${outOfTurn}.`);
             return undefined;
         }
 
@@ -542,12 +529,9 @@ export class SohlCombatantLogic<
         // fall back to what the user has targeted — the same seam
         // `MasteryLevelModifier.opposedTestStart` uses (#1079). The player's
         // targeting *is* the human trigger; nothing is picked on their behalf.
-        const target =
-            context.target ?? fvttGetTargetedTokens(true)?.[0]?.logic;
+        const target = context.target ?? fvttGetTargetedTokens(true)?.[0]?.logic;
         if (!target) {
-            sohl.log.uiWarn(
-                `${this.name} automated attack requires a target combatant.`,
-            );
+            sohl.log.uiWarn(`${this.name} automated attack requires a target combatant.`);
             return undefined;
         }
         // Make the resolved target visible to everything downstream that reads
@@ -555,10 +539,7 @@ export class SohlCombatantLogic<
         context.target = target;
 
         // Invariant: the attacker must not be incapacitated, defeated, or dead.
-        const blockingStatus = attackerBlockingStatus(
-            this.data.statuses,
-            this.data.isDefeated,
-        );
+        const blockingStatus = attackerBlockingStatus(this.data.statuses, this.data.isDefeated);
         if (blockingStatus) {
             sohl.log.uiWarn(
                 `${this.name} cannot make an automated attack while ${blockingStatus}.`,
@@ -568,9 +549,7 @@ export class SohlCombatantLogic<
 
         // Invariant: the target must be a combatant in the active combat, and
         // not already out of the fight (dead or vanquished/defeated).
-        const targetCombatant = fvttActiveCombatantForActor(
-            target.actorLogic?.actor ?? null,
-        );
+        const targetCombatant = fvttActiveCombatantForActor(target.actorLogic?.actor ?? null);
         if (!targetCombatant) {
             sohl.log.uiWarn(
                 `${target.name ?? "The target"} is not a combatant in the current combat.`,
@@ -592,16 +571,13 @@ export class SohlCombatantLogic<
         // range from its token.
         const attackerToken = this.tokenLogic;
         if (!attackerToken) {
-            sohl.log.uiWarn(
-                `${this.name} has no token on the canvas to attack from.`,
-            );
+            sohl.log.uiWarn(`${this.name} has no token on the canvas to attack from.`);
             return undefined;
         }
 
         // The attack targets the defender; distance is
         // attacker (this combatant) → defender.
-        const distanceFeet =
-            fvttRangeToTarget(attackerToken, target) ?? Infinity;
+        const distanceFeet = fvttRangeToTarget(attackerToken, target) ?? Infinity;
 
         // Perform the attack dialog and resolve the attack result.
         const attackDlgResult = await commonAttack(
@@ -611,11 +587,8 @@ export class SohlCombatantLogic<
             "Attack",
             (sm: StrikeModeBase) => {
                 return sm.isMissile ?
-                        distanceFeet <=
-                            ((sm as MissileStrikeMode).baseRange?.effective ??
-                                0)
-                    :   distanceFeet <=
-                            ((sm as MeleeStrikeMode).reach?.effective ?? 0);
+                        distanceFeet <= ((sm as MissileStrikeMode).baseRange?.effective ?? 0)
+                    :   distanceFeet <= ((sm as MeleeStrikeMode).reach?.effective ?? 0);
             },
             (sm: StrikeModeBase) => sm.attack?.constrainedEffective ?? -1,
         );
@@ -637,9 +610,7 @@ export class SohlCombatantLogic<
             // Spread (for injury hit-location scatter) + any impact range bonus.
             if (!band.direct) {
                 // Should not happen (range-filtered upstream), but guard volley.
-                sohl.log.uiWarn(
-                    `${target.name} is beyond direct range (volley is not supported).`,
-                );
+                sohl.log.uiWarn(`${target.name} is beyond direct range (volley is not supported).`);
                 return undefined;
             }
             spread = band.spread;
@@ -655,9 +626,7 @@ export class SohlCombatantLogic<
             parent: this,
             tokenLogic: context.token,
             testType:
-                attackSM.isMissile ?
-                    TEST_TYPE.AUTOCOMBATMISSILE.id
-                :   TEST_TYPE.AUTOCOMBATMELEE.id,
+                attackSM.isMissile ? TEST_TYPE.AUTOCOMBATMISSILE.id : TEST_TYPE.AUTOCOMBATMELEE.id,
             aimBodyPartCode: attackDlgResult.aim,
             spread,
             title: attackSM.name,
@@ -674,11 +643,7 @@ export class SohlCombatantLogic<
 
         // If the missile is point-blank, add the flat bonus to the impact formula.
         if (impactRangeBonus) {
-            attackResult.impact.add(
-                "SOHL.INFO.Range",
-                "Range",
-                impactRangeBonus,
-            );
+            attackResult.impact.add("SOHL.INFO.Range", "Range", impactRangeBonus);
         }
 
         // Pre-evaluate the attack result. We do this here because the attack
@@ -733,15 +698,11 @@ export class SohlCombatantLogic<
      * @returns The result of the combat exchange, or `undefined` if blocked or no valid block mode.
      */
     async automatedBlockResume(
-        context: SohlActionContext<
-            Partial<AutomatedCombat.DefenseContextScope>
-        >,
+        context: SohlActionContext<Partial<AutomatedCombat.DefenseContextScope>>,
     ): Promise<PlainObject | undefined> {
         if (!context.scope.attackResult || !this.actorLogic) return undefined;
 
-        const blockableStrikeModes = collectBlockableStrikeModes(
-            this.actorLogic,
-        );
+        const blockableStrikeModes = collectBlockableStrikeModes(this.actorLogic);
         if (!blockableStrikeModes.length) {
             sohl.log.uiWarn(`${this.name} has no strike mode able to block.`);
             return undefined;
@@ -753,17 +714,14 @@ export class SohlCombatantLogic<
 
         let defaultBlockModeIdx =
             this.lastBlockMode ?
-                blockableStrikeModes.findIndex(
-                    (sm) => sm === this.lastBlockMode,
-                )
+                blockableStrikeModes.findIndex((sm) => sm === this.lastBlockMode)
             :   -1;
         if (defaultBlockModeIdx < 0) {
             defaultBlockModeIdx = Math.max(
                 0,
                 indexOfBestMastery(
                     blockableStrikeModes,
-                    (sm: MeleeStrikeMode) =>
-                        sm.defense.block.constrainedEffective,
+                    (sm: MeleeStrikeMode) => sm.defense.block.constrainedEffective,
                 ),
             );
         }
@@ -787,17 +745,13 @@ export class SohlCombatantLogic<
             return undefined;
         }
 
-        const blockStrikeMode =
-            blockableStrikeModes[Number(defenseDlgResult.key)];
+        const blockStrikeMode = blockableStrikeModes[Number(defenseDlgResult.key)];
         if (!blockStrikeMode) return undefined;
 
         const defendResult = new entity.DefendResult(
             {
                 testType: TEST_TYPE.BLOCK.id,
-                masteryLevelModifier: blockStrikeMode.defense.block.clone(
-                    {},
-                    { parent: this },
-                ),
+                masteryLevelModifier: blockStrikeMode.defense.block.clone({}, { parent: this }),
                 situationalModifier: defenseDlgResult.situationalModifier,
                 speaker: context.speaker,
                 token: context.token ?? undefined,
@@ -834,16 +788,11 @@ export class SohlCombatantLogic<
      * @returns The combat result, or undefined if canceled.
      */
     async automatedDodgeResume(
-        context: SohlActionContext<
-            Partial<AutomatedCombat.DefenseContextScope>
-        >,
+        context: SohlActionContext<Partial<AutomatedCombat.DefenseContextScope>>,
     ): Promise<PlainObject | undefined> {
         if (!context.scope.attackResult || !this.actorLogic) return undefined;
 
-        const dodgeML = resolveSkillMasteryLevel(
-            this.actorLogic,
-            SKILL_CODE.DODGE,
-        );
+        const dodgeML = resolveSkillMasteryLevel(this.actorLogic, SKILL_CODE.DODGE);
         if (!dodgeML) {
             sohl.log.uiWarn(`${this.name} has no Dodge skill to defend with.`);
             return undefined;
@@ -888,9 +837,7 @@ export class SohlCombatantLogic<
      * @returns The combat result, or undefined if canceled.
      */
     async automatedCounterstrikeResume(
-        context: SohlActionContext<
-            Partial<AutomatedCombat.DefenseContextScope>
-        >,
+        context: SohlActionContext<Partial<AutomatedCombat.DefenseContextScope>>,
     ): Promise<PlainObject | undefined> {
         if (!context.scope?.attackResult) {
             sohl.log.uiWarn(
@@ -902,9 +849,7 @@ export class SohlCombatantLogic<
             context.scope.attackResult?.speaker?.tokenLogic,
         );
         if (!context.target) {
-            sohl.log.uiWarn(
-                `${this.name} automated attack requires a target combatant.`,
-            );
+            sohl.log.uiWarn(`${this.name} automated attack requires a target combatant.`);
             return undefined;
         }
 
@@ -912,22 +857,14 @@ export class SohlCombatantLogic<
         // between their tokens.
         const defenderToken = this.tokenLogic;
         const attackerToken = attackCombatantLogic?.tokenLogic;
-        if (
-            !this.actorLogic ||
-            !attackCombatantLogic ||
-            !defenderToken ||
-            !attackerToken
-        ) {
-            sohl.log.uiWarn(
-                "Counterstrike requires a valid attacker and defender combatant.",
-            );
+        if (!this.actorLogic || !attackCombatantLogic || !defenderToken || !attackerToken) {
+            sohl.log.uiWarn("Counterstrike requires a valid attacker and defender combatant.");
             return undefined;
         }
 
         // The counterstrike targets the original attacker; distance is
         // defender (this combatant) → attacker.
-        const distanceFeet =
-            fvttRangeToTarget(defenderToken, attackerToken) ?? Infinity;
+        const distanceFeet = fvttRangeToTarget(defenderToken, attackerToken) ?? Infinity;
 
         // Perform the attack dialog and resolve the attack result.
         const attackDlgResult = await commonAttack(
@@ -1024,9 +961,7 @@ export class SohlCombatantLogic<
      * @returns The combat result, or undefined if canceled.
      */
     async automatedIgnoreResume(
-        context: SohlActionContext<
-            Partial<AutomatedCombat.DefenseContextScope>
-        >,
+        context: SohlActionContext<Partial<AutomatedCombat.DefenseContextScope>>,
     ): Promise<PlainObject | undefined> {
         if (!context.scope?.attackResult) return undefined;
 
@@ -1311,9 +1246,7 @@ export function chooseInitialDisplayedMedium(
  * @returns The set of active status-effect ids.
  */
 function combatantStatuses(combatant: SohlCombatant): Set<string> {
-    const ids = new Set<string>(
-        ((combatant.actor as any)?.statuses ?? []) as Iterable<string>,
-    );
+    const ids = new Set<string>(((combatant.actor as any)?.statuses ?? []) as Iterable<string>);
     if ((combatant as any).isDefeated) ids.add(STATUS_EFFECT.VANQUISHED);
     return ids;
 }
@@ -1428,8 +1361,7 @@ function combatantStatuses(combatant: SohlCombatant): Set<string> {
  * @returns A map of body-part shortcode to display label.
  */
 export function buildAimChoices(defenderActor: any): Record<string, string> {
-    const parts: any[] =
-        getActorBody(defenderActor?.logic)?.structure?.parts ?? [];
+    const parts: any[] = getActorBody(defenderActor?.logic)?.structure?.parts ?? [];
     const choices: Record<string, string> = {};
     for (const part of parts) {
         choices[part.shortcode] = part.locations?.[0]?.name ?? part.shortcode;
@@ -1455,9 +1387,7 @@ export function defaultModeIndex(
     for (const pref of preferences) {
         if (!pref) continue;
         const idx = modes.findIndex(
-            (sm) =>
-                sm.pointerData.itemUuid === pref.itemUuid &&
-                sm.pointerData.smId === pref.smId,
+            (sm) => sm.pointerData.itemUuid === pref.itemUuid && sm.pointerData.smId === pref.smId,
         );
         if (idx >= 0) return idx;
     }
@@ -1471,10 +1401,7 @@ export function defaultModeIndex(
  * @param ml - Extracts the effective mastery level from an entry.
  * @returns The index of the highest-mastery entry, or -1 if `entries` is empty.
  */
-export function indexOfBestMastery<T>(
-    entries: T[],
-    ml: (entry: T) => number,
-): number {
+export function indexOfBestMastery<T>(entries: T[], ml: (entry: T) => number): number {
     let best = -1;
     let bestVal = -Infinity;
     entries.forEach((e, i) => {
@@ -1507,10 +1434,7 @@ export function collectAttackableStrikeModes(
     distanceFeet: number,
 ): StrikeModeBase[] {
     const out: StrikeModeBase[] = [];
-    const consider = (
-        logic: { id: string; name: string; uuid?: string },
-        sm: any,
-    ) => {
+    const consider = (logic: { id: string; name: string; uuid?: string }, sm: any) => {
         if (!sm || sm.attack?.disabled) return;
         const inRange =
             sm.isMissile ?
@@ -1565,14 +1489,10 @@ async function commonAttack(
     }
 
     const availStrikeModes: StrikeModeBase[] = Array.from(
-        (attackerLogic.actorLogic as BeingLogic)
-            .getUsableStrikeModes()
-            .filter(validStrikeMode),
+        (attackerLogic.actorLogic as BeingLogic).getUsableStrikeModes().filter(validStrikeMode),
     );
     if (availStrikeModes.length === 0) {
-        sohl.log.uiWarn(
-            `${attackerLogic.name} has no usable strike mode to ${form} with.`,
-        );
+        sohl.log.uiWarn(`${attackerLogic.name} has no usable strike mode to ${form} with.`);
         return undefined;
     }
 
@@ -1596,8 +1516,7 @@ async function commonAttack(
     // otherwise the first available aim choice.
     const aimChoices = buildAimChoices(defenderLogic.actorLogic);
     let defaultAim: string | undefined =
-        context.scope.priorAttackResult?.aimBodyPartCode ||
-        Object.keys(aimChoices).at(0);
+        context.scope.priorAttackResult?.aimBodyPartCode || Object.keys(aimChoices).at(0);
     if (!defaultAim) {
         sohl.log.uiWarn(`${defenderLogic.name} has no aim choices.`);
         return undefined;
@@ -1651,20 +1570,15 @@ export interface CombatCardData {
  * @throws {Error} If `combatResult.attackResult` is missing.
  * @throws {Error} If `combatResult.defendResult` is missing.
  */
-export function buildCombatCardData(
-    combatResult: CombatResult,
-): CombatCardData {
-    if (!combatResult.attackResult)
-        throw new Error("Attack result is missing.");
-    if (!combatResult.defendResult)
-        throw new Error("Defend result is missing.");
+export function buildCombatCardData(combatResult: CombatResult): CombatCardData {
+    if (!combatResult.attackResult) throw new Error("Attack result is missing.");
+    if (!combatResult.defendResult) throw new Error("Defend result is missing.");
     let atkResult: AttackResult = combatResult.attackResult;
     let defResult: DefendResult = combatResult.defendResult as DefendResult;
 
     // True means the defender contested (Block or Dodge); false means they ignored.
     let defenderContested =
-        defResult.testType === TEST_TYPE.BLOCK.id ||
-        defResult.testType === TEST_TYPE.DODGE.id;
+        defResult.testType === TEST_TYPE.BLOCK.id || defResult.testType === TEST_TYPE.DODGE.id;
 
     let defInjury =
         combatResult.attackerImpact && defResult.token ?
@@ -1703,22 +1617,18 @@ export function buildCombatCardData(
         attackWeapon: atkWeapon?.name ?? "",
         defendWeapon: defResult?.mode?.parent?.name ?? "",
         attackMods: deltaRows(atkResult.masteryLevelModifier),
-        defendMods:
-            defenderContested ? deltaRows(defResult.masteryLevelModifier) : [],
+        defendMods: defenderContested ? deltaRows(defResult.masteryLevelModifier) : [],
         vsStars: victoryStarMarks(combatResult.margin),
         defense: defResult?.label,
         effAML: atkResult.masteryLevelModifier?.constrainedEffective ?? 0,
         effDML:
-            defenderContested ?
-                (defResult.masteryLevelModifier?.constrainedEffective ?? 0)
-            :   "",
+            defenderContested ? (defResult.masteryLevelModifier?.constrainedEffective ?? 0) : "",
         attackRoll: atkResult.roll?.total ?? 0,
         defenseRoll: defenderContested ? (defResult.roll?.total ?? 0) : "",
         atkRollResult: successLevelText(atkResult.successLevel),
         atkIsSuccess: atkResult.isSuccess,
         atkIsCritical: atkResult.isCritical,
-        defRollResult:
-            defenderContested ? successLevelText(defResult.successLevel) : "",
+        defRollResult: defenderContested ? successLevelText(defResult.successLevel) : "",
         defIsSuccess: defenderContested ? defResult.isSuccess : false,
         defIsCritical: defenderContested ? defResult.isCritical : false,
         resultDesc:
@@ -1726,10 +1636,7 @@ export function buildCombatCardData(
                 `${atkResult.combatant.name} strikes!`
             :   "Attack misses.",
         hasAttackHit: combatResult.attackerLandsBlow,
-        impactFormula:
-            combatResult.attackerLandsBlow ?
-                (atkResult.impact?.label ?? "")
-            :   "",
+        impactFormula: combatResult.attackerLandsBlow ? (atkResult.impact?.label ?? "") : "",
         numAtkTA:
             combatResult.tacticalAdvantages.side === "attacker" ?
                 combatResult.tacticalAdvantages.count
@@ -1740,10 +1647,8 @@ export function buildCombatCardData(
             :   0,
         atkWeaponBroke: combatResult.weaponBreakCheck === "attacker",
         defWeaponBroke: combatResult.weaponBreakCheck === "defender",
-        isAtkFumbleTest:
-            atkResult.mishaps?.has(ATTACK_MISHAP.FUMBLE_TEST) ?? false,
-        isAtkStumbleTest:
-            atkResult.mishaps?.has(ATTACK_MISHAP.STUMBLE_TEST) ?? false,
+        isAtkFumbleTest: atkResult.mishaps?.has(ATTACK_MISHAP.FUMBLE_TEST) ?? false,
+        isAtkStumbleTest: atkResult.mishaps?.has(ATTACK_MISHAP.STUMBLE_TEST) ?? false,
         isDefFumbleTest:
             defenderContested ?
                 (defResult?.mishaps?.has(DEFEND_MISHAP.FUMBLE_TEST) ?? false)
@@ -1773,10 +1678,7 @@ export function buildCombatCardData(
         // injury comes from cxImpact (the CX blow landing on them).
         atkInjury =
             combatResult.cxImpact && combatResult.attackResult.token ?
-                injuryButton(
-                    combatResult.cxImpact,
-                    combatResult.attackResult.token.uuid,
-                )
+                injuryButton(combatResult.cxImpact, combatResult.attackResult.token.uuid)
             :   null;
 
         atkWeapon = atkResult?.mode?.parent;
@@ -1810,10 +1712,7 @@ export function buildCombatCardData(
                     `${atkResult.combatant.name} strikes!`
                 :   "Attack misses.",
             hasAttackHit: combatResult.defenderLandsBlow,
-            impactFormula:
-                combatResult.defenderLandsBlow ?
-                    (atkResult.impact?.label ?? "")
-                :   "",
+            impactFormula: combatResult.defenderLandsBlow ? (atkResult.impact?.label ?? "") : "",
             numAtkTA:
                 combatResult.tacticalAdvantages.side === "defender" ?
                     combatResult.tacticalAdvantages.count
@@ -1821,10 +1720,8 @@ export function buildCombatCardData(
             numDefTA: 0,
             atkWeaponBroke: combatResult.weaponBreakCheck === "defender",
             defWeaponBroke: false,
-            isAtkFumbleTest:
-                atkResult.mishaps?.has(ATTACK_MISHAP.FUMBLE_TEST) ?? false,
-            isAtkStumbleTest:
-                atkResult.mishaps?.has(ATTACK_MISHAP.STUMBLE_TEST) ?? false,
+            isAtkFumbleTest: atkResult.mishaps?.has(ATTACK_MISHAP.FUMBLE_TEST) ?? false,
+            isAtkStumbleTest: atkResult.mishaps?.has(ATTACK_MISHAP.STUMBLE_TEST) ?? false,
             isDefFumbleTest: false,
             isDefStumbleTest: false,
             // Injury buttons (resolveInjury) — one per landing side.
@@ -1951,10 +1848,7 @@ export function buildAttackResult(input: BuildAttackInput): AttackResult {
     // Clone so the result is independent of (and serializable without) the live
     // strike mode. `clone()` round-trips through the kind registry, faithfully
     // reviving nested ValueDeltas and rebuilding the concrete subclass.
-    const masteryLevelModifier = input.attackML.clone(
-        {},
-        { parent: input.parent },
-    );
+    const masteryLevelModifier = input.attackML.clone({}, { parent: input.parent });
     // Embed aim/spread in the impact modifier — the single source of truth (#207).
     const impact = input.impact.clone(
         {
@@ -1996,13 +1890,9 @@ export function resolveTargetCombatant<Tok, Comb>(
     targeted: Tok[],
     toCombatant: (token: Tok) => Comb | null,
 ): Comb {
-    const combatants = targeted
-        .map(toCombatant)
-        .filter((c): c is Comb => c != null);
+    const combatants = targeted.map(toCombatant).filter((c): c is Comb => c != null);
     if (combatants.length !== 1) {
-        throw new Error(
-            "Automated combat requires exactly one combatant token to be targeted.",
-        );
+        throw new Error("Automated combat requires exactly one combatant token to be targeted.");
     }
     return combatants[0];
 }
@@ -2154,27 +2044,17 @@ function successLevelText(sl: number): string {
  * @param actorLogic - The actor's logic; its weapons and combat techniques are scanned via logicTypes.
  * @returns The block-capable strike modes with their live block modifiers.
  */
-export function collectBlockableStrikeModes(
-    actorLogic: SohlActorLogic<any>,
-): MeleeStrikeMode[] {
-    const result = actorLogic.allLogics.reduce(
-        (acc: MeleeStrikeMode[], logic) => {
-            if (
-                isA(logic, ITEM_KIND.WEAPONGEAR) ||
-                isA(logic, ITEM_KIND.SKILL)
-            ) {
-                const combatLogic = logic as WeaponGearLogic | SkillLogic;
-                const meleeStrikeModes = combatLogic.strikeModes.filter(
-                    (sm) =>
-                        sm.isMelee &&
-                        !(sm as MeleeStrikeMode).defense.block.disabled,
-                ) as MeleeStrikeMode[];
-                meleeStrikeModes.forEach((sm: MeleeStrikeMode) => acc.push(sm));
-            }
-            return acc;
-        },
-        [] as MeleeStrikeMode[],
-    );
+export function collectBlockableStrikeModes(actorLogic: SohlActorLogic<any>): MeleeStrikeMode[] {
+    const result = actorLogic.allLogics.reduce((acc: MeleeStrikeMode[], logic) => {
+        if (isA(logic, ITEM_KIND.WEAPONGEAR) || isA(logic, ITEM_KIND.SKILL)) {
+            const combatLogic = logic as WeaponGearLogic | SkillLogic;
+            const meleeStrikeModes = combatLogic.strikeModes.filter(
+                (sm) => sm.isMelee && !(sm as MeleeStrikeMode).defense.block.disabled,
+            ) as MeleeStrikeMode[];
+            meleeStrikeModes.forEach((sm: MeleeStrikeMode) => acc.push(sm));
+        }
+        return acc;
+    }, [] as MeleeStrikeMode[]);
     return result;
 }
 
@@ -2195,9 +2075,7 @@ function injuryButton(
     targetCombatantUuid: string,
 ): { handlerUuid: string; targetName: string; scopeData: PlainObject } | null {
     if (!impactResult || !targetCombatantUuid) return null;
-    const targetCombatantLogic = fvttLogicFromUuidSync(
-        targetCombatantUuid,
-    ) as SohlCombatantLogic;
+    const targetCombatantLogic = fvttLogicFromUuidSync(targetCombatantUuid) as SohlCombatantLogic;
     // When the blow was aimed, forward the aimed part's zone as `targetZoneNumber`
     // + `zoneDie` (from the strike-mode spread) so the `resolveInjury` handler
     // resolves the hit location automatically; otherwise omit them and the
@@ -2205,9 +2083,9 @@ function injuryButton(
     // target's body, so resolve its zone number there.
     const aimPart =
         impactResult.aimBodyPartCode ?
-            getActorBody(
-                targetCombatantLogic?.actorLogic,
-            )?.structure?.getPartByCode(impactResult.aimBodyPartCode)
+            getActorBody(targetCombatantLogic?.actorLogic)?.structure?.getPartByCode(
+                impactResult.aimBodyPartCode,
+            )
         :   undefined;
     const aim =
         aimPart ?

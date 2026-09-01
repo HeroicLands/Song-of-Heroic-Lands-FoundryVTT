@@ -44,22 +44,16 @@ describe("SohlEventTrigger", () => {
         });
 
         it("adds the trigger name and label to CONFIG.ActiveEffect.expiryEvents", () => {
-            registerSohlTrigger(
-                "sohlInjuryHealed",
+            registerSohlTrigger("sohlInjuryHealed", "SOHL.Trigger.InjuryHealed");
+            expect((globalThis as any).CONFIG.ActiveEffect.expiryEvents.sohlInjuryHealed).toBe(
                 "SOHL.Trigger.InjuryHealed",
             );
-            expect(
-                (globalThis as any).CONFIG.ActiveEffect.expiryEvents
-                    .sohlInjuryHealed,
-            ).toBe("SOHL.Trigger.InjuryHealed");
         });
 
         it("initialises expiryEvents if missing", () => {
             (globalThis as any).CONFIG.ActiveEffect = {};
             registerSohlTrigger("custom", "label");
-            expect(
-                (globalThis as any).CONFIG.ActiveEffect.expiryEvents.custom,
-            ).toBe("label");
+            expect((globalThis as any).CONFIG.ActiveEffect.expiryEvents.custom).toBe("label");
         });
 
         it("is a safe no-op when CONFIG.ActiveEffect is absent", () => {
@@ -100,9 +94,7 @@ describe("SohlEventTrigger", () => {
             const fireSpy = vi.fn(async () => {});
             (globalThis as any).sohl = { events: { fire: fireSpy } };
             (globalThis as any).ActiveEffect = {};
-            await expect(
-                fireSohlTrigger({ name: "x" } as any),
-            ).resolves.not.toThrow();
+            await expect(fireSohlTrigger({ name: "x" } as any)).resolves.not.toThrow();
             expect(fireSpy).toHaveBeenCalled();
         });
 
@@ -112,9 +104,7 @@ describe("SohlEventTrigger", () => {
             (globalThis as any).ActiveEffect = {
                 registry: { refresh: refreshSpy },
             };
-            await expect(
-                fireSohlTrigger({ name: "x" } as any),
-            ).resolves.not.toThrow();
+            await expect(fireSohlTrigger({ name: "x" } as any)).resolves.not.toThrow();
             expect(refreshSpy).toHaveBeenCalled();
         });
     });

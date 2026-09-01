@@ -75,10 +75,7 @@ const PERMANENT_IMPAIRMENT_FLOOR = -25;
 export function permanentImpairmentFor(daysToHeal: number): number {
     if (daysToHeal < PERMANENT_IMPAIRMENT_BAND_DAYS) return 0;
     const bands = Math.floor(daysToHeal / PERMANENT_IMPAIRMENT_BAND_DAYS);
-    return Math.max(
-        PERMANENT_IMPAIRMENT_FLOOR,
-        bands * PERMANENT_IMPAIRMENT_PER_BAND,
-    );
+    return Math.max(PERMANENT_IMPAIRMENT_FLOOR, bands * PERMANENT_IMPAIRMENT_PER_BAND);
 }
 
 /**
@@ -205,8 +202,7 @@ export const BODY_PART_STATUS = {
 } as const;
 
 /** A body part's display status. */
-export type BodyPartStatus =
-    (typeof BODY_PART_STATUS)[keyof typeof BODY_PART_STATUS];
+export type BodyPartStatus = (typeof BODY_PART_STATUS)[keyof typeof BODY_PART_STATUS];
 
 /** The derived impairment of a single body part. */
 export interface BodyPartImpairment {
@@ -287,10 +283,7 @@ export function bodyPartImpairment(
             grievousInjury = true; // unusable — no numeric impairment
         } else if (injury.level >= SERIOUS_MIN) {
             impairment = Math.min(impairment, SERIOUS_IMPAIRMENT);
-        } else if (
-            injury.level === MINOR_LEVEL &&
-            injury.healingRate <= MINOR_IMPAIRING_HR_MAX
-        ) {
+        } else if (injury.level === MINOR_LEVEL && injury.healingRate <= MINOR_IMPAIRING_HR_MAX) {
             impairment = Math.min(impairment, MINOR_IMPAIRMENT);
         }
     }

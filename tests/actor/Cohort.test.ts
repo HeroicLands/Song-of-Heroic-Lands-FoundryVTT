@@ -13,10 +13,7 @@ function member(shortcodeOrUuid: string, role = "member") {
 }
 
 /** Construct a CohortLogic against a plain-object CohortData. */
-function makeCohort(
-    fields: Record<string, unknown> = {},
-    opts: Record<string, unknown> = {},
-) {
+function makeCohort(fields: Record<string, unknown> = {}, opts: Record<string, unknown> = {}) {
     return makeActorLogic(
         CohortLogic,
         ACTOR_KIND.COHORT,
@@ -35,9 +32,7 @@ function makeCohort(
  * every other handle resolves to nothing.
  */
 function resolveRefs(byRef: Record<string, Record<string, unknown>>) {
-    vi.spyOn(FoundryHelpersMock, "fvttActorByRef").mockImplementation(
-        (ref: string) => byRef[ref],
-    );
+    vi.spyOn(FoundryHelpersMock, "fvttActorByRef").mockImplementation((ref: string) => byRef[ref]);
 }
 
 afterEach(() => {
@@ -117,9 +112,7 @@ describe("CohortLogic", () => {
                 members: [member("Alpha"), member("Beta")],
                 leaderCode: "Alpha",
             }) as CohortLogic;
-            expect(logic.removeMemberUpdate("Beta")).not.toHaveProperty(
-                "system.leaderCode",
-            );
+            expect(logic.removeMemberUpdate("Beta")).not.toHaveProperty("system.leaderCode");
         });
     });
 
@@ -223,9 +216,7 @@ describe("CohortLogic", () => {
             }) as CohortLogic;
 
             expect(logic.memberRows[0].role).toBe("director");
-            expect(logic.memberRows[0].roleLabel).toBe(
-                "SOHL.Cohort.MemberRole.director",
-            );
+            expect(logic.memberRows[0].roleLabel).toBe("SOHL.Cohort.MemberRole.director");
         });
 
         it("marks exactly the leader's row, and none when there is no leader", () => {
@@ -234,18 +225,13 @@ describe("CohortLogic", () => {
                 members: [member("aldric"), member("brunjar")],
                 leaderCode: "brunjar",
             }) as CohortLogic;
-            expect(led.memberRows.map((r) => r.isLeader)).toEqual([
-                false,
-                true,
-            ]);
+            expect(led.memberRows.map((r) => r.isLeader)).toEqual([false, true]);
             expect(led.leader?.ref).toBe("brunjar");
 
             const leaderless = makeCohort({
                 members: [member("aldric")],
             }) as CohortLogic;
-            expect(leaderless.memberRows.map((r) => r.isLeader)).toEqual([
-                false,
-            ]);
+            expect(leaderless.memberRows.map((r) => r.isLeader)).toEqual([false]);
         });
     });
 
@@ -290,10 +276,7 @@ describe("CohortLogic", () => {
                 members: [member("hale"), member("slain")],
             }) as CohortLogic;
 
-            expect(logic.memberRows.map((r) => r.healthBand)).toEqual([
-                "Excellent",
-                "Dead",
-            ]);
+            expect(logic.memberRows.map((r) => r.healthBand)).toEqual(["Excellent", "Dead"]);
         });
 
         it("leaves health undefined for a member whose actor does not resolve", () => {
@@ -336,9 +319,8 @@ describe("CohortLogic", () => {
                 name: "Aldric",
                 shortcode: "aldric",
             });
-            vi.spyOn(FoundryHelpersMock, "fvttActorByRef").mockImplementation(
-                (ref: string) =>
-                    ref === "aldric" ? (aldric as any).actor : undefined,
+            vi.spyOn(FoundryHelpersMock, "fvttActorByRef").mockImplementation((ref: string) =>
+                ref === "aldric" ? (aldric as any).actor : undefined,
             );
 
             const logic = makeCohort({
@@ -349,9 +331,7 @@ describe("CohortLogic", () => {
         });
 
         it("skips a member whose actor no longer resolves", () => {
-            vi.spyOn(FoundryHelpersMock, "fvttActorByRef").mockReturnValue(
-                undefined,
-            );
+            vi.spyOn(FoundryHelpersMock, "fvttActorByRef").mockReturnValue(undefined);
             const logic = makeCohort({
                 members: [member("ghost")],
             }) as CohortLogic;
@@ -394,9 +374,8 @@ describe("CohortLogic", () => {
                     { actor: memberActor, name, id: `item-${name}` },
                 );
             }
-            vi.spyOn(FoundryHelpersMock, "fvttActorByRef").mockImplementation(
-                (ref: string) =>
-                    ref === memberName.toLowerCase() ? memberActor : undefined,
+            vi.spyOn(FoundryHelpersMock, "fvttActorByRef").mockImplementation((ref: string) =>
+                ref === memberName.toLowerCase() ? memberActor : undefined,
             );
             return makeCohort({
                 ...cohortFields,
@@ -405,9 +384,7 @@ describe("CohortLogic", () => {
         }
 
         it("lists a member's gear shared with this cohort, naming its carrier", () => {
-            const logic = cohortWithMemberGear("Aldric", [
-                ["Rope", ["wardens"]],
-            ]);
+            const logic = cohortWithMemberGear("Aldric", [["Rope", ["wardens"]]]);
 
             const rows = logic.sharedGear;
 
@@ -421,15 +398,11 @@ describe("CohortLogic", () => {
                 ["Rope", ["wardens"]],
                 ["Dagger", []],
             ]);
-            expect(logic.sharedGear.map((r) => r.gear.data.name)).toEqual([
-                "Rope",
-            ]);
+            expect(logic.sharedGear.map((r) => r.gear.data.name)).toEqual(["Rope"]);
         });
 
         it("omits gear shared with a different cohort", () => {
-            const logic = cohortWithMemberGear("Aldric", [
-                ["Rope", ["bandits"]],
-            ]);
+            const logic = cohortWithMemberGear("Aldric", [["Rope", ["bandits"]]]);
             expect(logic.sharedGear).toEqual([]);
         });
 
@@ -447,9 +420,7 @@ describe("CohortLogic", () => {
 
         /** The `update()` payloads the cohort's actor was asked to persist. */
         function updates(logic: CohortLogic) {
-            return ((logic.data as any).update as any).mock.calls.map(
-                (call: unknown[]) => call[0],
-            );
+            return ((logic.data as any).update as any).mock.calls.map((call: unknown[]) => call[0]);
         }
 
         it("defines addMember / removeMember / toggleLeader", () => {
@@ -463,15 +434,11 @@ describe("CohortLogic", () => {
                 resolveRefs({ aldric: { name: "Aldric" } });
                 const logic = makeCohort() as CohortLogic;
 
-                await logic.addMember(
-                    ctx({ shortcodeOrUuid: "aldric", role: "director" }),
-                );
+                await logic.addMember(ctx({ shortcodeOrUuid: "aldric", role: "director" }));
 
                 expect(updates(logic)).toEqual([
                     {
-                        "system.members": [
-                            { shortcodeOrUuid: "aldric", role: "director" },
-                        ],
+                        "system.members": [{ shortcodeOrUuid: "aldric", role: "director" }],
                     },
                 ]);
             });
@@ -480,13 +447,9 @@ describe("CohortLogic", () => {
                 resolveRefs({ aldric: { name: "Aldric" } });
                 const logic = makeCohort() as CohortLogic;
 
-                await logic.addMember(
-                    ctx({ shortcodeOrUuid: "aldric", role: "monarch" }),
-                );
+                await logic.addMember(ctx({ shortcodeOrUuid: "aldric", role: "monarch" }));
 
-                expect(updates(logic)[0]["system.members"][0].role).toBe(
-                    "member",
-                );
+                expect(updates(logic)[0]["system.members"][0].role).toBe("member");
             });
 
             it("refuses a handle that names no actor", async () => {
@@ -511,12 +474,10 @@ describe("CohortLogic", () => {
 
             it("asks for the handle when none was supplied, even with skipDialog", async () => {
                 resolveRefs({ aldric: { name: "Aldric" } });
-                const ask = vi
-                    .spyOn(FoundryHelpersMock, "dialog")
-                    .mockResolvedValue({
-                        shortcodeOrUuid: "aldric",
-                        role: "member",
-                    });
+                const ask = vi.spyOn(FoundryHelpersMock, "dialog").mockResolvedValue({
+                    shortcodeOrUuid: "aldric",
+                    role: "member",
+                });
                 const logic = makeCohort() as CohortLogic;
 
                 await logic.addMember(ctx({}));
@@ -529,9 +490,7 @@ describe("CohortLogic", () => {
 
             it("adds nothing when the dialog is dismissed", async () => {
                 resolveRefs({ aldric: { name: "Aldric" } });
-                vi.spyOn(FoundryHelpersMock, "dialog").mockResolvedValue(
-                    undefined,
-                );
+                vi.spyOn(FoundryHelpersMock, "dialog").mockResolvedValue(undefined);
                 const logic = makeCohort() as CohortLogic;
 
                 await logic.addMember(ctx({}, false));
@@ -548,13 +507,9 @@ describe("CohortLogic", () => {
                     members: [member("aldric"), member("brunjar")],
                 }) as CohortLogic;
 
-                await logic.removeMember(
-                    ctx({ shortcodeOrUuid: "aldric" }, false),
-                );
+                await logic.removeMember(ctx({ shortcodeOrUuid: "aldric" }, false));
 
-                expect(updates(logic)[0]["system.members"]).toEqual([
-                    member("brunjar"),
-                ]);
+                expect(updates(logic)[0]["system.members"]).toEqual([member("brunjar")]);
             });
 
             it("removes nothing when the confirmation is declined", async () => {
@@ -564,9 +519,7 @@ describe("CohortLogic", () => {
                     members: [member("aldric")],
                 }) as CohortLogic;
 
-                await logic.removeMember(
-                    ctx({ shortcodeOrUuid: "aldric" }, false),
-                );
+                await logic.removeMember(ctx({ shortcodeOrUuid: "aldric" }, false));
 
                 expect(updates(logic)).toEqual([]);
             });
@@ -607,9 +560,7 @@ describe("CohortLogic", () => {
 
                 await logic.toggleLeader(ctx({ shortcodeOrUuid: "brunjar" }));
 
-                expect(updates(logic)).toEqual([
-                    { "system.leaderCode": "brunjar" },
-                ]);
+                expect(updates(logic)).toEqual([{ "system.leaderCode": "brunjar" }]);
             });
 
             it("displaces the sitting leader", async () => {
@@ -621,9 +572,7 @@ describe("CohortLogic", () => {
 
                 await logic.toggleLeader(ctx({ shortcodeOrUuid: "brunjar" }));
 
-                expect(updates(logic)).toEqual([
-                    { "system.leaderCode": "brunjar" },
-                ]);
+                expect(updates(logic)).toEqual([{ "system.leaderCode": "brunjar" }]);
             });
 
             it("stands the leader down when toggled again — no leader", async () => {
@@ -651,18 +600,14 @@ describe("CohortLogic", () => {
 
             it("asks which member to promote when invoked with no handle", async () => {
                 resolveRefs({});
-                vi.spyOn(FoundryHelpersMock, "dialog").mockResolvedValue(
-                    "aldric",
-                );
+                vi.spyOn(FoundryHelpersMock, "dialog").mockResolvedValue("aldric");
                 const logic = makeCohort({
                     members: [member("aldric")],
                 }) as CohortLogic;
 
                 await logic.toggleLeader(ctx({}));
 
-                expect(updates(logic)).toEqual([
-                    { "system.leaderCode": "aldric" },
-                ]);
+                expect(updates(logic)).toEqual([{ "system.leaderCode": "aldric" }]);
             });
 
             it("does nothing when a memberless cohort is asked for a leader", async () => {
@@ -695,9 +640,7 @@ describe("CohortDataModel", () => {
         it.todo("includes SohlActorDataModel base schema fields");
         it.todo("defines leaderCode as a nullable StringField");
         it.todo("defines movementProfiles as an ArrayField");
-        it.todo(
-            "defines members as ArrayField of {shortcodeOrUuid, role} schemas",
-        );
+        it.todo("defines members as ArrayField of {shortcodeOrUuid, role} schemas");
         it.todo("members role defaults to COHORT_MEMBER_ROLE.MEMBER");
     });
 

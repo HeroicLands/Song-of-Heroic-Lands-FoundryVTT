@@ -83,13 +83,9 @@ describe("logic-class registration", () => {
                     s.registerItemLogic("skill", orig); // restore
                 }
             }).should((r) => {
-                expect(r.exposedName, "base skill logic exposed").to.be.a(
-                    "string",
-                );
-                expect(r.isSubclass, "new skill uses the registered subclass")
-                    .to.be.true;
-                expect(r.marker, "subclass member present on the logic").to.be
-                    .true;
+                expect(r.exposedName, "base skill logic exposed").to.be.a("string");
+                expect(r.isSubclass, "new skill uses the registered subclass").to.be.true;
+                expect(r.marker, "subclass member present on the logic").to.be.true;
             });
         });
     });

@@ -53,8 +53,7 @@ export const TOUR_DRIVE_KIND = {
 } as const;
 
 /** A drive action kind — one of {@link TOUR_DRIVE_KIND}. */
-export type TourDriveKind =
-    (typeof TOUR_DRIVE_KIND)[keyof typeof TOUR_DRIVE_KIND];
+export type TourDriveKind = (typeof TOUR_DRIVE_KIND)[keyof typeof TOUR_DRIVE_KIND];
 
 /** Import an Adventure document into the world, then await its completion. */
 export interface ImportAdventureDrive {
@@ -127,10 +126,7 @@ export type TourDrive =
  * @param tour - The running tour, for reaching the resolved documents/canvas.
  * @returns A promise that resolves once the action has fully completed.
  */
-export type TourDriveExecutor = (
-    drive: TourDrive,
-    tour: unknown,
-) => void | Promise<void>;
+export type TourDriveExecutor = (drive: TourDrive, tour: unknown) => void | Promise<void>;
 
 /**
  * Run a step's drive actions **strictly in order**, awaiting each fully before

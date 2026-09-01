@@ -78,16 +78,8 @@ function missileModeData(overrides: Record<string, unknown> = {}) {
     };
 }
 
-function makeWeapon(
-    overrides: Record<string, unknown> = {},
-    opts: Record<string, unknown> = {},
-) {
-    return makeItemLogic(
-        WeaponGearLogic,
-        ITEM_KIND.WEAPONGEAR,
-        weaponFields(overrides),
-        opts,
-    );
+function makeWeapon(overrides: Record<string, unknown> = {}, opts: Record<string, unknown> = {}) {
+    return makeItemLogic(WeaponGearLogic, ITEM_KIND.WEAPONGEAR, weaponFields(overrides), opts);
 }
 
 describe("WeaponGearLogic", () => {
@@ -108,11 +100,7 @@ describe("WeaponGearLogic", () => {
                 // on the Combat tab, not weapon-level actions (#69), so weapon
                 // gear only carries the inherited gear/lifecycle actions.
                 const logic = makeWeapon();
-                for (const shortcode of [
-                    "toggleCarried",
-                    "editDocument",
-                    "deleteDocument",
-                ]) {
+                for (const shortcode of ["toggleCarried", "editDocument", "deleteDocument"]) {
                     expect(logic.actions.has(shortcode), shortcode).toBe(true);
                 }
             });
@@ -126,11 +114,7 @@ describe("WeaponGearLogic", () => {
         });
 
         describe("carried gate (#1097)", () => {
-            const COMBAT_ACTIONS = [
-                "attackTest",
-                "blockTest",
-                "counterstrikeTest",
-            ];
+            const COMBAT_ACTIONS = ["attackTest", "blockTest", "counterstrikeTest"];
 
             it.each(COMBAT_ACTIONS)(
                 "makes %s unavailable while the weapon is not carried",
@@ -217,9 +201,7 @@ describe("WeaponGearLogic", () => {
 
             it("subtracts 20 from a melee mode's attack and defenses when prone", () => {
                 const actor = makeMockActor();
-                vi.spyOn(FoundryHelpers, "fvttActorStatuses").mockReturnValue(
-                    new Set(["prone"]),
-                );
+                vi.spyOn(FoundryHelpers, "fvttActorStatuses").mockReturnValue(new Set(["prone"]));
                 const weapon = makeWeapon(
                     { strikeModes: [meleeModeData({ shortcode: "m1" })] },
                     { actor },
@@ -234,9 +216,7 @@ describe("WeaponGearLogic", () => {
 
             it("leaves the melee mode unchanged when the wielder is not prone", () => {
                 const actor = makeMockActor();
-                vi.spyOn(FoundryHelpers, "fvttActorStatuses").mockReturnValue(
-                    new Set(),
-                );
+                vi.spyOn(FoundryHelpers, "fvttActorStatuses").mockReturnValue(new Set());
                 const weapon = makeWeapon(
                     { strikeModes: [meleeModeData({ shortcode: "m1" })] },
                     { actor },
@@ -255,9 +235,7 @@ describe("WeaponGearLogic", () => {
                 (actor.logic as any).body = { reach: { effective: 3 } };
                 const logic = makeWeapon(
                     {
-                        strikeModes: [
-                            meleeModeData({ shortcode: "m1", lengthBase: 4 }),
-                        ],
+                        strikeModes: [meleeModeData({ shortcode: "m1", lengthBase: 4 })],
                     },
                     { actor },
                 );
@@ -270,9 +248,7 @@ describe("WeaponGearLogic", () => {
 
             it("leaves reach at weapon length when there is no actor/body", () => {
                 const logic = makeWeapon({
-                    strikeModes: [
-                        meleeModeData({ shortcode: "m1", lengthBase: 4 }),
-                    ],
+                    strikeModes: [meleeModeData({ shortcode: "m1", lengthBase: 4 })],
                 });
                 logic.initialize();
                 logic.evaluate();
@@ -311,11 +287,7 @@ describe("WeaponGearLogic", () => {
              * so a strike mode's `assocSkillCode` resolves to it via
              * `getItemLogic`. Returns the skill logic.
              */
-            function addSkill(
-                actor: any,
-                shortcode: string,
-                masteryLevelBase: number,
-            ): SkillLogic {
+            function addSkill(actor: any, shortcode: string, masteryLevelBase: number): SkillLogic {
                 const skill = makeItemLogic(
                     SkillLogic,
                     ITEM_KIND.SKILL,
@@ -498,9 +470,7 @@ describe("WeaponGearLogic", () => {
             it("composes the prone penalty with the skill derivation", () => {
                 const actor = makeMockActor();
                 addSkill(actor, "swd", 50);
-                vi.spyOn(FoundryHelpers, "fvttActorStatuses").mockReturnValue(
-                    new Set(["prone"]),
-                );
+                vi.spyOn(FoundryHelpers, "fvttActorStatuses").mockReturnValue(new Set(["prone"]));
                 const weapon = makeWeapon(
                     {
                         strikeModes: [
@@ -549,9 +519,7 @@ describe("WeaponGearLogic", () => {
                     strikeModes: [meleeModeData({ shortcode: "cut" })],
                 });
                 expect(() =>
-                    logic.addStrikeModeUpdate(
-                        meleeModeData({ shortcode: "cut" }) as any,
-                    ),
+                    logic.addStrikeModeUpdate(meleeModeData({ shortcode: "cut" }) as any),
                 ).toThrow(/already exists/);
             });
 
@@ -573,9 +541,7 @@ describe("WeaponGearLogic", () => {
                     shortcode: "slash",
                     name: "Slash",
                 });
-                expect(
-                    logic.replaceStrikeModeUpdate("cut", replacement as any),
-                ).toEqual({
+                expect(logic.replaceStrikeModeUpdate("cut", replacement as any)).toEqual({
                     "system.strikeModes": [replacement, second],
                 });
             });
@@ -648,34 +614,26 @@ describe("WeaponGearLogic — melee-defense gating (#1137)", () => {
         it.each(["blockTest", "counterstrikeTest"])(
             "hides %s on a held missile-only weapon",
             (shortcode) => {
-                expect(evalVisible(shortcode, stubItemLogic(true, false))).toBe(
-                    false,
-                );
+                expect(evalVisible(shortcode, stubItemLogic(true, false))).toBe(false);
             },
         );
 
         it.each(["blockTest", "counterstrikeTest"])(
             "offers %s on a held weapon that has a melee mode",
             (shortcode) => {
-                expect(evalVisible(shortcode, stubItemLogic(true, true))).toBe(
-                    true,
-                );
+                expect(evalVisible(shortcode, stubItemLogic(true, true))).toBe(true);
             },
         );
 
         it.each(["blockTest", "counterstrikeTest"])(
             "still hides %s on an unheld melee weapon",
             (shortcode) => {
-                expect(evalVisible(shortcode, stubItemLogic(false, true))).toBe(
-                    false,
-                );
+                expect(evalVisible(shortcode, stubItemLogic(false, true))).toBe(false);
             },
         );
 
         it("keeps offering attackTest on a held missile-only weapon", () => {
-            expect(evalVisible("attackTest", stubItemLogic(true, false))).toBe(
-                true,
-            );
+            expect(evalVisible("attackTest", stubItemLogic(true, false))).toBe(true);
         });
     });
 });

@@ -69,9 +69,7 @@ function* walk(dir: string): Generator<string> {
 type Note = { rel: string; sohl: Record<string, unknown> };
 
 const NOTES: Note[] = [...walk(CONTENT)].flatMap((file) => {
-    const match = /^---\r?\n([\s\S]*?)\r?\n---/.exec(
-        readFileSync(file, "utf8"),
-    );
+    const match = /^---\r?\n([\s\S]*?)\r?\n---/.exec(readFileSync(file, "utf8"));
     if (!match) return [];
     const frontmatter = parseYaml(match[1]) as
         { type?: string; sohl?: Record<string, unknown> } | undefined;
@@ -89,21 +87,16 @@ describe("mysticalability content notes", () => {
         expect(NOTES.length).toBeGreaterThan(0);
     });
 
-    it.each(NOTES.map((n) => n.rel))(
-        "%s authors only fields the schema receives",
-        (rel) => {
-            const note = NOTES.find((n) => n.rel === rel)!;
-            const unknown = Object.keys(note.sohl).filter(
-                (key) => !ALLOWED.has(key),
-            );
-            expect(unknown).toEqual([]);
-        },
-    );
+    it.each(NOTES.map((n) => n.rel))("%s authors only fields the schema receives", (rel) => {
+        const note = NOTES.find((n) => n.rel === rel)!;
+        const unknown = Object.keys(note.sohl).filter((key) => !ALLOWED.has(key));
+        expect(unknown).toEqual([]);
+    });
 
     it("none authors the retired assocMysteryCode", () => {
-        const offenders = NOTES.filter((n) =>
-            Object.hasOwn(n.sohl, "assocMysteryCode"),
-        ).map((n) => n.rel);
+        const offenders = NOTES.filter((n) => Object.hasOwn(n.sohl, "assocMysteryCode")).map(
+            (n) => n.rel,
+        );
         expect(offenders).toEqual([]);
     });
 });

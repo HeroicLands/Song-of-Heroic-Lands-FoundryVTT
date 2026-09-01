@@ -81,16 +81,12 @@ describe("script action runs a Foundry Macro", () => {
                 item.reset?.();
                 item.prepareData?.();
                 const action = item.logic.actions.get("e2eMacro");
-                const result =
-                    action ?
-                        await action.execute(item.logic._getContext())
-                    :   undefined;
+                const result = action ? await action.execute(item.logic._getContext()) : undefined;
 
                 await macro.delete();
                 return { hasAction: !!action, result };
             }).then((r) => {
-                expect(r.hasAction, "script action was built from actionDefs")
-                    .to.be.true;
+                expect(r.hasAction, "script action was built from actionDefs").to.be.true;
                 expect(r.result, "macro return value flows back").to.eq(42);
             });
         });

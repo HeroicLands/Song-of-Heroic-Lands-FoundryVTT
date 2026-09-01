@@ -4,10 +4,7 @@ import {
     skillAptitudeFor,
     subTypeAptitudeKey,
 } from "@src/document/item/logic/skill-aptitudes";
-import {
-    SKILL_APTITUDE_SUBTYPE_PREFIX,
-    SKILL_SUBTYPE,
-} from "@src/utils/constants";
+import { SKILL_APTITUDE_SUBTYPE_PREFIX, SKILL_SUBTYPE } from "@src/utils/constants";
 
 describe("skill aptitudes — the selector key", () => {
     it("prefixes a subtype selector, and leaves a shortcode bare", () => {
@@ -107,48 +104,30 @@ describe("skillAptitudeFor", () => {
     });
 
     it("matches by subtype", () => {
-        expect(
-            skillAptitudeFor(aptitudes, "hunting", SKILL_SUBTYPE.NATURE),
-        ).toBe(15);
+        expect(skillAptitudeFor(aptitudes, "hunting", SKILL_SUBTYPE.NATURE)).toBe(15);
     });
 
     it("takes the greater when a skill matches both, whichever is greater", () => {
         // shortcode (+10) beats subType (−5)
-        expect(
-            skillAptitudeFor(aptitudes, "physera", SKILL_SUBTYPE.MYSTICAL),
-        ).toBe(10);
+        expect(skillAptitudeFor(aptitudes, "physera", SKILL_SUBTYPE.MYSTICAL)).toBe(10);
         // subType (+15) beats shortcode (−15)
-        expect(
-            skillAptitudeFor(aptitudes, "pneumenos", SKILL_SUBTYPE.NATURE),
-        ).toBe(15);
+        expect(skillAptitudeFor(aptitudes, "pneumenos", SKILL_SUBTYPE.NATURE)).toBe(15);
     });
 
     it("returns undefined when neither selector matches", () => {
-        expect(
-            skillAptitudeFor(aptitudes, "tactics", SKILL_SUBTYPE.COMBAT),
-        ).toBeUndefined();
+        expect(skillAptitudeFor(aptitudes, "tactics", SKILL_SUBTYPE.COMBAT)).toBeUndefined();
     });
 
     it("returns a matched zero, distinct from no match", () => {
         const withZero = new Map<string, number>([["subType:combat", 0]]);
-        expect(
-            skillAptitudeFor(withZero, "tactics", SKILL_SUBTYPE.COMBAT),
-        ).toBe(0);
-        expect(
-            skillAptitudeFor(withZero, "tactics", SKILL_SUBTYPE.LORE),
-        ).toBeUndefined();
+        expect(skillAptitudeFor(withZero, "tactics", SKILL_SUBTYPE.COMBAT)).toBe(0);
+        expect(skillAptitudeFor(withZero, "tactics", SKILL_SUBTYPE.LORE)).toBeUndefined();
     });
 
     it("tolerates an absent accumulator or absent selectors", () => {
-        expect(
-            skillAptitudeFor(undefined, "physera", "nature"),
-        ).toBeUndefined();
-        expect(
-            skillAptitudeFor(aptitudes, undefined, undefined),
-        ).toBeUndefined();
-        expect(
-            skillAptitudeFor(aptitudes, undefined, SKILL_SUBTYPE.NATURE),
-        ).toBe(15);
+        expect(skillAptitudeFor(undefined, "physera", "nature")).toBeUndefined();
+        expect(skillAptitudeFor(aptitudes, undefined, undefined)).toBeUndefined();
+        expect(skillAptitudeFor(aptitudes, undefined, SKILL_SUBTYPE.NATURE)).toBe(15);
         expect(skillAptitudeFor(aptitudes, "physera", undefined)).toBe(10);
     });
 });

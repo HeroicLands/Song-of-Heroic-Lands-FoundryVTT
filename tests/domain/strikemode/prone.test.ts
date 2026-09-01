@@ -8,10 +8,7 @@
 import { describe, it, expect } from "vitest";
 import { brandLogic } from "@tests/mocks/brandLogic";
 import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
-import {
-    PRONE_MELEE_PENALTY,
-    applyProneMeleePenalty,
-} from "@src/entity/strikemode/prone";
+import { PRONE_MELEE_PENALTY, applyProneMeleePenalty } from "@src/entity/strikemode/prone";
 
 const MOCK_LOGIC = brandLogic({
     actor: null,

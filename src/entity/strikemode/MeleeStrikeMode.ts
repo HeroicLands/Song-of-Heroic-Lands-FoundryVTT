@@ -54,17 +54,11 @@ export class MeleeStrikeMode extends StrikeModeBase {
      * @param parentLogic - The owning Logic instance, used as the modifiers' parent.
      * @param shortcode - This strike mode's key within the parent's `strikeModes` map.
      */
-    constructor(
-        data: MeleeStrikeMode.Data,
-        parentLogic: SohlLogic,
-        shortcode: string,
-    ) {
+    constructor(data: MeleeStrikeMode.Data, parentLogic: SohlLogic, shortcode: string) {
         super(data, parentLogic, shortcode);
         // Reach is seeded from the weapon's length; the wielder's body
         // reach is layered on during the owning logic's evaluate phase.
-        this.reach = new entity.ValueModifier(parentLogic).setBase(
-            data.lengthBase,
-        );
+        this.reach = new entity.ValueModifier(parentLogic).setBase(data.lengthBase);
         this.defense = {
             block: new entity.CombatModifier(parentLogic),
             counterstrike: new entity.CombatModifier(parentLogic),
@@ -93,8 +87,7 @@ export class MeleeStrikeMode extends StrikeModeBase {
         // (there is no separate `noCounterstrike` trait); it can also be disabled
         // on its own via `defense.counterstrike.disabled`.
         if (counterstrike?.disabled || data.traits?.noAttack) {
-            this.defense.counterstrike.disabledReason =
-                "SOHL.StrikeMode.NoCounterstrike";
+            this.defense.counterstrike.disabledReason = "SOHL.StrikeMode.NoCounterstrike";
         }
     }
 
@@ -106,8 +99,7 @@ export class MeleeStrikeMode extends StrikeModeBase {
     static schemaFields(): foundry.data.fields.DataSchema {
         // Lazy access: foundry globals exist only when Foundry-side code
         // calls this; the module itself must load without them.
-        const { NumberField, StringField, SchemaField, BooleanField } =
-            foundry.data.fields;
+        const { NumberField, StringField, SchemaField, BooleanField } = foundry.data.fields;
         return {
             ...StrikeModeBase.baseSchemaFields(),
             type: new StringField({

@@ -23,10 +23,7 @@ import {
  * the SohlLogic base class.
  */
 
-function scriptAction(
-    shortcode: string,
-    group: string,
-): Record<string, unknown> {
+function scriptAction(shortcode: string, group: string): Record<string, unknown> {
     return {
         shortcode,
         subType: ACTION_SUBTYPE.SCRIPT,
@@ -70,12 +67,7 @@ describe("SohlLogic", () => {
     describe("intrinsic action override", () => {
         it("a script action with an intrinsic's shortcode replaces it in actions", () => {
             const logic = makeItemLogic(SohlItemBaseLogic, "misc", {
-                actionDefs: [
-                    scriptAction(
-                        "editDocument",
-                        SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
-                    ),
-                ],
+                actionDefs: [scriptAction("editDocument", SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL)],
             });
             const editAction = logic.actions.get("editDocument")!;
             expect(editAction.data.subType).toBe(ACTION_SUBTYPE.SCRIPT);
@@ -84,25 +76,14 @@ describe("SohlLogic", () => {
         it("hides the intrinsic: exactly one action and one menu entry per shortcode", () => {
             const baseline = makeItemLogic(SohlItemBaseLogic, "misc");
             const overridden = makeItemLogic(SohlItemBaseLogic, "misc", {
-                actionDefs: [
-                    scriptAction(
-                        "editDocument",
-                        SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
-                    ),
-                ],
+                actionDefs: [scriptAction("editDocument", SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL)],
             });
             // Overriding an intrinsic must not grow the action set.
             expect(overridden.actions.size()).toBe(baseline.actions.size());
-            const shortcodes = Array.from(overridden.actions.values()).map(
-                (a) => a.shortcode,
-            );
-            expect(shortcodes.filter((s) => s === "editDocument")).toHaveLength(
-                1,
-            );
+            const shortcodes = Array.from(overridden.actions.values()).map((a) => a.shortcode);
+            expect(shortcodes.filter((s) => s === "editDocument")).toHaveLength(1);
             // The context menu mirrors the deduped set — one entry per action.
-            expect(overridden.getContextOptions()).toHaveLength(
-                overridden.actions.size(),
-            );
+            expect(overridden.getContextOptions()).toHaveLength(overridden.actions.size());
         });
 
         it("executeAction runs the overriding script, never the shadowed intrinsic", async () => {
@@ -112,23 +93,16 @@ describe("SohlLogic", () => {
                 "misc",
                 {
                     actionDefs: [
-                        scriptAction(
-                            "editDocument",
-                            SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
-                        ),
+                        scriptAction("editDocument", SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL),
                     ],
                 },
                 { actor },
             );
             const script = logic.actions.get("editDocument")!;
-            const scriptSpy = vi
-                .spyOn(script, "execute")
-                .mockResolvedValue("script-ran");
+            const scriptSpy = vi.spyOn(script, "execute").mockResolvedValue("script-ran");
             // The intrinsic action is never built; its executor method must not
             // be reached through the (now script-only) action dispatch.
-            const intrinsicMethodSpy = vi
-                .spyOn(logic, "editDocument")
-                .mockResolvedValue(undefined);
+            const intrinsicMethodSpy = vi.spyOn(logic, "editDocument").mockResolvedValue(undefined);
 
             const result = await logic.executeAction("editDocument");
 
@@ -139,12 +113,7 @@ describe("SohlLogic", () => {
 
         it("leaves the shadowed intrinsic's method on the logic so a script can build on it", () => {
             const logic = makeItemLogic(SohlItemBaseLogic, "misc", {
-                actionDefs: [
-                    scriptAction(
-                        "editDocument",
-                        SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
-                    ),
-                ],
+                actionDefs: [scriptAction("editDocument", SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL)],
             });
             // The override hides the intrinsic action, but its capability — the
             // executor method — is untouched, so an overriding macro can call
@@ -154,19 +123,10 @@ describe("SohlLogic", () => {
 
         it("leaves non-overridden intrinsics and non-colliding scripts intact", () => {
             const logic = makeItemLogic(SohlItemBaseLogic, "misc", {
-                actionDefs: [
-                    scriptAction(
-                        "custom",
-                        SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
-                    ),
-                ],
+                actionDefs: [scriptAction("custom", SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL)],
             });
-            expect(logic.actions.get("editDocument")!.data.subType).toBe(
-                ACTION_SUBTYPE.INTRINSIC,
-            );
-            expect(logic.actions.get("custom")!.data.subType).toBe(
-                ACTION_SUBTYPE.SCRIPT,
-            );
+            expect(logic.actions.get("editDocument")!.data.subType).toBe(ACTION_SUBTYPE.INTRINSIC);
+            expect(logic.actions.get("custom")!.data.subType).toBe(ACTION_SUBTYPE.SCRIPT);
         });
     });
 
@@ -202,12 +162,7 @@ describe("SohlLogic", () => {
 
         it("actor falls back to item.actor for item logic", () => {
             const actor = makeMockActor();
-            const logic = makeItemLogic(
-                SohlItemBaseLogic,
-                "misc",
-                {},
-                { actor },
-            );
+            const logic = makeItemLogic(SohlItemBaseLogic, "misc", {}, { actor });
             expect(logic.actor).toBe(actor);
         });
 
@@ -222,12 +177,7 @@ describe("SohlLogic", () => {
             const actor = makeMockActor();
             const speaker = makeMockSpeaker();
             actor.getSpeaker.mockReturnValue(speaker);
-            const logic = makeItemLogic(
-                SohlItemBaseLogic,
-                "misc",
-                {},
-                { actor },
-            );
+            const logic = makeItemLogic(SohlItemBaseLogic, "misc", {}, { actor });
             expect(logic.speaker).toBe(speaker);
         });
 
@@ -254,12 +204,7 @@ describe("SohlLogic", () => {
 
         it("label formats type and name through docLabelFormat", () => {
             const format = vi.spyOn(sohl.i18n, "format");
-            const logic = makeItemLogic(
-                SohlItemBaseLogic,
-                "misc",
-                {},
-                { name: "My Item" },
-            );
+            const logic = makeItemLogic(SohlItemBaseLogic, "misc", {}, { name: "My Item" });
             void logic.label;
             expect(format).toHaveBeenCalledWith(
                 "SOHL.docLabelFormat",
@@ -271,15 +216,8 @@ describe("SohlLogic", () => {
     describe("delete confirmation dialog (#1353)", () => {
         /** Drive `deleteDocument` to a declined dialog and return the spec it built. */
         async function captureDeleteSpec(): Promise<any> {
-            const spy = vi
-                .spyOn(FoundryHelpersMock, "dialog")
-                .mockResolvedValue(false);
-            const logic = makeItemLogic(
-                SohlItemBaseLogic,
-                "misc",
-                {},
-                { name: "My Item" },
-            );
+            const spy = vi.spyOn(FoundryHelpersMock, "dialog").mockResolvedValue(false);
+            const logic = makeItemLogic(SohlItemBaseLogic, "misc", {}, { name: "My Item" });
             await logic.deleteDocument({} as any);
             return spy.mock.calls[0]![0] as any;
         }
@@ -300,9 +238,7 @@ describe("SohlLogic", () => {
             // into the template source. Mirrors ContainerGearLogic.
             const spec = await captureDeleteSpec();
             expect(spec.content).not.toMatch(/will be deleted/);
-            expect(String(spec.data.caution)).toMatch(
-                /SOHL\.SohlLogic\.delete\.caution/,
-            );
+            expect(String(spec.data.caution)).toMatch(/SOHL\.SohlLogic\.delete\.caution/);
         });
 
         it("interpolates the type name through i18n.format, not through the dialog's Handlebars pass", async () => {
@@ -320,20 +256,13 @@ describe("SohlLogic", () => {
             const logic = makeItemLogic(SohlItemBaseLogic, "misc", {
                 actionDefs: [
                     scriptAction("first", SOHL_CONTEXT_MENU_SORT_GROUP.DEFAULT),
-                    scriptAction(
-                        "second",
-                        SOHL_CONTEXT_MENU_SORT_GROUP.DEFAULT,
-                    ),
+                    scriptAction("second", SOHL_CONTEXT_MENU_SORT_GROUP.DEFAULT),
                 ],
             });
-            const groups = Array.from(logic.actions.values()).map(
-                (a) => a.data.group,
+            const groups = Array.from(logic.actions.values()).map((a) => a.data.group);
+            expect(groups.filter((g) => g === SOHL_CONTEXT_MENU_SORT_GROUP.DEFAULT)).toHaveLength(
+                1,
             );
-            expect(
-                groups.filter(
-                    (g) => g === SOHL_CONTEXT_MENU_SORT_GROUP.DEFAULT,
-                ),
-            ).toHaveLength(1);
             expect(logic.actions.get("second")!.data.group).toBe(
                 SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
             );
@@ -341,9 +270,7 @@ describe("SohlLogic", () => {
 
         it("promotes the first action to DEFAULT when none is marked", () => {
             const logic = makeItemLogic(SohlItemBaseLogic, "misc", {
-                actionDefs: [
-                    scriptAction("a", SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL),
-                ],
+                actionDefs: [scriptAction("a", SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL)],
             });
             const first = Array.from(logic.actions.values())[0];
             expect(first.data.group).toBe(SOHL_CONTEXT_MENU_SORT_GROUP.DEFAULT);
@@ -357,9 +284,7 @@ describe("SohlLogic", () => {
                     scriptAction("def", SOHL_CONTEXT_MENU_SORT_GROUP.DEFAULT),
                 ],
             });
-            const groups = Array.from(logic.actions.values()).map(
-                (a) => a.data.group,
-            );
+            const groups = Array.from(logic.actions.values()).map((a) => a.data.group);
             const sorted = [...groups].sort((a, b) => a.localeCompare(b));
             expect(groups).toEqual(sorted);
         });
@@ -368,9 +293,7 @@ describe("SohlLogic", () => {
     describe("getContextOptions", () => {
         it("returns one ContextMenuEntry per action", () => {
             const logic = makeItemLogic(SohlItemBaseLogic, "misc", {
-                actionDefs: [
-                    scriptAction("a", SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL),
-                ],
+                actionDefs: [scriptAction("a", SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL)],
             });
             const entries = logic.getContextOptions();
             expect(entries).toHaveLength(logic.actions.size());
@@ -383,20 +306,14 @@ describe("SohlLogic", () => {
 
         it("entry conditions delegate to the action's visible predicate", () => {
             const logic = makeItemLogic(SohlItemBaseLogic, "misc", {
-                actionDefs: [
-                    scriptAction("a", SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL),
-                ],
+                actionDefs: [scriptAction("a", SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL)],
             });
             const action = logic.actions.get("a")!;
-            const visibleSpy = vi
-                .spyOn(action, "visible")
-                .mockReturnValue(true);
+            const visibleSpy = vi.spyOn(action, "visible").mockReturnValue(true);
             const entries = logic.getContextOptions();
             const entry = entries.find((e) => e.id === action.data.title)!;
             const el = {} as HTMLElement;
-            expect((entry.condition as (t: HTMLElement) => boolean)(el)).toBe(
-                true,
-            );
+            expect((entry.condition as (t: HTMLElement) => boolean)(el)).toBe(true);
             expect(visibleSpy).toHaveBeenCalledWith(el);
         });
     });
@@ -428,9 +345,7 @@ describe("SohlLogic", () => {
             // Regression: the executor string must match the method name
             // case-sensitively or SohlAction's constructor throws.
             const data = makeItemData("misc");
-            expect(
-                () => new SohlItemBaseLogic({}, { parent: data }),
-            ).not.toThrow();
+            expect(() => new SohlItemBaseLogic({}, { parent: data })).not.toThrow();
         });
     });
 });

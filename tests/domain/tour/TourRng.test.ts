@@ -95,13 +95,7 @@ describe("seedRngForTour — the driven-tour seeded-RNG lease", () => {
         // Model each SohlTour exit path as an independent caller of the same
         // lease.restore; the fire-once guarantee means whichever fires (and any
         // redundant others) leaves the RNG back to normal.
-        for (const exitPath of [
-            "complete",
-            "abort",
-            "escape",
-            "navigate",
-            "error",
-        ]) {
+        for (const exitPath of ["complete", "abort", "escape", "navigate", "error"]) {
             const rng = createRng();
             const snapshot = rng.getState();
             const expectedContinuation = draw(rng, 4);

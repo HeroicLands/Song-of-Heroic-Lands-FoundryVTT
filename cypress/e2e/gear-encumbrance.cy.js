@@ -58,22 +58,18 @@ describe("gear → encumbrance (#1009, #1010)", () => {
                 system: { weightBase: 12, isCarried: true, isWorn: false },
             }).then((armor) => {
                 cy.prepare(actor);
-                cy.foundry((win) => carriedWeight(win, actor.id)).then(
-                    (notWornWeight) => {
-                        // Don it: its 12 lb should drop out of carried weight.
-                        cy.foundry((win) =>
-                            setField(win, actor.id, armor.id, {
-                                "system.isWorn": true,
-                            }),
-                        );
-                        cy.prepare(actor);
-                        cy.foundry((win) =>
-                            carriedWeight(win, actor.id),
-                        ).should((wornWeight) => {
-                            expect(notWornWeight - wornWeight).to.eq(12);
-                        });
-                    },
-                );
+                cy.foundry((win) => carriedWeight(win, actor.id)).then((notWornWeight) => {
+                    // Don it: its 12 lb should drop out of carried weight.
+                    cy.foundry((win) =>
+                        setField(win, actor.id, armor.id, {
+                            "system.isWorn": true,
+                        }),
+                    );
+                    cy.prepare(actor);
+                    cy.foundry((win) => carriedWeight(win, actor.id)).should((wornWeight) => {
+                        expect(notWornWeight - wornWeight).to.eq(12);
+                    });
+                });
             });
         });
     });
@@ -92,21 +88,17 @@ describe("gear → encumbrance (#1009, #1010)", () => {
                 },
             }).then((armor) => {
                 cy.prepare(actor);
-                cy.foundry((win) => encumbrance(win, actor.id)).then(
-                    (notWornEnc) => {
-                        cy.foundry((win) =>
-                            setField(win, actor.id, armor.id, {
-                                "system.isWorn": true,
-                            }),
-                        );
-                        cy.prepare(actor);
-                        cy.foundry((win) => encumbrance(win, actor.id)).should(
-                            (wornEnc) => {
-                                expect(wornEnc - notWornEnc).to.eq(5);
-                            },
-                        );
-                    },
-                );
+                cy.foundry((win) => encumbrance(win, actor.id)).then((notWornEnc) => {
+                    cy.foundry((win) =>
+                        setField(win, actor.id, armor.id, {
+                            "system.isWorn": true,
+                        }),
+                    );
+                    cy.prepare(actor);
+                    cy.foundry((win) => encumbrance(win, actor.id)).should((wornEnc) => {
+                        expect(wornEnc - notWornEnc).to.eq(5);
+                    });
+                });
             });
         });
     });
@@ -125,21 +117,17 @@ describe("gear → encumbrance (#1009, #1010)", () => {
                 },
             }).then((weapon) => {
                 cy.prepare(actor);
-                cy.foundry((win) => encumbrance(win, actor.id)).then(
-                    (uncarriedEnc) => {
-                        cy.foundry((win) =>
-                            setField(win, actor.id, weapon.id, {
-                                "system.isCarried": true,
-                            }),
-                        );
-                        cy.prepare(actor);
-                        cy.foundry((win) => encumbrance(win, actor.id)).should(
-                            (carriedEnc) => {
-                                expect(carriedEnc - uncarriedEnc).to.eq(3);
-                            },
-                        );
-                    },
-                );
+                cy.foundry((win) => encumbrance(win, actor.id)).then((uncarriedEnc) => {
+                    cy.foundry((win) =>
+                        setField(win, actor.id, weapon.id, {
+                            "system.isCarried": true,
+                        }),
+                    );
+                    cy.prepare(actor);
+                    cy.foundry((win) => encumbrance(win, actor.id)).should((carriedEnc) => {
+                        expect(carriedEnc - uncarriedEnc).to.eq(3);
+                    });
+                });
             });
         });
     });

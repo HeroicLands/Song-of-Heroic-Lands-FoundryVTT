@@ -33,9 +33,7 @@ describe("Fate spend — post-roll success-level bump (#854)", () => {
         cy.login().then(() => {
             cy.cleanupWorld();
             // Fate rules must be enabled for a skill's fateMasteryLevel to arm.
-            cy.foundry((win) =>
-                win.game.settings.set("sohl", "optionFate", "everyone"),
-            );
+            cy.foundry((win) => win.game.settings.set("sohl", "optionFate", "everyone"));
         }),
     );
 
@@ -88,10 +86,10 @@ describe("Fate spend — post-roll success-level bump (#854)", () => {
                         // 4 → not critical).
                         SimpleRoll.forceValues(88, 34);
 
-                        const original = await s.logic.executeAction(
-                            "successTest",
-                            { skipDialog: true, scope: {} },
-                        );
+                        const original = await s.logic.executeAction("successTest", {
+                            skipDialog: true,
+                            scope: {},
+                        });
                         const beforeLevel = original.successLevel;
                         const beforeCanFate = original.canFate;
 
@@ -104,8 +102,7 @@ describe("Fate spend — post-roll success-level bump (#854)", () => {
                             }),
                         );
 
-                        const remaining = a.items.get(fate.id).system.charges
-                            .value;
+                        const remaining = a.items.get(fate.id).system.charges.value;
 
                         return {
                             armed,
@@ -122,17 +119,10 @@ describe("Fate spend — post-roll success-level bump (#854)", () => {
                         expect(r.points, "one eligible Fate Point").to.eq(1);
                         // The original test is Fate-eligible and started as a
                         // marginal failure (success level 0).
-                        expect(r.beforeCanFate, "original offers Fate").to.be
-                            .true;
-                        expect(
-                            r.beforeLevel,
-                            "started a marginal failure",
-                        ).to.eq(0);
+                        expect(r.beforeCanFate, "original offers Fate").to.be.true;
+                        expect(r.beforeLevel, "started a marginal failure").to.eq(0);
                         // Fate bumped it to a marginal success (level 1)…
-                        expect(
-                            r.afterLevel,
-                            "bumped to marginal success",
-                        ).to.eq(1);
+                        expect(r.afterLevel, "bumped to marginal success").to.eq(1);
                         expect(r.afterSuccess, "now a success").to.be.true;
                         // …and consumed exactly one charge (2 → 1).
                         expect(r.remaining, "one charge consumed").to.eq(1);

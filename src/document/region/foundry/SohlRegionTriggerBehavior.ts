@@ -113,8 +113,7 @@ export class SohlRegionTriggerBehavior extends foundry.data.regionBehaviors
         await fireSohlTrigger(ctx);
 
         // (2) Region-authored offer to the entering actor's owner (consent).
-        const actionName = (this as unknown as { actionName?: string })
-            .actionName;
+        const actionName = (this as unknown as { actionName?: string }).actionName;
         if (actionName && ctx.actorUuid) {
             await sohl.events.offer(ctx.actorUuid, actionName, ctx);
         }

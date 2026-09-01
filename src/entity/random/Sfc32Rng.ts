@@ -11,12 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {
-    RngBase,
-    entropySeed,
-    guardZeroState,
-    normalizeSeed,
-} from "@src/entity/random/Rng";
+import { RngBase, entropySeed, guardZeroState, normalizeSeed } from "@src/entity/random/Rng";
 
 /**
  * The **default** SoHL generator: `sfc32` (Small Fast Counter), 128-bit state
@@ -71,9 +66,7 @@ export class Sfc32Rng extends RngBase {
     /** @inheritdoc */
     setState(state: number[]): void {
         if (state.length !== 4) {
-            throw new RangeError(
-                `Sfc32Rng.setState requires 4 words, got ${state.length}`,
-            );
+            throw new RangeError(`Sfc32Rng.setState requires 4 words, got ${state.length}`);
         }
         const [a, b, c, d] = guardZeroState([
             state[0] >>> 0,

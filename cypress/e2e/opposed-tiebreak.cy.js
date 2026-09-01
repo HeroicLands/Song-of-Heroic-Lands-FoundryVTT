@@ -106,8 +106,7 @@ describe("Opposed test — ties and tie-breaks (#1081, #1160)", () => {
                 // Objects handed to the action pipeline are merged into, so build
                 // them in the game realm — a cross-realm literal is not an Object
                 // to `mergeObject`.
-                const inRealm = (props) =>
-                    win.Object.assign(new win.Object(), props);
+                const inRealm = (props) => win.Object.assign(new win.Object(), props);
 
                 const rollTest = async (skill, actor, dieValue) => {
                     SimpleRoll.forceValues(dieValue);
@@ -140,15 +139,14 @@ describe("Opposed test — ties and tie-breaks (#1081, #1160)", () => {
                 win.__msgBefore = win.game.messages.size;
 
                 // Phase 2 — the Respond button's handler settles the contest.
-                const settled =
-                    await tgtSkill.logic.masteryLevel.opposedTestResume(
-                        new CTX({
-                            type: "opposedTestResume",
-                            speaker: tgtActor.getSpeaker(),
-                            skipDialog: true,
-                            scope: inRealm({ priorTestResult: opposed }),
-                        }),
-                    );
+                const settled = await tgtSkill.logic.masteryLevel.opposedTestResume(
+                    new CTX({
+                        type: "opposedTestResume",
+                        speaker: tgtActor.getSpeaker(),
+                        skipDialog: true,
+                        scope: inRealm({ priorTestResult: opposed }),
+                    }),
+                );
 
                 return {
                     rolled: true,
@@ -168,22 +166,17 @@ describe("Opposed test — ties and tie-breaks (#1081, #1160)", () => {
     }
 
     it("reports a tie as a tie, never as a mutual failure (#1081)", () => {
-        runContest({ breakTies: false, sourceRoll: 44, targetRoll: 12 }).then(
-            (r) => {
-                expect(r.rolled, "both sides rolled").to.be.true;
-                expect(r.settled, "contest settled").to.be.true;
-                expect(r.sourceLevel, "both at Marginal Success").to.eq(
-                    r.targetLevel,
-                );
-                expect(r.isTied, "same success level").to.be.true;
-                expect(r.bothFail, "both succeeded — not a mutual failure").to
-                    .be.false;
-                expect(r.isTieBroken, "tie left standing").to.be.false;
-                expect(r.sourceWins).to.be.false;
-                expect(r.targetWins).to.be.false;
-                expect(r.victoryStars, "a tie is worth no stars").to.eq(0);
-            },
-        );
+        runContest({ breakTies: false, sourceRoll: 44, targetRoll: 12 }).then((r) => {
+            expect(r.rolled, "both sides rolled").to.be.true;
+            expect(r.settled, "contest settled").to.be.true;
+            expect(r.sourceLevel, "both at Marginal Success").to.eq(r.targetLevel);
+            expect(r.isTied, "same success level").to.be.true;
+            expect(r.bothFail, "both succeeded — not a mutual failure").to.be.false;
+            expect(r.isTieBroken, "tie left standing").to.be.false;
+            expect(r.sourceWins).to.be.false;
+            expect(r.targetWins).to.be.false;
+            expect(r.victoryStars, "a tie is worth no stars").to.eq(0);
+        });
 
         // Every card posts fire-and-forget, so neither arrival order nor "the
         // last message" is guaranteed — poll the whole log for the opposed card.
@@ -196,16 +189,14 @@ describe("Opposed test — ties and tie-breaks (#1081, #1160)", () => {
     });
 
     it("settles a tie on the higher roll when asked, and says so (#1160)", () => {
-        runContest({ breakTies: true, sourceRoll: 44, targetRoll: 12 }).then(
-            (r) => {
-                expect(r.isTied, "still a tie on success level").to.be.true;
-                expect(r.isTieBroken, "but settled").to.be.true;
-                expect(r.sourceWins, "higher d100 takes it").to.be.true;
-                expect(r.targetWins).to.be.false;
-                expect(r.victoryStars, "a broken tie is one star").to.eq(1);
-                expect(r.tieBreakReason).to.eq("roll");
-            },
-        );
+        runContest({ breakTies: true, sourceRoll: 44, targetRoll: 12 }).then((r) => {
+            expect(r.isTied, "still a tie on success level").to.be.true;
+            expect(r.isTieBroken, "but settled").to.be.true;
+            expect(r.sourceWins, "higher d100 takes it").to.be.true;
+            expect(r.targetWins).to.be.false;
+            expect(r.victoryStars, "a broken tie is one star").to.eq(1);
+            expect(r.tieBreakReason).to.eq("roll");
+        });
 
         cy.window().should((win) => {
             const card = opposedCard(win);

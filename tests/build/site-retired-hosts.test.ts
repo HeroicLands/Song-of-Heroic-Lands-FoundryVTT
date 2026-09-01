@@ -46,22 +46,14 @@ describe("sitePathFor", () => {
 
     it("resolves an extensionless page to its .html file", () => {
         // TypeDoc's own links are extensionless; the host serves the .html.
-        expect(
-            sitePathFor(
-                "/site",
-                `${SITE_ORIGIN}/sohl/api/classes/sohl.x.Y`,
-                exists,
-            ),
-        ).toBe(path.join("/site", "sohl/api/classes/sohl.x.Y.html"));
+        expect(sitePathFor("/site", `${SITE_ORIGIN}/sohl/api/classes/sohl.x.Y`, exists)).toBe(
+            path.join("/site", "sohl/api/classes/sohl.x.Y.html"),
+        );
     });
 
     it("ignores a fragment and a query when locating the file", () => {
         expect(
-            sitePathFor(
-                "/site",
-                `${SITE_ORIGIN}/sohl/api/classes/sohl.x.Y#anchor`,
-                exists,
-            ),
+            sitePathFor("/site", `${SITE_ORIGIN}/sohl/api/classes/sohl.x.Y#anchor`, exists),
         ).toBe(path.join("/site", "sohl/api/classes/sohl.x.Y.html"));
     });
 
@@ -69,24 +61,16 @@ describe("sitePathFor", () => {
         // The whole point: a host swap alone lands here, and taking it would
         // trade a dead end a reader can see for a quiet 404.
         expect(
-            sitePathFor(
-                "/site",
-                `${SITE_ORIGIN}/sohl/kb/concepts/architecture/`,
-                exists,
-            ),
+            sitePathFor("/site", `${SITE_ORIGIN}/sohl/kb/concepts/architecture/`, exists),
         ).toBeUndefined();
     });
 
     it("returns nothing for an address on somebody else's origin", () => {
-        expect(
-            sitePathFor("/site", "https://example.com/sohl/kb/", exists),
-        ).toBeUndefined();
+        expect(sitePathFor("/site", "https://example.com/sohl/kb/", exists)).toBeUndefined();
     });
 
     it("refuses a path that climbs out of the deployment", () => {
-        expect(
-            sitePathFor("/site", `${SITE_ORIGIN}/../../etc/passwd`, exists),
-        ).toBeUndefined();
+        expect(sitePathFor("/site", `${SITE_ORIGIN}/../../etc/passwd`, exists)).toBeUndefined();
     });
 });
 
@@ -124,9 +108,7 @@ describe("the assembled tree", () => {
 
         expect(report.repaired).toHaveLength(1);
         expect(report.unresolved).toEqual([]);
-        expect(
-            fs.readFileSync(path.join(root, "sohl/api/index.html"), "utf8"),
-        ).toBe(
+        expect(fs.readFileSync(path.join(root, "sohl/api/index.html"), "utf8")).toBe(
             '<a href="https://www.heroiclands.org/sohl/kb/dev-docs/' +
                 'concepts/architecture/">Arch</a>',
         );
@@ -135,20 +117,14 @@ describe("the assembled tree", () => {
     });
 
     it("repairs pages nested below the tree it is given", () => {
-        put(
-            "sohl/api/classes/X.html",
-            '<a href="https://api.heroiclands.org/">API</a>',
-        );
+        put("sohl/api/classes/X.html", '<a href="https://api.heroiclands.org/">API</a>');
         const report = repairRetiredLinksIn(path.join(root, "sohl/api"), root);
         expect(report.repaired).toHaveLength(1);
         expect(retiredHrefsUnder(root)).toEqual([]);
     });
 
     it("leaves a link it cannot rescue for the gate to report", () => {
-        put(
-            "sohl/api/index.html",
-            '<a href="https://kb.heroiclands.org/no/such/page/">Gone</a>',
-        );
+        put("sohl/api/index.html", '<a href="https://kb.heroiclands.org/no/such/page/">Gone</a>');
         const report = repairRetiredLinksIn(path.join(root, "sohl/api"), root);
 
         expect(report.unresolved).toHaveLength(1);
@@ -169,15 +145,10 @@ describe("the assembled tree", () => {
     });
 
     it("does not rewrite anything in a deployment that is already clean", () => {
-        const before = fs.readFileSync(
-            path.join(root, "sohl/api/index.html"),
-            "utf8",
-        );
+        const before = fs.readFileSync(path.join(root, "sohl/api/index.html"), "utf8");
         const report = repairRetiredLinksIn(path.join(root, "sohl/api"), root);
         expect(report.repaired).toEqual([]);
-        expect(
-            fs.readFileSync(path.join(root, "sohl/api/index.html"), "utf8"),
-        ).toBe(before);
+        expect(fs.readFileSync(path.join(root, "sohl/api/index.html"), "utf8")).toBe(before);
     });
 
     it("looks only at HTML, not at the assets beside it", () => {

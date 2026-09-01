@@ -95,9 +95,7 @@ import { toHTMLString } from "@src/utils/helpers";
  * @typeParam TData - The data interface this logic operates on, extending
  *   {@link SohlLogicData}.
  */
-export abstract class SohlLogic<
-    TData extends SohlLogicData<any> = SohlLogicData<any>,
-> {
+export abstract class SohlLogic<TData extends SohlLogicData<any> = SohlLogicData<any>> {
     private readonly _parent: TData;
     /** Executable actions for this document, keyed by shortcode — context-menu entries, chat-card buttons, and lifecycle hooks. A script action shadows (wholly overrides) the intrinsic action of the same shortcode (see the constructor). */
     actions!: SohlMap<string, SohlAction>;
@@ -279,11 +277,7 @@ export abstract class SohlLogic<
 
     /** A {@link SohlSpeaker} for the owning actor/item (a blank speaker if neither resolves). */
     get speaker(): SohlSpeaker {
-        return (
-            this.actor?.getSpeaker() ??
-            this.item?.actor?.getSpeaker() ??
-            new SohlSpeaker()
-        );
+        return this.actor?.getSpeaker() ?? this.item?.actor?.getSpeaker() ?? new SohlSpeaker();
     }
 
     /** Localized type (and sub-type, when present) label for the owning document. */
@@ -302,14 +296,10 @@ export abstract class SohlLogic<
         // key map from `defineType`), so e.g. a skill `subType` of "combat" reads
         // "Combat" rather than the raw stored value. Falls back to the raw value
         // when the field has no choices (a free-text sub-type).
-        const subTypeKey = (dataModel.schema as any)?.fields?.subType
-            ?.choices?.[subType];
-        const subTypeLabel =
-            subTypeKey ? sohl.i18n.localize(subTypeKey) : subType;
+        const subTypeKey = (dataModel.schema as any)?.fields?.subType?.choices?.[subType];
+        const subTypeLabel = subTypeKey ? sohl.i18n.localize(subTypeKey) : subType;
         const formatStr =
-            subType ?
-                "SOHL.BASEDATA.typeLabelWithSubtype"
-            :   "SOHL.BASEDATA.typeLabel";
+            subType ? "SOHL.BASEDATA.typeLabelWithSubtype" : "SOHL.BASEDATA.typeLabel";
         return sohl.i18n.format(formatStr, {
             type: typeLabel,
             subType: subTypeLabel,
@@ -342,9 +332,7 @@ export abstract class SohlLogic<
      */
     constructor(data: PlainObject = {}, options: PlainObject = {}) {
         if (!options.parent) {
-            throw new Error(
-                "SohlLogic must be constructed with a parent item or actor.",
-            );
+            throw new Error("SohlLogic must be constructed with a parent item or actor.");
         }
         this._parent = options.parent;
 
@@ -360,9 +348,7 @@ export abstract class SohlLogic<
         // simply calls that method directly (e.g. `item.logic.<executor>(ctx)`).
         const defs = new SohlMap<string, Partial<SohlAction.Data>>();
         for (const data of [
-            ...((
-                this.constructor as any
-            ).defineIntrinsicActions() as Partial<SohlAction.Data>[]),
+            ...((this.constructor as any).defineIntrinsicActions() as Partial<SohlAction.Data>[]),
             ...this.data.actionDefs,
         ]) {
             defs.set(data.shortcode as string, data);
@@ -415,9 +401,8 @@ export abstract class SohlLogic<
         const entries: ContextMenuEntry[] = [];
         for (const action of this.actions.values()) {
             const data = action.data;
-            const condition: ContextMenuCondition = (
-                target: HTMLElement,
-            ): boolean => action.visible(target);
+            const condition: ContextMenuCondition = (target: HTMLElement): boolean =>
+                action.visible(target);
             const callback = (element: HTMLElement) => {
                 // Resolve the acting actor from the clicked row when present
                 // (sheet menus carry `data-actor-id`); otherwise fall back to
@@ -425,8 +410,7 @@ export abstract class SohlLogic<
                 // marker — e.g. a combatant row in the combat tracker — still
                 // dispatch with the correct speaker.
                 const item = resolveContextItem(element);
-                const actor =
-                    resolveContextActor(element) ?? item?.actor ?? this.actor;
+                const actor = resolveContextActor(element) ?? item?.actor ?? this.actor;
                 const ctx = new SohlActionContext({
                     speaker: actor?.getSpeaker(),
                 } as any);
@@ -452,9 +436,7 @@ export abstract class SohlLogic<
      * @param data - Additional context data to merge into the action context.
      * @returns The action context for this actor.
      */
-    protected _getContext(
-        data: Partial<SohlActionContext.Data> = {},
-    ): SohlActionContext {
+    protected _getContext(data: Partial<SohlActionContext.Data> = {}): SohlActionContext {
         data.speaker ??= this.speaker;
         return new SohlActionContext(data);
     }
@@ -465,10 +447,7 @@ export abstract class SohlLogic<
      * @param context - The action context to use, if any.
      * @returns The result of the action execution, or undefined if the action was not found or could not be executed.
      */
-    async executeAction(
-        shortcode: string,
-        context?: SohlActionContext,
-    ): Promise<unknown> {
+    async executeAction(shortcode: string, context?: SohlActionContext): Promise<unknown> {
         const actorLogic: SohlActorLogic<any> | undefined =
             this.actorLogic ?? this.item?.actor?.logic;
         if (!actorLogic) {
@@ -480,9 +459,7 @@ export abstract class SohlLogic<
         context ??= actorLogic._getContext();
         const action = this.actions.get(shortcode);
         if (!action) {
-            console.warn(
-                `SoHL | ${this.name} (Actor) has no action "${shortcode}"`,
-            );
+            console.warn(`SoHL | ${this.name} (Actor) has no action "${shortcode}"`);
             return undefined;
         }
         return action.execute(context);
@@ -578,8 +555,7 @@ function setDefaultAction(actions: SohlAction[]): SohlAction[] {
     let hasDefault = false;
     actions.forEach((act) => {
         const action = act as SohlAction;
-        const isDefault =
-            action.data.group === SOHL_CONTEXT_MENU_SORT_GROUP.DEFAULT;
+        const isDefault = action.data.group === SOHL_CONTEXT_MENU_SORT_GROUP.DEFAULT;
         if (hasDefault) {
             if (isDefault) {
                 action.data.group = SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL;
@@ -601,9 +577,7 @@ function setDefaultAction(actions: SohlAction[]): SohlAction[] {
     const firstAction = actions.at(0);
     if (!hasDefault && firstAction) {
         firstAction.data.group = SOHL_CONTEXT_MENU_SORT_GROUP.DEFAULT;
-        actions = actions.filter(
-            (act) => act.shortcode !== firstAction.shortcode,
-        );
+        actions = actions.filter((act) => act.shortcode !== firstAction.shortcode);
         actions.unshift(firstAction);
     }
 

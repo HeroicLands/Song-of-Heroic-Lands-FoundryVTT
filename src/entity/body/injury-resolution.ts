@@ -182,18 +182,14 @@ export function resolveInjury(input: InjuryInput): ResolvedInjury {
     // for the aspect plus any worn armor aggregated onto the location.
     const armorValue =
         input.armorValue ??
-        location.protectionBase[aspect].effective +
-            location.armorProtection[aspect];
+        location.protectionBase[aspect].effective + location.armorProtection[aspect];
     const armorReduction = input.armorReduction ?? 0;
     // Armor reduction eats away at protection but bottoms out at the location's
     // own floor, never below it: it can strip a hauberk to nothing, but it
     // cannot make a naturally-vulnerable hide (a crow's negative AV) worse than
     // it already is. A negative protection therefore survives to *raise* the
     // effective impact, which is the whole point of a negative natural AV.
-    const effectiveProtection = Math.max(
-        Math.min(armorValue, 0),
-        armorValue - armorReduction,
-    );
+    const effectiveProtection = Math.max(Math.min(armorValue, 0), armorValue - armorReduction);
     const effectiveImpact = Math.max(0, input.impact - effectiveProtection);
 
     // Glancing blow is judged on the pre-glancing injury level: an edged or
@@ -212,8 +208,7 @@ export function resolveInjury(input: InjuryInput): ResolvedInjury {
 
     // Shock Index drives the Shock Roll; a glancing blow adds one Injury Shock
     // point. An index of 4 or less can never produce a Shock State.
-    const shockIndex =
-        location.shockValue.effective + level + (isGlancingBlow ? 1 : 0);
+    const shockIndex = location.shockValue.effective + level + (isGlancingBlow ? 1 : 0);
     const needsShockRoll = shockIndex > 4;
     const shockRollBonus = isGlancingBlow ? 10 : 0;
 
@@ -227,10 +222,8 @@ export function resolveInjury(input: InjuryInput): ResolvedInjury {
     };
 
     // Amputation is defined only for a G5 injury (keyed to the injury level).
-    const severity: InjurySeverity | null =
-        level >= 3 ? (levelCode as InjurySeverity) : null;
-    const amputates =
-        severity ? canAmputate(location.amputability, severity, aspect) : false;
+    const severity: InjurySeverity | null = level >= 3 ? (levelCode as InjurySeverity) : null;
+    const amputates = severity ? canAmputate(location.amputability, severity, aspect) : false;
 
     // Bleeding is judged on its own (possibly boosted) impact: the post-armor
     // effective impact plus `bleedImpactPenalty`. With no penalty this equals
@@ -239,16 +232,11 @@ export function resolveInjury(input: InjuryInput): ResolvedInjury {
     // higher effective severity than its injury level implies. The bleeding
     // table itself has no S3-below entries, so M1/S2-equivalent never bleeds.
     const bleedImpact = effectiveImpact + (input.bleedImpactPenalty ?? 0);
-    const bleedLevel = injuryLevelFromImpact(
-        bleedImpact,
-        input.body.injuryTable,
-    );
+    const bleedLevel = injuryLevelFromImpact(bleedImpact, input.body.injuryTable);
     const bleedSeverity: InjurySeverity | null =
         bleedLevel >= 3 ? (INJURY_LEVELS[bleedLevel] as InjurySeverity) : null;
     const tableBleeder =
-        bleedSeverity ?
-            isBleeder(location.bleedingSusceptibility, bleedSeverity, aspect)
-        :   false;
+        bleedSeverity ? isBleeder(location.bleedingSusceptibility, bleedSeverity, aspect) : false;
 
     return {
         location,
@@ -268,8 +256,7 @@ export function resolveInjury(input: InjuryInput): ResolvedInjury {
         stumble: disposition(location.isStumble),
         fumble: disposition(location.isFumble),
         canAmputate: amputates,
-        amputationModifier:
-            amputates ? amputationModifier(location.amputability) : null,
+        amputationModifier: amputates ? amputationModifier(location.amputability) : null,
     };
 }
 

@@ -43,9 +43,7 @@ import {
  * use them without loading this Foundry-coupled UI class. The static helpers
  * and namespace members here delegate to (and re-export) that module.
  */
-export class SohlContextMenu
-    extends (foundry.applications as any).ux.ContextMenu
-{
+export class SohlContextMenu extends (foundry.applications as any).ux.ContextMenu {
     /** Back-reference to the concrete implementation class. @internal */
     declare readonly implementation: typeof SohlContextMenu;
 
@@ -156,11 +154,7 @@ export class SohlContextMenu
      *   found.
      * @internal
      */
-    protected _setPosition(
-        element: HTMLElement,
-        target: HTMLElement,
-        options?: PlainObject,
-    ): void {
+    protected _setPosition(element: HTMLElement, target: HTMLElement, options?: PlainObject): void {
         const mouseEvent = options?.event;
         if (!mouseEvent) {
             throw Error("Mouse event is required");
@@ -199,10 +193,7 @@ export class SohlContextMenu
         const mouseY = mouseEvent.pageY - containerRect.top;
 
         const contextTopOffset = mouseY;
-        let contextLeftOffset = Math.min(
-            containerRect.width - contextRect.width,
-            mouseX,
-        );
+        let contextLeftOffset = Math.min(containerRect.width - contextRect.width, mouseX);
 
         // Calculate whether the menu should expand upward
         const contextTopMax = mouseY - contextRect.height;
@@ -213,12 +204,10 @@ export class SohlContextMenu
 
         // Determine if it should expand upward
         const expandUp =
-            contextBottomMax > containerRect.height &&
-            (contextTopMax >= 0 || canOverflowUp);
+            contextBottomMax > containerRect.height && (contextTopMax >= 0 || canOverflowUp);
 
         // Calculate top and bottom positions
-        const contextTop =
-            expandUp ? contextTopOffset - contextRect.height : contextTopOffset;
+        const contextTop = expandUp ? contextTopOffset - contextRect.height : contextTopOffset;
         const contextBottom = contextTop + contextRect.height;
 
         // Update classes for expand-up/expand-down

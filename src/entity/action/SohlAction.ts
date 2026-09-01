@@ -23,17 +23,10 @@ import {
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
 } from "@src/utils/constants";
-import {
-    fvttCurrentUser,
-    fvttExecuteMacro,
-    fvttWorldTime,
-} from "@src/core/FoundryHelpers";
+import { fvttCurrentUser, fvttExecuteMacro, fvttWorldTime } from "@src/core/FoundryHelpers";
 import { SafeExpression } from "@src/entity/expr/SafeExpression";
 import { expressionScopes } from "@src/entity/expr/ExpressionScopeRegistry";
-import {
-    resolveContextActor,
-    resolveContextItem,
-} from "@src/apps/logic/ContextMenuEntry";
+import { resolveContextActor, resolveContextItem } from "@src/apps/logic/ContextMenuEntry";
 import { SohlEntity } from "../SohlEntity";
 
 /**
@@ -190,10 +183,7 @@ export class SohlAction extends SohlEntity {
      *   unknown, or if an Intrinsic executor names a non-existent method on
      *   the resolved target.
      */
-    constructor(
-        data: Partial<SohlAction.Data>,
-        options: Partial<SohlAction.Options>,
-    ) {
+    constructor(data: Partial<SohlAction.Data>, options: Partial<SohlAction.Options>) {
         if (!options?.parent) {
             throw new Error("Parent Logic is required to create a SohlAction.");
         }
@@ -217,11 +207,7 @@ export class SohlAction extends SohlEntity {
             ...data,
         };
         // trigger must be compiled first — visible composes with it.
-        this.trigger = compileTrigger(
-            data.trigger,
-            this.data.title,
-            this.parent,
-        );
+        this.trigger = compileTrigger(data.trigger, this.data.title, this.parent);
         this.visible = compileVisibility(this.data, this.trigger, this.parent);
         if (data.executor) {
             let target: SohlLogic | undefined;
@@ -275,8 +261,7 @@ export class SohlAction extends SohlEntity {
                 // `ctx.target`, `ctx.scope`. A macro overriding an intrinsic
                 // calls it via `ctx.thisLogic.<executor>(ctx)`.
                 const macroUuid = this.data.executor ?? "";
-                this.executor = (ctx: SohlActionContext) =>
-                    fvttExecuteMacro(macroUuid, { ctx });
+                this.executor = (ctx: SohlActionContext) => fvttExecuteMacro(macroUuid, { ctx });
             }
         } else {
             this.executor = (ctx: SohlActionContext) => Promise.resolve();
@@ -348,15 +333,11 @@ export class SohlAction extends SohlEntity {
             this.data.subType === ACTION_SUBTYPE.SCRIPT &&
             !userMeetsExecutePermission(this.data, actor)
         ) {
-            sohl.log.info(
-                `Action "${this.data.title}" blocked by execute permission.`,
-            );
+            sohl.log.info(`Action "${this.data.title}" blocked by execute permission.`);
             return undefined;
         }
         if (!this.isAvailable) {
-            sohl.log.info(
-                `Action "${this.data.title}" not triggerable; skipping.`,
-            );
+            sohl.log.info(`Action "${this.data.title}" not triggerable; skipping.`);
             return undefined;
         }
         // Expose the executor's target logic to the executor (intrinsic method
@@ -414,8 +395,7 @@ export class SohlAction extends SohlEntity {
         const item: SohlItem | undefined =
             documentName === "Item" ? (parentDoc as SohlItem) : undefined;
         const actor: SohlActor | undefined =
-            item?.actor ??
-            (documentName === "Actor" ? (parentDoc as SohlActor) : undefined);
+            item?.actor ?? (documentName === "Actor" ? (parentDoc as SohlActor) : undefined);
         return { item, actor };
     }
 }
@@ -550,10 +530,11 @@ function compileVisibility(
     try {
         expression = new SafeExpression({ source: text }, { parent, scope });
     } catch (err) {
-        sohl.log.warn(
-            "Failed to compile action visibility expression; action will be hidden:",
-            { action: title, source: text, error: err },
-        );
+        sohl.log.warn("Failed to compile action visibility expression; action will be hidden:", {
+            action: title,
+            source: text,
+            error: err,
+        });
         return () => false;
     }
     const isScript = data.subType === ACTION_SUBTYPE.SCRIPT;
@@ -567,8 +548,7 @@ function compileVisibility(
             // last fallback, exactly as `getContextOptions`' callback resolves
             // the acting actor, so a menu on a document without a
             // `data-actor-id` marker still sees the actor it will act on.
-            const actor =
-                resolveContextActor(element) ?? item?.actor ?? parent.actor;
+            const actor = resolveContextActor(element) ?? item?.actor ?? parent.actor;
             const visible = !!expression.evaluate(
                 scope.bind({
                     element,
@@ -583,10 +563,12 @@ function compileVisibility(
             }
             return trigger(item, actor ?? undefined);
         } catch (err) {
-            sohl.log.warn(
-                "Action visibility expression threw; action will be hidden:",
-                { action: title, source: text, element, error: err },
-            );
+            sohl.log.warn("Action visibility expression threw; action will be hidden:", {
+                action: title,
+                source: text,
+                element,
+                error: err,
+            });
             return false;
         }
     };
@@ -618,10 +600,11 @@ function compileTrigger(
     try {
         expression = new SafeExpression({ source: text }, { parent, scope });
     } catch (err) {
-        sohl.log.warn(
-            "Failed to compile action trigger expression; action will be inactive:",
-            { action: title, source: text, error: err },
-        );
+        sohl.log.warn("Failed to compile action trigger expression; action will be inactive:", {
+            action: title,
+            source: text,
+            error: err,
+        });
         return () => false;
     }
     return (item?: SohlItem, actor?: SohlActor): boolean => {
@@ -633,10 +616,13 @@ function compileTrigger(
                 }),
             );
         } catch (err) {
-            sohl.log.warn(
-                "Action trigger expression threw; action will be inactive:",
-                { action: title, source: text, item, actor, error: err },
-            );
+            sohl.log.warn("Action trigger expression threw; action will be inactive:", {
+                action: title,
+                source: text,
+                item,
+                actor,
+                error: err,
+            });
             return false;
         }
     };
@@ -689,9 +675,7 @@ export function isScriptActionMutationAllowed(
 ): boolean {
     if (user?.isGM) return true;
     const pickScripts = (defs: SohlAction.Data[] | undefined): string =>
-        JSON.stringify(
-            (defs ?? []).filter((a) => a.subType === ACTION_SUBTYPE.SCRIPT),
-        );
+        JSON.stringify((defs ?? []).filter((a) => a.subType === ACTION_SUBTYPE.SCRIPT));
     return pickScripts(oldActionDefs) === pickScripts(newActionDefs);
 }
 registerEntity("SohlAction", SohlAction);

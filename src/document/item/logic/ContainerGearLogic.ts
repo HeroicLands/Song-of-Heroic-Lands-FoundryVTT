@@ -59,23 +59,17 @@ export class ContainerGearLogic<
             content: toHTMLString(`<p>{{warning}}</p>`),
             data: {
                 name: this.name,
-                warning: sohl.i18n.localize(
-                    "SOHL.ContainerGear.delete.warning",
-                ),
+                warning: sohl.i18n.localize("SOHL.ContainerGear.delete.warning"),
             },
             buttons: [
                 {
                     action: "yes",
-                    label: sohl.i18n.localize(
-                        "SOHL.SohlItemBaseLogic.delete.yes",
-                    ),
+                    label: sohl.i18n.localize("SOHL.SohlItemBaseLogic.delete.yes"),
                     icon: "fa-solid fa-trash",
                 },
                 {
                     action: "no",
-                    label: sohl.i18n.localize(
-                        "SOHL.SohlItemBaseLogic.delete.no",
-                    ),
+                    label: sohl.i18n.localize("SOHL.SohlItemBaseLogic.delete.no"),
                     default: true,
                 },
             ],
@@ -100,10 +94,9 @@ export class ContainerGearLogic<
     /** @inheritdoc */
     override initialize(): void {
         super.initialize();
-        this.maxCapacity = new entity.ValueModifier(
-            {},
-            { parent: this },
-        ).setBase(this.data.maxCapacityBase);
+        this.maxCapacity = new entity.ValueModifier({}, { parent: this }).setBase(
+            this.data.maxCapacityBase,
+        );
     }
 
     /** @inheritdoc */
@@ -124,8 +117,7 @@ export class ContainerGearLogic<
  * @remarks The shape of `system` on a `containergear` item — i.e. `item.system` (equivalently `item.logic.data`) when `item.type === "containergear"`. The backing DataModel implements this interface.
  */
 export interface ContainerGearData<
-    TLogic extends ContainerGearLogic<ContainerGearData> =
-        ContainerGearLogic<any>,
+    TLogic extends ContainerGearLogic<ContainerGearData> = ContainerGearLogic<any>,
 > extends GearData<TLogic> {
     /** Maximum weight or volume this container can hold */
     maxCapacityBase: number;

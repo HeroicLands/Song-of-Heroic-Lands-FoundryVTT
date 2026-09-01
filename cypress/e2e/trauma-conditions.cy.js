@@ -46,16 +46,16 @@ describe("descriptive conditions as trauma items (#648)", () => {
     }
 
     it("a physcond trauma keeps its category and leaves injury fields null (schema initial)", () => {
-        cy.foundry((win) =>
-            createTrauma(win, { subType: "physcond", category: "trait" }),
-        ).should((r) => {
-            expect(r.type).to.eq("trauma");
-            expect(r.subType).to.eq("physcond");
-            expect(r.category).to.eq("trait");
-            expect(r.levelBase).to.eq(null);
-            expect(r.aspect).to.eq(null);
-            expect(r.bodyLocationCode).to.eq(null);
-        });
+        cy.foundry((win) => createTrauma(win, { subType: "physcond", category: "trait" })).should(
+            (r) => {
+                expect(r.type).to.eq("trauma");
+                expect(r.subType).to.eq("physcond");
+                expect(r.category).to.eq("trait");
+                expect(r.levelBase).to.eq(null);
+                expect(r.aspect).to.eq(null);
+                expect(r.bodyLocationCode).to.eq(null);
+            },
+        );
     });
 
     it("a psycond trauma with explicit null injury fields validates and loads", () => {

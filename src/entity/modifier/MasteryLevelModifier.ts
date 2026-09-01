@@ -35,11 +35,7 @@ import type { OpposedTestResult } from "@src/entity/result/OpposedTestResult";
 import "@src/entity/result/SuccessTestResult";
 import "@src/entity/result/OpposedTestResult";
 import { FilePath, toFilePath } from "@src/utils/helpers";
-import {
-    speakerRollModeOptions,
-    TestType,
-    VALUE_DELTA_INFO,
-} from "@src/utils/constants";
+import { speakerRollModeOptions, TestType, VALUE_DELTA_INFO } from "@src/utils/constants";
 import { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import { SohlEntity } from "../SohlEntity";
 import type { SohlLogic } from "@src/core/logic/SohlLogic";
@@ -64,9 +60,7 @@ export function getStandardSuccessValueTable(): SuccessTestResult.LimitedDescrip
         {
             maxValue: 2,
             label: loc("SOHL.MasteryLevel.SvTable.littleValue.label"),
-            description: loc(
-                "SOHL.MasteryLevel.SvTable.littleValue.description",
-            ),
+            description: loc("SOHL.MasteryLevel.SvTable.littleValue.description"),
             lastDigits: [],
             success: true,
             result: 0,
@@ -262,10 +256,7 @@ export class MasteryLevelModifier extends ValueModifier {
      * {@link maxTarget}] — the actual roll-under target a success test uses.
      */
     get constrainedEffective(): number {
-        return Math.min(
-            this.maxTarget,
-            Math.max(this.minTarget, this.effective),
-        );
+        return Math.min(this.maxTarget, Math.max(this.minTarget, this.effective));
     }
 
     /**
@@ -301,10 +292,7 @@ export class MasteryLevelModifier extends ValueModifier {
     ) {
         super(
             SohlEntity.dataOf<MasteryLevelModifier.Data>(dataOrParent),
-            SohlEntity.optionsOf<MasteryLevelModifier.Options>(
-                dataOrParent,
-                options,
-            ),
+            SohlEntity.optionsOf<MasteryLevelModifier.Options>(dataOrParent, options),
         );
         const data = SohlEntity.dataOf<MasteryLevelModifier.Data>(dataOrParent);
         this.minTarget = data.minTarget ?? Number.MIN_SAFE_INTEGER;
@@ -325,8 +313,7 @@ export class MasteryLevelModifier extends ValueModifier {
             data.svTable ?
                 reviveLimitedDescriptionTable(data.svTable, this.parent)
             :   getStandardSuccessValueTable();
-        this.type =
-            data.type ?? `${this.parent.data.kind}-${this.parent.name}-test`;
+        this.type = data.type ?? `${this.parent.data.kind}-${this.parent.name}-test`;
         this.title =
             data.title ??
             // `…successTest` is a namespace holding `.title` / `.dialogTitle` /
@@ -431,14 +418,12 @@ export class MasteryLevelModifier extends ValueModifier {
         // cannot use auto-Critically-Fails (#568). Derived from the owning logic's
         // `impairedByRoles` and the being's unusable-part roles; a no-op for tests
         // with neither (e.g. a weapon strike mode, whose parent has no roles).
-        const impairedByRoles = (
-            this.parent?.data as { impairedByRoles?: string[] } | undefined
-        )?.impairedByRoles;
+        const impairedByRoles = (this.parent?.data as { impairedByRoles?: string[] } | undefined)
+            ?.impairedByRoles;
         const roleAutoCriticalFail = testAutoCriticallyFails(
             impairedByRoles,
             (
-                this.parent?.actorLogic as
-                    { unusableRoles?: () => Set<string> } | null | undefined
+                this.parent?.actorLogic as { unusableRoles?: () => Set<string> } | null | undefined
             )?.unusableRoles?.() ?? new Set<string>(),
         );
 
@@ -448,15 +433,10 @@ export class MasteryLevelModifier extends ValueModifier {
         // the parent gear logic. A no-op for a parent that holds nothing (a skill,
         // attribute, or unheld item → empty array).
         const requiredLimbImpairments: BodyPartImpairment[] =
-            (
-                this.parent as
-                    | { heldLimbImpairments?: BodyPartImpairment[] }
-                    | null
-                    | undefined
-            )?.heldLimbImpairments ?? [];
+            (this.parent as { heldLimbImpairments?: BodyPartImpairment[] } | null | undefined)
+                ?.heldLimbImpairments ?? [];
         const autoCriticalFail =
-            roleAutoCriticalFail ||
-            requiredPartsAutoCriticallyFail(requiredLimbImpairments);
+            roleAutoCriticalFail || requiredPartsAutoCriticallyFail(requiredLimbImpairments);
 
         // If the test does not auto-fail, an impaired-but-usable part it depends on
         // still penalizes it by −5 (minor) / −10 (serious) — the numeric counterpart
@@ -471,15 +451,11 @@ export class MasteryLevelModifier extends ValueModifier {
                         (
                             this.parent?.actorLogic as
                                 | {
-                                      impairedRolePenalties?: () => Map<
-                                          string,
-                                          number
-                                      >;
+                                      impairedRolePenalties?: () => Map<string, number>;
                                   }
                                 | null
                                 | undefined
-                        )?.impairedRolePenalties?.() ??
-                            new Map<string, number>(),
+                        )?.impairedRolePenalties?.() ?? new Map<string, number>(),
                     ),
                     requiredPartsImpairmentPenalty(requiredLimbImpairments),
                 )
@@ -492,9 +468,7 @@ export class MasteryLevelModifier extends ValueModifier {
                     speaker: this.parent.speaker,
                     testType: (context.type ?? this.type) as TestType,
                     title: context.title ?? this.title,
-                    masteryLevelModifier: this.clone(
-                        this.parent,
-                    ) as MasteryLevelModifier,
+                    masteryLevelModifier: this.clone(this.parent) as MasteryLevelModifier,
                     targetValueFunc: context.scope.targetValueFunc,
                     resultDescTable: context.scope.resultDescTable,
                     // A Success Value test (#848) marks the result so its card
@@ -538,11 +512,7 @@ export class MasteryLevelModifier extends ValueModifier {
         // freshly-created test — a resumed `priorTestResult` already carries it,
         // so re-adding would double-apply.
         if (!context.scope.priorTestResult && impairmentPenalty < 0) {
-            testResult.masteryLevelModifier.add(
-                "SOHL.Impairment",
-                "Impair",
-                impairmentPenalty,
-            );
+            testResult.masteryLevelModifier.add("SOHL.Impairment", "Impair", impairmentPenalty);
         }
 
         // Situational inputs come from the pre-roll dialog interactively, or —
@@ -570,13 +540,10 @@ export class MasteryLevelModifier extends ValueModifier {
             );
             const dialogData: PlainObject = {
                 type: testResult.testType,
-                title: sohl.i18n.format(
-                    "SOHL.MasteryLevelModifier.successTest.dialogTitle",
-                    {
-                        name: testResult.speaker.name,
-                        title: testResult.testType,
-                    },
-                ),
+                title: sohl.i18n.format("SOHL.MasteryLevelModifier.successTest.dialogTitle", {
+                    name: testResult.speaker.name,
+                    title: testResult.testType,
+                }),
                 mlMod: testResult.masteryLevelModifier,
                 situationalModifier: context.scope.situationalModifier ?? 0,
                 rollMode: testResult.rollMode,
@@ -589,16 +556,12 @@ export class MasteryLevelModifier extends ValueModifier {
                 breakTies: context.scope.breakTies ?? false,
             };
             dlgResult = await dialog({
-                title: sohl.i18n.format(
-                    "SOHL.MasteryLevelModifier.successTest.dialogLabel",
-                ),
+                title: sohl.i18n.format("SOHL.MasteryLevelModifier.successTest.dialogLabel"),
                 template: dlgTemplate,
                 data: dialogData,
                 callback: (formData: PlainObject) => ({
-                    situationalModifier:
-                        parseInt(String(formData.situationalModifier), 10) || 0,
-                    successLevelMod:
-                        parseInt(String(formData.successLevelMod), 10) || 0,
+                    situationalModifier: parseInt(String(formData.situationalModifier), 10) || 0,
+                    successLevelMod: parseInt(String(formData.successLevelMod), 10) || 0,
                     rollMode: String(formData.rollMode),
                     breakTies: !!formData.breakTies,
                 }),
@@ -615,8 +578,7 @@ export class MasteryLevelModifier extends ValueModifier {
                 dlgResult.situationalModifier,
             );
         }
-        testResult.masteryLevelModifier.successLevelMod =
-            dlgResult.successLevelMod;
+        testResult.masteryLevelModifier.successLevelMod = dlgResult.successLevelMod;
         testResult.rollMode = dlgResult.rollMode;
         // The Break Ties answer belongs to the opposed test, not to this success
         // test, so hand it back through the scope for opposedTestStart to read.
@@ -644,20 +606,16 @@ export class MasteryLevelModifier extends ValueModifier {
     async successValueTest(
         context: SohlActionContext,
     ): Promise<SuccessTestResult | undefined | false> {
-        const callerScope =
-            context.scope as Partial<SuccessTestResult.ContextScope>;
+        const callerScope = context.scope as Partial<SuccessTestResult.ContextScope>;
         const svTestContext = new SohlActionContext({
             // Fall back to the owning logic's speaker when the action context
             // carries none (a menu/card dispatch), mirroring the result's own
             // `context.speaker ?? this.parent.speaker` attribution in successTest.
             speaker: context.speaker ?? this.parent.speaker,
             type: `${this.parent.data.kind}-${this.parent.name}-success-value-test`,
-            title: sohl.i18n.format(
-                "SOHL.MasteryLevelModifier.successValueTest",
-                {
-                    name: this.parent.label,
-                },
-            ),
+            title: sohl.i18n.format("SOHL.MasteryLevelModifier.successValueTest", {
+                name: this.parent.label,
+            }),
             // Post the graded card (unless the caller suppresses chat). The SV
             // test is a normal success test whose result is graded into a Success
             // Value and Value Diamonds — the "special results" are the svTable data
@@ -668,8 +626,7 @@ export class MasteryLevelModifier extends ValueModifier {
                 ...callerScope,
                 situationalModifier: callerScope.situationalModifier ?? 0,
                 isSuccessValue: true,
-                targetValueFunc: (successLevel: number) =>
-                    this.index + successLevel - 1,
+                targetValueFunc: (successLevel: number) => this.index + successLevel - 1,
                 resultDescTable: this.svTable,
             },
         });
@@ -692,11 +649,8 @@ export class MasteryLevelModifier extends ValueModifier {
      *   resumes an existing opposed test, otherwise a new one is started.
      * @returns The resulting opposed test, or `null` when no target is available.
      */
-    async opposedTestStart(
-        context: SohlActionContext,
-    ): Promise<OpposedTestResult | null> {
-        const scope: Partial<OpposedTestResult.ContextScope> =
-            context.scope || {};
+    async opposedTestStart(context: SohlActionContext): Promise<OpposedTestResult | null> {
+        const scope: Partial<OpposedTestResult.ContextScope> = context.scope || {};
 
         // The contest being re-run, when this is a GM re-roll rather than a fresh
         // start. Captured before `scope.priorTestResult` is re-pointed at the
@@ -712,10 +666,9 @@ export class MasteryLevelModifier extends ValueModifier {
             if (!scope.targetToken) return null;
             scope.situationalModifier ??= 0;
             scope.type ??= `${this.parent.kind}-${this.parent.name}-opposedtest`;
-            scope.title ??= sohl.i18n.format(
-                "SOHL.OpposedTestResult.toChat.startTitle",
-                { label: this.parent.label },
-            );
+            scope.title ??= sohl.i18n.format("SOHL.OpposedTestResult.toChat.startTitle", {
+                label: this.parent.label,
+            });
             // Offer the Break Ties choice on the initiator's pre-roll dialog —
             // only when starting a fresh contest, since a resumed one already
             // carries the answer given when it began (#1160).
@@ -737,8 +690,7 @@ export class MasteryLevelModifier extends ValueModifier {
         // `{ sourceTestResult }` wrapper made every fresh contest hand
         // `successTest` a bare object with no mastery-level modifier, which threw
         // before a single card was posted.)
-        const testScope =
-            context.scope as Partial<SuccessTestResult.ContextScope>;
+        const testScope = context.scope as Partial<SuccessTestResult.ContextScope>;
         if (sourceTestResult) {
             testScope.priorTestResult = sourceTestResult;
         } else {
@@ -760,8 +712,7 @@ export class MasteryLevelModifier extends ValueModifier {
                 // both sides have rolled.
                 // `scope` aliases `context.scope`, which successTest wrote the
                 // dialog's answer back into.
-                breakTies:
-                    scope.breakTies ?? priorOpposedResult?.breakTies ?? false,
+                breakTies: scope.breakTies ?? priorOpposedResult?.breakTies ?? false,
             },
             {
                 ...context,
@@ -792,8 +743,7 @@ export class MasteryLevelModifier extends ValueModifier {
     async opposedTestResume(
         context: SohlActionContext,
     ): Promise<OpposedTestResult | false | undefined> {
-        const scope: Partial<OpposedTestResult.ContextScope> =
-            context.scope || {};
+        const scope: Partial<OpposedTestResult.ContextScope> = context.scope || {};
 
         if (!scope.priorTestResult) {
             throw new Error("Must supply priorTestResult");
@@ -838,9 +788,7 @@ export class MasteryLevelModifier extends ValueModifier {
         if (allowed && !context.noChat) {
             void opposedTestResult.toChat({
                 template: "systems/sohl/templates/chat/opposed-result-card.hbs",
-                title: sohl.i18n.localize(
-                    "SOHL.OpposedTestResult.toChat.resultTitle",
-                ),
+                title: sohl.i18n.localize("SOHL.OpposedTestResult.toChat.resultTitle"),
             });
         }
 

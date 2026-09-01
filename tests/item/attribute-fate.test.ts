@@ -47,11 +47,7 @@ function makeFateMystery(
 }
 
 /** Build an attribute logic embedded on `actor`. */
-function makeAttribute(
-    actor: any,
-    shortcode: string,
-    scoreBase = 12,
-): AttributeLogic {
+function makeAttribute(actor: any, shortcode: string, scoreBase = 12): AttributeLogic {
     const attr = makeItemLogic(
         AttributeLogic,
         "attribute",
@@ -86,9 +82,7 @@ describe("AttributeLogic — Fate (#1106)", () => {
 
     beforeEach(() => {
         actor = makeMockActor();
-        vi.spyOn(FoundryHelpersMock, "fvttGetSetting").mockReturnValue(
-            "everyone",
-        );
+        vi.spyOn(FoundryHelpersMock, "fvttGetSetting").mockReturnValue("everyone");
     });
 
     afterEach(() => {
@@ -115,9 +109,7 @@ describe("AttributeLogic — Fate (#1106)", () => {
             actor.items.set("aur1", aur.data);
             prepareAll([aur]);
 
-            expect(aur.fateMasteryLevel.disabled).toBe(
-                "SOHL.MasteryLevel.AuraBasedNoFate",
-            );
+            expect(aur.fateMasteryLevel.disabled).toBe("SOHL.MasteryLevel.AuraBasedNoFate");
         });
 
         it("is disabled when the actor has no usable Aura attribute", () => {
@@ -125,24 +117,18 @@ describe("AttributeLogic — Fate (#1106)", () => {
             actor.items.set("str1", str.data);
             prepareAll([str]);
 
-            expect(str.fateMasteryLevel.disabled).toBe(
-                "SOHL.MasteryLevel.FateNotSupported",
-            );
+            expect(str.fateMasteryLevel.disabled).toBe("SOHL.MasteryLevel.FateNotSupported");
         });
 
         it("is disabled when the fate setting is off", () => {
-            vi.spyOn(FoundryHelpersMock, "fvttGetSetting").mockReturnValue(
-                "none",
-            );
+            vi.spyOn(FoundryHelpersMock, "fvttGetSetting").mockReturnValue("none");
             const aur = makeAttribute(actor, "aur", 14);
             const str = makeAttribute(actor, "str", 12);
             actor.items.set("aur1", aur.data);
             actor.items.set("str1", str.data);
             prepareAll([aur, str]);
 
-            expect(str.fateMasteryLevel.disabled).toBe(
-                "SOHL.MasteryLevel.FateDisabled",
-            );
+            expect(str.fateMasteryLevel.disabled).toBe("SOHL.MasteryLevel.FateDisabled");
         });
     });
 
@@ -241,9 +227,7 @@ describe("AttributeLogic — Fate (#1106)", () => {
         });
 
         it("adds no intrinsic action, staying symmetric with skills", () => {
-            const attrCodes = AttributeLogic.defineIntrinsicActions().map(
-                (a) => a.shortcode,
-            );
+            const attrCodes = AttributeLogic.defineIntrinsicActions().map((a) => a.shortcode);
             expect(attrCodes).not.toContain("fateTest");
         });
     });
@@ -260,9 +244,7 @@ describe("AttributeLogic — Fate (#1106)", () => {
             expect((ma as any).availableFate).toBeUndefined();
             expect((ma as any).fateMasteryLevel).toBeUndefined();
             expect(
-                MysticalAbilityLogic.defineIntrinsicActions().map(
-                    (a) => a.shortcode,
-                ),
+                MysticalAbilityLogic.defineIntrinsicActions().map((a) => a.shortcode),
             ).not.toContain("fateTest");
         });
     });

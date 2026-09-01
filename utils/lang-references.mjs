@@ -113,10 +113,7 @@ function unwrap(node) {
  * @returns {boolean} True for a string literal or a substitution-free template.
  */
 function isStr(node) {
-    return Boolean(
-        node &&
-        (ts.isStringLiteral(node) || ts.isNoSubstitutionTemplateLiteral(node)),
-    );
+    return Boolean(node && (ts.isStringLiteral(node) || ts.isNoSubstitutionTemplateLiteral(node)));
 }
 
 /**
@@ -231,9 +228,7 @@ function keysOf(definition, prefix, overrides) {
             continue;
         }
         const segment =
-            ts.isPropertyAssignment(property) ?
-                segmentFor(member, property.initializer)
-            :   member;
+            ts.isPropertyAssignment(property) ? segmentFor(member, property.initializer) : member;
         keys.push(`${prefix}.${segment}`);
     }
     return keys;
@@ -264,9 +259,7 @@ function consumersOf(call, sourceFile) {
     if (ts.isObjectBindingPattern(parent.name)) {
         const bindings = [];
         for (const element of parent.name.elements) {
-            const from = (element.propertyName ?? element.name).getText(
-                sourceFile,
-            );
+            const from = (element.propertyName ?? element.name).getText(sourceFile);
             if (from === "labels" || from === "choices") {
                 bindings.push(element.name.getText(sourceFile));
             }
@@ -311,14 +304,8 @@ export function references({ files }) {
         // parsing it here would only duplicate the shared scan.
         if (!file.endsWith(".ts")) continue;
 
-        const sourceFile = ts.createSourceFile(
-            file,
-            text,
-            ts.ScriptTarget.Latest,
-            true,
-        );
-        const lineOf = (node) =>
-            sourceFile.getLineAndCharacterOfPosition(node.getStart()).line + 1;
+        const sourceFile = ts.createSourceFile(file, text, ts.ScriptTarget.Latest, true);
+        const lineOf = (node) => sourceFile.getLineAndCharacterOfPosition(node.getStart()).line + 1;
         const constObjects = constObjectsOf(sourceFile);
 
         const visit = (node) => {
@@ -337,11 +324,7 @@ export function references({ files }) {
                 if (definition && ts.isIdentifier(definition)) {
                     definition = constObjects.get(definition.text) ?? undefined;
                 }
-                if (
-                    !prefix ||
-                    !definition ||
-                    !ts.isObjectLiteralExpression(definition)
-                ) {
+                if (!prefix || !definition || !ts.isObjectLiteralExpression(definition)) {
                     findings.push({
                         file,
                         line: lineOf(node),
@@ -355,10 +338,7 @@ export function references({ files }) {
                         keys: keysOf(
                             definition,
                             prefix,
-                            overridesOf(
-                                unwrap(node.arguments[2]),
-                                constObjects,
-                            ),
+                            overridesOf(unwrap(node.arguments[2]), constObjects),
                         ),
                         ...consumersOf(node, sourceFile),
                         file,
@@ -368,10 +348,7 @@ export function references({ files }) {
             }
 
             if (ts.isIdentifier(node)) {
-                identifierUses.set(
-                    node.text,
-                    (identifierUses.get(node.text) ?? 0) + 1,
-                );
+                identifierUses.set(node.text, (identifierUses.get(node.text) ?? 0) + 1);
             }
             if (
                 ts.isPropertyAccessExpression(node) &&
@@ -393,13 +370,8 @@ export function references({ files }) {
         const consumed =
             bundle.bindings.some(
                 (name) =>
-                    name === "labels" ||
-                    name === "choices" ||
-                    (identifierUses.get(name) ?? 0) > 1,
-            ) ||
-            Boolean(
-                bundle.resultVar && labelsChoicesReads.has(bundle.resultVar),
-            );
+                    name === "labels" || name === "choices" || (identifierUses.get(name) ?? 0) > 1,
+            ) || Boolean(bundle.resultVar && labelsChoicesReads.has(bundle.resultVar));
         if (!consumed) continue;
         for (const key of bundle.keys) {
             keys.push({

@@ -39,9 +39,7 @@ describe("attack-dialog.hbs", () => {
 
         expect(html).toContain('name="modeIdx"');
         expect(html).toContain('<option value="0">Arming Sword Swing</option>');
-        expect(html).toContain(
-            '<option value="1" selected>Arming Sword Thrust</option>',
-        );
+        expect(html).toContain('<option value="1" selected>Arming Sword Thrust</option>');
         // The other two inputs are unchanged.
         expect(html).toContain('name="aim"');
         expect(html).toContain('<option value="th" selected>Thorax</option>');
@@ -53,12 +51,10 @@ describe("showAttackDialog", () => {
     /** Show the dialog, answering it with `form`; returns the resolved result. */
     function answerWith(form: Record<string, unknown>, modes: any[] = []) {
         let spec: any;
-        vi.spyOn(FoundryHelpersMock, "dialog").mockImplementation(
-            async (s: any) => {
-                spec = s;
-                return s.callback(form, "ok");
-            },
-        );
+        vi.spyOn(FoundryHelpersMock, "dialog").mockImplementation(async (s: any) => {
+            spec = s;
+            return s.callback(form, "ok");
+        });
         const promise = showAttackDialog(
             "Aldric vs. Brynn Attack",
             { hd: "Head", th: "Thorax" },
@@ -80,10 +76,10 @@ describe("showAttackDialog", () => {
     });
 
     it("resolves the selected mode's pointer data", async () => {
-        const { result } = await answerWith(
-            { aim: "hd", modeIdx: "1", situationalModifier: "5" },
-            [SWING, THRUST],
-        );
+        const { result } = await answerWith({ aim: "hd", modeIdx: "1", situationalModifier: "5" }, [
+            SWING,
+            THRUST,
+        ]);
         expect(result).toEqual({
             aim: "hd",
             mode: { itemUuid: "Item.sword", smId: "thrust" },
@@ -98,10 +94,7 @@ describe("showAttackDialog", () => {
             smId: "thrust",
         });
 
-        const outOfRange = await answerWith({ aim: "th", modeIdx: "9" }, [
-            SWING,
-            THRUST,
-        ]);
+        const outOfRange = await answerWith({ aim: "th", modeIdx: "9" }, [SWING, THRUST]);
         expect(outOfRange.result?.mode).toEqual({
             itemUuid: "Item.sword",
             smId: "thrust",
@@ -124,24 +117,14 @@ describe("defaultModeIndex", () => {
     const ml = (sm: any) => ML[sm.shortcode]!;
 
     it("honours the first available preference, in order", () => {
-        expect(
-            defaultModeIndex(
-                MODES,
-                [THRUST.pointerData, SWING.pointerData],
-                ml,
-            ),
-        ).toBe(1);
+        expect(defaultModeIndex(MODES, [THRUST.pointerData, SWING.pointerData], ml)).toBe(1);
     });
 
     it("skips absent and unavailable preferences", () => {
         expect(
             defaultModeIndex(
                 MODES,
-                [
-                    undefined,
-                    { itemUuid: "Item.gone", smId: "swing" },
-                    SWING.pointerData,
-                ],
+                [undefined, { itemUuid: "Item.gone", smId: "swing" }, SWING.pointerData],
                 ml,
             ),
         ).toBe(0);

@@ -28,9 +28,7 @@
 
 /** Update a document's `system` with a realm-cloned patch; resolves after settle. */
 function patchSystem(win, id, patch) {
-    return win.game.actors
-        .get(id)
-        .update(win.JSON.parse(JSON.stringify(patch)));
+    return win.game.actors.get(id).update(win.JSON.parse(JSON.stringify(patch)));
 }
 
 /** The cohort's persisted membership + leader. */
@@ -46,23 +44,21 @@ function roster(win, id) {
 /** The Members tab's rendered rows, in order. */
 function rows(win, id) {
     const el = win.game.actors.get(id).sheet.element;
-    return Array.from(
-        el.querySelectorAll('section.tab[data-tab="members"] .ledger__row'),
-    ).map((r) => ({
-        ref: r.dataset.memberRef,
-        // The name cell may also carry the NOT FOUND flag for an unresolved
-        // member, so read only its leading text node — not the whole cell.
-        name: r.querySelector(".ledger__name")?.firstChild?.textContent.trim(),
-        role: r.querySelector(".ledger__cell--text")?.textContent.trim(),
-        isLeader: !!r.querySelector('[data-action="setCohortLeader"].is-on'),
-        isDisabled: r.classList.contains("ledger__row--disabled"),
-        hasImg: !!r.querySelector(".ledger__icon img"),
-        missingFlag: r
-            .querySelector(".member-missing__label")
-            ?.textContent.trim(),
-        healthPct: r.querySelector(".member-health__pct")?.textContent.trim(),
-        healthBand: r.querySelector(".member-health__band")?.textContent.trim(),
-    }));
+    return Array.from(el.querySelectorAll('section.tab[data-tab="members"] .ledger__row')).map(
+        (r) => ({
+            ref: r.dataset.memberRef,
+            // The name cell may also carry the NOT FOUND flag for an unresolved
+            // member, so read only its leading text node — not the whole cell.
+            name: r.querySelector(".ledger__name")?.firstChild?.textContent.trim(),
+            role: r.querySelector(".ledger__cell--text")?.textContent.trim(),
+            isLeader: !!r.querySelector('[data-action="setCohortLeader"].is-on'),
+            isDisabled: r.classList.contains("ledger__row--disabled"),
+            hasImg: !!r.querySelector(".ledger__icon img"),
+            missingFlag: r.querySelector(".member-missing__label")?.textContent.trim(),
+            healthPct: r.querySelector(".member-health__pct")?.textContent.trim(),
+            healthBand: r.querySelector(".member-health__band")?.textContent.trim(),
+        }),
+    );
 }
 
 /** Poll the cohort's persisted roster (and rendered rows) until `fn` holds. */
@@ -100,9 +96,7 @@ function addMember(id, handle) {
         ).to.exist;
     });
     cy.foundry((win) => {
-        win.document.querySelector(
-            'dialog input[name="shortcodeOrUuid"]',
-        ).value = handle;
+        win.document.querySelector('dialog input[name="shortcodeOrUuid"]').value = handle;
         return null;
     });
     return cy.submitDialog("add");
@@ -133,28 +127,23 @@ describe("cohort Members tab", () => {
                         system: { shortcode: "brunjar" },
                     })
                     .then((brunjar) =>
-                        cy
-                            .createActor("cohort", { name: "The Watch" })
-                            .then((cohort) => {
-                                cy.foundry((win) =>
-                                    patchSystem(win, cohort.id, {
-                                        "system.members": [
-                                            {
-                                                shortcodeOrUuid: "aldric",
-                                                role: "director",
-                                            },
-                                            { shortcodeOrUuid: "brunjar" },
-                                            ...extraMembers,
-                                        ],
-                                    }),
-                                );
-                                cy.openSheet(cohort);
-                                cy.switchTab("members", "primary");
-                                return cy.wrap(
-                                    { cohort, aldric, brunjar },
-                                    { log: false },
-                                );
-                            }),
+                        cy.createActor("cohort", { name: "The Watch" }).then((cohort) => {
+                            cy.foundry((win) =>
+                                patchSystem(win, cohort.id, {
+                                    "system.members": [
+                                        {
+                                            shortcodeOrUuid: "aldric",
+                                            role: "director",
+                                        },
+                                        { shortcodeOrUuid: "brunjar" },
+                                        ...extraMembers,
+                                    ],
+                                }),
+                            );
+                            cy.openSheet(cohort);
+                            cy.switchTab("members", "primary");
+                            return cy.wrap({ cohort, aldric, brunjar }, { log: false });
+                        }),
                     ),
             );
     }
@@ -213,12 +202,9 @@ describe("cohort Members tab", () => {
         openRoster([{ shortcodeOrUuid: "departed" }]).then(({ cohort }) => {
             shouldSettle(cohort.id, (_persisted, r) => {
                 expect(r[2].ref).to.eq("departed");
-                expect(r[2].missingFlag, "flagged as missing").to.eq(
-                    "Not Found",
-                );
+                expect(r[2].missingFlag, "flagged as missing").to.eq("Not Found");
                 // A member that resolves carries no flag.
-                expect(r[0].missingFlag, "resolved member unflagged").to.be
-                    .undefined;
+                expect(r[0].missingFlag, "resolved member unflagged").to.be.undefined;
             });
         });
     });
@@ -238,18 +224,14 @@ describe("cohort Members tab", () => {
             clickRowControl(cohort.id, "brunjar", "setCohortLeader");
             shouldSettle(cohort.id, (p, r) => {
                 expect(p.leaderCode).to.eq("brunjar");
-                expect(
-                    r.filter((x) => x.isLeader).map((x) => x.ref),
-                ).to.deep.eq(["brunjar"]);
+                expect(r.filter((x) => x.isLeader).map((x) => x.ref)).to.deep.eq(["brunjar"]);
             });
 
             // Click Aldric's king → leadership moves; exactly one king is lit.
             clickRowControl(cohort.id, "aldric", "setCohortLeader");
             shouldSettle(cohort.id, (p, r) => {
                 expect(p.leaderCode).to.eq("aldric");
-                expect(
-                    r.filter((x) => x.isLeader).map((x) => x.ref),
-                ).to.deep.eq(["aldric"]);
+                expect(r.filter((x) => x.isLeader).map((x) => x.ref)).to.deep.eq(["aldric"]);
             });
 
             // Click the sitting leader's own king → no leader at all.
@@ -290,9 +272,7 @@ describe("cohort Members tab", () => {
 
     it("clears the leader when the leading member is removed", () => {
         openRoster().then(({ cohort }) => {
-            cy.foundry((win) =>
-                patchSystem(win, cohort.id, { "system.leaderCode": "brunjar" }),
-            );
+            cy.foundry((win) => patchSystem(win, cohort.id, { "system.leaderCode": "brunjar" }));
             clickRowControl(cohort.id, "brunjar", "removeCohortMember");
             cy.submitDialog("yes");
 
@@ -346,11 +326,8 @@ describe("cohort Members tab", () => {
             cy.window({ log: false }).should((win) => {
                 const tab = win.game.actors
                     .get(cohort.id)
-                    .sheet.element.querySelector(
-                        'section.tab[data-tab="members"]',
-                    );
-                expect(tab.querySelector(".ledger__head"), "no empty ledger").to
-                    .not.exist;
+                    .sheet.element.querySelector('section.tab[data-tab="members"]');
+                expect(tab.querySelector(".ledger__head"), "no empty ledger").to.not.exist;
                 expect(tab.textContent).to.contain("no members yet");
                 expect(
                     tab.querySelector('[data-action="addCohortMember"]'),

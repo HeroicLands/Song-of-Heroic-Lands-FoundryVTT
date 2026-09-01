@@ -30,11 +30,7 @@ export function transparentizeSvg(svgString) {
     svg.children = (svg.children || []).reduce((acc, child) => {
         const entries = Object.entries(child.attributes || {});
         // Drop the background rect (its only attribute is the full-canvas `d`).
-        if (
-            entries.length === 1 &&
-            entries[0][0] === "d" &&
-            entries[0][1] === BG_RECT
-        ) {
+        if (entries.length === 1 && entries[0][0] === "d" && entries[0][1] === BG_RECT) {
             return acc;
         }
         child.attributes.fill = "#000";

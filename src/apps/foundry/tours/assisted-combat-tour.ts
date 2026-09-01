@@ -80,9 +80,7 @@ function currentBeing(): any {
 function hasGear(kind: string, base: string): boolean {
     const being = currentBeing();
     return !!being?.items?.some(
-        (it: any) =>
-            it.type === kind &&
-            shortcodeBase((it.system as any)?.shortcode) === base,
+        (it: any) => it.type === kind && shortcodeBase((it.system as any)?.shortcode) === base,
     );
 }
 
@@ -96,9 +94,7 @@ function hasGear(kind: string, base: string): boolean {
 function findGear(kind: string, base: string): any {
     const being = currentBeing();
     return being?.items?.find(
-        (it: any) =>
-            it.type === kind &&
-            shortcodeBase((it.system as any)?.shortcode) === base,
+        (it: any) => it.type === kind && shortcodeBase((it.system as any)?.shortcode) === base,
     );
 }
 
@@ -200,10 +196,7 @@ export function buildAssistedCombatTour(): SohlTour {
             gate: TourGate.state((ctx) => ctx.state === true),
             readState: () =>
                 hasGear(ITEM_KIND.WEAPONGEAR, ARCHETYPE_SHORTCODE.broadsword) &&
-                hasGear(
-                    ITEM_KIND.WEAPONGEAR,
-                    ARCHETYPE_SHORTCODE.battlesword,
-                ) &&
+                hasGear(ITEM_KIND.WEAPONGEAR, ARCHETYPE_SHORTCODE.battlesword) &&
                 hasGear(ITEM_KIND.WEAPONGEAR, ARCHETYPE_SHORTCODE.longbow) &&
                 hasGear(ITEM_KIND.WEAPONGEAR, ARCHETYPE_SHORTCODE.roundshield),
         },
@@ -239,8 +232,7 @@ export function buildAssistedCombatTour(): SohlTour {
             id: "atk-blk-cx",
             title: "SOHL.Tour.AssistedCombat.atkBlkCx.title",
             content: "SOHL.Tour.AssistedCombat.atkBlkCx.content",
-            selector:
-                '[data-action="rollStrikeModeTest"][data-test-kind="attack"]',
+            selector: '[data-action="rollStrikeModeTest"][data-test-kind="attack"]',
             resolveDocument: being,
             nav: { tab: "combat", group: "primary" },
         },
@@ -263,8 +255,7 @@ export function buildAssistedCombatTour(): SohlTour {
             id: "resolve-injury",
             title: "SOHL.Tour.AssistedCombat.resolveInjury.title",
             content: "SOHL.Tour.AssistedCombat.resolveInjury.content",
-            selector:
-                '.tab.actions [data-action-name="resolveInjury"] [data-action="runAction"]',
+            selector: '.tab.actions [data-action-name="resolveInjury"] [data-action="runAction"]',
             resolveDocument: being,
             nav: { tab: "actions", group: "primary" },
             gate: TourGate.state((ctx) => (ctx.state as number) >= 1),
@@ -278,8 +269,7 @@ export function buildAssistedCombatTour(): SohlTour {
             id: "standalone-injury",
             title: "SOHL.Tour.AssistedCombat.standaloneInjury.title",
             content: "SOHL.Tour.AssistedCombat.standaloneInjury.content",
-            selector:
-                '.tab.actions [data-action-name="resolveInjury"] [data-action="runAction"]',
+            selector: '.tab.actions [data-action-name="resolveInjury"] [data-action="runAction"]',
             resolveDocument: being,
             nav: { tab: "actions", group: "primary" },
             gate: TourGate.state((ctx) => (ctx.state as number) >= 2),

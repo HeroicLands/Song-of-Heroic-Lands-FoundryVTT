@@ -16,9 +16,7 @@ const STEPS: MigrationStep[] = [
         description: "rename foo → bar on skills",
         migrators: {
             Item: (src) =>
-                src.type === "skill" ?
-                    { "system.bar": (src.system as any)?.foo ?? 0 }
-                :   undefined,
+                src.type === "skill" ? { "system.bar": (src.system as any)?.foo ?? 0 } : undefined,
         },
     },
     {
@@ -77,27 +75,19 @@ describe("migrateDocumentSource", () => {
     it("returns an empty object when no step targets the document kind", () => {
         const plan = planMigrations("", "0.7.0", STEPS);
         // No step has a Scene migrator.
-        expect(migrateDocumentSource({ type: "base" }, "Scene", plan)).toEqual(
-            {},
-        );
+        expect(migrateDocumentSource({ type: "base" }, "Scene", plan)).toEqual({});
     });
 
     it("applies the matching kind's migrator and returns its update payload", () => {
         const plan = planMigrations("", "0.7.0", STEPS);
-        const update = migrateDocumentSource(
-            { type: "skill", system: { foo: 42 } },
-            "Item",
-            plan,
-        );
+        const update = migrateDocumentSource({ type: "skill", system: { foo: 42 } }, "Item", plan);
         expect(update).toEqual({ "system.bar": 42 });
     });
 
     it("skips a migrator whose predicate returns undefined (no-op)", () => {
         const plan = planMigrations("", "0.7.0", STEPS);
         // A non-skill item: the only Item migrator returns undefined.
-        expect(
-            migrateDocumentSource({ type: "weapongear" }, "Item", plan),
-        ).toEqual({});
+        expect(migrateDocumentSource({ type: "weapongear" }, "Item", plan)).toEqual({});
     });
 
     it("merges updates across steps in order, later steps winning on collisions", () => {
@@ -114,12 +104,10 @@ describe("migrateDocumentSource", () => {
             },
         ];
         const plan = planMigrations("", "0.6.0", chained);
-        expect(migrateDocumentSource({ type: "being" }, "Actor", plan)).toEqual(
-            {
-                "system.a": 1,
-                "system.b": 2,
-            },
-        );
+        expect(migrateDocumentSource({ type: "being" }, "Actor", plan)).toEqual({
+            "system.a": 1,
+            "system.b": 2,
+        });
     });
 
     it("chains whole-object payloads, so two steps touching `system` compose", () => {
@@ -231,13 +219,10 @@ describe("migrateDocumentSource", () => {
             },
         ];
         const plan = planMigrations("", "0.6.0", chained);
-        expect(
-            migrateDocumentSource(
-                { type: "skill", system: { foo: 1 } },
-                "Item",
-                plan,
-            ),
-        ).toEqual({ "system.bar": 42, system: { foo: 1, seen: true } });
+        expect(migrateDocumentSource({ type: "skill", system: { foo: 1 } }, "Item", plan)).toEqual({
+            "system.bar": 42,
+            system: { foo: 1, seen: true },
+        });
     });
 
     it("replaces rather than chains when a payload is not an object", () => {
@@ -310,10 +295,7 @@ describe("0.9.0 — strip system.docUrl (#1394)", () => {
         // `defineSohlDataSchema` was spread into the Actor and Item system
         // schemas. Combatants carry it too but are never walked by the runner,
         // and effects / region behaviours never had it.
-        expect(Object.keys(step!.migrators ?? {}).sort()).toEqual([
-            "Actor",
-            "Item",
-        ]);
+        expect(Object.keys(step!.migrators ?? {}).sort()).toEqual(["Actor", "Item"]);
     });
 
     for (const kind of ["Actor", "Item"] as const) {
@@ -406,9 +388,7 @@ describe("0.9.0 — strip system.docUrl (#1394)", () => {
 // ---------------------------------------------------------------------------
 
 describe("0.9.0 — affiliation subType (#1405)", () => {
-    const step = SOHL_MIGRATIONS.find((s) =>
-        s.description.toLowerCase().includes("affiliation"),
-    );
+    const step = SOHL_MIGRATIONS.find((s) => s.description.toLowerCase().includes("affiliation"));
     const migrate = (source: MigrationSource) => step!.migrators!.Item!(source);
 
     it("is registered at the version that adds the field, with an Item migrator", () => {
@@ -418,32 +398,30 @@ describe("0.9.0 — affiliation subType (#1405)", () => {
     });
 
     it("stamps the social default on an affiliation with no subType", () => {
-        expect(
-            migrate({ type: "affiliation", system: { society: "Guild" } }),
-        ).toEqual({ system: { society: "Guild", subType: "social" } });
+        expect(migrate({ type: "affiliation", system: { society: "Guild" } })).toEqual({
+            system: { society: "Guild", subType: "social" },
+        });
     });
 
     it("stamps an affiliation whose subType is blank or null", () => {
-        expect(
-            migrate({ type: "affiliation", system: { subType: "" } }),
-        ).toEqual({ system: { subType: "social" } });
-        expect(
-            migrate({ type: "affiliation", system: { subType: null } }),
-        ).toEqual({ system: { subType: "social" } });
+        expect(migrate({ type: "affiliation", system: { subType: "" } })).toEqual({
+            system: { subType: "social" },
+        });
+        expect(migrate({ type: "affiliation", system: { subType: null } })).toEqual({
+            system: { subType: "social" },
+        });
     });
 
     it("replaces a subType that is not a declared choice", () => {
         // A hand-edited or third-party value fails the field's `choices`
         // validation and is dropped, landing where an absent value does.
-        expect(
-            migrate({ type: "affiliation", system: { subType: "religious" } }),
-        ).toEqual({ system: { subType: "social" } });
+        expect(migrate({ type: "affiliation", system: { subType: "religious" } })).toEqual({
+            system: { subType: "social" },
+        });
     });
 
     it("leaves an already-valid subType alone, writing nothing", () => {
-        expect(
-            migrate({ type: "affiliation", system: { subType: "divine" } }),
-        ).toBeUndefined();
+        expect(migrate({ type: "affiliation", system: { subType: "divine" } })).toBeUndefined();
     });
 
     it("ignores items of every other type", () => {
@@ -494,21 +472,14 @@ describe("0.9.0 — affiliation subType (#1405)", () => {
 });
 
 describe("0.9.0 — alphanumeric shortcodes (#1397)", () => {
-    const step = SOHL_MIGRATIONS.find((s) =>
-        s.description.toLowerCase().includes("shortcode"),
-    );
-    const migrateItem = (source: MigrationSource) =>
-        step!.migrators!.Item!(source);
-    const migrateActor = (source: MigrationSource) =>
-        step!.migrators!.Actor!(source);
+    const step = SOHL_MIGRATIONS.find((s) => s.description.toLowerCase().includes("shortcode"));
+    const migrateItem = (source: MigrationSource) => step!.migrators!.Item!(source);
+    const migrateActor = (source: MigrationSource) => step!.migrators!.Actor!(source);
 
     it("is registered at 0.9.0 with an Actor and an Item migrator", () => {
         expect(step).toBeDefined();
         expect(step!.version).toBe("0.9.0");
-        expect(Object.keys(step!.migrators ?? {}).sort()).toEqual([
-            "Actor",
-            "Item",
-        ]);
+        expect(Object.keys(step!.migrators ?? {}).sort()).toEqual(["Actor", "Item"]);
     });
 
     it("maps the three shipped keys to their replacements", () => {
@@ -536,27 +507,21 @@ describe("0.9.0 — alphanumeric shortcodes (#1397)", () => {
     });
 
     it("repairs any other non-alphanumeric key, preserving case", () => {
-        expect(
-            migrateItem({ type: "skill", system: { shortcode: "my_code" } }),
-        ).toEqual({ system: { shortcode: "mycode" } });
-        expect(
-            migrateActor({ type: "being", system: { shortcode: "Sir Kay" } }),
-        ).toEqual({ system: { shortcode: "SirKay" } });
+        expect(migrateItem({ type: "skill", system: { shortcode: "my_code" } })).toEqual({
+            system: { shortcode: "mycode" },
+        });
+        expect(migrateActor({ type: "being", system: { shortcode: "Sir Kay" } })).toEqual({
+            system: { shortcode: "SirKay" },
+        });
     });
 
     it("leaves an already-valid shortcode alone, writing nothing", () => {
-        expect(
-            migrateItem({ type: "weapongear", system: { shortcode: "bsw" } }),
-        ).toBeUndefined();
-        expect(
-            migrateActor({ type: "being", system: { shortcode: "BCap2" } }),
-        ).toBeUndefined();
+        expect(migrateItem({ type: "weapongear", system: { shortcode: "bsw" } })).toBeUndefined();
+        expect(migrateActor({ type: "being", system: { shortcode: "BCap2" } })).toBeUndefined();
     });
 
     it("leaves a blank or absent shortcode to the create/update guard", () => {
-        expect(
-            migrateItem({ type: "skill", system: { shortcode: "" } }),
-        ).toBeUndefined();
+        expect(migrateItem({ type: "skill", system: { shortcode: "" } })).toBeUndefined();
         expect(migrateItem({ type: "skill", system: {} })).toBeUndefined();
         expect(migrateItem({ type: "skill" })).toBeUndefined();
     });
@@ -590,9 +555,9 @@ describe("0.9.0 — alphanumeric shortcodes (#1397)", () => {
             category: "quirk",
             levelBase: 2,
         };
-        expect(
-            migrateItem({ type: "trauma", name: "Self-protective", system }),
-        ).toEqual({ system: { ...system, shortcode: "selfpro" } });
+        expect(migrateItem({ type: "trauma", name: "Self-protective", system })).toEqual({
+            system: { ...system, shortcode: "selfpro" },
+        });
     });
 
     it("does not mutate the source it was handed", () => {

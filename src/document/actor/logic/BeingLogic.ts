@@ -31,19 +31,10 @@ import { BodyLogic } from "@src/document/actor/logic/BodyLogic";
 import type { WeaponGearLogic } from "@src/document/item/logic/WeaponGearLogic";
 import type { SkillLogic } from "@src/document/item/logic/SkillLogic";
 import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
-import {
-    aggregateArmor,
-    type ArmorLayer,
-} from "@src/entity/body/armor-aggregation";
-import {
-    computeActorReach,
-    type MeleeReachOption,
-} from "@src/document/actor/logic/reach-helpers";
+import { aggregateArmor, type ArmorLayer } from "@src/entity/body/armor-aggregation";
+import { computeActorReach, type MeleeReachOption } from "@src/document/actor/logic/reach-helpers";
 import type { StrikeModeBase } from "@src/entity/strikemode/StrikeModeBase";
-import {
-    selectActorTokens,
-    selectActorCombatant,
-} from "@src/document/actor/logic/token-helpers";
+import { selectActorTokens, selectActorCombatant } from "@src/document/actor/logic/token-helpers";
 import {
     getActiveScene,
     getActiveCombat,
@@ -200,10 +191,7 @@ import {
 import { amputationOutcome } from "@src/entity/body/injury-defaults";
 import type { BodyStructure } from "@src/entity/body/BodyStructure";
 import type { BodyLocation } from "@src/entity/body/BodyLocation";
-import {
-    offerSchedule,
-    type OfferContext,
-} from "@src/document/item/logic/offer-schedule";
+import { offerSchedule, type OfferContext } from "@src/document/item/logic/offer-schedule";
 import { armScheduledActions } from "@src/entity/event/scheduled-actions";
 import { toFilePath, toHTMLString, defaultToJSON } from "@src/utils/helpers";
 import {
@@ -226,12 +214,8 @@ import { DamageCardInput } from "@src/document/combatant/logic/SohlCombatantLogi
 function wireResolveInjuryDialog(element: HTMLElement): void {
     const form = element.querySelector("form");
     if (!form) return;
-    const loc = form.querySelector<HTMLSelectElement>(
-        '[name="bodyLocationCode"]',
-    );
-    const zn = form.querySelector<HTMLInputElement>(
-        '[name="targetZoneNumber"]',
-    );
+    const loc = form.querySelector<HTMLSelectElement>('[name="bodyLocationCode"]');
+    const zn = form.querySelector<HTMLInputElement>('[name="targetZoneNumber"]');
     const zd = form.querySelector<HTMLInputElement>('[name="zoneDie"]');
     if (!loc || !zn || !zd) return;
     const sync = (): void => {
@@ -266,9 +250,7 @@ function wireResolveInjuryDialog(element: HTMLElement): void {
  *
  * @typeParam TData - The Being data interface.
  */
-export class BeingLogic<
-    TData extends BeingData = BeingData,
-> extends SohlActorBaseLogic<TData> {
+export class BeingLogic<TData extends BeingData = BeingData> extends SohlActorBaseLogic<TData> {
     /**
      * The qualitative health band (Excellent…Dead) for this being's current
      * {@link SohlActorData.health} value. Impairment-based — driven by impaired
@@ -355,17 +337,12 @@ export class BeingLogic<
      * @param magnitude - The permanent impairment to apply (a non-positive number).
      * @returns A promise that resolves once the impairment is persisted.
      */
-    async applyPermanentImpairment(
-        locationShortcode: string,
-        magnitude: number,
-    ): Promise<void> {
+    async applyPermanentImpairment(locationShortcode: string, magnitude: number): Promise<void> {
         if (magnitude >= 0 || !locationShortcode || !this.actor) return;
         const structure = this.body?.structure;
         const parts = structure?.parts;
         if (!parts?.length) return;
-        const part = parts.find((p) =>
-            p.locations.some((l) => l.shortcode === locationShortcode),
-        );
+        const part = parts.find((p) => p.locations.some((l) => l.shortcode === locationShortcode));
         if (!part) return;
         const current = part.permanentImpairment ?? 0;
         const next = Math.min(current, magnitude); // worst-of
@@ -562,15 +539,11 @@ export class BeingLogic<
             if (sm.attack?.disabled) return false;
             if (sm.isMelee) {
                 if (!meleeAllowed) return false;
-                return (
-                    distanceToTarget <=
-                    ((sm as MeleeStrikeMode).reach?.effective ?? 0)
-                );
+                return distanceToTarget <= ((sm as MeleeStrikeMode).reach?.effective ?? 0);
             }
             if (sm.isMissile) {
                 const missile = sm as MissileStrikeMode;
-                const inRange =
-                    distanceToTarget <= (missile.baseRange?.effective ?? 0);
+                const inRange = distanceToTarget <= (missile.baseRange?.effective ?? 0);
                 if (!inRange) return false;
                 const canDirect = directAllowed;
                 const canVolley = volleyAllowed && missile.maxVolleyMult > 0;
@@ -607,10 +580,7 @@ export class BeingLogic<
                 const candidates = weapon.strikeModes.filter((sm) => {
                     if (sm.minParts > numHeldLimbs) return false;
                     if (!sm.isMissile) return true;
-                    return (
-                        (sm as MissileStrikeMode).draw.effective <=
-                        this.pull.effective
-                    );
+                    return (sm as MissileStrikeMode).draw.effective <= this.pull.effective;
                 });
                 resultStrikeModes.push(...candidates);
             }
@@ -636,13 +606,9 @@ export class BeingLogic<
         const scene = getActiveScene();
         if (!scene) return [];
 
-        const sceneTokens = [
-            ...((scene.tokens ?? []) as Iterable<SohlTokenDocument>),
-        ];
+        const sceneTokens = [...((scene.tokens ?? []) as Iterable<SohlTokenDocument>)];
         const embedded =
-            (actor as any).isToken ?
-                ((actor as any).token as SohlTokenDocument | null)
-            :   null;
+            (actor as any).isToken ? ((actor as any).token as SohlTokenDocument | null) : null;
         if (!embedded && !actor.id) return [];
 
         return selectActorTokens(sceneTokens, actor.id ?? "", embedded ?? null);
@@ -659,15 +625,10 @@ export class BeingLogic<
         const combat = getActiveCombat();
         if (!combat) return null;
 
-        const tokenIds = new Set(
-            this.tokens.map((t) => t.id).filter((id): id is string => !!id),
-        );
+        const tokenIds = new Set(this.tokens.map((t) => t.id).filter((id): id is string => !!id));
         if (tokenIds.size === 0) return null;
 
-        return selectActorCombatant(
-            combat.combatants.contents as SohlCombatant[],
-            tokenIds,
-        );
+        return selectActorCombatant(combat.combatants.contents as SohlCombatant[], tokenIds);
     }
 
     /* --------------------------------------------- */
@@ -689,9 +650,7 @@ export class BeingLogic<
         let impactResult: ImpactResult | undefined;
         if (!context.scope?.priorTestResult) {
             if (!context.scope?.impactModifier) {
-                sohl.log.error(
-                    "calcImpact requires an ImpactResult in the action context scope",
-                );
+                sohl.log.error("calcImpact requires an ImpactResult in the action context scope");
                 return undefined;
             }
             impactResult = new entity.ImpactResult(context.scope, {
@@ -708,22 +667,17 @@ export class BeingLogic<
         // the *target's* body, so resolve the zone number there.
         const aimPart =
             impactResult.aimBodyPartCode ?
-                getActorBodyStructure(
-                    context.target?.actorLogic,
-                )?.getPartByCode(impactResult.aimBodyPartCode)
+                getActorBodyStructure(context.target?.actorLogic)?.getPartByCode(
+                    impactResult.aimBodyPartCode,
+                )
             :   undefined;
 
         const cardData: DamageCardInput = {
             actorId: this.id ?? "",
-            title:
-                context.scope.mode ?
-                    `${context.scope.mode.fullLabel}`
-                :   "Impact",
+            title: context.scope.mode ? `${context.scope.mode.fullLabel}` : "Impact",
             notes: "",
             impactLabel:
-                impactResult.roll ?
-                    `${impactResult.roll.formula}${impactResult.aspect}`
-                :   "",
+                impactResult.roll ? `${impactResult.roll.formula}${impactResult.aspect}` : "",
             rollResult: impactResult.roll?.result ?? "",
             impact: impactResult.roll.total ?? 0,
             aspect: impactResult.aspect ?? IMPACT_ASPECT.BLUNT,
@@ -804,20 +758,15 @@ export class BeingLogic<
             };
         }
         const shockMl =
-            (
-                this.getItemLogic(SKILL_CODE.SHOCK, ITEM_KIND.SKILL) as
-                    SkillLogic | undefined
-            )?.masteryLevel?.effective ?? 0;
+            (this.getItemLogic(SKILL_CODE.SHOCK, ITEM_KIND.SKILL) as SkillLogic | undefined)
+                ?.masteryLevel?.effective ?? 0;
         const result = await rollTimedTest(this, shockMl, {
             type: options.type ?? "shock-test",
-            title:
-                options.title ??
-                sohl.i18n.localize("SOHL.Being.Action.shockTest"),
+            title: options.title ?? sohl.i18n.localize("SOHL.Being.Action.shockTest"),
             situationalModifier: options.situationalModifier ?? 0,
         });
         if (!result) return undefined; // cancelled or unowned
-        const finalIndex =
-            baseIndex + shockIndexAdjustment(result.normSuccessLevel);
+        const finalIndex = baseIndex + shockIndexAdjustment(result.normSuccessLevel);
         return {
             result,
             finalIndex,
@@ -839,49 +788,33 @@ export class BeingLogic<
      *   the worsen-only clamp).
      * @returns A promise that resolves once the state is set or the offer declined.
      */
-    private async offerSetShockState(
-        context: SohlActionContext,
-        target: number,
-    ): Promise<void> {
+    private async offerSetShockState(context: SohlActionContext, target: number): Promise<void> {
         if (target === this.shockState) return;
-        let apply = (context.scope as { applyShockState?: boolean } | undefined)
-            ?.applyShockState;
+        let apply = (context.scope as { applyShockState?: boolean } | undefined)?.applyShockState;
         if (apply == null && !context.skipDialog) {
             apply =
                 (await dialog({
-                    title: sohl.i18n.localize(
-                        "SOHL.Being.ShockTest.setStateTitle",
-                    ),
+                    title: sohl.i18n.localize("SOHL.Being.ShockTest.setStateTitle"),
                     content: toHTMLString(`<p>{{prompt}}</p>`),
                     data: {
-                        prompt: sohl.i18n.format(
-                            "SOHL.Being.ShockTest.setStatePrompt",
-                            {
-                                name: this.name,
-                                state: sohl.i18n.localize(
-                                    shockStateLabelKey(target),
-                                ),
-                            },
-                        ),
+                        prompt: sohl.i18n.format("SOHL.Being.ShockTest.setStatePrompt", {
+                            name: this.name,
+                            state: sohl.i18n.localize(shockStateLabelKey(target)),
+                        }),
                     },
                     buttons: [
                         {
                             action: "yes",
-                            label: sohl.i18n.localize(
-                                "SOHL.Being.ShockTest.setStateYes",
-                            ),
+                            label: sohl.i18n.localize("SOHL.Being.ShockTest.setStateYes"),
                             icon: "ginf-knockout",
                             default: true,
                         },
                         {
                             action: "no",
-                            label: sohl.i18n.localize(
-                                "SOHL.Being.ShockTest.setStateNo",
-                            ),
+                            label: sohl.i18n.localize("SOHL.Being.ShockTest.setStateNo"),
                         },
                     ],
-                    callback: (_formData: PlainObject, action: string) =>
-                        action === "yes",
+                    callback: (_formData: PlainObject, action: string) => action === "yes",
                     rejectClose: false,
                 })) === true;
         }
@@ -911,9 +844,7 @@ export class BeingLogic<
      * @returns The Shock-test result, or `null` when no roll was made or the
      *   action was dismissed.
      */
-    async shockTest(
-        context: SohlActionContext,
-    ): Promise<SuccessTestResult | null> {
+    async shockTest(context: SohlActionContext): Promise<SuccessTestResult | null> {
         const scope = (context.scope ?? {}) as {
             shockIndex?: number;
             baseShockIndex?: number;
@@ -926,9 +857,7 @@ export class BeingLogic<
                 baseIndex = 0;
             } else {
                 const collected = (await dialog({
-                    title: `${this.name}: ${sohl.i18n.localize(
-                        "SOHL.Being.Action.shockTest",
-                    )}`,
+                    title: `${this.name}: ${sohl.i18n.localize("SOHL.Being.Action.shockTest")}`,
                     content: toHTMLString(
                         `<form><div class="form-group">` +
                             `<label>{{label}}</label>` +
@@ -936,25 +865,19 @@ export class BeingLogic<
                             `</div></form>`,
                     ),
                     data: {
-                        label: sohl.i18n.localize(
-                            "SOHL.Being.ShockTest.indexLabel",
-                        ),
+                        label: sohl.i18n.localize("SOHL.Being.ShockTest.indexLabel"),
                         shockIndex: 0,
                     },
                     buttons: [
                         {
                             action: "roll",
-                            label: sohl.i18n.localize(
-                                "SOHL.Being.ShockTest.roll",
-                            ),
+                            label: sohl.i18n.localize("SOHL.Being.ShockTest.roll"),
                             icon: "fa-solid fa-dice-d20",
                             default: true,
                         },
                         {
                             action: "cancel",
-                            label: sohl.i18n.localize(
-                                "SOHL.Being.ShockTest.cancel",
-                            ),
+                            label: sohl.i18n.localize("SOHL.Being.ShockTest.cancel"),
                         },
                     ],
                     callback: (formData: PlainObject, action: string) =>
@@ -1004,9 +927,7 @@ export class BeingLogic<
      *   an optional `shockBonus`.
      * @returns The Shock-test result, or `null` if the roll could not be run.
      */
-    async injuryShock(
-        context: SohlActionContext,
-    ): Promise<SuccessTestResult | null> {
+    async injuryShock(context: SohlActionContext): Promise<SuccessTestResult | null> {
         const scope = (context.scope ?? {}) as {
             shockIndex?: number;
             shockBonus?: number;
@@ -1018,15 +939,12 @@ export class BeingLogic<
             type: "injury-shock",
             title: sohl.i18n.localize("SOHL.Being.Action.shockTest"),
             // Fatigue penalty applies; the glancing-blow bonus is added.
-            situationalModifier:
-                shockBonus - (this.fatiguePenalty?.effective ?? 0),
+            situationalModifier: shockBonus - (this.fatiguePenalty?.effective ?? 0),
         });
         if (!outcome) return null;
 
         // Worsen only — an injury never improves an already-worse shock state.
-        await this.setShockState(
-            Math.max(this.shockState, outcome.targetState),
-        );
+        await this.setShockState(Math.max(this.shockState, outcome.targetState));
         // Entering ordinary shock offers (never auto-arms) the Re-Test reminder
         // on the state's cadence — end of each turn / +10 min (#569).
         await this.offerShockReTest(context);
@@ -1060,29 +978,19 @@ export class BeingLogic<
      *   course-check schedule offer for any Extended Shock / Coma created.
      * @returns The Shock re-test result, or `null` when no re-test applies.
      */
-    async shockReTest(
-        context: SohlActionContext,
-    ): Promise<SuccessTestResult | null> {
+    async shockReTest(context: SohlActionContext): Promise<SuccessTestResult | null> {
         const state = this.shockState;
-        if (
-            state !== SHOCK_STATE.INCAPACITATED &&
-            state !== SHOCK_STATE.UNCONSCIOUS
-        ) {
-            sohl.log.uiWarn(
-                sohl.i18n.localize("SOHL.Being.ShockReTest.NotApplicable"),
-            );
+        if (state !== SHOCK_STATE.INCAPACITATED && state !== SHOCK_STATE.UNCONSCIOUS) {
+            sohl.log.uiWarn(sohl.i18n.localize("SOHL.Being.ShockReTest.NotApplicable"));
             return null;
         }
         const shockMl =
-            (
-                this.getItemLogic(SKILL_CODE.SHOCK, ITEM_KIND.SKILL) as
-                    SkillLogic | undefined
-            )?.masteryLevel?.effective ?? 0;
+            (this.getItemLogic(SKILL_CODE.SHOCK, ITEM_KIND.SKILL) as SkillLogic | undefined)
+                ?.masteryLevel?.effective ?? 0;
         const result = await rollTimedTest(this, shockMl, {
             type: "shock-retest",
             title: sohl.i18n.localize("SOHL.Being.Action.shockReTest"),
-            situationalModifier:
-                SHOCK_RETEST_MODIFIER - (this.fatiguePenalty?.effective ?? 0),
+            situationalModifier: SHOCK_RETEST_MODIFIER - (this.fatiguePenalty?.effective ?? 0),
         });
         if (!result) return null;
         await this.applyShockReTestOutcome(
@@ -1136,12 +1044,7 @@ export class BeingLogic<
             );
         } else {
             // Unconscious → ten minutes later (a time schedule).
-            await offerSchedule(
-                context,
-                this.actor,
-                "shockReTest",
-                SHOCK_RETEST_UNCONSCIOUS_DELAY,
-            );
+            await offerSchedule(context, this.actor, "shockReTest", SHOCK_RETEST_UNCONSCIOUS_DELAY);
         }
     }
 
@@ -1156,16 +1059,12 @@ export class BeingLogic<
      */
     private isOrdinaryShock(): boolean {
         const state = this.shockState;
-        if (
-            state !== SHOCK_STATE.INCAPACITATED &&
-            state !== SHOCK_STATE.UNCONSCIOUS
-        ) {
+        if (state !== SHOCK_STATE.INCAPACITATED && state !== SHOCK_STATE.UNCONSCIOUS) {
             return false;
         }
         return !(this.logicTypes[ITEM_KIND.TRAUMA] as TraumaLogic[]).some(
             (t) =>
-                t.data.subType === TRAUMA_SUBTYPE.SHOCK ||
-                t.data.subType === TRAUMA_SUBTYPE.COMA,
+                t.data.subType === TRAUMA_SUBTYPE.SHOCK || t.data.subType === TRAUMA_SUBTYPE.COMA,
         );
     }
 
@@ -1203,10 +1102,7 @@ export class BeingLogic<
                 // Coma Healing Rate = 12 − Location Shock Value − Injury Level.
                 // With no inducing wound to key off, fall back to a mid Healing
                 // Rate so the coma is neither instantly fatal nor instantly over.
-                const hr =
-                    inducing ?
-                        comaHealingRate(inducing.shockValue, inducing.level)
-                    :   3;
+                const hr = inducing ? comaHealingRate(inducing.shockValue, inducing.level) : 3;
                 await this.createLastingShock(
                     TRAUMA_SUBTYPE.COMA,
                     hr,
@@ -1237,9 +1133,7 @@ export class BeingLogic<
         context: OfferContext,
     ): Promise<void> {
         const name = sohl.i18n.localize(
-            subType === TRAUMA_SUBTYPE.COMA ?
-                "SOHL.Trauma.Coma"
-            :   "SOHL.Trauma.ExtendedShock",
+            subType === TRAUMA_SUBTYPE.COMA ? "SOHL.Trauma.Coma" : "SOHL.Trauma.ExtendedShock",
         );
         const created = await fvttCreateEmbeddedItems(this, [
             {
@@ -1267,14 +1161,9 @@ export class BeingLogic<
      *
      * @returns The inducing injury's location code, level, and Shock Value.
      */
-    private inducingInjury():
-        { code: string; level: number; shockValue: number } | undefined {
-        const injuries = (
-            this.logicTypes[ITEM_KIND.TRAUMA] as TraumaLogic[]
-        ).filter(
-            (t) =>
-                t.data.subType === TRAUMA_SUBTYPE.INJURY &&
-                (t.level?.effective ?? 0) > 0,
+    private inducingInjury(): { code: string; level: number; shockValue: number } | undefined {
+        const injuries = (this.logicTypes[ITEM_KIND.TRAUMA] as TraumaLogic[]).filter(
+            (t) => t.data.subType === TRAUMA_SUBTYPE.INJURY && (t.level?.effective ?? 0) > 0,
         );
         let best: TraumaLogic | undefined;
         let bestLevel = 0;
@@ -1282,10 +1171,7 @@ export class BeingLogic<
         for (const t of injuries) {
             const level = t.level?.effective ?? 0;
             const shock = t.bodyLocation?.shockValue?.effective ?? 0;
-            if (
-                level > bestLevel ||
-                (level === bestLevel && shock > bestShock)
-            ) {
+            if (level > bestLevel || (level === bestLevel && shock > bestShock)) {
                 best = t;
                 bestLevel = level;
                 bestShock = shock;
@@ -1312,9 +1198,7 @@ export class BeingLogic<
      * @param context - The action context for the test.
      * @returns The success test result, or `null` if the test could not be run.
      */
-    async stumbleTest(
-        context: SohlActionContext<EmptyObject>,
-    ): Promise<SuccessTestResult | null> {
+    async stumbleTest(context: SohlActionContext<EmptyObject>): Promise<SuccessTestResult | null> {
         return this.keepControlTest(context, {
             attrCode: ATTRIBUTE_CODE.AGILITY,
             skillCode: SKILL_CODE.ACROBATICS,
@@ -1338,9 +1222,7 @@ export class BeingLogic<
      * @param context - The action context for the test.
      * @returns The success test result, or `null` if the test could not be run.
      */
-    async fumbleTest(
-        context: SohlActionContext<EmptyObject>,
-    ): Promise<SuccessTestResult | null> {
+    async fumbleTest(context: SohlActionContext<EmptyObject>): Promise<SuccessTestResult | null> {
         return this.keepControlTest(context, {
             attrCode: ATTRIBUTE_CODE.DEXTERITY,
             skillCode: SKILL_CODE.LEGERDEMAIN,
@@ -1385,8 +1267,7 @@ export class BeingLogic<
     ): Promise<SuccessTestResult | null> {
         const attr = this.getItemLogic(opts.attrCode, ITEM_KIND.ATTRIBUTE) as
             AttributeLogic | undefined;
-        const skill = this.getItemLogic(opts.skillCode, ITEM_KIND.SKILL) as
-            SkillLogic | undefined;
+        const skill = this.getItemLogic(opts.skillCode, ITEM_KIND.SKILL) as SkillLogic | undefined;
 
         // Better of the two, ties to the skill; either alone if the other is
         // absent (a being commonly has no Acrobatics / Legerdemain skill).
@@ -1401,9 +1282,7 @@ export class BeingLogic<
         const testContext = context.clone({
             type: opts.type,
             title: sohl.i18n.localize(opts.titleKey),
-        }) as unknown as SohlActionContext<
-            Partial<SuccessTestResult.ContextScope>
-        >;
+        }) as unknown as SohlActionContext<Partial<SuccessTestResult.ContextScope>>;
         testContext.scope = {
             ...testContext.scope,
             resultDescTable: keepControlTable(winner, opts.tablePrefix),
@@ -1421,8 +1300,7 @@ export class BeingLogic<
     get moraleState(): MoraleCategory {
         return mostSevereMorale(
             this.activeMoraleTraumas().map(
-                (t) =>
-                    (t.data.category ?? MORALE_CATEGORY.NONE) as MoraleCategory,
+                (t) => (t.data.category ?? MORALE_CATEGORY.NONE) as MoraleCategory,
             ),
         );
     }
@@ -1437,9 +1315,7 @@ export class BeingLogic<
         return (this.logicTypes[ITEM_KIND.TRAUMA] as TraumaLogic[]).filter(
             (t) =>
                 t.data.subType === TRAUMA_SUBTYPE.MORALE &&
-                isShakenMorale(
-                    (t.data.category ?? MORALE_CATEGORY.NONE) as MoraleCategory,
-                ),
+                isShakenMorale((t.data.category ?? MORALE_CATEGORY.NONE) as MoraleCategory),
         );
     }
 
@@ -1457,19 +1333,15 @@ export class BeingLogic<
      * @param context - The action context; `scope.sourceName` names the source.
      * @returns The Morale-test result, or `null` if the roll could not be run.
      */
-    async moraleTest(
-        context: SohlActionContext,
-    ): Promise<SuccessTestResult | null> {
+    async moraleTest(context: SohlActionContext): Promise<SuccessTestResult | null> {
         const scope = (context.scope ?? {}) as { sourceName?: string };
         const sourceName =
             typeof scope.sourceName === "string" && scope.sourceName ?
                 scope.sourceName
             :   sohl.i18n.localize("SOHL.Trauma.Morale.DefaultSource");
         const initMl =
-            (
-                this.getItemLogic(SKILL_CODE.INITIATIVE, ITEM_KIND.SKILL) as
-                    SkillLogic | undefined
-            )?.masteryLevel?.effective ?? 0;
+            (this.getItemLogic(SKILL_CODE.INITIATIVE, ITEM_KIND.SKILL) as SkillLogic | undefined)
+                ?.masteryLevel?.effective ?? 0;
         const braveBonus = this.hasBraveBonus() ? MORALE_BRAVE_BONUS : 0;
         const result = await rollTimedTest(this, initMl, {
             type: "morale-test",
@@ -1515,17 +1387,11 @@ export class BeingLogic<
         const notes: string[] = [];
         if (isShakenMorale(category)) {
             if (moraleHelpless(category)) {
-                notes.push(
-                    sohl.i18n.localize("SOHL.Trauma.Morale.Note.Helpless"),
-                );
+                notes.push(sohl.i18n.localize("SOHL.Trauma.Morale.Note.Helpless"));
             } else if (moraleRouts(category)) {
-                notes.push(
-                    sohl.i18n.localize("SOHL.Trauma.Morale.Note.Routed"),
-                );
+                notes.push(sohl.i18n.localize("SOHL.Trauma.Morale.Note.Routed"));
             } else if (moraleWithdraws(category)) {
-                notes.push(
-                    sohl.i18n.localize("SOHL.Trauma.Morale.Note.Withdrawing"),
-                );
+                notes.push(sohl.i18n.localize("SOHL.Trauma.Morale.Note.Withdrawing"));
             }
         } else if (category === MORALE_CATEGORY.BRAVE) {
             notes.push(sohl.i18n.localize("SOHL.Trauma.Morale.Note.Brave"));
@@ -1553,9 +1419,7 @@ export class BeingLogic<
      * @param context - The action context for the test.
      * @returns The Reaction-test result, or `null` when no reaction applies.
      */
-    async reactionTest(
-        context: SohlActionContext,
-    ): Promise<SuccessTestResult | null> {
+    async reactionTest(context: SohlActionContext): Promise<SuccessTestResult | null> {
         void context;
         const current = this.moraleState;
         if (!isShakenMorale(current)) {
@@ -1563,19 +1427,14 @@ export class BeingLogic<
             return null;
         }
         const initMl =
-            (
-                this.getItemLogic(SKILL_CODE.INITIATIVE, ITEM_KIND.SKILL) as
-                    SkillLogic | undefined
-            )?.masteryLevel?.effective ?? 0;
+            (this.getItemLogic(SKILL_CODE.INITIATIVE, ITEM_KIND.SKILL) as SkillLogic | undefined)
+                ?.masteryLevel?.effective ?? 0;
         const result = await rollTimedTest(this, initMl, {
             type: "reaction-test",
             title: sohl.i18n.localize("SOHL.Being.Action.reactionTest"),
         });
         if (!result) return null;
-        await this.applyReaction(
-            reactionOutcome(current, result.isSuccess),
-            result.isSuccess,
-        );
+        await this.applyReaction(reactionOutcome(current, result.isSuccess), result.isSuccess);
         return result;
     }
 
@@ -1587,17 +1446,13 @@ export class BeingLogic<
      * @param isSuccess - Whether the reaction succeeded (colors the card).
      * @returns A promise that resolves once applied.
      */
-    private async applyReaction(
-        target: MoraleCategory,
-        isSuccess: boolean,
-    ): Promise<void> {
+    private async applyReaction(target: MoraleCategory, isSuccess: boolean): Promise<void> {
         const shaken = this.activeMoraleTraumas();
         if (!isShakenMorale(target)) {
             for (const t of shaken) await t.item.delete();
         } else {
             for (const t of shaken) {
-                const current = (t.data.category ??
-                    MORALE_CATEGORY.NONE) as MoraleCategory;
+                const current = (t.data.category ?? MORALE_CATEGORY.NONE) as MoraleCategory;
                 if (moraleMoreSevere(current, target)) {
                     await t.item.update({
                         "system.category": target,
@@ -1626,19 +1481,13 @@ export class BeingLogic<
      * @param context - The action context for the test.
      * @returns The Rally-test result, or `null` if the roll could not be run.
      */
-    async rallyTest(
-        context: SohlActionContext,
-    ): Promise<SuccessTestResult | null> {
+    async rallyTest(context: SohlActionContext): Promise<SuccessTestResult | null> {
         void context;
         const cmdMl =
-            (
-                this.getItemLogic(SKILL_CODE.COMMAND, ITEM_KIND.SKILL) as
-                    SkillLogic | undefined
-            )?.masteryLevel?.effective ??
-            (
-                this.getItemLogic(SKILL_CODE.INITIATIVE, ITEM_KIND.SKILL) as
-                    SkillLogic | undefined
-            )?.masteryLevel?.effective ??
+            (this.getItemLogic(SKILL_CODE.COMMAND, ITEM_KIND.SKILL) as SkillLogic | undefined)
+                ?.masteryLevel?.effective ??
+            (this.getItemLogic(SKILL_CODE.INITIATIVE, ITEM_KIND.SKILL) as SkillLogic | undefined)
+                ?.masteryLevel?.effective ??
             0;
         const result = await rollTimedTest(this, cmdMl, {
             type: "rally-test",
@@ -1734,18 +1583,14 @@ export class BeingLogic<
      *   Strength affecting the being.
      * @returns The Spirit-test result, or `null` if the roll could not be run.
      */
-    async pallResist(
-        context: SohlActionContext,
-    ): Promise<SuccessTestResult | null> {
+    async pallResist(context: SohlActionContext): Promise<SuccessTestResult | null> {
         const scope = (context.scope ?? {}) as { totalPal?: number };
         const totalPal = Number(scope.totalPal ?? 0);
         // Spirit is not a base attribute: prefer a `spirit` skill, fall back to
         // the Aura attribute (the soul-facing attribute).
         const spiritMl =
-            (
-                this.getItemLogic("spirit", ITEM_KIND.SKILL) as
-                    SkillLogic | undefined
-            )?.masteryLevel?.effective ??
+            (this.getItemLogic("spirit", ITEM_KIND.SKILL) as SkillLogic | undefined)?.masteryLevel
+                ?.effective ??
             (
                 this.getItemLogic(ATTRIBUTE_CODE.AURA, ITEM_KIND.ATTRIBUTE) as
                     AttributeLogic | undefined
@@ -1772,10 +1617,7 @@ export class BeingLogic<
      * @param isSuccess - Whether the Spirit test succeeded.
      * @returns A promise that resolves once the outcome is persisted.
      */
-    private async applyPallResist(
-        state: number,
-        isSuccess: boolean,
-    ): Promise<void> {
+    private async applyPallResist(state: number, isSuccess: boolean): Promise<void> {
         const notes: string[] = [];
         const psl = pallStressGain(state);
         if (isPallFailure(state) && psl > 0) {
@@ -1788,9 +1630,7 @@ export class BeingLogic<
                 await fvttCreateEmbeddedItems(this, [
                     {
                         type: ITEM_KIND.TRAUMA,
-                        name: sohl.i18n.localize(
-                            "SOHL.Trauma.Pall.DefaultSource",
-                        ),
+                        name: sohl.i18n.localize("SOHL.Trauma.Pall.DefaultSource"),
                         system: {
                             subType: TRAUMA_SUBTYPE.PALL,
                             levelBase: psl,
@@ -1799,17 +1639,11 @@ export class BeingLogic<
                 ]);
             }
             if (state >= PALL_STATE.CATATONIC) {
-                notes.push(
-                    sohl.i18n.localize("SOHL.Trauma.Pall.Note.Catatonic"),
-                );
+                notes.push(sohl.i18n.localize("SOHL.Trauma.Pall.Note.Catatonic"));
             } else if (state === PALL_STATE.TERRIFIED) {
-                notes.push(
-                    sohl.i18n.localize("SOHL.Trauma.Pall.Note.Terrified"),
-                );
+                notes.push(sohl.i18n.localize("SOHL.Trauma.Pall.Note.Terrified"));
             } else {
-                notes.push(
-                    sohl.i18n.localize("SOHL.Trauma.Pall.Note.Disturbed"),
-                );
+                notes.push(sohl.i18n.localize("SOHL.Trauma.Pall.Note.Disturbed"));
             }
         } else {
             notes.push(sohl.i18n.localize("SOHL.Trauma.Pall.Note.Resist"));
@@ -1847,9 +1681,7 @@ export class BeingLogic<
         return (this.logicTypes[ITEM_KIND.TRAUMA] as TraumaLogic[]).filter(
             (t) =>
                 t.data.subType === TRAUMA_SUBTYPE.FEAR &&
-                isFearfulState(
-                    (t.data.category ?? FEAR_CATEGORY.NONE) as FearCategory,
-                ),
+                isFearfulState((t.data.category ?? FEAR_CATEGORY.NONE) as FearCategory),
         );
     }
 
@@ -1862,10 +1694,7 @@ export class BeingLogic<
      * @param sourceName - The source's display name.
      * @returns The matching trauma, or `undefined`.
      */
-    private findTraumaBySource(
-        subType: string,
-        sourceName: string,
-    ): TraumaLogic | undefined {
+    private findTraumaBySource(subType: string, sourceName: string): TraumaLogic | undefined {
         return (this.logicTypes[ITEM_KIND.TRAUMA] as TraumaLogic[]).find(
             (t) => t.data.subType === subType && t.item?.name === sourceName,
         );
@@ -1923,8 +1752,7 @@ export class BeingLogic<
     ): Promise<number> {
         const existing = this.findTraumaBySource(subType, sourceName);
         const existingCategory = (existing?.data.category ?? noneCategory) as C;
-        const currentCategory =
-            isShaken(existingCategory) ? existingCategory : noneCategory;
+        const currentCategory = isShaken(existingCategory) ? existingCategory : noneCategory;
         if (isShaken(category)) {
             if (existing) {
                 await existing.item.update({
@@ -1943,10 +1771,7 @@ export class BeingLogic<
                     },
                 ]);
             }
-            return Math.max(
-                0,
-                psyGainFor(category) - psyGainFor(currentCategory),
-            );
+            return Math.max(0, psyGainFor(category) - psyGainFor(currentCategory));
         }
         // A success clears the source; a Brave result records a short-lived marker.
         if (existing) await existing.item.delete();
@@ -1978,9 +1803,7 @@ export class BeingLogic<
      *   source (defaults to a generic label).
      * @returns The Fear-test result, or `null` if the roll could not be run.
      */
-    async fearTest(
-        context: SohlActionContext,
-    ): Promise<SuccessTestResult | null> {
+    async fearTest(context: SohlActionContext): Promise<SuccessTestResult | null> {
         const scope = (context.scope ?? {}) as { sourceName?: string };
         const sourceName =
             typeof scope.sourceName === "string" && scope.sourceName ?
@@ -2036,20 +1859,12 @@ export class BeingLogic<
         const notes: string[] = [];
         if (isFearfulState(category)) {
             if (fearHelpless(category)) {
-                notes.push(
-                    sohl.i18n.localize("SOHL.Trauma.Fear.Note.Helpless"),
-                );
+                notes.push(sohl.i18n.localize("SOHL.Trauma.Fear.Note.Helpless"));
             } else if (fearDefenseRestricted(category)) {
-                notes.push(
-                    sohl.i18n.localize(
-                        "SOHL.Trauma.Fear.Note.DefenseRestricted",
-                    ),
-                );
+                notes.push(sohl.i18n.localize("SOHL.Trauma.Fear.Note.DefenseRestricted"));
             }
             if (fearMustFlee(category)) {
-                notes.push(
-                    sohl.i18n.localize("SOHL.Trauma.Fear.Note.MustFlee"),
-                );
+                notes.push(sohl.i18n.localize("SOHL.Trauma.Fear.Note.MustFlee"));
             }
         } else if (category === FEAR_CATEGORY.BRAVE) {
             notes.push(sohl.i18n.localize("SOHL.Trauma.Fear.Note.Brave"));
@@ -2078,25 +1893,14 @@ export class BeingLogic<
      * @param category - The {@link sohl.utils.FEAR_CATEGORY} just applied for it.
      * @returns A promise that resolves once the status is in sync.
      */
-    private async syncFearStatus(
-        sourceName: string,
-        category: FearCategory,
-    ): Promise<void> {
+    private async syncFearStatus(sourceName: string, category: FearCategory): Promise<void> {
         const others = this.activeFearTraumas()
             .filter((t) => t.item?.name !== sourceName)
-            .map(
-                (t) => (t.data.category ?? FEAR_CATEGORY.NONE) as FearCategory,
-            );
-        const shouldBeFearful = isFearfulState(
-            mostSevereFear([...others, category]),
-        );
+            .map((t) => (t.data.category ?? FEAR_CATEGORY.NONE) as FearCategory);
+        const shouldBeFearful = isFearfulState(mostSevereFear([...others, category]));
         const has = fvttActorStatuses(this.actor).has(STATUS_EFFECT.FEARFUL);
         if (shouldBeFearful !== has) {
-            await fvttToggleActorStatus(
-                this.actor,
-                STATUS_EFFECT.FEARFUL,
-                shouldBeFearful,
-            );
+            await fvttToggleActorStatus(this.actor, STATUS_EFFECT.FEARFUL, shouldBeFearful);
         }
     }
 
@@ -2155,20 +1959,15 @@ export class BeingLogic<
     async performAfflictionTreatment(
         context: SohlActionContext,
     ): Promise<{ valueDiamonds: number; physicianName: string } | undefined> {
-        const physicianSkill = this.getItemLogic(
-            SKILL_CODE.PHYSICIAN,
-            ITEM_KIND.SKILL,
-        ) as SkillLogic | undefined;
+        const physicianSkill = this.getItemLogic(SKILL_CODE.PHYSICIAN, ITEM_KIND.SKILL) as
+            SkillLogic | undefined;
         if (!physicianSkill) {
-            sohl.log.uiWarn(
-                sohl.i18n.localize("SOHL.Trauma.Treatment.NoPhysicianSkill"),
-            );
+            sohl.log.uiWarn(sohl.i18n.localize("SOHL.Trauma.Treatment.NoPhysicianSkill"));
             return undefined;
         }
 
         const afflictionUuid = String(
-            (context.scope as { afflictionUuid?: unknown })?.afflictionUuid ??
-                "",
+            (context.scope as { afflictionUuid?: unknown })?.afflictionUuid ?? "",
         ).trim();
 
         const result = await physicianSkill.masteryLevel.successValueTest(
@@ -2178,8 +1977,7 @@ export class BeingLogic<
         const valueDiamonds = result ? result.valueDiamonds : 0;
 
         await postActionCard(this.speaker, {
-            template:
-                "systems/sohl/templates/chat/affliction-treatment-result-card.hbs",
+            template: "systems/sohl/templates/chat/affliction-treatment-result-card.hbs",
             data: {
                 physicianName: this.name ?? "",
                 valueDiamonds,
@@ -2190,9 +1988,7 @@ export class BeingLogic<
                         action: "treatAffliction",
                         handlerUuid: afflictionUuid,
                         scope: { valueDiamonds },
-                        label: sohl.i18n.localize(
-                            "SOHL.Affliction.Action.treatAffliction.accept",
-                        ),
+                        label: sohl.i18n.localize("SOHL.Affliction.Action.treatAffliction.accept"),
                         iconFAClass: "fa-solid fa-check",
                     }
                 :   undefined,
@@ -2261,10 +2057,8 @@ export class BeingLogic<
     async contagionTest(
         context: SohlActionContext<EmptyObject>,
     ): Promise<SuccessTestResult | null> {
-        const endurance = this.getItemLogic(
-            ATTRIBUTE_CODE.ENDURANCE,
-            ITEM_KIND.ATTRIBUTE,
-        ) as AttributeLogic | undefined;
+        const endurance = this.getItemLogic(ATTRIBUTE_CODE.ENDURANCE, ITEM_KIND.ATTRIBUTE) as
+            AttributeLogic | undefined;
         if (!endurance) {
             sohl.log.uiWarn(
                 `${this.name} has no Endurance attribute; cannot run a Contagion Test.`,
@@ -2283,12 +2077,7 @@ export class BeingLogic<
             },
             { parent: this },
         );
-        mlMod.setBase(
-            contagionTarget(
-                choice.affliction.contagionIndex,
-                endurance.score.effective,
-            ),
-        );
+        mlMod.setBase(contagionTarget(choice.affliction.contagionIndex, endurance.score.effective));
 
         // Feed the dialog's modifiers through the *existing* context — spreading a
         // SohlActionContext into a plain object drops its prototype (and with it
@@ -2298,9 +2087,7 @@ export class BeingLogic<
         scope.successLevelMod = choice.successLevelMod;
         (context as { scope?: unknown }).scope = scope;
 
-        const result = await mlMod.successTest(
-            context as SohlActionContext<any>,
-        );
+        const result = await mlMod.successTest(context as SohlActionContext<any>);
         if (result === undefined) return null; // dialog dismissed
         const sl = result ? result.normSuccessLevel : CRITICAL_FAILURE;
         if (!isContracted(sl)) return result || null;
@@ -2311,9 +2098,7 @@ export class BeingLogic<
         const days = onsetDaysFor(sl, rolledDays) ?? 0;
         sohl.log.uiInfo(
             `${this.name} contracted ${choice.affliction.name}${
-                days > 0 ?
-                    ` (onset in ${days} day${days === 1 ? "" : "s"})`
-                :   ""
+                days > 0 ? ` (onset in ${days} day${days === 1 ? "" : "s"})` : ""
             }.`,
         );
         if (choice.record) {
@@ -2330,12 +2115,7 @@ export class BeingLogic<
             // is an event and is never rescheduled.
             const affliction = created?.[0];
             if (affliction) {
-                await offerSchedule(
-                    context,
-                    affliction,
-                    "onsetCheck",
-                    days * SECONDS_PER_DAY,
-                );
+                await offerSchedule(context, affliction, "onsetCheck", days * SECONDS_PER_DAY);
             }
         }
         return result || null;
@@ -2404,8 +2184,7 @@ export class BeingLogic<
                 scope: SOHL_ACTION_SCOPE.SELF,
                 iconFAClass: "far fa-face-dizzy",
                 executor: "shockReTest",
-                visible:
-                    "actorLogic.shockState === 2 || actorLogic.shockState === 3",
+                visible: "actorLogic.shockState === 2 || actorLogic.shockState === 3",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
             },
             {
@@ -2581,11 +2360,8 @@ export class BeingLogic<
             { source: this.moveProfile.strMod },
             { parent: this, scope: strModScope },
         );
-        const str =
-            this.getItemLogic("str", ITEM_KIND.ATTRIBUTE)?.score.effective ?? 0;
-        this.strengthModifier.setBase(
-            strModExpr.evaluate(strModScope.bind({ str })) as number,
-        );
+        const str = this.getItemLogic("str", ITEM_KIND.ATTRIBUTE)?.score.effective ?? 0;
+        this.strengthModifier.setBase(strModExpr.evaluate(strModScope.bind({ str })) as number);
         this.deriveHealingBase();
         this.aggregateArmorProtection();
     }
@@ -2597,12 +2373,9 @@ export class BeingLogic<
      * incorporeal being), the base is left unset — the modifier stays empty.
      */
     private deriveHealingBase(): void {
-        const endurance = this.getItemLogic(
-            ATTRIBUTE_CODE.ENDURANCE,
-            ITEM_KIND.ATTRIBUTE,
-        )?.score.effective;
-        const will = this.getItemLogic(ATTRIBUTE_CODE.WILL, ITEM_KIND.ATTRIBUTE)
-            ?.score.effective;
+        const endurance = this.getItemLogic(ATTRIBUTE_CODE.ENDURANCE, ITEM_KIND.ATTRIBUTE)?.score
+            .effective;
+        const will = this.getItemLogic(ATTRIBUTE_CODE.WILL, ITEM_KIND.ATTRIBUTE)?.score.effective;
         if (endurance === undefined || will === undefined) return;
         this.healingBase.setBase(healingBaseFor(endurance, will));
     }
@@ -2620,9 +2393,7 @@ export class BeingLogic<
         const structure = this.body.structure;
 
         const layers: ArmorLayer[] = [];
-        for (const logic of lt[ITEM_KIND.ARMORGEAR].filter(
-            (a) => (a.data as any).isWorn,
-        )) {
+        for (const logic of lt[ITEM_KIND.ARMORGEAR].filter((a) => (a.data as any).isWorn)) {
             layers.push({
                 material: (logic.data as any).material ?? "",
                 protection: {
@@ -2631,8 +2402,7 @@ export class BeingLogic<
                     piercing: logic.protection.piercing.effective,
                     fire: logic.protection.fire.effective,
                 },
-                flexibleLocations:
-                    (logic.data as any).locations?.flexible ?? [],
+                flexibleLocations: (logic.data as any).locations?.flexible ?? [],
                 rigidLocations: (logic.data as any).locations?.rigid ?? [],
             });
         }
@@ -2649,12 +2419,7 @@ export class BeingLogic<
         // load-side re-arm; `offerShockReTest` keeps the persisted store in step
         // with the shock state, and this only re-arms what is already there.
         if (this.actor?.uuid) {
-            armScheduledActions(
-                this.actor.uuid,
-                this.data.scheduledActions,
-                sohl.events,
-                this,
-            );
+            armScheduledActions(this.actor.uuid, this.data.scheduledActions, sohl.events, this);
         }
 
         // Encumbrance: the active movement profile's `encumbrance` expression of
@@ -2665,9 +2430,7 @@ export class BeingLogic<
             { parent: this, scope: encScope },
         );
         this.encumbrance.setBase(
-            encExpr.evaluate(
-                encScope.bind({ wt: this.carriedWeight.effective }),
-            ) as number,
+            encExpr.evaluate(encScope.bind({ wt: this.carriedWeight.effective })) as number,
         );
 
         // Per-item encumbrance value (#1010): armor and weapons may declare an
@@ -2793,9 +2556,7 @@ export class BeingLogic<
      */
     private deriveFatiguePenalty(): void {
         let total = 0;
-        for (const trauma of this.logicTypes[
-            ITEM_KIND.TRAUMA
-        ] as TraumaLogic[]) {
+        for (const trauma of this.logicTypes[ITEM_KIND.TRAUMA] as TraumaLogic[]) {
             if (trauma.data.subType === TRAUMA_SUBTYPE.FATIGUE) {
                 total += Math.max(0, trauma.level?.effective ?? 0);
             }
@@ -2811,9 +2572,7 @@ export class BeingLogic<
      */
     private locationInjuries(): LocationInjury[] {
         const injuries: LocationInjury[] = [];
-        for (const trauma of this.logicTypes[
-            ITEM_KIND.TRAUMA
-        ] as TraumaLogic[]) {
+        for (const trauma of this.logicTypes[ITEM_KIND.TRAUMA] as TraumaLogic[]) {
             const level = trauma.level?.effective ?? 0;
             const code = trauma.data.bodyLocationCode;
             if (level > 0 && code) {
@@ -2885,9 +2644,7 @@ export class BeingLogic<
                 const prev = penalties.get(role);
                 penalties.set(
                     role,
-                    prev === undefined ?
-                        imp.impairment
-                    :   Math.min(prev, imp.impairment),
+                    prev === undefined ? imp.impairment : Math.min(prev, imp.impairment),
                 );
             }
         }
@@ -3003,38 +2760,26 @@ export class BeingLogic<
     async resolveInjury(context: SohlActionContext): Promise<void> {
         const body = getActorBodyStructure(this);
         if (!body) {
-            sohl.log.uiWarn(
-                `${this.name} has no body; it cannot take an injury.`,
-            );
+            sohl.log.uiWarn(`${this.name} has no body; it cannot take an injury.`);
             return;
         }
         // An incorporeal being (empty body — no parts, hence no zones) cannot
         // take a physical injury: abort with a notice rather than resolving one.
         if (body.parts.length === 0) {
-            sohl.log.uiWarn(
-                `${this.name} is incorporeal; a physical injury has no effect.`,
-            );
+            sohl.log.uiWarn(`${this.name} is incorporeal; a physical injury has no effect.`);
             return;
         }
 
         // Seed the parameters from the scope + the world's record-trauma default.
         const recordSetting = fvttGetSetting("sohl", "recordTrauma");
-        const data = buildResolveInjuryData(
-            context.scope,
-            recordSetting !== "disable",
-        );
+        const data = buildResolveInjuryData(context.scope, recordSetting !== "disable");
         // An unset zone die (the sentinel 0) covers the whole body: default it to
         // the body's max zone number so an unaimed derive can land anywhere.
         if (data.zoneDie < 1) data.zoneDie = body.maxZoneNumber || 1;
 
         // A supplied hit location must exist.
-        if (
-            data.bodyLocationCode &&
-            !this.findLocation(body, data.bodyLocationCode)
-        ) {
-            sohl.log.uiWarn(
-                `${this.name}: unknown hit location "${data.bodyLocationCode}".`,
-            );
+        if (data.bodyLocationCode && !this.findLocation(body, data.bodyLocationCode)) {
+            sohl.log.uiWarn(`${this.name}: unknown hit location "${data.bodyLocationCode}".`);
             return;
         }
 
@@ -3044,9 +2789,7 @@ export class BeingLogic<
         if (!context.skipDialog) {
             const form = (await dialog({
                 title: `${this.name}: ${sohl.i18n.localize("SOHL.Being.Action.resolveInjury")}`,
-                template: toFilePath(
-                    "systems/sohl/templates/dialog/resolve-injury-dialog.hbs",
-                ),
+                template: toFilePath("systems/sohl/templates/dialog/resolve-injury-dialog.hbs"),
                 data: {
                     hitLocations: body
                         .getAllLocations()
@@ -3055,8 +2798,7 @@ export class BeingLogic<
                     maxZoneNumber: body.maxZoneNumber,
                     ...data,
                 },
-                callback: (formData: PlainObject) =>
-                    readResolveInjuryForm(formData),
+                callback: (formData: PlainObject) => readResolveInjuryForm(formData),
                 render: wireResolveInjuryDialog,
                 rejectClose: false,
             })) as ResolveInjuryData | null;
@@ -3073,9 +2815,7 @@ export class BeingLogic<
         if (locationOverridden) {
             location = this.findLocation(body, data.bodyLocationCode);
             if (!location) {
-                sohl.log.uiWarn(
-                    `${this.name}: unknown hit location "${data.bodyLocationCode}".`,
-                );
+                sohl.log.uiWarn(`${this.name}: unknown hit location "${data.bodyLocationCode}".`);
                 return;
             }
         } else {
@@ -3108,10 +2848,7 @@ export class BeingLogic<
             aspect: data.aspect,
             body,
             location,
-            armorReduction:
-                data.aspect === IMPACT_ASPECT.PIERCING ?
-                    data.armorReduction
-                :   0,
+            armorReduction: data.aspect === IMPACT_ASPECT.PIERCING ? data.armorReduction : 0,
             bleedImpactPenalty: data.bleedImpactPenalty,
         });
 
@@ -3119,11 +2856,7 @@ export class BeingLogic<
         let amputation: AmputationCardInfo | undefined;
         let finalBleeder = injury.isBleeder;
         if (injury.canAmputate) {
-            const outcome = await this.rollAmputation(
-                injury,
-                location,
-                context.skipDialog,
-            );
+            const outcome = await this.rollAmputation(injury, location, context.skipDialog);
             if (outcome) {
                 amputation = {
                     severed: outcome.severed,
@@ -3174,9 +2907,7 @@ export class BeingLogic<
         if (!skipDialog) {
             const form = (await dialog({
                 title: `${this.name}: ${sohl.i18n.localize("SOHL.Being.Action.amputationTest")}`,
-                template: toFilePath(
-                    "systems/sohl/templates/dialog/amputation-test-dialog.hbs",
-                ),
+                template: toFilePath("systems/sohl/templates/dialog/amputation-test-dialog.hbs"),
                 data: { locationName: location.name, modifier },
                 callback: (formData: PlainObject) => formData,
                 rejectClose: false,
@@ -3254,14 +2985,10 @@ export class BeingLogic<
         | undefined
     > {
         // Self-gate: only a physician may perform the test.
-        const physicianSkill = this.getItemLogic(
-            SKILL_CODE.PHYSICIAN,
-            ITEM_KIND.SKILL,
-        ) as SkillLogic | undefined;
+        const physicianSkill = this.getItemLogic(SKILL_CODE.PHYSICIAN, ITEM_KIND.SKILL) as
+            SkillLogic | undefined;
         if (!physicianSkill) {
-            sohl.log.uiWarn(
-                sohl.i18n.localize("SOHL.Trauma.Treatment.NoPhysicianSkill"),
-            );
+            sohl.log.uiWarn(sohl.i18n.localize("SOHL.Trauma.Treatment.NoPhysicianSkill"));
             return undefined;
         }
 
@@ -3270,9 +2997,7 @@ export class BeingLogic<
             (context.scope as { injuryUuid?: unknown })?.injuryUuid ?? "",
         ).trim();
         let injury: TraumaLogic | undefined =
-            injuryUuid ?
-                fvttLogicFromUuidSync<TraumaLogic>(injuryUuid)
-            :   undefined;
+            injuryUuid ? fvttLogicFromUuidSync<TraumaLogic>(injuryUuid) : undefined;
         if (injuryUuid && !injury) return undefined; // uuid did not resolve
 
         let aspect: ImpactAspect = IMPACT_ASPECT.BLUNT;
@@ -3283,9 +3008,7 @@ export class BeingLogic<
         } else if (!context.skipDialog) {
             const form = (await dialog({
                 title: `${this.name ?? ""}: ${sohl.i18n.localize("SOHL.Trauma.Action.treatmenttest.title")}`,
-                template: toFilePath(
-                    "systems/sohl/templates/dialog/treatment-test-dialog.hbs",
-                ),
+                template: toFilePath("systems/sohl/templates/dialog/treatment-test-dialog.hbs"),
                 data: { aspectChoices: ImpactAspectChoices },
                 callback: (data: PlainObject) => data,
                 rejectClose: false,
@@ -3299,9 +3022,7 @@ export class BeingLogic<
             if (pasted) {
                 injury = fvttLogicFromUuidSync<TraumaLogic>(pasted);
                 if (!injury) {
-                    sohl.log.uiWarn(
-                        sohl.i18n.localize("SOHL.Trauma.Treatment.NotAnInjury"),
-                    );
+                    sohl.log.uiWarn(sohl.i18n.localize("SOHL.Trauma.Treatment.NotAnInjury"));
                     return undefined;
                 }
                 injuryUuid = pasted;
@@ -3309,18 +3030,13 @@ export class BeingLogic<
                 severity = injury.data.levelBase ?? 0;
             } else {
                 severity = Number(form.severity) || 0;
-                aspect =
-                    isImpactAspect(form.aspect) ?
-                        form.aspect
-                    :   IMPACT_ASPECT.BLUNT;
+                aspect = isImpactAspect(form.aspect) ? form.aspect : IMPACT_ASPECT.BLUNT;
             }
         }
 
         const band = injuryBand(severity);
         if (!band) {
-            sohl.log.uiWarn(
-                sohl.i18n.localize("SOHL.Trauma.Treatment.AlreadyHealed"),
-            );
+            sohl.log.uiWarn(sohl.i18n.localize("SOHL.Trauma.Treatment.AlreadyHealed"));
             return undefined;
         }
 
@@ -3362,9 +3078,7 @@ export class BeingLogic<
                         action: "treatInjury",
                         handlerUuid: injuryUuid,
                         scope: { healingRate },
-                        label: sohl.i18n.localize(
-                            "SOHL.Trauma.Action.treatInjury.accept",
-                        ),
+                        label: sohl.i18n.localize("SOHL.Trauma.Action.treatInjury.accept"),
                         iconFAClass: "fa-solid fa-check",
                     }
                 :   undefined,
@@ -3390,14 +3104,10 @@ export class BeingLogic<
     async performBloodStoppage(
         context: SohlActionContext,
     ): Promise<{ kind: string; physicianName: string } | undefined> {
-        const physicianSkill = this.getItemLogic(
-            SKILL_CODE.PHYSICIAN,
-            ITEM_KIND.SKILL,
-        ) as SkillLogic | undefined;
+        const physicianSkill = this.getItemLogic(SKILL_CODE.PHYSICIAN, ITEM_KIND.SKILL) as
+            SkillLogic | undefined;
         if (!physicianSkill) {
-            sohl.log.uiWarn(
-                sohl.i18n.localize("SOHL.Trauma.Treatment.NoPhysicianSkill"),
-            );
+            sohl.log.uiWarn(sohl.i18n.localize("SOHL.Trauma.Treatment.NoPhysicianSkill"));
             return undefined;
         }
         const scope = (context.scope ?? {}) as {
@@ -3405,10 +3115,7 @@ export class BeingLogic<
             stoppageBonus?: unknown;
         };
         const injuryUuid = String(scope.injuryUuid ?? "").trim();
-        const injury =
-            injuryUuid ?
-                fvttLogicFromUuidSync<TraumaLogic>(injuryUuid)
-            :   undefined;
+        const injury = injuryUuid ? fvttLogicFromUuidSync<TraumaLogic>(injuryUuid) : undefined;
         if (injuryUuid && !injury) return undefined; // uuid did not resolve
 
         const bonus = Number(scope.stoppageBonus ?? 0);
@@ -3423,17 +3130,14 @@ export class BeingLogic<
         const outcome = bloodStoppageOutcome(sl);
 
         await postActionCard(this.speaker, {
-            template:
-                "systems/sohl/templates/chat/blood-stoppage-result-card.hbs",
+            template: "systems/sohl/templates/chat/blood-stoppage-result-card.hbs",
             data: {
                 physicianName: this.name ?? "",
                 woundName: injury?.item?.name ?? "",
                 outcomeLabel: sohl.i18n.localize(
                     `SOHL.Trauma.BloodStoppage.Outcome.${outcome.kind}`,
                 ),
-                stopped:
-                    outcome.kind === "stopImmediately" ||
-                    outcome.kind === "stopAfterNext",
+                stopped: outcome.kind === "stopImmediately" || outcome.kind === "stopAfterNext",
             },
             buttons:
                 injuryUuid ?
@@ -3444,9 +3148,7 @@ export class BeingLogic<
                             kind: outcome.kind,
                             nextBonus: outcome.nextBonus,
                         },
-                        label: sohl.i18n.localize(
-                            "SOHL.Trauma.BloodStoppage.accept",
-                        ),
+                        label: sohl.i18n.localize("SOHL.Trauma.BloodStoppage.accept"),
                         iconFAClass: "fa-solid fa-check",
                     }
                 :   undefined,

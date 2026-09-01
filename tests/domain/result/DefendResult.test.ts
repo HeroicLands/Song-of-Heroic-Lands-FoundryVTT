@@ -1,8 +1,6 @@
 describe("DefendResult", () => {
     describe("constructor", () => {
-        it.todo(
-            "creates instance extending SuccessTestResult with default values",
-        );
+        it.todo("creates instance extending SuccessTestResult with default values");
         it.todo("applies situationalModifier to the mastery level modifier");
         it.todo("throws when no parent is provided");
     });

@@ -12,10 +12,7 @@
  */
 
 import { describe, it, expect, vi, afterEach } from "vitest";
-import {
-    expressionScopes,
-    ExpressionScope,
-} from "@src/entity/expr/ExpressionScopeRegistry";
+import { expressionScopes, ExpressionScope } from "@src/entity/expr/ExpressionScopeRegistry";
 import { EXPRESSION_SCOPES } from "@src/entity/expr/expression-scopes.mjs";
 
 afterEach(() => vi.restoreAllMocks());
@@ -57,13 +54,7 @@ describe("expressionScopes", () => {
 
     it("every scope declares its documentation metadata", () => {
         for (const scope of expressionScopes.all()) {
-            for (const field of [
-                "label",
-                "site",
-                "field",
-                "result",
-                "summary",
-            ] as const) {
+            for (const field of ["label", "site", "field", "result", "summary"] as const) {
                 expect(scope[field], `${scope.id}.${field}`).toBeTruthy();
             }
         }
@@ -103,9 +94,7 @@ describe("ExpressionScope", () => {
 
     describe("bind()", () => {
         it("passes a matching context through unchanged and logs nothing", () => {
-            const warn = vi
-                .spyOn(sohl.log, "warn")
-                .mockImplementation(() => {});
+            const warn = vi.spyOn(sohl.log, "warn").mockImplementation(() => {});
             const context = {
                 element: null,
                 itemLogic: undefined,
@@ -117,9 +106,7 @@ describe("ExpressionScope", () => {
         });
 
         it("warns when the call site drops a declared binding", () => {
-            const warn = vi
-                .spyOn(sohl.log, "warn")
-                .mockImplementation(() => {});
+            const warn = vi.spyOn(sohl.log, "warn").mockImplementation(() => {});
             // A fresh scope instance — the real registry entries dedupe warnings
             // process-wide, which would make this order-dependent.
             const scope = new ExpressionScope("test.scope", {
@@ -139,9 +126,7 @@ describe("ExpressionScope", () => {
         });
 
         it("warns when the call site supplies an undeclared binding", () => {
-            const warn = vi
-                .spyOn(sohl.log, "warn")
-                .mockImplementation(() => {});
+            const warn = vi.spyOn(sohl.log, "warn").mockImplementation(() => {});
             const scope = new ExpressionScope("test.scope", {
                 label: "T",
                 site: "s",
@@ -158,9 +143,7 @@ describe("ExpressionScope", () => {
         });
 
         it("warns once per distinct mismatch, not once per evaluation", () => {
-            const warn = vi
-                .spyOn(sohl.log, "warn")
-                .mockImplementation(() => {});
+            const warn = vi.spyOn(sohl.log, "warn").mockImplementation(() => {});
             const scope = new ExpressionScope("test.scope", {
                 label: "T",
                 site: "s",
@@ -190,18 +173,14 @@ describe("ExpressionScope", () => {
         });
 
         it("passes an open scope's context straight through", () => {
-            const warn = vi
-                .spyOn(sohl.log, "warn")
-                .mockImplementation(() => {});
+            const warn = vi.spyOn(sohl.log, "warn").mockImplementation(() => {});
             const context = { name: "customTrigger", whateverElse: 1 };
             expect(open.bind(context)).toBe(context);
             expect(warn).not.toHaveBeenCalled();
         });
 
         it("treats an explicitly undefined binding as supplied, not missing", () => {
-            const warn = vi
-                .spyOn(sohl.log, "warn")
-                .mockImplementation(() => {});
+            const warn = vi.spyOn(sohl.log, "warn").mockImplementation(() => {});
             // `itemLogic: undefined` is an absent *value*, which is legitimate —
             // it must not read as an unbound identifier.
             closed.bind({

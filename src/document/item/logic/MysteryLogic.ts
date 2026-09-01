@@ -19,21 +19,10 @@ import { resolveAssocSkill } from "@src/document/item/logic/resolveAssocSkill";
 import { resolveAssocAffiliation } from "@src/document/item/logic/resolveAssocAffiliation";
 import { computeBoostContribution } from "@src/document/item/logic/masteryBoost";
 import { mergeSkillAptitudes } from "@src/document/item/logic/skill-aptitudes";
-import {
-    dialog,
-    fvttCreateEmbeddedItems,
-    fvttFindItemByShortcode,
-} from "@src/core/FoundryHelpers";
+import { dialog, fvttCreateEmbeddedItems, fvttFindItemByShortcode } from "@src/core/FoundryHelpers";
 import { toHTMLString } from "@src/utils/helpers";
-import {
-    SohlItemBaseLogic,
-    type SohlItemData,
-} from "@src/document/item/logic/SohlItemBaseLogic";
-import {
-    ITEM_KIND,
-    MYSTERY_SUBTYPE,
-    MysterySubType,
-} from "@src/utils/constants";
+import { SohlItemBaseLogic, type SohlItemData } from "@src/document/item/logic/SohlItemBaseLogic";
+import { ITEM_KIND, MYSTERY_SUBTYPE, MysterySubType } from "@src/utils/constants";
 
 /**
  * A passive or charge-based mystical power associated with a character or
@@ -171,19 +160,13 @@ export class MysteryLogic<
         // fate success-level bump applies to) from its shortcode, when the actor is known.
         const actorLogic = this.actorLogic;
         if (!actorLogic) return;
-        this.assocSkill = resolveAssocSkill(
-            actorLogic,
-            this.data.assocSkillCode,
-        );
+        this.assocSkill = resolveAssocSkill(actorLogic, this.data.assocSkillCode);
 
         // The associated Affiliation is independent of the associated skill: it
         // records the faction (religion, arcane/alchemical school,
         // ancestor/totem/spirit) whose standing confers this mystery. Undefined
         // when blank or unmatched.
-        this.affiliation = resolveAssocAffiliation(
-            actorLogic,
-            this.data.assocAffiliationCode,
-        );
+        this.affiliation = resolveAssocAffiliation(actorLogic, this.data.assocAffiliationCode);
     }
 
     /** @inheritdoc */

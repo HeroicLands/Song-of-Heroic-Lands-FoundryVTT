@@ -83,8 +83,7 @@ describe("armour facing", () => {
                 .sort();
             expect(back, cloak.name).toEqual([...rear].sort());
             // Everything marked rear-facing must actually be covered.
-            for (const loc of back)
-                expect(cloak.covered, cloak.name).toContain(loc);
+            for (const loc of back) expect(cloak.covered, cloak.name).toContain(loc);
         }
     });
 
@@ -103,8 +102,7 @@ describe("armour facing", () => {
     // A cuirass wraps the torso and is not directional; only the breastplate,
     // which is a front plate alone, carries the front-facing mark.
     it("marks breastplates as front-facing, and leaves cuirasses alone", () => {
-        for (const art of byType("Cuirass"))
-            expect(art.facing, art.name).toEqual([]);
+        for (const art of byType("Cuirass")) expect(art.facing, art.name).toEqual([]);
         for (const art of byType("Breastplate")) {
             const front = art.facing
                 .filter((f) => f.side === "front")
@@ -125,9 +123,7 @@ describe("armour facing", () => {
     it("only ever names a covered location, and only front or back", () => {
         for (const note of NOTES) {
             for (const f of note.facing) {
-                expect(note.covered, `${note.name}/${f.location}`).toContain(
-                    f.location,
-                );
+                expect(note.covered, `${note.name}/${f.location}`).toContain(f.location);
                 expect(["front", "back"]).toContain(f.side);
             }
         }

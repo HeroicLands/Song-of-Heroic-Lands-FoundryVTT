@@ -12,10 +12,7 @@
  */
 
 import { describe, it, expect } from "vitest";
-import {
-    resolveActorSheetParts,
-    buildMovementRows,
-} from "@src/document/actor/logic/sheet-parts";
+import { resolveActorSheetParts, buildMovementRows } from "@src/document/actor/logic/sheet-parts";
 import { MOVEMENT_MEDIUM, MovementMediumChoices } from "@src/utils/constants";
 
 /** The Being sheet's declared parts, in declaration order. */
@@ -34,15 +31,7 @@ const BEING_PARTS = [
 ];
 
 /** A fenced sheet's declared parts (Vehicle / Structure), in order. */
-const VEHICLE_PARTS = [
-    "fencedBanner",
-    "header",
-    "tabs",
-    "facade",
-    "gear",
-    "actions",
-    "effects",
-];
+const VEHICLE_PARTS = ["fencedBanner", "header", "tabs", "facade", "gear", "actions", "effects"];
 
 describe("resolveActorSheetParts", () => {
     it("renders every declared content part, in declaration order", () => {
@@ -103,9 +92,7 @@ describe("resolveActorSheetParts", () => {
     });
 
     it("returns an empty list for a sheet with no declared parts", () => {
-        expect(
-            resolveActorSheetParts([], { isFenced: true, isLimited: false }),
-        ).toEqual([]);
+        expect(resolveActorSheetParts([], { isFenced: true, isLimited: false })).toEqual([]);
     });
 });
 
@@ -132,10 +119,7 @@ describe("buildMovementRows (#1204)", () => {
 
     it("lists each authored profile after it, with its tactical move", () => {
         const rows = buildMovementRows(
-            [
-                profile(MOVEMENT_MEDIUM.TERRESTRIAL, 30),
-                profile(MOVEMENT_MEDIUM.AQUATIC, 12),
-            ],
+            [profile(MOVEMENT_MEDIUM.TERRESTRIAL, 30), profile(MOVEMENT_MEDIUM.AQUATIC, 12)],
             MOVEMENT_MEDIUM.TERRESTRIAL,
         );
 
@@ -150,10 +134,7 @@ describe("buildMovementRows (#1204)", () => {
 
     it("stars exactly the actor's current medium", () => {
         const rows = buildMovementRows(
-            [
-                profile(MOVEMENT_MEDIUM.TERRESTRIAL, 30),
-                profile(MOVEMENT_MEDIUM.AQUATIC, 12),
-            ],
+            [profile(MOVEMENT_MEDIUM.TERRESTRIAL, 30), profile(MOVEMENT_MEDIUM.AQUATIC, 12)],
             MOVEMENT_MEDIUM.AQUATIC,
         );
 
@@ -176,8 +157,6 @@ describe("buildMovementRows (#1204)", () => {
             MOVEMENT_MEDIUM.TERRESTRIAL,
         );
 
-        expect(rows[1].label).toBe(
-            MovementMediumChoices[MOVEMENT_MEDIUM.TERRESTRIAL],
-        );
+        expect(rows[1].label).toBe(MovementMediumChoices[MOVEMENT_MEDIUM.TERRESTRIAL]);
     });
 });

@@ -34,10 +34,7 @@ function makeParentLogic(name = "Aura") {
     );
 }
 
-function makeMLMod(
-    data: Partial<MasteryLevelModifier.Data> = {},
-    logic = makeParentLogic(),
-) {
+function makeMLMod(data: Partial<MasteryLevelModifier.Data> = {}, logic = makeParentLogic()) {
     return new MasteryLevelModifier(data, { parent: logic });
 }
 
@@ -93,9 +90,7 @@ describe("MasteryLevelModifier", () => {
             // `lang/en.json` and reached the card raw (#1107) — asserted for
             // real against `lang/en.json` in
             // tests/domain/modifier/MasteryLevelModifier.test.ts.
-            expect(ml.title).toBe(
-                "SOHL.MasteryLevelModifier.successTest.title",
-            );
+            expect(ml.title).toBe("SOHL.MasteryLevelModifier.successTest.title");
         });
 
         it("honors explicit data over defaults", () => {
@@ -218,9 +213,7 @@ describe("MasteryLevelModifier", () => {
                 rollMode?: string;
             } | null,
         ) {
-            return vi
-                .spyOn(FoundryHelpers, "dialog")
-                .mockResolvedValue(values as any);
+            return vi.spyOn(FoundryHelpers, "dialog").mockResolvedValue(values as any);
         }
 
         /** Stub out the Foundry-adjacent result evaluation/chat. */
@@ -256,9 +249,7 @@ describe("MasteryLevelModifier", () => {
             const ml = makeMLMod();
             ml.setBase(50);
             const result = (await ml.successTest(ctx())) as SuccessTestResult;
-            expect(
-                result.masteryLevelModifier.has(VALUE_DELTA_INFO.PLAYER),
-            ).toBe(true);
+            expect(result.masteryLevelModifier.has(VALUE_DELTA_INFO.PLAYER)).toBe(true);
             expect(result.masteryLevelModifier.effective).toBe(60);
         });
 
@@ -285,9 +276,7 @@ describe("MasteryLevelModifier", () => {
             const result = (await ml.successTest(ctx())) as SuccessTestResult;
             // A zero situational modifier adds no delta at all
             expect(result.masteryLevelModifier.deltas).toHaveLength(0);
-            expect(
-                result.masteryLevelModifier.has(VALUE_DELTA_INFO.PLAYER),
-            ).toBe(false);
+            expect(result.masteryLevelModifier.has(VALUE_DELTA_INFO.PLAYER)).toBe(false);
             expect(result.masteryLevelModifier.successLevelMod).toBe(0);
             expect(result.rollMode).toBe("roll");
         });
@@ -302,9 +291,7 @@ describe("MasteryLevelModifier", () => {
             const ml = makeMLMod();
             ml.setBase(50);
             const first = (await ml.successTest(ctx())) as SuccessTestResult;
-            const second = await ml.successTest(
-                ctx({ priorTestResult: first }),
-            );
+            const second = await ml.successTest(ctx({ priorTestResult: first }));
             expect(second).toBe(first);
         });
 
@@ -349,9 +336,7 @@ describe("MasteryLevelModifier", () => {
         afterEach(() => SimpleRoll.clearForced());
 
         it("grades the frozen roll into a Success Value and Value Diamonds", async () => {
-            vi.spyOn(SuccessTestResult.prototype, "toChat").mockResolvedValue(
-                undefined,
-            );
+            vi.spyOn(SuccessTestResult.prototype, "toChat").mockResolvedValue(undefined);
             // base 50 → index 5; crit digits so a plain 34 is not critical.
             const ml = makeMLMod({
                 baseValue: 50,
@@ -375,9 +360,7 @@ describe("MasteryLevelModifier", () => {
         });
 
         it("a marginal failure grades to Base Value (zero Value Diamonds)", async () => {
-            vi.spyOn(SuccessTestResult.prototype, "toChat").mockResolvedValue(
-                undefined,
-            );
+            vi.spyOn(SuccessTestResult.prototype, "toChat").mockResolvedValue(undefined);
             const ml = makeMLMod({
                 baseValue: 50,
                 critSuccessDigits: [0, 5],
@@ -402,11 +385,7 @@ describe("MasteryLevelModifier", () => {
     describe("Foundry-entangled test flows", () => {
         // These drive real dialogs, targeting, and chat across two actors;
         // they are exercised in Foundry integration, not unit tests.
-        it.todo(
-            "opposedTestStart requires a targeted token and posts an OpposedTestResult",
-        );
-        it.todo(
-            "opposedTestResume completes the target side and evaluates the contest",
-        );
+        it.todo("opposedTestStart requires a targeted token and posts an OpposedTestResult");
+        it.todo("opposedTestResume completes the target side and evaluates the contest");
     });
 });

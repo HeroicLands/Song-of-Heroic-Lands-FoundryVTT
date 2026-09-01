@@ -31,9 +31,7 @@ export function formatTimestamp(
     components: foundry.data.CalendarData.TimeComponents,
     _options: PlainObject = {},
 ): string {
-    components = calendar.timeToComponents(
-        calendar.componentsToTime(components),
-    );
+    components = calendar.timeToComponents(calendar.componentsToTime(components));
     const month = calendar.months!.values[components.month];
     const mm = month.ordinal.paddedString(2);
     const dd = (components.dayOfMonth + 1).paddedString(2);
@@ -66,9 +64,7 @@ export function formatDefault(
     components: foundry.data.CalendarData.TimeComponents,
     _options: PlainObject = {},
 ): string {
-    components = calendar.timeToComponents(
-        calendar.componentsToTime(components),
-    );
+    components = calendar.timeToComponents(calendar.componentsToTime(components));
     const dd = components.dayOfMonth + 1;
     const monthName = calendar.months!.values[components.month]?.name ?? "";
     const hh = String(components.hour).padStart(2, "0");
@@ -81,9 +77,7 @@ export function formatDefault(
         // text); localize both — exactly as the generic branch below does for
         // the month — so a SoHL date never renders raw keys (#941, #944).
         // `localize` is idempotent on non-key text, so plain values pass through.
-        const localizedMonth = sohl.i18n.localize(
-            (calendar as any).getMonthName(sc.month),
-        );
+        const localizedMonth = sohl.i18n.localize((calendar as any).getMonthName(sc.month));
         const localizedEra = sohl.i18n.localize(sc.eraAbbrev);
         return `${dd} ${localizedMonth} ${sc.eraYear}${localizedEra} ${hh}:${mm}:${ss}`;
     }
@@ -122,10 +116,7 @@ export function formatRelativeTime(
         fromComponents?: foundry.data.CalendarData.TimeComponents;
     } = {},
 ): string {
-    const fromTime =
-        fromComponents ?
-            calendar.componentsToTime(fromComponents)
-        :   fvttWorldTime();
+    const fromTime = fromComponents ? calendar.componentsToTime(fromComponents) : fvttWorldTime();
     let nTime: number = calendar.componentsToTime(components);
     let relTime: number = fromTime - nTime;
     const nComponents = calendar.timeToComponents(Math.abs(relTime));
@@ -138,18 +129,12 @@ export function formatRelativeTime(
     };
     const plurals = new Intl.PluralRules(sohl.i18n.lang);
     let parts = (
-        Object.entries(terms) as [
-            keyof foundry.data.CalendarData.TimeComponents,
-            string,
-        ][]
+        Object.entries(terms) as [keyof foundry.data.CalendarData.TimeComponents, string][]
     ).reduce((arr: string[], [k, t]) => {
         const v = Math.round(nComponents[k] as number);
         if (v < 1) return arr;
         if (short) arr.push(`${v}${sohl.i18n.localize(t + ".abbr")}`);
-        else
-            arr.push(
-                `${v} ${sohl.i18n.localize(`${t}.${plurals.select(v)}`).toLowerCase()}`,
-            );
+        else arr.push(`${v} ${sohl.i18n.localize(`${t}.${plurals.select(v)}`).toLowerCase()}`);
         return arr;
     }, []);
     if (!parts.length) return sohl.i18n.localize("TIME.Now");

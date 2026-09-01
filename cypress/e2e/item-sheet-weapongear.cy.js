@@ -42,9 +42,7 @@ describe("item sheet — weapongear encumbrance display (#1179)", () => {
                 (win) =>
                     win.game.items
                         .get(id)
-                        .sheet.element.querySelector(
-                            'input[name="system.encumbranceBase"]',
-                        )?.value,
+                        .sheet.element.querySelector('input[name="system.encumbranceBase"]')?.value,
             ).should("eq", "4");
         });
     });

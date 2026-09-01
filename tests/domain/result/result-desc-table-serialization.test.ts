@@ -35,36 +35,25 @@ function exprTable() {
             label: "You go screaming down the halls in terror",
             description: "",
             success: false,
-            result: new SafeExpression(
-                { source: "successLevel + 1" },
-                { parent },
-            ),
+            result: new SafeExpression({ source: "successLevel + 1" }, { parent }),
         },
     ];
 }
 
 describe("result-description table serialization (#206)", () => {
     it("carries a SafeExpression result as data on the wire (not a dropped function)", () => {
-        const result = new SuccessTestResult(
-            { resultDescTable: exprTable() } as any,
-            { parent },
-        );
+        const result = new SuccessTestResult({ resultDescTable: exprTable() } as any, { parent });
         // JSON.stringify runs each SafeExpression's toJSON — the row's computed
         // result survives as a __kind-tagged source string, where a raw function
         // would have been silently dropped.
         const wire = JSON.parse(JSON.stringify(result.toJSON()));
         expect(wire.resultDescTable[0].result.source).toBe("successLevel + 1");
         expect(wire.resultDescTable[0].result.__kind).toBeTruthy();
-        expect(wire.resultDescTable[0].label).toBe(
-            "You go screaming down the halls in terror",
-        );
+        expect(wire.resultDescTable[0].label).toBe("You go screaming down the halls in terror");
     });
 
     it("revives the wire table's SafeExpression into a live, evaluable instance", () => {
-        const source = new SuccessTestResult(
-            { resultDescTable: exprTable() } as any,
-            { parent },
-        );
+        const source = new SuccessTestResult({ resultDescTable: exprTable() } as any, { parent });
         const wire = JSON.parse(JSON.stringify(source.toJSON()));
 
         const revived = new SuccessTestResult(wire, { parent });
@@ -85,10 +74,7 @@ describe("result-description table serialization (#206)", () => {
                 result: 2,
             },
         ];
-        const source = new SuccessTestResult(
-            { resultDescTable: table } as any,
-            { parent },
-        );
+        const source = new SuccessTestResult({ resultDescTable: table } as any, { parent });
         const wire = JSON.parse(JSON.stringify(source.toJSON()));
         const revived = new SuccessTestResult(wire, { parent });
         const row = (revived as any)._resultDescTable[0];

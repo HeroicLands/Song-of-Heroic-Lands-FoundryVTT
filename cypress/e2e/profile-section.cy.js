@@ -30,8 +30,7 @@ describe("Being Profile tab (#373)", () => {
                     .get(actor.id)
                     .update(
                         toRealm(win, {
-                            "system.dossier":
-                                "<p>Born of the northern clans.</p>",
+                            "system.dossier": "<p>Born of the northern clans.</p>",
                         }),
                     )
                     .then(() => null),
@@ -45,9 +44,7 @@ describe("Being Profile tab (#373)", () => {
             // The ProseMirror editor binds the real field via `name` so edits
             // persist. Re-query (rather than chaining `.find`) — the editor
             // enriches asynchronously and detaches the prior subtree.
-            cy.get(
-                'section.tab[data-tab="profile"] [name="system.dossier"]',
-            ).should("exist");
+            cy.get('section.tab[data-tab="profile"] [name="system.dossier"]').should("exist");
         });
     });
 });

@@ -24,9 +24,7 @@ describe("elapsedCheckpoints (#481)", () => {
     it("lists every occurrence in (lastAnchor, worldTime] in order", () => {
         // last check at 5d, jump to 60d, every 5d -> 10d..60d (11 checkpoints)
         const cps = elapsedCheckpoints(5 * DAY, 60 * DAY, 5 * DAY);
-        expect(cps).toEqual(
-            Array.from({ length: 11 }, (_, i) => (i + 2) * 5 * DAY),
-        );
+        expect(cps).toEqual(Array.from({ length: 11 }, (_, i) => (i + 2) * 5 * DAY));
     });
 
     it("includes a checkpoint exactly at worldTime (half-open lower, closed upper)", () => {

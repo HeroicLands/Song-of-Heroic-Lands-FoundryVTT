@@ -140,9 +140,7 @@ describe("isNextEnabled / canAdvance — the disable-Next decision", () => {
 
     it("a state-gated step disables Next until the state predicate passes", () => {
         const s = step({
-            gate: TourGate.state(
-                (ctx) => (ctx.state as any)?.equipped === true,
-            ),
+            gate: TourGate.state((ctx) => (ctx.state as any)?.equipped === true),
         });
         expect(isNextEnabled(s, { state: { equipped: false } })).toBe(false);
         expect(isNextEnabled(s, { state: { equipped: true } })).toBe(true);
@@ -150,12 +148,8 @@ describe("isNextEnabled / canAdvance — the disable-Next decision", () => {
 
     it("canAdvance mirrors isNextEnabled", () => {
         const s = step({ gate: TourGate.value(gateValue.truthy()) });
-        expect(canAdvance(s, { value: "" })).toBe(
-            isNextEnabled(s, { value: "" }),
-        );
-        expect(canAdvance(s, { value: "x" })).toBe(
-            isNextEnabled(s, { value: "x" }),
-        );
+        expect(canAdvance(s, { value: "" })).toBe(isNextEnabled(s, { value: "" }));
+        expect(canAdvance(s, { value: "x" })).toBe(isNextEnabled(s, { value: "x" }));
     });
 
     it("a step declared gated but missing its gate does not block (misconfig is lenient)", () => {

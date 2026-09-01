@@ -46,9 +46,7 @@ let uuidResolver: ((uuid: string) => unknown) | undefined;
  * @param resolver - A function mapping a document UUID to its live document, or
  *   `undefined` to clear the registration.
  */
-export function setUuidResolver(
-    resolver: ((uuid: string) => unknown) | undefined,
-): void {
+export function setUuidResolver(resolver: ((uuid: string) => unknown) | undefined): void {
     uuidResolver = resolver;
 }
 
@@ -168,8 +166,7 @@ export async function asyncForEach<T>(
  * @returns Sequence of 16 hexadecimal digits as a string
  */
 export function createHash16(str: string): string {
-    const chars =
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     const ary = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     for (let i = 0; i < str.length; i++) {
         ary[i % 16] += str.codePointAt(i) ?? 0;
@@ -191,9 +188,7 @@ export function getChoicesMap(
     values: StrictObject<string>,
     locPrefix: string,
 ): StrictObject<string> {
-    return Object.fromEntries(
-        Object.values(values).map((i) => [i, `${locPrefix}.${i}`]),
-    );
+    return Object.fromEntries(Object.values(values).map((i) => [i, `${locPrefix}.${i}`]));
 }
 
 /**
@@ -324,11 +319,7 @@ function abbreviateWords(tokens: string[]): string[] {
     const out: string[] = [];
     for (let i = 0; i < tokens.length;) {
         let hit: { short: string; run: number } | null = null;
-        for (
-            let run = Math.min(LONGEST_ABBREVIATION, tokens.length - i);
-            run >= 1;
-            run--
-        ) {
+        for (let run = Math.min(LONGEST_ABBREVIATION, tokens.length - i); run >= 1; run--) {
             const short = (NAME_ABBREVIATIONS as Record<string, string>)[
                 tokens.slice(i, i + run).join(" ")
             ];
@@ -390,10 +381,7 @@ export function slugifyShortcode(name: string): string {
  * @param taken - The shortcodes already in use.
  * @returns A shortcode not present in `taken`.
  */
-export function uniqueShortcode(
-    base: string,
-    taken: ReadonlySet<string>,
-): string {
+export function uniqueShortcode(base: string, taken: ReadonlySet<string>): string {
     let sc = base;
     let i = 1;
     while (taken.has(sc)) sc = `${base}${++i}`;
@@ -621,8 +609,7 @@ type AsyncFunctionType = (...args: any[]) => Promise<any>;
  * prototype of an async function. Used to compile async function bodies from
  * source strings.
  */
-export const AsyncFunction = Object.getPrototypeOf(async function () {})
-    .constructor as {
+export const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor as {
     /** Compile an async function from parameter names plus a body string. */
     new (...args: string[]): AsyncFunctionType;
 };
@@ -810,9 +797,7 @@ function checkScriptSafety(script: string): void {
     for (const keyword of DISALLOWED_KEYWORDS) {
         const pattern = new RegExp(`\\b${keyword}\\b`);
         if (pattern.test(stripped)) {
-            throw new Error(
-                `Disallowed keyword detected in script: ${keyword}`,
-            );
+            throw new Error(`Disallowed keyword detected in script: ${keyword}`);
         }
     }
     for (const [pattern, label] of DISALLOWED_PATTERNS) {
@@ -896,17 +881,12 @@ export function textToFunction(
     // recognised as a statement block.
     const bodyForCheck = stripStringsAndComments(body).trim();
     const compiled = `"use strict";\n${
-        /^(return|{|if|for|while|switch|try)\b/.test(bodyForCheck) ? body : (
-            `return (${body});`
-        )
+        /^(return|{|if|for|while|switch|try)\b/.test(bodyForCheck) ? body : `return (${body});`
     }`;
-    return isAsync ?
-            new AsyncFunction(...args, compiled)
-        :   new Function(...args, compiled);
+    return isAsync ? new AsyncFunction(...args, compiled) : new Function(...args, compiled);
 }
 
-const HASH_ALPHABET =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+const HASH_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
 /**
  * Generates 16-character Id from an input string.
@@ -962,10 +942,7 @@ export function hashToId(input: string): string {
  *   has been registered (via `setUuidResolver` — the `FoundryHelpers` shim
  *   registers one at load, so this indicates the shim was not initialized).
  */
-export function defaultFromJSON(
-    value: unknown,
-    ctx?: { parent?: unknown },
-): unknown {
+export function defaultFromJSON(value: unknown, ctx?: { parent?: unknown }): unknown {
     if (typeof value === "string") {
         if (value.startsWith("__bigint__:")) {
             return BigInt(value.slice("__bigint__:".length));
@@ -989,22 +966,14 @@ export function defaultFromJSON(
         switch (maybe.__type) {
             case "SohlMap":
                 return new SohlMap(
-                    maybe.entries.map(([k, v]: [any, any]) => [
-                        k,
-                        defaultFromJSON(v, ctx),
-                    ]),
+                    maybe.entries.map(([k, v]: [any, any]) => [k, defaultFromJSON(v, ctx)]),
                 );
             case "Map":
                 return new Map(
-                    maybe.entries.map(([k, v]: [any, any]) => [
-                        k,
-                        defaultFromJSON(v, ctx),
-                    ]),
+                    maybe.entries.map(([k, v]: [any, any]) => [k, defaultFromJSON(v, ctx)]),
                 );
             case "Set":
-                return new Set(
-                    maybe.values.map((v: unknown) => defaultFromJSON(v, ctx)),
-                );
+                return new Set(maybe.values.map((v: unknown) => defaultFromJSON(v, ctx)));
             case "RegExp":
                 return new RegExp(maybe.pattern, maybe.flags);
             case "Error":
@@ -1065,10 +1034,7 @@ export function defaultFromJSON(
  *   modifiers/results.
  * @returns The reconstructed live instance.
  */
-export function instanceFromJSON<T>(
-    data: PlainObject | string,
-    parent?: unknown,
-): T {
+export function instanceFromJSON<T>(data: PlainObject | string, parent?: unknown): T {
     const parsed = typeof data === "string" ? JSON.parse(data) : data;
     return defaultFromJSON(parsed, { parent }) as T;
 }
@@ -1093,19 +1059,14 @@ export function instanceFromJSON<T>(
  *   (see the Security Model). May also propagate a `JSON.parse` error for a
  *   malformed blob.
  */
-export function buildActionScope(
-    dataset: DOMStringMap,
-    parent: unknown,
-): UnknownObject {
+export function buildActionScope(dataset: DOMStringMap, parent: unknown): UnknownObject {
     const scopeJson = dataset.scope;
     if (!scopeJson) return {};
     // Defense-in-depth on the untrusted cross-client path: `defaultFromJSON`
     // no longer revives code, but reject a legacy `__func__:` code payload
     // outright rather than silently carrying it as an inert string.
     if (scopeJson.includes("__func__:")) {
-        throw new Error(
-            "Rejected chat-card scope payload containing a legacy code marker",
-        );
+        throw new Error("Rejected chat-card scope payload containing a legacy code marker");
     }
     return defaultFromJSON(JSON.parse(scopeJson), { parent }) as UnknownObject;
 }
@@ -1129,15 +1090,12 @@ export function buildActionScope(
  */
 function nullifyUndefined(value: JsonValue | undefined): JsonValue | undefined {
     if (Array.isArray(value)) {
-        return value.map((v) =>
-            v === undefined ? null : (nullifyUndefined(v) as JsonValue),
-        );
+        return value.map((v) => (v === undefined ? null : (nullifyUndefined(v) as JsonValue)));
     }
     if (value !== null && typeof value === "object") {
         const result: Record<string, JsonValue> = {};
         for (const [key, val] of Object.entries(value)) {
-            result[key] =
-                val === undefined ? null : (nullifyUndefined(val) as JsonValue);
+            result[key] = val === undefined ? null : (nullifyUndefined(val) as JsonValue);
         }
         return result;
     }
@@ -1186,20 +1144,14 @@ export function defaultToJSON(value: any): JsonValue | undefined {
     if (value instanceof SohlMap) {
         return {
             __type: "SohlMap",
-            entries: Array.from(value.entries()).map(([k, v]) => [
-                k,
-                defaultToJSON(v),
-            ]),
+            entries: Array.from(value.entries()).map(([k, v]) => [k, defaultToJSON(v)]),
         };
     }
 
     if (value instanceof Map) {
         return {
             __type: "Map",
-            entries: Array.from(value.entries()).map(([k, v]) => [
-                k,
-                defaultToJSON(v),
-            ]),
+            entries: Array.from(value.entries()).map(([k, v]) => [k, defaultToJSON(v)]),
         };
     }
 
@@ -1227,11 +1179,7 @@ export function defaultToJSON(value: any): JsonValue | undefined {
         } as JsonValue;
     }
 
-    if (
-        typeof value === "function" ||
-        typeof value === "symbol" ||
-        value === undefined
-    ) {
+    if (typeof value === "function" || typeof value === "symbol" || value === undefined) {
         // Functions are never serialized — no executable source, and no
         // reference either. Behavior travels as data + a `__kind` tag and is
         // re-derived on the receiving client. See kb/dev-docs/concepts/security-model.md.
@@ -1362,8 +1310,7 @@ export function isDocumentId(value: unknown): value is DocumentId {
  * @throws TypeError if `value` is not a 16-character alphanumeric id.
  */
 export function toDocumentId(value: string): DocumentId {
-    if (!isDocumentId(value))
-        throw new TypeError(`Invalid FoundryID: ${value}`);
+    if (!isDocumentId(value)) throw new TypeError(`Invalid FoundryID: ${value}`);
     return value as DocumentId;
 }
 
@@ -1408,9 +1355,7 @@ export function toDocumentUuid(value: string): DocumentUuid {
  * @param ctor - The constructor to pass through.
  * @returns `ctor` unchanged.
  */
-export function baseClassOf<T extends abstract new (...args: any) => any>(
-    ctor: T,
-): T {
+export function baseClassOf<T extends abstract new (...args: any) => any>(ctor: T): T {
     return ctor;
 }
 
@@ -1438,10 +1383,7 @@ export function isGearItem(item: SohlItem): item is SohlItem & {
     return GearKinds.includes(item.type);
 }
 
-const MasteryLevelKinds = [
-    ITEM_KIND.MYSTICALABILITY,
-    ITEM_KIND.SKILL,
-] as string[];
+const MasteryLevelKinds = [ITEM_KIND.MYSTICALABILITY, ITEM_KIND.SKILL] as string[];
 
 /**
  * Type guard narrowing a `SohlItem` to a mastery-level item (mystical

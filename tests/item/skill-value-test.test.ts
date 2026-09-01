@@ -61,9 +61,7 @@ describe("SkillLogic Skill Value Test action (#848)", () => {
         // speaker; it must still build its sv-test context (not throw
         // "requires a speaker") by falling back to the owning logic's speaker.
         const skill = makeSkill();
-        const spy = vi
-            .spyOn(skill.masteryLevel, "successTest")
-            .mockResolvedValue(undefined as any);
+        const spy = vi.spyOn(skill.masteryLevel, "successTest").mockResolvedValue(undefined as any);
         await skill.masteryLevel.successValueTest({ scope: {} } as any);
         expect(spy).toHaveBeenCalledTimes(1);
         expect(spy.mock.calls[0][0].speaker).toBeTruthy();

@@ -13,10 +13,7 @@
 
 import { entity } from "@src/entity/registry";
 import { ValueModifier } from "@src/entity/modifier/ValueModifier";
-import {
-    VALUE_DELTA_OPERATOR,
-    type ValueDeltaOperator,
-} from "@src/utils/constants";
+import { VALUE_DELTA_OPERATOR, type ValueDeltaOperator } from "@src/utils/constants";
 
 /**
  * Pure mapping rules behind SoHL's Active-Effect change application. The

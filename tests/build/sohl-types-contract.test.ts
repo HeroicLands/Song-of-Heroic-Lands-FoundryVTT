@@ -86,8 +86,6 @@ describe("the @heroiclands/sohl-types build contract", () => {
         // Release's `system.zip`), so a failing `prepack` just stops publishing.
         const pkg = readJson("package.json");
         expect(pkg.scripts["build:noci"]).toContain("check:sohl-types");
-        expect(pkg.scripts["check:sohl-types"]).toContain(
-            "utils/check-sohl-types.mjs",
-        );
+        expect(pkg.scripts["check:sohl-types"]).toContain("utils/check-sohl-types.mjs");
     });
 });

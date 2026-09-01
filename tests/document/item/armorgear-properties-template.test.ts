@@ -65,10 +65,7 @@ function render(
             encumbrance: { fieldPath: "system.encumbrance" },
             protectionBase: {
                 fields: Object.fromEntries(
-                    ASPECTS.map((a) => [
-                        a,
-                        { fieldPath: `system.protectionBase.${a}` },
-                    ]),
+                    ASPECTS.map((a) => [a, { fieldPath: `system.protectionBase.${a}` }]),
                 ),
             },
         },
@@ -76,15 +73,10 @@ function render(
 }
 
 describe("armor gear properties sheet template (#1133)", () => {
-    it.each(ASPECTS)(
-        "renders a %s protection input bound to system.protectionBase",
-        (aspect) => {
-            const html = render();
-            expect(html).toContain(
-                `data-field="system.protectionBase.${aspect}"`,
-            );
-        },
-    );
+    it.each(ASPECTS)("renders a %s protection input bound to system.protectionBase", (aspect) => {
+        const html = render();
+        expect(html).toContain(`data-field="system.protectionBase.${aspect}"`);
+    });
 
     it("binds each protection input to its stored value", () => {
         const html = render({
@@ -106,9 +98,7 @@ describe("armor gear properties sheet template (#1133)", () => {
 
     it("renders an encumbrance input bound to system.encumbrance", () => {
         const html = render({ encumbrance: 6 });
-        expect(html).toContain(
-            'data-field="system.encumbrance" data-value="6"',
-        );
+        expect(html).toContain('data-field="system.encumbrance" data-value="6"');
     });
 
     it("labels the protection section so the controls are findable", () => {

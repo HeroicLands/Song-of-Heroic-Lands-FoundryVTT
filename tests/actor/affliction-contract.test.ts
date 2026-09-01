@@ -36,18 +36,13 @@ const AFFLICTIONS: AfflictionChoice[] = [
 
 describe("readContagionTestForm (#1183)", () => {
     it("selects the affliction by shortcode, not by index", () => {
-        const choice = readContagionTestForm(
-            { affliction: "marshfever" },
-            AFFLICTIONS,
-        );
+        const choice = readContagionTestForm({ affliction: "marshfever" }, AFFLICTIONS);
         expect(choice?.affliction.name).toBe("Marsh Fever");
         expect(choice?.affliction.contagionIndex).toBe(2);
     });
 
     it("returns null for an unknown shortcode", () => {
-        expect(readContagionTestForm({ affliction: "nope" }, AFFLICTIONS)).toBe(
-            null,
-        );
+        expect(readContagionTestForm({ affliction: "nope" }, AFFLICTIONS)).toBe(null);
         expect(readContagionTestForm({}, AFFLICTIONS)).toBe(null);
     });
 
@@ -75,15 +70,9 @@ describe("readContagionTestForm (#1183)", () => {
 
     it("reads the record checkbox as a boolean", () => {
         expect(
-            readContagionTestForm(
-                { affliction: "grippe", record: true },
-                AFFLICTIONS,
-            )?.record,
+            readContagionTestForm({ affliction: "grippe", record: true }, AFFLICTIONS)?.record,
         ).toBe(true);
-        expect(
-            readContagionTestForm({ affliction: "grippe" }, AFFLICTIONS)
-                ?.record,
-        ).toBe(false);
+        expect(readContagionTestForm({ affliction: "grippe" }, AFFLICTIONS)?.record).toBe(false);
     });
 });
 
@@ -96,11 +85,9 @@ describe("buildContractedAfflictionData (#1183)", () => {
     });
 
     it("anchors the contract at now and records the rolled incubation", () => {
-        const data = buildContractedAfflictionData(
-            AFFLICTIONS[0],
-            5_000,
-            3 * 86_400,
-        ) as { system: Record<string, unknown> };
+        const data = buildContractedAfflictionData(AFFLICTIONS[0], 5_000, 3 * 86_400) as {
+            system: Record<string, unknown>;
+        };
         expect(data.system.contractDate).toBe(5_000);
         expect(data.system.onsetDurationBase).toBe(3 * 86_400);
     });

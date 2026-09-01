@@ -11,11 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {
-    DEFEND_MISHAP,
-    TEST_TYPE,
-    VALUE_DELTA_INFO,
-} from "@src/utils/constants";
+import { DEFEND_MISHAP, TEST_TYPE, VALUE_DELTA_INFO } from "@src/utils/constants";
 import { SuccessTestResult } from "./SuccessTestResult";
 import { registerEntity } from "@src/entity/entityRegistry";
 import { SohlCombatantLogic } from "@src/document/combatant/logic/SohlCombatantLogic";
@@ -85,12 +81,8 @@ export class DefendResult extends SuccessTestResult {
 
         this.label = data.label ?? "Defense";
         this.mode =
-            data.mode ?
-                (MeleeStrikeMode.fromPointerData(data.mode) as MeleeStrikeMode)
-            :   undefined;
-        const combatant = fvttLogicFromUuidSync<SohlCombatantLogic>(
-            data.combatantUuid,
-        );
+            data.mode ? (MeleeStrikeMode.fromPointerData(data.mode) as MeleeStrikeMode) : undefined;
+        const combatant = fvttLogicFromUuidSync<SohlCombatantLogic>(data.combatantUuid);
         if (!combatant) {
             throw new Error(
                 `DefendResult could not find combatant with UUID ${data.combatantUuid}.`,
@@ -98,10 +90,7 @@ export class DefendResult extends SuccessTestResult {
         }
         this.combatant = combatant;
         if (data.situationalModifier) {
-            this.masteryLevelModifier.add(
-                VALUE_DELTA_INFO.PLAYER,
-                data.situationalModifier,
-            );
+            this.masteryLevelModifier.add(VALUE_DELTA_INFO.PLAYER, data.situationalModifier);
         }
     }
 

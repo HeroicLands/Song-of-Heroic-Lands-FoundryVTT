@@ -38,10 +38,7 @@ function afflictionFields(overrides: Record<string, unknown> = {}) {
  * Build an affliction on an actor whose Healing Base is `healingBase`, run the
  * full lifecycle, and hand back the logic.
  */
-function makeAffliction(
-    overrides: Record<string, unknown> = {},
-    healingBase = 12,
-) {
+function makeAffliction(overrides: Record<string, unknown> = {}, healingBase = 12) {
     const actor = makeMockActor();
     // `actorLogic` resolves to the mock document's `.logic`, so the Healing Base
     // the affliction reads must be stubbed there, not on the document.
@@ -88,11 +85,7 @@ describe("AfflictionLogic course/healing targets (#1183)", () => {
     });
 
     it("both targets are 0 when the affliction is on no actor", () => {
-        const logic = makeItemLogic(
-            AfflictionLogic,
-            ITEM_KIND.AFFLICTION,
-            afflictionFields(),
-        );
+        const logic = makeItemLogic(AfflictionLogic, ITEM_KIND.AFFLICTION, afflictionFields());
         logic.initialize();
         logic.evaluate();
         logic.finalize();
@@ -108,18 +101,14 @@ describe("AfflictionLogic course/healing targets (#1183)", () => {
     it("no longer exposes a diagnosis-bonus modifier or effect key", () => {
         const logic = makeAffliction();
         expect((logic as any).diagnosisBonus).toBeUndefined();
-        expect(
-            (AFFLICTION_EFFECT_KEY as Record<string, string>).DIAGNOSIS_BONUS,
-        ).toBeUndefined();
+        expect((AFFLICTION_EFFECT_KEY as Record<string, string>).DIAGNOSIS_BONUS).toBeUndefined();
     });
 });
 
 describe("AfflictionLogic intrinsic action set (#1183, supersedes #1126)", () => {
     /** Every intrinsic action shortcode the affliction defines. */
     function shortcodes() {
-        return AfflictionLogic.defineIntrinsicActions().map(
-            (a) => a.shortcode as string,
-        );
+        return AfflictionLogic.defineIntrinsicActions().map((a) => a.shortcode as string);
     }
 
     it("offers the implemented actions", () => {

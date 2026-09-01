@@ -66,9 +66,7 @@ describe("item description tab template (#1357)", () => {
         });
 
         expect(html).toContain('<prose-mirror name="system.docHtml"');
-        expect(html).toContain(
-            'value="@UUID[JournalEntry.j1.JournalEntryPage.p1]"',
-        );
+        expect(html).toContain('value="@UUID[JournalEntry.j1.JournalEntryPage.p1]"');
         // The control stays, so the reader view is one click back.
         expect(html).toContain('data-action="toggleDescriptionEdit"');
     });

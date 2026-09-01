@@ -11,10 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type {
-    CompletionContext,
-    CompletionResult,
-} from "@codemirror/autocomplete";
+import type { CompletionContext, CompletionResult } from "@codemirror/autocomplete";
 import { expressionHelpers } from "@src/entity/expr/ExpressionHelperRegistry";
 import type { ExpressionScope } from "@src/entity/expr/ExpressionScopeRegistry";
 

@@ -29,34 +29,25 @@ const PURE_ZONES: Record<string, Record<string, () => Promise<unknown>>> = {
         ],
         { eager: false },
     ),
-    "item logic layer": import.meta.glob(
-        "../../src/document/item/logic/**/*.ts",
-        { eager: false },
-    ),
-    "actor logic layer": import.meta.glob(
-        "../../src/document/actor/logic/**/*.ts",
-        { eager: false },
-    ),
-    "combatant logic layer": import.meta.glob(
-        "../../src/document/combatant/logic/**/*.ts",
-        { eager: false },
-    ),
-    "combat logic layer": import.meta.glob(
-        "../../src/document/combat/logic/**/*.ts",
-        { eager: false },
-    ),
-    "token logic layer": import.meta.glob(
-        "../../src/document/token/logic/**/*.ts",
-        { eager: false },
-    ),
-    "scene logic layer": import.meta.glob(
-        "../../src/document/scene/logic/**/*.ts",
-        { eager: false },
-    ),
-    "effect logic layer": import.meta.glob(
-        "../../src/document/effect/logic/**/*.ts",
-        { eager: false },
-    ),
+    "item logic layer": import.meta.glob("../../src/document/item/logic/**/*.ts", { eager: false }),
+    "actor logic layer": import.meta.glob("../../src/document/actor/logic/**/*.ts", {
+        eager: false,
+    }),
+    "combatant logic layer": import.meta.glob("../../src/document/combatant/logic/**/*.ts", {
+        eager: false,
+    }),
+    "combat logic layer": import.meta.glob("../../src/document/combat/logic/**/*.ts", {
+        eager: false,
+    }),
+    "token logic layer": import.meta.glob("../../src/document/token/logic/**/*.ts", {
+        eager: false,
+    }),
+    "scene logic layer": import.meta.glob("../../src/document/scene/logic/**/*.ts", {
+        eager: false,
+    }),
+    "effect logic layer": import.meta.glob("../../src/document/effect/logic/**/*.ts", {
+        eager: false,
+    }),
     "apps logic layer": import.meta.glob("../../src/apps/logic/**/*.ts", {
         eager: false,
     }),
@@ -70,9 +61,7 @@ for (const [zone, modules] of Object.entries(PURE_ZONES)) {
     describe(`${zone} is importable without Foundry globals`, () => {
         if (paths.length === 0) {
             it("matches at least one module", () => {
-                throw new Error(
-                    `No modules matched for zone "${zone}" — check the glob patterns.`,
-                );
+                throw new Error(`No modules matched for zone "${zone}" — check the glob patterns.`);
             });
             return;
         }

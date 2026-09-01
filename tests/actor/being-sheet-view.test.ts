@@ -86,9 +86,7 @@ describe("being-sheet-view", () => {
         it("sorts within each bucket when a comparator is given", () => {
             const zed: Item = { subType: "s", name: "Zed" };
             const ana: Item = { subType: "s", name: "Ana" };
-            const groups = groupBySubType([zed, ana], sub, (x, y) =>
-                x.name.localeCompare(y.name),
-            );
+            const groups = groupBySubType([zed, ana], sub, (x, y) => x.name.localeCompare(y.name));
             expect(groups.s).toEqual([ana, zed]);
         });
 
@@ -195,11 +193,7 @@ describe("being-sheet-view", () => {
             const a = skill({ subType: "social" });
             const b = skill({ subType: "craft" });
             const groups = buildSkillGroups([a, b], order, subLabel);
-            expect(groups.map((g) => g.subType)).toEqual([
-                "social",
-                "nature",
-                "craft",
-            ]);
+            expect(groups.map((g) => g.subType)).toEqual(["social", "nature", "craft"]);
         });
 
         it("maps every row field", () => {
@@ -249,15 +243,15 @@ describe("being-sheet-view", () => {
 
     describe("htmlToPlainText", () => {
         it("strips tags and collapses whitespace", () => {
-            expect(
-                htmlToPlainText("<p>Knight  of\n the <b>Realm</b></p>"),
-            ).toBe("Knight of the Realm");
+            expect(htmlToPlainText("<p>Knight  of\n the <b>Realm</b></p>")).toBe(
+                "Knight of the Realm",
+            );
         });
 
         it("unescapes the common entities Foundry emits", () => {
-            expect(
-                htmlToPlainText("Curia &amp; Council &nbsp;&quot;x&quot;"),
-            ).toBe('Curia & Council "x"');
+            expect(htmlToPlainText("Curia &amp; Council &nbsp;&quot;x&quot;")).toBe(
+                'Curia & Council "x"',
+            );
         });
 
         it("returns '' for empty/undefined input", () => {
@@ -365,10 +359,7 @@ describe("being-sheet-view", () => {
                 ]),
             );
             expect(tree[0].parts[0].label).toBe("Right Arm");
-            expect(tree[0].parts[0].locations.map((l) => l.name)).toEqual([
-                "Shoulder",
-                "Elbow",
-            ]);
+            expect(tree[0].parts[0].locations.map((l) => l.name)).toEqual(["Shoulder", "Elbow"]);
         });
 
         it("carries the zone/part/location shortcodes and indices for the Edit actions", () => {
@@ -391,17 +382,9 @@ describe("being-sheet-view", () => {
         });
 
         it("renders a zone's number run, collapsing a single number", () => {
-            expect(buildBodyLocationTree(inZone([]))[0].zoneRange).toBe(
-                "1\u20133",
-            );
-            expect(
-                buildBodyLocationTree(inZone([], { zoneNumbers: [4] }))[0]
-                    .zoneRange,
-            ).toBe("4");
-            expect(
-                buildBodyLocationTree(inZone([], { zoneNumbers: [] }))[0]
-                    .zoneRange,
-            ).toBe("");
+            expect(buildBodyLocationTree(inZone([]))[0].zoneRange).toBe("1\u20133");
+            expect(buildBodyLocationTree(inZone([], { zoneNumbers: [4] }))[0].zoneRange).toBe("4");
+            expect(buildBodyLocationTree(inZone([], { zoneNumbers: [] }))[0].zoneRange).toBe("");
         });
 
         it("returns an empty array for no zones", () => {
@@ -452,10 +435,7 @@ describe("being-sheet-view", () => {
 
         it("excludes non-holdable kinds (e.g. armor)", () => {
             const out = buildHoldableGear(
-                [
-                    g({ id: "a", kind: "armorgear" }),
-                    g({ id: "b", kind: "miscgear" }),
-                ],
+                [g({ id: "a", kind: "armorgear" }), g({ id: "b", kind: "miscgear" })],
                 kind,
                 cid,
                 HOLDABLE,
@@ -498,9 +478,7 @@ describe("being-sheet-view", () => {
         });
 
         it("reduces notes to a plain-text snippet", () => {
-            const [row] = buildAffiliationRows([
-                aff({ notes: "<p>Sworn  <em>oath</em></p>" }),
-            ]);
+            const [row] = buildAffiliationRows([aff({ notes: "<p>Sworn  <em>oath</em></p>" })]);
             expect(row.notes).toBe("Sworn oath");
         });
 
@@ -521,15 +499,8 @@ describe("being-sheet-view", () => {
             const pack: Gear = { id: "pack" };
             const sword: Gear = { id: "sword", containerId: "pack" };
             const ring: Gear = { id: "ring", containerId: null };
-            const tree = buildContainerTree(
-                [pack],
-                [pack, sword, ring],
-                id,
-                cid,
-            );
-            expect(tree.containers).toEqual([
-                { container: pack, items: [sword] },
-            ]);
+            const tree = buildContainerTree([pack], [pack, sword, ring], id, cid);
+            expect(tree.containers).toEqual([{ container: pack, items: [sword] }]);
             // pack has no containerId → On Body; ring has none → On Body.
             expect(tree.onBodyItems).toEqual([pack, ring]);
         });
@@ -550,12 +521,7 @@ describe("being-sheet-view", () => {
         it("nests a container inside another container", () => {
             const pack: Gear = { id: "pack" };
             const pouch: Gear = { id: "pouch", containerId: "pack" };
-            const tree = buildContainerTree(
-                [pack, pouch],
-                [pack, pouch],
-                id,
-                cid,
-            );
+            const tree = buildContainerTree([pack, pouch], [pack, pouch], id, cid);
             const packNode = tree.containers.find((n) => n.container === pack)!;
             expect(packNode.items).toEqual([pouch]);
             // pouch is nested, not On Body; pack (no containerId) is On Body.
@@ -594,12 +560,8 @@ describe("being-sheet-view", () => {
         });
 
         it("treats empty-string and null dest as On Body", () => {
-            expect(resolveGearContainerMove("coin", "", gear).containerId).toBe(
-                undefined,
-            );
-            expect(
-                resolveGearContainerMove("coin", null, gear).containerId,
-            ).toBe(undefined);
+            expect(resolveGearContainerMove("coin", "", gear).containerId).toBe(undefined);
+            expect(resolveGearContainerMove("coin", null, gear).containerId).toBe(undefined);
         });
 
         it("reports no change when the destination equals the current container", () => {
@@ -621,20 +583,13 @@ describe("being-sheet-view", () => {
 
         it("rejects dropping a container into its own descendant (cycle)", () => {
             // pouch is inside pack; pack cannot go into pouch.
-            expect(
-                resolveGearContainerMove("pack", "pouch", gear).allowed,
-            ).toBe(false);
+            expect(resolveGearContainerMove("pack", "pouch", gear).allowed).toBe(false);
             // coin is inside pouch inside pack; pack cannot go into coin either.
-            expect(resolveGearContainerMove("pack", "coin", gear).allowed).toBe(
-                false,
-            );
+            expect(resolveGearContainerMove("pack", "coin", gear).allowed).toBe(false);
         });
 
         it("allows a container to move into an unrelated container", () => {
-            const r = resolveGearContainerMove("pouch", "sack", [
-                ...gear,
-                { id: "sack" },
-            ]);
+            const r = resolveGearContainerMove("pouch", "sack", [...gear, { id: "sack" }]);
             expect(r).toEqual({
                 allowed: true,
                 changed: true,
@@ -678,37 +633,31 @@ describe("being-sheet-view", () => {
                 STATUS_EFFECT.UNCONSCIOUS,
                 STATUS_EFFECT.DEAD,
             ]);
-            expect(pills.filter((p) => !p.toggleable).map((p) => p.id)).toEqual(
-                [TRAUMA_SUBTYPE.AURALSHOCK, TRAUMA_SUBTYPE.FATIGUE],
-            );
+            expect(pills.filter((p) => !p.toggleable).map((p) => p.id)).toEqual([
+                TRAUMA_SUBTYPE.AURALSHOCK,
+                TRAUMA_SUBTYPE.FATIGUE,
+            ]);
         });
 
         it("marks only the active status ids active among toggleable pills", () => {
-            const pills = buildStatusPills(
-                new Set([STATUS_EFFECT.STUN, STATUS_EFFECT.DEAD]),
-            );
+            const pills = buildStatusPills(new Set([STATUS_EFFECT.STUN, STATUS_EFFECT.DEAD]));
             const active = pills.filter((p) => p.active).map((p) => p.id);
             expect(active).toEqual([STATUS_EFFECT.STUN, STATUS_EFFECT.DEAD]);
         });
 
         it("lights aural-shock and fatigue from active trauma subtypes, not from a toggled status", () => {
             // A toggled `auralshock` *status* must not light the indicator...
-            const fromStatus = buildStatusPills(
-                new Set([TRAUMA_SUBTYPE.AURALSHOCK]),
-                new Set(),
-            );
-            expect(
-                fromStatus.find((p) => p.id === TRAUMA_SUBTYPE.AURALSHOCK)!
-                    .active,
-            ).toBe(false);
+            const fromStatus = buildStatusPills(new Set([TRAUMA_SUBTYPE.AURALSHOCK]), new Set());
+            expect(fromStatus.find((p) => p.id === TRAUMA_SUBTYPE.AURALSHOCK)!.active).toBe(false);
             // ...an active trauma subtype does.
             const fromTrauma = buildStatusPills(
                 new Set(),
                 new Set([TRAUMA_SUBTYPE.AURALSHOCK, TRAUMA_SUBTYPE.FATIGUE]),
             );
-            expect(fromTrauma.filter((p) => p.active).map((p) => p.id)).toEqual(
-                [TRAUMA_SUBTYPE.AURALSHOCK, TRAUMA_SUBTYPE.FATIGUE],
-            );
+            expect(fromTrauma.filter((p) => p.active).map((p) => p.id)).toEqual([
+                TRAUMA_SUBTYPE.AURALSHOCK,
+                TRAUMA_SUBTYPE.FATIGUE,
+            ]);
         });
 
         it("carries abbr and label localization keys for each pill", () => {
@@ -800,25 +749,20 @@ describe("being-sheet-view", () => {
     });
 
     describe("splitWeaponsByRange", () => {
-        const modes = (w: {
-            strikeModes: { isMelee?: boolean; isMissile?: boolean }[];
-        }) => w.strikeModes;
+        const modes = (w: { strikeModes: { isMelee?: boolean; isMissile?: boolean }[] }) =>
+            w.strikeModes;
 
         it("places a melee-only weapon in the melee list", () => {
             const w = { strikeModes: [{ isMelee: true }] };
             const split = splitWeaponsByRange([w], modes);
-            expect(split.meleeWeapons).toEqual([
-                { weapon: w, strikeModes: w.strikeModes },
-            ]);
+            expect(split.meleeWeapons).toEqual([{ weapon: w, strikeModes: w.strikeModes }]);
             expect(split.missileWeapons).toEqual([]);
         });
 
         it("places a missile-only weapon in the missile list", () => {
             const w = { strikeModes: [{ isMissile: true }] };
             const split = splitWeaponsByRange([w], modes);
-            expect(split.missileWeapons).toEqual([
-                { weapon: w, strikeModes: w.strikeModes },
-            ]);
+            expect(split.missileWeapons).toEqual([{ weapon: w, strikeModes: w.strikeModes }]);
             expect(split.meleeWeapons).toEqual([]);
         });
 
@@ -827,12 +771,8 @@ describe("being-sheet-view", () => {
             const missile = { isMissile: true };
             const w = { strikeModes: [melee, missile] };
             const split = splitWeaponsByRange([w], modes);
-            expect(split.meleeWeapons).toEqual([
-                { weapon: w, strikeModes: [melee] },
-            ]);
-            expect(split.missileWeapons).toEqual([
-                { weapon: w, strikeModes: [missile] },
-            ]);
+            expect(split.meleeWeapons).toEqual([{ weapon: w, strikeModes: [melee] }]);
+            expect(split.missileWeapons).toEqual([{ weapon: w, strikeModes: [missile] }]);
         });
 
         it("omits a weapon with neither range band", () => {
@@ -848,23 +788,15 @@ describe("being-sheet-view", () => {
         const twoHand = { name: "draw", minParts: 2 };
 
         it("keeps every mode for an intrinsic source (heldLimbs null)", () => {
-            expect(usableHeldStrikeModes([oneHand, twoHand], null)).toEqual([
-                oneHand,
-                twoHand,
-            ]);
+            expect(usableHeldStrikeModes([oneHand, twoHand], null)).toEqual([oneHand, twoHand]);
         });
 
         it("drops a two-hand mode when held in a single limb", () => {
-            expect(usableHeldStrikeModes([oneHand, twoHand], 1)).toEqual([
-                oneHand,
-            ]);
+            expect(usableHeldStrikeModes([oneHand, twoHand], 1)).toEqual([oneHand]);
         });
 
         it("keeps a two-hand mode when held in two limbs", () => {
-            expect(usableHeldStrikeModes([oneHand, twoHand], 2)).toEqual([
-                oneHand,
-                twoHand,
-            ]);
+            expect(usableHeldStrikeModes([oneHand, twoHand], 2)).toEqual([oneHand, twoHand]);
         });
 
         it("treats a missing minParts as 1", () => {
@@ -947,27 +879,20 @@ describe("being-sheet-view", () => {
 
         it("includes weapons held by at least one part", () => {
             const w = weapon([{}]);
-            expect(
-                filterHeldWeapons([w], (x) => (x as any).logic.heldBy),
-            ).toEqual([w]);
+            expect(filterHeldWeapons([w], (x) => (x as any).logic.heldBy)).toEqual([w]);
         });
 
         it("excludes weapons with an empty heldBy array", () => {
             const w = weapon([]);
-            expect(
-                filterHeldWeapons([w], (x) => (x as any).logic.heldBy),
-            ).toEqual([]);
+            expect(filterHeldWeapons([w], (x) => (x as any).logic.heldBy)).toEqual([]);
         });
 
         it("returns only held weapons from a mixed list", () => {
             const held = weapon([{}]);
             const unheld = weapon([]);
-            expect(
-                filterHeldWeapons(
-                    [held, unheld],
-                    (x) => (x as any).logic.heldBy,
-                ),
-            ).toEqual([held]);
+            expect(filterHeldWeapons([held, unheld], (x) => (x as any).logic.heldBy)).toEqual([
+                held,
+            ]);
         });
 
         it("returns empty array when input is empty", () => {
@@ -993,11 +918,7 @@ describe("being-sheet-view", () => {
             [TRAUMA_SUBTYPE.FEAR]: ["category", "notes"],
             [TRAUMA_SUBTYPE.MORALE]: ["category", "notes"],
             [TRAUMA_SUBTYPE.PALL]: ["level", "nextTest"],
-            [TRAUMA_SUBTYPE.PSYCHOLOGICAL_CONDITION]: [
-                "level",
-                "category",
-                "nextTest",
-            ],
+            [TRAUMA_SUBTYPE.PSYCHOLOGICAL_CONDITION]: ["level", "category", "nextTest"],
             [TRAUMA_SUBTYPE.PHYSICAL_CONDITION]: ["category", "notes"],
             [TRAUMA_SUBTYPE.AURALSHOCK]: ["level", "nextTest"],
             [TRAUMA_SUBTYPE.INFECTION]: ["severity", "hr", "area", "nextTest"],
@@ -1009,9 +930,7 @@ describe("being-sheet-view", () => {
         it.each(Object.entries(EXPECTED))(
             "%s renders exactly its spec'd columns",
             (subType, kinds) => {
-                expect(
-                    TRAUMA_SUBTYPE_COLUMNS[subType].map((c) => c.kind),
-                ).toEqual(kinds);
+                expect(TRAUMA_SUBTYPE_COLUMNS[subType].map((c) => c.kind)).toEqual(kinds);
             },
         );
 
@@ -1041,18 +960,8 @@ describe("being-sheet-view", () => {
         // The column set each Mystical Ability sub-type shows on the Being
         // sheet. eml / charges / notes are always present; skill and level vary.
         const EXPECTED: Record<string, string[]> = {
-            [MYSTICALABILITY_SUBTYPE.SPIRITRITE]: [
-                "skill",
-                "eml",
-                "charges",
-                "notes",
-            ],
-            [MYSTICALABILITY_SUBTYPE.SPIRITACTION]: [
-                "skill",
-                "eml",
-                "charges",
-                "notes",
-            ],
+            [MYSTICALABILITY_SUBTYPE.SPIRITRITE]: ["skill", "eml", "charges", "notes"],
+            [MYSTICALABILITY_SUBTYPE.SPIRITACTION]: ["skill", "eml", "charges", "notes"],
             [MYSTICALABILITY_SUBTYPE.SPIRITPOWER]: [
                 "skill",
                 "affiliation",
@@ -1084,39 +993,16 @@ describe("being-sheet-view", () => {
                 "charges",
                 "notes",
             ],
-            [MYSTICALABILITY_SUBTYPE.ARCANETALENT]: [
-                "level",
-                "eml",
-                "charges",
-                "notes",
-            ],
-            [MYSTICALABILITY_SUBTYPE.SPIRITTALENT]: [
-                "level",
-                "eml",
-                "charges",
-                "notes",
-            ],
-            [MYSTICALABILITY_SUBTYPE.ALCHEMY]: [
-                "skill",
-                "affiliation",
-                "eml",
-                "charges",
-                "notes",
-            ],
-            [MYSTICALABILITY_SUBTYPE.DIVINATION]: [
-                "skill",
-                "eml",
-                "charges",
-                "notes",
-            ],
+            [MYSTICALABILITY_SUBTYPE.ARCANETALENT]: ["level", "eml", "charges", "notes"],
+            [MYSTICALABILITY_SUBTYPE.SPIRITTALENT]: ["level", "eml", "charges", "notes"],
+            [MYSTICALABILITY_SUBTYPE.ALCHEMY]: ["skill", "affiliation", "eml", "charges", "notes"],
+            [MYSTICALABILITY_SUBTYPE.DIVINATION]: ["skill", "eml", "charges", "notes"],
         };
 
         it.each(Object.entries(EXPECTED))(
             "%s renders exactly its spec'd columns",
             (subType, kinds) => {
-                expect(
-                    MYSTICALABILITY_SUBTYPE_COLUMNS[subType].map((c) => c.kind),
-                ).toEqual(kinds);
+                expect(MYSTICALABILITY_SUBTYPE_COLUMNS[subType].map((c) => c.kind)).toEqual(kinds);
             },
         );
 
@@ -1162,9 +1048,7 @@ describe("being-sheet-view", () => {
 
         it("hides Skill only for the intrinsic talents", () => {
             for (const subType of MysticalAbilitySubTypes) {
-                const hasSkill = mysticalAbilityColumns(subType).some(
-                    (c) => c.kind === "skill",
-                );
+                const hasSkill = mysticalAbilityColumns(subType).some((c) => c.kind === "skill");
                 const isTalent =
                     subType === MYSTICALABILITY_SUBTYPE.ARCANETALENT ||
                     subType === MYSTICALABILITY_SUBTYPE.SPIRITTALENT;
@@ -1176,26 +1060,21 @@ describe("being-sheet-view", () => {
             for (const cols of Object.values(MYSTICALABILITY_SUBTYPE_COLUMNS)) {
                 for (const col of cols) {
                     if (col.kind === "eml") continue; // EML reuses Skill.Heading keys
-                    expect(col.labelKey).toMatch(
-                        /^SOHL\.MysticalAbility\.COLUMN\./,
-                    );
+                    expect(col.labelKey).toMatch(/^SOHL\.MysticalAbility\.COLUMN\./);
                 }
             }
         });
 
         it("labels the assoc column 'Spirit Power' only for the spirit-power subtypes", () => {
             const assocLabel = (subType: string) =>
-                mysticalAbilityColumns(subType).find((c) => c.kind === "skill")
-                    ?.labelKey;
+                mysticalAbilityColumns(subType).find((c) => c.kind === "skill")?.labelKey;
             for (const subType of MysticalAbilitySubTypes) {
                 const usesSpiritPower =
                     subType === MYSTICALABILITY_SUBTYPE.SPIRITRITE ||
                     subType === MYSTICALABILITY_SUBTYPE.SPIRITACTION;
                 const label = assocLabel(subType);
                 if (usesSpiritPower) {
-                    expect(label).toBe(
-                        "SOHL.MysticalAbility.COLUMN.spiritpower",
-                    );
+                    expect(label).toBe("SOHL.MysticalAbility.COLUMN.spiritpower");
                 } else if (label) {
                     expect(label).toBe("SOHL.MysticalAbility.COLUMN.skill");
                 }
@@ -1219,9 +1098,7 @@ describe("being-sheet-view", () => {
                 if (AFFILIATED.includes(subType)) {
                     expect(affIdx).toBeGreaterThan(0);
                     expect(kinds[affIdx - 1]).toBe("skill");
-                    expect(cols[affIdx].labelKey).toBe(
-                        "SOHL.MysticalAbility.COLUMN.affiliation",
-                    );
+                    expect(cols[affIdx].labelKey).toBe("SOHL.MysticalAbility.COLUMN.affiliation");
                 } else {
                     expect(affIdx).toBe(-1);
                 }
@@ -1229,10 +1106,7 @@ describe("being-sheet-view", () => {
         });
 
         it("mysticalAbilityLedgerCols prepends icon/name and appends controls", () => {
-            const cols =
-                MYSTICALABILITY_SUBTYPE_COLUMNS[
-                    MYSTICALABILITY_SUBTYPE.ARCANETALENT
-                ];
+            const cols = MYSTICALABILITY_SUBTYPE_COLUMNS[MYSTICALABILITY_SUBTYPE.ARCANETALENT];
             const grid = mysticalAbilityLedgerCols(cols).split(" ");
             // 2 leading (icon/name) + N columns + 1 trailing control.
             expect(grid.length).toBe(2 + cols.length + 1);
@@ -1294,10 +1168,7 @@ describe("being-sheet-view", () => {
         });
 
         it("defaults a missing body location to an em dash", () => {
-            const [row] = buildTraumaRows(
-                [{ ...base, area: undefined }],
-                label,
-            );
+            const [row] = buildTraumaRows([{ ...base, area: undefined }], label);
             expect(row.area).toBe("—");
         });
 
@@ -1342,16 +1213,8 @@ describe("being-sheet-view", () => {
         });
 
         it("emits every ordered subtype (including empty) with localized labels", () => {
-            const sections = buildInjurySections(
-                [trauma()],
-                ["injury", "fatigue"],
-                label,
-                aspect,
-            );
-            expect(sections.map((s) => s.subType)).toEqual([
-                "injury",
-                "fatigue",
-            ]);
+            const sections = buildInjurySections([trauma()], ["injury", "fatigue"], label, aspect);
+            expect(sections.map((s) => s.subType)).toEqual(["injury", "fatigue"]);
             expect(sections[0].label).toBe("INJURY");
             expect(sections[0].injuries).toHaveLength(1);
             // Empty ordered subtype still emitted (template filters by length).
@@ -1359,12 +1222,7 @@ describe("being-sheet-view", () => {
         });
 
         it("attaches each subtype's column set and ledger grid string", () => {
-            const sections = buildInjurySections(
-                [trauma()],
-                ["injury", "fatigue"],
-                label,
-                aspect,
-            );
+            const sections = buildInjurySections([trauma()], ["injury", "fatigue"], label, aspect);
             const injury = sections.find((s) => s.subType === "injury")!;
             const fatigue = sections.find((s) => s.subType === "fatigue")!;
             // Injury: Sev, HR, Area, Next Heal Test.
@@ -1375,16 +1233,10 @@ describe("being-sheet-view", () => {
                 "nextTest",
             ]);
             // Fatigue: Category, FL (level), Notes.
-            expect(fatigue.columns.map((c) => c.kind)).toEqual([
-                "category",
-                "level",
-                "notes",
-            ]);
+            expect(fatigue.columns.map((c) => c.kind)).toEqual(["category", "level", "notes"]);
             // ledgerCols = grip + icon + name + column widths + controls.
             expect(injury.ledgerCols).toBe(traumaLedgerCols(injury.columns));
-            expect(injury.ledgerCols.split(" ").length).toBeGreaterThan(
-                injury.columns.length,
-            );
+            expect(injury.ledgerCols.split(" ").length).toBeGreaterThan(injury.columns.length);
         });
 
         it("groups traumas into their subtype sections and formats rows", () => {
@@ -1414,11 +1266,7 @@ describe("being-sheet-view", () => {
                 label,
                 aspect,
             );
-            expect(sections.map((s) => s.subType)).toEqual([
-                "injury",
-                "fatigue",
-                "pall",
-            ]);
+            expect(sections.map((s) => s.subType)).toEqual(["injury", "fatigue", "pall"]);
             expect(sections[2].injuries).toHaveLength(1);
         });
     });
@@ -1448,10 +1296,7 @@ describe("being-sheet-view", () => {
                 ["fatigue", "privation"],
                 label,
             );
-            expect(groups.map((g) => g.subType)).toEqual([
-                "fatigue",
-                "privation",
-            ]);
+            expect(groups.map((g) => g.subType)).toEqual(["fatigue", "privation"]);
             expect(groups[0].label).toBe("FATIGUE");
         });
 

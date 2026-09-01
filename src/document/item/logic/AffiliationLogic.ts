@@ -83,10 +83,7 @@ export class AffiliationLogic<
         const relation = this.data.relation;
         // Own-property check: a bare `relation[shortcode]` would answer with an
         // inherited Object.prototype member for a shortcode like `toString`.
-        if (
-            !relation ||
-            !Object.prototype.hasOwnProperty.call(relation, shortcode)
-        ) {
+        if (!relation || !Object.prototype.hasOwnProperty.call(relation, shortcode)) {
             return AFFILIATION_STANDING.UNALIGNED;
         }
         return relation[shortcode] ?? AFFILIATION_STANDING.UNALIGNED;

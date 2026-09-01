@@ -127,11 +127,7 @@ describe("movement + reach read paths", () => {
                 cy.placeToken(scene, actor).then((token) => {
                     cy.createCombatWith([token]).then((combat) => {
                         cy.foundry((win) =>
-                            combatantLogic(
-                                win,
-                                combat.id,
-                                actor.id,
-                            ).computedMove(),
+                            combatantLogic(win, combat.id, actor.id).computedMove(),
                         ).should("eq", 50);
                     });
                 });
@@ -146,11 +142,7 @@ describe("movement + reach read paths", () => {
                 cy.placeToken(scene, actor).then((token) => {
                     cy.createCombatWith([token]).then((combat) => {
                         cy.foundry((win) => {
-                            const cbt = combatantLogic(
-                                win,
-                                combat.id,
-                                actor.id,
-                            );
+                            const cbt = combatantLogic(win, combat.id, actor.id);
                             return {
                                 displayed: cbt.displayedMove,
                                 computed: cbt.computedMove(),
@@ -175,22 +167,16 @@ describe("movement + reach read paths", () => {
                     cy.createCombatWith([token]).then((combat) => {
                         cy.foundry(async (win) => {
                             const c = win.game.combats.get(combat.id);
-                            const cbt = c.combatants.find(
-                                (x) => x.actorId === actor.id,
-                            );
+                            const cbt = c.combatants.find((x) => x.actorId === actor.id);
                             await cbt.update(
-                                win.JSON.parse(
-                                    JSON.stringify({ "system.moveFactor": 2 }),
-                                ),
+                                win.JSON.parse(JSON.stringify({ "system.moveFactor": 2 })),
                             );
                             return {
                                 moveFactor: cbt.logic.data.moveFactor,
                                 computed: cbt.logic.computedMove(),
                             };
                         }).should((r) => {
-                            expect(r.moveFactor, "moveFactor persisted").to.eq(
-                                2,
-                            );
+                            expect(r.moveFactor, "moveFactor persisted").to.eq(2);
                             // feetPerRound 50 × 2 moveFactor.
                             expect(r.computed).to.eq(100);
                         });
@@ -231,26 +217,24 @@ describe("movement + reach read paths", () => {
     it("holding a longer weapon extends reach beyond the unarmed technique", () => {
         cy.importActor().then((actor) => {
             cy.createItemOn(actor, "skill", meleeTechnique(5)).then(() => {
-                cy.createItemOn(actor, "weapongear", meleeWeapon(8)).then(
-                    (weapon) => {
-                        // Not held yet: only the technique's reach counts.
-                        // 5 (mode length) + 0 (Basic Folk body reachBase).
-                        cy.prepare(actor);
-                        cy.foundry((win) => {
-                            const a = win.game.actors.get(actor.id);
-                            return a.logic.reach;
-                        }).should("eq", 5);
+                cy.createItemOn(actor, "weapongear", meleeWeapon(8)).then((weapon) => {
+                    // Not held yet: only the technique's reach counts.
+                    // 5 (mode length) + 0 (Basic Folk body reachBase).
+                    cy.prepare(actor);
+                    cy.foundry((win) => {
+                        const a = win.game.actors.get(actor.id);
+                        return a.logic.reach;
+                    }).should("eq", 5);
 
-                        // Held: the longer weapon mode becomes available.
-                        // 8 (mode length) + 0 (Basic Folk body reachBase).
-                        cy.holdItem(weapon);
-                        cy.prepare(actor);
-                        cy.foundry((win) => {
-                            const a = win.game.actors.get(actor.id);
-                            return a.logic.reach;
-                        }).should("eq", 8);
-                    },
-                );
+                    // Held: the longer weapon mode becomes available.
+                    // 8 (mode length) + 0 (Basic Folk body reachBase).
+                    cy.holdItem(weapon);
+                    cy.prepare(actor);
+                    cy.foundry((win) => {
+                        const a = win.game.actors.get(actor.id);
+                        return a.logic.reach;
+                    }).should("eq", 8);
+                });
             });
         });
     });

@@ -79,11 +79,9 @@ describe("Keep-control tests — Stumble & Fumble (#851, #852)", () => {
         return cy.foundry((win) => {
             const a = win.game.actors.get(actor.id);
             const attr = a.items.find(
-                (i) =>
-                    i.type === "attribute" && i.system.shortcode === shortcode,
+                (i) => i.type === "attribute" && i.system.shortcode === shortcode,
             );
-            if (!attr)
-                throw new Error(`No '${shortcode}' attribute on ${a.name}`);
+            if (!attr) throw new Error(`No '${shortcode}' attribute on ${a.name}`);
             return attr.logic.masteryLevel.base;
         });
     }
@@ -99,14 +97,9 @@ describe("Keep-control tests — Stumble & Fumble (#851, #852)", () => {
                 });
                 cy.prepare(actor);
                 runBothOutcomes(actor, "stumbleTest").should((r) => {
-                    expect(
-                        r.winnerBase,
-                        `Acrobatics (${acro}) beat Agility (${agl})`,
-                    ).to.eq(acro);
+                    expect(r.winnerBase, `Acrobatics (${acro}) beat Agility (${agl})`).to.eq(acro);
                     expect(r.succIsSuccess).to.be.true;
-                    expect(["Keeps Footing", "Sure-Footed"]).to.include(
-                        r.succText,
-                    );
+                    expect(["Keeps Footing", "Sure-Footed"]).to.include(r.succText);
                     expect(r.failIsSuccess).to.be.false;
                     expect(["Stumbles", "Falls Hard"]).to.include(r.failText);
                 });
@@ -125,13 +118,8 @@ describe("Keep-control tests — Stumble & Fumble (#851, #852)", () => {
                 });
                 cy.prepare(actor);
                 runBothOutcomes(actor, "stumbleTest").should((r) => {
-                    expect(
-                        r.winnerBase,
-                        `Agility (${agl}) beat Acrobatics (${acro})`,
-                    ).to.eq(agl);
-                    expect(["Keeps Footing", "Sure-Footed"]).to.include(
-                        r.succText,
-                    );
+                    expect(r.winnerBase, `Agility (${agl}) beat Acrobatics (${acro})`).to.eq(agl);
+                    expect(["Keeps Footing", "Sure-Footed"]).to.include(r.succText);
                 });
             });
         });
@@ -148,14 +136,11 @@ describe("Keep-control tests — Stumble & Fumble (#851, #852)", () => {
                 });
                 cy.prepare(actor);
                 runBothOutcomes(actor, "fumbleTest").should((r) => {
-                    expect(
-                        r.winnerBase,
-                        `Legerdemain (${lgdm}) beat Dexterity (${dex})`,
-                    ).to.eq(lgdm);
-                    expect(r.succIsSuccess).to.be.true;
-                    expect(["Keeps Grip", "Sure-Handed"]).to.include(
-                        r.succText,
+                    expect(r.winnerBase, `Legerdemain (${lgdm}) beat Dexterity (${dex})`).to.eq(
+                        lgdm,
                     );
+                    expect(r.succIsSuccess).to.be.true;
+                    expect(["Keeps Grip", "Sure-Handed"]).to.include(r.succText);
                     expect(r.failIsSuccess).to.be.false;
                     expect(["Fumbles", "Drops It"]).to.include(r.failText);
                 });

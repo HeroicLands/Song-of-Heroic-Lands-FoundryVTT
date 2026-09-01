@@ -21,8 +21,7 @@
 import { describe, it, expect } from "vitest";
 import { renderTemplateReal } from "@tests/mocks/hbs-helpers";
 
-const MYSTABL_PROPS =
-    "systems/sohl/templates/item/mysticalability-properties.hbs";
+const MYSTABL_PROPS = "systems/sohl/templates/item/mysticalability-properties.hbs";
 
 function render(): string {
     return renderTemplateReal(MYSTABL_PROPS, {

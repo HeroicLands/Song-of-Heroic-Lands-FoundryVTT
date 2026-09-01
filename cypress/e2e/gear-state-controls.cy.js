@@ -44,11 +44,11 @@ describe("gear state controls", () => {
 
         it("toggles carried and worn from the Gear tab", () => {
             cy.importActor().then((actor) => {
-                cy.createItemOn(actor, "weapongear", { name: "Sword" }).then(
-                    (w) => cy.wrap(w.id).as("wid"),
+                cy.createItemOn(actor, "weapongear", { name: "Sword" }).then((w) =>
+                    cy.wrap(w.id).as("wid"),
                 );
-                cy.createItemOn(actor, "armorgear", { name: "Mail" }).then(
-                    (a) => cy.wrap(a.id).as("aid"),
+                cy.createItemOn(actor, "armorgear", { name: "Mail" }).then((a) =>
+                    cy.wrap(a.id).as("aid"),
                 );
                 cy.then(function () {
                     const { wid, aid } = this;
@@ -70,21 +70,14 @@ describe("gear state controls", () => {
                         expect(s.carried).to.be.true; // gear defaults to carried
                     });
 
-                    cy.foundry((win) =>
-                        click(win, actor.id, aid, "toggleWorn"),
-                    );
+                    cy.foundry((win) => click(win, actor.id, aid, "toggleWorn"));
                     cy.wait(400);
-                    cy.foundry(state).should(
-                        (s) => expect(s.worn, "armor worn").to.be.true,
-                    );
+                    cy.foundry(state).should((s) => expect(s.worn, "armor worn").to.be.true);
 
-                    cy.foundry((win) =>
-                        click(win, actor.id, wid, "toggleCarried"),
-                    );
+                    cy.foundry((win) => click(win, actor.id, wid, "toggleCarried"));
                     cy.wait(400);
                     cy.foundry(state).should(
-                        (s) =>
-                            expect(s.carried, "weapon not carried").to.be.false,
+                        (s) => expect(s.carried, "weapon not carried").to.be.false,
                     );
                 });
             });
@@ -120,8 +113,7 @@ describe("gear state controls", () => {
                             .then(() => armorState(win, actor.id, aid)),
                     ).should((s) => {
                         expect(s.carried, "still uncarried").to.be.false;
-                        expect(s.worn, "worn refused while uncarried").to.be
-                            .false;
+                        expect(s.worn, "worn refused while uncarried").to.be.false;
                     });
 
                     // Toggle Carried is never gated — it is the way back.
@@ -131,9 +123,7 @@ describe("gear state controls", () => {
                             .items.get(aid)
                             .logic.executeAction("toggleCarried")
                             .then(() => armorState(win, actor.id, aid)),
-                    ).should(
-                        (s) => expect(s.carried, "picked back up").to.be.true,
-                    );
+                    ).should((s) => expect(s.carried, "picked back up").to.be.true);
 
                     // Carried: the same action now performs.
                     cy.foundry((win) =>
@@ -142,9 +132,7 @@ describe("gear state controls", () => {
                             .items.get(aid)
                             .logic.executeAction("toggleWorn")
                             .then(() => armorState(win, actor.id, aid)),
-                    ).should(
-                        (s) => expect(s.worn, "worn once carried").to.be.true,
-                    );
+                    ).should((s) => expect(s.worn, "worn once carried").to.be.true);
                 });
             });
         });
@@ -187,12 +175,8 @@ describe("gear state controls", () => {
                     cy.foundry((win) => {
                         const row = win.game.actors
                             .get(actor.id)
-                            .sheet.element.querySelector(
-                                `[data-item-id="${aid}"]`,
-                            );
-                        const logic = win.game.actors
-                            .get(actor.id)
-                            .items.get(aid).logic;
+                            .sheet.element.querySelector(`[data-item-id="${aid}"]`);
+                        const logic = win.game.actors.get(actor.id).items.get(aid).logic;
                         const shown = logic
                             .getContextOptions()
                             .filter((e) => e.condition(row))
@@ -208,8 +192,7 @@ describe("gear state controls", () => {
                             r.shown.join("|"),
                             "toggleWorn hidden while uncarried",
                         ).to.not.contain("toggleWorn");
-                        expect(r.wornDisabled, "worn control disabled").to.be
-                            .true;
+                        expect(r.wornDisabled, "worn control disabled").to.be.true;
                     });
                 });
             });
@@ -233,8 +216,8 @@ describe("gear state controls", () => {
 
         it("selecting a weapon in a limb dropdown holds it; blank releases it", () => {
             cy.importActor().then((actor) => {
-                cy.createItemOn(actor, "weapongear", { name: "Sword" }).then(
-                    (w) => cy.wrap(w.id).as("wid"),
+                cy.createItemOn(actor, "weapongear", { name: "Sword" }).then((w) =>
+                    cy.wrap(w.id).as("wid"),
                 );
                 cy.then(function () {
                     const wid = this.wid;
@@ -243,28 +226,19 @@ describe("gear state controls", () => {
                     cy.switchTab("combat", "primary");
                     cy.wait(400);
                     const held = (win) =>
-                        win.game.actors.get(actor.id).items.get(wid).logic
-                            .heldBy.length;
+                        win.game.actors.get(actor.id).items.get(wid).logic.heldBy.length;
 
                     // At least one hold-capable limb dropdown exists.
-                    cy.foundry((win) => pick(win, actor.id, 0, wid)).should(
-                        (r) =>
-                            expect(
-                                r.limbCount,
-                                "limb dropdowns",
-                            ).to.be.at.least(1),
+                    cy.foundry((win) => pick(win, actor.id, 0, wid)).should((r) =>
+                        expect(r.limbCount, "limb dropdowns").to.be.at.least(1),
                     );
                     cy.wait(400);
-                    cy.foundry(held).should((n) =>
-                        expect(n, "weapon held").to.be.at.least(1),
-                    );
+                    cy.foundry(held).should((n) => expect(n, "weapon held").to.be.at.least(1));
 
                     // Blank the same limb → released.
                     cy.foundry((win) => pick(win, actor.id, 0, ""));
                     cy.wait(400);
-                    cy.foundry(held).should((n) =>
-                        expect(n, "weapon released").to.equal(0),
-                    );
+                    cy.foundry(held).should((n) => expect(n, "weapon released").to.equal(0));
                 });
             });
         });
@@ -296,11 +270,8 @@ describe("gear state controls", () => {
                         cy.wait(400);
                         cy.foundry(
                             (win) =>
-                                win.game.actors.get(actor.id).items.get(wid)
-                                    .logic.heldBy.length,
-                        ).should((held) =>
-                            expect(held, "held by both limbs").to.equal(2),
-                        );
+                                win.game.actors.get(actor.id).items.get(wid).logic.heldBy.length,
+                        ).should((held) => expect(held, "held by both limbs").to.equal(2));
                     });
                 });
             });

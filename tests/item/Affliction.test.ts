@@ -12,11 +12,7 @@ import {
     MARGINAL_SUCCESS,
 } from "@src/utils/constants";
 import { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
-import {
-    makeAttributeStub,
-    makeItemLogic,
-    makeMockActor,
-} from "@tests/mocks/logicHarness";
+import { makeAttributeStub, makeItemLogic, makeMockActor } from "@tests/mocks/logicHarness";
 import * as FoundryHelpersMock from "@src/core/FoundryHelpers";
 import * as ActionCard from "@src/document/chat/action-card";
 
@@ -32,15 +28,9 @@ describe("AFFLICTION_SUBTYPE", () => {
         );
     });
     it("exposes each subtype as a value-keyed choice with an i18n label", () => {
-        expect(AfflictionSubTypeChoices["other"]).toBe(
-            "SOHL.Affliction.SubType.other",
-        );
-        expect(AfflictionSubTypeChoices["disease"]).toBe(
-            "SOHL.Affliction.SubType.disease",
-        );
-        expect(AfflictionSubTypeChoices["maladiction"]).toBe(
-            "SOHL.Affliction.SubType.maladiction",
-        );
+        expect(AfflictionSubTypeChoices["other"]).toBe("SOHL.Affliction.SubType.other");
+        expect(AfflictionSubTypeChoices["disease"]).toBe("SOHL.Affliction.SubType.disease");
+        expect(AfflictionSubTypeChoices["maladiction"]).toBe("SOHL.Affliction.SubType.maladiction");
     });
 });
 
@@ -67,12 +57,7 @@ function makeAffliction(
     overrides: Record<string, unknown> = {},
     opts: Record<string, unknown> = {},
 ) {
-    return makeItemLogic(
-        AfflictionLogic,
-        ITEM_KIND.AFFLICTION,
-        afflictionFields(overrides),
-        opts,
-    );
+    return makeItemLogic(AfflictionLogic, ITEM_KIND.AFFLICTION, afflictionFields(overrides), opts);
 }
 
 afterEach(() => {
@@ -85,9 +70,7 @@ describe("affliction phase scheduling on the generic store (#483, #579, #588)", 
     /** A `system.scheduledActions` seed (generic store, issue #588). */
     function sched(actionName: string, anchor: number, interval: number) {
         return {
-            scheduledActions: [
-                { actionName, anchor, interval, sceneUuid: "", payload: {} },
-            ],
+            scheduledActions: [{ actionName, anchor, interval, sceneUuid: "", payload: {} }],
         };
     }
 
@@ -150,11 +133,7 @@ describe("affliction phase scheduling on the generic store (#483, #579, #588)", 
         // OFFERED, not armed — this run pre-answers both with `scope.schedule`.
         expect(unschedule).toHaveBeenCalledWith(logic.item, "onsetCheck");
         expect(schedule).toHaveBeenCalledWith(logic.item, "courseCheck", 300);
-        expect(schedule).toHaveBeenCalledWith(
-            logic.item,
-            "resolutionCheck",
-            700,
-        );
+        expect(schedule).toHaveBeenCalledWith(logic.item, "resolutionCheck", 700);
     });
 
     it("setOnset's follow-on offers are declinable — saying no arms neither (#1183)", async () => {
@@ -188,9 +167,7 @@ describe("affliction phase scheduling on the generic store (#483, #579, #588)", 
 
     it("onsetCheck only posts a card — it sets no onset (#1183)", async () => {
         const { schedule, unschedule } = withStore();
-        const post = vi
-            .spyOn(ActionCard, "postActionCard")
-            .mockResolvedValue(undefined as never);
+        const post = vi.spyOn(ActionCard, "postActionCard").mockResolvedValue(undefined as never);
         const logic = affliction({});
         logic.initialize();
         (logic.item.update as any).mockClear();
@@ -208,9 +185,7 @@ describe("affliction phase scheduling on the generic store (#483, #579, #588)", 
     it("onsetCheck runs the optional onset Macro after crystallizing onset (#488)", async () => {
         withStore();
         vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(2000);
-        const exec = vi
-            .spyOn(FoundryHelpersMock, "fvttExecuteMacro")
-            .mockResolvedValue(undefined);
+        const exec = vi.spyOn(FoundryHelpersMock, "fvttExecuteMacro").mockResolvedValue(undefined);
         const logic = affliction({
             onsetMacroUuid: "Macro.abc123",
             resolutionDurationFormula: "700",
@@ -229,9 +204,7 @@ describe("affliction phase scheduling on the generic store (#483, #579, #588)", 
     it("onsetCheck does not run a macro when none is authored (#488)", async () => {
         withStore();
         vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(2000);
-        const exec = vi
-            .spyOn(FoundryHelpersMock, "fvttExecuteMacro")
-            .mockResolvedValue(undefined);
+        const exec = vi.spyOn(FoundryHelpersMock, "fvttExecuteMacro").mockResolvedValue(undefined);
         const logic = affliction({ onsetMacroUuid: "" });
         logic.initialize();
         await logic.setOnset({ skipDialog: true } as any);
@@ -321,9 +294,7 @@ describe("affliction phase scheduling on the generic store (#483, #579, #588)", 
 
     it("resolutionCheck only posts a card — it settles nothing (#1183)", async () => {
         const { unschedule } = withStore();
-        const post = vi
-            .spyOn(ActionCard, "postActionCard")
-            .mockResolvedValue(undefined as never);
+        const post = vi.spyOn(ActionCard, "postActionCard").mockResolvedValue(undefined as never);
         const logic = affliction({ resolutionDate: null });
         logic.initialize();
         (logic.item.update as any).mockClear();
@@ -394,21 +365,15 @@ describe("AfflictionLogic", () => {
         // matching the pre-port v0.5.6 courseTest contextCondition (#65).
         describe("hasCourse", () => {
             it("true when active and the actor has a usable Endurance attribute", () => {
-                expect(
-                    makeAfflictionOnActor({ isDormant: false }).hasCourse,
-                ).toBe(true);
+                expect(makeAfflictionOnActor({ isDormant: false }).hasCourse).toBe(true);
             });
 
             it("false when the affliction is dormant", () => {
-                expect(
-                    makeAfflictionOnActor({ isDormant: true }).hasCourse,
-                ).toBe(false);
+                expect(makeAfflictionOnActor({ isDormant: true }).hasCourse).toBe(false);
             });
 
             it("false when the actor has no Endurance attribute", () => {
-                expect(
-                    makeAfflictionOnActor({ isDormant: false }, null).hasCourse,
-                ).toBe(false);
+                expect(makeAfflictionOnActor({ isDormant: false }, null).hasCourse).toBe(false);
             });
 
             it("false when the actor's Endurance mastery is disabled", () => {
@@ -433,16 +398,12 @@ describe("AfflictionLogic", () => {
         // lives on Trauma), so the old FIXME's pysn/isBleeding gate never applied.
         describe("canTreat", () => {
             it("true when the affliction is untreated", () => {
-                expect(makeAffliction({ treatmentDate: null }).canTreat).toBe(
-                    true,
-                );
+                expect(makeAffliction({ treatmentDate: null }).canTreat).toBe(true);
             });
 
             it("false when the affliction is already treated", () => {
                 // isTreated is derived from treatmentDate (#484).
-                expect(makeAffliction({ treatmentDate: 123456 }).canTreat).toBe(
-                    false,
-                );
+                expect(makeAffliction({ treatmentDate: 123456 }).canTreat).toBe(false);
             });
         });
 
@@ -451,21 +412,15 @@ describe("AfflictionLogic", () => {
         // attribute — matching the pre-port v0.5.6 healingTest contextCondition (#65).
         describe("canHeal", () => {
             it("true when healing rate is enabled and the actor has usable Endurance", () => {
-                expect(
-                    makeAfflictionOnActor({ healingRateBase: 4 }).canHeal,
-                ).toBe(true);
+                expect(makeAfflictionOnActor({ healingRateBase: 4 }).canHeal).toBe(true);
             });
 
             it("false when the healing rate is disabled (healingRateBase null)", () => {
-                expect(
-                    makeAfflictionOnActor({ healingRateBase: null }).canHeal,
-                ).toBe(false);
+                expect(makeAfflictionOnActor({ healingRateBase: null }).canHeal).toBe(false);
             });
 
             it("false when the actor has no Endurance attribute", () => {
-                expect(
-                    makeAfflictionOnActor({ healingRateBase: 4 }, null).canHeal,
-                ).toBe(false);
+                expect(makeAfflictionOnActor({ healingRateBase: 4 }, null).canHeal).toBe(false);
             });
 
             it("false when the actor's Endurance mastery is disabled", () => {
@@ -543,12 +498,8 @@ describe("AfflictionLogic", () => {
         });
 
         it("derives isTreated from treatmentDate (#484)", () => {
-            expect(makeAffliction({ treatmentDate: null }).isTreated).toBe(
-                false,
-            );
-            expect(makeAffliction({ treatmentDate: 123456 }).isTreated).toBe(
-                true,
-            );
+            expect(makeAffliction({ treatmentDate: null }).isTreated).toBe(false);
+            expect(makeAffliction({ treatmentDate: 123456 }).isTreated).toBe(true);
         });
 
         it("creates level ValueModifier from data.levelBase", () => {
@@ -571,9 +522,7 @@ describe("AfflictionLogic", () => {
         it("disables healingRate when healingRateBase is null", () => {
             const logic = makeAffliction({ healingRateBase: null });
             logic.initialize();
-            expect(logic.healingRate.disabled).toBe(
-                "SOHL.Affliction.NoHealingRate",
-            );
+            expect(logic.healingRate.disabled).toBe("SOHL.Affliction.NoHealingRate");
             expect(logic.healingRate.effective).toBe(0);
         });
 
@@ -636,9 +585,7 @@ describe("resolution outcome effect (#490)", () => {
 
     function resolvingAffliction(overrides: Record<string, unknown> = {}) {
         const actor = makeMockActor();
-        (actor.logic as any).setShockState = vi
-            .fn()
-            .mockResolvedValue(undefined);
+        (actor.logic as any).setShockState = vi.fn().mockResolvedValue(undefined);
         const logic = makeAffliction(
             {
                 onsetDate: 2000,
@@ -681,10 +628,7 @@ describe("resolution outcome effect (#490)", () => {
 
     it("contracts the outcome trauma, combining with the outcome", async () => {
         vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(9000);
-        vi.spyOn(
-            FoundryHelpersMock,
-            "fvttFindItemByShortcode",
-        ).mockResolvedValue({
+        vi.spyOn(FoundryHelpersMock, "fvttFindItemByShortcode").mockResolvedValue({
             type: "trauma",
             name: "Weakness",
             system: { shortcode: "weakness20" },
@@ -730,10 +674,7 @@ describe("resolution outcome effect (#490)", () => {
 
     it("warns and creates nothing when an outcome trauma is not found", async () => {
         vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(9000);
-        vi.spyOn(
-            FoundryHelpersMock,
-            "fvttFindItemByShortcode",
-        ).mockResolvedValue(undefined);
+        vi.spyOn(FoundryHelpersMock, "fvttFindItemByShortcode").mockResolvedValue(undefined);
         const create = vi
             .spyOn(FoundryHelpersMock, "fvttCreateEmbeddedItems")
             .mockResolvedValue([]);

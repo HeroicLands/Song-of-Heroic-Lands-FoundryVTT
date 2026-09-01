@@ -33,11 +33,7 @@ import {
     VALUE_DELTA_INFO,
 } from "@src/utils/constants";
 import { toFilePath, toHTMLString } from "@src/utils/helpers";
-import {
-    dialog,
-    fvttGetSetting,
-    fvttToFoundryRoll,
-} from "@src/core/FoundryHelpers";
+import { dialog, fvttGetSetting, fvttToFoundryRoll } from "@src/core/FoundryHelpers";
 
 /**
  * The Fate **spend flow**, shared by every logic type whose tests may be fated
@@ -109,9 +105,7 @@ export function getFateDescTable(): SuccessTestResult.LimitedDescription[] {
         {
             maxValue: -1,
             label: loc("SOHL.Skill.FateDesc.loseFateNoEffect.label"),
-            description: loc(
-                "SOHL.Skill.FateDesc.loseFateNoEffect.description",
-            ),
+            description: loc("SOHL.Skill.FateDesc.loseFateNoEffect.description"),
             lastDigits: [],
             success: false,
             result: 0,
@@ -163,10 +157,7 @@ export function getFateDescTable(): SuccessTestResult.LimitedDescription[] {
  * @param auraBased - Whether this host's test is itself governed by Aura.
  * @returns The seeded {@link sohl.entity.modifier.MasteryLevelModifier}.
  */
-export function buildFateMasteryLevel(
-    host: FateHost,
-    auraBased: boolean,
-): MasteryLevelModifier {
+export function buildFateMasteryLevel(host: FateHost, auraBased: boolean): MasteryLevelModifier {
     const fateMasteryLevel = new entity.MasteryLevelModifier(
         {
             testDescTable: getFateDescTable(),
@@ -184,20 +175,14 @@ export function buildFateMasteryLevel(
         return fateMasteryLevel;
     }
 
-    const auraLogic = actorLogic.getItemLogic(
-        AURA_SHORTCODE,
-        ITEM_KIND.ATTRIBUTE,
-    );
+    const auraLogic = actorLogic.getItemLogic(AURA_SHORTCODE, ITEM_KIND.ATTRIBUTE);
     if (!auraLogic || auraLogic.masteryLevel.disabled) {
         fateMasteryLevel.disabled = "SOHL.MasteryLevel.FateNotSupported";
         return fateMasteryLevel;
     }
 
     const fateSetting = fvttGetSetting("sohl", "optionFate");
-    if (
-        fateSetting === "everyone" ||
-        (fateSetting === "pconly" && actorLogic.hasPlayerOwner)
-    ) {
+    if (fateSetting === "everyone" || (fateSetting === "pconly" && actorLogic.hasPlayerOwner)) {
         fateMasteryLevel.setBase(50);
         fateMasteryLevel.add(
             VALUE_DELTA_INFO.FATEBNS,
@@ -226,8 +211,7 @@ export function buildFateMasteryLevel(
 export function availableFateFor(host: FateHost): MysteryLogic[] {
     const actorLogic = host.actorLogic;
     if (!actorLogic) return [];
-    const mysteries = (actorLogic.logicTypes?.[ITEM_KIND.MYSTERY] ??
-        []) as MysteryLogic[];
+    const mysteries = (actorLogic.logicTypes?.[ITEM_KIND.MYSTERY] ?? []) as MysteryLogic[];
     return eligibleFateSources(
         mysteries.map((m) => ({
             ref: m,
@@ -354,9 +338,7 @@ export async function performFateTest(
  *
  * @returns The chosen branch, or `undefined` if the dialog was dismissed.
  */
-export async function promptFateCritChoice(): Promise<
-    FateCritChoice | undefined
-> {
+export async function promptFateCritChoice(): Promise<FateCritChoice | undefined> {
     const result = await dialog({
         title: sohl.i18n.localize("SOHL.Skill.Fate.critChoice.title"),
         content: toHTMLString(`<p>{{prompt}}</p>`),
@@ -414,10 +396,7 @@ export async function chooseFateSource(
                     skill: m.data.assocSkillCode,
                 })
             :   sohl.i18n.localize("SOHL.Skill.Fate.source.general"),
-        remaining:
-            m.charges?.value.disabled ?
-                "∞"
-            :   String(m.charges?.value.effective ?? 0),
+        remaining: m.charges?.value.disabled ? "∞" : String(m.charges?.value.effective ?? 0),
         selected: m.id === preferred?.id,
     }));
 

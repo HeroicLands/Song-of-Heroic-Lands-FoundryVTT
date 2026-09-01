@@ -13,22 +13,11 @@
 
 import type { BodyStructure } from "@src/entity/body/BodyStructure";
 import { getActorBody } from "@src/document/actor/logic/BodyLogic";
-import {
-    buildTraumaData,
-    type ResolvedInjury,
-} from "@src/entity/body/injury-resolution";
-import {
-    IMPACT_ASPECT,
-    ITEM_KIND,
-    isImpactAspect,
-    type ImpactAspect,
-} from "@src/utils/constants";
+import { buildTraumaData, type ResolvedInjury } from "@src/entity/body/injury-resolution";
+import { IMPACT_ASPECT, ITEM_KIND, isImpactAspect, type ImpactAspect } from "@src/utils/constants";
 import { GRIEVOUS_MIN } from "@src/entity/body/impairment";
 import { fvttCreateEmbeddedItems } from "@src/core/FoundryHelpers";
-import {
-    offerSchedule,
-    type OfferContext,
-} from "@src/document/item/logic/offer-schedule";
+import { offerSchedule, type OfferContext } from "@src/document/item/logic/offer-schedule";
 
 /**
  * The parameter bag driving the **Resolve Injury** flow — the single vocabulary
@@ -115,10 +104,7 @@ export const DEFAULT_TARGET_ZONE_NUMBER = 1;
  *   "record trauma" setting); the dialog may still override it.
  * @returns The seeded resolve-injury parameters (never `bodyLocationOverriden`).
  */
-export function buildResolveInjuryData(
-    input: unknown,
-    autoAddInjury: boolean,
-): ResolveInjuryData {
+export function buildResolveInjuryData(input: unknown, autoAddInjury: boolean): ResolveInjuryData {
     let raw: Record<string, unknown> = {};
     if (typeof input === "string") {
         if (input.trim()) {
@@ -136,9 +122,7 @@ export function buildResolveInjuryData(
     return {
         bodyLocationCode: str(raw.bodyLocationCode ?? raw.location),
         targetZoneNumber:
-            raw.targetZoneNumber != null ?
-                toInt(raw.targetZoneNumber)
-            :   DEFAULT_TARGET_ZONE_NUMBER,
+            raw.targetZoneNumber != null ? toInt(raw.targetZoneNumber) : DEFAULT_TARGET_ZONE_NUMBER,
         zoneDie: toInt(raw.zoneDie),
         impact: toInt(raw.impact),
         aspect: toAspect(raw.aspect),
@@ -159,16 +143,11 @@ export function buildResolveInjuryData(
  * @param formData - The plain object produced by `FormDataExtended`.
  * @returns The normalized dialog values.
  */
-export function readResolveInjuryForm(
-    formData: Record<string, unknown>,
-): ResolveInjuryData {
+export function readResolveInjuryForm(formData: Record<string, unknown>): ResolveInjuryData {
     return {
         bodyLocationCode: String(formData.bodyLocationCode ?? ""),
         targetZoneNumber:
-            (
-                formData.targetZoneNumber != null &&
-                String(formData.targetZoneNumber) !== ""
-            ) ?
+            formData.targetZoneNumber != null && String(formData.targetZoneNumber) !== "" ?
                 toInt(formData.targetZoneNumber)
             :   DEFAULT_TARGET_ZONE_NUMBER,
         zoneDie: toInt(formData.zoneDie),
@@ -258,8 +237,7 @@ export function buildInjuryCardData(
 ): Record<string, unknown> {
     // An amputation marginal-success worsens the Shock Roll by −20; fold it into
     // the shock bonus so the card's Shock Roll button carries the real penalty.
-    const shockBonus =
-        injury.shockRollBonus + (ctx.amputation?.shockPenalty ?? 0);
+    const shockBonus = injury.shockRollBonus + (ctx.amputation?.shockPenalty ?? 0);
     return {
         actorId: ctx.actorId,
         handlerActorUuid: ctx.handlerActorUuid,
@@ -436,13 +414,7 @@ export async function createTraumaFromInjury(
     // A wound that bleeds on infliction (a non-null blood-loss base) also offers
     // its blood-loss advance (issue #579) rather than auto-arming it.
     if (trauma.system?.bloodLossAdvanceDurationBase != null) {
-        const bloodInterval =
-            Number(trauma.system.bloodLossAdvanceDurationBase) || 0;
-        await offerSchedule(
-            context,
-            trauma,
-            "bloodLossAdvanceCheck",
-            bloodInterval,
-        );
+        const bloodInterval = Number(trauma.system.bloodLossAdvanceDurationBase) || 0;
+        await offerSchedule(context, trauma, "bloodLossAdvanceCheck", bloodInterval);
     }
 }

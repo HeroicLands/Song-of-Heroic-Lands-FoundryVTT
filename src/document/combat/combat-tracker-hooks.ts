@@ -26,12 +26,11 @@ import { SOHL_CONTEXT_MENU_SORT_GROUP } from "@src/utils/constants";
 // keep those document actions out of this row menu — leaving only the
 // combat-specific actions (Automated Attack, Move to Group, …).
 const TRACKER_EXCLUDED_ACTIONS = new Set(["editDocument", "deleteDocument"]);
-const COMBATANT_MENU_ACTION_DEFS =
-    SohlCombatantLogic.defineIntrinsicActions().filter(
-        (d) =>
-            d.group !== SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN &&
-            !TRACKER_EXCLUDED_ACTIONS.has(d.shortcode ?? ""),
-    );
+const COMBATANT_MENU_ACTION_DEFS = SohlCombatantLogic.defineIntrinsicActions().filter(
+    (d) =>
+        d.group !== SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN &&
+        !TRACKER_EXCLUDED_ACTIONS.has(d.shortcode ?? ""),
+);
 
 /**
  * Register hooks that enhance the Foundry **combat tracker** (the `Combat`
@@ -53,30 +52,22 @@ export function registerCombatTrackerHooks(): void {
     // dispatch can resolve to `getCombatTrackerContextOptions`. Register both
     // (with a dedupe guard) so the entries appear regardless of which fires.
     (Hooks as any).on("getCombatantContextOptions", addCombatantActionEntries);
-    (Hooks as any).on(
-        "getCombatTrackerContextOptions",
-        addCombatantActionEntries,
-    );
+    (Hooks as any).on("getCombatTrackerContextOptions", addCombatantActionEntries);
 
     (Hooks as any).on("renderCombatTracker", (_app: any, html: HTMLElement) => {
         const combat = (game as any).combat;
         if (!combat) return;
-        const rows = Array.from(
-            html.querySelectorAll<HTMLElement>("[data-combatant-id]"),
-        );
+        const rows = Array.from(html.querySelectorAll<HTMLElement>("[data-combatant-id]"));
         for (const row of rows) {
             const id = row.dataset.combatantId;
             if (!id) continue;
-            const combatant = combat.combatants?.get?.(id) as
-                SohlCombatant | undefined;
+            const combatant = combat.combatants?.get?.(id) as SohlCombatant | undefined;
             if (!combatant) continue;
 
             // Group-name label (display only — no row grouping).
             if (!row.querySelector(".sohl-group-chip")) {
                 const groupName =
-                    combatant.groupId ?
-                        combat.groups?.get?.(combatant.groupId)?.name
-                    :   undefined;
+                    combatant.groupId ? combat.groups?.get?.(combatant.groupId)?.name : undefined;
                 if (groupName) {
                     const groupChip = document.createElement("span");
                     groupChip.classList.add("sohl-group-chip");
@@ -140,34 +131,26 @@ function getCombatant(li: HTMLElement): SohlCombatant | null {
 export function buildCombatantActionMenuEntries(
     resolveCombatant: (li: HTMLElement) => SohlCombatant | null,
 ): any[] {
-    return COMBATANT_MENU_ACTION_DEFS.filter((def) => !!def.title).map(
-        (def) => {
-            const title = def.title!;
-            return {
-                __sohlActionTitle: title,
-                label: title,
-                icon: def.iconFAClass,
-                visible: (li: HTMLElement): boolean => {
-                    const combatant = resolveCombatant(li);
-                    if (!combatant?.isOwner) return false;
-                    const entry = combatant
-                        .getContextOptions()
-                        .find((e) => e.id === title);
-                    if (!entry) return false;
-                    return typeof entry.condition === "function" ?
-                            entry.condition(li)
-                        :   true;
-                },
-                onClick: (_event: Event, li: HTMLElement): void => {
-                    const combatant = resolveCombatant(li);
-                    const entry = combatant
-                        ?.getContextOptions()
-                        .find((e) => e.id === title);
-                    entry?.callback?.(li);
-                },
-            };
-        },
-    );
+    return COMBATANT_MENU_ACTION_DEFS.filter((def) => !!def.title).map((def) => {
+        const title = def.title!;
+        return {
+            __sohlActionTitle: title,
+            label: title,
+            icon: def.iconFAClass,
+            visible: (li: HTMLElement): boolean => {
+                const combatant = resolveCombatant(li);
+                if (!combatant?.isOwner) return false;
+                const entry = combatant.getContextOptions().find((e) => e.id === title);
+                if (!entry) return false;
+                return typeof entry.condition === "function" ? entry.condition(li) : true;
+            },
+            onClick: (_event: Event, li: HTMLElement): void => {
+                const combatant = resolveCombatant(li);
+                const entry = combatant?.getContextOptions().find((e) => e.id === title);
+                entry?.callback?.(li);
+            },
+        };
+    });
 }
 
 /**
@@ -179,11 +162,7 @@ export function buildCombatantActionMenuEntries(
 function addCombatantActionEntries(_app: any, menuItems: any[]): void {
     if (!Array.isArray(menuItems)) return;
     for (const entry of buildCombatantActionMenuEntries(getCombatant)) {
-        if (
-            menuItems.some(
-                (i) => i?.__sohlActionTitle === entry.__sohlActionTitle,
-            )
-        ) {
+        if (menuItems.some((i) => i?.__sohlActionTitle === entry.__sohlActionTitle)) {
             continue;
         }
         menuItems.push(entry);

@@ -27,10 +27,7 @@ import path from "node:path";
 import { describe, it, expect } from "vitest";
 import { parse as parseYaml } from "yaml";
 
-const UNARMED = path.resolve(
-    __dirname,
-    "../../assets/content/Skills/Combat_Techniques",
-);
+const UNARMED = path.resolve(__dirname, "../../assets/content/Skills/Combat_Techniques");
 const CONTENT = path.resolve(__dirname, "../../assets/content");
 
 /**
@@ -45,16 +42,7 @@ const HUMANOIDS = readdirSync(path.join(CONTENT, "Characters"))
  * `[shortcode, name, LNG, ZD, impact die, impact modifier, aspect, role]`.
  * A `null` die is a manoeuvre that inflicts no impact of its own.
  */
-type Row = [
-    string,
-    string,
-    number,
-    number,
-    number | null,
-    number,
-    string,
-    string,
-];
+type Row = [string, string, number, number, number | null, number, string, string];
 
 const ROWS: Row[] = [
     ["bflkbite", "Folk Bite", 0, 2, 4, 0, "piercing", "vital"],
@@ -95,82 +83,72 @@ const FILES = Object.fromEntries(
         }),
 );
 
-describe.each(ROWS)(
-    "unarmed %s",
-    (code, name, lng, zd, die, mod, aspect, role) => {
-        const fm = FILES[code];
+describe.each(ROWS)("unarmed %s", (code, name, lng, zd, die, mod, aspect, role) => {
+    const fm = FILES[code];
 
-        it("exists as a combat-technique skill", () => {
-            expect(fm, `no item with shortcode "${code}"`).toBeDefined();
-            expect(fm.type).toBe("skill");
-            expect(fm.sohl.subType).toBe("combattechnique");
-            expect(fm.name.full).toBe(name);
-        });
+    it("exists as a combat-technique skill", () => {
+        expect(fm, `no item with shortcode "${code}"`).toBeDefined();
+        expect(fm.type).toBe("skill");
+        expect(fm.sohl.subType).toBe("combattechnique");
+        expect(fm.name.full).toBe(name);
+    });
 
-        it("carries the table's length, zone die and impact", () => {
-            const sm = fm.sohl.strikeMode;
-            expect(sm.type).toBe("melee");
-            expect(sm.lengthBase, "LNG").toBe(lng);
-            expect(sm.attack.spread, "ZD").toBe(zd);
-            if (die === null) {
-                // A manoeuvre resolved by an opposed Strength roll, not a blow.
-                expect(sm.impactBase.numDice, "IMP").toBe(0);
-                expect(sm.impactBase.die, "IMP").toBeNull();
-            } else {
-                expect(sm.impactBase.numDice).toBe(1);
-                expect(sm.impactBase.die, "IMP die").toBe(die);
-                expect(sm.impactBase.modifier, "IMP modifier").toBe(mod);
-                expect(sm.impactBase.aspect).toBe(aspect);
-            }
-        });
+    it("carries the table's length, zone die and impact", () => {
+        const sm = fm.sohl.strikeMode;
+        expect(sm.type).toBe("melee");
+        expect(sm.lengthBase, "LNG").toBe(lng);
+        expect(sm.attack.spread, "ZD").toBe(zd);
+        if (die === null) {
+            // A manoeuvre resolved by an opposed Strength roll, not a blow.
+            expect(sm.impactBase.numDice, "IMP").toBe(0);
+            expect(sm.impactBase.die, "IMP").toBeNull();
+        } else {
+            expect(sm.impactBase.numDice).toBe(1);
+            expect(sm.impactBase.die, "IMP die").toBe(die);
+            expect(sm.impactBase.modifier, "IMP modifier").toBe(mod);
+            expect(sm.impactBase.aspect).toBe(aspect);
+        }
+    });
 
-        it("carries the traits the table prints", () => {
-            const traits = fm.sohl.strikeMode.traits;
-            for (const [k, v] of Object.entries(TRAITS[code])) {
-                expect(traits[k], k).toEqual(v);
-            }
-        });
+    it("carries the traits the table prints", () => {
+        const traits = fm.sohl.strikeMode.traits;
+        for (const [k, v] of Object.entries(TRAITS[code])) {
+            expect(traits[k], k).toEqual(v);
+        }
+    });
 
-        it("is a Melee test, and counterstrikes but does not block", () => {
-            const sm = fm.sohl.strikeMode;
-            // Every one of these is resolved by the Melee test.
-            expect(sm.assocSkillCode).toBe("melee");
-            if (code === "limbblock") {
-                // The one unarmed defence: it blocks and never attacks.
-                expect(sm.attack.disabled).toBe(true);
-                expect(sm.defense.block.disabled).toBe(false);
-            } else {
-                expect(sm.defense.counterstrike.disabled).toBe(false);
-                expect(sm.defense.block.disabled, "unarmed cannot block").toBe(
-                    true,
-                );
-            }
-        });
+    it("is a Melee test, and counterstrikes but does not block", () => {
+        const sm = fm.sohl.strikeMode;
+        // Every one of these is resolved by the Melee test.
+        expect(sm.assocSkillCode).toBe("melee");
+        if (code === "limbblock") {
+            // The one unarmed defence: it blocks and never attacks.
+            expect(sm.attack.disabled).toBe(true);
+            expect(sm.defense.block.disabled).toBe(false);
+        } else {
+            expect(sm.defense.counterstrike.disabled).toBe(false);
+            expect(sm.defense.block.disabled, "unarmed cannot block").toBe(true);
+        }
+    });
 
-        it("is impaired by a role a human body actually has", () => {
-            expect(fm.sohl.impairedByRoles).toEqual([role]);
-        });
-    },
-);
+    it("is impaired by a role a human body actually has", () => {
+        expect(fm.sohl.impairedByRoles).toEqual([role]);
+    });
+});
 
 describe("everyone who fights with their hands", () => {
     it.each(HUMANOIDS)("%s carries every unarmed technique", (file) => {
         const fm = read(CONTENT, file);
         const items = fm.sohl.items ?? [];
-        const codes = new Set(
-            items.map((i: { shortcode?: string }) => i.shortcode),
-        );
+        const codes = new Set(items.map((i: { shortcode?: string }) => i.shortcode));
         for (const [code] of ROWS) {
             expect(codes.has(code), `missing "${code}"`).toBe(true);
         }
         // The shared items are the only unarmed techniques — no creature keeps
         // a bespoke copy alongside them.
         const inline = items.filter(
-            (i: { system?: { subType?: string } }) =>
-                i.system?.subType === "combattechnique",
+            (i: { system?: { subType?: string } }) => i.system?.subType === "combattechnique",
         );
-        expect(inline, "bespoke technique duplicating a shared one").toEqual(
-            [],
-        );
+        expect(inline, "bespoke technique duplicating a shared one").toEqual([]);
     });
 });

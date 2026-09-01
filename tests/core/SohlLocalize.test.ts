@@ -74,9 +74,7 @@ describe("SohlLocalize.normalizeText", () => {
     });
 
     it("folds combining diacritics to their base ASCII letters", () => {
-        expect(
-            i18n.normalizeText("Café", { caseInsensitive: true, ascii: true }),
-        ).toBe("cafe");
+        expect(i18n.normalizeText("Café", { caseInsensitive: true, ascii: true })).toBe("cafe");
     });
 
     it("collapses non-ASCII characters to spaces, leaving ASCII intact", () => {
@@ -98,8 +96,6 @@ describe("SohlLocalize.normalizeText", () => {
     });
 
     it("returns empty string for falsy input", () => {
-        expect(
-            i18n.normalizeText("", { caseInsensitive: true, ascii: true }),
-        ).toBe("");
+        expect(i18n.normalizeText("", { caseInsensitive: true, ascii: true })).toBe("");
     });
 });

@@ -25,16 +25,7 @@ describe("shortcode-format (the shape rule, #1397)", () => {
         });
 
         it("rejects any other non-alphanumeric character", () => {
-            for (const bad of [
-                "a_b",
-                "a b",
-                "a.b",
-                "a/b",
-                "a:b",
-                "a'b",
-                "aé",
-                "a\n",
-            ]) {
+            for (const bad of ["a_b", "a b", "a.b", "a/b", "a:b", "a'b", "aé", "a\n"]) {
                 expect(isValidShortcode(bad)).toBe(false);
             }
         });

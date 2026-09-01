@@ -60,19 +60,14 @@ describe("theme-aware parchment ground", () => {
     function themeStyle(win) {
         const ground = win.document.querySelector(".sohl .window-content");
         const gcs = win.getComputedStyle(ground);
-        const name = win.document.querySelector(
-            ".sohl.being .sheet-header__name",
-        );
-        const toolbar = win.document.querySelector(
-            ".sohl.being .facade__editor prose-mirror menu",
-        );
+        const name = win.document.querySelector(".sohl.being .sheet-header__name");
+        const toolbar = win.document.querySelector(".sohl.being .facade__editor prose-mirror menu");
         return {
             bg: gcs.backgroundColor,
             blend: gcs.backgroundBlendMode,
             image: gcs.backgroundImage,
             nameColor: win.getComputedStyle(name).color,
-            toolbarBg:
-                toolbar ? win.getComputedStyle(toolbar).backgroundColor : null,
+            toolbarBg: toolbar ? win.getComputedStyle(toolbar).backgroundColor : null,
         };
     }
 
@@ -81,9 +76,7 @@ describe("theme-aware parchment ground", () => {
             cy.openSheet(actor);
             cy.get(".sohl.being .window-content").should("exist");
             cy.get(".sohl.being .sheet-header__name").should("exist");
-            cy.get(".sohl.being .facade__editor prose-mirror menu").should(
-                "exist",
-            );
+            cy.get(".sohl.being .facade__editor prose-mirror menu").should("exist");
 
             cy.foundry((win) => {
                 win.document.documentElement.setAttribute("data-theme", "dark");
@@ -97,10 +90,7 @@ describe("theme-aware parchment ground", () => {
             });
 
             cy.foundry((win) => {
-                win.document.documentElement.setAttribute(
-                    "data-theme",
-                    "light",
-                );
+                win.document.documentElement.setAttribute("data-theme", "light");
                 return themeStyle(win);
             }).then((s) => {
                 expect(s.bg, "light ground color").to.eq(LIGHT_GROUND);

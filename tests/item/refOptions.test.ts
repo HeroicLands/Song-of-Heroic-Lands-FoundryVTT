@@ -12,10 +12,7 @@
  */
 
 import { describe, it, expect } from "vitest";
-import {
-    buildRefOptions,
-    actorItemRefOptions,
-} from "@src/document/item/logic/refOptions";
+import { buildRefOptions, actorItemRefOptions } from "@src/document/item/logic/refOptions";
 import { SkillLogic } from "@src/document/item/logic/SkillLogic";
 import { ITEM_KIND } from "@src/utils/constants";
 import { makeItemLogic, makeMockActor } from "@tests/mocks/logicHarness";
@@ -70,10 +67,7 @@ describe("buildRefOptions", () => {
     });
 
     it("appends a flagged option for a dangling selected value", () => {
-        const opts = buildRefOptions(
-            [{ shortcode: "swd", name: "Sword" }],
-            "ghost",
-        );
+        const opts = buildRefOptions([{ shortcode: "swd", name: "Sword" }], "ghost");
         expect(opts).toEqual([
             { value: "swd", label: "Sword" },
             { value: "ghost", label: "ghost (unresolved)", unresolved: true },
@@ -81,10 +75,7 @@ describe("buildRefOptions", () => {
     });
 
     it("does not append when the selected value resolves", () => {
-        const opts = buildRefOptions(
-            [{ shortcode: "swd", name: "Sword" }],
-            "swd",
-        );
+        const opts = buildRefOptions([{ shortcode: "swd", name: "Sword" }], "swd");
         expect(opts).toEqual([{ value: "swd", label: "Sword" }]);
         expect(opts.some((o) => o.unresolved)).toBe(false);
     });
@@ -116,12 +107,7 @@ describe("actorItemRefOptions", () => {
         const actor = makeMockActor();
         addSkill(actor, "swd", "Sword");
         addSkill(actor, "axe", "Axe");
-        const opts = actorItemRefOptions(
-            actor.logic,
-            ITEM_KIND.SKILL,
-            undefined,
-            "swd",
-        );
+        const opts = actorItemRefOptions(actor.logic, ITEM_KIND.SKILL, undefined, "swd");
         expect(opts.map((o) => o.value)).toEqual(["axe"]);
     });
 
@@ -160,16 +146,10 @@ describe("actorItemRefOptions", () => {
             const actor = makeMockActor();
             addSkill(actor, "swd", "Sword");
             const seen: unknown[] = [];
-            actorItemRefOptions(
-                actor.logic,
-                ITEM_KIND.SKILL,
-                undefined,
-                undefined,
-                (l) => {
-                    seen.push((l.data as any).subType);
-                    return true;
-                },
-            );
+            actorItemRefOptions(actor.logic, ITEM_KIND.SKILL, undefined, undefined, (l) => {
+                seen.push((l.data as any).subType);
+                return true;
+            });
             expect(seen).toEqual(["combattechnique"]);
         });
 
@@ -184,9 +164,7 @@ describe("actorItemRefOptions", () => {
                 undefined,
                 () => false,
             );
-            expect(opts).toEqual([
-                { value: "swd", label: "swd (unresolved)", unresolved: true },
-            ]);
+            expect(opts).toEqual([{ value: "swd", label: "swd (unresolved)", unresolved: true }]);
         });
 
         it("is unchanged when no predicate is given", () => {
@@ -194,13 +172,7 @@ describe("actorItemRefOptions", () => {
             addSkill(actor, "swd", "Sword");
             addSkill(actor, "axe", "Axe");
             expect(actorItemRefOptions(actor.logic, ITEM_KIND.SKILL)).toEqual(
-                actorItemRefOptions(
-                    actor.logic,
-                    ITEM_KIND.SKILL,
-                    undefined,
-                    undefined,
-                    undefined,
-                ),
+                actorItemRefOptions(actor.logic, ITEM_KIND.SKILL, undefined, undefined, undefined),
             );
         });
     });

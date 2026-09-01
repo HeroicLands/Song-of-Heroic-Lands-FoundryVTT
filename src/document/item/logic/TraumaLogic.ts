@@ -37,10 +37,7 @@ import {
     type InjuryBand,
     type TreatmentCode,
 } from "@src/entity/body/injury-treatment";
-import {
-    IMMOBILIZED_CODE,
-    permanentImpairmentFor,
-} from "@src/entity/body/impairment";
+import { IMMOBILIZED_CODE, permanentImpairmentFor } from "@src/entity/body/impairment";
 // `action-card` and `chat-card-dispatch` are pure, Foundry-free modules (they
 // touch Foundry only through the `FoundryHelpers` shims); the path-based
 // boundary rule can't tell them apart from the Foundry-coupled files under
@@ -49,10 +46,7 @@ import {
 import { postActionCard } from "@src/document/chat/action-card";
 // eslint-disable-next-line @typescript-eslint/no-restricted-imports
 import { SELF_HANDLER } from "@src/document/chat/chat-card-dispatch";
-import {
-    SHOCK_STATE,
-    shockCourseHrDelta,
-} from "@src/document/actor/logic/shock";
+import { SHOCK_STATE, shockCourseHrDelta } from "@src/document/actor/logic/shock";
 import {
     pallRecoveryOutcome,
     PALL_RECOVERY_INTERVAL_FORMULA,
@@ -100,10 +94,7 @@ import {
     TRAUMA_SUBTYPE,
     TraumaSubType,
 } from "@src/utils/constants";
-import {
-    SohlItemBaseLogic,
-    type SohlItemData,
-} from "@src/document/item/logic/SohlItemBaseLogic";
+import { SohlItemBaseLogic, type SohlItemData } from "@src/document/item/logic/SohlItemBaseLogic";
 import { rollTimedTest } from "@src/document/item/logic/timed-test";
 
 /** Seconds in a day — for converting healing world-time spans to days (#554). */
@@ -123,18 +114,14 @@ const FATIGUE_LABEL_BY_CATEGORY: Record<string, string> = Object.fromEntries(
 const PSYCOND_LABEL_BY_CATEGORY: Record<string, string> = Object.fromEntries(
     Object.entries(TRAUMA_PSYCOND_CATEGORY).map(([k, v]) => [
         v as string,
-        TraumaPsycondCategoryLabels[
-            k as keyof typeof TraumaPsycondCategoryLabels
-        ],
+        TraumaPsycondCategoryLabels[k as keyof typeof TraumaPsycondCategoryLabels],
     ]),
 );
 
 const PHYSCOND_LABEL_BY_CATEGORY: Record<string, string> = Object.fromEntries(
     Object.entries(TRAUMA_PHYSCOND_CATEGORY).map(([k, v]) => [
         v as string,
-        TraumaPhyscondCategoryLabels[
-            k as keyof typeof TraumaPhyscondCategoryLabels
-        ],
+        TraumaPhyscondCategoryLabels[k as keyof typeof TraumaPhyscondCategoryLabels],
     ]),
 );
 
@@ -185,9 +172,7 @@ const RECOVERY_ACTION_BY_SUBTYPE: Record<string, string> = {
  *
  * @typeParam TData - The Trauma data interface.
  */
-export class TraumaLogic<
-    TData extends TraumaData = TraumaData,
-> extends SohlItemBaseLogic<TData> {
+export class TraumaLogic<TData extends TraumaData = TraumaData> extends SohlItemBaseLogic<TData> {
     /**
      * Trauma severity level (M1=1, S2=2, S3=3, G4=4, G5=5), as a
      * {@link sohl.entity.modifier.ValueModifier}, seeded from {@link TraumaData.levelBase}.
@@ -259,15 +244,11 @@ export class TraumaLogic<
      */
     async requestTreatment(_context: SohlActionContext): Promise<void> {
         if (this.data.subType !== TRAUMA_SUBTYPE.INJURY) {
-            sohl.log.uiWarn(
-                sohl.i18n.localize("SOHL.Trauma.Treatment.NotAnInjury"),
-            );
+            sohl.log.uiWarn(sohl.i18n.localize("SOHL.Trauma.Treatment.NotAnInjury"));
             return;
         }
         if (!injuryBand(this.data.levelBase ?? 0)) {
-            sohl.log.uiWarn(
-                sohl.i18n.localize("SOHL.Trauma.Treatment.AlreadyHealed"),
-            );
+            sohl.log.uiWarn(sohl.i18n.localize("SOHL.Trauma.Treatment.AlreadyHealed"));
             return;
         }
         const uuid = this.item?.uuid;
@@ -284,9 +265,7 @@ export class TraumaLogic<
                 action: "performTreatmentTest",
                 handlerUuid: SELF_HANDLER,
                 scope: { injuryUuid: uuid },
-                label: sohl.i18n.localize(
-                    "SOHL.Being.Action.performTreatmentTest",
-                ),
+                label: sohl.i18n.localize("SOHL.Being.Action.performTreatmentTest"),
                 iconFAClass: "fa-solid fa-staff-snake",
             },
         });
@@ -324,9 +303,7 @@ export class TraumaLogic<
         if (hr == null && !context.skipDialog) {
             const form = (await dialog({
                 title: `${this.item?.name ?? ""}: ${sohl.i18n.localize("SOHL.Trauma.Action.treatInjury.title")}`,
-                template: toFilePath(
-                    "systems/sohl/templates/dialog/treat-injury-dialog.hbs",
-                ),
+                template: toFilePath("systems/sohl/templates/dialog/treat-injury-dialog.hbs"),
                 // `null` (rate not yet determined) renders as an empty field —
                 // pre-filling 0 would invite a blind confirm to record the
                 // worst available rate (issue #1087).
@@ -337,10 +314,7 @@ export class TraumaLogic<
             if (!form) return undefined;
             const entered = form.healingRate;
             // A blank field is "no rate supplied", not 0 — `Number("")` is 0.
-            if (
-                entered == null ||
-                (typeof entered === "string" && !entered.trim())
-            )
+            if (entered == null || (typeof entered === "string" && !entered.trim()))
                 return undefined;
             const n = Number(entered);
             if (!Number.isFinite(n)) return undefined;
@@ -389,34 +363,21 @@ export class TraumaLogic<
      * @returns The success test result, or `null` for a non-injury/healed trauma
      *   or a headless critical-failure resolution.
      */
-    async treatmentTest(
-        context: SohlActionContext,
-    ): Promise<SuccessTestResult | null> {
+    async treatmentTest(context: SohlActionContext): Promise<SuccessTestResult | null> {
         if (this.data.subType !== TRAUMA_SUBTYPE.INJURY) {
-            sohl.log.uiWarn(
-                sohl.i18n.localize("SOHL.Trauma.Treatment.NotAnInjury"),
-            );
+            sohl.log.uiWarn(sohl.i18n.localize("SOHL.Trauma.Treatment.NotAnInjury"));
             return null;
         }
         const band = injuryBand(this.data.levelBase ?? 0);
         if (!band) {
-            sohl.log.uiWarn(
-                sohl.i18n.localize("SOHL.Trauma.Treatment.AlreadyHealed"),
-            );
+            sohl.log.uiWarn(sohl.i18n.localize("SOHL.Trauma.Treatment.AlreadyHealed"));
             return null;
         }
 
-        const req = requiredTreatment(
-            this.data.aspect ?? IMPACT_ASPECT.BLUNT,
-            band,
-        );
+        const req = requiredTreatment(this.data.aspect ?? IMPACT_ASPECT.BLUNT, band);
         const physicianMl =
-            (
-                this.actorLogic?.getItemLogic(
-                    SKILL_CODE.PHYSICIAN,
-                    ITEM_KIND.SKILL,
-                ) as any
-            )?.masteryLevel?.effective ?? 0;
+            (this.actorLogic?.getItemLogic(SKILL_CODE.PHYSICIAN, ITEM_KIND.SKILL) as any)
+                ?.masteryLevel?.effective ?? 0;
         const result = await rollTimedTest(this, physicianMl, {
             type: "trauma-treatmenttest",
             title: sohl.i18n.localize("SOHL.Trauma.Action.treatmenttest.title"),
@@ -426,8 +387,7 @@ export class TraumaLogic<
 
         // `false` — the speaker is not owned, so the GM cannot roll: resolve the
         // untreated wound as though the Physician roll were a Critical Failure.
-        const sl =
-            result === false ? CRITICAL_FAILURE : result.normSuccessLevel;
+        const sl = result === false ? CRITICAL_FAILURE : result.normSuccessLevel;
         await this.applyTreatmentResult(sl, band, req?.code, context);
         return result === false ? null : result;
     }
@@ -480,9 +440,7 @@ export class TraumaLogic<
         // arm the blood-loss timer if it is not already bleeding.
         let bleederInterval: number | undefined;
         if (outcome.bleeder && !this.isBleeding) {
-            const formula = String(
-                fvttGetSetting("sohl", "bloodLossAdvanceDurationFormula") ?? "",
-            );
+            const formula = String(fvttGetSetting("sohl", "bloodLossAdvanceDurationFormula") ?? "");
             bleederInterval = Number(formula) || 0;
             update["system.bloodLossAdvanceDurationFormula"] = formula;
             update["system.bloodLossAdvanceDurationBase"] = bleederInterval;
@@ -498,12 +456,7 @@ export class TraumaLogic<
         // blood-loss advance (issue #579 — nothing auto-schedules); the physician
         // is present, so it prompts (honoring the action's skipDialog).
         if (bleederInterval != null) {
-            await offerSchedule(
-                context,
-                this.item,
-                "bloodLossAdvanceCheck",
-                bleederInterval,
-            );
+            await offerSchedule(context, this.item, "bloodLossAdvanceCheck", bleederInterval);
         }
     }
 
@@ -516,16 +469,11 @@ export class TraumaLogic<
      * @param title - The localized test title.
      * @returns The normalized success level, or `null`.
      */
-    private async rollWillTest(
-        type: string,
-        title: string,
-    ): Promise<number | null> {
+    private async rollWillTest(type: string, title: string): Promise<number | null> {
         const willMl =
             (
-                this.actorLogic?.getItemLogic(
-                    ATTRIBUTE_CODE.WILL,
-                    ITEM_KIND.ATTRIBUTE,
-                ) as { masteryLevel?: { effective?: number } } | undefined
+                this.actorLogic?.getItemLogic(ATTRIBUTE_CODE.WILL, ITEM_KIND.ATTRIBUTE) as
+                    { masteryLevel?: { effective?: number } } | undefined
             )?.masteryLevel?.effective ?? 0;
         const result = await rollTimedTest(this, willMl, {
             noChat: true,
@@ -550,8 +498,7 @@ export class TraumaLogic<
      * @returns A promise that resolves once the check card is posted.
      */
     async psycheRecovery(_context: SohlActionContext): Promise<void> {
-        if (this.data.subType !== TRAUMA_SUBTYPE.PSYCHOLOGICAL_CONDITION)
-            return;
+        if (this.data.subType !== TRAUMA_SUBTYPE.PSYCHOLOGICAL_CONDITION) return;
         await this.postCheckCard("psycheRecovery", "psycheRecoveryTest");
     }
 
@@ -571,10 +518,7 @@ export class TraumaLogic<
      */
     async psycheRecoveryTest(context: SohlActionContext): Promise<void> {
         const uuid = this.item?.uuid;
-        if (
-            !uuid ||
-            this.data.subType !== TRAUMA_SUBTYPE.PSYCHOLOGICAL_CONDITION
-        ) {
+        if (!uuid || this.data.subType !== TRAUMA_SUBTYPE.PSYCHOLOGICAL_CONDITION) {
             return;
         }
         const dueAt = this.dueAtFromContext(context, "psycheRecovery");
@@ -605,9 +549,7 @@ export class TraumaLogic<
         await this.item.update({
             "system.levelBase": Math.max(0, psy),
             "system.category":
-                permanent ?
-                    PSYCHE_PERMANENCE.PERMANENT
-                :   PSYCHE_PERMANENCE.INDEFINITE,
+                permanent ? PSYCHE_PERMANENCE.PERMANENT : PSYCHE_PERMANENCE.INDEFINITE,
         } as PlainObject);
         await offerSchedule(
             context,
@@ -636,10 +578,7 @@ export class TraumaLogic<
      */
     async auralShockRecovery(_context: SohlActionContext): Promise<void> {
         if (this.data.subType !== TRAUMA_SUBTYPE.AURALSHOCK) return;
-        await this.postCheckCard(
-            "auralShockRecovery",
-            "auralShockRecoveryTest",
-        );
+        await this.postCheckCard("auralShockRecovery", "auralShockRecoveryTest");
     }
 
     /**
@@ -665,9 +604,7 @@ export class TraumaLogic<
         if (as > 0) {
             const sl = await this.rollWillTest(
                 "trauma-auralshock-recovery",
-                sohl.i18n.localize(
-                    "SOHL.Trauma.Action.auralShockRecovery.title",
-                ),
+                sohl.i18n.localize("SOHL.Trauma.Action.auralShockRecovery.title"),
             );
             if (sl == null) return; // roll refused
             const out = auralShockRecoveryOutcome(sl);
@@ -759,9 +696,7 @@ export class TraumaLogic<
 
         // A Marginal Failure knocks the victim unconscious until PSL reach 0.
         if (unconscious) {
-            await (this.actorLogic as any)?.setShockState?.(
-                SHOCK_STATE.UNCONSCIOUS,
-            );
+            await (this.actorLogic as any)?.setShockState?.(SHOCK_STATE.UNCONSCIOUS);
         }
         // A Critical Failure forces the victim to Face the Pall — offered, never
         // imposed (the choice is always the victim's).
@@ -1005,9 +940,7 @@ export class TraumaLogic<
      * `0` is a real (catastrophic) rate, not an absent one.
      */
     get isTreated(): boolean {
-        return (
-            this.data.healingRateBase != null && this.data.treatmentDate != null
-        );
+        return this.data.healingRateBase != null && this.data.treatmentDate != null;
     }
 
     /**
@@ -1053,16 +986,10 @@ export class TraumaLogic<
         if (this.data.subType === TRAUMA_SUBTYPE.FEAR && isFearCategory(cat)) {
             return sohl.i18n.localize(FearCategoryChoices[cat]);
         }
-        if (
-            this.data.subType === TRAUMA_SUBTYPE.MORALE &&
-            isMoraleCategory(cat)
-        ) {
+        if (this.data.subType === TRAUMA_SUBTYPE.MORALE && isMoraleCategory(cat)) {
             return sohl.i18n.localize(MoraleCategoryChoices[cat]);
         }
-        if (
-            this.data.subType === TRAUMA_SUBTYPE.FATIGUE &&
-            isFatigueCategory(cat)
-        ) {
+        if (this.data.subType === TRAUMA_SUBTYPE.FATIGUE && isFatigueCategory(cat)) {
             return sohl.i18n.localize(FATIGUE_LABEL_BY_CATEGORY[cat]);
         }
         if (
@@ -1109,9 +1036,7 @@ export class TraumaLogic<
     /** @inheritdoc */
     override initialize(): void {
         super.initialize();
-        this.level = new entity.ValueModifier(this).setBase(
-            this.data.levelBase ?? 0,
-        );
+        this.level = new entity.ValueModifier(this).setBase(this.data.levelBase ?? 0);
         // An undetermined Healing Rate disables the modifier rather than reading
         // as a rate of 0 (#1148) — the same treatment AfflictionLogic gives it,
         // and what the Being ledger renders as ✗ instead of a number.
@@ -1121,22 +1046,18 @@ export class TraumaLogic<
         } else {
             this.healingRate.setBase(this.data.healingRateBase);
         }
-        this.treatmentModifier = new entity.ValueModifier(
-            {},
-            { parent: this },
-        ).setBase(this.data.treatmentModifierBase ?? 0);
-        this.healingCheckDurationBase = new entity.ValueModifier(
-            {},
-            { parent: this },
-        ).setBase(this.data.healingCheckDurationBase ?? 0);
-        this.bloodLossAdvanceDurationBase = new entity.ValueModifier(
-            {},
-            { parent: this },
-        ).setBase(this.data.bloodLossAdvanceDurationBase ?? 0);
-        this.courseDurationBase = new entity.ValueModifier(
-            {},
-            { parent: this },
-        ).setBase(this.data.courseDurationBase ?? 0);
+        this.treatmentModifier = new entity.ValueModifier({}, { parent: this }).setBase(
+            this.data.treatmentModifierBase ?? 0,
+        );
+        this.healingCheckDurationBase = new entity.ValueModifier({}, { parent: this }).setBase(
+            this.data.healingCheckDurationBase ?? 0,
+        );
+        this.bloodLossAdvanceDurationBase = new entity.ValueModifier({}, { parent: this }).setBase(
+            this.data.bloodLossAdvanceDurationBase ?? 0,
+        );
+        this.courseDurationBase = new entity.ValueModifier({}, { parent: this }).setBase(
+            this.data.courseDurationBase ?? 0,
+        );
         this.bodyLocation = undefined;
         this.applyImmobilization();
     }
@@ -1206,26 +1127,18 @@ export class TraumaLogic<
             );
             // `isTreated` guarantees a recorded Healing Rate, so this is never
             // null here — but read it defensively rather than asserting.
-            this.healing.setBase(
-                healingBase * Math.max(0, this.data.healingRateBase ?? 0),
-            );
+            this.healing.setBase(healingBase * Math.max(0, this.data.healingRateBase ?? 0));
         }
 
         const uuid = this.item?.uuid;
         if (!uuid) return;
-        armScheduledActions(
-            uuid,
-            this.data.scheduledActions,
-            sohl.events,
-            this,
-        );
+        armScheduledActions(uuid, this.data.scheduledActions, sohl.events, this);
     }
 
     /** Whether this trauma is an Extended Shock or Coma lasting-shock record. */
     private get isShockOrComa(): boolean {
         return (
-            this.data.subType === TRAUMA_SUBTYPE.SHOCK ||
-            this.data.subType === TRAUMA_SUBTYPE.COMA
+            this.data.subType === TRAUMA_SUBTYPE.SHOCK || this.data.subType === TRAUMA_SUBTYPE.COMA
         );
     }
 
@@ -1234,9 +1147,7 @@ export class TraumaLogic<
      * Coma, or Infection lasting condition (#556/#557).
      */
     private get isCourseTrauma(): boolean {
-        return (
-            this.isShockOrComa || this.data.subType === TRAUMA_SUBTYPE.INFECTION
-        );
+        return this.isShockOrComa || this.data.subType === TRAUMA_SUBTYPE.INFECTION;
     }
 
     /**
@@ -1291,9 +1202,7 @@ export class TraumaLogic<
                 action: "healingtest",
                 handlerUuid: uuid,
                 scope: { dueAt: this.healingCheckDueAt() },
-                label: sohl.i18n.localize(
-                    "SOHL.Trauma.Action.healingtest.title",
-                ),
+                label: sohl.i18n.localize("SOHL.Trauma.Action.healingtest.title"),
                 iconFAClass: "fa-solid fa-heart-pulse",
             },
         });
@@ -1311,9 +1220,7 @@ export class TraumaLogic<
      * @returns The due time in world-time seconds.
      */
     private dueAtFor(actionName: string): number {
-        const entry = this.data.scheduledActions?.find(
-            (e) => e.actionName === actionName,
-        );
+        const entry = this.data.scheduledActions?.find((e) => e.actionName === actionName);
         return entry ? entry.anchor + entry.interval : fvttWorldTime();
     }
 
@@ -1326,14 +1233,9 @@ export class TraumaLogic<
      * @param actionName - The scheduled action the test belongs to.
      * @returns The due time in world-time seconds.
      */
-    private dueAtFromContext(
-        context: SohlActionContext,
-        actionName: string,
-    ): number {
+    private dueAtFromContext(context: SohlActionContext, actionName: string): number {
         const raw = (context.scope as { dueAt?: unknown } | undefined)?.dueAt;
-        return Number.isFinite(Number(raw)) ?
-                Number(raw)
-            :   this.dueAtFor(actionName);
+        return Number.isFinite(Number(raw)) ? Number(raw) : this.dueAtFor(actionName);
     }
 
     /**
@@ -1348,10 +1250,7 @@ export class TraumaLogic<
      * @param testAction - The `*Test` shortcode the card's button runs.
      * @returns A promise that resolves once the card is posted.
      */
-    private async postCheckCard(
-        actionName: string,
-        testAction: string,
-    ): Promise<void> {
+    private async postCheckCard(actionName: string, testAction: string): Promise<void> {
         const uuid = this.item?.uuid;
         if (!uuid) return;
         await postActionCard(this.speaker, {
@@ -1359,18 +1258,14 @@ export class TraumaLogic<
             data: {
                 patientName: (this.actorLogic as { name?: string })?.name ?? "",
                 traumaName: this.item?.name ?? "",
-                effect: sohl.i18n.localize(
-                    `SOHL.Reminder.effect.${actionName}`,
-                ),
+                effect: sohl.i18n.localize(`SOHL.Reminder.effect.${actionName}`),
                 level: this.data.levelBase ?? 0,
             },
             buttons: {
                 action: testAction,
                 handlerUuid: uuid,
                 scope: { dueAt: this.dueAtFor(actionName) },
-                label: sohl.i18n.localize(
-                    `SOHL.Trauma.Action.${testAction}.title`,
-                ),
+                label: sohl.i18n.localize(`SOHL.Trauma.Action.${testAction}.title`),
                 iconFAClass: "ginf-heart-beats",
             },
         });
@@ -1387,9 +1282,7 @@ export class TraumaLogic<
      * @returns The due time in world-time seconds.
      */
     private healingCheckDueAt(): number {
-        const entry = this.data.scheduledActions?.find(
-            (e) => e.actionName === "healingCheck",
-        );
+        const entry = this.data.scheduledActions?.find((e) => e.actionName === "healingCheck");
         return entry ? entry.anchor + entry.interval : fvttWorldTime();
     }
 
@@ -1420,21 +1313,14 @@ export class TraumaLogic<
      *   the follow-on offer.
      * @returns The resulting Injury Level, or `null` when the roll was refused.
      */
-    async healingTest(
-        context: SohlActionContext,
-    ): Promise<{ level: number } | null> {
+    async healingTest(context: SohlActionContext): Promise<{ level: number } | null> {
         if (this.data.subType !== TRAUMA_SUBTYPE.INJURY) {
-            sohl.log.uiWarn(
-                sohl.i18n.localize("SOHL.Trauma.Treatment.NotAnInjury"),
-            );
+            sohl.log.uiWarn(sohl.i18n.localize("SOHL.Trauma.Treatment.NotAnInjury"));
             return null;
         }
-        const dueAtRaw = (context.scope as { dueAt?: unknown } | undefined)
-            ?.dueAt;
+        const dueAtRaw = (context.scope as { dueAt?: unknown } | undefined)?.dueAt;
         const dueAt =
-            Number.isFinite(Number(dueAtRaw)) ?
-                Number(dueAtRaw)
-            :   this.healingCheckDueAt();
+            Number.isFinite(Number(dueAtRaw)) ? Number(dueAtRaw) : this.healingCheckDueAt();
 
         let level = this.data.levelBase ?? 0;
         // A healed wound has nothing left to test, and nothing left to schedule.
@@ -1476,9 +1362,7 @@ export class TraumaLogic<
         }
         // MF (0): no healing.
 
-        const nextInterval = this.rollDuration(
-            this.data.healingCheckDurationFormula,
-        );
+        const nextInterval = this.rollDuration(this.data.healingCheckDurationFormula);
         this.healingCheckDurationBase.setBase(nextInterval);
         await this.item.update({
             "system.levelBase": level,
@@ -1562,14 +1446,12 @@ export class TraumaLogic<
      * infection stops all Injury Healing Tests until every infection is defeated).
      */
     get healingHalted(): boolean {
-        const traumas = (this.actorLogic?.logicTypes?.[ITEM_KIND.TRAUMA] ??
-            []) as TraumaLogic[];
+        const traumas = (this.actorLogic?.logicTypes?.[ITEM_KIND.TRAUMA] ?? []) as TraumaLogic[];
         // An infection has Injury Level "X" (0), so its *activity* is measured by
         // its Healing Rate: it is unhealed while HR is below 6 (#557).
         return traumas.some(
             (t) =>
-                t.data.subType === TRAUMA_SUBTYPE.INFECTION &&
-                (t.healingRate?.effective ?? 0) < 6,
+                t.data.subType === TRAUMA_SUBTYPE.INFECTION && (t.healingRate?.effective ?? 0) < 6,
         );
     }
 
@@ -1614,10 +1496,7 @@ export class TraumaLogic<
      * @returns A promise that resolves once the check card is posted.
      */
     async bloodLossAdvanceCheck(_context: SohlActionContext): Promise<void> {
-        await this.postCheckCard(
-            "bloodLossAdvanceCheck",
-            "bloodLossAdvanceTest",
-        );
+        await this.postCheckCard("bloodLossAdvanceCheck", "bloodLossAdvanceTest");
     }
 
     /**
@@ -1651,18 +1530,12 @@ export class TraumaLogic<
         await this.applyBloodLossAdvance();
 
         // A pending Marginal-Success stoppage is spent by this advance (#547).
-        const stopNow = !!(await this.item.getFlag(
-            "sohl",
-            "bloodStoppagePending",
-        ));
+        const stopNow = !!(await this.item.getFlag("sohl", "bloodStoppagePending"));
 
-        const nextInterval = this.rollDuration(
-            this.data.bloodLossAdvanceDurationFormula,
-        );
+        const nextInterval = this.rollDuration(this.data.bloodLossAdvanceDurationFormula);
         this.bloodLossAdvanceDurationBase.setBase(stopNow ? 0 : nextInterval);
         const update: PlainObject = {
-            "system.bloodLossAdvanceDurationBase":
-                stopNow ? null : nextInterval,
+            "system.bloodLossAdvanceDurationBase": stopNow ? null : nextInterval,
         };
         if (stopNow) update["flags.sohl.bloodStoppagePending"] = false;
         await this.item.update(update);
@@ -1695,20 +1568,15 @@ export class TraumaLogic<
      */
     async requestBloodStoppage(_context: SohlActionContext): Promise<void> {
         if (!this.isBleeding) {
-            sohl.log.uiWarn(
-                sohl.i18n.localize("SOHL.Trauma.BloodStoppage.NotBleeding"),
-            );
+            sohl.log.uiWarn(sohl.i18n.localize("SOHL.Trauma.BloodStoppage.NotBleeding"));
             return;
         }
         const uuid = this.item?.uuid;
         if (!uuid) return;
         // A prior Marginal-Failure stoppage grants +10 to this test.
-        const bonus = Number(
-            (await this.item.getFlag("sohl", "bloodStoppageBonus")) ?? 0,
-        );
+        const bonus = Number((await this.item.getFlag("sohl", "bloodStoppageBonus")) ?? 0);
         await postActionCard(this.speaker, {
-            template:
-                "systems/sohl/templates/chat/blood-stoppage-request-card.hbs",
+            template: "systems/sohl/templates/chat/blood-stoppage-request-card.hbs",
             data: {
                 patientName: (this.actorLogic as { name?: string })?.name ?? "",
                 woundName: this.item?.name ?? "",
@@ -1717,9 +1585,7 @@ export class TraumaLogic<
                 action: "performBloodStoppage",
                 handlerUuid: SELF_HANDLER,
                 scope: { injuryUuid: uuid, stoppageBonus: bonus },
-                label: sohl.i18n.localize(
-                    "SOHL.Being.Action.performBloodStoppage",
-                ),
+                label: sohl.i18n.localize("SOHL.Being.Action.performBloodStoppage"),
                 iconFAClass: "fa-solid fa-droplet-slash",
             },
         });
@@ -1780,14 +1646,12 @@ export class TraumaLogic<
         const actorLogic = this.actorLogic;
         if (!actorLogic) return;
         const strMl =
-            (actorLogic.getItemLogic("str", ITEM_KIND.ATTRIBUTE) as any)
-                ?.masteryLevel?.effective ?? 0;
+            (actorLogic.getItemLogic("str", ITEM_KIND.ATTRIBUTE) as any)?.masteryLevel?.effective ??
+            0;
         const result = await rollTimedTest(this, strMl, {
             noChat: true,
             type: "trauma-bloodloss",
-            title: sohl.i18n.localize(
-                "SOHL.Trauma.Action.bloodLossAdvanceCheck.title",
-            ),
+            title: sohl.i18n.localize("SOHL.Trauma.Action.bloodLossAdvanceCheck.title"),
         });
         if (!result) return;
         // Blood Loss Points by success level: CF (−1) +3, MF (0) +2, MS (1) +1,
@@ -1948,18 +1812,12 @@ export class TraumaLogic<
         const actorLogic = this.actorLogic as any;
         const healingBase = actorLogic?.healingBase?.effective ?? 0;
         const fatigue = actorLogic?.fatiguePenalty?.effective ?? 0;
-        const result = await rollTimedTest(
-            this,
-            healingBase * Math.max(0, hr),
-            {
-                noChat: true,
-                type: `trauma-${this.data.subType}-course`,
-                title: sohl.i18n.localize(
-                    "SOHL.Trauma.Action.courseCheck.title",
-                ),
-                situationalModifier: -fatigue,
-            },
-        );
+        const result = await rollTimedTest(this, healingBase * Math.max(0, hr), {
+            noChat: true,
+            type: `trauma-${this.data.subType}-course`,
+            title: sohl.i18n.localize("SOHL.Trauma.Action.courseCheck.title"),
+            situationalModifier: -fatigue,
+        });
         return result ? result.normSuccessLevel : null;
     }
 
@@ -1973,15 +1831,10 @@ export class TraumaLogic<
      * @returns A promise that resolves once the recovery is applied.
      */
     private async resolveShockRecovery(recoveredAt: number): Promise<void> {
-        if (
-            this.data.subType === TRAUMA_SUBTYPE.COMA &&
-            this.data.contractDate != null
-        ) {
+        if (this.data.subType === TRAUMA_SUBTYPE.COMA && this.data.contractDate != null) {
             const days = Math.max(
                 0,
-                Math.round(
-                    (recoveredAt - this.data.contractDate) / SECONDS_PER_DAY,
-                ),
+                Math.round((recoveredAt - this.data.contractDate) / SECONDS_PER_DAY),
             );
             await inflictWeaknessFatigue(
                 this.actorLogic,
@@ -1989,10 +1842,7 @@ export class TraumaLogic<
                 sohl.i18n.localize("SOHL.Trauma.ComaWeariness"),
             );
         }
-        const target =
-            this.hasOtherActiveComa() ?
-                SHOCK_STATE.UNCONSCIOUS
-            :   SHOCK_STATE.NONE;
+        const target = this.hasOtherActiveComa() ? SHOCK_STATE.UNCONSCIOUS : SHOCK_STATE.NONE;
         await (this.actorLogic as any)?.setShockState?.(target);
     }
 
@@ -2004,8 +1854,7 @@ export class TraumaLogic<
      * @returns `true` when another active Coma remains.
      */
     private hasOtherActiveComa(): boolean {
-        const traumas = (this.actorLogic?.logicTypes?.[ITEM_KIND.TRAUMA] ??
-            []) as TraumaLogic[];
+        const traumas = (this.actorLogic?.logicTypes?.[ITEM_KIND.TRAUMA] ?? []) as TraumaLogic[];
         return traumas.some((t) => {
             if (t === this || t.data.subType !== TRAUMA_SUBTYPE.COMA) {
                 return false;

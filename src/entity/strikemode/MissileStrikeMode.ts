@@ -44,20 +44,12 @@ export class MissileStrikeMode extends StrikeModeBase {
      * @param parentLogic - The owning Logic instance, used as the modifiers' parent.
      * @param shortcode - This strike mode's key within the parent's `strikeModes` map.
      */
-    constructor(
-        data: MissileStrikeMode.Data,
-        parentLogic: SohlLogic,
-        shortcode: string,
-    ) {
+    constructor(data: MissileStrikeMode.Data, parentLogic: SohlLogic, shortcode: string) {
         super(data, parentLogic, shortcode);
         this.projectileType = data.projectileType;
         this.maxVolleyMult = data.maxVolleyMult;
-        this.baseRange = new entity.ValueModifier(parentLogic).setBase(
-            data.baseRangeBase,
-        );
-        this.draw = new entity.ValueModifier(parentLogic).setBase(
-            data.drawBase,
-        );
+        this.baseRange = new entity.ValueModifier(parentLogic).setBase(data.baseRangeBase);
+        this.draw = new entity.ValueModifier(parentLogic).setBase(data.drawBase);
     }
 
     /**

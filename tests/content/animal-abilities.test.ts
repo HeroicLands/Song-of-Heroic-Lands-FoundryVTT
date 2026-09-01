@@ -36,17 +36,7 @@ const CONTENT = path.resolve(__dirname, "../../assets/content/Bestiary/Animal");
 /* ------------------------------------------------------------------ */
 
 /** `[STR, END, AGL, PER, SCENT, AUR, WIL, REA, CRE]`. */
-type Scores = [
-    number,
-    number,
-    number,
-    number,
-    number,
-    number,
-    number,
-    number,
-    number,
-];
+type Scores = [number, number, number, number, number, number, number, number, number];
 /** `[AWARE, STEALTH, SPIRIT, INITIATIVE, DODGE, SHOCK]`. */
 type Ratings = [number, number, number, number, number, number];
 /** `[B, E, P, F]` — the natural-armour column group. */
@@ -450,17 +440,7 @@ const ROWS: Row[] = [
 /*  Helpers                                                           */
 /* ------------------------------------------------------------------ */
 
-const ATTR_ORDER = [
-    "str",
-    "end",
-    "agl",
-    "per",
-    "snt",
-    "aur",
-    "wil",
-    "rea",
-    "cre",
-] as const;
+const ATTR_ORDER = ["str", "end", "agl", "per", "snt", "aur", "wil", "rea", "cre"] as const;
 const RATING_CODES = ["awar", "stlth", "sprt", "init", "dge", "shok"] as const;
 const ASPECTS = ["blunt", "edged", "piercing", "fire"] as const;
 
@@ -522,9 +502,7 @@ const SHARED_TECHNIQUES = (() => {
 /** Every embedded item of the given `(type, subType)`. */
 function items(sohl: any, type: string, subType?: string): any[] {
     return (sohl.items ?? []).filter(
-        (i: any) =>
-            i.type === type &&
-            (subType === undefined || i.system?.subType === subType),
+        (i: any) => i.type === type && (subType === undefined || i.system?.subType === subType),
     );
 }
 
@@ -536,9 +514,7 @@ describe.each(ROWS)("$file", (row) => {
     const sohl = readSohl(row.file);
 
     it("carries the table's ability scores", () => {
-        const expected = Object.fromEntries(
-            ATTR_ORDER.map((code, i) => [code, row.scores[i]]),
-        );
+        const expected = Object.fromEntries(ATTR_ORDER.map((code, i) => [code, row.scores[i]]));
         expect(sohl.attributes).toEqual(expected);
     });
 
@@ -552,26 +528,19 @@ describe.each(ROWS)("$file", (row) => {
     it("carries the table's weight and the body scale it implies", () => {
         expect(sohl.body.weight.base).toBe(row.lb);
         expect(sohl.body.weight.calc).toBe(String(row.lb));
-        expect(sohl.body.bodyScaleBase).toBeCloseTo(
-            bodyScale(row.scores[0]),
-            2,
-        );
+        expect(sohl.body.bodyScaleBase).toBeCloseTo(bodyScale(row.scores[0]), 2);
     });
 
     it("moves at the table's rate, in the medium the table prints", () => {
         const medium = row.aerial ? "aerial" : "terrestrial";
         expect(sohl.currentMoveMedium).toBe(medium);
-        const profile = sohl.movementProfiles.find(
-            (p: any) => p.medium === medium,
-        );
+        const profile = sohl.movementProfiles.find((p: any) => p.medium === medium);
         expect(profile?.feetPerRound).toBe(row.move);
     });
 
     it("carries the AWARE / STEALTH / SPIRIT / INITIATIVE / DODGE / SHOCK values", () => {
         for (const [i, code] of RATING_CODES.entries()) {
-            const entry = (sohl.items ?? []).find(
-                (x: any) => x.shortcode === code,
-            );
+            const entry = (sohl.items ?? []).find((x: any) => x.shortcode === code);
             expect(entry, `missing "${code}"`).toBeDefined();
             expect(entry.system.masteryLevelBase, code).toBe(row.ratings[i]);
         }
@@ -579,9 +548,7 @@ describe.each(ROWS)("$file", (row) => {
 
     it("has one combat technique per weapons-table row", () => {
         const techniques = items(sohl, "skill", "combattechnique");
-        expect(techniques.map((t) => t.name)).toEqual(
-            row.weapons.map(([name]) => name),
-        );
+        expect(techniques.map((t) => t.name)).toEqual(row.weapons.map(([name]) => name));
 
         for (const [i, w] of row.weapons.entries()) {
             const [name, code, reach, zoneDie, atk, die, mod, aspect] = w;
@@ -645,13 +612,9 @@ describe.each(ROWS)("$file", (row) => {
     });
 
     it("carries the table's natural armour at every hit location", () => {
-        const expected = Object.fromEntries(
-            ASPECTS.map((a, i) => [a, row.armour[i]]),
-        );
+        const expected = Object.fromEntries(ASPECTS.map((a, i) => [a, row.armour[i]]));
         for (const location of sohl.body.structure.locations) {
-            expect(location.protectionBase, location.shortcode).toEqual(
-                expected,
-            );
+            expect(location.protectionBase, location.shortcode).toEqual(expected);
         }
     });
 
@@ -662,9 +625,7 @@ describe.each(ROWS)("$file", (row) => {
         }[];
         // Exactly one vital part (the head), and at least one core part.
         expect(parts.filter((p) => p.roles.includes("vital"))).toHaveLength(1);
-        expect(
-            parts.filter((p) => p.roles.includes("core")).length,
-        ).toBeGreaterThan(0);
+        expect(parts.filter((p) => p.roles.includes("core")).length).toBeGreaterThan(0);
         // Every technique's impairing role is one some part actually has.
         const roles = new Set(parts.flatMap((p) => p.roles));
         for (const tech of items(sohl, "skill", "combattechnique")) {
@@ -775,38 +736,25 @@ describe.each(ALL_CREATURES)("%s (every creature)", (file) => {
             SHARED_TECHNIQUES.has(i.shortcode),
         );
         if (!NO_WEAPON_YET.has(file)) {
-            expect(
-                techniques.length + referenced.length,
-                "no combat technique",
-            ).toBeGreaterThan(0);
+            expect(techniques.length + referenced.length, "no combat technique").toBeGreaterThan(0);
         }
 
         const roles = new Set(
-            (sohl.body.structure.parts as { roles: string[] }[]).flatMap(
-                (p) => p.roles,
-            ),
+            (sohl.body.structure.parts as { roles: string[] }[]).flatMap((p) => p.roles),
         );
         for (const tech of techniques) {
             const sm = tech.system.strikeMode;
             expect(sm, `${tech.name} has no strike mode`).toBeDefined();
             expect(["melee", "missile"], tech.name).toContain(sm.type);
             expect(tech.system.masteryLevelBase, tech.name).toBeGreaterThan(0);
-            expect(
-                sm.impactBase.die,
-                `${tech.name} impact die`,
-            ).toBeGreaterThan(0);
+            expect(sm.impactBase.die, `${tech.name} impact die`).toBeGreaterThan(0);
             expect(ASPECTS).toContain(sm.impactBase.aspect);
             if (sm.type === "melee") {
                 // Only a melee strike scatters across zone numbers.
-                expect(
-                    sm.attack.spread,
-                    `${tech.name} zone die`,
-                ).toBeGreaterThan(0);
+                expect(sm.attack.spread, `${tech.name} zone die`).toBeGreaterThan(0);
             } else {
                 // A ranged natural weapon carries a range instead.
-                expect(sm.baseRangeBase, `${tech.name} range`).toBeGreaterThan(
-                    0,
-                );
+                expect(sm.baseRangeBase, `${tech.name} range`).toBeGreaterThan(0);
             }
             // The technique is impaired by a role its body actually has.
             for (const role of tech.system.impairedByRoles) {
@@ -816,9 +764,7 @@ describe.each(ALL_CREATURES)("%s (every creature)", (file) => {
     });
 
     it("gives every hit location a unique shortcode", () => {
-        const codes = sohl.body.structure.locations.map(
-            (l: { shortcode: string }) => l.shortcode,
-        );
+        const codes = sohl.body.structure.locations.map((l: { shortcode: string }) => l.shortcode);
         expect(new Set(codes).size).toBe(codes.length);
     });
 });

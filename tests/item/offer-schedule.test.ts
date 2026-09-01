@@ -6,10 +6,7 @@
  */
 
 import { describe, it, expect, vi, afterEach } from "vitest";
-import {
-    offerSchedule,
-    describeInterval,
-} from "@src/document/item/logic/offer-schedule";
+import { offerSchedule, describeInterval } from "@src/document/item/logic/offer-schedule";
 import * as FoundryHelpersMock from "@src/core/FoundryHelpers";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
@@ -55,12 +52,7 @@ describe("offerSchedule — the consent step for scheduling timed effects (#579)
 
     it("skipDialog with no scope answer takes no action beyond a safe clear", async () => {
         const { schedule, unschedule } = spies();
-        await offerSchedule(
-            { skipDialog: true, scope: {} },
-            DOC,
-            "courseCheck",
-            42,
-        );
+        await offerSchedule({ skipDialog: true, scope: {} }, DOC, "courseCheck", 42);
         expect(unschedule).toHaveBeenCalledWith(DOC, "courseCheck");
         expect(schedule).not.toHaveBeenCalled();
     });
@@ -68,15 +60,8 @@ describe("offerSchedule — the consent step for scheduling timed effects (#579)
     it("interactive: the dialog defaults to Schedule; a Yes schedules with the rolled cadence", async () => {
         const { schedule, unschedule } = spies();
         // Assert the affirmative button is the default (prefer-dialog + one-click OK).
-        const dlg = vi
-            .spyOn(FoundryHelpersMock, "dialog")
-            .mockResolvedValue(true);
-        await offerSchedule(
-            { skipDialog: false, scope: {} },
-            DOC,
-            "healingCheck",
-            5 * 86400,
-        );
+        const dlg = vi.spyOn(FoundryHelpersMock, "dialog").mockResolvedValue(true);
+        await offerSchedule({ skipDialog: false, scope: {} }, DOC, "healingCheck", 5 * 86400);
         expect(schedule).toHaveBeenCalledWith(DOC, "healingCheck", 5 * 86400);
         expect(unschedule).not.toHaveBeenCalled();
         const spec = (dlg.mock.calls[0] as any)[0];
@@ -95,12 +80,7 @@ describe("offerSchedule — the consent step for scheduling timed effects (#579)
     it("interactive: a declined / dismissed dialog clears any schedule", async () => {
         const { schedule, unschedule } = spies();
         vi.spyOn(FoundryHelpersMock, "dialog").mockResolvedValue(null);
-        await offerSchedule(
-            { skipDialog: false, scope: {} },
-            DOC,
-            "healingCheck",
-            500,
-        );
+        await offerSchedule({ skipDialog: false, scope: {} }, DOC, "healingCheck", 500);
         expect(unschedule).toHaveBeenCalledWith(DOC, "healingCheck");
         expect(schedule).not.toHaveBeenCalled();
     });
@@ -110,13 +90,7 @@ describe("offerSchedule — the consent step for scheduling timed effects (#579)
     it("event-driven: an accepted offer schedules bound to the lifecycle trigger", async () => {
         const { schedule, unschedule } = spies();
         vi.spyOn(FoundryHelpersMock, "dialog").mockResolvedValue(true);
-        await offerSchedule(
-            { skipDialog: false, scope: {} },
-            DOC,
-            "shockReTest",
-            0,
-            "turnEnd",
-        );
+        await offerSchedule({ skipDialog: false, scope: {} }, DOC, "shockReTest", 0, "turnEnd");
         expect(schedule).toHaveBeenCalledWith(
             DOC,
             "shockReTest",
@@ -176,18 +150,10 @@ describe("offerSchedule — the consent step for scheduling timed effects (#579)
         vi.spyOn((globalThis as any).sohl, "schedule");
         vi.spyOn(FoundryHelpersMock, "dialog").mockResolvedValue(true);
         const fmt = vi.spyOn((globalThis as any).sohl.i18n, "format");
-        await offerSchedule(
-            { skipDialog: false, scope: {} },
-            DOC,
-            "shockReTest",
-            0,
-            "turnEnd",
-        );
+        await offerSchedule({ skipDialog: false, scope: {} }, DOC, "shockReTest", 0, "turnEnd");
         // The event-driven prompt key is used (no dangling "in {when}"), and the
         // cadence phrase comes from the trigger, not from describeInterval.
-        const promptCall = fmt.mock.calls.find(
-            (c: any) => c[0] === "SOHL.Schedule.promptEvent",
-        );
+        const promptCall = fmt.mock.calls.find((c: any) => c[0] === "SOHL.Schedule.promptEvent");
         expect(promptCall, "uses the event prompt key").toBeTruthy();
         // Under the key-returning test i18n, the trigger phrase falls back to
         // the trigger name — the point is it is the cadence, not an interval.
@@ -301,10 +267,7 @@ describe("reminder labels for every offered action (#1086)", () => {
         expect(offeredActionNames()).toContain("healingCheck");
     });
 
-    it.each(offeredActionNames())(
-        "%s has a SOHL.Reminder.effect label",
-        (actionName) => {
-            expect(LANG[`SOHL.Reminder.effect.${actionName}`]).toBeTruthy();
-        },
-    );
+    it.each(offeredActionNames())("%s has a SOHL.Reminder.effect label", (actionName) => {
+        expect(LANG[`SOHL.Reminder.effect.${actionName}`]).toBeTruthy();
+    });
 });

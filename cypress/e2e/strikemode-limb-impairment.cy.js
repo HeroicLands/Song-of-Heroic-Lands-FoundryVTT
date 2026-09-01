@@ -75,10 +75,7 @@ function heldWeaponInjuredLimb(level, cb) {
             cy.foundry((win) => {
                 const w = win.game.actors.get(actor.id).items.get(weapon.id);
                 const heldBy = w.logic.heldBy;
-                expect(
-                    heldBy.length,
-                    "a limb holds the weapon",
-                ).to.be.greaterThan(0);
+                expect(heldBy.length, "a limb holds the weapon").to.be.greaterThan(0);
                 return heldBy[0].locations[0].shortcode;
             }).then((loc) => {
                 // Inject the injury directly (createEmbeddedDocuments bypasses the
@@ -114,8 +111,7 @@ describe("strike-mode required-limb impairment (#628)", () => {
                 };
             }).should((r) => {
                 expect(r.n, "a holding limb resolves").to.be.greaterThan(0);
-                expect(r.allUsable, "the grievously injured limb is unusable")
-                    .to.be.false;
+                expect(r.allUsable, "the grievously injured limb is unusable").to.be.false;
             });
 
             // End-to-end: the attack test resolves as an automatic Critical Failure.
@@ -153,8 +149,7 @@ describe("strike-mode required-limb impairment (#628)", () => {
                     worst: Math.min(0, ...imps.map((i) => i.impairment)),
                 };
             }).should((r) => {
-                expect(r.usable, "the serious injury leaves the limb usable").to
-                    .be.true;
+                expect(r.usable, "the serious injury leaves the limb usable").to.be.true;
                 expect(r.worst, "serious injury impairs by −10").to.eq(-10);
             });
 
@@ -176,15 +171,13 @@ describe("strike-mode required-limb impairment (#628)", () => {
                     })
                     .then((res) => ({
                         baseAttack,
-                        resultMl:
-                            res ? res.masteryLevelModifier.effective : null,
+                        resultMl: res ? res.masteryLevelModifier.effective : null,
                     }));
             }).should((r) => {
                 expect(r.resultMl, "the test resolved").to.not.equal(null);
-                expect(
-                    r.resultMl,
-                    "held-limb impairment folds −10 into the attack ML",
-                ).to.eq(r.baseAttack - 10);
+                expect(r.resultMl, "held-limb impairment folds −10 into the attack ML").to.eq(
+                    r.baseAttack - 10,
+                );
             });
         });
     });

@@ -13,10 +13,7 @@
 
 import { entity } from "@src/entity/registry";
 import { GearLogic, GearData } from "@src/document/item/logic/GearLogic";
-import {
-    anyMeleeStrikeMode,
-    runStrikeModeTest,
-} from "@src/document/item/logic/strikeModeTest";
+import { anyMeleeStrikeMode, runStrikeModeTest } from "@src/document/item/logic/strikeModeTest";
 import {
     ACTION_SUBTYPE,
     defineType,
@@ -35,10 +32,7 @@ import { applyGoverningMasteryLevel } from "@src/entity/strikemode/governing";
 import { resolveAssocSkill } from "@src/document/item/logic/resolveAssocSkill";
 import type { MissileStrikeMode } from "@src/entity/strikemode/MissileStrikeMode";
 import type { CombatResult } from "@src/entity/result/CombatResult";
-import {
-    fvttActiveCombatantForActor,
-    fvttActorStatuses,
-} from "@src/core/FoundryHelpers";
+import { fvttActiveCombatantForActor, fvttActorStatuses } from "@src/core/FoundryHelpers";
 import { AutomatedCombat } from "@src/document/combatant/logic/SohlCombatantLogic";
 import { SohlAction, SohlActionContext } from "@src/entity/action";
 import { SuccessTestResult } from "@src/entity/result";
@@ -100,9 +94,7 @@ export class WeaponGearLogic<
      */
     removeStrikeModeUpdate(shortcode: string): PlainObject {
         return {
-            "system.strikeModes": this.#strikeModeData.filter(
-                (m) => m.shortcode !== shortcode,
-            ),
+            "system.strikeModes": this.#strikeModeData.filter((m) => m.shortcode !== shortcode),
         };
     }
 
@@ -210,8 +202,7 @@ export class WeaponGearLogic<
                 scope: SOHL_ACTION_SCOPE.SELF,
                 iconFAClass: "fa-solid fa-shield",
                 executor: "blockTest",
-                visible:
-                    "itemLogic.heldBy.length > 0 && itemLogic.hasMeleeStrikeMode",
+                visible: "itemLogic.heldBy.length > 0 && itemLogic.hasMeleeStrikeMode",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
             },
             {
@@ -221,8 +212,7 @@ export class WeaponGearLogic<
                 scope: SOHL_ACTION_SCOPE.SELF,
                 iconFAClass: "fa-solid fa-circle-half-stroke",
                 executor: "counterstrikeTest",
-                visible:
-                    "itemLogic.heldBy.length > 0 && itemLogic.hasMeleeStrikeMode",
+                visible: "itemLogic.heldBy.length > 0 && itemLogic.hasMeleeStrikeMode",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
             },
         ]);
@@ -235,22 +225,12 @@ export class WeaponGearLogic<
     /** @inheritdoc */
     override initialize(): void {
         super.initialize();
-        this.encumbrance = new entity.ValueModifier(this).setBase(
-            this.data.encumbranceBase,
-        );
+        this.encumbrance = new entity.ValueModifier(this).setBase(this.data.encumbranceBase);
         this.heft = new entity.ValueModifier(this).setBase(this.data.heftBase);
         this.strikeModes = (this.data.strikeModes ?? []).map((d) =>
             d.type === STRIKE_MODE_TYPE.MELEE ?
-                new entity.MeleeStrikeMode(
-                    d as MeleeStrikeMode.Data,
-                    this,
-                    d.shortcode,
-                )
-            :   new entity.MissileStrikeMode(
-                    d as MissileStrikeMode.Data,
-                    this,
-                    d.shortcode,
-                ),
+                new entity.MeleeStrikeMode(d as MeleeStrikeMode.Data, this, d.shortcode)
+            :   new entity.MissileStrikeMode(d as MissileStrikeMode.Data, this, d.shortcode),
         );
     }
 
@@ -262,9 +242,7 @@ export class WeaponGearLogic<
         // no body, so reach stays at length alone.
         const bodyReach = getActorBody(this.actorLogic)?.reach.effective ?? 0;
         // A prone wielder suffers −20 to all melee attacks and defenses (#562).
-        const prone =
-            !!this.actor &&
-            fvttActorStatuses(this.actor).has(STATUS_EFFECT.PRONE);
+        const prone = !!this.actor && fvttActorStatuses(this.actor).has(STATUS_EFFECT.PRONE);
         for (const sm of this.strikeModes) {
             if (sm instanceof MeleeStrikeMode) {
                 sm.reach.add("SOHL.INFO.Reach", "Size", bodyReach);
@@ -284,10 +262,7 @@ export class WeaponGearLogic<
         // the wielder. Skills are finalized in the same phase, so their mastery
         // levels are complete here (the same cross-item read SkillLogic makes).
         for (const sm of this.strikeModes) {
-            const governing = resolveAssocSkill(
-                this.actorLogic,
-                sm.assocSkillCode,
-            )?.masteryLevel;
+            const governing = resolveAssocSkill(this.actorLogic, sm.assocSkillCode)?.masteryLevel;
             if (governing) applyGoverningMasteryLevel(sm, governing);
         }
         // Fold the wielder's Strength into each mode's impact (#1253). Also a

@@ -11,18 +11,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {
-    FRAMEWORK_DEMO_TOUR,
-    buildFrameworkDemoTour,
-} from "./framework-demo-tour";
-import {
-    CHARACTER_CREATION_TOUR,
-    buildCharacterCreationTour,
-} from "./character-creation-tour";
-import {
-    ASSISTED_COMBAT_TOUR,
-    buildAssistedCombatTour,
-} from "./assisted-combat-tour";
+import { FRAMEWORK_DEMO_TOUR, buildFrameworkDemoTour } from "./framework-demo-tour";
+import { CHARACTER_CREATION_TOUR, buildCharacterCreationTour } from "./character-creation-tour";
+import { ASSISTED_COMBAT_TOUR, buildAssistedCombatTour } from "./assisted-combat-tour";
 
 /** Guards {@link bindTourStartButtons} so the render hook is installed only once. */
 let startHookBound = false;
@@ -67,12 +58,7 @@ export function registerSystemTours(): void {
  * @param id - The tour's machine id.
  * @param build - Factory that constructs the tour instance.
  */
-function registerTour(
-    tours: any,
-    namespace: string,
-    id: string,
-    build: () => unknown,
-): void {
+function registerTour(tours: any, namespace: string, id: string, build: () => unknown): void {
     try {
         tours.register(namespace, id, build());
     } catch (err) {
@@ -90,18 +76,13 @@ function registerTour(
 function bindTourStartButtons(): void {
     if (startHookBound) return;
     startHookBound = true;
-    (Hooks as any).on(
-        "renderChatMessageHTML",
-        (_msg: unknown, element: HTMLElement) => {
-            const btn = element.querySelector<HTMLElement>(
-                "[data-sohl-tour-start]",
-            );
-            if (!btn) return;
-            btn.addEventListener("click", () => {
-                const key = btn.getAttribute("data-sohl-tour-start");
-                const tour = key ? (game as any).tours?.get(key) : undefined;
-                if (tour) void tour.start();
-            });
-        },
-    );
+    (Hooks as any).on("renderChatMessageHTML", (_msg: unknown, element: HTMLElement) => {
+        const btn = element.querySelector<HTMLElement>("[data-sohl-tour-start]");
+        if (!btn) return;
+        btn.addEventListener("click", () => {
+            const key = btn.getAttribute("data-sohl-tour-start");
+            const tour = key ? (game as any).tours?.get(key) : undefined;
+            if (tour) void tour.start();
+        });
+    });
 }

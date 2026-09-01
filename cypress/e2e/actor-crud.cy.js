@@ -47,9 +47,7 @@ describe("actor & item CRUD (factory validation)", () => {
             cy.createWorldItem(kind, { name: `crud ${kind}` }).then((item) => {
                 expect(item, "created item").to.exist;
                 expect(item.type).to.eq(kind);
-                cy.foundry(
-                    (win) => !!win.game.items.get(item.id)?.logic,
-                ).should("be.true");
+                cy.foundry((win) => !!win.game.items.get(item.id)?.logic).should("be.true");
             });
         });
     });
@@ -57,16 +55,12 @@ describe("actor & item CRUD (factory validation)", () => {
     it("cascades embedded-item deletion when the actor is deleted", () => {
         cy.createActor("being", { name: "cascade" }).then((actor) => {
             cy.createItemOn(actor, "miscgear", { name: "thing" });
-            cy.foundry(
-                (win) => win.game.actors.get(actor.id).items.size,
-            ).should("eq", 1);
+            cy.foundry((win) => win.game.actors.get(actor.id).items.size).should("eq", 1);
             cy.foundry(async (win) => {
                 await win.game.actors.get(actor.id).delete();
                 return true;
             });
-            cy.foundry((win) => !!win.game.actors.get(actor.id)).should(
-                "be.false",
-            );
+            cy.foundry((win) => !!win.game.actors.get(actor.id)).should("be.false");
         });
     });
 });

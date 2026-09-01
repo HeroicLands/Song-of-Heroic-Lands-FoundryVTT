@@ -163,15 +163,12 @@ export function compileMenuEntry(
 ): CompiledMenuEntry {
     // Destructure the legacy `condition` OUT so the emitted entry never carries
     // it — Foundry v14 warns when a ContextMenu entry still uses `condition`.
-    const { condition, functionName, ...rest } =
-        entry as ContextMenuEntryContext;
+    const { condition, functionName, ...rest } = entry as ContextMenuEntryContext;
     const visible = compileCondition(condition, entry.name, parent);
     let callback = entry.callback;
     if (!callback) {
         if (!functionName) {
-            throw new Error(
-                `Context menu item "${entry.name}" does not have a callback function.`,
-            );
+            throw new Error(`Context menu item "${entry.name}" does not have a callback function.`);
         }
         callback = makeLogicMethodCallback(functionName, entry.name);
     }
@@ -211,27 +208,23 @@ export function compileCondition(
     try {
         expression = new SafeExpression({ source }, { parent, scope });
     } catch (err) {
-        sohl.log.warn(
-            "Failed to compile context menu condition; entry will be hidden:",
-            { entry: entryName, condition: source, error: err },
-        );
+        sohl.log.warn("Failed to compile context menu condition; entry will be hidden:", {
+            entry: entryName,
+            condition: source,
+            error: err,
+        });
         return () => false;
     }
     return (target: HTMLElement): boolean => {
         try {
-            return !!expression.evaluate(
-                scope.bind(makeConditionContext(target)),
-            );
+            return !!expression.evaluate(scope.bind(makeConditionContext(target)));
         } catch (err) {
-            sohl.log.warn(
-                "Context menu condition threw; entry will be hidden:",
-                {
-                    entry: entryName,
-                    condition: source,
-                    target,
-                    error: err,
-                },
-            );
+            sohl.log.warn("Context menu condition threw; entry will be hidden:", {
+                entry: entryName,
+                condition: source,
+                target,
+                error: err,
+            });
             return false;
         }
     };
@@ -259,9 +252,7 @@ export function compileCondition(
  * @returns A context object with `target`, `itemLogic`, and `actorLogic`
  *   bindings.
  */
-export function makeConditionContext(
-    target: HTMLElement,
-): Record<string, unknown> {
+export function makeConditionContext(target: HTMLElement): Record<string, unknown> {
     return {
         target,
         get itemLogic(): SohlItem["logic"] | undefined {
@@ -320,9 +311,7 @@ export function resolveContextItem(target: HTMLElement): SohlItem | undefined {
  * @param target - The HTMLElement the context menu was opened on.
  * @returns The resolved actor, or `undefined`.
  */
-export function resolveContextActor(
-    target: HTMLElement,
-): SohlActor | undefined {
+export function resolveContextActor(target: HTMLElement): SohlActor | undefined {
     const row = target.closest("[data-actor-id]") as HTMLElement | null;
     const actorId = row?.dataset?.actorId;
     if (actorId) {
@@ -391,9 +380,7 @@ export class ContextMenuEntry {
             throw new Error("Either icon or iconFAClass must be provided.");
         }
         if (!(data.callback || data.functionName)) {
-            throw new Error(
-                "Either callback or functionName must be provided.",
-            );
+            throw new Error("Either callback or functionName must be provided.");
         }
         this.id = data.id;
         this.name = data.name;
@@ -407,15 +394,10 @@ export class ContextMenuEntry {
         this.icon =
             data.icon ??
             (data.iconFAClass ?
-                (`<i class="${data.iconFAClass.replace(
-                    /[^\w\s-]/g,
-                    "",
-                )}"></i>` as HTMLString)
+                (`<i class="${data.iconFAClass.replace(/[^\w\s-]/g, "")}"></i>` as HTMLString)
             :   undefined);
         this.condition = data.condition;
-        this.callback =
-            data.callback ||
-            makeLogicMethodCallback(data.functionName!, data.name);
+        this.callback = data.callback || makeLogicMethodCallback(data.functionName!, data.name);
         this.group = data.group;
     }
 }

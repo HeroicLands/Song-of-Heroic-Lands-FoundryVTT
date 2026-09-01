@@ -61,12 +61,7 @@ describe("effect-sheet-view", () => {
 
         it("falls back to the document type for 'this' scope without a parent", () => {
             expect(
-                resolveEffectMetadataType(
-                    ACTIVE_EFFECT_SCOPE.THIS,
-                    "effect",
-                    undefined,
-                    "being",
-                ),
+                resolveEffectMetadataType(ACTIVE_EFFECT_SCOPE.THIS, "effect", undefined, "being"),
             ).toBe("effect");
         });
 
@@ -82,25 +77,13 @@ describe("effect-sheet-view", () => {
         });
 
         it("returns the scope itself for an item-kind scope", () => {
-            expect(
-                resolveEffectMetadataType(
-                    ITEM_KIND.SKILL,
-                    "effect",
-                    undefined,
-                    undefined,
-                ),
-            ).toBe(ITEM_KIND.SKILL);
+            expect(resolveEffectMetadataType(ITEM_KIND.SKILL, "effect", undefined, undefined)).toBe(
+                ITEM_KIND.SKILL,
+            );
         });
 
         it("returns an empty string when scope is undefined", () => {
-            expect(
-                resolveEffectMetadataType(
-                    undefined,
-                    "effect",
-                    undefined,
-                    undefined,
-                ),
-            ).toBe("");
+            expect(resolveEffectMetadataType(undefined, "effect", undefined, undefined)).toBe("");
         });
     });
 
@@ -117,30 +100,18 @@ describe("effect-sheet-view", () => {
         });
 
         it("returns the melee strike-mode effect keys (change path → label)", () => {
-            const choices = resolveEffectKeyChoices(
-                ACTIVE_EFFECT_SCOPE.MELEE_STRIKE_MODE,
-            );
+            const choices = resolveEffectKeyChoices(ACTIVE_EFFECT_SCOPE.MELEE_STRIKE_MODE);
             // localize is identity in tests, so labels are the lang keys.
-            expect(choices["mod:attack"]).toBe(
-                "SOHL.MeleeStrikeMode.EffectKey.ATTACK",
-            );
-            expect(choices["mod:defense.block"]).toBe(
-                "SOHL.MeleeStrikeMode.EffectKey.BLOCK",
-            );
+            expect(choices["mod:attack"]).toBe("SOHL.MeleeStrikeMode.EffectKey.ATTACK");
+            expect(choices["mod:defense.block"]).toBe("SOHL.MeleeStrikeMode.EffectKey.BLOCK");
             // Missile-only keys are absent from the melee set.
             expect(choices["mod:draw"]).toBeUndefined();
         });
 
         it("returns the missile strike-mode effect keys", () => {
-            const choices = resolveEffectKeyChoices(
-                ACTIVE_EFFECT_SCOPE.MISSILE_STRIKE_MODE,
-            );
-            expect(choices["mod:baseRange"]).toBe(
-                "SOHL.MissileStrikeMode.EffectKey.BASE_RANGE",
-            );
-            expect(choices["mod:draw"]).toBe(
-                "SOHL.MissileStrikeMode.EffectKey.DRAW",
-            );
+            const choices = resolveEffectKeyChoices(ACTIVE_EFFECT_SCOPE.MISSILE_STRIKE_MODE);
+            expect(choices["mod:baseRange"]).toBe("SOHL.MissileStrikeMode.EffectKey.BASE_RANGE");
+            expect(choices["mod:draw"]).toBe("SOHL.MissileStrikeMode.EffectKey.DRAW");
         });
     });
 
@@ -159,10 +130,9 @@ describe("effect-sheet-view", () => {
                 isActorEffect: true,
                 actorName: "Aldric",
             });
-            expect(spy).toHaveBeenCalledWith(
-                "SOHL.ActiveEffect.targetLabel.ThisActor",
-                { actorName: "Aldric" },
-            );
+            expect(spy).toHaveBeenCalledWith("SOHL.ActiveEffect.targetLabel.ThisActor", {
+                actorName: "Aldric",
+            });
         });
 
         it("labels a 'this' scope on an item effect with the item type", () => {
@@ -173,10 +143,9 @@ describe("effect-sheet-view", () => {
             });
             // localize() is identity in tests, so the item type resolves to
             // its TYPES.Item.* key and is passed through to the format call.
-            expect(spy).toHaveBeenCalledWith(
-                "SOHL.ActiveEffect.targetLabel.ThisItem",
-                { itemName: "TYPES.Item.weapongear" },
-            );
+            expect(spy).toHaveBeenCalledWith("SOHL.ActiveEffect.targetLabel.ThisItem", {
+                itemName: "TYPES.Item.weapongear",
+            });
         });
 
         it("labels an 'actor' scope with the localized Actor label", () => {
@@ -189,16 +158,14 @@ describe("effect-sheet-view", () => {
 
         it("labels the strike-mode scopes with their scope label", () => {
             expect(
-                resolveEffectTargetLabel(
-                    ACTIVE_EFFECT_SCOPE.MELEE_STRIKE_MODE,
-                    { isActorEffect: false },
-                ),
+                resolveEffectTargetLabel(ACTIVE_EFFECT_SCOPE.MELEE_STRIKE_MODE, {
+                    isActorEffect: false,
+                }),
             ).toBe("SOHL.ActiveEffect.Scope.meleestrikemode");
             expect(
-                resolveEffectTargetLabel(
-                    ACTIVE_EFFECT_SCOPE.MISSILE_STRIKE_MODE,
-                    { isActorEffect: false },
-                ),
+                resolveEffectTargetLabel(ACTIVE_EFFECT_SCOPE.MISSILE_STRIKE_MODE, {
+                    isActorEffect: false,
+                }),
             ).toBe("SOHL.ActiveEffect.Scope.missilestrikemode");
         });
 
@@ -211,12 +178,8 @@ describe("effect-sheet-view", () => {
         });
 
         it("falls back to the raw scope for an unrecognized value", () => {
-            expect(
-                resolveEffectTargetLabel("bogus", { isActorEffect: false }),
-            ).toBe("bogus");
-            expect(
-                resolveEffectTargetLabel(undefined, { isActorEffect: false }),
-            ).toBe("");
+            expect(resolveEffectTargetLabel("bogus", { isActorEffect: false })).toBe("bogus");
+            expect(resolveEffectTargetLabel(undefined, { isActorEffect: false })).toBe("");
         });
     });
 });

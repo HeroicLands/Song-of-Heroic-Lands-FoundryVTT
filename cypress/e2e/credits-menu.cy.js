@@ -27,8 +27,7 @@ const MENU_KEY = "sohl.creditsMenu";
 /** Close any open JournalEntry sheet, so a test leaves the client clean. */
 function closeJournals(win) {
     for (const app of [...win.foundry.applications.instances.values()]) {
-        if (app.rendered && app.document?.documentName === "JournalEntry")
-            app.close();
+        if (app.rendered && app.document?.documentName === "JournalEntry") app.close();
     }
     return null;
 }
@@ -71,9 +70,7 @@ describe("credits — settings menu", () => {
         // insertion order, ahead of the plain settings — so this ordering IS
         // the button's position on the tab.
         cy.foundry((win) =>
-            [...win.game.settings.menus.keys()].filter((k) =>
-                k.startsWith("sohl."),
-            ),
+            [...win.game.settings.menus.keys()].filter((k) => k.startsWith("sohl.")),
         ).should((keys) => {
             expect(keys[0], "first SoHL menu").to.eq(MENU_KEY);
         });
@@ -84,8 +81,7 @@ describe("credits — settings menu", () => {
 
         cy.window().should((win) => {
             const el = win.game.settings.sheet.element;
-            expect(el?.querySelector(`[data-key="${MENU_KEY}"]`), "button").to
-                .exist;
+            expect(el?.querySelector(`[data-key="${MENU_KEY}"]`), "button").to.exist;
         });
 
         cy.foundry((win) => {
@@ -97,13 +93,11 @@ describe("credits — settings menu", () => {
                 inSystemTab: !!button,
                 label: button?.textContent?.trim(),
                 firstGroupIsCredits:
-                    groups.length > 0 &&
-                    groups[0].contains(button ?? document.createElement("i")),
+                    groups.length > 0 && groups[0].contains(button ?? document.createElement("i")),
                 rowLabel: groups[0]?.querySelector("label")?.textContent.trim(),
             };
         }).should((r) => {
-            expect(r.inSystemTab, "credits button on the system tab").to.be
-                .true;
+            expect(r.inSystemTab, "credits button on the system tab").to.be.true;
             expect(r.label).to.eq("View Credits");
             expect(r.firstGroupIsCredits, "first form-group").to.be.true;
             expect(r.rowLabel).to.eq("Credits & Attributions");
@@ -118,24 +112,18 @@ describe("credits — settings menu", () => {
         });
 
         cy.foundry((win) => {
-            win.game.settings.sheet.element
-                .querySelector(`[data-key="${MENU_KEY}"]`)
-                .click();
+            win.game.settings.sheet.element.querySelector(`[data-key="${MENU_KEY}"]`).click();
             return win.game.system.flags.sohl.creditsUuid;
         }).as("uuid");
 
         cy.get("@uuid").then((uuid) => {
             cy.window().should((win) => {
                 const apps = [...win.foundry.applications.instances.values()];
-                const journal = apps.filter(
-                    (a) => a.rendered && a.document?.uuid === uuid,
-                );
+                const journal = apps.filter((a) => a.rendered && a.document?.uuid === uuid);
                 expect(journal, "credits journal open").to.have.length(1);
                 // The menu app itself must never appear on screen.
                 expect(
-                    apps.filter(
-                        (a) => a.rendered && a.id === "sohl-credits-menu",
-                    ),
+                    apps.filter((a) => a.rendered && a.id === "sohl-credits-menu"),
                     "menu shim window",
                 ).to.have.length(0);
             });
@@ -153,9 +141,7 @@ describe("credits — settings menu", () => {
                 pages: [...(entry?.pages ?? [])].map((p) => p.name),
             };
         }).should((e) => {
-            expect(e.uuid).to.match(
-                /^Compendium\.sohl\.journals\.JournalEntry\./,
-            );
+            expect(e.uuid).to.match(/^Compendium\.sohl\.journals\.JournalEntry\./);
             expect(e.name).to.eq("Credits & Attributions");
             expect(e.pack).to.eq("sohl.journals");
             // The attribution the licenses actually require must be in there.

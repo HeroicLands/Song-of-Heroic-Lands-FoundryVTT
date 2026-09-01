@@ -22,9 +22,7 @@ export type DialogResultCallback = (
     formData: Record<string, any>,
     action: string,
 ) => unknown | Promise<unknown>;
-export type DialogRenderCallback = (
-    element: HTMLElement,
-) => void | Promise<void>;
+export type DialogRenderCallback = (element: HTMLElement) => void | Promise<void>;
 export interface DialogSpec {
     title?: string;
     template?: string;
@@ -97,18 +95,11 @@ export async function fvttToFoundryRoll(_simpleRoll: any): Promise<any> {
 
 export function fvttCallHook(_name: string, ..._args: unknown[]): void {}
 
-export function fvttCallHookCancel(
-    _name: string,
-    ..._args: unknown[]
-): boolean {
+export function fvttCallHookCancel(_name: string, ..._args: unknown[]): boolean {
     return true;
 }
 
-export function fvttHookOnError(
-    _source: string,
-    _error: Error,
-    _data?: object,
-): void {}
+export function fvttHookOnError(_source: string, _error: Error, _data?: object): void {}
 
 // ---------------------------------------------------------------------------
 // System identity and CONFIG
@@ -157,8 +148,7 @@ export function fvttSystemLinks(): any {
 
 export function fvttPackageCreditsUuid(packageId: string): string | undefined {
     const g = (globalThis as any).game ?? {};
-    const pkg =
-        g.system?.id === packageId ? g.system : g.modules?.get?.(packageId);
+    const pkg = g.system?.id === packageId ? g.system : g.modules?.get?.(packageId);
     return pkg?.flags?.sohl?.creditsUuid || undefined;
 }
 
@@ -198,9 +188,7 @@ export function fvttActorByRef(_ref: string): any {
     return undefined;
 }
 
-export async function fvttCreateWorldActor(
-    _data: Record<string, unknown>,
-): Promise<any> {
+export async function fvttCreateWorldActor(_data: Record<string, unknown>): Promise<any> {
     return undefined;
 }
 
@@ -228,9 +216,7 @@ export function fvttGetUserCharacter(): any {
 // Token targeting helpers
 // ---------------------------------------------------------------------------
 
-export function fvttGetTargetedTokens(
-    _single: boolean = false,
-): any[] | undefined {
+export function fvttGetTargetedTokens(_single: boolean = false): any[] | undefined {
     return undefined;
 }
 
@@ -257,10 +243,7 @@ export async function fvttCreateEmbeddedItems(
     return [];
 }
 
-export async function fvttCreateEmbeddedEffects(
-    _doc: any,
-    _effectsData: object[],
-): Promise<any[]> {
+export async function fvttCreateEmbeddedEffects(_doc: any, _effectsData: object[]): Promise<any[]> {
     return [];
 }
 
@@ -282,10 +265,7 @@ export function fvttCleanHTML(raw: string): string {
     return raw;
 }
 
-export function toSanitizedHTML(
-    value: string,
-    _wrapperTag: "p" | "div" | "span" = "p",
-): string {
+export function toSanitizedHTML(value: string, _wrapperTag: "p" | "div" | "span" = "p"): string {
     return fvttCleanHTML(value);
 }
 
@@ -384,16 +364,11 @@ export async function fvttToggleActorStatus(
     _active: boolean,
 ): Promise<void> {}
 
-export async function fvttFindItemByShortcode(
-    _shortcode: string,
-    _type?: string,
-): Promise<any> {
+export async function fvttFindItemByShortcode(_shortcode: string, _type?: string): Promise<any> {
     return undefined;
 }
 
-export async function fvttDiscoverArchetypes(
-    _documentName: string,
-): Promise<any[]> {
+export async function fvttDiscoverArchetypes(_documentName: string): Promise<any[]> {
     return [];
 }
 
@@ -405,9 +380,7 @@ export function fvttCombatantLogics(_combatant: any): any[] {
     return [];
 }
 
-export async function fvttPromptMoveCombatantToGroup(
-    _combatant: any,
-): Promise<void> {
+export async function fvttPromptMoveCombatantToGroup(_combatant: any): Promise<void> {
     return undefined;
 }
 
@@ -415,10 +388,7 @@ export async function fvttPromptMoveCombatantToGroup(
 // Pack / compendium helpers
 // ---------------------------------------------------------------------------
 
-export async function getDocsFromPacks(
-    _packNames: string[],
-    _options?: any,
-): Promise<any[]> {
+export async function getDocsFromPacks(_packNames: string[], _options?: any): Promise<any[]> {
     return [];
 }
 

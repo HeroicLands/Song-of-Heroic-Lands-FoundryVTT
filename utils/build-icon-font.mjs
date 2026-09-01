@@ -31,13 +31,7 @@
  */
 
 import { Buffer } from "buffer";
-import {
-    readFileSync,
-    readdirSync,
-    writeFileSync,
-    mkdirSync,
-    existsSync,
-} from "fs";
+import { readFileSync, readdirSync, writeFileSync, mkdirSync, existsSync } from "fs";
 import { basename, join } from "path";
 import { pathToFileURL } from "url";
 import { Readable } from "stream";
@@ -99,9 +93,7 @@ function readIcons() {
  */
 function resolveCodepoints(icons) {
     const map =
-        existsSync(CODEPOINTS_PATH) ?
-            JSON.parse(readFileSync(CODEPOINTS_PATH, "utf8"))
-        :   {};
+        existsSync(CODEPOINTS_PATH) ? JSON.parse(readFileSync(CODEPOINTS_PATH, "utf8")) : {};
     const used = new Set(Object.values(map));
     let next = PUA_START;
     const nextFree = () => {
@@ -158,16 +150,9 @@ function reportStrokeOnly(icons) {
             for (const rule of block[1].matchAll(/\.([\w-]+)\s*\{([^}]*)\}/g))
                 if (declaresNoFill(rule[2])) noneClasses.add(rule[1]);
 
-        const shapes = [
-            ...svg.matchAll(
-                /<(?:path|polygon|circle|rect|ellipse)\b([^>]*)>/gi,
-            ),
-        ];
+        const shapes = [...svg.matchAll(/<(?:path|polygon|circle|rect|ellipse)\b([^>]*)>/gi)];
         // Stroke-only ⇔ at least one shape, and none of them is filled.
-        return (
-            shapes.length > 0 &&
-            !shapes.some((m) => elementIsFilled(m[1], noneClasses))
-        );
+        return shapes.length > 0 && !shapes.some((m) => elementIsFilled(m[1], noneClasses));
     });
     if (strokeOnly.length) {
         console.warn(
@@ -232,10 +217,7 @@ export function buildSvgFont(icons, codepoints) {
             .on("error", reject);
 
         for (const icon of icons) {
-            const svg = normalizeSvg(
-                transparentizeSvg(readFileSync(icon.path, "utf8")),
-                icon.name,
-            );
+            const svg = normalizeSvg(transparentizeSvg(readFileSync(icon.path, "utf8")), icon.name);
             const glyph = Readable.from(svg);
             glyph.metadata = {
                 unicode: [String.fromCodePoint(codepoints[icon.name])],
@@ -249,9 +231,7 @@ export function buildSvgFont(icons, codepoints) {
 
 /** Generate the auto-managed SCSS partial (rules ordered by codepoint). */
 function writeScss(icons, codepoints) {
-    const ordered = [...icons].sort(
-        (a, b) => codepoints[a.name] - codepoints[b.name],
-    );
+    const ordered = [...icons].sort((a, b) => codepoints[a.name] - codepoints[b.name]);
     const rules = ordered
         .map((icon) => {
             const hex = codepoints[icon.name].toString(16);
@@ -339,9 +319,7 @@ function reportCoverage(icons) {
             `\n⚠️  ${missing.length} \`${CLASS_PREFIX}*\` class(es) used in templates have NO matching glyph:`,
         );
         for (const r of missing) console.warn(`     • ${r}`);
-        console.warn(
-            `     (add an SVG under ${ICONS_DIR}/ or keep these on Font Awesome)`,
-        );
+        console.warn(`     (add an SVG under ${ICONS_DIR}/ or keep these on Font Awesome)`);
     }
 }
 
@@ -375,9 +353,9 @@ async function main() {
     reportCoverage(icons);
 
     console.log(
-        `\n✅ Generated ${icons.length} glyphs → ${WOFF2_PATH} (${(
-            woff2.length / 1024
-        ).toFixed(1)} KB), ${SCSS_PATH}, ${CODEPOINTS_PATH}`,
+        `\n✅ Generated ${icons.length} glyphs → ${WOFF2_PATH} (${(woff2.length / 1024).toFixed(
+            1,
+        )} KB), ${SCSS_PATH}, ${CODEPOINTS_PATH}`,
     );
 }
 

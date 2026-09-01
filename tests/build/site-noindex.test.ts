@@ -27,13 +27,9 @@ import { HEADERS, ORIGIN_SUFFIX, SITE_OUT } from "../../utils/build-site.mjs";
  * headers themselves are checked against the running deploy, at both addresses,
  * which is what the issue's acceptance criteria ask for.
  */
-const REPO_ROOT = path.resolve(
-    path.dirname(fileURLToPath(import.meta.url)),
-    "../..",
-);
+const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 
-const read = (rel: string) =>
-    fs.readFileSync(path.join(REPO_ROOT, rel), "utf8");
+const read = (rel: string) => fs.readFileSync(path.join(REPO_ROOT, rel), "utf8");
 
 /** `_headers` rules as [match, ...directives] groups, blank lines dropped. */
 function rules(headers: string): Array<[string, ...string[]]> {
@@ -47,8 +43,7 @@ function rules(headers: string): Array<[string, ...string[]]> {
 }
 
 /** The hostname part of a `_headers` match, without scheme or path. */
-const hostOf = (match: string) =>
-    match.replace(/^https:\/\//, "").replace(/\/\*$/, "");
+const hostOf = (match: string) => match.replace(/^https:\/\//, "").replace(/\/\*$/, "");
 
 /**
  * A rule's host pattern as a regular expression over whole hostnames.
@@ -66,9 +61,7 @@ function hostMatcher(match: string): RegExp {
     const source = hostOf(match)
         .split(".")
         .map((label) =>
-            label.startsWith(":") ? "[^.]+" : (
-                label.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
-            ),
+            label.startsWith(":") ? "[^.]+" : label.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"),
         )
         .join("\\.");
     return new RegExp(`^${source}$`);
@@ -111,9 +104,7 @@ describe("the /sohl/ deployment's host-assigned addresses (#1469)", () => {
         // An unscoped `/*` would noindex the canonical path as well — and, for
         // anyone who takes this repository elsewhere, their own domain with it.
         // That portability is the point of the epic this belongs to (#1444).
-        const hosted = new RegExp(
-            `\\.(pages\\.dev|${ORIGIN_SUFFIX.replace(/\./g, "\\.")})$`,
-        );
+        const hosted = new RegExp(`\\.(pages\\.dev|${ORIGIN_SUFFIX.replace(/\./g, "\\.")})$`);
         for (const [match] of rules(HEADERS)) {
             expect(match).toMatch(/^https:\/\/[^/]+\/\*$/);
             expect(hostOf(match)).toMatch(hosted);
@@ -162,8 +153,6 @@ describe("the /sohl/ deployment's host-assigned addresses (#1469)", () => {
     it("is uploaded at the deployment root, where Pages reads it", () => {
         // `_headers` is only consulted at the root of the deployed directory;
         // under /sohl/ it would be published as a text file and never applied.
-        expect(read(".github/workflows/deploy-sohl.yml")).toContain(
-            `pages deploy ${SITE_OUT} `,
-        );
+        expect(read(".github/workflows/deploy-sohl.yml")).toContain(`pages deploy ${SITE_OUT} `);
     });
 });

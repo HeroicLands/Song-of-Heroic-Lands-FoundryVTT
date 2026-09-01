@@ -135,9 +135,7 @@ export abstract class RngBase implements Rng {
     uint32(bound: number): number {
         const range = bound >>> 0;
         if (range === 0) {
-            throw new RangeError(
-                `uint32(bound) requires bound >= 1, got ${bound}`,
-            );
+            throw new RangeError(`uint32(bound) requires bound >= 1, got ${bound}`);
         }
         // Unbiased via rejection sampling: reject the top `2^32 mod range` raw
         // outputs so the remaining values divide evenly across `[0, range)`.
@@ -152,9 +150,7 @@ export abstract class RngBase implements Rng {
     /** @inheritdoc */
     int(min: number, max: number): number {
         if (max < min) {
-            throw new RangeError(
-                `int(min, max) requires max >= min, got [${min}, ${max}]`,
-            );
+            throw new RangeError(`int(min, max) requires max >= min, got [${min}, ${max}]`);
         }
         return min + this.uint32(max - min + 1);
     }
@@ -162,9 +158,7 @@ export abstract class RngBase implements Rng {
     /** @inheritdoc */
     die(sides: number): number {
         if (sides < 1) {
-            throw new RangeError(
-                `die(sides) requires sides >= 1, got ${sides}`,
-            );
+            throw new RangeError(`die(sides) requires sides >= 1, got ${sides}`);
         }
         return this.uint32(sides) + 1;
     }
@@ -233,9 +227,7 @@ export function cyrb128(str: string): [number, number, number, number] {
  * @param seed - A string, a single number, or state words.
  * @returns Four non-zero state words.
  */
-export function normalizeSeed(
-    seed: string | number | number[],
-): [number, number, number, number] {
+export function normalizeSeed(seed: string | number | number[]): [number, number, number, number] {
     let words: [number, number, number, number];
     if (typeof seed === "string") {
         words = cyrb128(seed);
@@ -269,8 +261,7 @@ export function entropySeed(): [number, number, number, number] {
         const t = Date.now();
         for (let i = 0; i < 4; i++) {
             buf[i] =
-                (Math.imul(t ^ (i + 1), 2654435761) ^
-                    Math.floor(Math.random() * 0x1_0000_0000)) >>>
+                (Math.imul(t ^ (i + 1), 2654435761) ^ Math.floor(Math.random() * 0x1_0000_0000)) >>>
                 0;
         }
     }

@@ -134,9 +134,7 @@ export abstract class SohlEntity {
     protected static dataOf<D extends SohlEntity.Data = SohlEntity.Data>(
         dataOrParent: SohlEntity.DataOrParent<D>,
     ): Partial<D> {
-        return isA(dataOrParent, "SohlLogic") ?
-                ({} as Partial<D>)
-            :   (dataOrParent as Partial<D>);
+        return isA(dataOrParent, "SohlLogic") ? ({} as Partial<D>) : (dataOrParent as Partial<D>);
     }
 
     /**
@@ -149,9 +147,7 @@ export abstract class SohlEntity {
      * @param options - The explicit options bag (empty in the shorthand form).
      * @returns The options bag, with `parent` injected in the shorthand form.
      */
-    protected static optionsOf<
-        O extends SohlEntity.Options = SohlEntity.Options,
-    >(
+    protected static optionsOf<O extends SohlEntity.Options = SohlEntity.Options>(
         dataOrParent: SohlEntity.DataOrParent<SohlEntity.Data>,
         options: Partial<O>,
     ): Partial<O> {
@@ -175,10 +171,7 @@ export abstract class SohlEntity {
      * @param options - Construction options; `options.parent` (the owning Logic)
      *   is **required**.
      */
-    constructor(
-        data: Partial<SohlEntity.Data>,
-        options: Partial<SohlEntity.Options>,
-    );
+    constructor(data: Partial<SohlEntity.Data>, options: Partial<SohlEntity.Options>);
     /**
      * Implementation backing the constructor overloads: normalizes the
      * `(parent)` shorthand and requires a resolved parent.

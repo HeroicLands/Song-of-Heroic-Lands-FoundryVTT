@@ -71,9 +71,8 @@ function* walk(dir) {
  * @returns {string} The source with code masked.
  */
 export function maskCode(body) {
-    return body.replace(
-        /```[\s\S]*?```|~~~[\s\S]*?~~~|``[^`]*``|`[^`]*`/g,
-        (m) => m.replace(/[^\n]/g, " "),
+    return body.replace(/```[\s\S]*?```|~~~[\s\S]*?~~~|``[^`]*``|`[^`]*`/g, (m) =>
+        m.replace(/[^\n]/g, " "),
     );
 }
 
@@ -89,9 +88,7 @@ export function maskCode(body) {
  * @returns {string} The source with fenced blocks masked.
  */
 export function maskFences(body) {
-    return body.replace(/```[\s\S]*?```|~~~[\s\S]*?~~~/g, (m) =>
-        m.replace(/[^\n]/g, " "),
-    );
+    return body.replace(/```[\s\S]*?```|~~~[\s\S]*?~~~/g, (m) => m.replace(/[^\n]/g, " "));
 }
 
 /**
@@ -129,9 +126,7 @@ export function anchorsIn(source) {
         // A heading may carry an explicit `{#slug}`, which wins.
         const explicit = text.match(/\{#([^}]+)\}\s*$/);
         found.add(
-            explicit ?
-                explicit[1].trim()
-            :   slugify(text.replace(/\[([^\]]*)\]\([^)]*\)/g, "$1")),
+            explicit ? explicit[1].trim() : slugify(text.replace(/\[([^\]]*)\]\([^)]*\)/g, "$1")),
         );
     }
     for (const [, id] of body.matchAll(/<a\s[^>]*(?:id|name)="([^"]+)"/g)) {
@@ -182,8 +177,7 @@ export function linksIn(source) {
 export function scan(root = ROOT) {
     const anchorCache = new Map();
     const anchorsFor = (file) => {
-        if (!anchorCache.has(file))
-            anchorCache.set(file, anchorsIn(readFileSync(file, "utf8")));
+        if (!anchorCache.has(file)) anchorCache.set(file, anchorsIn(readFileSync(file, "utf8")));
         return anchorCache.get(file);
     };
 
@@ -192,14 +186,9 @@ export function scan(root = ROOT) {
 
     for (const file of walk(root)) {
         const dir = path.dirname(file);
-        for (const { raw, rel, anchor, line, column } of linksIn(
-            readFileSync(file, "utf8"),
-        )) {
+        for (const { raw, rel, anchor, line, column } of linksIn(readFileSync(file, "utf8"))) {
             // `#anchor` alone is a link within this same page.
-            const target =
-                rel === "" ? file : (
-                    path.normalize(path.join(dir, decodeURI(rel)))
-                );
+            const target = rel === "" ? file : path.normalize(path.join(dir, decodeURI(rel)));
 
             if (!existsSync(target)) {
                 missing.push({ file, line, column, link: raw, target });
@@ -215,20 +204,13 @@ export function scan(root = ROOT) {
 }
 
 // Importing this module for its helpers must neither scan nor exit.
-if (
-    process.argv[1] &&
-    import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href
-) {
+if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) {
     const { missing, deadAnchors } = scan();
 
     if (missing.length || deadAnchors.length) {
-        console.error(
-            "\ncheck-doc-links: developer-doc links that go nowhere.\n",
-        );
+        console.error("\ncheck-doc-links: developer-doc links that go nowhere.\n");
         if (missing.length) {
-            console.error(
-                `  ${missing.length} link(s) to a file that does not exist:`,
-            );
+            console.error(`  ${missing.length} link(s) to a file that does not exist:`);
             for (const v of missing) {
                 emitDiagnostic({
                     file: v.file,
@@ -240,9 +222,7 @@ if (
             }
         }
         if (deadAnchors.length) {
-            console.error(
-                `\n  ${deadAnchors.length} link(s) to an anchor nobody declares:`,
-            );
+            console.error(`\n  ${deadAnchors.length} link(s) to an anchor nobody declares:`);
             for (const v of deadAnchors) {
                 emitDiagnostic({
                     file: v.file,
@@ -260,7 +240,5 @@ if (
         process.exit(1);
     }
 
-    console.log(
-        `check-doc-links: every relative link and anchor in ${ROOT} lands.`,
-    );
+    console.log(`check-doc-links: every relative link and anchor in ${ROOT} lands.`);
 }

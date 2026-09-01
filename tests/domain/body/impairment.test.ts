@@ -101,15 +101,9 @@ describe("bodyPartImpairment (#464/#470)", () => {
 
     it("takes the worst of the part's injuries (does not sum)", () => {
         // A minor and a grievous → unusable wins.
-        expect(
-            bodyPartImpairment(HEAD, [inj("face", 1, 5), inj("pate", 5)])
-                .usable,
-        ).toBe(false);
+        expect(bodyPartImpairment(HEAD, [inj("face", 1, 5), inj("pate", 5)]).usable).toBe(false);
         // A minor and a serious → serious (−10), not −15.
-        expect(
-            bodyPartImpairment(HEAD, [inj("face", 1, 5), inj("pate", 2)])
-                .impairment,
-        ).toBe(-10);
+        expect(bodyPartImpairment(HEAD, [inj("face", 1, 5), inj("pate", 2)]).impairment).toBe(-10);
     });
 
     it("permanent impairment tiers the part but never unuses it", () => {
@@ -136,42 +130,26 @@ describe("bodyPartImpairment (#464/#470)", () => {
 
 describe("testAutoCriticallyFails (#568)", () => {
     it("auto-fails when an impaired-by role is currently unusable", () => {
+        expect(testAutoCriticallyFails(["manipulator"], new Set(["manipulator"]))).toBe(true);
         expect(
-            testAutoCriticallyFails(["manipulator"], new Set(["manipulator"])),
-        ).toBe(true);
-        expect(
-            testAutoCriticallyFails(
-                ["locomotor", "manipulator"],
-                new Set(["manipulator"]),
-            ),
+            testAutoCriticallyFails(["locomotor", "manipulator"], new Set(["manipulator"])),
         ).toBe(true);
     });
 
     it("does not auto-fail when no impaired-by role is unusable", () => {
-        expect(
-            testAutoCriticallyFails(["manipulator"], new Set(["locomotor"])),
-        ).toBe(false);
+        expect(testAutoCriticallyFails(["manipulator"], new Set(["locomotor"]))).toBe(false);
     });
 
     it("never auto-fails with no roles or no unusable parts", () => {
-        expect(
-            testAutoCriticallyFails(undefined, new Set(["manipulator"])),
-        ).toBe(false);
-        expect(testAutoCriticallyFails([], new Set(["manipulator"]))).toBe(
-            false,
-        );
+        expect(testAutoCriticallyFails(undefined, new Set(["manipulator"]))).toBe(false);
+        expect(testAutoCriticallyFails([], new Set(["manipulator"]))).toBe(false);
         expect(testAutoCriticallyFails(["manipulator"], new Set())).toBe(false);
     });
 });
 
 describe("testImpairmentPenalty (#568)", () => {
     it("returns the penalty of an impaired-but-usable role the test depends on", () => {
-        expect(
-            testImpairmentPenalty(
-                ["manipulator"],
-                new Map([["manipulator", -10]]),
-            ),
-        ).toBe(-10);
+        expect(testImpairmentPenalty(["manipulator"], new Map([["manipulator", -10]]))).toBe(-10);
     });
 
     it("returns the worst (most negative) penalty across the test's roles", () => {
@@ -187,21 +165,12 @@ describe("testImpairmentPenalty (#568)", () => {
     });
 
     it("ignores roles the test does not depend on", () => {
-        expect(
-            testImpairmentPenalty(
-                ["manipulator"],
-                new Map([["locomotor", -10]]),
-            ),
-        ).toBe(0);
+        expect(testImpairmentPenalty(["manipulator"], new Map([["locomotor", -10]]))).toBe(0);
     });
 
     it("is a no-op (0) with no roles or no impaired parts", () => {
-        expect(
-            testImpairmentPenalty(undefined, new Map([["manipulator", -5]])),
-        ).toBe(0);
-        expect(testImpairmentPenalty([], new Map([["manipulator", -5]]))).toBe(
-            0,
-        );
+        expect(testImpairmentPenalty(undefined, new Map([["manipulator", -5]]))).toBe(0);
+        expect(testImpairmentPenalty([], new Map([["manipulator", -5]]))).toBe(0);
         expect(testImpairmentPenalty(["manipulator"], new Map())).toBe(0);
     });
 });
@@ -214,15 +183,11 @@ describe("requiredPartsAutoCriticallyFail (#628)", () => {
     it("auto-fails when any required part is unusable", () => {
         expect(requiredPartsAutoCriticallyFail([part(false)])).toBe(true);
         // The gripping limb is fine, but the two-handed weapon's other limb is not.
-        expect(
-            requiredPartsAutoCriticallyFail([part(true, -5), part(false)]),
-        ).toBe(true);
+        expect(requiredPartsAutoCriticallyFail([part(true, -5), part(false)])).toBe(true);
     });
 
     it("does not auto-fail when every required part is usable", () => {
-        expect(
-            requiredPartsAutoCriticallyFail([part(true), part(true, -10)]),
-        ).toBe(false);
+        expect(requiredPartsAutoCriticallyFail([part(true), part(true, -10)])).toBe(false);
     });
 
     it("never auto-fails with no required parts", () => {
@@ -236,16 +201,12 @@ describe("requiredPartsImpairmentPenalty (#628)", () => {
     });
 
     it("returns the worst (most negative) penalty across the required parts", () => {
-        expect(
-            requiredPartsImpairmentPenalty([part(true, -5), part(true, -10)]),
-        ).toBe(-10);
+        expect(requiredPartsImpairmentPenalty([part(true, -5), part(true, -10)])).toBe(-10);
     });
 
     it("ignores an unusable part (that is auto-CF, not a numeric penalty)", () => {
         // The unusable part forces an auto-CF elsewhere; only the usable −5 counts.
-        expect(
-            requiredPartsImpairmentPenalty([part(false, 0), part(true, -5)]),
-        ).toBe(-5);
+        expect(requiredPartsImpairmentPenalty([part(false, 0), part(true, -5)])).toBe(-5);
     });
 
     it("is a no-op (0) with no required parts or no impairment", () => {

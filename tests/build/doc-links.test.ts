@@ -17,29 +17,19 @@ import { slugify, anchorsIn, linksIn } from "../../utils/check-doc-links.mjs";
  */
 describe("slugify (GitHub heading anchors)", () => {
     it("lowercases and hyphenates", () => {
-        expect(slugify("Adding a shim function")).toBe(
-            "adding-a-shim-function",
-        );
+        expect(slugify("Adding a shim function")).toBe("adding-a-shim-function");
     });
 
     it("does NOT collapse the gap left by dropped punctuation", () => {
         // `&` is removed but the spaces around it are not, so the real anchor
         // carries two hyphens. Collapsing produced a false "dead anchor".
-        expect(slugify("Player & GM rules (external)")).toBe(
-            "player--gm-rules-external",
-        );
-        expect(slugify("Why not a sandbox / denylist?")).toBe(
-            "why-not-a-sandbox--denylist",
-        );
+        expect(slugify("Player & GM rules (external)")).toBe("player--gm-rules-external");
+        expect(slugify("Why not a sandbox / denylist?")).toBe("why-not-a-sandbox--denylist");
     });
 
     it("drops punctuation inside words rather than splitting them", () => {
-        expect(slugify("10) Create-dialog archetypes")).toBe(
-            "10-create-dialog-archetypes",
-        );
-        expect(slugify("flags.sohl.docArchetype")).toBe(
-            "flagssohldocarchetype",
-        );
+        expect(slugify("10) Create-dialog archetypes")).toBe("10-create-dialog-archetypes");
+        expect(slugify("flags.sohl.docArchetype")).toBe("flagssohldocarchetype");
     });
 });
 
@@ -64,9 +54,7 @@ describe("anchorsIn", () => {
     });
 
     it("collects an explicit HTML anchor", () => {
-        expect(anchorsIn('<a id="manual-anchor"></a>\n')).toContain(
-            "manual-anchor",
-        );
+        expect(anchorsIn('<a id="manual-anchor"></a>\n')).toContain("manual-anchor");
     });
 
     it("uses a link's text, not its target, when a heading is a link", () => {
@@ -85,9 +73,7 @@ describe("linksIn", () => {
     });
 
     it("skips external links", () => {
-        expect(linksIn("[a](https://example.com) [b](mailto:x@y.z)")).toEqual(
-            [],
-        );
+        expect(linksIn("[a](https://example.com) [b](mailto:x@y.z)")).toEqual([]);
     });
 
     it("skips a site-root link, which is an address and not a path", () => {
@@ -112,8 +98,6 @@ describe("linksIn", () => {
     });
 
     it("ignores a link title after the target", () => {
-        expect(linksIn('[x](./testing.md "The title")')[0].rel).toBe(
-            "./testing.md",
-        );
+        expect(linksIn('[x](./testing.md "The title")')[0].rel).toBe("./testing.md");
     });
 });

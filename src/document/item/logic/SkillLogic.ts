@@ -13,10 +13,7 @@
 
 import { entity } from "@src/entity/registry";
 import type { MysteryLogic } from "./MysteryLogic";
-import {
-    SafeExpression,
-    SafeExpressionError,
-} from "@src/entity/expr/SafeExpression";
+import { SafeExpression, SafeExpressionError } from "@src/entity/expr/SafeExpression";
 import { expressionScopes } from "@src/entity/expr/ExpressionScopeRegistry";
 import { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import type { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
@@ -57,11 +54,7 @@ import {
 } from "@src/utils/constants";
 import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
 import { SohlItemBaseLogic, type SohlItemData } from "./SohlItemBaseLogic";
-import {
-    anyMeleeStrikeMode,
-    runStrikeModeTest,
-    type StrikeModeTestScope,
-} from "./strikeModeTest";
+import { anyMeleeStrikeMode, runStrikeModeTest, type StrikeModeTestScope } from "./strikeModeTest";
 import {
     defineImproveSdrActions,
     improveWithSDR,
@@ -102,9 +95,7 @@ import { SohlAction } from "@src/entity/action/SohlAction";
  *
  * @typeParam TData - The Skill data interface.
  */
-export class SkillLogic<
-    TData extends SkillData = SkillData,
-> extends SohlItemBaseLogic<TData> {
+export class SkillLogic<TData extends SkillData = SkillData> extends SohlItemBaseLogic<TData> {
     /**
      * The parent (base) skill this skill specializes, resolved during
      * {@link evaluate} from {@link SkillData.parentSkillCode}, or `null` if
@@ -278,12 +269,7 @@ export class SkillLogic<
         outcome: FateOutcome,
         spentSource: MysteryLogic | undefined,
     ): Promise<void> {
-        return postFateResultCard(
-            this as unknown as FateHost,
-            fateResult,
-            outcome,
-            spentSource,
-        );
+        return postFateResultCard(this as unknown as FateHost, fateResult, outcome, spentSource);
     }
 
     /**
@@ -295,8 +281,7 @@ export class SkillLogic<
      * If no roll formula flag is set, this method does nothing.
      */
     async recalculate(): Promise<void> {
-        const rollFormula = this.data.getFlag("sohl", "rollFormula") as
-            string | undefined;
+        const rollFormula = this.data.getFlag("sohl", "rollFormula") as string | undefined;
         if (!rollFormula) return;
 
         const sb = this._skillBaseForRoll;
@@ -431,9 +416,7 @@ export class SkillLogic<
      * @param context - The action context (speaker, scope) for the test.
      * @returns The test result, `null` if cancelled, or `false` on error.
      */
-    async successTest(
-        context: SohlActionContext,
-    ): Promise<SuccessTestResult | undefined | false> {
+    async successTest(context: SohlActionContext): Promise<SuccessTestResult | undefined | false> {
         return this.masteryLevel.successTest(context);
     }
 
@@ -518,9 +501,7 @@ export class SkillLogic<
      * @param context - The action context (speaker, scope) for the test.
      * @returns The opposed test result, or `null` if cancelled or unavailable.
      */
-    async opposedTestStart(
-        context: SohlActionContext,
-    ): Promise<OpposedTestResult | null> {
+    async opposedTestStart(context: SohlActionContext): Promise<OpposedTestResult | null> {
         const tokenLogic = fvttActiveTokenLogicForActor(this.actor);
         if (!tokenLogic) {
             sohl.log.uiWarn(
@@ -697,13 +678,8 @@ export class SkillLogic<
         if (!source) return { value: 0, expr: null };
         try {
             const scope = expressionScopes.require("skill.base");
-            const expr = new SafeExpression(
-                { source },
-                { parent: this, scope },
-            );
-            const raw = expr.evaluate(
-                scope.bind({ attr: this.buildAttrContext() }),
-            );
+            const expr = new SafeExpression({ source }, { parent: this, scope });
+            const raw = expr.evaluate(scope.bind({ attr: this.buildAttrContext() }));
             const n = Number(raw);
             if (!Number.isFinite(n)) {
                 return {
@@ -732,8 +708,7 @@ export class SkillLogic<
      */
     private buildAttrContext(): Record<string, number> {
         const scores: Record<string, number> = {};
-        const attributes =
-            this.actorLogic?.logicTypes?.[ITEM_KIND.ATTRIBUTE] ?? [];
+        const attributes = this.actorLogic?.logicTypes?.[ITEM_KIND.ATTRIBUTE] ?? [];
         for (const a of attributes) {
             const code = a.data.shortcode?.toLowerCase();
             if (code) scores[code] = a.score.effective ?? 0;
@@ -742,9 +717,7 @@ export class SkillLogic<
             get(target, prop) {
                 if (typeof prop === "string") {
                     const key = prop.toLowerCase();
-                    return Object.prototype.hasOwnProperty.call(target, key) ?
-                            target[key]
-                        :   0;
+                    return Object.prototype.hasOwnProperty.call(target, key) ? target[key] : 0;
                 }
                 return Reflect.get(target, prop);
             },
@@ -781,19 +754,15 @@ export class SkillLogic<
         // Capture the pre-boost seed for cross-item boost effects (see the field
         // docs); evaluate() will fold this skill's own boosts into masteryLevel.
         this.masteryLevelSeed = masteryLevelBase;
-        this.masteryLevel = new entity.MasteryLevelModifier(
-            {},
-            { parent: this },
-        ).setBase(masteryLevelBase);
+        this.masteryLevel = new entity.MasteryLevelModifier({}, { parent: this }).setBase(
+            masteryLevelBase,
+        );
 
         // The fate mastery level is built in finalize(), not here: it derives
         // from the actor's Aura attribute, whose own mastery level is not
         // settled until the evaluate barrier has passed. Seed a provisional one
         // so the field is never undefined for a caller reading it mid-lifecycle.
-        this.fateMasteryLevel = buildFateMasteryLevel(
-            this as unknown as FateHost,
-            false,
-        );
+        this.fateMasteryLevel = buildFateMasteryLevel(this as unknown as FateHost, false);
 
         // A combat-technique skill carries an embedded strike mode (a trained
         // maneuver such as an unarmed strike or grapple). Build the runtime
@@ -806,16 +775,8 @@ export class SkillLogic<
             const shortcode = smData.shortcode || this.id;
             this.strikeMode =
                 smData.type === STRIKE_MODE_TYPE.MELEE ?
-                    new entity.MeleeStrikeMode(
-                        smData as MeleeStrikeMode.Data,
-                        this,
-                        shortcode,
-                    )
-                :   new entity.MissileStrikeMode(
-                        smData as MissileStrikeMode.Data,
-                        this,
-                        shortcode,
-                    );
+                    new entity.MeleeStrikeMode(smData as MeleeStrikeMode.Data, this, shortcode)
+                :   new entity.MissileStrikeMode(smData as MissileStrikeMode.Data, this, shortcode);
         }
     }
 
@@ -838,9 +799,7 @@ export class SkillLogic<
                 // cross-item evaluate() ordering; an unopened parent (null base)
                 // contributes 0.
                 if (this.data.adoptParentMasteryLevel) {
-                    this.masteryLevel.setBase(
-                        parentLogic.data.masteryLevelBase ?? 0,
-                    );
+                    this.masteryLevel.setBase(parentLogic.data.masteryLevelBase ?? 0);
                 }
             }
         }
@@ -859,8 +818,7 @@ export class SkillLogic<
         // reach (0 for a non-Being or incorporeal being) — mirrors weapon and
         // combat-technique reach handling.
         if (this.strikeMode instanceof MeleeStrikeMode) {
-            const bodyReach =
-                getActorBody(this.actorLogic)?.reach.effective ?? 0;
+            const bodyReach = getActorBody(this.actorLogic)?.reach.effective ?? 0;
             this.strikeMode.reach.add("SOHL.INFO.Reach", "Size", bodyReach);
         }
 
@@ -875,16 +833,10 @@ export class SkillLogic<
             // does not narrow the actor type here (cf. `unusableRoles` in
             // MasteryLevelModifier).
             const penalty =
-                (
-                    this.actorLogic as
-                        { wornPerceptionPenalty?: number } | null | undefined
-                )?.wornPerceptionPenalty ?? 0;
+                (this.actorLogic as { wornPerceptionPenalty?: number } | null | undefined)
+                    ?.wornPerceptionPenalty ?? 0;
             if (penalty) {
-                this.masteryLevel.add(
-                    "SOHL.ArmorGear.perceptionPenalty",
-                    "Headgear",
-                    penalty,
-                );
+                this.masteryLevel.add("SOHL.ArmorGear.perceptionPenalty", "Headgear", penalty);
             }
         }
     }
@@ -930,20 +882,15 @@ export class SkillLogic<
         );
 
         if (this.masteryLevel.disabled) {
-            this.fateMasteryLevel.disabled =
-                VALUE_DELTA_ID[VALUE_DELTA_INFO.MLDSBL].name;
+            this.fateMasteryLevel.disabled = VALUE_DELTA_ID[VALUE_DELTA_INFO.MLDSBL].name;
         }
         if (!this.fateMasteryLevel.disabled) {
             // Apply magic modifiers
             if (this.magicMod) {
-                this.fateMasteryLevel.add(
-                    VALUE_DELTA_INFO.MAGICMOD,
-                    this.magicMod,
-                );
+                this.fateMasteryLevel.add(VALUE_DELTA_INFO.MAGICMOD, this.magicMod);
             }
             if (!this.availableFate.length) {
-                this.fateMasteryLevel.disabled =
-                    "SOHL.MasteryLevel.NoFateAvailable";
+                this.fateMasteryLevel.disabled = "SOHL.MasteryLevel.NoFateAvailable";
             }
         }
 
@@ -959,10 +906,8 @@ export class SkillLogic<
             // named in `assocSkillCode` when present, else by this skill's own
             // mastery level.
             const governing =
-                resolveAssocSkill(
-                    this.actorLogic,
-                    this.strikeMode.assocSkillCode,
-                )?.masteryLevel ?? this.masteryLevel;
+                resolveAssocSkill(this.actorLogic, this.strikeMode.assocSkillCode)?.masteryLevel ??
+                this.masteryLevel;
 
             applyGoverningMasteryLevel(this.strikeMode, governing);
             // A prone wielder suffers −20 to all melee attacks and defenses

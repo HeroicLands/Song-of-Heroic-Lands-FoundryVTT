@@ -51,9 +51,7 @@ import { isScriptActionMutationAllowed } from "@src/entity/action/SohlAction";
  * Path to the shared create-document dialog template used by
  * `SohlItem.createDialog` (and the actor counterpart).
  */
-const CREATE_ITEM_TEMPLATE = toFilePath(
-    "systems/sohl/templates/dialog/create-item.hbs",
-);
+const CREATE_ITEM_TEMPLATE = toFilePath("systems/sohl/templates/dialog/create-item.hbs");
 
 /**
  * Label for the Create-dialog **(none)** archetype option — the deliberate
@@ -74,10 +72,7 @@ const ARCHETYPE_NONE_LABEL = "(none)";
  * @param type - The document subtype whose DataModel to inspect.
  * @returns The localized subtype options (empty when the type has no subtypes).
  */
-export function subTypeOptionsForType(
-    documentName: string,
-    type: string,
-): SubTypeOption[] {
+export function subTypeOptionsForType(documentName: string, type: string): SubTypeOption[] {
     const model = (CONFIG as any)?.[documentName]?.dataModels?.[type];
     const field = model?.schema?.fields?.subType;
     const choices = field?.choices as Record<string, string> | undefined | null;
@@ -96,11 +91,7 @@ export function subTypeOptionsForType(
  * @param type - The document type whose siblings share the key namespace.
  * @returns The set of taken shortcodes.
  */
-function takenShortcodesFor(
-    documentName: string,
-    parent: any,
-    type: string,
-): Set<string> {
+function takenShortcodesFor(documentName: string, parent: any, type: string): Set<string> {
     const taken = new Set<string>();
     const collection =
         documentName === "Actor" ? (game as any).actors
@@ -143,9 +134,7 @@ export async function sohlCreateDialog(
     // Allowed types: every registered type except the base, filtered by `types`.
     const allTypes: string[] = (cls.TYPES as string[]) ?? [];
     if (types && types.length === 0) {
-        throw new Error(
-            "The array of sub-types to restrict to must not be empty",
-        );
+        throw new Error("The array of sub-types to restrict to must not be empty");
     }
     const typeLabels = (CONFIG as any)?.[documentName]?.typeLabels ?? {};
     const documentTypes = allTypes
@@ -170,16 +159,13 @@ export async function sohlCreateDialog(
 
     // A valid pre-seeded type means we do not ask for (and lock) the type.
     const preType = data.type as string | undefined;
-    const typeIsValid =
-        !!preType && documentTypes.some((t) => t.value === preType);
+    const typeIsValid = !!preType && documentTypes.some((t) => t.value === preType);
     const askType = !typeIsValid;
     let type = typeIsValid ? preType! : documentTypes[0].value;
 
     const subTypeOptions = subTypeOptionsForType(documentName, type);
-    const preSubType = (data.system as PlainObject | undefined)?.subType as
-        string | undefined;
-    const subTypeIsValid =
-        !!preSubType && subTypeOptions.some((s) => s.value === preSubType);
+    const preSubType = (data.system as PlainObject | undefined)?.subType as string | undefined;
+    const subTypeIsValid = !!preSubType && subTypeOptions.some((s) => s.value === preSubType);
     // Only lock the subtype if the type is also locked (a locked type keeps the
     // pre-seeded subtype meaningful); asking the type re-derives subtypes.
     const askSubType = askType || !subTypeIsValid;
@@ -219,14 +205,10 @@ export async function sohlCreateDialog(
             showShortcode: true,
             shortcode: initialShortcode,
             type,
-            types: Object.fromEntries(
-                documentTypes.map((t) => [t.value, t.label]),
-            ),
+            types: Object.fromEntries(documentTypes.map((t) => [t.value, t.label])),
             askType,
             subtype: subType,
-            subtypes: Object.fromEntries(
-                subTypeOptions.map((s) => [s.value, s.label]),
-            ),
+            subtypes: Object.fromEntries(subTypeOptions.map((s) => [s.value, s.label])),
             hasSubtypes: subTypeOptions.length > 0,
             askSubType,
             archetype: initialArchetypes.defaultValue,
@@ -245,18 +227,12 @@ export async function sohlCreateDialog(
             },
         ],
         render: (element: HTMLElement) => {
-            const typeSelect = element.querySelector<HTMLSelectElement>(
-                'select[name="type"]',
-            );
-            const nameInput =
-                element.querySelector<HTMLInputElement>('input[name="name"]');
-            const shortcodeInput = element.querySelector<HTMLInputElement>(
-                'input[name="shortcode"]',
-            );
-            const archetypeSelect =
-                element.querySelector<HTMLSelectElement>("#archetype-select");
-            const subtypeSelect =
-                element.querySelector<HTMLSelectElement>("#subtype-select");
+            const typeSelect = element.querySelector<HTMLSelectElement>('select[name="type"]');
+            const nameInput = element.querySelector<HTMLInputElement>('input[name="name"]');
+            const shortcodeInput =
+                element.querySelector<HTMLInputElement>('input[name="shortcode"]');
+            const archetypeSelect = element.querySelector<HTMLSelectElement>("#archetype-select");
+            const subtypeSelect = element.querySelector<HTMLSelectElement>("#subtype-select");
 
             // Archetype-first defaulting (#643): the Name / Shortcode fields are
             // optional and pre-fill from the chosen archetype's own name /
@@ -273,14 +249,10 @@ export async function sohlCreateDialog(
                 if (!uuid) return undefined;
                 const curType = typeSelect?.value || type;
                 const curSubType = subtypeSelect?.value ?? subType;
-                const winner = resolveArchetypes(
-                    archetypeCandidates,
-                    curType,
-                    curSubType,
-                ).find((c) => c.uuid === uuid);
-                return winner ?
-                        { name: winner.name, shortcode: winner.shortcode }
-                    :   undefined;
+                const winner = resolveArchetypes(archetypeCandidates, curType, curSubType).find(
+                    (c) => c.uuid === uuid,
+                );
+                return winner ? { name: winner.name, shortcode: winner.shortcode } : undefined;
             };
 
             // Recompute the (un-edited) Name and Shortcode defaults from the
@@ -301,14 +273,7 @@ export async function sohlCreateDialog(
                         :   slugifyShortcode(nameInput?.value ?? "");
                     shortcodeInput.value =
                         base ?
-                            uniqueShortcode(
-                                base,
-                                takenShortcodesFor(
-                                    documentName,
-                                    parent,
-                                    curType,
-                                ),
-                            )
+                            uniqueShortcode(base, takenShortcodesFor(documentName, parent, curType))
                         :   "";
                 }
                 validateShortcode();
@@ -322,11 +287,8 @@ export async function sohlCreateDialog(
             let warnEl: HTMLElement | null = null;
             const createButton = (): HTMLButtonElement | null =>
                 (
-                    element.closest(".application, dialog") ??
-                    element.ownerDocument
-                )?.querySelector<HTMLButtonElement>(
-                    'button[data-action="create"]',
-                ) ?? null;
+                    element.closest(".application, dialog") ?? element.ownerDocument
+                )?.querySelector<HTMLButtonElement>('button[data-action="create"]') ?? null;
             const validateShortcode = () => {
                 if (!shortcodeInput) return;
                 const curType = typeSelect?.value || type;
@@ -335,9 +297,7 @@ export async function sohlCreateDialog(
                 const isDup =
                     !!value &&
                     !isMalformed &&
-                    takenShortcodesFor(documentName, parent, curType).has(
-                        value,
-                    );
+                    takenShortcodesFor(documentName, parent, curType).has(value);
                 const btn = createButton();
                 if (btn) btn.disabled = isDup || isMalformed;
                 if (!warnEl) {
@@ -350,11 +310,8 @@ export async function sohlCreateDialog(
                         sohl.i18n.format("SOHL.Shortcode.invalidCharacters", {
                             shortcode: value,
                         })
-                    : isDup ?
-                        sohl.i18n.localize(
-                            "SOHL.CreateDocument.duplicateShortcode",
-                        )
-                    :   "";
+                    : isDup ? sohl.i18n.localize("SOHL.CreateDocument.duplicateShortcode")
+                    : "";
                 warnEl.style.display = isDup || isMalformed ? "" : "none";
             };
 
@@ -374,12 +331,7 @@ export async function sohlCreateDialog(
             const syncArchetypes = () => {
                 const curType = typeSelect?.value || type;
                 const curSubType = subtypeSelect?.value ?? subType;
-                repopulateArchetypes(
-                    element,
-                    archetypeCandidates,
-                    curType,
-                    curSubType,
-                );
+                repopulateArchetypes(element, archetypeCandidates, curType, curSubType);
             };
 
             subtypeSelect?.addEventListener("change", () => {
@@ -405,11 +357,9 @@ export async function sohlCreateDialog(
             recomputeDefaults();
         },
         callback: (formData: PlainObject) => {
-            const chosenType =
-                askType ? (formData.type as string) || type : type;
+            const chosenType = askType ? (formData.type as string) || type : type;
             const options = subTypeOptionsForType(documentName, chosenType);
-            let chosenSubType =
-                askSubType ? ((formData.subtype as string) ?? "") : subType;
+            let chosenSubType = askSubType ? ((formData.subtype as string) ?? "") : subType;
             if (!options.some((s) => s.value === chosenSubType)) {
                 chosenSubType = options[0]?.value ?? "";
             }
@@ -442,9 +392,7 @@ export async function sohlCreateDialog(
     const archetypeInfo: ArchetypeIdentity | undefined =
         result.archetype ?
             (() => {
-                const c = archetypeCandidates.find(
-                    (a) => a.uuid === result.archetype,
-                );
+                const c = archetypeCandidates.find((a) => a.uuid === result.archetype);
                 return c ? { name: c.name, shortcode: c.shortcode } : undefined;
             })()
         :   undefined;
@@ -549,11 +497,7 @@ async function seedFromArchetype(
  * @param documentName - The document class name (`"Item"` / `"Actor"`).
  * @param type - The currently-selected document type.
  */
-function repopulateSubtypes(
-    element: HTMLElement,
-    documentName: string,
-    type: string,
-): void {
+function repopulateSubtypes(element: HTMLElement, documentName: string, type: string): void {
     const group = element.querySelector<HTMLElement>("#subtypes");
     const select = element.querySelector<HTMLSelectElement>("#subtype-select");
     if (!group || !select) return;
@@ -595,8 +539,7 @@ function repopulateArchetypes(
     type: string,
     subType: string,
 ): void {
-    const select =
-        element.querySelector<HTMLSelectElement>("#archetype-select");
+    const select = element.querySelector<HTMLSelectElement>("#archetype-select");
     if (!select) return;
     const { options, defaultValue } = buildArchetypeOptions(
         resolveArchetypes(candidates, type, subType),
@@ -610,8 +553,7 @@ function repopulateArchetypes(
         el.textContent = opt.label;
         select.appendChild(el);
     }
-    select.value =
-        options.some((o) => o.value === previous) ? previous : defaultValue;
+    select.value = options.some((o) => o.value === previous) ? previous : defaultValue;
 }
 
 // NOTE: The Foundry-free contracts (SohlItemLogic, SohlItemData, SohlItemBaseLogic)
@@ -701,9 +643,7 @@ export class SohlItem extends Item {
      * @param doc - The SohlItem document to get context options for.
      * @returns The context menu options for the specified SohlItem document.
      */
-    protected static _getContextOptions(
-        doc: SohlItem,
-    ): SohlContextMenu.Entry[] {
+    protected static _getContextOptions(doc: SohlItem): SohlContextMenu.Entry[] {
         return doc.getContextOptions();
     }
 
@@ -740,27 +680,15 @@ export class SohlItem extends Item {
         options: PlainObject,
         user: User,
     ): Promise<boolean | void> {
-        const allowed = await super._preUpdate(
-            changes as any,
-            options as any,
-            user as any,
-        );
+        const allowed = await super._preUpdate(changes as any, options as any, user as any);
         if (allowed === false) return false;
-        if (
-            (await enforceShortcodeOnUpdate(this, changes, options)) === false
-        ) {
+        if ((await enforceShortcodeOnUpdate(this, changes, options)) === false) {
             return false;
         }
         const newActionDefs = (changes as any)?.system?.actionDefs;
         if (newActionDefs !== undefined) {
             const oldActionDefs = (this.system as any)?.actionDefs;
-            if (
-                !isScriptActionMutationAllowed(
-                    oldActionDefs,
-                    newActionDefs,
-                    user,
-                )
-            ) {
+            if (!isScriptActionMutationAllowed(oldActionDefs, newActionDefs, user)) {
                 sohl.log.warn(
                     `Refusing actionDefs update on "${this.name}": only the GM may modify SCRIPT action entries.`,
                     { item: this.id, user: (user as any)?.id },
@@ -828,9 +756,7 @@ export class SohlItem extends Item {
         const AEClass = foundry.documents.ActiveEffect as any;
         if (typeof phase !== "string") return;
         if (!(phase in (AEClass.CHANGE_PHASES ?? {}))) {
-            sohl.log.warn(
-                `Unknown phase "${phase}" passed to SohlItem.applyActiveEffects`,
-            );
+            sohl.log.warn(`Unknown phase "${phase}" passed to SohlItem.applyActiveEffects`);
             return;
         }
         this._completedActiveEffectPhases ??= new Set<string>();
@@ -845,17 +771,14 @@ export class SohlItem extends Item {
 
         for (const effect of this.allApplicableEffects()) {
             if (!(effect as any).active) continue;
-            const effectChanges =
-                ((effect as any).system?.changes as any[]) ?? [];
+            const effectChanges = ((effect as any).system?.changes as any[]) ?? [];
             for (const change of effectChanges) {
                 if (!change.key || change.phase !== phase) continue;
                 pending.push({ effect, change });
             }
         }
         pending.sort(
-            (a, b) =>
-                ((a.change.priority as number) ?? 0) -
-                ((b.change.priority as number) ?? 0),
+            (a, b) => ((a.change.priority as number) ?? 0) - ((b.change.priority as number) ?? 0),
         );
 
         for (const { effect, change } of pending) {
@@ -905,9 +828,7 @@ export class SohlItem extends Item {
         _context: SohlTriggerContext,
         _payload?: Record<string, unknown>,
     ): Promise<void> {
-        console.warn(
-            `SoHL | ${this.name} (Item) received unhandled event "${kind}"`,
-        );
+        console.warn(`SoHL | ${this.name} (Item) received unhandled event "${kind}"`);
     }
 
     /**
@@ -924,12 +845,8 @@ export class SohlItem extends Item {
      * @param data - Partial `ActiveEffect` creation data (name, type, img, …).
      * @returns The created effect, or `undefined` if creation did not apply.
      */
-    async createEffect(
-        data: Record<string, unknown> = {},
-    ): Promise<SohlActiveEffect | undefined> {
-        const created = await this.createEmbeddedDocuments("ActiveEffect", [
-            data,
-        ] as any);
+    async createEffect(data: Record<string, unknown> = {}): Promise<SohlActiveEffect | undefined> {
+        const created = await this.createEmbeddedDocuments("ActiveEffect", [data] as any);
         return created?.[0] as unknown as SohlActiveEffect | undefined;
     }
 }

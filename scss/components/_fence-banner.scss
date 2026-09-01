@@ -59,11 +59,7 @@
         cursor: pointer;
 
         &:hover {
-            background: color-mix(
-                in srgb,
-                var(--sohl-color-warn) 22%,
-                transparent
-            );
+            background: color-mix(in srgb, var(--sohl-color-warn) 22%, transparent);
             color: var(--sohl-color-warn);
         }
     }

@@ -311,21 +311,14 @@ export class SohlEventQueue {
 
         try {
             const isWorldTime = ctx.name === "updateWorldTime";
-            const worldTime =
-                isWorldTime ?
-                    (ctx as { worldTime: number }).worldTime
-                :   undefined;
+            const worldTime = isWorldTime ? (ctx as { worldTime: number }).worldTime : undefined;
 
             // Snapshot matching subscriptions before dispatching. No cascade:
             // anything a handler adds is seen only by the next fire() call.
             const matching: SohlSubscription[] = [];
             for (const sub of this.subs.values()) {
                 if (sub.triggerName !== ctx.name) continue;
-                if (
-                    isWorldTime &&
-                    sub.fireAt !== undefined &&
-                    sub.fireAt > (worldTime as number)
-                ) {
+                if (isWorldTime && sub.fireAt !== undefined && sub.fireAt > (worldTime as number)) {
                     continue;
                 }
                 matching.push(sub);
@@ -366,8 +359,7 @@ export class SohlEventQueue {
                 if (sub.sceneUuid && fvttActiveSceneUuid() !== sub.sceneUuid) {
                     continue;
                 }
-                if (sub.oneShot)
-                    this.subs.delete(this.key(sub.uuid, sub.actionName));
+                if (sub.oneShot) this.subs.delete(this.key(sub.uuid, sub.actionName));
                 await this.dispatchOne(sub, ctx);
             }
         } finally {
@@ -387,22 +379,11 @@ export class SohlEventQueue {
      * @param sub - The subscription to offer.
      * @param ctx - The trigger context, carried into the button's scope.
      */
-    private async dispatchOne(
-        sub: SohlSubscription,
-        ctx: SohlTriggerContext,
-    ): Promise<void> {
+    private async dispatchOne(sub: SohlSubscription, ctx: SohlTriggerContext): Promise<void> {
         // Only time-scheduled reminders dedupe; an event-driven trigger (combat,
         // a region enter) is a distinct occurrence each fire and offers again.
-        const dedupeAt =
-            sub.triggerName === "updateWorldTime" ?
-                (sub.fireAt ?? 0)
-            :   undefined;
-        await this.offer(
-            sub.uuid,
-            sub.actionName,
-            { ...ctx, payload: sub.payload },
-            { dedupeAt },
-        );
+        const dedupeAt = sub.triggerName === "updateWorldTime" ? (sub.fireAt ?? 0) : undefined;
+        await this.offer(sub.uuid, sub.actionName, { ...ctx, payload: sub.payload }, { dedupeAt });
     }
 
     /**
@@ -448,17 +429,13 @@ export class SohlEventQueue {
                 this.offered.set(key, options.dedupeAt);
             }
 
-            const effectLabel = sohl.i18n.localize(
-                `SOHL.Reminder.effect.${actionName}`,
-            );
+            const effectLabel = sohl.i18n.localize(`SOHL.Reminder.effect.${actionName}`);
             const actorName = (speaker as { name?: string }).name ?? "";
             // A `visibility: "gm"` payload posts the reminder as a GM whisper
             // (e.g. a world-host bandit check — no metagame leak to players);
             // otherwise it is public and gated to the document's owner.
-            const visibility = (ctx.payload as { visibility?: string })
-                ?.visibility;
-            const chatOptions =
-                visibility === "gm" ? { rollMode: "gmroll" } : undefined;
+            const visibility = (ctx.payload as { visibility?: string })?.visibility;
+            const chatOptions = visibility === "gm" ? { rollMode: "gmroll" } : undefined;
             await speaker.toChat(
                 toFilePath(REMINDER_CARD_TEMPLATE),
                 {

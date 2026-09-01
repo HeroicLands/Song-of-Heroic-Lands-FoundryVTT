@@ -102,10 +102,7 @@ export function locationData(
 export function sampleBodyData(): BodyStructure.Data {
     return {
         zones: [zoneData("headzone", 1), zoneData("bodyzone", 2)],
-        parts: [
-            partData("head", "headzone", 15),
-            partData("thorax", "bodyzone", 30),
-        ],
+        parts: [partData("head", "headzone", 15), partData("thorax", "bodyzone", 30)],
         locations: [
             locationData("skull", "head", 10, {
                 bleedingSusceptibility: "medium",
@@ -130,10 +127,7 @@ export function sampleBodyData(): BodyStructure.Data {
  * @param actor - Optional mock actor (for held-item resolution).
  * @returns Construction options for {@link BodyStructure}.
  */
-export function bodyOptions(
-    data: BodyStructure.Data,
-    actor: unknown = null,
-): any {
+export function bodyOptions(data: BodyStructure.Data, actor: unknown = null): any {
     return {
         parent: brandLogic({
             kind: "corpus",

@@ -236,10 +236,7 @@ describe("what the contributor says about itself", () => {
             },
         ]);
         expect(result.keys).toEqual([]);
-        expect(result.findings.map((f) => f.severity)).toEqual([
-            "warning",
-            "warning",
-        ]);
+        expect(result.findings.map((f) => f.severity)).toEqual(["warning", "warning"]);
         expect(result.findings.map((f) => f.message)).toEqual([
             "defineType call is not statically resolvable: non-literal prefix",
             "defineType call is not statically resolvable: unresolved def",
@@ -280,9 +277,10 @@ describe("against the real tree", () => {
     it("generates only keys lang/en.json declares", () => {
         const declared = new Set(
             Object.keys(
-                JSON.parse(
-                    fs.readFileSync(path.join(ROOT, "lang/en.json"), "utf8"),
-                ) as Record<string, string>,
+                JSON.parse(fs.readFileSync(path.join(ROOT, "lang/en.json"), "utf8")) as Record<
+                    string,
+                    string
+                >,
             ),
         );
         const undeclared = [

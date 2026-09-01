@@ -52,14 +52,12 @@ describe("Being Trauma tab: Traumas section (#308)", () => {
                         cy.contains(".ledger__cell", loc.name); // area
                     });
                 // The Injury column header no longer carries Aspect or Bleeding.
-                cy.get('section.tab[data-tab="trauma"] .ledger__head').within(
-                    () => {
-                        cy.contains("Sev");
-                        cy.contains("Area");
-                        cy.contains("Aspect").should("not.exist");
-                        cy.contains("Bld").should("not.exist");
-                    },
-                );
+                cy.get('section.tab[data-tab="trauma"] .ledger__head').within(() => {
+                    cy.contains("Sev");
+                    cy.contains("Area");
+                    cy.contains("Aspect").should("not.exist");
+                    cy.contains("Bld").should("not.exist");
+                });
             });
         });
     });
@@ -143,19 +141,19 @@ describe("Being Trauma tab: Traumas section (#308)", () => {
             cy.openSheet(item);
             // The properties part renders into the DOM regardless of the active
             // tab, so assert on element presence rather than visibility.
-            cy.get(
-                'section.tab[data-tab="properties"] select[name="system.category"]',
-            ).within(() => {
-                // Dropdown is populated from the MORALE_CATEGORY choices, with the
-                // stored state pre-selected.
-                cy.get('option[value="routed"]').should("exist");
-                cy.get('option[value="catatonic"]').should("exist");
-                cy.get("option:selected").should("have.value", "withdrawing");
-            });
+            cy.get('section.tab[data-tab="properties"] select[name="system.category"]').within(
+                () => {
+                    // Dropdown is populated from the MORALE_CATEGORY choices, with the
+                    // stored state pre-selected.
+                    cy.get('option[value="routed"]').should("exist");
+                    cy.get('option[value="catatonic"]').should("exist");
+                    cy.get("option:selected").should("have.value", "withdrawing");
+                },
+            );
             // No numeric level field is shown for a morale trauma.
-            cy.get(
-                'section.tab[data-tab="properties"] [name="system.levelBase"]',
-            ).should("not.exist");
+            cy.get('section.tab[data-tab="properties"] [name="system.levelBase"]').should(
+                "not.exist",
+            );
         });
     });
 
@@ -168,12 +166,10 @@ describe("Being Trauma tab: Traumas section (#308)", () => {
             cy.prepare(actor);
             cy.openSheet(actor);
             cy.switchTab("trauma");
-            cy.get(
-                'section.tab[data-tab="trauma"] .item-create[data-type="trauma"]',
-            ).should("exist");
-            cy.get(
-                'section.tab[data-tab="trauma"] .item .item-contextmenu',
-            ).should("exist");
+            cy.get('section.tab[data-tab="trauma"] .item-create[data-type="trauma"]').should(
+                "exist",
+            );
+            cy.get('section.tab[data-tab="trauma"] .item .item-contextmenu').should("exist");
         });
     });
 });

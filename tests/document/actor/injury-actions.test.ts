@@ -117,10 +117,9 @@ describe("buildResolveInjuryData", () => {
     });
 
     it("defaults an unknown aspect to blunt", () => {
-        expect(
-            buildResolveInjuryData({ impact: 5, aspect: "frostbite" }, true)
-                .aspect,
-        ).toBe(IMPACT_ASPECT.BLUNT);
+        expect(buildResolveInjuryData({ impact: 5, aspect: "frostbite" }, true).aspect).toBe(
+            IMPACT_ASPECT.BLUNT,
+        );
     });
 });
 
@@ -170,9 +169,7 @@ describe("readResolveInjuryForm", () => {
 describe("buildInjuryCardData", () => {
     it("maps a resolved injury onto the card render context", () => {
         const body = makeBody();
-        const neck = body
-            .getAllLocations()
-            .find((l) => l.shortcode === "neck")!;
+        const neck = body.getAllLocations().find((l) => l.shortcode === "neck")!;
         const injury = resolveInjury({
             impact: 22,
             aspect: IMPACT_ASPECT.EDGED,
@@ -213,9 +210,7 @@ describe("buildInjuryCardData", () => {
         const body = makeBodyFixture({
             zones: [zoneData("z1", 1, { name: "Arms" })],
             parts: [partData("p1", "z1", 10, { name: "Left Arm" })],
-            locations: [
-                locationData("l1", "p1", 10, { name: "Upper Left Arm" }),
-            ],
+            locations: [locationData("l1", "p1", 10, { name: "Upper Left Arm" })],
         });
         const loc = body.getAllLocations().find((l) => l.shortcode === "l1")!;
         const injury = resolveInjury({
@@ -242,9 +237,7 @@ describe("buildInjuryCardData", () => {
 
     it("carries the Shock Roll button's scope (#555)", () => {
         const body = makeBody();
-        const neck = body
-            .getAllLocations()
-            .find((l) => l.shortcode === "neck")!;
+        const neck = body.getAllLocations().find((l) => l.shortcode === "neck")!;
         const injury = resolveInjury({
             impact: 22,
             aspect: IMPACT_ASPECT.EDGED,
@@ -265,9 +258,7 @@ describe("buildInjuryCardData", () => {
 
     it("renders a performed amputation outcome and folds the shock penalty in", () => {
         const body = makeBody();
-        const neck = body
-            .getAllLocations()
-            .find((l) => l.shortcode === "neck")!;
+        const neck = body.getAllLocations().find((l) => l.shortcode === "neck")!;
         const injury = resolveInjury({
             impact: 22,
             aspect: IMPACT_ASPECT.EDGED,
@@ -300,9 +291,7 @@ describe("buildInjuryCardData", () => {
 
     it("carries the zone-die aim trace when the location was derived (#828)", () => {
         const body = makeBody();
-        const neck = body
-            .getAllLocations()
-            .find((l) => l.shortcode === "neck")!;
+        const neck = body.getAllLocations().find((l) => l.shortcode === "neck")!;
         const injury = resolveInjury({
             impact: 22,
             aspect: IMPACT_ASPECT.EDGED,
@@ -337,9 +326,7 @@ describe("buildInjuryCardData", () => {
 
     it("flags a player-overridden location when set manually (#828)", () => {
         const body = makeBody();
-        const neck = body
-            .getAllLocations()
-            .find((l) => l.shortcode === "neck")!;
+        const neck = body.getAllLocations().find((l) => l.shortcode === "neck")!;
         const injury = resolveInjury({
             impact: 22,
             aspect: IMPACT_ASPECT.EDGED,
@@ -411,16 +398,12 @@ describe("createTraumaFromInjury (#286)", () => {
     afterEach(() => vi.restoreAllMocks());
 
     it("creates the trauma via the actor logic through the boundary (not on the logic directly)", async () => {
-        const spy = vi
-            .spyOn(FoundryHelpers, "fvttCreateEmbeddedItems")
-            .mockResolvedValue([]);
+        const spy = vi.spyOn(FoundryHelpers, "fvttCreateEmbeddedItems").mockResolvedValue([]);
         // A logic instance — deliberately WITHOUT createEmbeddedDocuments — to
         // prove the write is routed through the boundary, not called on `logic`.
         const logic = { name: "Hero" } as any;
         const body = makeBody();
-        const neck = body
-            .getAllLocations()
-            .find((l) => l.shortcode === "neck")!;
+        const neck = body.getAllLocations().find((l) => l.shortcode === "neck")!;
         const injury = resolveInjury({
             impact: 22,
             aspect: IMPACT_ASPECT.EDGED,
@@ -442,9 +425,7 @@ describe("createTraumaFromInjury (#286)", () => {
     /** A resolved wound + a mock created Trauma carrying its healing cadence. */
     function woundAndTrauma() {
         const body = makeBody();
-        const neck = body
-            .getAllLocations()
-            .find((l) => l.shortcode === "neck")!;
+        const neck = body.getAllLocations().find((l) => l.shortcode === "neck")!;
         const injury = resolveInjury({
             impact: 22,
             aspect: IMPACT_ASPECT.EDGED,
@@ -455,9 +436,7 @@ describe("createTraumaFromInjury (#286)", () => {
             uuid: "Item.trauma0000",
             system: { healingCheckDurationBase: 432000 }, // 5 days
         };
-        vi.spyOn(FoundryHelpers, "fvttCreateEmbeddedItems").mockResolvedValue([
-            trauma,
-        ]);
+        vi.spyOn(FoundryHelpers, "fvttCreateEmbeddedItems").mockResolvedValue([trauma]);
         return { injury, trauma };
     }
 
@@ -486,9 +465,7 @@ describe("createTraumaFromInjury (#286)", () => {
 
     it("also OFFERS the blood-loss advance when the wound bleeds on infliction (#579)", async () => {
         const body = makeBody();
-        const neck = body
-            .getAllLocations()
-            .find((l) => l.shortcode === "neck")!;
+        const neck = body.getAllLocations().find((l) => l.shortcode === "neck")!;
         const injury = resolveInjury({
             impact: 22,
             aspect: IMPACT_ASPECT.EDGED,
@@ -502,20 +479,14 @@ describe("createTraumaFromInjury (#286)", () => {
                 bloodLossAdvanceDurationBase: 86400, // a bleeder-at-creation
             },
         };
-        vi.spyOn(FoundryHelpers, "fvttCreateEmbeddedItems").mockResolvedValue([
-            trauma,
-        ]);
+        vi.spyOn(FoundryHelpers, "fvttCreateEmbeddedItems").mockResolvedValue([trauma]);
         const schedule = vi.spyOn((globalThis as any).sohl, "schedule");
         await createTraumaFromInjury({ name: "Hero" } as any, injury, {
             skipDialog: true,
             scope: { schedule: true },
         });
         expect(schedule).toHaveBeenCalledWith(trauma, "healingCheck", 432000);
-        expect(schedule).toHaveBeenCalledWith(
-            trauma,
-            "bloodLossAdvanceCheck",
-            86400,
-        );
+        expect(schedule).toHaveBeenCalledWith(trauma, "bloodLossAdvanceCheck", 86400);
     });
 
     /**
@@ -527,13 +498,10 @@ describe("createTraumaFromInjury (#286)", () => {
         /** A resolved wound at `neck` of the requested severity. */
         function woundOfImpact(impact: number) {
             const body = makeBody();
-            const neck = body
-                .getAllLocations()
-                .find((l) => l.shortcode === "neck")!;
-            vi.spyOn(
-                FoundryHelpers,
-                "fvttCreateEmbeddedItems",
-            ).mockResolvedValue([{ uuid: "Item.trauma0000", system: {} }]);
+            const neck = body.getAllLocations().find((l) => l.shortcode === "neck")!;
+            vi.spyOn(FoundryHelpers, "fvttCreateEmbeddedItems").mockResolvedValue([
+                { uuid: "Item.trauma0000", system: {} },
+            ]);
             return resolveInjury({
                 impact,
                 aspect: IMPACT_ASPECT.EDGED,

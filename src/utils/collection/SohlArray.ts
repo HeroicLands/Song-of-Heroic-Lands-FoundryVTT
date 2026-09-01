@@ -307,10 +307,7 @@ export class SohlArray<T> {
      * @example
      * const sum = myArray.reduce((total, n) => total + n, 0);
      */
-    reduce<U>(
-        fn: (acc: U, curr: T, index: number, array: T[]) => U,
-        initial: U,
-    ): U {
+    reduce<U>(fn: (acc: U, curr: T, index: number, array: T[]) => U, initial: U): U {
         return this.arrayData.reduce(fn, initial);
     }
 

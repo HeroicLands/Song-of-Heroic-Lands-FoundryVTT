@@ -120,9 +120,7 @@ describe("strengthImpactModifier", () => {
 
     it("is monotonic across the whole range", () => {
         for (let s = 0; s < 60; s++) {
-            expect(strengthImpactModifier(s + 1)).toBeGreaterThanOrEqual(
-                strengthImpactModifier(s),
-            );
+            expect(strengthImpactModifier(s + 1)).toBeGreaterThanOrEqual(strengthImpactModifier(s));
         }
     });
 
@@ -145,11 +143,7 @@ describe("strengthImpactApplies", () => {
     it.each(["arrow", "bolt", "bullet"])(
         "does not apply to a %s launcher — bows, crossbows and slings get no benefit",
         (projectileType) => {
-            const sm = new MissileStrikeMode(
-                missile(projectileType),
-                MOCK_LOGIC,
-                "sm",
-            );
+            const sm = new MissileStrikeMode(missile(projectileType), MOCK_LOGIC, "sm");
             expect(strengthImpactApplies(sm)).toBe(false);
         },
     );

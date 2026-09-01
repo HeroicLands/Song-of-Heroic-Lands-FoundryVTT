@@ -179,8 +179,8 @@ describe("frozen golden streams (determinism contract)", () => {
         const rng = new Sfc32Rng("golden-seed");
         const seq = Array.from({ length: 8 }, () => rng.uint32(BOUND));
         expect(seq).toEqual([
-            3577210014, 877638061, 1077770327, 1103203901, 103271497,
-            2869646797, 2343387005, 2506069163,
+            3577210014, 877638061, 1077770327, 1103203901, 103271497, 2869646797, 2343387005,
+            2506069163,
         ]);
     });
 
@@ -188,8 +188,8 @@ describe("frozen golden streams (determinism contract)", () => {
         const rng = new Xoshiro128Rng("golden-seed");
         const seq = Array.from({ length: 8 }, () => rng.uint32(BOUND));
         expect(seq).toEqual([
-            3537367749, 1403132538, 3172035381, 2696889487, 496461123,
-            3072828755, 208891655, 843523731,
+            3537367749, 1403132538, 3172035381, 2696889487, 496461123, 3072828755, 208891655,
+            843523731,
         ]);
     });
 });

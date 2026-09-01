@@ -140,9 +140,7 @@ export function buildRelationRows(
     candidates: ReadonlyArray<RelationCandidate>,
 ): RelationRow[] {
     const names = new Map(
-        candidates
-            .filter((c) => c.shortcode)
-            .map((c) => [c.shortcode, c.name || c.shortcode]),
+        candidates.filter((c) => c.shortcode).map((c) => [c.shortcode, c.name || c.shortcode]),
     );
     return Object.entries(relation ?? {})
         .map((entry) => {

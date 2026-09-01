@@ -113,16 +113,11 @@ describe("missile-only weapons don't offer block/counterstrike (#1137)", () => {
                 // A mixed weapon (throws and thrusts) keeps both actions — the
                 // gate is "has a melee mode", not "is melee-only".
                 cy.foundry((win) => {
-                    const w = win.game.actors
-                        .get(actor.id)
-                        .items.get(weapon.id);
+                    const w = win.game.actors.get(actor.id).items.get(weapon.id);
                     return w
                         .update(
                             toRealm(win, {
-                                "system.strikeModes": [
-                                    missileMode("Throw"),
-                                    meleeMode(),
-                                ],
+                                "system.strikeModes": [missileMode("Throw"), meleeMode()],
                             }),
                         )
                         .then(() => null);
@@ -136,9 +131,7 @@ describe("missile-only weapons don't offer block/counterstrike (#1137)", () => {
                     return {
                         hasMelee: w.logic.hasMeleeStrikeMode,
                         block: w.logic.actions.get("blockTest").visible(el),
-                        counterstrike: w.logic.actions
-                            .get("counterstrikeTest")
-                            .visible(el),
+                        counterstrike: w.logic.actions.get("counterstrikeTest").visible(el),
                     };
                 }).should((r) => {
                     expect(r.hasMelee, "melee mode present").to.be.true;
@@ -168,9 +161,7 @@ describe("missile-only weapons don't offer block/counterstrike (#1137)", () => {
                         win.__sohlWarns.push(String(msg));
                         return original(msg, ...rest);
                     };
-                    const w = win.game.actors
-                        .get(actor.id)
-                        .items.get(weapon.id);
+                    const w = win.game.actors.get(actor.id).items.get(weapon.id);
                     const result = await w.logic.executeAction("blockTest", {
                         skipDialog: true,
                     });
@@ -181,9 +172,7 @@ describe("missile-only weapons don't offer block/counterstrike (#1137)", () => {
                     };
                 }).should((r) => {
                     expect(r.result, "the test does not run").to.not.be.ok;
-                    expect(r.warns.join(" "), "warns on screen").to.match(
-                        /cannot perform/i,
-                    );
+                    expect(r.warns.join(" "), "warns on screen").to.match(/cannot perform/i);
                 });
             });
         });

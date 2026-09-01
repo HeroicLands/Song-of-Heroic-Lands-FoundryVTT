@@ -1,8 +1,5 @@
 import { describe, it, expect } from "vitest";
-import {
-    calcMasteryBoost,
-    computeBoostContribution,
-} from "@src/document/item/logic/masteryBoost";
+import { calcMasteryBoost, computeBoostContribution } from "@src/document/item/logic/masteryBoost";
 
 describe("calcMasteryBoost", () => {
     it("returns the tabulated bonus for each ML tier", () => {
@@ -50,14 +47,8 @@ describe("computeBoostContribution — existing skill", () => {
     });
 
     it("N=0 (or negative) contributes nothing", () => {
-        expect(
-            computeBoostContribution({ hasSkill: true, seedML: 52, count: 0 })
-                .delta,
-        ).toBe(0);
-        expect(
-            computeBoostContribution({ hasSkill: true, seedML: 52, count: -2 })
-                .delta,
-        ).toBe(0);
+        expect(computeBoostContribution({ hasSkill: true, seedML: 52, count: 0 }).delta).toBe(0);
+        expect(computeBoostContribution({ hasSkill: true, seedML: 52, count: -2 }).delta).toBe(0);
     });
 });
 

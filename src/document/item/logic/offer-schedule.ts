@@ -34,10 +34,7 @@
 
 import { dialog } from "@src/core/FoundryHelpers";
 import { toHTMLString } from "@src/utils/helpers";
-import {
-    isTimeTrigger,
-    type MaybeSchedulable,
-} from "@src/entity/event/scheduled-actions";
+import { isTimeTrigger, type MaybeSchedulable } from "@src/entity/event/scheduled-actions";
 
 /**
  * The minimal action-context surface {@link offerSchedule} reads — a
@@ -148,9 +145,7 @@ export async function offerSchedule(
                 // Event-driven cadences read "…perform the X at the end of each
                 // turn?" (no "in"), time-based read "…perform the X in 5 days?".
                 prompt: sohl.i18n.format(
-                    eventDriven ?
-                        "SOHL.Schedule.promptEvent"
-                    :   "SOHL.Schedule.prompt",
+                    eventDriven ? "SOHL.Schedule.promptEvent" : "SOHL.Schedule.prompt",
                     {
                         effect,
                         when: describeCadence(interval, triggerName),

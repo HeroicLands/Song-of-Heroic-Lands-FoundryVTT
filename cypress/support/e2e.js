@@ -53,9 +53,7 @@ Cypress.on("uncaught:exception", (err) => {
     const message = err?.message ?? "";
     const stack = err?.stack ?? "";
     const ignored = IGNORED_APP_ERRORS.some(
-        (entry) =>
-            entry.message.test(message) &&
-            (!entry.stack || entry.stack.test(stack)),
+        (entry) => entry.message.test(message) && (!entry.stack || entry.stack.test(stack)),
     );
     if (ignored) return false; // do not fail the test
     return true;
@@ -73,8 +71,6 @@ Cypress.on("uncaught:exception", (err) => {
 beforeEach(() => {
     cy.window({ log: false }).then((win) => {
         win.ui?.notifications?.clear?.();
-        win.document
-            ?.querySelectorAll("#notifications .notification")
-            .forEach((n) => n.remove());
+        win.document?.querySelectorAll("#notifications .notification").forEach((n) => n.remove());
     });
 });

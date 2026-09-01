@@ -30,11 +30,9 @@ describe("Being sheet header: health bar (#463)", () => {
 
     /** The first body part (with a location) of the actor's body. */
     function firstPartLocation(win, actorId) {
-        const parts =
-            win.game.actors.get(actorId).logic.body?.structure?.parts ?? [];
+        const parts = win.game.actors.get(actorId).logic.body?.structure?.parts ?? [];
         for (const p of parts) {
-            if (p.locations?.length)
-                return { location: p.locations[0].shortcode };
+            if (p.locations?.length) return { location: p.locations[0].shortcode };
         }
         return null;
     }
@@ -70,29 +68,22 @@ describe("Being sheet header: health bar (#463)", () => {
     it("reduces reported health when an injury is added", () => {
         cy.importActor().then((actor) => {
             cy.foundry((win) => health(win, actor.id)).then((before) => {
-                cy.foundry((win) => firstPartLocation(win, actor.id)).then(
-                    (pl) => {
-                        expect(pl, "body has a location").to.not.be.null;
-                        cy.createItemOn(actor, "trauma", {
-                            name: "Deep Gash",
-                            system: {
-                                subType: "injury",
-                                bodyLocationCode: pl.location,
-                                levelBase: 3, // S3 — serious
-                                healingRateBase: 4,
-                            },
-                        });
-                        cy.prepare(actor);
-                        cy.foundry((win) => health(win, actor.id)).should(
-                            (h) => {
-                                expect(
-                                    h.value,
-                                    "value drops after injury",
-                                ).to.be.lessThan(before.value);
-                            },
-                        );
-                    },
-                );
+                cy.foundry((win) => firstPartLocation(win, actor.id)).then((pl) => {
+                    expect(pl, "body has a location").to.not.be.null;
+                    cy.createItemOn(actor, "trauma", {
+                        name: "Deep Gash",
+                        system: {
+                            subType: "injury",
+                            bodyLocationCode: pl.location,
+                            levelBase: 3, // S3 — serious
+                            healingRateBase: 4,
+                        },
+                    });
+                    cy.prepare(actor);
+                    cy.foundry((win) => health(win, actor.id)).should((h) => {
+                        expect(h.value, "value drops after injury").to.be.lessThan(before.value);
+                    });
+                });
             });
         });
     });

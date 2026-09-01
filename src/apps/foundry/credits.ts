@@ -177,10 +177,7 @@ export function makeCreditsMenuApp(uuid: string): new () => object {
  * @param packageId - The system or module id that ships the credits entry.
  * @param options - Per-package display overrides.
  */
-export function registerCreditsMenu(
-    packageId: string,
-    options: CreditsMenuOptions = {},
-): void {
+export function registerCreditsMenu(packageId: string, options: CreditsMenuOptions = {}): void {
     const uuid = fvttPackageCreditsUuid(packageId);
     if (!uuid) {
         sohl.log.warn(
@@ -189,9 +186,7 @@ export function registerCreditsMenu(
         );
         return;
     }
-    const data = buildCreditsMenuData(options, (key) =>
-        game.i18n.localize(key),
-    );
+    const data = buildCreditsMenuData(options, (key) => game.i18n.localize(key));
     game.settings.registerMenu(
         packageId as never,
         CREDITS_MENU_KEY as never,

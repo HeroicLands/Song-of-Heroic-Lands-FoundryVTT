@@ -13,12 +13,7 @@
 
 import type { SohlLogic } from "@src/core/logic/SohlLogic";
 import { entity, registerEntity } from "@src/entity/entityRegistry";
-import {
-    maxPrecision,
-    cloneInstance,
-    defaultToJSON,
-    escapeHTML,
-} from "@src/utils/helpers";
+import { maxPrecision, cloneInstance, defaultToJSON, escapeHTML } from "@src/utils/helpers";
 import type { ValueDelta } from "@src/entity/modifier/ValueDelta";
 // Side-effect import so ValueDelta self-registers — this base class reaches the
 // registry by import, not the runtime global (see header note).
@@ -121,10 +116,7 @@ export class ValueModifier extends SohlEntity {
      * @param data - Data to construct the modifier.
      * @param options - Options to construct the modifier (carrying `parent`).
      */
-    constructor(
-        data: Partial<ValueModifier.Data>,
-        options: Partial<ValueModifier.Options>,
-    );
+    constructor(data: Partial<ValueModifier.Data>, options: Partial<ValueModifier.Options>);
     /**
      * Implementation backing the constructor overloads: normalizes the
      * `(parent)` shorthand and requires a resolved parent.
@@ -215,18 +207,12 @@ export class ValueModifier extends SohlEntity {
 
                         case VALUE_DELTA_OPERATOR.UPGRADE:
                             // set minVal to the largest minimum value
-                            minVal = Math.max(
-                                minVal ?? Number.MIN_SAFE_INTEGER,
-                                value,
-                            );
+                            minVal = Math.max(minVal ?? Number.MIN_SAFE_INTEGER, value);
                             break;
 
                         case VALUE_DELTA_OPERATOR.DOWNGRADE:
                             // set maxVal to the smallest maximum value
-                            maxVal = Math.min(
-                                maxVal ?? Number.MAX_SAFE_INTEGER,
-                                value,
-                            );
+                            maxVal = Math.min(maxVal ?? Number.MAX_SAFE_INTEGER, value);
                             break;
 
                         case VALUE_DELTA_OPERATOR.OVERRIDE:
@@ -265,14 +251,8 @@ export class ValueModifier extends SohlEntity {
                 }
             });
 
-            this._effective =
-                minVal === null ?
-                    this._effective
-                :   Math.max(minVal, this._effective);
-            this._effective =
-                maxVal === null ?
-                    this._effective
-                :   Math.min(maxVal, this._effective);
+            this._effective = minVal === null ? this._effective : Math.max(minVal, this._effective);
+            this._effective = maxVal === null ? this._effective : Math.min(maxVal, this._effective);
             this._effective = overrideVal ?? this._effective;
             this._effective ||= 0;
 
@@ -439,9 +419,7 @@ export class ValueModifier extends SohlEntity {
 
         abbrev ||= data.abbrev;
 
-        const existingOverride = this.deltas.find(
-            (m) => m.op === VALUE_DELTA_OPERATOR.OVERRIDE,
-        );
+        const existingOverride = this.deltas.find((m) => m.op === VALUE_DELTA_OPERATOR.OVERRIDE);
         if (existingOverride) {
             // If the operation is not override, then ignore it (leave current override in place)
             if (op === VALUE_DELTA_OPERATOR.OVERRIDE) {
@@ -449,20 +427,14 @@ export class ValueModifier extends SohlEntity {
                 if (existingOverride.numValue !== 0) {
                     // If this ValueModifier is being overriden, throw out all other modifications
                     this.deltas = [
-                        new entity.ValueDelta(
-                            { name, abbrev, op, value },
-                            { parent: this.parent },
-                        ),
+                        new entity.ValueDelta({ name, abbrev, op, value }, { parent: this.parent }),
                     ];
                 }
             }
         } else {
             this.deltas = this.deltas.filter((m) => m.abbrev !== abbrev);
             this.deltas.push(
-                new entity.ValueDelta(
-                    { name, abbrev, op, value },
-                    { parent: this.parent },
-                ),
+                new entity.ValueDelta({ name, abbrev, op, value }, { parent: this.parent }),
             );
         }
 
@@ -478,8 +450,7 @@ export class ValueModifier extends SohlEntity {
      * @throws TypeError if `abbrev` is not a string.
      */
     get(abbrev: string): ValueDelta | undefined {
-        if (typeof abbrev !== "string")
-            throw new TypeError("abbrev is not a string");
+        if (typeof abbrev !== "string") throw new TypeError("abbrev is not a string");
         return this.deltas.find((m) => m.abbrev === abbrev);
     }
 
@@ -491,8 +462,7 @@ export class ValueModifier extends SohlEntity {
      * @throws TypeError if `abbrev` is not a string.
      */
     has(abbrev: string): boolean {
-        if (typeof abbrev !== "string")
-            throw new TypeError("abbrev is not a string");
+        if (typeof abbrev !== "string") throw new TypeError("abbrev is not a string");
         return this.deltas.some((m) => m.abbrev === abbrev) || false;
     }
 
@@ -503,8 +473,7 @@ export class ValueModifier extends SohlEntity {
      * @throws TypeError if `abbrev` is not a string.
      */
     delete(abbrev: string): void {
-        if (typeof abbrev !== "string")
-            throw new TypeError("abbrev is not a string");
+        if (typeof abbrev !== "string") throw new TypeError("abbrev is not a string");
         this.deltas = this.deltas.filter((m) => m.abbrev !== abbrev);
         this.dirty = true;
     }
@@ -597,10 +566,7 @@ export class ValueModifier extends SohlEntity {
      *   `other`'s base.
      * @returns `this`, for chaining.
      */
-    addVM(
-        other: ValueModifier,
-        { includeBase }: { includeBase?: boolean } = {},
-    ): ValueModifier {
+    addVM(other: ValueModifier, { includeBase }: { includeBase?: boolean } = {}): ValueModifier {
         if (includeBase) this.base = other.base;
         for (const delta of other.deltas) {
             this._oper(delta.name, delta.abbrev, delta.value, delta.op);
@@ -745,16 +711,12 @@ export class ValueModifier extends SohlEntity {
         // value still has a meaningful summary, then append one entry per delta
         // (`Base +30, SSMod +25`).
         const base = this.base;
-        const parts: string[] = [
-            `${VALUE_DELTA_INFO.BASE} ${base >= 0 ? "+" : ""}${base}`,
-        ];
+        const parts: string[] = [`${VALUE_DELTA_INFO.BASE} ${base >= 0 ? "+" : ""}${base}`];
 
         this.deltas.forEach((adj) => {
             switch (adj.op) {
                 case VALUE_DELTA_OPERATOR.ADD:
-                    parts.push(
-                        `${adj.abbrev} ${adj.numValue > 0 ? "+" : ""}${adj.value}`,
-                    );
+                    parts.push(`${adj.abbrev} ${adj.numValue > 0 ? "+" : ""}${adj.value}`);
                     break;
 
                 case VALUE_DELTA_OPERATOR.MULTIPLY:
@@ -762,15 +724,11 @@ export class ValueModifier extends SohlEntity {
                     break;
 
                 case VALUE_DELTA_OPERATOR.DOWNGRADE:
-                    parts.push(
-                        `${adj.abbrev} ${SYMBOL.LESSTHANOREQUAL}${adj.value}`,
-                    );
+                    parts.push(`${adj.abbrev} ${SYMBOL.LESSTHANOREQUAL}${adj.value}`);
                     break;
 
                 case VALUE_DELTA_OPERATOR.UPGRADE:
-                    parts.push(
-                        `${adj.abbrev} ${SYMBOL.GREATERTHANOREQUAL}${adj.value}`,
-                    );
+                    parts.push(`${adj.abbrev} ${SYMBOL.GREATERTHANOREQUAL}${adj.value}`);
                     break;
 
                 case VALUE_DELTA_OPERATOR.OVERRIDE:

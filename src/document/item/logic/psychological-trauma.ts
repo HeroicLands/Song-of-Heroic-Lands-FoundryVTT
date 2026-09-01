@@ -119,9 +119,7 @@ export interface PsycheRecoveryOutcome {
  * @param normSuccessLevel - The recovery-test result (CF −1 … CS 2).
  * @returns The recovery outcome.
  */
-export function psycheRecoveryOutcome(
-    normSuccessLevel: number,
-): PsycheRecoveryOutcome {
+export function psycheRecoveryOutcome(normSuccessLevel: number): PsycheRecoveryOutcome {
     if (normSuccessLevel >= CRITICAL_SUCCESS) {
         return { psyDelta: -2, grievous: false };
     }
@@ -152,15 +150,10 @@ export interface AuralShockRecoveryOutcome {
  * @param normSuccessLevel - The recovery-test result (CF −1 … CS 2).
  * @returns The recovery outcome.
  */
-export function auralShockRecoveryOutcome(
-    normSuccessLevel: number,
-): AuralShockRecoveryOutcome {
-    if (normSuccessLevel >= CRITICAL_SUCCESS)
-        return { asDelta: -2, psyGain: 0 };
-    if (normSuccessLevel === MARGINAL_SUCCESS)
-        return { asDelta: -1, psyGain: 0 };
-    if (normSuccessLevel === MARGINAL_FAILURE)
-        return { asDelta: 0, psyGain: 0 };
+export function auralShockRecoveryOutcome(normSuccessLevel: number): AuralShockRecoveryOutcome {
+    if (normSuccessLevel >= CRITICAL_SUCCESS) return { asDelta: -2, psyGain: 0 };
+    if (normSuccessLevel === MARGINAL_SUCCESS) return { asDelta: -1, psyGain: 0 };
+    if (normSuccessLevel === MARGINAL_FAILURE) return { asDelta: 0, psyGain: 0 };
     return { asDelta: 0, psyGain: 1 };
 }
 
@@ -222,9 +215,5 @@ export async function inflictAuralShock(
         },
     ]);
     // Aural Shock inflicts 5 Weakness Fatigue per level.
-    await inflictWeaknessFatigue(
-        actorLogic,
-        weaknessFatigueForLevel(levels),
-        name,
-    );
+    await inflictWeaknessFatigue(actorLogic, weaknessFatigueForLevel(levels), name);
 }

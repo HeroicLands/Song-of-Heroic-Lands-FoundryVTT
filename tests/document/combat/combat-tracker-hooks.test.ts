@@ -50,17 +50,13 @@ const li = {} as HTMLElement;
 
 describe("buildCombatantActionMenuEntries", () => {
     it("yields one entry per combat-specific action (Automated Attack + Move to Group), not the resumes or document actions", () => {
-        const entries = buildCombatantActionMenuEntries(() =>
-            makeStubCombatant({}),
-        );
+        const entries = buildCombatantActionMenuEntries(() => makeStubCombatant({}));
         const titles = entries.map((e) => e.__sohlActionTitle).sort();
         expect(titles).toEqual([ATTACK_TITLE, MOVE_TITLE].sort());
         // No HIDDEN defense resumes leak in.
         expect(
             entries.some((e) =>
-                /automatedBlockResume|automatedDodgeResume/.test(
-                    e.__sohlActionTitle,
-                ),
+                /automatedBlockResume|automatedDodgeResume/.test(e.__sohlActionTitle),
             ),
         ).toBe(false);
         // The base document actions are filtered out — the tracker has its own
@@ -70,12 +66,8 @@ describe("buildCombatantActionMenuEntries", () => {
     });
 
     it("carries the action label and icon", () => {
-        const entries = buildCombatantActionMenuEntries(() =>
-            makeStubCombatant({}),
-        );
-        const attack = entries.find(
-            (e) => e.__sohlActionTitle === ATTACK_TITLE,
-        );
+        const entries = buildCombatantActionMenuEntries(() => makeStubCombatant({}));
+        const attack = entries.find((e) => e.__sohlActionTitle === ATTACK_TITLE);
         expect(attack.label).toBe(ATTACK_TITLE);
         expect(attack.icon).toBe("ginf-crossed-swords");
         const move = entries.find((e) => e.__sohlActionTitle === MOVE_TITLE);
@@ -97,9 +89,7 @@ describe("buildCombatantActionMenuEntries", () => {
                 moveVisible: false,
             }),
         );
-        const attack = entries.find(
-            (e) => e.__sohlActionTitle === ATTACK_TITLE,
-        );
+        const attack = entries.find((e) => e.__sohlActionTitle === ATTACK_TITLE);
         const move = entries.find((e) => e.__sohlActionTitle === MOVE_TITLE);
         expect(attack.visible(li)).toBe(true);
         expect(move.visible(li)).toBe(false);
@@ -107,12 +97,8 @@ describe("buildCombatantActionMenuEntries", () => {
 
     it("onClick dispatches through the combatant's matching getContextOptions callback", () => {
         const attackCb = vi.fn();
-        const entries = buildCombatantActionMenuEntries(() =>
-            makeStubCombatant({ attackCb }),
-        );
-        const attack = entries.find(
-            (e) => e.__sohlActionTitle === ATTACK_TITLE,
-        );
+        const entries = buildCombatantActionMenuEntries(() => makeStubCombatant({ attackCb }));
+        const attack = entries.find((e) => e.__sohlActionTitle === ATTACK_TITLE);
         attack.onClick({} as Event, li);
         expect(attackCb).toHaveBeenCalledWith(li);
     });

@@ -13,11 +13,7 @@ import { fileURLToPath } from "node:url";
 
 // Build-time helper (plain ESM, no Foundry). Imported by relative path
 // because the build scripts live outside the `@src` alias tree.
-import {
-    REQUIRED,
-    REDIRECTS,
-    missingRequired,
-} from "../../utils/build-site.mjs";
+import { REQUIRED, REDIRECTS, missingRequired } from "../../utils/build-site.mjs";
 
 /**
  * The site must publish a `404.html`.
@@ -51,13 +47,9 @@ import {
  * What must hold is that the theme is installed before Hugo runs, whatever
  * installs it.
  */
-const REPO_ROOT = path.resolve(
-    path.dirname(fileURLToPath(import.meta.url)),
-    "../..",
-);
+const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 
-const read = (rel: string) =>
-    fs.readFileSync(path.join(REPO_ROOT, rel), "utf8");
+const read = (rel: string) => fs.readFileSync(path.join(REPO_ROOT, rel), "utf8");
 
 describe("the /sohl/ site's 404 page (#1416)", () => {
     const CONFIG = "kb/hugo.toml";
@@ -80,9 +72,7 @@ describe("the /sohl/ site's 404 page (#1416)", () => {
         // One 404 page serves the whole of /sohl/, so a reader who mistyped an
         // API address is handed the same file as one who mistyped a
         // knowledgebase address — and it has to offer both (#1470).
-        const urls = [...read(CONFIG).matchAll(/^\s*url\s*=\s*"(.*)"$/gm)].map(
-            ([, u]) => u,
-        );
+        const urls = [...read(CONFIG).matchAll(/^\s*url\s*=\s*"(.*)"$/gm)].map(([, u]) => u);
         expect(urls).toContain("kb/");
         expect(urls).toContain("api/");
     });
@@ -94,9 +84,7 @@ describe("the /sohl/ site's 404 page (#1416)", () => {
         const deploy = read(DEPLOY);
         const install = deploy.indexOf("npm ci");
         const hugo = deploy.search(/uses:\s*peaceiris\/actions-hugo/);
-        expect(install, "the deploy must install dependencies").toBeGreaterThan(
-            -1,
-        );
+        expect(install, "the deploy must install dependencies").toBeGreaterThan(-1);
         expect(hugo, "the deploy must set up Hugo").toBeGreaterThan(-1);
         // Order is the whole point: installing *after* Hugo has already run
         // publishes a site built without the theme.

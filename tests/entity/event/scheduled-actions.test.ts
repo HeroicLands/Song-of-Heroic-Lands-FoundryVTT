@@ -153,12 +153,7 @@ describe("armScheduledActions (load-side re-arm)", () => {
 
     it("treats a blank sceneUuid as world-wide (undefined at the queue)", () => {
         const queue = mockQueue();
-        armScheduledActions(
-            "Actor.world",
-            [entry("plague", 0, 100, undefined, "")],
-            queue,
-            PARENT,
-        );
+        armScheduledActions("Actor.world", [entry("plague", 0, 100, undefined, "")], queue, PARENT);
         expect(queue.scheduleAt).toHaveBeenCalledWith(
             "Actor.world",
             "plague",
@@ -198,13 +193,7 @@ describe("armScheduledActions (load-side re-arm)", () => {
             PARENT,
         );
         expect(queue.subscribe).not.toHaveBeenCalled();
-        expect(queue.scheduleAt).toHaveBeenCalledWith(
-            "Actor.b",
-            "heal",
-            150,
-            undefined,
-            undefined,
-        );
+        expect(queue.scheduleAt).toHaveBeenCalledWith("Actor.b", "heal", 150, undefined, undefined);
     });
 
     it("carries a scene binding onto an event-driven subscription", () => {
@@ -244,9 +233,7 @@ describe("armScheduledActions (load-side re-arm)", () => {
         );
         const arg = queue.subscribe.mock.calls[0][0];
         expect(arg.predicate).toBeTruthy();
-        expect(arg.predicate.source).toBe(
-            "combatant.actor.uuid === subscriberUuid",
-        );
+        expect(arg.predicate.source).toBe("combatant.actor.uuid === subscriberUuid");
         expect(typeof arg.predicate.evaluate).toBe("function");
     });
 
@@ -298,20 +285,17 @@ describe("scheduleAction (persist + arm)", () => {
 
         // Persist: whole array written, upserted, anchored at now=1000.
         const written = doc.update.mock.calls[0][0]["system.scheduledActions"];
-        expect(
-            written.map((e: ScheduledAction) => e.actionName).sort(),
-        ).toEqual(["existing", "heal"]);
-        expect(
-            written.find((e: ScheduledAction) => e.actionName === "heal"),
-        ).toMatchObject({ anchor: 1000, interval: 250, payload: { hr: 4 } });
-        // Arm: queued at now + interval (world-wide → no scene arg).
-        expect(queue.scheduleAt).toHaveBeenCalledWith(
-            doc.uuid,
+        expect(written.map((e: ScheduledAction) => e.actionName).sort()).toEqual([
+            "existing",
             "heal",
-            1250,
-            { hr: 4 },
-            undefined,
-        );
+        ]);
+        expect(written.find((e: ScheduledAction) => e.actionName === "heal")).toMatchObject({
+            anchor: 1000,
+            interval: 250,
+            payload: { hr: 4 },
+        });
+        // Arm: queued at now + interval (world-wide → no scene arg).
+        expect(queue.scheduleAt).toHaveBeenCalledWith(doc.uuid, "heal", 1250, { hr: 4 }, undefined);
     });
 
     it("re-scheduling the same action replaces (not duplicates) its entry", async () => {
@@ -319,9 +303,7 @@ describe("scheduleAction (persist + arm)", () => {
         const doc = mockDoc([entry("heal", 0, 100)]);
         await scheduleAction(doc as any, queue, "heal", 500, undefined, 2000);
         const written = doc.update.mock.calls[0][0]["system.scheduledActions"];
-        expect(
-            written.filter((e: ScheduledAction) => e.actionName === "heal"),
-        ).toHaveLength(1);
+        expect(written.filter((e: ScheduledAction) => e.actionName === "heal")).toHaveLength(1);
         expect(written[0]).toMatchObject({ anchor: 2000, interval: 500 });
     });
 
@@ -404,14 +386,10 @@ describe("scheduleAction (persist + arm)", () => {
         );
         // Persist: the predicate source is stored on the entry.
         const written = doc.update.mock.calls[0][0]["system.scheduledActions"];
-        expect(written[0].predicate).toBe(
-            "combatant.actor.uuid === subscriberUuid",
-        );
+        expect(written[0].predicate).toBe("combatant.actor.uuid === subscriberUuid");
         // Arm: subscribe gets a compiled SafeExpression of that source.
         const arg = queue.subscribe.mock.calls[0][0];
-        expect(arg.predicate.source).toBe(
-            "combatant.actor.uuid === subscriberUuid",
-        );
+        expect(arg.predicate.source).toBe("combatant.actor.uuid === subscriberUuid");
     });
 });
 
@@ -422,9 +400,7 @@ describe("unscheduleAction (clear + unsubscribe)", () => {
         await unscheduleAction(doc as any, queue, "heal");
 
         const written = doc.update.mock.calls[0][0]["system.scheduledActions"];
-        expect(written.map((e: ScheduledAction) => e.actionName)).toEqual([
-            "bleed",
-        ]);
+        expect(written.map((e: ScheduledAction) => e.actionName)).toEqual(["bleed"]);
         expect(queue.unsubscribe).toHaveBeenCalledWith(doc.uuid, "heal");
     });
 });
@@ -498,9 +474,7 @@ describe("requireSchedulable (uuid is the schedule key)", () => {
     it("refuses to unschedule an unaddressable document", async () => {
         const queue = mockQueue();
         const unsaved = { ...mockDoc(), uuid: null };
-        await expect(
-            unscheduleAction(unsaved, queue, "healingCheck"),
-        ).rejects.toThrow(/no uuid/i);
+        await expect(unscheduleAction(unsaved, queue, "healingCheck")).rejects.toThrow(/no uuid/i);
         expect(unsaved.update).not.toHaveBeenCalled();
         expect(queue.unsubscribe).not.toHaveBeenCalled();
     });

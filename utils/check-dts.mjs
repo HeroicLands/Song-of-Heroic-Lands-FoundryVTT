@@ -45,9 +45,7 @@ const { stdout = "", stderr = "" } = spawnSync(
 // rather than trusting the exit code.
 const projectErrors = `${stdout}${stderr}`
     .split("\n")
-    .filter(
-        (line) => /error TS\d+/.test(line) && !line.includes("node_modules"),
-    );
+    .filter((line) => /error TS\d+/.test(line) && !line.includes("node_modules"));
 
 if (projectErrors.length > 0) {
     console.error(

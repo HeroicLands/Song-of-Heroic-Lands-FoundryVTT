@@ -36,9 +36,7 @@ import {
  *
  * @typeParam TData - The ArmorGear data interface.
  */
-export class ArmorGearLogic<
-    TData extends ArmorGearData = ArmorGearData,
-> extends GearLogic<TData> {
+export class ArmorGearLogic<TData extends ArmorGearData = ArmorGearData> extends GearLogic<TData> {
     /** Per-aspect damage reduction as `ValueModifier`s, seeded from {@link ArmorGearData.protectionBase}. */
     protection!: {
         /** Protection against blunt impact. */
@@ -79,9 +77,7 @@ export class ArmorGearLogic<
      */
     removeFlexibleLocationUpdate(location: string): PlainObject {
         return {
-            "system.locations.flexible": this.data.locations.flexible.filter(
-                (l) => l !== location,
-            ),
+            "system.locations.flexible": this.data.locations.flexible.filter((l) => l !== location),
         };
     }
 
@@ -105,9 +101,7 @@ export class ArmorGearLogic<
      */
     removeRigidLocationUpdate(location: string): PlainObject {
         return {
-            "system.locations.rigid": this.data.locations.rigid.filter(
-                (l) => l !== location,
-            ),
+            "system.locations.rigid": this.data.locations.rigid.filter((l) => l !== location),
         };
     }
 
@@ -180,23 +174,14 @@ export class ArmorGearLogic<
     override initialize(): void {
         super.initialize();
         this.protection = {
-            blunt: new entity.ValueModifier(this).setBase(
-                this.data.protectionBase.blunt,
-            ),
-            edged: new entity.ValueModifier(this).setBase(
-                this.data.protectionBase.edged,
-            ),
-            piercing: new entity.ValueModifier(this).setBase(
-                this.data.protectionBase.piercing,
-            ),
-            fire: new entity.ValueModifier(this).setBase(
-                this.data.protectionBase.fire,
-            ),
+            blunt: new entity.ValueModifier(this).setBase(this.data.protectionBase.blunt),
+            edged: new entity.ValueModifier(this).setBase(this.data.protectionBase.edged),
+            piercing: new entity.ValueModifier(this).setBase(this.data.protectionBase.piercing),
+            fire: new entity.ValueModifier(this).setBase(this.data.protectionBase.fire),
         };
-        this.encumbrance = new entity.ValueModifier(
-            {},
-            { parent: this },
-        ).setBase(this.data.encumbrance);
+        this.encumbrance = new entity.ValueModifier({}, { parent: this }).setBase(
+            this.data.encumbrance,
+        );
         this.traits = {};
     }
 

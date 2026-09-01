@@ -104,10 +104,7 @@ export function dominantSideFrom(
  * @param dominant - The being's dominant side, if it has one.
  * @returns `true` when the grip earns the off-hand penalty.
  */
-export function isOffHandGrip(
-    heldBy: BodyPart[],
-    dominant: BodySide | undefined,
-): boolean {
+export function isOffHandGrip(heldBy: BodyPart[], dominant: BodySide | undefined): boolean {
     if (!dominant || !heldBy.length) return false;
     const sides = heldBy.map(bodyPartSide).filter(Boolean);
     // Something must actually be on the far side, and nothing on the near one.

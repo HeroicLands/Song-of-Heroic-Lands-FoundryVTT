@@ -22,10 +22,7 @@ import { IMPACT_ASPECT, TRAUMA_SUBTYPE } from "@src/utils/constants";
 
 const SAMPLE_DATA: BodyStructure.Data = {
     zones: [zoneData("headzone", 1), zoneData("bodyzone", 2)],
-    parts: [
-        partData("head", "headzone", 15),
-        partData("thorax", "bodyzone", 30),
-    ],
+    parts: [partData("head", "headzone", 15), partData("thorax", "bodyzone", 30)],
     locations: [
         // Skull: moderate bleeder, not amputable, real natural armor on all but fire.
         locationData("skull", "head", 10, {
@@ -98,9 +95,7 @@ describe("injuryLevelFromImpact", () => {
     });
 
     it("defaults to the human master table when no thresholds are given", () => {
-        expect(injuryLevelFromImpact(12)).toBe(
-            injuryLevelFromImpact(12, scale(1)),
-        );
+        expect(injuryLevelFromImpact(12)).toBe(injuryLevelFromImpact(12, scale(1)));
     });
 });
 
@@ -247,9 +242,7 @@ describe("resolveInjury — hit location", () => {
 
     it("falls back to unaimed weighted selection when no location is given", () => {
         const body = makeBody();
-        const spy = vi
-            .spyOn(body, "getRandomLocation")
-            .mockReturnValue(loc(body, "chest"));
+        const spy = vi.spyOn(body, "getRandomLocation").mockReturnValue(loc(body, "chest"));
         resolveInjury({ impact: 10, aspect: IMPACT_ASPECT.EDGED, body });
         expect(spy).toHaveBeenCalledWith();
     });

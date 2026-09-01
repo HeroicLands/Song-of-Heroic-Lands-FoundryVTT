@@ -20,10 +20,9 @@ import { getActorBody } from "@src/document/actor/logic/BodyLogic";
 import { buildRefOptions } from "@src/document/item/logic/refOptions";
 import { BodyRoleChoices, isBodyRole } from "@src/utils/constants";
 
-const BodyPartConfig_Base: any =
-    foundry.applications.api.HandlebarsApplicationMixin(
-        foundry.applications.api.ApplicationV2,
-    );
+const BodyPartConfig_Base: any = foundry.applications.api.HandlebarsApplicationMixin(
+    foundry.applications.api.ApplicationV2,
+);
 
 /**
  * A small, sheet-like editor for a single {@link BodyPart} on a Being.
@@ -89,11 +88,7 @@ export class BodyPartConfig extends (BodyPartConfig_Base as typeof foundry.appli
      * @param shortcode - The part's shortcode (its row key within the structure).
      * @param options - Additional ApplicationV2 options.
      */
-    constructor(
-        actor: SohlActor,
-        shortcode: string,
-        options: PlainObject = {},
-    ) {
+    constructor(actor: SohlActor, shortcode: string, options: PlainObject = {}) {
         // Derive a stable, per-(actor, shortcode) id so editing two different
         // parts on the same being opens two distinct windows.
         const idSuffix = shortcode.replace(/[^\w-]/g, "-");
@@ -143,8 +138,7 @@ export class BodyPartConfig extends (BodyPartConfig_Base as typeof foundry.appli
      * @returns The template context describing the current part.
      */
     protected override async _prepareContext(_options: any): Promise<any> {
-        const part =
-            this.#currentData() ?? blankBodyPart(this.#actor.name, this.#key);
+        const part = this.#currentData() ?? blankBodyPart(this.#actor.name, this.#key);
         const roles = part.roles ?? [];
         // Zone-reference dropdown (#982): the body's own zones, so a part picks
         // its parent zone by display name. A dangling `bodyZoneCode` (a zone
@@ -157,13 +151,11 @@ export class BodyPartConfig extends (BodyPartConfig_Base as typeof foundry.appli
             part,
             shortcode: part.shortcode || this.#key,
             bodyZoneCodeOptions: buildRefOptions(zones, part.bodyZoneCode),
-            roleOptions: Object.entries(BodyRoleChoices).map(
-                ([value, label]) => ({
-                    value,
-                    label,
-                    selected: roles.includes(value),
-                }),
-            ),
+            roleOptions: Object.entries(BodyRoleChoices).map(([value, label]) => ({
+                value,
+                label,
+                selected: roles.includes(value),
+            })),
         };
     }
 
@@ -221,9 +213,7 @@ export class BodyPartConfig extends (BodyPartConfig_Base as typeof foundry.appli
         // typo). The dropdown only ever offers real zones plus the current value.
         const submittedZone = String(submitted.bodyZoneCode ?? "");
         const bodyZoneCode =
-            structure.getZoneByCode(submittedZone) ? submittedZone : (
-                part.zone.shortcode
-            );
+            structure.getZoneByCode(submittedZone) ? submittedZone : part.zone.shortcode;
 
         const changes: Partial<BodyPart.Data> = {
             name: String(submitted.name ?? "").trim() || part.name,

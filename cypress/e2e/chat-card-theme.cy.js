@@ -41,11 +41,7 @@ function postCard(win, actorId, skillId) {
         });
         await result.toChat();
         for (let i = 0; i < 50; i++) {
-            if (
-                win.game.messages.contents.some((m) =>
-                    m.content.includes("chat-card"),
-                )
-            )
+            if (win.game.messages.contents.some((m) => m.content.includes("chat-card")))
                 return true;
             await new Promise((r) => win.setTimeout(r, 40));
         }
@@ -76,9 +72,7 @@ describe("chat cards blend into the light chat log (#903)", () => {
                 system: { shortcode: "swo", masteryLevelBase: 50 },
             }).then((skill) => {
                 cy.prepare(actor);
-                cy.foundry((win) => postCard(win, actor.id, skill.id)).should(
-                    "be.true",
-                );
+                cy.foundry((win) => postCard(win, actor.id, skill.id)).should("be.true");
                 // Wait for the log to render the card (Cypress retries).
                 cy.get(".chat-card", { timeout: 15000 }).should("exist");
 
@@ -86,27 +80,16 @@ describe("chat cards blend into the light chat log (#903)", () => {
                 // and the card paints no parchment image of its own (it inherits
                 // Foundry's light message ground).
                 cy.foundry((win) => {
-                    win.document.documentElement.setAttribute(
-                        "data-theme",
-                        "dark",
-                    );
+                    win.document.documentElement.setAttribute("data-theme", "dark");
                     return cardStyle(win);
                 }).then((s) => {
-                    expect(s.color, "dark-theme card ink stays light").to.eq(
-                        LIGHT_INK,
-                    );
-                    expect(
-                        s.image,
-                        "card paints no ground image of its own",
-                    ).to.eq("none");
+                    expect(s.color, "dark-theme card ink stays light").to.eq(LIGHT_INK);
+                    expect(s.image, "card paints no ground image of its own").to.eq("none");
                 });
 
                 // Light theme: identical — proves stability, not just darkness.
                 cy.foundry((win) => {
-                    win.document.documentElement.setAttribute(
-                        "data-theme",
-                        "light",
-                    );
+                    win.document.documentElement.setAttribute("data-theme", "light");
                     return cardStyle(win);
                 }).then((s) => {
                     expect(s.color, "light-theme card ink").to.eq(LIGHT_INK);
@@ -116,10 +99,7 @@ describe("chat cards blend into the light chat log (#903)", () => {
                 // Visual confirmation in dark mode (the mode that was broken):
                 // open the chat sidebar and capture the card in its frame.
                 cy.foundry((win) => {
-                    win.document.documentElement.setAttribute(
-                        "data-theme",
-                        "dark",
-                    );
+                    win.document.documentElement.setAttribute("data-theme", "dark");
                     win.ui.sidebar.expand?.();
                     win.ui.sidebar.changeTab?.("chat", "primary");
                     return null;

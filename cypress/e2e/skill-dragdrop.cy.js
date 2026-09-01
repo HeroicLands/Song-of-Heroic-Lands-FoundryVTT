@@ -48,14 +48,10 @@ describe("Being Skills tab: drag to reorder (#1528)", () => {
     function readGroups(actorId) {
         return cy.foundry((win) => {
             const root = win.game.actors.get(actorId).sheet.element;
-            return Array.from(root.querySelectorAll(".skills-ledger")).map(
-                (el) => ({
-                    subType: el.dataset.subType,
-                    ids: Array.from(el.querySelectorAll(".ledger__row")).map(
-                        (r) => r.dataset.itemId,
-                    ),
-                }),
-            );
+            return Array.from(root.querySelectorAll(".skills-ledger")).map((el) => ({
+                subType: el.dataset.subType,
+                ids: Array.from(el.querySelectorAll(".ledger__row")).map((r) => r.dataset.itemId),
+            }));
         });
     }
 
@@ -77,13 +73,9 @@ describe("Being Skills tab: drag to reorder (#1528)", () => {
             const before = snapshot().join("|");
 
             const dt = new win.DataTransfer();
-            dt.setData(
-                "text/plain",
-                JSON.stringify({ sohlSkillDrag: { skillId: sourceId } }),
-            );
+            dt.setData("text/plain", JSON.stringify({ sohlSkillDrag: { skillId: sourceId } }));
             const target = root.querySelector(targetSelector);
-            if (!target)
-                throw new Error(`drop target not found: ${targetSelector}`);
+            if (!target) throw new Error(`drop target not found: ${targetSelector}`);
             target.dispatchEvent(
                 new win.DragEvent("drop", {
                     bubbles: true,
@@ -98,14 +90,10 @@ describe("Being Skills tab: drag to reorder (#1528)", () => {
                 await new Promise((r) => setTimeout(r, 20));
             }
             const live = win.game.actors.get(actorId).sheet.element;
-            return Array.from(live.querySelectorAll(".skills-ledger")).map(
-                (el) => ({
-                    subType: el.dataset.subType,
-                    ids: Array.from(el.querySelectorAll(".ledger__row")).map(
-                        (r) => r.dataset.itemId,
-                    ),
-                }),
-            );
+            return Array.from(live.querySelectorAll(".skills-ledger")).map((el) => ({
+                subType: el.dataset.subType,
+                ids: Array.from(el.querySelectorAll(".ledger__row")).map((r) => r.dataset.itemId),
+            }));
         });
     }
 
@@ -113,16 +101,11 @@ describe("Being Skills tab: drag to reorder (#1528)", () => {
         seed().then((actor) => {
             cy.foundry((win) => {
                 const root = win.game.actors.get(actor.id).sheet.element;
-                const rows = Array.from(
-                    root.querySelectorAll(".skills-ledger .ledger__row"),
-                );
+                const rows = Array.from(root.querySelectorAll(".skills-ledger .ledger__row"));
                 return {
                     rows: rows.length,
-                    draggable: rows.filter(
-                        (r) => r.getAttribute("draggable") === "true",
-                    ).length,
-                    grips: root.querySelectorAll(".skills-ledger .ledger__grip")
-                        .length,
+                    draggable: rows.filter((r) => r.getAttribute("draggable") === "true").length,
+                    grips: root.querySelectorAll(".skills-ledger .ledger__grip").length,
                 };
             }).should((r) => {
                 expect(r.rows, "skill rows").to.be.greaterThan(1);
@@ -146,12 +129,8 @@ describe("Being Skills tab: drag to reorder (#1528)", () => {
                     `.skills-ledger .ledger__row[data-item-id="${firstId}"]`,
                 ).should((after) => {
                     const now = after.find((x) => x.subType === g.subType);
-                    expect(now.ids[0], "dropped before the first row").to.eq(
-                        source,
-                    );
-                    expect(now.ids, "no skill lost").to.have.length(
-                        g.ids.length,
-                    );
+                    expect(now.ids[0], "dropped before the first row").to.eq(source);
+                    expect(now.ids, "no skill lost").to.have.length(g.ids.length);
                 });
             });
         });
@@ -193,9 +172,7 @@ describe("Being Skills tab: drag to reorder (#1528)", () => {
                 ).should((after) => {
                     const own = after.find((x) => x.subType === src.subType);
                     expect(own.ids[0]).to.eq(source);
-                    const dest = after.find(
-                        (x) => x.subType === earlier.subType,
-                    );
+                    const dest = after.find((x) => x.subType === earlier.subType);
                     expect(dest.ids).to.not.include(source);
                 });
             });
@@ -209,9 +186,7 @@ describe("Being Skills tab: drag to reorder (#1528)", () => {
                 const last = groups[groups.length - 1];
                 const source = src.ids[0];
                 cy.foundry(
-                    (win) =>
-                        win.game.actors.get(actor.id).items.get(source).system
-                            .subType,
+                    (win) => win.game.actors.get(actor.id).items.get(source).system.subType,
                 ).then((before) => {
                     dropSkill(
                         actor.id,
@@ -219,9 +194,7 @@ describe("Being Skills tab: drag to reorder (#1528)", () => {
                         `.skills-ledger[data-sub-type="${last.subType}"]`,
                     ).then(() => {
                         cy.foundry(
-                            (win) =>
-                                win.game.actors.get(actor.id).items.get(source)
-                                    .system.subType,
+                            (win) => win.game.actors.get(actor.id).items.get(source).system.subType,
                         ).should("eq", before);
                     });
                 });

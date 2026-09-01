@@ -4,11 +4,7 @@ import { SkillLogic } from "@src/document/item/logic/SkillLogic";
 import { AffiliationLogic } from "@src/document/item/logic/AffiliationLogic";
 import { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import { ITEM_KIND, MYSTERY_SUBTYPE } from "@src/utils/constants";
-import {
-    makeItemLogic,
-    makeMockActor,
-    makeAttributeStub,
-} from "@tests/mocks/logicHarness";
+import { makeItemLogic, makeMockActor, makeAttributeStub } from "@tests/mocks/logicHarness";
 
 /**
  * Build a mock actor exposing the `itemTypes.skill` / `itemTypes.affiliation`
@@ -39,11 +35,7 @@ function makeAffiliationOnActor(
 }
 
 /** Embed a real SkillLogic on the actor and register it in itemTypes. */
-function makeSkillOnActor(
-    actor: any,
-    shortcode: string,
-    masteryLevelBase = 40,
-) {
+function makeSkillOnActor(actor: any, shortcode: string, masteryLevelBase = 40) {
     const logic = makeItemLogic(
         SkillLogic,
         ITEM_KIND.SKILL,
@@ -75,16 +67,8 @@ function mysteryFields(overrides: Record<string, unknown> = {}) {
     };
 }
 
-function makeMystery(
-    overrides: Record<string, unknown> = {},
-    opts: Record<string, unknown> = {},
-) {
-    return makeItemLogic(
-        MysteryLogic,
-        ITEM_KIND.MYSTERY,
-        mysteryFields(overrides),
-        opts,
-    );
+function makeMystery(overrides: Record<string, unknown> = {}, opts: Record<string, unknown> = {}) {
+    return makeItemLogic(MysteryLogic, ITEM_KIND.MYSTERY, mysteryFields(overrides), opts);
 }
 
 afterEach(() => {
@@ -102,9 +86,7 @@ describe("MysteryLogic", () => {
             const logic = makeMystery();
             expect(logic.actions.has("useMystery")).toBe(false);
             expect(
-                MysteryLogic.defineIntrinsicActions().some(
-                    (d) => d.shortcode === "useMystery",
-                ),
+                MysteryLogic.defineIntrinsicActions().some((d) => d.shortcode === "useMystery"),
             ).toBe(false);
         });
 
@@ -165,12 +147,8 @@ describe("MysteryLogic", () => {
                 charges: { value: 0, max: null },
             });
             logic.initialize();
-            expect(logic.charges.value.disabled).toBe(
-                "SOHL.Mystery.DoesNotUseCharges",
-            );
-            expect(logic.charges.max.disabled).toBe(
-                "SOHL.Mystery.DoesNotUseCharges",
-            );
+            expect(logic.charges.value.disabled).toBe("SOHL.Mystery.DoesNotUseCharges");
+            expect(logic.charges.max.disabled).toBe("SOHL.Mystery.DoesNotUseCharges");
         });
 
         it("gates charges on max !== null — the maximum is the only control (#1129)", () => {
@@ -192,9 +170,7 @@ describe("MysteryLogic", () => {
             // max stays enabled; only value is disabled → sheet shows "∞".
             expect(logic.charges.max.disabled).toBeFalsy();
             expect(logic.charges.max.effective).toBe(5);
-            expect(logic.charges.value.disabled).toBe(
-                "SOHL.Mystery.InfiniteCharges",
-            );
+            expect(logic.charges.value.disabled).toBe("SOHL.Mystery.InfiniteCharges");
         });
 
         it("keeps charges.max enabled at 0 (infinite available)", () => {
@@ -224,10 +200,7 @@ describe("MysteryLogic", () => {
         it("resolves assocSkill from the actor's skills by assocSkillCode", () => {
             const actor = makeMysteryActor();
             const skill = makeSkillOnActor(actor, "blessing-skill");
-            const logic = makeMystery(
-                { assocSkillCode: "blessing-skill" },
-                { actor },
-            );
+            const logic = makeMystery({ assocSkillCode: "blessing-skill" }, { actor });
             logic.initialize();
             logic.evaluate();
             expect(logic.assocSkill).toBe(skill);
@@ -273,10 +246,7 @@ describe("MysteryLogic", () => {
         it("leaves affiliation undefined when no shortcode matches", () => {
             const actor = makeMysteryActor();
             makeAffiliationOnActor(actor, "larani");
-            const logic = makeMystery(
-                { assocAffiliationCode: "missing" },
-                { actor },
-            );
+            const logic = makeMystery({ assocAffiliationCode: "missing" }, { actor });
             logic.initialize();
             logic.evaluate();
             expect(logic.affiliation).toBeUndefined();
@@ -292,10 +262,7 @@ describe("MysteryLogic", () => {
         it("leaves affiliation undefined when the code is blank", () => {
             const actor = makeMysteryActor();
             makeAffiliationOnActor(actor, "larani");
-            const logic = makeMystery(
-                { assocAffiliationCode: null },
-                { actor },
-            );
+            const logic = makeMystery({ assocAffiliationCode: null }, { actor });
             logic.initialize();
             logic.evaluate();
             expect(logic.affiliation).toBeUndefined();
@@ -488,9 +455,7 @@ describe("MysteryLogic", () => {
     });
 
     describe("_usesLevels", () => {
-        it.todo(
-            "returns true for ANCESTORSPIRITPOWER and TOTEMSPIRITPOWER subtypes",
-        );
+        it.todo("returns true for ANCESTORSPIRITPOWER and TOTEMSPIRITPOWER subtypes");
         it.todo("returns false for other subtypes");
     });
 
@@ -501,9 +466,7 @@ describe("MysteryLogic", () => {
     });
 
     describe("evaluate (skill resolution)", () => {
-        it.todo(
-            "resolves skills from actor items matching data.skills shortcodes",
-        );
+        it.todo("resolves skills from actor items matching data.skills shortcodes");
         it.todo("returns early when actor is null");
     });
 });
@@ -516,15 +479,9 @@ describe("MysteryDataModel", () => {
         it.todo("includes SohlItemDataModel base schema fields");
         it.todo("defines subType with MysterySubTypes choices");
         it.todo("defines skills as ArrayField of StringFields");
-        it.todo(
-            "defines levelBase as nullable integer NumberField, initial null, min 0",
-        );
-        it.todo(
-            "defines charges.value as nullable integer NumberField, initial null, min 0",
-        );
-        it.todo(
-            "defines charges.max as nullable integer NumberField, initial null, min 0",
-        );
+        it.todo("defines levelBase as nullable integer NumberField, initial null, min 0");
+        it.todo("defines charges.value as nullable integer NumberField, initial null, min 0");
+        it.todo("defines charges.max as nullable integer NumberField, initial null, min 0");
     });
 
     it.todo("has kind set to ITEM_KIND.MYSTERY");

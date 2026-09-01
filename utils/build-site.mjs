@@ -37,11 +37,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-import {
-    RETIRED_HOSTS,
-    findRetiredHrefs,
-    repairRetiredHrefs,
-} from "./retired-hosts.mjs";
+import { RETIRED_HOSTS, findRetiredHrefs, repairRetiredHrefs } from "./retired-hosts.mjs";
 
 /** The directory that is deployed. Its root is the site's origin, not `/sohl/`. */
 export const SITE_OUT = "build/site";
@@ -215,8 +211,7 @@ function htmlUnder(dir, rel = "") {
     if (!fs.existsSync(dir)) return out;
     for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
         const next = path.join(rel, e.name);
-        if (e.isDirectory())
-            out.push(...htmlUnder(path.join(dir, e.name), next));
+        if (e.isDirectory()) out.push(...htmlUnder(path.join(dir, e.name), next));
         else if (e.name.endsWith(".html")) out.push(next);
     }
     return out;
@@ -253,9 +248,7 @@ export function repairRetiredLinksIn(dir, root) {
         const result = repairRetiredHrefs(before, resolves);
         if (result.html !== before) fs.writeFileSync(file, result.html);
         repaired.push(...result.repaired.map((r) => ({ file: rel, ...r })));
-        unresolved.push(
-            ...result.unresolved.map((url) => ({ file: rel, url })),
-        );
+        unresolved.push(...result.unresolved.map((url) => ({ file: rel, url })));
     }
     return { repaired, unresolved };
 }
@@ -276,9 +269,7 @@ export function retiredHrefsUnder(root) {
     const out = [];
     for (const rel of htmlUnder(root)) {
         const html = fs.readFileSync(path.join(root, rel), "utf8");
-        out.push(
-            ...findRetiredHrefs(html).map((hit) => ({ file: rel, ...hit })),
-        );
+        out.push(...findRetiredHrefs(html).map((hit) => ({ file: rel, ...hit })));
     }
     return out;
 }
@@ -336,9 +327,7 @@ function main(argv) {
 
     const missing = missingRequired(root);
     if (missing.length) {
-        console.error(
-            `build-site: the assembled site is missing:\n  ${missing.join("\n  ")}`,
-        );
+        console.error(`build-site: the assembled site is missing:\n  ${missing.join("\n  ")}`);
         process.exit(1);
     }
 
@@ -358,9 +347,7 @@ function main(argv) {
                 `where the next tag will carry it too.`,
         );
         for (const r of repaired) {
-            console.log(
-                `  ${PACKAGE_DIR}/api/${r.file}: ${r.from}\n    → ${r.to}`,
-            );
+            console.log(`  ${PACKAGE_DIR}/api/${r.file}: ${r.from}\n    → ${r.to}`);
         }
     }
 
@@ -369,16 +356,12 @@ function main(argv) {
     // canonical surface, and nothing downstream would notice it (#1487).
     const dead = retiredHrefsUnder(root);
     if (dead.length) {
-        console.error(
-            `\nbuild-site: ${dead.length} link(s) address a retired hostname:\n`,
-        );
+        console.error(`\nbuild-site: ${dead.length} link(s) address a retired hostname:\n`);
         for (const d of dead) console.error(`  ${d.file}: ${d.url}`);
         console.error(
             "\nThese hostnames have been withdrawn, so the link fails at DNS — there is\n" +
                 "no redirect to follow. The surviving addresses are:\n" +
-                [...RETIRED_HOSTS]
-                    .map(([host, base]) => `  ${host} → ${base}`)
-                    .join("\n") +
+                [...RETIRED_HOSTS].map(([host, base]) => `  ${host} → ${base}`).join("\n") +
                 "\n\nA hit under a page built from `main` is a source defect: correct the link\n" +
                 "there. A hit left in the API documentation means no replacement page could\n" +
                 "be found in this deployment — check the address the link should have, and\n" +
@@ -393,9 +376,6 @@ function main(argv) {
     );
 }
 
-if (
-    process.argv[1] &&
-    path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)
-) {
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
     main(process.argv.slice(2));
 }

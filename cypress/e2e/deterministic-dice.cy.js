@@ -46,10 +46,10 @@ describe("Deterministic dice via SimpleRoll.forceValues (#598)", () => {
                         // Each test builds a fresh unrolled d100, so forcing right
                         // before it drives that roll.
                         SimpleRoll.forceValues(forced);
-                        const result = await s.logic.executeAction(
-                            "successTest",
-                            { skipDialog: true, scope: {} },
-                        );
+                        const result = await s.logic.executeAction("successTest", {
+                            skipDialog: true,
+                            scope: {},
+                        });
                         return {
                             rollTotal: result?.roll?.total ?? null,
                             isSuccess: result?.isSuccess ?? null,
@@ -63,15 +63,9 @@ describe("Deterministic dice via SimpleRoll.forceValues (#598)", () => {
                 }).should((r) => {
                     expect(r.low.rollTotal, "forced 5 drove the roll").to.eq(5);
                     expect(r.low.isSuccess, "5 ≤ ML 50 → success").to.be.true;
-                    expect(r.high.rollTotal, "forced 100 drove the roll").to.eq(
-                        100,
-                    );
-                    expect(r.high.isSuccess, "100 > ML 50 → failure").to.be
-                        .false;
-                    expect(
-                        r.remaining,
-                        "both forced values were consumed",
-                    ).to.eq(0);
+                    expect(r.high.rollTotal, "forced 100 drove the roll").to.eq(100);
+                    expect(r.high.isSuccess, "100 > ML 50 → failure").to.be.false;
+                    expect(r.remaining, "both forced values were consumed").to.eq(0);
                 });
             });
         });
@@ -114,10 +108,10 @@ describe("Deterministic dice via SimpleRoll.forceValues (#598)", () => {
                     const SimpleRoll = win.sohl.entity.roll.SimpleRoll;
                     const test = async (forced) => {
                         SimpleRoll.forceValues(forced);
-                        const result = await s.logic.executeAction(
-                            "successTest",
-                            { skipDialog: true, scope: {} },
-                        );
+                        const result = await s.logic.executeAction("successTest", {
+                            skipDialog: true,
+                            scope: {},
+                        });
                         return {
                             rollTotal: result?.roll?.total ?? null,
                             isSuccess: result?.isSuccess ?? null,
@@ -134,37 +128,23 @@ describe("Deterministic dice via SimpleRoll.forceValues (#598)", () => {
                     const marginal = await test(23);
                     return { critSuccess, critFailure, marginal };
                 }).should((r) => {
-                    expect(r.critSuccess.isSuccess, "5 ≤ 50 → success").to.be
-                        .true;
-                    expect(r.critSuccess.isCritical, "ends in 5 → critical").to
-                        .be.true;
-                    expect(
-                        r.critSuccess.successLevel,
-                        "CRITICAL_SUCCESS",
-                    ).to.eq(2);
+                    expect(r.critSuccess.isSuccess, "5 ≤ 50 → success").to.be.true;
+                    expect(r.critSuccess.isCritical, "ends in 5 → critical").to.be.true;
+                    expect(r.critSuccess.successLevel, "CRITICAL_SUCCESS").to.eq(2);
                     expect(r.critSuccess.description).to.eq(
                         "SOHL.SuccessTestResult.CriticalSuccess",
                     );
 
-                    expect(r.critFailure.isSuccess, "65 > 50 → failure").to.be
-                        .false;
-                    expect(r.critFailure.isCritical, "ends in 5 → critical").to
-                        .be.true;
-                    expect(
-                        r.critFailure.successLevel,
-                        "CRITICAL_FAILURE",
-                    ).to.eq(-1);
+                    expect(r.critFailure.isSuccess, "65 > 50 → failure").to.be.false;
+                    expect(r.critFailure.isCritical, "ends in 5 → critical").to.be.true;
+                    expect(r.critFailure.successLevel, "CRITICAL_FAILURE").to.eq(-1);
                     expect(r.critFailure.description).to.eq(
                         "SOHL.SuccessTestResult.CriticalFailure",
                     );
 
-                    expect(r.marginal.isSuccess, "23 ≤ 50 → success").to.be
-                        .true;
-                    expect(r.marginal.isCritical, "ends in 3 → not critical").to
-                        .be.false;
-                    expect(r.marginal.successLevel, "MARGINAL_SUCCESS").to.eq(
-                        1,
-                    );
+                    expect(r.marginal.isSuccess, "23 ≤ 50 → success").to.be.true;
+                    expect(r.marginal.isCritical, "ends in 3 → not critical").to.be.false;
+                    expect(r.marginal.successLevel, "MARGINAL_SUCCESS").to.eq(1);
                 });
             });
         });

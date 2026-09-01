@@ -68,12 +68,9 @@ describe("calendar read / advance / format", () => {
                 "beforeEra",
             ]);
             expect(r.eraYear, "eraYear is a number").to.be.a("number");
-            expect(r.eraAbbrev, "eraAbbrev non-empty").to.be.a("string").and.not
-                .be.empty;
+            expect(r.eraAbbrev, "eraAbbrev non-empty").to.be.a("string").and.not.be.empty;
             expect(r.beforeEra, "beforeEra is boolean").to.be.a("boolean");
-            expect(r.roundTrip, "worldDate round-trips to worldTime").to.eq(
-                r.worldTime,
-            );
+            expect(r.roundTrip, "worldDate round-trips to worldTime").to.eq(r.worldTime);
         });
     });
 
@@ -92,9 +89,7 @@ describe("calendar read / advance / format", () => {
             const result = {
                 delta: after - before,
                 // The date advanced by exactly one day of seconds.
-                dateDelta:
-                    cal.componentsToTime(afterDate) -
-                    cal.componentsToTime(beforeDate),
+                dateDelta: cal.componentsToTime(afterDate) - cal.componentsToTime(beforeDate),
                 sameDay:
                     afterDate.dayOfMonth === beforeDate.dayOfMonth &&
                     afterDate.month === beforeDate.month,
@@ -130,9 +125,7 @@ describe("calendar read / advance / format", () => {
             // the headless container has no lang pack loaded, so they render as
             // the raw keys rather than localized text. Assert the structure, which
             // is what the formatter is responsible for, not the localization.
-            expect(r.def, "sohl.default shape").to.match(
-                /^\d{1,2} \S+ \d+\S+ \d{2}:\d{2}:\d{2}$/,
-            );
+            expect(r.def, "sohl.default shape").to.match(/^\d{1,2} \S+ \d+\S+ \d{2}:\d{2}:\d{2}$/);
         });
     });
 
@@ -148,10 +141,7 @@ describe("calendar read / advance / format", () => {
             };
         }).should((r) => {
             expect(r.relNow.toLowerCase(), "present → now").to.contain("now");
-            expect(
-                r.relPast.toLowerCase(),
-                "past → elapsed, not now",
-            ).to.contain("hour");
+            expect(r.relPast.toLowerCase(), "past → elapsed, not now").to.contain("hour");
         });
     });
 });

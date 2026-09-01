@@ -114,9 +114,7 @@ export class BodyLocation extends SohlEntity {
             throw new Error("Requires a Logic parent");
         }
         if (!options.bodyPart || options.index === undefined) {
-            throw new Error(
-                "BodyLocation requires a bodyPart and index in options",
-            );
+            throw new Error("BodyLocation requires a bodyPart and index in options");
         }
         if (!data.shortcode) {
             throw new Error("BodyLocation requires a shortcode in data");
@@ -124,33 +122,22 @@ export class BodyLocation extends SohlEntity {
         super(data, options);
         this.shortcode = data.shortcode;
         this.name = data.name || data.shortcode;
-        this.bleedingSusceptibility =
-            data.bleedingSusceptibility || BLEEDING_SUSCEPTIBILITY.NONE;
+        this.bleedingSusceptibility = data.bleedingSusceptibility || BLEEDING_SUSCEPTIBILITY.NONE;
         this.amputability = data.amputability || AMPUTABILITY.NONE;
         this.isStumble = data.isStumble ?? false;
         this.isFumble = data.isFumble ?? false;
         this.armorProtection = { blunt: 0, edged: 0, piercing: 0, fire: 0 };
         this.isRigid = false;
         this.armorType = "";
-        this.shockValue = new entity.ValueModifier(options.parent).setBase(
-            data.shockValue,
-        );
-        this.probWeight = new entity.ValueModifier(options.parent).setBase(
-            data.probWeight,
-        );
+        this.shockValue = new entity.ValueModifier(options.parent).setBase(data.shockValue);
+        this.probWeight = new entity.ValueModifier(options.parent).setBase(data.probWeight);
         this.protectionBase = {
-            blunt: new entity.ValueModifier(options.parent).setBase(
-                data.protectionBase.blunt,
-            ),
-            edged: new entity.ValueModifier(options.parent).setBase(
-                data.protectionBase.edged,
-            ),
+            blunt: new entity.ValueModifier(options.parent).setBase(data.protectionBase.blunt),
+            edged: new entity.ValueModifier(options.parent).setBase(data.protectionBase.edged),
             piercing: new entity.ValueModifier(options.parent).setBase(
                 data.protectionBase.piercing,
             ),
-            fire: new entity.ValueModifier(options.parent).setBase(
-                data.protectionBase.fire,
-            ),
+            fire: new entity.ValueModifier(options.parent).setBase(data.protectionBase.fire),
         };
         this.bodyPart = options.bodyPart;
         this.index = options.index;

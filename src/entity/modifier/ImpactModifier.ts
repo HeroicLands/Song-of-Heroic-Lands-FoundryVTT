@@ -85,10 +85,7 @@ export class ImpactModifier extends ValueModifier {
      *   aspect defaults to blunt.
      * @param options - Must provide `options.parent` (base {@link ValueModifier}).
      */
-    constructor(
-        data: Partial<ImpactModifier.Data>,
-        options: Partial<ImpactModifier.Options>,
-    );
+    constructor(data: Partial<ImpactModifier.Data>, options: Partial<ImpactModifier.Options>);
     /**
      * Implementation backing the constructor overloads: normalizes the
      * `(parent)` shorthand and requires a resolved parent.
@@ -106,12 +103,8 @@ export class ImpactModifier extends ValueModifier {
             SohlEntity.optionsOf<ImpactModifier.Options>(dataOrParent, options),
         );
         const data = SohlEntity.dataOf<ImpactModifier.Data>(dataOrParent);
-        this.roll =
-            data.roll ?
-                new SimpleRoll(data.roll, { parent: this.parent })
-            :   null;
-        this.aspect =
-            isImpactAspect(data.aspect) ? data.aspect : IMPACT_ASPECT.BLUNT;
+        this.roll = data.roll ? new SimpleRoll(data.roll, { parent: this.parent }) : null;
+        this.aspect = isImpactAspect(data.aspect) ? data.aspect : IMPACT_ASPECT.BLUNT;
         this._aimBodyPartCode = data.aimBodyPartCode ?? "";
         this._spread = data.spread ?? 0;
         this._variant = isImpactVariant(data.variant) ? data.variant : null;
@@ -157,9 +150,7 @@ export class ImpactModifier extends ValueModifier {
     override get disabled(): string {
         return (
             super.disabled ||
-            (this.die === 0 && this.effective === 0 ?
-                "SOHL.ImpactModifier.DISABLED"
-            :   "")
+            (this.die === 0 && this.effective === 0 ? "SOHL.ImpactModifier.DISABLED" : "")
         );
     }
 

@@ -69,11 +69,11 @@ describe("item-sheet-view", () => {
     });
 
     describe("findSimilarItem", () => {
-        const make = (
-            name: string,
-            type: string,
-            subType?: unknown,
-        ): ItemMatchKey => ({ name, type, system: { subType } });
+        const make = (name: string, type: string, subType?: unknown): ItemMatchKey => ({
+            name,
+            type,
+            system: { subType },
+        });
 
         const items: ItemMatchKey[] = [
             make("Sword", "weapongear", "melee"),
@@ -81,29 +81,20 @@ describe("item-sheet-view", () => {
         ];
 
         it("matches on name, type, and subtype together", () => {
-            const hit = findSimilarItem(
-                make("Dagger", "weapongear", "melee"),
-                items,
-            );
+            const hit = findSimilarItem(make("Dagger", "weapongear", "melee"), items);
             expect(hit).toBe(items[1]);
         });
 
         it("does not match when the subtype differs", () => {
-            expect(
-                findSimilarItem(make("Sword", "weapongear", "thrown"), items),
-            ).toBeUndefined();
+            expect(findSimilarItem(make("Sword", "weapongear", "thrown"), items)).toBeUndefined();
         });
 
         it("does not match when the type differs", () => {
-            expect(
-                findSimilarItem(make("Sword", "miscgear", "melee"), items),
-            ).toBeUndefined();
+            expect(findSimilarItem(make("Sword", "miscgear", "melee"), items)).toBeUndefined();
         });
 
         it("returns undefined against an empty collection", () => {
-            expect(
-                findSimilarItem(make("Sword", "weapongear", "melee"), []),
-            ).toBeUndefined();
+            expect(findSimilarItem(make("Sword", "weapongear", "melee"), [])).toBeUndefined();
         });
     });
 
@@ -114,10 +105,7 @@ describe("item-sheet-view", () => {
         ];
 
         it("names each recorded shortcode from the matching candidate", () => {
-            const rows = buildRelationRows(
-                { peoni: "nemesis", larani: "aligned" },
-                candidates,
-            );
+            const rows = buildRelationRows({ peoni: "nemesis", larani: "aligned" }, candidates);
             expect(rows).toEqual([
                 {
                     code: "larani",
@@ -133,10 +121,7 @@ describe("item-sheet-view", () => {
         });
 
         it("sorts rows by label, not by insertion order", () => {
-            const rows = buildRelationRows(
-                { peoni: "rival", larani: "rival" },
-                candidates,
-            );
+            const rows = buildRelationRows({ peoni: "rival", larani: "rival" }, candidates);
             expect(rows.map((r) => r.code)).toEqual(["larani", "peoni"]);
         });
 

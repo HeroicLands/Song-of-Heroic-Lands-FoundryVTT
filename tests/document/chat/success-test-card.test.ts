@@ -63,9 +63,7 @@ async function renderCard(
         },
     } as any;
     // toChat converts the SimpleRoll to a Foundry Roll at the boundary.
-    vi.spyOn(FoundryHelpersMock, "fvttToFoundryRoll").mockResolvedValue(
-        {} as any,
-    );
+    vi.spyOn(FoundryHelpersMock, "fvttToFoundryRoll").mockResolvedValue({} as any);
 
     const mlMod = new MasteryLevelModifier({ baseValue: effective } as any, {
         parent,
@@ -94,11 +92,7 @@ describe("standard-test-card renders the evaluated success test", () => {
     it("shows the effective mastery level as the Target", async () => {
         const { html, result } = await renderCard(50, 32);
         const target = result.masteryLevelModifier.constrainedEffective;
-        expect(html).toMatch(
-            new RegExp(
-                `Target:</span>\\s*<span class="value">${target}</span>`,
-            ),
-        );
+        expect(html).toMatch(new RegExp(`Target:</span>\\s*<span class="value">${target}</span>`));
     });
 
     it("shows the d100 roll total in the Roll row", async () => {
@@ -137,15 +131,11 @@ describe("standard-test-card renders the evaluated success test", () => {
         const { html } = await renderCard(50, 32);
         // The pencil re-evaluates on the frozen roll, not a fresh test — it must
         // dispatch `resultEdit`, never `successTest`.
-        expect(html).toMatch(
-            /class="edit-action"[\s\S]*?data-action="resultEdit"/,
-        );
+        expect(html).toMatch(/class="edit-action"[\s\S]*?data-action="resultEdit"/);
         expect(html).not.toContain('data-action="successTest"');
         // It carries this result serialized under `priorTestResult` so the click
         // revives and re-evaluates *this* result (non-empty data-scope).
-        expect(html).toMatch(
-            /class="edit-action"[\s\S]*?data-scope="[^"]*priorTestResult/,
-        );
+        expect(html).toMatch(/class="edit-action"[\s\S]*?data-scope="[^"]*priorTestResult/);
     });
 });
 
@@ -168,9 +158,7 @@ describe("standard-test-card renders a Skill Value Test (#848)", () => {
                 return Promise.resolve(undefined);
             },
         } as any;
-        vi.spyOn(FoundryHelpersMock, "fvttToFoundryRoll").mockResolvedValue(
-            {} as any,
-        );
+        vi.spyOn(FoundryHelpersMock, "fvttToFoundryRoll").mockResolvedValue({} as any);
         const svTable = [
             {
                 maxValue: 0,
@@ -205,12 +193,9 @@ describe("standard-test-card renders a Skill Value Test (#848)", () => {
                 result: 2,
             },
         ];
-        const mlMod = new MasteryLevelModifier(
-            { baseValue: effective } as any,
-            {
-                parent,
-            },
-        );
+        const mlMod = new MasteryLevelModifier({ baseValue: effective } as any, {
+            parent,
+        });
         const roll = new SimpleRoll(
             {
                 numDice: 1,
@@ -241,9 +226,7 @@ describe("standard-test-card renders a Skill Value Test (#848)", () => {
         // 32 ≤ 50 → marginal success (level 1) → SV = 5 + 1 − 1 = 5.
         const { html, result } = await renderSvCard(50, 32);
         expect(result.targetValue).toBe(5);
-        expect(html).toMatch(
-            /Success Value:<\/span>\s*<span class="value">5<\/span>/,
-        );
+        expect(html).toMatch(/Success Value:<\/span>\s*<span class="value">5<\/span>/);
     });
 
     it("draws the Value Diamonds as icons, filled for earned and hollow for the rest", async () => {
@@ -275,17 +258,15 @@ describe("standard-test-card renders a Skill Value Test (#848)", () => {
  * not a key" assertion vacuous.
  */
 function useRealLang(): void {
-    const lang = JSON.parse(
-        readFileSync(resolve(process.cwd(), "lang/en.json"), "utf8"),
-    ) as Record<string, string>;
-    vi.spyOn(sohl.i18n, "localize").mockImplementation(
-        (key: string) => lang[key] ?? key,
-    );
+    const lang = JSON.parse(readFileSync(resolve(process.cwd(), "lang/en.json"), "utf8")) as Record<
+        string,
+        string
+    >;
+    vi.spyOn(sohl.i18n, "localize").mockImplementation((key: string) => lang[key] ?? key);
     vi.spyOn(sohl.i18n, "format").mockImplementation(
         (key: string, data: Record<string, unknown> = {}) => {
             let out = lang[key] ?? key;
-            for (const [k, v] of Object.entries(data))
-                out = out.replace(`{${k}}`, String(v));
+            for (const [k, v] of Object.entries(data)) out = out.replace(`{${k}}`, String(v));
             return out;
         },
     );
@@ -315,9 +296,7 @@ describe("standard-test-card localizes its display strings", () => {
         // `data-scope` (#856) serializes the result — deltas included — and
         // that payload legitimately keeps each delta's stored i18n *key*.
         const adjustment =
-            /<div class="adjustment">[\s\S]*?<\/div>\s*<\/div>/.exec(
-                html,
-            )?.[0] ?? "";
+            /<div class="adjustment">[\s\S]*?<\/div>\s*<\/div>/.exec(html)?.[0] ?? "";
         expect(adjustment).toContain("Level Penalty");
         expect(adjustment).not.toContain("SOHL.MysticalAbility.LevelPenalty");
         expect(adjustment).not.toMatch(/SOHL\./);

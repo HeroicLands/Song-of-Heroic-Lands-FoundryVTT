@@ -6,10 +6,7 @@
  */
 
 import { describe, it, expect } from "vitest";
-import {
-    planBodyShortcode,
-    validateBodyShortcode,
-} from "@src/entity/body/planBodyShortcode";
+import { planBodyShortcode, validateBodyShortcode } from "@src/entity/body/planBodyShortcode";
 
 describe("validateBodyShortcode", () => {
     it("rejects a blank shortcode", () => {
@@ -19,27 +16,16 @@ describe("validateBodyShortcode", () => {
     });
 
     it("rejects invalid characters", () => {
-        expect(
-            validateBodyShortcode("left arm", [], "body part", "this body"),
-        ).toMatch(/invalid/);
+        expect(validateBodyShortcode("left arm", [], "body part", "this body")).toMatch(/invalid/);
     });
 
     it("rejects a collision, naming the noun and scope", () => {
-        const err = validateBodyShortcode(
-            "larm",
-            ["larm", "rarm"],
-            "body part",
-            "this body",
-        );
-        expect(err).toBe(
-            'A body part with shortcode "larm" already exists on this body.',
-        );
+        const err = validateBodyShortcode("larm", ["larm", "rarm"], "body part", "this body");
+        expect(err).toBe('A body part with shortcode "larm" already exists on this body.');
     });
 
     it("accepts a unique slug", () => {
-        expect(
-            validateBodyShortcode("larm", ["rarm"], "body part", "this body"),
-        ).toBeUndefined();
+        expect(validateBodyShortcode("larm", ["rarm"], "body part", "this body")).toBeUndefined();
     });
 });
 
@@ -53,13 +39,7 @@ describe("planBodyShortcode", () => {
     });
 
     it("accepts a valid rename", () => {
-        const plan = planBodyShortcode(
-            "skull",
-            "cranium",
-            ["face"],
-            NOUN,
-            SCOPE,
-        );
+        const plan = planBodyShortcode("skull", "cranium", ["face"], NOUN, SCOPE);
         expect(plan).toEqual({ shortcode: "cranium" });
     });
 
@@ -76,13 +56,7 @@ describe("planBodyShortcode", () => {
     });
 
     it("trims surrounding whitespace before deciding", () => {
-        const unchanged = planBodyShortcode(
-            "skull",
-            "  skull  ",
-            ["face"],
-            NOUN,
-            SCOPE,
-        );
+        const unchanged = planBodyShortcode("skull", "  skull  ", ["face"], NOUN, SCOPE);
         expect(unchanged).toEqual({ shortcode: "skull" });
     });
 });

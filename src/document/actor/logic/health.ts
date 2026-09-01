@@ -135,9 +135,7 @@ function partState(part: PartHealthInput): string {
  * @param parts - Every body part's health contribution.
  * @returns The physical ceiling in `[0, 100]`.
  */
-export function physicalHealthCeiling(
-    parts: readonly PartHealthInput[],
-): number {
+export function physicalHealthCeiling(parts: readonly PartHealthInput[]): number {
     const counts = new Map<string, number>();
     for (const part of parts) {
         const state = partState(part);
@@ -151,9 +149,7 @@ export function physicalHealthCeiling(
     for (const [key, count] of counts) {
         const critical = key[0] === "c";
         const state = key.slice(2) as keyof typeof CEILINGS.critical;
-        const row = (critical ? CEILINGS.critical : CEILINGS.noncritical)[
-            state
-        ];
+        const row = (critical ? CEILINGS.critical : CEILINGS.noncritical)[state];
         // Non-critical columns are 1 / 2 / 3+; critical are 1 / 2+.
         const col = Math.min(count, critical ? 2 : 3) - 1;
         ceiling = Math.min(ceiling, row[col]);
@@ -220,7 +216,6 @@ export function healthBandLabel(band: HealthBand): string {
  * @returns The `{ max, value, band }` health.
  */
 export function deriveHealth(input: HealthInput): Health {
-    const value =
-        input.dead ? 0 : Math.max(1, physicalHealthCeiling(input.parts));
+    const value = input.dead ? 0 : Math.max(1, physicalHealthCeiling(input.parts));
     return { max: MAX_HEALTH, value, band: healthBand(value) };
 }

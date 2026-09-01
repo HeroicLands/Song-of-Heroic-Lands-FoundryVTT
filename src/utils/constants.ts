@@ -16,10 +16,7 @@ import type { SohlContextMenu } from "@src/apps/foundry/SohlContextMenu";
 // module that both the branded classes and their consumers can import.
 import type { SohlLogic } from "@src/core/logic/SohlLogic";
 import type { SohlTokenDocumentLogic } from "@src/document/token/logic/SohlTokenDocumentLogic";
-import type {
-    ItemLogicByKind,
-    ActorLogicByKind,
-} from "@src/core/foundry/sohl-config";
+import type { ItemLogicByKind, ActorLogicByKind } from "@src/core/foundry/sohl-config";
 import type { SohlItemLogic } from "@src/document/item/logic/SohlItemBaseLogic";
 import type { SohlActorLogic } from "@src/document/actor/logic/SohlActorBaseLogic";
 import type { SohlCombatantLogic } from "@src/document/combatant/logic/SohlCombatantLogic";
@@ -92,10 +89,7 @@ export const BRAND = {
  * @param key - The brand/kind key (a {@link BrandType} key).
  * @returns Whether `x` matches `key`, narrowing `x` to `BrandType[key]`.
  */
-export function isA<K extends keyof BrandType>(
-    x: unknown,
-    key: K,
-): x is BrandType[K] {
+export function isA<K extends keyof BrandType>(x: unknown, key: K): x is BrandType[K] {
     const o = x as { kind?: unknown; [k: symbol]: unknown } | null | undefined;
     const brand = (BRAND as Partial<Record<keyof BrandType, symbol>>)[key];
     return brand !== undefined ? !!o?.[brand] : o?.kind === key;
@@ -310,8 +304,7 @@ export type ItemMetadata = (typeof ITEM_METADATA)[keyof typeof ITEM_METADATA];
 
 // Compile-time check: ensure every ItemKind has an ITEM_METADATA entry.
 // If there is an ItemKind without metadata, this line will fail to type-check.
-const _ensureItemMetadataCoversAllKinds: Record<ItemKind, unknown> =
-    ITEM_METADATA;
+const _ensureItemMetadataCoversAllKinds: Record<ItemKind, unknown> = ITEM_METADATA;
 
 export const {
     /** Map of actor kind → display metadata (icon, image, key choices). */
@@ -345,8 +338,7 @@ export const {
     },
 });
 /** Union of all actor-metadata entries. */
-export type ActorMetadata =
-    (typeof ACTOR_METADATA)[keyof typeof ACTOR_METADATA];
+export type ActorMetadata = (typeof ACTOR_METADATA)[keyof typeof ACTOR_METADATA];
 
 export const {
     /** Map of reaction key → value. */
@@ -385,8 +377,7 @@ export const {
     ASTRAL: "astral",
 });
 /** Union of all movement-medium values. */
-export type MovementMedium =
-    (typeof MOVEMENT_MEDIUM)[keyof typeof MOVEMENT_MEDIUM];
+export type MovementMedium = (typeof MOVEMENT_MEDIUM)[keyof typeof MOVEMENT_MEDIUM];
 
 /**
  * Bleeding susceptibility — a per-location tier (the rulebook's "shaded
@@ -535,8 +526,7 @@ export const {
     SUBORDINATE: "subordinate",
 });
 /** Union of all cohort-member-role values. */
-export type CohortMemberRole =
-    (typeof COHORT_MEMBER_ROLE)[keyof typeof COHORT_MEMBER_ROLE];
+export type CohortMemberRole = (typeof COHORT_MEMBER_ROLE)[keyof typeof COHORT_MEMBER_ROLE];
 
 export const {
     /** Map of gear-kind key → value. */
@@ -594,8 +584,7 @@ export const {
     PLAYER: "SitMod",
 });
 /** Union of all value-delta info-flag shortcodes. */
-export type ValueDeltaInfo =
-    (typeof VALUE_DELTA_INFO)[keyof typeof VALUE_DELTA_INFO];
+export type ValueDeltaInfo = (typeof VALUE_DELTA_INFO)[keyof typeof VALUE_DELTA_INFO];
 /** Map of value-delta info shortcode → its localization name and shortcode. */
 export const VALUE_DELTA_ID: StrictObject<{ name: string; abbrev: string }> =
     ValueDeltaInfos.reduce(
@@ -636,8 +625,7 @@ export const VALUE_DELTA_OPERATOR_ORDER: readonly string[] = [
     "custom",
 ] as const;
 /** Union of all value-delta operator values. */
-export type ValueDeltaOperator =
-    (typeof VALUE_DELTA_OPERATOR)[keyof typeof VALUE_DELTA_OPERATOR];
+export type ValueDeltaOperator = (typeof VALUE_DELTA_OPERATOR)[keyof typeof VALUE_DELTA_OPERATOR];
 /** A value a delta may carry: a number or a boolean-as-string. */
 export type ValueDeltaValue = string | number;
 /**
@@ -666,8 +654,7 @@ export const {
     SETUP: "setup",
 });
 /** Union of all tactical-advantage values. */
-export type TacticalAdvantage =
-    (typeof TACTICAL_ADVANTAGES)[keyof typeof TACTICAL_ADVANTAGES];
+export type TacticalAdvantage = (typeof TACTICAL_ADVANTAGES)[keyof typeof TACTICAL_ADVANTAGES];
 
 /** Success-test outcome tier, as a signed integer level. */
 export type SuccessLevel = number;
@@ -739,8 +726,7 @@ export const {
     },
 );
 /** Union of all defend-mishap values. */
-export type DefendResultMishap =
-    (typeof DEFEND_MISHAP)[keyof typeof DEFEND_MISHAP];
+export type DefendResultMishap = (typeof DEFEND_MISHAP)[keyof typeof DEFEND_MISHAP];
 
 export const {
     /** Map of success-test movement key → value. */
@@ -782,14 +768,13 @@ export type SohlSpeakerRollMode =
  * default `"roll"` (system) mode has no Foundry visibility equivalent, so it
  * keeps its own SoHL label.
  */
-export const CHAT_MODE_LABEL_BY_ROLL_MODE: Record<SohlSpeakerRollMode, string> =
-    {
-        [SOHL_SPEAKER_ROLL_MODE.SYSTEM]: "SOHL.SohlSpeaker.ROLL_MODE.roll",
-        [SOHL_SPEAKER_ROLL_MODE.PUBLIC]: "CHAT.MODES.public",
-        [SOHL_SPEAKER_ROLL_MODE.SELF]: "CHAT.MODES.self",
-        [SOHL_SPEAKER_ROLL_MODE.BLIND]: "CHAT.MODES.blind",
-        [SOHL_SPEAKER_ROLL_MODE.PRIVATE]: "CHAT.MODES.gm",
-    };
+export const CHAT_MODE_LABEL_BY_ROLL_MODE: Record<SohlSpeakerRollMode, string> = {
+    [SOHL_SPEAKER_ROLL_MODE.SYSTEM]: "SOHL.SohlSpeaker.ROLL_MODE.roll",
+    [SOHL_SPEAKER_ROLL_MODE.PUBLIC]: "CHAT.MODES.public",
+    [SOHL_SPEAKER_ROLL_MODE.SELF]: "CHAT.MODES.self",
+    [SOHL_SPEAKER_ROLL_MODE.BLIND]: "CHAT.MODES.blind",
+    [SOHL_SPEAKER_ROLL_MODE.PRIVATE]: "CHAT.MODES.gm",
+};
 
 /**
  * Maps each SoHL speaker roll-mode value to the Foundry v14 message-mode key
@@ -803,10 +788,7 @@ export const CHAT_MODE_LABEL_BY_ROLL_MODE: Record<SohlSpeakerRollMode, string> =
  * client's configured default" — so it maps to `undefined`, which `applyMode`
  * treats as "apply the `core.messageMode` setting".
  */
-export const MESSAGE_MODE_BY_ROLL_MODE: Record<
-    SohlSpeakerRollMode,
-    string | undefined
-> = {
+export const MESSAGE_MODE_BY_ROLL_MODE: Record<SohlSpeakerRollMode, string | undefined> = {
     [SOHL_SPEAKER_ROLL_MODE.SYSTEM]: undefined,
     [SOHL_SPEAKER_ROLL_MODE.PUBLIC]: "public",
     [SOHL_SPEAKER_ROLL_MODE.SELF]: "self",
@@ -843,9 +825,10 @@ export function speakerRollModeOptions(): {
     value: SohlSpeakerRollMode;
     label: string;
 }[] {
-    return (Object.values(SOHL_SPEAKER_ROLL_MODE) as SohlSpeakerRollMode[]).map(
-        (value) => ({ value, label: CHAT_MODE_LABEL_BY_ROLL_MODE[value] }),
-    );
+    return (Object.values(SOHL_SPEAKER_ROLL_MODE) as SohlSpeakerRollMode[]).map((value) => ({
+        value,
+        label: CHAT_MODE_LABEL_BY_ROLL_MODE[value],
+    }));
 }
 
 export const {
@@ -862,8 +845,7 @@ export const {
     EMOTE: 3,
 });
 /** Union of all speaker chat-style values. */
-export type SohlSpeakerStyle =
-    (typeof SOHL_SPEAKER_STYLE)[keyof typeof SOHL_SPEAKER_STYLE];
+export type SohlSpeakerStyle = (typeof SOHL_SPEAKER_STYLE)[keyof typeof SOHL_SPEAKER_STYLE];
 
 export const {
     /** Map of speaker sound key → audio file path. */
@@ -879,8 +861,7 @@ export const {
     COMBAT: "sounds/drums.wav",
 });
 /** Union of all speaker sound paths. */
-export type SohlSpeakerSound =
-    (typeof SOHL_SPEAKER_SOUND)[keyof typeof SOHL_SPEAKER_SOUND];
+export type SohlSpeakerSound = (typeof SOHL_SPEAKER_SOUND)[keyof typeof SOHL_SPEAKER_SOUND];
 
 export const {
     /** Map of status-effect key → value. */
@@ -1029,8 +1010,7 @@ export const {
  *
  * An article carries an encumbrance value or belongs to a group, never both.
  */
-export type EncumbranceGroup =
-    (typeof ENCUMBRANCE_GROUP)[keyof typeof ENCUMBRANCE_GROUP];
+export type EncumbranceGroup = (typeof ENCUMBRANCE_GROUP)[keyof typeof ENCUMBRANCE_GROUP];
 
 /** Single-character abbreviation for each impact aspect (b/e/p/f). */
 export const IMPACT_ASPECT_CHAR: Record<ImpactAspect, string> = {
@@ -1054,8 +1034,7 @@ export const {
     PIERCING: "piercing",
 });
 /** Union of all impact-variant values. */
-export type ImpactVariant =
-    (typeof IMPACT_VARIANT)[keyof typeof IMPACT_VARIANT];
+export type ImpactVariant = (typeof IMPACT_VARIANT)[keyof typeof IMPACT_VARIANT];
 
 /**
  * Constants for context menu groups.
@@ -1081,9 +1060,7 @@ export type SohlContextMenuSortGroup =
  * @param group - The candidate sort-group string.
  * @returns The matching sort group, or `DEFAULT` if unrecognized.
  */
-export function toSohlContextMenuSortGroup(
-    group: string,
-): SohlContextMenuSortGroup {
+export function toSohlContextMenuSortGroup(group: string): SohlContextMenuSortGroup {
     if (isSohlContextMenuSortGroup(group)) return group;
     return SOHL_CONTEXT_MENU_SORT_GROUP.DEFAULT;
 }
@@ -1128,8 +1105,7 @@ export const {
     },
 );
 /** Union of all attribute effect-key change paths. */
-export type AttributeEffectKey =
-    (typeof ATTRIBUTE_EFFECT_KEY)[keyof typeof ATTRIBUTE_EFFECT_KEY];
+export type AttributeEffectKey = (typeof ATTRIBUTE_EFFECT_KEY)[keyof typeof ATTRIBUTE_EFFECT_KEY];
 
 export const {
     /** Map of affliction effect-key name → change path. */
@@ -1202,8 +1178,7 @@ export const {
     GEAR_SHARED_EFFECT_LABELS,
 );
 /** Union of all armor-gear effect-key change paths. */
-export type ArmorGearEffectKey =
-    (typeof ARMORGEAR_EFFECT_KEY)[keyof typeof ARMORGEAR_EFFECT_KEY];
+export type ArmorGearEffectKey = (typeof ARMORGEAR_EFFECT_KEY)[keyof typeof ARMORGEAR_EFFECT_KEY];
 
 export const {
     /** Map of mystery effect-key name → change path. */
@@ -1230,8 +1205,7 @@ export const {
     },
 );
 /** Union of all mystery effect-key change paths. */
-export type MysteryEffectKey =
-    (typeof MYSTERY_EFFECT_KEY)[keyof typeof MYSTERY_EFFECT_KEY];
+export type MysteryEffectKey = (typeof MYSTERY_EFFECT_KEY)[keyof typeof MYSTERY_EFFECT_KEY];
 
 export const {
     /** Map of mystical-ability effect-key name → change path. */
@@ -1288,8 +1262,7 @@ export const {
     },
 );
 /** Union of all skill effect-key change paths. */
-export type SkillEffectKey =
-    (typeof SKILL_EFFECT_KEYS)[keyof typeof SKILL_EFFECT_KEYS];
+export type SkillEffectKey = (typeof SKILL_EFFECT_KEYS)[keyof typeof SKILL_EFFECT_KEYS];
 
 export const {
     /** Map of concoction-gear effect-key name → change path. */
@@ -1359,8 +1332,7 @@ export const {
     GEAR_SHARED_EFFECT_LABELS,
 );
 /** Union of all misc-gear effect-key change paths. */
-export type MiscGearEffectKey =
-    (typeof MISCGEAR_EFFECT_KEY)[keyof typeof MISCGEAR_EFFECT_KEY];
+export type MiscGearEffectKey = (typeof MISCGEAR_EFFECT_KEY)[keyof typeof MISCGEAR_EFFECT_KEY];
 
 export const {
     /** Map of projectile-gear effect-key name → change path. */
@@ -1414,8 +1386,7 @@ export const {
     },
 );
 /** Union of all trauma effect-key change paths. */
-export type TraumaEffectKey =
-    (typeof TRAUMA_EFFECT_KEY)[keyof typeof TRAUMA_EFFECT_KEY];
+export type TraumaEffectKey = (typeof TRAUMA_EFFECT_KEY)[keyof typeof TRAUMA_EFFECT_KEY];
 
 export const {
     /** Map of weapon-gear effect-key name → change path. */
@@ -1618,8 +1589,7 @@ export const {
     WEAKNESS: "weakness",
 });
 /** Union of all fatigue-category values. */
-export type FatigueCategory =
-    (typeof FATIGUE_CATEGORY)[keyof typeof FATIGUE_CATEGORY];
+export type FatigueCategory = (typeof FATIGUE_CATEGORY)[keyof typeof FATIGUE_CATEGORY];
 
 export const {
     /** Map of fear-category key → string value. */
@@ -1669,8 +1639,7 @@ export const {
     CATATONIC: "catatonic",
 });
 /** Union of all morale-category values. */
-export type MoraleCategory =
-    (typeof MORALE_CATEGORY)[keyof typeof MORALE_CATEGORY];
+export type MoraleCategory = (typeof MORALE_CATEGORY)[keyof typeof MORALE_CATEGORY];
 
 export const {
     /** Map of concoction-gear subtype key → value. */
@@ -1765,8 +1734,7 @@ export const {
     OTHER: "other",
 });
 /** Union of all action-scope values. */
-export type SohlActionScope =
-    (typeof SOHL_ACTION_SCOPE)[keyof typeof SOHL_ACTION_SCOPE];
+export type SohlActionScope = (typeof SOHL_ACTION_SCOPE)[keyof typeof SOHL_ACTION_SCOPE];
 
 export const {
     /** Map of affiliation subtype key → value. */
@@ -1795,8 +1763,7 @@ export const {
  * deity-facing families from the spirit families — a picker filter is only as
  * useful as the partition it filters on.
  */
-export type AffiliationSubType =
-    (typeof AFFILIATION_SUBTYPE)[keyof typeof AFFILIATION_SUBTYPE];
+export type AffiliationSubType = (typeof AFFILIATION_SUBTYPE)[keyof typeof AFFILIATION_SUBTYPE];
 
 export const {
     /** Map of affiliation-standing key → value. */
@@ -1818,8 +1785,7 @@ export const {
     NEMESIS: "nemesis",
 });
 /** Union of all affiliation-standing values. */
-export type AffiliationStanding =
-    (typeof AFFILIATION_STANDING)[keyof typeof AFFILIATION_STANDING];
+export type AffiliationStanding = (typeof AFFILIATION_STANDING)[keyof typeof AFFILIATION_STANDING];
 
 export const {
     /** Map of mystery-subtype key → value. */
@@ -1845,8 +1811,7 @@ export const {
     PIETY: "piety",
 });
 /** Union of all mystery-subtype values. */
-export type MysterySubType =
-    (typeof MYSTERY_SUBTYPE)[keyof typeof MYSTERY_SUBTYPE];
+export type MysterySubType = (typeof MYSTERY_SUBTYPE)[keyof typeof MYSTERY_SUBTYPE];
 
 export const {
     /** Map of mystical-ability subtype key → value. */
@@ -1918,8 +1883,7 @@ export const {
     MISSILE: "missile",
 });
 /** Union of all strike-mode-type values. */
-export type StrikeModeType =
-    (typeof STRIKE_MODE_TYPE)[keyof typeof STRIKE_MODE_TYPE];
+export type StrikeModeType = (typeof STRIKE_MODE_TYPE)[keyof typeof STRIKE_MODE_TYPE];
 
 /**
  * The `projectileType` of a missile strike mode that launches no separate
@@ -2093,8 +2057,7 @@ export const {
     WILL: "wil",
 });
 /** Union of all attribute shortcodes. */
-export type AttributeCode =
-    (typeof ATTRIBUTE_CODE)[keyof typeof ATTRIBUTE_CODE];
+export type AttributeCode = (typeof ATTRIBUTE_CODE)[keyof typeof ATTRIBUTE_CODE];
 
 export const {
     /** Map of affliction-code key → shortcode. */
@@ -2171,8 +2134,7 @@ export const {
     WASP_VENOM: "waspvnm",
 });
 /** Union of all affliction shortcodes. */
-export type AfflictionCode =
-    (typeof AFFLICTION_CODE)[keyof typeof AFFLICTION_CODE];
+export type AfflictionCode = (typeof AFFLICTION_CODE)[keyof typeof AFFLICTION_CODE];
 
 export const {
     /** Map of trauma-subtype key → value. */
@@ -2219,8 +2181,7 @@ export const {
     COMA: "coma",
 });
 /** Union of all trauma-subtype values. */
-export type TraumaSubType =
-    (typeof TRAUMA_SUBTYPE)[keyof typeof TRAUMA_SUBTYPE];
+export type TraumaSubType = (typeof TRAUMA_SUBTYPE)[keyof typeof TRAUMA_SUBTYPE];
 
 export const {
     /** Map of psychological-condition-category key → value. */
@@ -2349,8 +2310,7 @@ export const {
     MISSILE_STRIKE_MODE: "missilestrikemode",
 });
 /** Union of all active-effect-scope values. */
-export type ActiveEffectScope =
-    (typeof ACTIVE_EFFECT_SCOPE)[keyof typeof ACTIVE_EFFECT_SCOPE];
+export type ActiveEffectScope = (typeof ACTIVE_EFFECT_SCOPE)[keyof typeof ACTIVE_EFFECT_SCOPE];
 
 /**
  * Full set of valid `scope` values on a SohlActiveEffect: the built-ins
@@ -2670,8 +2630,7 @@ export function defineType<const T extends Record<string, unknown>>(
     type KindValue = T[StringKeys];
 
     const values = Object.values(def) as KindValue[];
-    const isValue = (value: unknown): value is KindValue =>
-        values.includes(value as KindValue);
+    const isValue = (value: unknown): value is KindValue => values.includes(value as KindValue);
 
     // The i18n label key ends in the enum's stored **value** when that value is a
     // simple identifier — because that is what runtime code constructs from the

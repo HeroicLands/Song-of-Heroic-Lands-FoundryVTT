@@ -50,11 +50,7 @@ describe("fence enforcement: experimental type marking (#959)", () => {
         cy.foundry((win) => {
             // No pre-seeded type → the dialog shows the type <select>. Stash the
             // promise so it can be dismissed without creating anything.
-            win.__fenceDlg = win.CONFIG.Actor.documentClass.createDialog(
-                {},
-                {},
-                {},
-            );
+            win.__fenceDlg = win.CONFIG.Actor.documentClass.createDialog({}, {}, {});
             return null;
         });
         // Poll for the rendered dialog, then read the type-select option labels.
@@ -62,16 +58,12 @@ describe("fence enforcement: experimental type marking (#959)", () => {
             const dlg = openCreateDialogElement(win);
             expect(dlg, "open create dialog").to.exist;
             const byValue = {};
-            dlg.element
-                .querySelectorAll('select[name="type"] option')
-                .forEach((o) => {
-                    byValue[o.value] = o.textContent.trim();
-                });
+            dlg.element.querySelectorAll('select[name="type"] option').forEach((o) => {
+                byValue[o.value] = o.textContent.trim();
+            });
             // Fenced actor kinds carry the suffix…
             for (const kind of ["cohort", "structure", "vehicle"]) {
-                expect(byValue[kind], `${kind} option label`).to.match(
-                    /\(Experimental\)$/,
-                );
+                expect(byValue[kind], `${kind} option label`).to.match(/\(Experimental\)$/);
             }
             // …the frozen Being does not.
             expect(byValue.being, "being option label").to.exist;
@@ -93,12 +85,8 @@ describe("fence enforcement: experimental type marking (#959)", () => {
                 // are document-wide with testIsolation off).
                 cy.openSheet(actor).within(() => {
                     // The banner renders above the header with its dismiss control.
-                    cy.get(".fence-banner")
-                        .should("exist")
-                        .and("contain.text", "Experimental");
-                    cy.get('[data-action="dismissFenceNotice"]')
-                        .should("exist")
-                        .click();
+                    cy.get(".fence-banner").should("exist").and("contain.text", "Experimental");
+                    cy.get('[data-action="dismissFenceNotice"]').should("exist").click();
                     // Dismissal removes it for the current view…
                     cy.get(".fence-banner").should("not.exist");
                 });

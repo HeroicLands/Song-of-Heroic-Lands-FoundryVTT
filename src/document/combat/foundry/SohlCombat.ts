@@ -24,9 +24,7 @@ import {
  * {@link CombatantGroup}s (see {@link resolveGroupSeeding}) and drives the
  * system's combat lifecycle.
  */
-export class SohlCombat<
-    SubType extends Combat.SubType = Combat.SubType,
-> extends Combat<SubType> {
+export class SohlCombat<SubType extends Combat.SubType = Combat.SubType> extends Combat<SubType> {
     /**
      * After combatants are created, seed each ungrouped one into a
      * {@link CombatantGroup} derived from its actor's `system.defaultCombatGroup`
@@ -69,20 +67,18 @@ export class SohlCombat<
      *
      * @param combatants - The combatants to seed into groups.
      */
-    private async seedCombatantGroups(
-        combatants: SohlCombatant[],
-    ): Promise<void> {
+    private async seedCombatantGroups(combatants: SohlCombatant[]): Promise<void> {
         const newCombatants: SeedingCombatant[] = combatants.map((c) => ({
             id: c.id!,
             hasGroup: !!c.groupId,
             desiredName:
-                ((c.actor as any)?.system?.defaultCombatGroup as
-                    string | undefined) ?? null,
+                ((c.actor as any)?.system?.defaultCombatGroup as string | undefined) ?? null,
         }));
 
-        const existingGroups: ExistingGroup[] = (
-            this.groups.contents as any[]
-        ).map((g) => ({ id: g.id, name: g.name }));
+        const existingGroups: ExistingGroup[] = (this.groups.contents as any[]).map((g) => ({
+            id: g.id,
+            name: g.name,
+        }));
 
         const plan = resolveGroupSeeding(newCombatants, existingGroups);
         if (!plan.assignments.length) return;

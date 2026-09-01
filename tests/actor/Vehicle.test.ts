@@ -1,24 +1,13 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
-import {
-    VehicleLogic,
-    type VehicleOccupant,
-} from "@src/document/actor/logic/VehicleLogic";
+import { VehicleLogic, type VehicleOccupant } from "@src/document/actor/logic/VehicleLogic";
 import { SohlActorBaseLogic } from "@src/document/actor/logic/SohlActorBaseLogic";
 import { ACTOR_KIND, VEHICLE_OCCUPANT_ROLE } from "@src/utils/constants";
 import { makeActorLogic } from "@tests/mocks/logicHarness";
 import * as FoundryHelpersMock from "@src/core/FoundryHelpers";
 
 /** Construct a VehicleLogic against a plain-object VehicleData. */
-function makeVehicle(
-    fields: Record<string, unknown> = {},
-    opts: Record<string, unknown> = {},
-) {
-    return makeActorLogic(
-        VehicleLogic,
-        ACTOR_KIND.VEHICLE,
-        { occupants: [], ...fields },
-        opts,
-    );
+function makeVehicle(fields: Record<string, unknown> = {}, opts: Record<string, unknown> = {}) {
+    return makeActorLogic(VehicleLogic, ACTOR_KIND.VEHICLE, { occupants: [], ...fields }, opts);
 }
 
 afterEach(() => {
@@ -174,9 +163,7 @@ describe("VehicleLogic", () => {
 describe("VehicleDataModel", () => {
     describe("defineSchema", () => {
         it.todo("includes SohlActorDataModel base schema fields");
-        it.todo(
-            "defines occupants as ArrayField of required non-blank StringFields",
-        );
+        it.todo("defines occupants as ArrayField of required non-blank StringFields");
         it.todo("occupants defaults to empty array");
     });
 

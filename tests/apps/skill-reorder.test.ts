@@ -15,10 +15,7 @@
  */
 
 import { describe, it, expect } from "vitest";
-import {
-    resolveSkillReorder,
-    type SkillOrderGroup,
-} from "@src/apps/logic/skill-reorder";
+import { resolveSkillReorder, type SkillOrderGroup } from "@src/apps/logic/skill-reorder";
 
 /** Three groups in render order, mirroring the Skills tab. */
 const GROUPS: SkillOrderGroup[] = [
@@ -89,22 +86,16 @@ describe("skill reorder — across groups, the drag never re-parents", () => {
     it("reports no change when clamping lands where the skill already is", () => {
         // Guile is already last in Social, so dropping it into a later group
         // asks for a move it has already made.
-        expect(
-            resolveSkillReorder(GROUPS, "guile", { groupIndex: 1 }),
-        ).toBeUndefined();
+        expect(resolveSkillReorder(GROUPS, "guile", { groupIndex: 1 })).toBeUndefined();
         // Charm is already first, so an upward clamp is likewise a no-op —
         // and there is no earlier group than Social anyway.
-        expect(
-            resolveSkillReorder(GROUPS, "survival", { groupIndex: 0 }),
-        ).toBeUndefined();
+        expect(resolveSkillReorder(GROUPS, "survival", { groupIndex: 0 })).toBeUndefined();
     });
 });
 
 describe("skill reorder — defensive", () => {
     it("ignores a source that belongs to no group", () => {
-        expect(
-            resolveSkillReorder(GROUPS, "nonesuch", { groupIndex: 0 }),
-        ).toBeUndefined();
+        expect(resolveSkillReorder(GROUPS, "nonesuch", { groupIndex: 0 })).toBeUndefined();
     });
 
     it("ignores a beforeId from another group rather than splicing across", () => {
@@ -118,8 +109,6 @@ describe("skill reorder — defensive", () => {
     });
 
     it("handles a single-skill group without producing a change", () => {
-        expect(
-            resolveSkillReorder(GROUPS, "carpentry", { groupIndex: 0 }),
-        ).toBeUndefined();
+        expect(resolveSkillReorder(GROUPS, "carpentry", { groupIndex: 0 })).toBeUndefined();
     });
 });

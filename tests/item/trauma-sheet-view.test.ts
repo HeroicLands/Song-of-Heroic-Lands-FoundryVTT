@@ -68,9 +68,7 @@ describe("traumaSheetFields (#939)", () => {
     });
 
     it("psycond: level + category + next PSY test", () => {
-        expect(
-            traumaSheetFields(TRAUMA_SUBTYPE.PSYCHOLOGICAL_CONDITION),
-        ).toMatchObject({
+        expect(traumaSheetFields(TRAUMA_SUBTYPE.PSYCHOLOGICAL_CONDITION)).toMatchObject({
             showLevel: true,
             showCategory: true,
             showNotes: false,

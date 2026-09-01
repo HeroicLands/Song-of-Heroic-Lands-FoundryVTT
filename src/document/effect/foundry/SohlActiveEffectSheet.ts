@@ -56,8 +56,7 @@ export class SohlActiveEffectSheet extends BaseAEConfig {
             context as any,
             {},
         );
-        if (partContext.tabs?.partId)
-            partContext.tab = partContext.tabs[partId];
+        if (partContext.tabs?.partId) partContext.tab = partContext.tabs[partId];
         const document: SohlItem | SohlActor = (this as any).object;
         switch (partId) {
             case "details": {
@@ -66,31 +65,28 @@ export class SohlActiveEffectSheet extends BaseAEConfig {
                     partContext.targetTypes[ACTIVE_EFFECT_SCOPE.THIS] =
                         sohl.i18n.localize("EFFECT.ThisActor");
                 } else {
-                    partContext.targetTypes[ACTIVE_EFFECT_SCOPE.THIS] =
-                        sohl.i18n.format("EFFECT.ThisItem", {
-                            itemType: (document.parent?.system as any)
-                                ?.typeLabel,
-                        });
+                    partContext.targetTypes[ACTIVE_EFFECT_SCOPE.THIS] = sohl.i18n.format(
+                        "EFFECT.ThisItem",
+                        {
+                            itemType: (document.parent?.system as any)?.typeLabel,
+                        },
+                    );
                     partContext.targetTypes[ACTIVE_EFFECT_SCOPE.ACTOR] =
                         sohl.i18n.localize("EFFECT.Actor");
                 }
                 // Add an entry for each registered item kind.
-                for (const [key, clazz] of Object.entries(
-                    sohl.CONFIG.Item.dataModels,
-                )) {
+                for (const [key, clazz] of Object.entries(sohl.CONFIG.Item.dataModels)) {
                     partContext.targetTypes[key] = (clazz as any).typeLabel;
                 }
                 // Strike-mode scopes: target strike-mode entities across the
                 // actor's items, selected by the `test` predicate.
-                partContext.targetTypes[ACTIVE_EFFECT_SCOPE.MELEE_STRIKE_MODE] =
-                    sohl.i18n.localize(
-                        `SOHL.ActiveEffect.Scope.${ACTIVE_EFFECT_SCOPE.MELEE_STRIKE_MODE}`,
-                    );
-                partContext.targetTypes[
-                    ACTIVE_EFFECT_SCOPE.MISSILE_STRIKE_MODE
-                ] = sohl.i18n.localize(
-                    `SOHL.ActiveEffect.Scope.${ACTIVE_EFFECT_SCOPE.MISSILE_STRIKE_MODE}`,
+                partContext.targetTypes[ACTIVE_EFFECT_SCOPE.MELEE_STRIKE_MODE] = sohl.i18n.localize(
+                    `SOHL.ActiveEffect.Scope.${ACTIVE_EFFECT_SCOPE.MELEE_STRIKE_MODE}`,
                 );
+                partContext.targetTypes[ACTIVE_EFFECT_SCOPE.MISSILE_STRIKE_MODE] =
+                    sohl.i18n.localize(
+                        `SOHL.ActiveEffect.Scope.${ACTIVE_EFFECT_SCOPE.MISSILE_STRIKE_MODE}`,
+                    );
                 break;
             }
 
@@ -106,9 +102,7 @@ export class SohlActiveEffectSheet extends BaseAEConfig {
             case "changes": {
                 // v14: Use ActiveEffect.CHANGE_TYPES (string-keyed registry)
                 // instead of deprecated CONST.ACTIVE_EFFECT_MODES (numeric)
-                partContext.changeTypes = buildChangeTypesMap(
-                    (ActiveEffect as any).CHANGE_TYPES,
-                );
+                partContext.changeTypes = buildChangeTypesMap((ActiveEffect as any).CHANGE_TYPES);
                 // The `key` dropdown should reflect the EFFECT_KEY namespace
                 // determined by `system.scope`:
                 //   - "this": the parent doc's own type

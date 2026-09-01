@@ -137,9 +137,7 @@ export class OpposedTestResult extends TestResult {
             throw new Error("sourceTestResult must be provided");
         }
         if (!data.targetTestResult && !data.targetToken) {
-            throw new Error(
-                "Target token or targetTestResult must be provided",
-            );
+            throw new Error("Target token or targetTestResult must be provided");
         }
         super(data, options);
         this.sourceTestResult = data.sourceTestResult;
@@ -184,17 +182,13 @@ export class OpposedTestResult extends TestResult {
         if (!this.targetTestResult) return false;
         return (
             !this.bothFail &&
-            this.sourceTestResult.rawSuccessLevel ===
-                this.targetTestResult.rawSuccessLevel
+            this.sourceTestResult.rawSuccessLevel === this.targetTestResult.rawSuccessLevel
         );
     }
 
     /** Whether neither side succeeded. */
     get bothFail(): boolean {
-        return (
-            !this.sourceTestResult?.isSuccess &&
-            !this.targetTestResult?.isSuccess
-        );
+        return !this.sourceTestResult?.isSuccess && !this.targetTestResult?.isSuccess;
     }
 
     /** The active tie-break offset — {@link tieBreak} unless both sides failed, in which case `0`. */
@@ -208,10 +202,7 @@ export class OpposedTestResult extends TestResult {
      * contest to one of them (see `resolveTieBreak`).
      */
     get isTieBroken(): boolean {
-        return (
-            this.isTied &&
-            this.tieBreakOffset !== OPPOSED_TEST_RESULT_TIEBREAK.NONE
-        );
+        return this.isTied && this.tieBreakOffset !== OPPOSED_TEST_RESULT_TIEBREAK.NONE;
     }
 
     /** Whether the source prevails — its success level exceeds the target's, or a tie was broken its way (and not {@link bothFail}). */
@@ -223,11 +214,9 @@ export class OpposedTestResult extends TestResult {
         ) {
             result =
                 !this.bothFail &&
-                (this.sourceTestResult.rawSuccessLevel >
-                    this.targetTestResult.rawSuccessLevel ||
+                (this.sourceTestResult.rawSuccessLevel > this.targetTestResult.rawSuccessLevel ||
                     (this.isTieBroken &&
-                        this.tieBreakOffset ===
-                            OPPOSED_TEST_RESULT_TIEBREAK.SOURCE));
+                        this.tieBreakOffset === OPPOSED_TEST_RESULT_TIEBREAK.SOURCE));
         }
         return result;
     }
@@ -241,11 +230,9 @@ export class OpposedTestResult extends TestResult {
         ) {
             result =
                 !this.bothFail &&
-                (this.sourceTestResult.rawSuccessLevel <
-                    this.targetTestResult.rawSuccessLevel ||
+                (this.sourceTestResult.rawSuccessLevel < this.targetTestResult.rawSuccessLevel ||
                     (this.isTieBroken &&
-                        this.tieBreakOffset ===
-                            OPPOSED_TEST_RESULT_TIEBREAK.TARGET));
+                        this.tieBreakOffset === OPPOSED_TEST_RESULT_TIEBREAK.TARGET));
         }
         return result;
     }
@@ -267,8 +254,7 @@ export class OpposedTestResult extends TestResult {
         if (this.bothFail) return 0;
         if (this.isTied) return this.isTieBroken ? 1 : 0;
         return Math.abs(
-            this.sourceTestResult.rawSuccessLevel -
-                this.targetTestResult.rawSuccessLevel,
+            this.sourceTestResult.rawSuccessLevel - this.targetTestResult.rawSuccessLevel,
         );
     }
 
@@ -285,10 +271,7 @@ export class OpposedTestResult extends TestResult {
      * Foundry-free layer for no gain.
      */
     get victoryStarMarks(): boolean[] {
-        return Array.from(
-            { length: this.victoryStars },
-            () => !this.targetWins,
-        );
+        return Array.from({ length: this.victoryStars }, () => !this.targetWins);
     }
 
     /**
@@ -459,17 +442,12 @@ export class OpposedTestResult extends TestResult {
                 {
                     action: "opposedTestResume",
                     icon: "fa-solid fa-reply",
-                    label: sohl.i18n.localize(
-                        "SOHL.OpposedTestResult.toChat.respond",
-                    ),
+                    label: sohl.i18n.localize("SOHL.OpposedTestResult.toChat.respond"),
                 },
             ],
-            description: sohl.i18n.format(
-                "SOHL.OpposedTestResult.toChat.description",
-                {
-                    targetActorName: this.targetTestResult.token?.name,
-                },
-            ),
+            description: sohl.i18n.format("SOHL.OpposedTestResult.toChat.description", {
+                targetActorName: this.targetTestResult.token?.name,
+            }),
         };
 
         // Deliberately no `rolls` here. Whatever this passes along becomes part of

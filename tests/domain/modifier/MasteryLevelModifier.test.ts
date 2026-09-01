@@ -6,15 +6,7 @@ import { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import { SohlSpeaker } from "@src/core/logic/SohlSpeaker";
 import { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
 import { SkillLogic } from "@src/document/item/logic/SkillLogic";
-import {
-    describe,
-    it,
-    expect,
-    vi,
-    afterEach,
-    beforeEach,
-    type MockInstance,
-} from "vitest";
+import { describe, it, expect, vi, afterEach, beforeEach, type MockInstance } from "vitest";
 import { defaultToJSON, defaultFromJSON } from "@src/utils/helpers";
 import { BRAND, ITEM_KIND } from "@src/utils/constants";
 import * as FoundryHelpersMock from "@src/core/FoundryHelpers";
@@ -47,10 +39,9 @@ describe("MasteryLevelModifier", () => {
                 } as any,
                 { parent },
             );
-            const revived = defaultFromJSON(
-                JSON.parse(JSON.stringify(defaultToJSON(ml))),
-                { parent },
-            ) as MasteryLevelModifier;
+            const revived = defaultFromJSON(JSON.parse(JSON.stringify(defaultToJSON(ml))), {
+                parent,
+            }) as MasteryLevelModifier;
             expect(revived).toBeInstanceOf(MasteryLevelModifier);
             expect(revived.base).toBe(50);
             expect(revived.minTarget).toBe(5);
@@ -64,9 +55,7 @@ describe("MasteryLevelModifier", () => {
     });
 
     describe("constructor", () => {
-        it.todo(
-            "creates an instance with default values when no data provided",
-        );
+        it.todo("creates an instance with default values when no data provided");
         it.todo("throws when constructed without a parent");
         it.todo("initializes minTarget and maxTarget from data");
         it.todo("initializes successLevelMod from data");
@@ -135,20 +124,15 @@ describe("MasteryLevelModifier", () => {
             ) as Record<string, string>;
             // The bare prefix is a namespace holding `.title` / `.dialogTitle` /
             // `.dialogLabel` — not a string — so formatting it yields the key.
-            expect(
-                lang["SOHL.MasteryLevelModifier.successTest"],
-            ).toBeUndefined();
-            expect(lang["SOHL.MasteryLevelModifier.successTest.title"]).toBe(
-                "{label} Test",
-            );
+            expect(lang["SOHL.MasteryLevelModifier.successTest"]).toBeUndefined();
+            expect(lang["SOHL.MasteryLevelModifier.successTest.title"]).toBe("{label} Test");
         });
 
         it("still honors an explicit title", () => {
             useRealLang();
-            const ml = new MasteryLevelModifier(
-                { baseValue: 50, title: "Bespoke Test" } as any,
-                { parent },
-            );
+            const ml = new MasteryLevelModifier({ baseValue: 50, title: "Bespoke Test" } as any, {
+                parent,
+            });
             expect(ml.title).toBe("Bespoke Test");
         });
     });
@@ -186,12 +170,8 @@ describe("MasteryLevelModifier", () => {
 
     describe("opposedTestResume", () => {
         it.todo("throws when priorTestResult is not provided");
-        it.todo(
-            "performs target success test when targetTestResult is missing",
-        );
-        it.todo(
-            "re-displays dialog for both tests when targetTestResult exists",
-        );
+        it.todo("performs target success test when targetTestResult is missing");
+        it.todo("re-displays dialog for both tests when targetTestResult exists");
         it.todo("evaluates the opposed test result");
         it.todo("sends result to chat when allowed and noChat is false");
     });
@@ -218,9 +198,7 @@ describe("MasteryLevelModifier", () => {
 
         it("calls successTest with the svTestContext (svTable in scope), not the original context", async () => {
             const ml = makeML();
-            const spy = vi
-                .spyOn(ml, "successTest")
-                .mockResolvedValue(undefined);
+            const spy = vi.spyOn(ml, "successTest").mockResolvedValue(undefined);
             const original = makeContext();
             await ml.successValueTest(original);
             expect(spy).toHaveBeenCalledTimes(1);
@@ -234,14 +212,10 @@ describe("MasteryLevelModifier", () => {
         it("svTestContext.scope.targetValueFunc applies index-offset to the success level", async () => {
             // baseValue=50 → index=5; targetValueFunc(sl) = index + sl - 1
             const ml = makeML();
-            const spy = vi
-                .spyOn(ml, "successTest")
-                .mockResolvedValue(undefined);
+            const spy = vi.spyOn(ml, "successTest").mockResolvedValue(undefined);
             await ml.successValueTest(makeContext());
             const calledCtx = spy.mock.calls[0][0];
-            const fn = calledCtx.scope?.targetValueFunc as (
-                sl: number,
-            ) => number;
+            const fn = calledCtx.scope?.targetValueFunc as (sl: number) => number;
             // index(5) + successLevel(2) - 1 = 6
             expect(fn(2)).toBe(6);
         });
@@ -261,9 +235,7 @@ describe("MasteryLevelModifier.successTest — headless / skipDialog (#551)", ()
 
     beforeEach(() => {
         // Stub the result's chat output so tests don't touch the chat/roll shims.
-        toChatSpy = vi
-            .spyOn(SuccessTestResult.prototype, "toChat")
-            .mockResolvedValue(undefined);
+        toChatSpy = vi.spyOn(SuccessTestResult.prototype, "toChat").mockResolvedValue(undefined);
     });
     afterEach(() => vi.restoreAllMocks());
 
@@ -336,9 +308,7 @@ describe("MasteryLevelModifier.successTest — headless / skipDialog (#551)", ()
         const dialogSpy = vi.spyOn(FoundryHelpersMock, "dialog");
         const parent = makeParent();
         // The mocked dialog resolves to null → the test is treated as cancelled.
-        const result = await makeML(parent).successTest(
-            ctx({ skipDialog: false }),
-        );
+        const result = await makeML(parent).successTest(ctx({ skipDialog: false }));
         expect(dialogSpy).toHaveBeenCalledTimes(1);
         expect(result).toBeUndefined();
     });
@@ -365,9 +335,7 @@ describe("MasteryLevelModifier.successTest — headless / skipDialog (#551)", ()
         );
         expect(result).toBeTruthy();
         // base 50 + situational −10 → effective 40.
-        expect(
-            (result as SuccessTestResult).masteryLevelModifier.effective,
-        ).toBe(40);
+        expect((result as SuccessTestResult).masteryLevelModifier.effective).toBe(40);
     });
 
     it("applies the −5/−10 impaired-but-usable body-part penalty to the ML (#568)", async () => {
@@ -380,9 +348,7 @@ describe("MasteryLevelModifier.successTest — headless / skipDialog (#551)", ()
         const result = await makeML(parent, 50).successTest(ctx());
         expect(result).toBeTruthy();
         // base 50 + impairment −10 → effective 40.
-        expect(
-            (result as SuccessTestResult).masteryLevelModifier.effective,
-        ).toBe(40);
+        expect((result as SuccessTestResult).masteryLevelModifier.effective).toBe(40);
     });
 
     it("does not apply an impairment penalty when the test names no impaired role (#568)", async () => {
@@ -393,9 +359,7 @@ describe("MasteryLevelModifier.successTest — headless / skipDialog (#551)", ()
             impairedRolePenalties: () => new Map([["manipulator", -10]]),
         });
         const result = await makeML(parent, 50).successTest(ctx());
-        expect(
-            (result as SuccessTestResult).masteryLevelModifier.effective,
-        ).toBe(50);
+        expect((result as SuccessTestResult).masteryLevelModifier.effective).toBe(50);
     });
 
     it("forces a Critical Failure (no separate penalty) when the role is unusable (#568)", async () => {
@@ -406,9 +370,7 @@ describe("MasteryLevelModifier.successTest — headless / skipDialog (#551)", ()
             // A part sharing the role is unusable (auto-CF); another is only impaired.
             impairedRolePenalties: () => new Map([["manipulator", -10]]),
         });
-        const result = (await makeML(parent, 50).successTest(
-            ctx(),
-        )) as SuccessTestResult;
+        const result = (await makeML(parent, 50).successTest(ctx())) as SuccessTestResult;
         expect(result.isCritical).toBe(true);
         expect(result.isSuccess).toBe(false);
         // Auto-CF wins: the ML is not additionally reduced by the −10 penalty.
@@ -419,25 +381,17 @@ describe("MasteryLevelModifier.successTest — headless / skipDialog (#551)", ()
         // A weapon names no impairedByRoles; instead its parent exposes the
         // impairment of the limb(s) holding it. A −10 (serious) usable limb.
         const parent = makeParent();
-        (parent as any).heldLimbImpairments = [
-            { usable: true, impairment: -10 },
-        ];
+        (parent as any).heldLimbImpairments = [{ usable: true, impairment: -10 }];
         const result = await makeML(parent, 50).successTest(ctx());
         expect(result).toBeTruthy();
         // base 50 + held-limb impairment −10 → effective 40.
-        expect(
-            (result as SuccessTestResult).masteryLevelModifier.effective,
-        ).toBe(40);
+        expect((result as SuccessTestResult).masteryLevelModifier.effective).toBe(40);
     });
 
     it("forces a Critical Failure when a required held limb is unusable (#628)", async () => {
         const parent = makeParent();
-        (parent as any).heldLimbImpairments = [
-            { usable: false, impairment: 0 },
-        ];
-        const result = (await makeML(parent, 50).successTest(
-            ctx(),
-        )) as SuccessTestResult;
+        (parent as any).heldLimbImpairments = [{ usable: false, impairment: 0 }];
+        const result = (await makeML(parent, 50).successTest(ctx())) as SuccessTestResult;
         expect(result.isCritical).toBe(true);
         expect(result.isSuccess).toBe(false);
         // Auto-CF wins: the ML is not additionally reduced.
@@ -453,23 +407,17 @@ describe("MasteryLevelModifier.successTest — headless / skipDialog (#551)", ()
             unusableRoles: () => new Set<string>(),
             impairedRolePenalties: () => new Map([["manipulator", -5]]),
         });
-        (parent as any).heldLimbImpairments = [
-            { usable: true, impairment: -10 },
-        ];
+        (parent as any).heldLimbImpairments = [{ usable: true, impairment: -10 }];
         const result = await makeML(parent, 50).successTest(ctx());
         // base 50 + worst(−5, −10) = −10 → effective 40 (not −15).
-        expect(
-            (result as SuccessTestResult).masteryLevelModifier.effective,
-        ).toBe(40);
+        expect((result as SuccessTestResult).masteryLevelModifier.effective).toBe(40);
     });
 
     it("is a no-op when the parent exposes no held limbs (#628)", async () => {
         const parent = makeParent();
         (parent as any).heldLimbImpairments = [];
         const result = await makeML(parent, 50).successTest(ctx());
-        expect(
-            (result as SuccessTestResult).masteryLevelModifier.effective,
-        ).toBe(50);
+        expect((result as SuccessTestResult).masteryLevelModifier.effective).toBe(50);
     });
 
     it("posts the result to chat on success, but not when noChat is set", async () => {
@@ -567,18 +515,14 @@ describe("opposed-test chat text is localized, not literal English (#1161)", () 
     });
 
     it("opposedTestStart titles the source's test from a lang key", async () => {
-        const format = vi
-            .spyOn(sohl.i18n, "format")
-            .mockImplementation((k: string) => `FMT:${k}`);
+        const format = vi.spyOn(sohl.i18n, "format").mockImplementation((k: string) => `FMT:${k}`);
         const ml = new MasteryLevelModifier({ baseValue: 50 } as any, {
             parent: makeParent(),
         });
         vi.spyOn(FoundryHelpersMock, "fvttGetTargetedTokens").mockReturnValue([
             { name: "Bandit", isOwner: true } as any,
         ]);
-        const testSpy = vi
-            .spyOn(ml, "successTest")
-            .mockResolvedValue(undefined);
+        const testSpy = vi.spyOn(ml, "successTest").mockResolvedValue(undefined);
         const context = new SohlActionContext({
             speaker: new SohlSpeaker({ alias: "GM" }),
             scope: {},
@@ -587,9 +531,7 @@ describe("opposed-test chat text is localized, not literal English (#1161)", () 
         expect(testSpy).toHaveBeenCalledTimes(1);
         // The source's test title is rendered on both opposed cards, so a
         // literal format string leaks English onto them.
-        expect((context.scope as any).title).toBe(
-            "FMT:SOHL.OpposedTestResult.toChat.startTitle",
-        );
+        expect((context.scope as any).title).toBe("FMT:SOHL.OpposedTestResult.toChat.startTitle");
         format.mockRestore();
     });
 });

@@ -12,12 +12,7 @@
  */
 
 import { EditorState } from "@codemirror/state";
-import {
-    EditorView,
-    keymap,
-    drawSelection,
-    highlightSpecialChars,
-} from "@codemirror/view";
+import { EditorView, keymap, drawSelection, highlightSpecialChars } from "@codemirror/view";
 import {
     StreamLanguage,
     HighlightStyle,
@@ -33,10 +28,7 @@ import {
 import { tags } from "@lezer/highlight";
 import { expressionHelpers } from "@src/entity/expr/ExpressionHelperRegistry";
 import { makeExpressionCompletionSource } from "./expression-completions";
-import {
-    expressionScopes,
-    type ExpressionScope,
-} from "@src/entity/expr/ExpressionScopeRegistry";
+import { expressionScopes, type ExpressionScope } from "@src/entity/expr/ExpressionScopeRegistry";
 
 /**
  * A mounted CodeMirror editor handle. The dialog reads the live value at Save

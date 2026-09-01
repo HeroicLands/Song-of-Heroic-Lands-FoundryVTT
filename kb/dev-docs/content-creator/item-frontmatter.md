@@ -253,18 +253,16 @@ The prose here compiles into the item's documentation.
 
 ## projectilegear
 
-| Field                     | Shape                             | Required | Default    | Description                                                                                                        |
-| ------------------------- | --------------------------------- | -------- | ---------- | ------------------------------------------------------------------------------------------------------------------ |
-| `weight`                  | as authored                       | no       | `0`        | Weight of one, in pounds.                                                                                          |
-| `value`                   | as authored                       | no       | `0`        | Worth of one, in pence.                                                                                            |
-| `quality`                 | as authored                       | no       | `0`        | Craftsmanship, as a modifier to what the article does.                                                             |
-| `durability`              | as authored                       | no       | `0`        | How much punishment the article takes before it fails.                                                             |
-| `subType`                 | string                            | **yes**  | —          | What kind of projectile it is.                                                                                     |
-| `impact.overrideDice`     | boolean                           | no       | —          | Whether the projectile's dice replace the launching weapon's. Defaults to true when the projectile declares a die. |
-| `impact.overrideModifier` | boolean                           | no       | —          | Whether the projectile's modifier replaces the launching weapon's.                                                 |
-| `impact.die`              | number                            | no       | `0`        | The impact die's size.                                                                                             |
-| `impact.modifier`         | number                            | no       | `0`        | Flat addition to the impact roll.                                                                                  |
-| `impact.aspect`           | as authored, blank is the default | no       | `piercing` | How the projectile wounds.                                                                                         |
+| Field             | Shape                             | Required | Default    | Description                                            |
+| ----------------- | --------------------------------- | -------- | ---------- | ------------------------------------------------------ |
+| `weight`          | as authored                       | no       | `0`        | Weight of one, in pounds.                              |
+| `value`           | as authored                       | no       | `0`        | Worth of one, in pence.                                |
+| `quality`         | as authored                       | no       | `0`        | Craftsmanship, as a modifier to what the article does. |
+| `durability`      | as authored                       | no       | `0`        | How much punishment the article takes before it fails. |
+| `subType`         | string                            | **yes**  | —          | What kind of projectile it is.                         |
+| `impact.die`      | number                            | no       | `0`        | The impact die's size.                                 |
+| `impact.modifier` | number                            | no       | `0`        | Flat addition to the impact roll.                      |
+| `impact.aspect`   | as authored, blank is the default | no       | `piercing` | How the projectile wounds.                             |
 
 ```markdown
 ---
@@ -318,8 +316,6 @@ The prose here compiles into the item's documentation.
 | `levelBase`        | number or unset | no       | `null`  | Injury level. Unset on a descriptive condition, which has no level.       |
 | `healingRateBase`  | number          | no       | `0`     | How readily it heals.                                                     |
 | `aspect`           | as authored     | no       | `null`  | How the injury was inflicted. Unset on a descriptive condition.           |
-| `isTreated`        | boolean         | no       | `false` | Whether it has been treated.                                              |
-| `isBleeding`       | boolean         | no       | `false` | Whether it is bleeding.                                                   |
 | `bodyLocationCode` | as authored     | no       | `null`  | Shortcode of the body location injured. Unset on a descriptive condition. |
 
 ```markdown

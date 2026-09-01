@@ -56,8 +56,7 @@ const STRIKE_MODE_EFFECT_KEYS: Record<
  * @returns A map of change-type key → localized label.
  */
 export function buildChangeTypesMap(
-    changeTypes:
-        Record<string, { label?: string } | undefined> | null | undefined,
+    changeTypes: Record<string, { label?: string } | undefined> | null | undefined,
 ): Record<string, string> {
     const types: Record<string, string> = {};
     for (const [key, config] of Object.entries(changeTypes ?? {})) {
@@ -104,9 +103,7 @@ export function resolveEffectMetadataType(
  * @param metadataType - The metadata type from {@link resolveEffectMetadataType}.
  * @returns A map of change path → localized label (empty when the type has none).
  */
-export function resolveEffectKeyChoices(
-    metadataType: string,
-): Record<string, string> {
+export function resolveEffectKeyChoices(metadataType: string): Record<string, string> {
     // Strike-mode scopes: build value → localized label from the effect-key set.
     const smSet = STRIKE_MODE_EFFECT_KEYS[metadataType];
     if (smSet) {
@@ -160,16 +157,13 @@ export function resolveEffectTargetLabel(
     switch (scope) {
         case ACTIVE_EFFECT_SCOPE.THIS:
             return ctx.isActorEffect ?
-                    sohl.i18n.format(
-                        "SOHL.ActiveEffect.targetLabel.ThisActor",
-                        { actorName: ctx.actorName ?? "" },
-                    )
+                    sohl.i18n.format("SOHL.ActiveEffect.targetLabel.ThisActor", {
+                        actorName: ctx.actorName ?? "",
+                    })
                 :   sohl.i18n.format("SOHL.ActiveEffect.targetLabel.ThisItem", {
                         itemName:
                             ctx.parentItemType ?
-                                sohl.i18n.localize(
-                                    `TYPES.Item.${ctx.parentItemType}`,
-                                )
+                                sohl.i18n.localize(`TYPES.Item.${ctx.parentItemType}`)
                             :   "",
                     });
         case ACTIVE_EFFECT_SCOPE.ACTOR:

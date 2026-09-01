@@ -38,20 +38,16 @@ describe("attribute context menu (#924, #925)", () => {
                 const attrs = a.items.filter((i) => i.type === "attribute");
                 return {
                     count: attrs.length,
-                    allHave: attrs.every((attr) =>
-                        attr.logic.actions.has("successTest"),
-                    ),
+                    allHave: attrs.every((attr) => attr.logic.actions.has("successTest")),
                     allVisible: attrs.every((attr) => {
                         const action = attr.logic.actions.get("successTest");
                         // The trigger row carries the attribute's id, the way
                         // the rendered card does (data-item-id on .item).
                         const el = {
                             closest: (sel) =>
-                                sel === "[data-item-id]" ?
-                                    { dataset: { itemId: attr.id } }
-                                : sel === "[data-actor-id]" ?
-                                    { dataset: { actorId: a.id } }
-                                :   null,
+                                sel === "[data-item-id]" ? { dataset: { itemId: attr.id } }
+                                : sel === "[data-actor-id]" ? { dataset: { actorId: a.id } }
+                                : null,
                         };
                         return !!action && action.visible(el);
                     }),
@@ -90,9 +86,7 @@ describe("attribute context menu (#924, #925)", () => {
             }).should((s) => {
                 expect(s.ml, "mastery level = score × 5").to.be.greaterThan(0);
                 expect(s.hasResult, "successTest produced a result").to.be.true;
-                expect(s.ctorName, "result is a SuccessTestResult").to.eq(
-                    "SuccessTestResult",
-                );
+                expect(s.ctorName, "result is a SuccessTestResult").to.eq("SuccessTestResult");
             });
         });
     });
@@ -102,8 +96,7 @@ describe("attribute context menu (#924, #925)", () => {
             cy.openSheet(actor);
             cy.switchTab("profile", "primary");
 
-            const triggerSel =
-                'section.tab[data-tab="profile"] .attribute-score .item-contextmenu';
+            const triggerSel = 'section.tab[data-tab="profile"] .attribute-score .item-contextmenu';
 
             // Record the trigger's position *relative to its card* (its
             // offsetParent, the position:relative `.attribute-score`). Unlike a

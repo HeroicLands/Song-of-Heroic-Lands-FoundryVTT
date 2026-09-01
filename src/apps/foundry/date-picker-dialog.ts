@@ -172,16 +172,8 @@ function formToParts(form: Record<string, unknown>): DateParts {
  * @param calendar - The active calendar.
  */
 function wireDialog(element: HTMLElement, calendar: SohlCalendarData): void {
-    const q = <T extends HTMLElement>(sel: string): T | null =>
-        element.querySelector<T>(sel);
-    const fields = [
-        "month",
-        "day",
-        "year",
-        "hour",
-        "minute",
-        "second",
-    ] as const;
+    const q = <T extends HTMLElement>(sel: string): T | null => element.querySelector<T>(sel);
+    const fields = ["month", "day", "year", "hour", "minute", "second"] as const;
     const inputs = Object.fromEntries(
         fields.map((n) => [n, q<HTMLInputElement>(`[name="${n}"]`)]),
     ) as Record<(typeof fields)[number], HTMLInputElement | null>;
@@ -211,8 +203,7 @@ function wireDialog(element: HTMLElement, calendar: SohlCalendarData): void {
         const time = datePartsToWorldTime(calendar, readParts());
         const ok = time !== null;
         if (preview)
-            preview.textContent =
-                ok ? calendar.format(time!, "sohl.default" as never) : "";
+            preview.textContent = ok ? calendar.format(time!, "sohl.default" as never) : "";
         if (invalid) invalid.hidden = ok;
         if (setBtn) setBtn.disabled = !ok;
     };
@@ -227,12 +218,8 @@ function wireDialog(element: HTMLElement, calendar: SohlCalendarData): void {
         writeParts(next);
         recompute();
     };
-    q<HTMLElement>('[data-skip="back"]')?.addEventListener("click", () =>
-        applySkip(-1),
-    );
-    q<HTMLElement>('[data-skip="fwd"]')?.addEventListener("click", () =>
-        applySkip(1),
-    );
+    q<HTMLElement>('[data-skip="back"]')?.addEventListener("click", () => applySkip(-1));
+    q<HTMLElement>('[data-skip="fwd"]')?.addEventListener("click", () => applySkip(1));
 
     recompute();
 }

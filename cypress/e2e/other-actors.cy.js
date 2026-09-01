@@ -22,9 +22,7 @@
 
 /** Update a document's `system` with a realm-cloned patch; resolves after settle. */
 function patchSystem(win, id, patch) {
-    return win.game.actors
-        .get(id)
-        .update(win.JSON.parse(JSON.stringify(patch)));
+    return win.game.actors.get(id).update(win.JSON.parse(JSON.stringify(patch)));
 }
 
 describe("non-being actors: cohort / structure / vehicle", () => {
@@ -55,9 +53,7 @@ describe("non-being actors: cohort / structure / vehicle", () => {
                 name: "Portcullis Winch",
             }).then(() => {
                 cy.foundry((win) =>
-                    win.game.actors
-                        .get(actor.id)
-                        .itemTypes.miscgear.map((i) => i.name),
+                    win.game.actors.get(actor.id).itemTypes.miscgear.map((i) => i.name),
                 ).should("include", "Portcullis Winch");
             });
         });
@@ -72,10 +68,7 @@ describe("non-being actors: cohort / structure / vehicle", () => {
                     // The leader is one of the members, named by the same
                     // handle its member entry carries (#1151).
                     "system.leaderCode": "vell",
-                    "system.members": [
-                        { shortcodeOrUuid: "vell" },
-                        { shortcodeOrUuid: "arn" },
-                    ],
+                    "system.members": [{ shortcodeOrUuid: "vell" }, { shortcodeOrUuid: "arn" }],
                 }),
             );
             cy.foundry((win) => {
@@ -118,10 +111,7 @@ describe("non-being actors: cohort / structure / vehicle", () => {
                     occupantRoles: s.occupants.map((o) => o.role),
                 };
             }).should((r) => {
-                expect(r.occupantRefs).to.have.members([
-                    "ferryman",
-                    "deckhand",
-                ]);
+                expect(r.occupantRefs).to.have.members(["ferryman", "deckhand"]);
                 expect(r.occupantTitles).to.have.members(["Captain", "Crew"]);
                 expect(
                     r.occupantRoles.every((x) => !!x),
@@ -167,9 +157,7 @@ describe("non-being actors: cohort / structure / vehicle", () => {
                                 .then(() =>
                                     cy.foundry((win) =>
                                         patchSystem(win, cohort.id, {
-                                            "system.members": [
-                                                { shortcodeOrUuid: "aldricw" },
-                                            ],
+                                            "system.members": [{ shortcodeOrUuid: "aldricw" }],
                                         }),
                                     ),
                                 )
@@ -181,13 +169,11 @@ describe("non-being actors: cohort / structure / vehicle", () => {
         it("aggregates a member's shared gear onto the cohort's logic", () => {
             seedSharedGear().then(({ cohort, member }) => {
                 cy.foundry((win) =>
-                    win.game.actors
-                        .get(cohort.id)
-                        .logic.sharedGear.map((e) => ({
-                            name: e.gear.name,
-                            carrier: e.carrierName,
-                            carrierUuid: e.carrierUuid,
-                        })),
+                    win.game.actors.get(cohort.id).logic.sharedGear.map((e) => ({
+                        name: e.gear.name,
+                        carrier: e.carrierName,
+                        carrierUuid: e.carrierUuid,
+                    })),
                 ).should((rows) => {
                     expect(rows, "only the shared item").to.have.length(1);
                     expect(rows[0].name).to.eq("Shared Coil of Rope");
@@ -215,9 +201,7 @@ describe("non-being actors: cohort / structure / vehicle", () => {
                 cy.switchTab("sharedgear", "primary");
                 cy.get('section.tab[data-tab="sharedgear"]').within(() => {
                     cy.get("[data-action]").should("not.exist");
-                    cy.get(
-                        ".item-carried, .item-create, .item-contextmenu",
-                    ).should("not.exist");
+                    cy.get(".item-carried, .item-create, .item-contextmenu").should("not.exist");
                 });
             });
         });
@@ -226,9 +210,7 @@ describe("non-being actors: cohort / structure / vehicle", () => {
             seedSharedGear().then(({ cohort, member }) => {
                 cy.foundry((win) => ({
                     onCohort: win.game.actors.get(cohort.id).items.size,
-                    onMember: win.game.actors
-                        .get(member.id)
-                        .itemTypes.miscgear.map((i) => i.name),
+                    onMember: win.game.actors.get(member.id).itemTypes.miscgear.map((i) => i.name),
                 })).should((r) => {
                     expect(r.onCohort, "cohort embeds nothing").to.eq(0);
                     expect(r.onMember).to.include("Shared Coil of Rope");

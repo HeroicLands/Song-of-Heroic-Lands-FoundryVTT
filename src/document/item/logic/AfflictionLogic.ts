@@ -38,18 +38,12 @@ import {
 } from "@src/document/item/logic/affliction-course";
 import { SafeExpression } from "@src/entity/expr/SafeExpression";
 import { expressionScopes } from "@src/entity/expr/ExpressionScopeRegistry";
-import {
-    armScheduledActions,
-    scheduledFireAt,
-} from "@src/entity/event/scheduled-actions";
+import { armScheduledActions, scheduledFireAt } from "@src/entity/event/scheduled-actions";
 import { offerSchedule } from "@src/document/item/logic/offer-schedule";
 import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import type { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import type { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
-import {
-    UNTREATED,
-    type TraumaData,
-} from "@src/document/item/logic/TraumaLogic";
+import { UNTREATED, type TraumaData } from "@src/document/item/logic/TraumaLogic";
 import {
     ACTION_SUBTYPE,
     AFFLICTION_EFFECT_KEY,
@@ -72,14 +66,8 @@ import {
     TRAUMA_SUBTYPE,
 } from "@src/utils/constants";
 import { rollTimedTest } from "@src/document/item/logic/timed-test";
-import {
-    SHOCK_STATE,
-    shockStateLabelKey,
-} from "@src/document/actor/logic/shock";
-import {
-    SohlItemBaseLogic,
-    type SohlItemData,
-} from "@src/document/item/logic/SohlItemBaseLogic";
+import { SHOCK_STATE, shockStateLabelKey } from "@src/document/actor/logic/shock";
+import { SohlItemBaseLogic, type SohlItemData } from "@src/document/item/logic/SohlItemBaseLogic";
 import { SohlAction } from "@src/entity/action/SohlAction";
 
 /**
@@ -213,10 +201,7 @@ export class AfflictionLogic<
      * @param base - The persisted base seconds to fall back to.
      * @returns The effective seconds.
      */
-    private durationSeconds(
-        modifier: ValueModifier | undefined,
-        base: number | null,
-    ): number {
+    private durationSeconds(modifier: ValueModifier | undefined, base: number | null): number {
         return modifier?.effective ?? base ?? 0;
     }
 
@@ -231,13 +216,7 @@ export class AfflictionLogic<
     get estOnsetDate(): number | undefined {
         const contract = this.data.contractDate;
         if (contract == null) return undefined;
-        return (
-            contract +
-            this.durationSeconds(
-                this.onsetDurationBase,
-                this.data.onsetDurationBase,
-            )
-        );
+        return contract + this.durationSeconds(this.onsetDurationBase, this.data.onsetDurationBase);
     }
 
     /**
@@ -252,10 +231,7 @@ export class AfflictionLogic<
         if (anchor == null) return undefined;
         return (
             anchor +
-            this.durationSeconds(
-                this.resolutionDurationBase,
-                this.data.resolutionDurationBase,
-            )
+            this.durationSeconds(this.resolutionDurationBase, this.data.resolutionDurationBase)
         );
     }
 
@@ -269,9 +245,7 @@ export class AfflictionLogic<
      * there is no armed check and no anchored interval to project from.
      */
     get nextHealTest(): number | undefined {
-        const entry = this.data.scheduledActions?.find(
-            (e) => e.actionName === "courseCheck",
-        );
+        const entry = this.data.scheduledActions?.find((e) => e.actionName === "courseCheck");
         if (entry) return scheduledFireAt(entry);
         const anchor = this.data.onsetDate ?? this.data.contractDate;
         if (anchor == null) return undefined;
@@ -375,8 +349,7 @@ export class AfflictionLogic<
         const uuid = this.item?.uuid;
         if (!uuid) return;
         await postActionCard(this.speaker, {
-            template:
-                "systems/sohl/templates/chat/affliction-treatment-request-card.hbs",
+            template: "systems/sohl/templates/chat/affliction-treatment-request-card.hbs",
             data: {
                 patientName: (this.actorLogic as { name?: string })?.name ?? "",
                 afflictionName: this.item?.name ?? "",
@@ -387,9 +360,7 @@ export class AfflictionLogic<
                 action: "performAfflictionTreatment",
                 handlerUuid: SELF_HANDLER,
                 scope: { afflictionUuid: uuid },
-                label: sohl.i18n.localize(
-                    "SOHL.Being.Action.performAfflictionTreatment",
-                ),
+                label: sohl.i18n.localize("SOHL.Being.Action.performAfflictionTreatment"),
                 iconFAClass: "fa-solid fa-staff-snake",
             },
         });
@@ -425,16 +396,13 @@ export class AfflictionLogic<
                 title: `${this.item?.name ?? ""}: ${sohl.i18n.localize(
                     "SOHL.Affliction.Action.treatAffliction.title",
                 )}`,
-                template: toFilePath(
-                    "systems/sohl/templates/dialog/treat-affliction-dialog.hbs",
-                ),
+                template: toFilePath("systems/sohl/templates/dialog/treat-affliction-dialog.hbs"),
                 data: {
                     afflictionName: this.item?.name ?? "",
                     courseBonus,
                 },
                 callback: (formData: PlainObject) => ({
-                    courseBonus:
-                        parseInt(String(formData.courseBonus), 10) || 0,
+                    courseBonus: parseInt(String(formData.courseBonus), 10) || 0,
                 }),
                 rejectClose: false,
             })) as { courseBonus: number } | null;
@@ -453,9 +421,7 @@ export class AfflictionLogic<
         if (courseBonus > 0) {
             await fvttCreateEmbeddedEffects(this.item, [
                 {
-                    name: sohl.i18n.localize(
-                        "SOHL.Affliction.Effect.courseBonus",
-                    ),
+                    name: sohl.i18n.localize("SOHL.Affliction.Effect.courseBonus"),
                     changes: [
                         {
                             key: AFFLICTION_EFFECT_KEY.COURSE,
@@ -602,22 +568,16 @@ export class AfflictionLogic<
             { baseValue: this.data.contagionIndexBase },
             { parent: this },
         );
-        this.level = new entity.ValueModifier(
-            { baseValue: this.data.levelBase },
-            { parent: this },
+        this.level = new entity.ValueModifier({ baseValue: this.data.levelBase }, { parent: this });
+        this.onsetDurationBase = new entity.ValueModifier({}, { parent: this }).setBase(
+            this.data.onsetDurationBase ?? 0,
         );
-        this.onsetDurationBase = new entity.ValueModifier(
-            {},
-            { parent: this },
-        ).setBase(this.data.onsetDurationBase ?? 0);
-        this.healingCheckDurationBase = new entity.ValueModifier(
-            {},
-            { parent: this },
-        ).setBase(this.data.healingCheckDurationBase ?? 0);
-        this.resolutionDurationBase = new entity.ValueModifier(
-            {},
-            { parent: this },
-        ).setBase(this.data.resolutionDurationBase ?? 0);
+        this.healingCheckDurationBase = new entity.ValueModifier({}, { parent: this }).setBase(
+            this.data.healingCheckDurationBase ?? 0,
+        );
+        this.resolutionDurationBase = new entity.ValueModifier({}, { parent: this }).setBase(
+            this.data.resolutionDurationBase ?? 0,
+        );
     }
 
     /** @inheritdoc */
@@ -645,14 +605,12 @@ export class AfflictionLogic<
         // them in `initialize` would read 0 and silently disable every course test.
         const healingBase = Math.max(
             0,
-            (this.actorLogic as { healingBase?: { effective?: number } } | null)
-                ?.healingBase?.effective ?? 0,
+            (this.actorLogic as { healingBase?: { effective?: number } } | null)?.healingBase
+                ?.effective ?? 0,
         );
         const hr = Math.max(0, this.data.healingRateBase ?? 0);
         const target = healingBase * hr;
-        this.course = new entity.ValueModifier({}, { parent: this }).setBase(
-            target,
-        );
+        this.course = new entity.ValueModifier({}, { parent: this }).setBase(target);
 
         // An **untreated** affliction has no target to roll against — a state,
         // not a target of zero — so the modifier is DISABLED rather than seeded,
@@ -669,12 +627,7 @@ export class AfflictionLogic<
 
         const uuid = this.item?.uuid;
         if (!uuid) return;
-        armScheduledActions(
-            uuid,
-            this.data.scheduledActions,
-            sohl.events,
-            this,
-        );
+        armScheduledActions(uuid, this.data.scheduledActions, sohl.events, this);
     }
 
     /**
@@ -728,9 +681,7 @@ export class AfflictionLogic<
                 action: "setOnset",
                 handlerUuid: uuid,
                 scope: {},
-                label: sohl.i18n.localize(
-                    "SOHL.Affliction.Action.setOnset.title",
-                ),
+                label: sohl.i18n.localize("SOHL.Affliction.Action.setOnset.title"),
                 iconFAClass: "fa-solid fa-hourglass-start",
             },
         });
@@ -756,20 +707,15 @@ export class AfflictionLogic<
      *   confirming, and `scope.schedule` pre-answers the two schedule offers.
      * @returns The onset date, or `undefined` when the dialog was declined.
      */
-    async setOnset(
-        context: SohlActionContext,
-    ): Promise<{ onsetDate: number } | undefined> {
+    async setOnset(context: SohlActionContext): Promise<{ onsetDate: number } | undefined> {
         if (!context.skipDialog) {
             const confirmed = await dialog({
-                title: sohl.i18n.localize(
-                    "SOHL.Affliction.Action.setOnset.title",
-                ),
+                title: sohl.i18n.localize("SOHL.Affliction.Action.setOnset.title"),
                 content: toHTMLString(`<p>{{prompt}}</p>`),
                 data: {
-                    prompt: sohl.i18n.format(
-                        "SOHL.Affliction.Action.setOnset.prompt",
-                        { name: this.item?.name ?? "" },
-                    ),
+                    prompt: sohl.i18n.format("SOHL.Affliction.Action.setOnset.prompt", {
+                        name: this.item?.name ?? "",
+                    }),
                 },
                 buttons: [
                     {
@@ -783,20 +729,15 @@ export class AfflictionLogic<
                         label: sohl.i18n.localize("SOHL.Common.no"),
                     },
                 ],
-                callback: (_formData: unknown, action: string) =>
-                    action === "yes",
+                callback: (_formData: unknown, action: string) => action === "yes",
                 rejectClose: false,
             });
             if (confirmed !== true) return undefined;
         }
 
         const now = fvttWorldTime();
-        const resolution = this.rollDuration(
-            this.data.resolutionDurationFormula,
-        );
-        const healing = this.rollDuration(
-            this.data.healingCheckDurationFormula,
-        );
+        const resolution = this.rollDuration(this.data.resolutionDurationFormula);
+        const healing = this.rollDuration(this.data.healingCheckDurationFormula);
         this.resolutionDurationBase.setBase(resolution);
         this.healingCheckDurationBase.setBase(healing);
         await this.item.update({
@@ -857,9 +798,7 @@ export class AfflictionLogic<
                 action: "healingTest",
                 handlerUuid: uuid,
                 scope: {},
-                label: sohl.i18n.localize(
-                    "SOHL.Affliction.Action.healingTest.title",
-                ),
+                label: sohl.i18n.localize("SOHL.Affliction.Action.healingTest.title"),
                 iconFAClass: "fa-solid fa-heart-pulse",
             },
         });
@@ -881,15 +820,11 @@ export class AfflictionLogic<
      * @param context - The action context; `skipDialog` accepts the seeded values.
      * @returns The resulting Level, or `undefined` when the test was cancelled.
      */
-    async healingTest(
-        context: SohlActionContext,
-    ): Promise<{ level: number } | undefined> {
+    async healingTest(context: SohlActionContext): Promise<{ level: number } | undefined> {
         const mlMod = new entity.MasteryLevelModifier(
             {
                 type: "affliction-healing-test",
-                title: sohl.i18n.localize(
-                    "SOHL.Affliction.Action.healingTest.title",
-                ),
+                title: sohl.i18n.localize("SOHL.Affliction.Action.healingTest.title"),
             },
             { parent: this },
         );
@@ -924,17 +859,9 @@ export class AfflictionLogic<
 
         await this.item.update({ "system.levelBase": level } as PlainObject);
 
-        const nextInterval = this.rollDuration(
-            this.data.healingCheckDurationFormula,
-        );
+        const nextInterval = this.rollDuration(this.data.healingCheckDurationFormula);
         if (level <= 0) await sohl.unschedule(this.item, "healingCheck");
-        else
-            await offerSchedule(
-                context,
-                this.item,
-                "healingCheck",
-                nextInterval,
-            );
+        else await offerSchedule(context, this.item, "healingCheck", nextInterval);
         return { level };
     }
 
@@ -965,9 +892,7 @@ export class AfflictionLogic<
                 action: "courseTest",
                 handlerUuid: uuid,
                 scope: {},
-                label: sohl.i18n.localize(
-                    "SOHL.Affliction.Action.courseTest.title",
-                ),
+                label: sohl.i18n.localize("SOHL.Affliction.Action.courseTest.title"),
                 iconFAClass: "ginf-heart-beats",
             },
         });
@@ -1001,9 +926,7 @@ export class AfflictionLogic<
         const mlMod = new entity.MasteryLevelModifier(
             {
                 type: "affliction-course-test",
-                title: sohl.i18n.localize(
-                    "SOHL.Affliction.Action.courseTest.title",
-                ),
+                title: sohl.i18n.localize("SOHL.Affliction.Action.courseTest.title"),
             },
             { parent: this },
         );
@@ -1022,18 +945,13 @@ export class AfflictionLogic<
         if (!context.skipDialog) {
             applied =
                 (await dialog({
-                    title: sohl.i18n.localize(
-                        "SOHL.Affliction.Action.courseTest.applyTitle",
-                    ),
+                    title: sohl.i18n.localize("SOHL.Affliction.Action.courseTest.applyTitle"),
                     content: toHTMLString(`<p>{{prompt}}</p>`),
                     data: {
-                        prompt: sohl.i18n.format(
-                            "SOHL.Affliction.Action.courseTest.applyPrompt",
-                            {
-                                name: this.item?.name ?? "",
-                                hr,
-                            },
-                        ),
+                        prompt: sohl.i18n.format("SOHL.Affliction.Action.courseTest.applyPrompt", {
+                            name: this.item?.name ?? "",
+                            hr,
+                        }),
                     },
                     buttons: [
                         {
@@ -1047,8 +965,7 @@ export class AfflictionLogic<
                             label: sohl.i18n.localize("SOHL.Common.no"),
                         },
                     ],
-                    callback: (_formData: unknown, action: string) =>
-                        action === "yes",
+                    callback: (_formData: unknown, action: string) => action === "yes",
                     rejectClose: false,
                 })) === true;
         }
@@ -1063,10 +980,7 @@ export class AfflictionLogic<
                 healingRate: hr,
                 defeated: outcome.defeated,
                 fatigueLevels: outcome.fatigueLevels,
-                shockLabel:
-                    outcome.shockState ?
-                        shockStateLabelKey(outcome.shockState)
-                    :   "",
+                shockLabel: outcome.shockState ? shockStateLabelKey(outcome.shockState) : "",
                 applied,
             },
         });
@@ -1089,10 +1003,7 @@ export class AfflictionLogic<
      * @param outcome - The reaction described by {@link courseOutcomeFor}.
      * @returns A promise that resolves once the outcome is persisted.
      */
-    private async applyCourseOutcome(
-        hr: number,
-        outcome: CourseOutcome,
-    ): Promise<void> {
+    private async applyCourseOutcome(hr: number, outcome: CourseOutcome): Promise<void> {
         if (outcome.defeated) {
             await this.item.update({
                 "system.healingRateBase": hr,
@@ -1114,9 +1025,7 @@ export class AfflictionLogic<
         }
         if (outcome.shockState) {
             const being = this.actorLogic as any;
-            await being?.setShockState?.(
-                Math.max(being?.shockState ?? 0, outcome.shockState),
-            );
+            await being?.setShockState?.(Math.max(being?.shockState ?? 0, outcome.shockState));
         }
     }
 
@@ -1218,9 +1127,7 @@ export class AfflictionLogic<
                 action: "setResolution",
                 handlerUuid: uuid,
                 scope: {},
-                label: sohl.i18n.localize(
-                    "SOHL.Affliction.Action.setResolution.title",
-                ),
+                label: sohl.i18n.localize("SOHL.Affliction.Action.setResolution.title"),
                 iconFAClass: "fa-solid fa-skull",
             },
         });
@@ -1247,22 +1154,14 @@ export class AfflictionLogic<
      */
     async setResolution(
         context: SohlActionContext,
-    ): Promise<
-        { outcome: AfflictionOutcome; resolutionDate: number } | undefined
-    > {
-        const seeded = (context.scope as { outcome?: unknown } | undefined)
-            ?.outcome;
-        let outcome: AfflictionOutcome =
-            isAfflictionOutcome(seeded) ? seeded : this.data.outcome;
+    ): Promise<{ outcome: AfflictionOutcome; resolutionDate: number } | undefined> {
+        const seeded = (context.scope as { outcome?: unknown } | undefined)?.outcome;
+        let outcome: AfflictionOutcome = isAfflictionOutcome(seeded) ? seeded : this.data.outcome;
 
         if (!context.skipDialog) {
             const form = (await dialog({
-                title: sohl.i18n.localize(
-                    "SOHL.Affliction.Action.setResolution.title",
-                ),
-                template: toFilePath(
-                    "systems/sohl/templates/dialog/set-resolution-dialog.hbs",
-                ),
+                title: sohl.i18n.localize("SOHL.Affliction.Action.setResolution.title"),
+                template: toFilePath("systems/sohl/templates/dialog/set-resolution-dialog.hbs"),
                 data: {
                     afflictionName: this.item?.name ?? "",
                     outcome,
@@ -1333,10 +1232,7 @@ export class AfflictionLogic<
         for (const code of shortcodes) {
             const data = await fvttFindItemByShortcode(code);
             if (data) created.push(data);
-            else
-                sohl.log.warn(
-                    `Affliction outcomeTrauma: no item found with shortcode "${code}"`,
-                );
+            else sohl.log.warn(`Affliction outcomeTrauma: no item found with shortcode "${code}"`);
         }
         if (created.length) {
             await fvttCreateEmbeddedItems(this.actorLogic, created);

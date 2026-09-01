@@ -19,10 +19,7 @@ import type { MissileStrikeMode } from "@src/entity/strikemode/MissileStrikeMode
 
 describe("blankStrikeMode", () => {
     it("builds a melee mode with schema-default fields", () => {
-        const sm = blankStrikeMode(
-            STRIKE_MODE_TYPE.MELEE,
-            "Cut",
-        ) as MeleeStrikeMode.Data;
+        const sm = blankStrikeMode(STRIKE_MODE_TYPE.MELEE, "Cut") as MeleeStrikeMode.Data;
         expect(sm.type).toBe(STRIKE_MODE_TYPE.MELEE);
         expect(sm.name).toBe("Cut");
         expect(sm.minParts).toBe(1);
@@ -50,10 +47,7 @@ describe("blankStrikeMode", () => {
     });
 
     it("builds a missile mode with schema-default fields", () => {
-        const sm = blankStrikeMode(
-            STRIKE_MODE_TYPE.MISSILE,
-            "Shoot",
-        ) as MissileStrikeMode.Data;
+        const sm = blankStrikeMode(STRIKE_MODE_TYPE.MISSILE, "Shoot") as MissileStrikeMode.Data;
         expect(sm.type).toBe(STRIKE_MODE_TYPE.MISSILE);
         expect(sm.name).toBe("Shoot");
         expect(sm.projectileType).toBe("none");

@@ -12,12 +12,7 @@
  */
 
 import { describe, it, expect } from "vitest";
-import {
-    makeBody,
-    zoneData,
-    partData,
-    locationData,
-} from "@tests/mocks/bodyFixture";
+import { makeBody, zoneData, partData, locationData } from "@tests/mocks/bodyFixture";
 import {
     bodyPartSide,
     mirrorShortcode,
@@ -35,10 +30,7 @@ function body(extraParts: any[] = []) {
             partData("rarmpart", "armszone", 20, { canHoldItem: true }),
             ...extraParts,
         ],
-        locations: [
-            locationData("lhand", "larmpart", 5),
-            locationData("rhand", "rarmpart", 5),
-        ],
+        locations: [locationData("lhand", "larmpart", 5), locationData("rhand", "rarmpart", 5)],
     });
 }
 
@@ -58,9 +50,7 @@ describe("bodyPartSide", () => {
     it("reads a part's side from its shortcode prefix", () => {
         const b = body();
         expect(bodyPartSide(b.getPartByCode("larmpart")!)).toBe(BODY_SIDE.LEFT);
-        expect(bodyPartSide(b.getPartByCode("rarmpart")!)).toBe(
-            BODY_SIDE.RIGHT,
-        );
+        expect(bodyPartSide(b.getPartByCode("rarmpart")!)).toBe(BODY_SIDE.RIGHT);
     });
 
     it("requires a mirror twin — a lone l-word part is not lateral", () => {

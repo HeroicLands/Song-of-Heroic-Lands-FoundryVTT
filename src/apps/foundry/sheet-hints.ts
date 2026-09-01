@@ -25,12 +25,8 @@
  */
 export function hintsToLabelTooltips(root: HTMLElement): void {
     root.querySelectorAll<HTMLElement>(".form-group").forEach((group) => {
-        const label = group.querySelector(
-            ":scope > label",
-        ) as HTMLElement | null;
-        const hint = group.querySelector(
-            ":scope > .hint",
-        ) as HTMLElement | null;
+        const label = group.querySelector(":scope > label") as HTMLElement | null;
+        const hint = group.querySelector(":scope > .hint") as HTMLElement | null;
         if (!label) return;
         // Already converted on a prior render: drop any re-emitted hint.
         if (label.querySelector(".hint-help")) {

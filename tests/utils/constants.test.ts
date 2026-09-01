@@ -87,9 +87,7 @@ describe("defineType", () => {
             expect(labels.WEIGHT).toBe("SOHL.Gear.FIELDS.weightBase.label");
             expect(labels.SPECIAL).toBe("SOHL.MiscGear.EffectKey.SPECIAL");
             // `choices` (value-keyed, for StringField) borrows the same key.
-            expect(choices["mod:logic.weight"]).toBe(
-                "SOHL.Gear.FIELDS.weightBase.label",
-            );
+            expect(choices["mod:logic.weight"]).toBe("SOHL.Gear.FIELDS.weightBase.label");
         });
 
         it("overrides an identifier-valued member too, not just change paths", () => {
@@ -181,24 +179,16 @@ describe("speakerRollModeOptions", () => {
     });
 
     it("labels the visibility modes with Foundry CHAT.MODES.* keys", () => {
-        const byValue = Object.fromEntries(
-            speakerRollModeOptions().map((o) => [o.value, o.label]),
-        );
-        expect(byValue[SOHL_SPEAKER_ROLL_MODE.PUBLIC]).toBe(
-            "CHAT.MODES.public",
-        );
+        const byValue = Object.fromEntries(speakerRollModeOptions().map((o) => [o.value, o.label]));
+        expect(byValue[SOHL_SPEAKER_ROLL_MODE.PUBLIC]).toBe("CHAT.MODES.public");
         expect(byValue[SOHL_SPEAKER_ROLL_MODE.SELF]).toBe("CHAT.MODES.self");
         expect(byValue[SOHL_SPEAKER_ROLL_MODE.BLIND]).toBe("CHAT.MODES.blind");
         expect(byValue[SOHL_SPEAKER_ROLL_MODE.PRIVATE]).toBe("CHAT.MODES.gm");
     });
 
     it("keeps the SoHL label for the default (system) roll mode", () => {
-        const byValue = Object.fromEntries(
-            speakerRollModeOptions().map((o) => [o.value, o.label]),
-        );
-        expect(byValue[SOHL_SPEAKER_ROLL_MODE.SYSTEM]).toBe(
-            "SOHL.SohlSpeaker.ROLL_MODE.roll",
-        );
+        const byValue = Object.fromEntries(speakerRollModeOptions().map((o) => [o.value, o.label]));
+        expect(byValue[SOHL_SPEAKER_ROLL_MODE.SYSTEM]).toBe("SOHL.SohlSpeaker.ROLL_MODE.roll");
     });
 });
 
@@ -224,15 +214,10 @@ describe("toMessageMode", () => {
 });
 
 describe("fenced (experimental) types", () => {
-    const localize = (key: string) =>
-        key === FENCE_EXPERIMENTAL_LABEL_KEY ? "Experimental" : key;
+    const localize = (key: string) => (key === FENCE_EXPERIMENTAL_LABEL_KEY ? "Experimental" : key);
 
     it("fences exactly the cohort/structure/vehicle actor kinds", () => {
-        expect([...(FENCED_TYPES.Actor ?? [])].sort()).toEqual([
-            "cohort",
-            "structure",
-            "vehicle",
-        ]);
+        expect([...(FENCED_TYPES.Actor ?? [])].sort()).toEqual(["cohort", "structure", "vehicle"]);
     });
 
     it("does not fence being, nor the graduated mystery/mysticalability items", () => {
@@ -253,17 +238,13 @@ describe("fenced (experimental) types", () => {
     });
 
     it("labelWithFenceSuffix appends the localized suffix for fenced types", () => {
-        expect(
-            labelWithFenceSuffix("Actor", "cohort", "Cohort", localize),
-        ).toBe("Cohort (Experimental)");
+        expect(labelWithFenceSuffix("Actor", "cohort", "Cohort", localize)).toBe(
+            "Cohort (Experimental)",
+        );
     });
 
     it("labelWithFenceSuffix leaves non-fenced labels untouched", () => {
-        expect(labelWithFenceSuffix("Actor", "being", "Being", localize)).toBe(
-            "Being",
-        );
-        expect(labelWithFenceSuffix("Item", "skill", "Skill", localize)).toBe(
-            "Skill",
-        );
+        expect(labelWithFenceSuffix("Actor", "being", "Being", localize)).toBe("Being");
+        expect(labelWithFenceSuffix("Item", "skill", "Skill", localize)).toBe("Skill");
     });
 });

@@ -52,14 +52,8 @@ function makeImpact(aim = "head", spread = 3): ImpactModifier {
 function makeAttackResult(impact: ImpactModifier): AttackResult {
     return new AttackResult(
         {
-            roll: new SimpleRoll(
-                { numDice: 1, dieFaces: 100, rolls: [30] },
-                { parent },
-            ),
-            masteryLevelModifier: new MasteryLevelModifier(
-                { baseValue: 50 } as any,
-                { parent },
-            ),
+            roll: new SimpleRoll({ numDice: 1, dieFaces: 100, rolls: [30] }, { parent }),
+            masteryLevelModifier: new MasteryLevelModifier({ baseValue: 50 } as any, { parent }),
             impact,
             mode: { itemUuid: "Item.mode", smId: "sm1" },
             combatantUuid: "Combatant.c1",
@@ -72,10 +66,7 @@ function makeImpactResult(impact: ImpactModifier): ImpactResult {
     return new ImpactResult(
         {
             impactModifier: impact,
-            roll: new SimpleRoll(
-                { numDice: 2, dieFaces: 6, rolls: [3, 4] },
-                { parent },
-            ),
+            roll: new SimpleRoll({ numDice: 2, dieFaces: 6, rolls: [3, 4] }, { parent }),
             label: "Broadsword",
         } as any,
         { parent },

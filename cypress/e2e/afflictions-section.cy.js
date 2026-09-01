@@ -62,9 +62,7 @@ describe("Being Trauma tab: Afflictions section (#309)", () => {
             cy.openSheet(actor);
             cy.switchTab("trauma");
             // The ledger header carries the redesigned columns.
-            cy.get(
-                'section.tab[data-tab="trauma"] .afflictions-list .ledger__head',
-            )
+            cy.get('section.tab[data-tab="trauma"] .afflictions-list .ledger__head')
                 .first()
                 .within(() => {
                     cy.contains("div", "Category");
@@ -92,16 +90,16 @@ describe("Being Trauma tab: Afflictions section (#309)", () => {
             cy.prepare(actor);
             cy.openSheet(actor);
             cy.switchTab("trauma");
-            cy.get(
-                'section.tab[data-tab="trauma"] .item-create[data-type="affliction"]',
-            ).should("exist");
+            cy.get('section.tab[data-tab="trauma"] .item-create[data-type="affliction"]').should(
+                "exist",
+            );
             cy.get(
                 'section.tab[data-tab="trauma"] .afflictions-list .item .item-contextmenu',
             ).should("exist");
             // The Trauma tab is not searchable (#312).
-            cy.get(
-                'section.tab[data-tab="trauma"] input[name="search-afflictions"]',
-            ).should("not.exist");
+            cy.get('section.tab[data-tab="trauma"] input[name="search-afflictions"]').should(
+                "not.exist",
+            );
         });
     });
 

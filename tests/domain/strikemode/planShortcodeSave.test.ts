@@ -6,10 +6,7 @@
  */
 
 import { describe, it, expect } from "vitest";
-import {
-    planShortcodeSave,
-    validateShortcode,
-} from "@src/entity/strikemode/planShortcodeSave";
+import { planShortcodeSave, validateShortcode } from "@src/entity/strikemode/planShortcodeSave";
 
 describe("planShortcodeSave", () => {
     // Siblings = the weapon's OTHER strike modes (the edited one excluded).

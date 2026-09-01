@@ -3,10 +3,7 @@ import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
 
-const root = path.resolve(
-    path.dirname(fileURLToPath(import.meta.url)),
-    "../..",
-);
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const DTS = path.join(root, "build/dts/src");
 
 // The published package's own `peerDependencies` are the single declaration of
@@ -15,12 +12,8 @@ const DTS = path.join(root, "build/dts/src");
 // consumers it will be there (#1613) — `utils/check-sohl-types.mjs` enforces the
 // other direction, that every emitted bare import is one of these.
 const PEERS = Object.keys(
-    JSON.parse(
-        fs.readFileSync(
-            path.join(root, "packages/sohl-types/package.json"),
-            "utf8",
-        ),
-    ).peerDependencies ?? {},
+    JSON.parse(fs.readFileSync(path.join(root, "packages/sohl-types/package.json"), "utf8"))
+        .peerDependencies ?? {},
 );
 const isPeer = (id) => PEERS.some((p) => id === p || id.startsWith(`${p}/`));
 

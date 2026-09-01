@@ -12,10 +12,7 @@
  */
 
 import { SohlItemDataModel } from "@src/document/item/foundry/SohlItemDataModel";
-import {
-    AffiliationLogic,
-    AffiliationData,
-} from "@src/document/item/logic/AffiliationLogic";
+import { AffiliationLogic, AffiliationData } from "@src/document/item/logic/AffiliationLogic";
 import {
     AffiliationStandingChoices,
     AffiliationSubTypeChoices,
@@ -83,17 +80,13 @@ type SohlAffiliationDataSchema = ReturnType<typeof defineAffiliationDataSchema>;
 /** @internal */
 export class AffiliationDataModel<
     TSchema extends foundry.data.fields.DataSchema = SohlAffiliationDataSchema,
-    TLogic extends AffiliationLogic<AffiliationData> =
-        AffiliationLogic<AffiliationData>,
+    TLogic extends AffiliationLogic<AffiliationData> = AffiliationLogic<AffiliationData>,
 >
     extends SohlItemDataModel<TSchema, TLogic>
     implements AffiliationData<TLogic>
 {
     /** @inheritDoc */
-    static override readonly LOCALIZATION_PREFIXES = [
-        "SOHL.Affiliation",
-        "SOHL.Item",
-    ];
+    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Affiliation", "SOHL.Item"];
     /** @inheritDoc */
     static override readonly kind = ITEM_KIND.AFFILIATION;
     subType!: AffiliationSubType;

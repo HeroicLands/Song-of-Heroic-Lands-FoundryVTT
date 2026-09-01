@@ -76,15 +76,9 @@ describe("MeleeStrikeMode", () => {
             defense: { counterstrike: {} },
         } as any;
         const noCounter = { ...MELEE_DATA, defense: { block: {} } } as any;
-        expect(
-            () => new MeleeStrikeMode(noDefense, MOCK_LOGIC, MELEE_SHORTCODE),
-        ).not.toThrow();
-        expect(
-            () => new MeleeStrikeMode(noBlock, MOCK_LOGIC, MELEE_SHORTCODE),
-        ).not.toThrow();
-        expect(
-            () => new MeleeStrikeMode(noCounter, MOCK_LOGIC, MELEE_SHORTCODE),
-        ).not.toThrow();
+        expect(() => new MeleeStrikeMode(noDefense, MOCK_LOGIC, MELEE_SHORTCODE)).not.toThrow();
+        expect(() => new MeleeStrikeMode(noBlock, MOCK_LOGIC, MELEE_SHORTCODE)).not.toThrow();
+        expect(() => new MeleeStrikeMode(noCounter, MOCK_LOGIC, MELEE_SHORTCODE)).not.toThrow();
         // Still yields usable block/counterstrike modifiers.
         const sm = new MeleeStrikeMode(noDefense, MOCK_LOGIC, MELEE_SHORTCODE);
         expect(sm.defense.block).toBeDefined();
@@ -172,11 +166,7 @@ describe("MeleeStrikeMode", () => {
 
 describe("MissileStrikeMode", () => {
     it("constructs from data with all properties", () => {
-        const sm = new MissileStrikeMode(
-            MISSILE_DATA,
-            MOCK_LOGIC,
-            MISSILE_SHORTCODE,
-        );
+        const sm = new MissileStrikeMode(MISSILE_DATA, MOCK_LOGIC, MISSILE_SHORTCODE);
         expect(sm.shortcode).toBe(MISSILE_SHORTCODE);
         expect(sm.name).toBe("Shoot");
         expect(sm.type).toBe("missile");
@@ -190,11 +180,7 @@ describe("MissileStrikeMode", () => {
     });
 
     it("isMissile returns true", () => {
-        const sm = new MissileStrikeMode(
-            MISSILE_DATA,
-            MOCK_LOGIC,
-            MISSILE_SHORTCODE,
-        );
+        const sm = new MissileStrikeMode(MISSILE_DATA, MOCK_LOGIC, MISSILE_SHORTCODE);
         expect(sm.isMissile).toBe(true);
         expect(sm.isMelee).toBe(false);
     });
@@ -206,11 +192,7 @@ describe("MissileStrikeMode", () => {
     });
 
     it("leaves attack enabled when traits are absent", () => {
-        const sm = new MissileStrikeMode(
-            MISSILE_DATA,
-            MOCK_LOGIC,
-            MISSILE_SHORTCODE,
-        );
+        const sm = new MissileStrikeMode(MISSILE_DATA, MOCK_LOGIC, MISSILE_SHORTCODE);
         expect(sm.attack.disabledReason).toBeFalsy();
     });
 });

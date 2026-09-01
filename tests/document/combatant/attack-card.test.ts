@@ -79,9 +79,7 @@ describe("buildAttackCardData → ActionCardSpec", () => {
         });
         const html = await buildActionCard(spec);
 
-        expect((html.match(/class="action-card-button"/g) ?? []).length).toBe(
-            4,
-        );
+        expect((html.match(/class="action-card-button"/g) ?? []).length).toBe(4);
         for (const action of DEFENSE_ACTIONS) {
             expect(html).toContain(`data-action="${action}"`);
         }

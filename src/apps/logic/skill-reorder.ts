@@ -88,8 +88,7 @@ export function resolveSkillReorder(
         // Own group. A `beforeId` naming a row outside this group is ignored
         // rather than trusted — a stale or hand-crafted payload must not be able
         // to splice a skill against a row it cannot legally sit beside.
-        const beforeIndex =
-            target.beforeId != null ? rest.indexOf(target.beforeId) : -1;
+        const beforeIndex = target.beforeId != null ? rest.indexOf(target.beforeId) : -1;
         to = beforeIndex < 0 ? rest.length : beforeIndex;
     }
 

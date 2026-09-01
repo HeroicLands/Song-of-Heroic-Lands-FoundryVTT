@@ -57,9 +57,7 @@ describe("mystical ability improvement (#1130)", () => {
             // executeAction builds the real one, exactly as the context-menu
             // invocation does.
             await a.logic.executeAction("improveWithSDR");
-            const sys = win.game.actors
-                .get(actor.id)
-                .items.get(ability.id).system;
+            const sys = win.game.actors.get(actor.id).items.get(ability.id).system;
             return {
                 masteryLevelBase: sys.masteryLevelBase,
                 improveFlag: sys.improveFlag,
@@ -74,12 +72,8 @@ describe("mystical ability improvement (#1130)", () => {
                 // No Skill Base of its own, so the forced d100 is the whole
                 // roll: 100 > 50 → success.
                 runSdr(actor, ability, 100).should((r) => {
-                    expect(
-                        r.masteryLevelBase,
-                        "base raised by sdrIncr (1)",
-                    ).to.eq(51);
-                    expect(r.improveFlag, "flag cleared after roll").to.be
-                        .false;
+                    expect(r.masteryLevelBase, "base raised by sdrIncr (1)").to.eq(51);
+                    expect(r.improveFlag, "flag cleared after roll").to.be.false;
                 });
             });
         });
@@ -91,8 +85,7 @@ describe("mystical ability improvement (#1130)", () => {
                 cy.prepare(actor);
                 runSdr(actor, ability, 5).should((r) => {
                     expect(r.masteryLevelBase, "base unchanged").to.eq(50);
-                    expect(r.improveFlag, "flag cleared after roll").to.be
-                        .false;
+                    expect(r.improveFlag, "flag cleared after roll").to.be.false;
                 });
             });
         });
@@ -100,20 +93,14 @@ describe("mystical ability improvement (#1130)", () => {
 
     it("toggles the improve flag on a self-governed ability", () => {
         cy.importActor().then((actor) => {
-            makeSelfGovernedAbility(actor, { improveFlag: false }).then(
-                (ability) => {
-                    cy.prepare(actor);
-                    cy.foundry(async (win) => {
-                        const a = win.game.actors
-                            .get(actor.id)
-                            .items.get(ability.id);
-                        await a.logic.executeAction("toggleImproveFlag");
-                        return win.game.actors
-                            .get(actor.id)
-                            .items.get(ability.id).system.improveFlag;
-                    }).should("be.true");
-                },
-            );
+            makeSelfGovernedAbility(actor, { improveFlag: false }).then((ability) => {
+                cy.prepare(actor);
+                cy.foundry(async (win) => {
+                    const a = win.game.actors.get(actor.id).items.get(ability.id);
+                    await a.logic.executeAction("toggleImproveFlag");
+                    return win.game.actors.get(actor.id).items.get(ability.id).system.improveFlag;
+                }).should("be.true");
+            });
         });
     });
 
@@ -139,19 +126,15 @@ describe("mystical ability improvement (#1130)", () => {
                     // of its own to raise — `canImprove` is what hides the ☆
                     // star and gates every improve executor.
                     cy.foundry((win) => {
-                        const a = win.game.actors
-                            .get(actor.id)
-                            .items.get(ability.id);
+                        const a = win.game.actors.get(actor.id).items.get(ability.id);
                         return {
                             usesOwn: a.logic.usesOwnMasteryLevel,
                             canImprove: a.logic.canImprove,
                             eml: a.logic.masteryLevel.effective,
                         };
                     }).should((r) => {
-                        expect(r.usesOwn, "borrows its mastery level").to.be
-                            .false;
-                        expect(r.canImprove, "improvement not offered").to.be
-                            .false;
+                        expect(r.usesOwn, "borrows its mastery level").to.be.false;
+                        expect(r.canImprove, "improvement not offered").to.be.false;
                         expect(r.eml, "EML drawn from the skill").to.eq(70);
                     });
 
@@ -164,21 +147,14 @@ describe("mystical ability improvement (#1130)", () => {
                     cy.foundry((win) => {
                         const items = win.game.actors.get(actor.id).items;
                         return {
-                            skillBase: items.get(skill.id).system
-                                .masteryLevelBase,
+                            skillBase: items.get(skill.id).system.masteryLevelBase,
                             skillFlag: items.get(skill.id).system.improveFlag,
-                            eml: items.get(ability.id).logic.masteryLevel
-                                .effective,
+                            eml: items.get(ability.id).logic.masteryLevel.effective,
                         };
                     }).should((r) => {
-                        expect(r.skillBase, "skill mastery untouched").to.eq(
-                            70,
-                        );
+                        expect(r.skillBase, "skill mastery untouched").to.eq(70);
                         expect(r.skillFlag, "skill flag untouched").to.be.false;
-                        expect(
-                            r.eml,
-                            "the ability's EML still comes from the skill",
-                        ).to.eq(70);
+                        expect(r.eml, "the ability's EML still comes from the skill").to.eq(70);
                     });
                 });
             });

@@ -56,10 +56,7 @@ export class CombatModifier extends MasteryLevelModifier {
      *   {@link MasteryLevelModifier.Data}).
      * @param options - Must provide `options.parent`.
      */
-    constructor(
-        data: Partial<CombatModifier.Data>,
-        options: Partial<CombatModifier.Options>,
-    );
+    constructor(data: Partial<CombatModifier.Data>, options: Partial<CombatModifier.Options>);
     /**
      * Implementation backing the constructor overloads: normalizes the
      * `(parent)` shorthand and requires a resolved parent.

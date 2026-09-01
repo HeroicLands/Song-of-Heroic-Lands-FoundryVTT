@@ -96,9 +96,7 @@ Cypress.Commands.add(
             const id = await resolveDocId(pack, docId);
             const src = id && (await pack.getDocument(id));
             if (!src)
-                throw new Error(
-                    `No document matching ${JSON.stringify(docId)} in '${packId}'`,
-                );
+                throw new Error(`No document matching ${JSON.stringify(docId)} in '${packId}'`);
             const data = src.toObject();
             uniquifyImportShortcode(data, win.game.actors);
             if (opts.tag !== false) data.name = tagName(data.name);
@@ -123,10 +121,7 @@ Cypress.Commands.add("importItem", (packId, docId, opts = {}) =>
         if (!pack) throw new Error(`No compendium pack '${packId}'`);
         const id = await resolveDocId(pack, docId);
         const src = id && (await pack.getDocument(id));
-        if (!src)
-            throw new Error(
-                `No document matching ${JSON.stringify(docId)} in '${packId}'`,
-            );
+        if (!src) throw new Error(`No document matching ${JSON.stringify(docId)} in '${packId}'`);
         const data = src.toObject();
         if (opts.actor) {
             const a = win.game.actors.get(opts.actor?.id ?? opts.actor);

@@ -31,11 +31,7 @@
 function attackDialog(win) {
     return Array.from(win.foundry.applications.instances.values())
         .reverse()
-        .find(
-            (app) =>
-                app.rendered &&
-                app.element?.querySelector('select[name="modeIdx"]'),
-        );
+        .find((app) => app.rendered && app.element?.querySelector('select[name="modeIdx"]'));
 }
 
 describe("automated attack dialog (#1080)", () => {
@@ -55,29 +51,23 @@ describe("automated attack dialog (#1080)", () => {
                     pointerData: { itemUuid: "Item.sword", smId: "thrust" },
                 },
             ].map((m) => win.JSON.parse(win.JSON.stringify(m)));
-            win.__attackDlg =
-                win.sohl.document.combatant.logic.showAttackDialog(
-                    "Aldric vs. Brynn — Attack",
-                    win.JSON.parse(
-                        win.JSON.stringify({ th: "Thorax", hd: "Head" }),
-                    ),
-                    "th",
-                    modes,
-                    1,
-                );
+            win.__attackDlg = win.sohl.document.combatant.logic.showAttackDialog(
+                "Aldric vs. Brynn — Attack",
+                win.JSON.parse(win.JSON.stringify({ th: "Thorax", hd: "Head" })),
+                "th",
+                modes,
+                1,
+            );
             return null;
         });
 
         // The strike-mode select renders, listing every offered mode, with the
         // caller's default pre-selected.
         cy.window().should((win) => {
-            expect(attackDialog(win), "dialog with a strike-mode select").to
-                .exist;
+            expect(attackDialog(win), "dialog with a strike-mode select").to.exist;
         });
         cy.window().then((win) => {
-            const select = attackDialog(win).element.querySelector(
-                'select[name="modeIdx"]',
-            );
+            const select = attackDialog(win).element.querySelector('select[name="modeIdx"]');
             expect(
                 Array.from(select.options).map((o) => o.textContent.trim()),
                 "both modes offered",

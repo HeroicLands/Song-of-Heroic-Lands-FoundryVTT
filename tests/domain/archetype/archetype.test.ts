@@ -60,9 +60,7 @@ describe("resolveArchetypes — filter", () => {
                 shortcode: "c",
             }),
         ];
-        expect(
-            resolveArchetypes(list, "item", "melee").map((w) => w.uuid),
-        ).toEqual(["a"]);
+        expect(resolveArchetypes(list, "item", "melee").map((w) => w.uuid)).toEqual(["a"]);
         // Blank selection matches both the explicit "" and the missing subType.
         expect(
             resolveArchetypes(list, "item", "")
@@ -84,10 +82,7 @@ describe("resolveArchetypes — dedup by shortcode", () => {
     });
 
     it("does not collapse blank-shortcode candidates together", () => {
-        const list = [
-            cand({ uuid: "x", shortcode: "" }),
-            cand({ uuid: "y", shortcode: "" }),
-        ];
+        const list = [cand({ uuid: "x", shortcode: "" }), cand({ uuid: "y", shortcode: "" })];
         expect(resolveArchetypes(list, "being", "")).toHaveLength(2);
     });
 });
@@ -128,9 +123,7 @@ describe("resolveArchetypes — winner selection (priority, tier, uuid)", () => 
             priority: 0,
             tier: ARCHETYPE_TIER.MODULE,
         });
-        expect(resolveArchetypes([mod, sohl, world], "being", "")[0].uuid).toBe(
-            "world",
-        );
+        expect(resolveArchetypes([mod, sohl, world], "being", "")[0].uuid).toBe("world");
     });
 
     it("a module at priority 0 does NOT shadow a system archetype", () => {
@@ -146,9 +139,7 @@ describe("resolveArchetypes — winner selection (priority, tier, uuid)", () => 
             priority: 0,
             tier: ARCHETYPE_TIER.MODULE,
         });
-        expect(resolveArchetypes([mod, sohl], "being", "")[0].uuid).toBe(
-            "sohl",
-        );
+        expect(resolveArchetypes([mod, sohl], "being", "")[0].uuid).toBe("sohl");
     });
 
     it("a module needs priority > 0 to override a system archetype", () => {
@@ -222,9 +213,7 @@ describe("buildArchetypeOptions", () => {
 
     it("defaults to the first (top-priority) winner when one exists", () => {
         const winners = [cand({ uuid: "u1" }), cand({ uuid: "u2" })];
-        expect(buildArchetypeOptions(winners, "(none)").defaultValue).toBe(
-            "u1",
-        );
+        expect(buildArchetypeOptions(winners, "(none)").defaultValue).toBe("u1");
     });
 
     it("defaults to (none) when no archetype exists", () => {
@@ -236,38 +225,21 @@ describe("resolveCreateIdentity — archetype-first defaults (#643)", () => {
     const BROADSWORD = { name: "Broadsword", shortcode: "brdswd" };
 
     it("defaults Name and Shortcode from the chosen archetype when both blank", () => {
-        expect(
-            resolveCreateIdentity(
-                "",
-                "",
-                BROADSWORD,
-                "New Weapon",
-                "weapongear",
-            ),
-        ).toEqual({ name: "Broadsword", shortcodeBase: "brdswd" });
+        expect(resolveCreateIdentity("", "", BROADSWORD, "New Weapon", "weapongear")).toEqual({
+            name: "Broadsword",
+            shortcodeBase: "brdswd",
+        });
     });
 
     it("a user-typed Name overrides the archetype default (shortcode still archetype's)", () => {
         expect(
-            resolveCreateIdentity(
-                "My Blade",
-                "",
-                BROADSWORD,
-                "New Weapon",
-                "weapongear",
-            ),
+            resolveCreateIdentity("My Blade", "", BROADSWORD, "New Weapon", "weapongear"),
         ).toEqual({ name: "My Blade", shortcodeBase: "brdswd" });
     });
 
     it("a user-typed Shortcode overrides the archetype default (and is slugified)", () => {
         expect(
-            resolveCreateIdentity(
-                "",
-                "My Code!",
-                BROADSWORD,
-                "New Weapon",
-                "weapongear",
-            ),
+            resolveCreateIdentity("", "My Code!", BROADSWORD, "New Weapon", "weapongear"),
         ).toEqual({ name: "Broadsword", shortcodeBase: "mycode" });
     });
 
@@ -286,44 +258,28 @@ describe("resolveCreateIdentity — archetype-first defaults (#643)", () => {
     });
 
     it("(none): Name defaults to the class default and Shortcode derives from it", () => {
-        expect(
-            resolveCreateIdentity(
-                "",
-                "",
-                undefined,
-                "New Weapon",
-                "weapongear",
-            ),
-        ).toEqual({ name: "New Weapon", shortcodeBase: "newweapon" });
+        expect(resolveCreateIdentity("", "", undefined, "New Weapon", "weapongear")).toEqual({
+            name: "New Weapon",
+            shortcodeBase: "newweapon",
+        });
     });
 
     it("(none) with a typed Name: Shortcode derives from the typed name", () => {
-        expect(
-            resolveCreateIdentity(
-                "Halberd",
-                "",
-                undefined,
-                "New Weapon",
-                "weapongear",
-            ),
-        ).toEqual({ name: "Halberd", shortcodeBase: "halberd" });
+        expect(resolveCreateIdentity("Halberd", "", undefined, "New Weapon", "weapongear")).toEqual(
+            { name: "Halberd", shortcodeBase: "halberd" },
+        );
     });
 
     it("(none) with a blank class default and no name falls back to the type token", () => {
-        expect(
-            resolveCreateIdentity("", "", undefined, "", "weapongear"),
-        ).toEqual({ name: "weapongear", shortcodeBase: "weapongear" });
+        expect(resolveCreateIdentity("", "", undefined, "", "weapongear")).toEqual({
+            name: "weapongear",
+            shortcodeBase: "weapongear",
+        });
     });
 
     it("trims surrounding whitespace on typed values", () => {
         expect(
-            resolveCreateIdentity(
-                "  Spear  ",
-                "  spr  ",
-                BROADSWORD,
-                "New Weapon",
-                "weapongear",
-            ),
+            resolveCreateIdentity("  Spear  ", "  spr  ", BROADSWORD, "New Weapon", "weapongear"),
         ).toEqual({ name: "Spear", shortcodeBase: "spr" });
     });
 });

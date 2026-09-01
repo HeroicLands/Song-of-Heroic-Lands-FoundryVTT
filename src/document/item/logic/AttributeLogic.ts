@@ -122,12 +122,7 @@ export class AttributeLogic<
         outcome: FateOutcome,
         spentSource: MysteryLogic | undefined,
     ): Promise<void> {
-        return postFateResultCard(
-            this as unknown as FateHost,
-            fateResult,
-            outcome,
-            spentSource,
-        );
+        return postFateResultCard(this as unknown as FateHost, fateResult, outcome, spentSource);
     }
 
     /* --------------------------------------------- */
@@ -143,10 +138,7 @@ export class AttributeLogic<
      * @param entry.maxValue - The upper bound this band applies up to.
      * @returns An `update()` payload writing the extended `system.valueDesc` array.
      */
-    addValueDescUpdate(entry: {
-        label: string;
-        maxValue: number;
-    }): PlainObject {
+    addValueDescUpdate(entry: { label: string; maxValue: number }): PlainObject {
         return {
             "system.valueDesc": [...this.data.valueDesc, entry],
         };
@@ -161,9 +153,7 @@ export class AttributeLogic<
      */
     removeValueDescUpdate(label: string): PlainObject {
         return {
-            "system.valueDesc": this.data.valueDesc.filter(
-                (vd) => vd.label !== label,
-            ),
+            "system.valueDesc": this.data.valueDesc.filter((vd) => vd.label !== label),
         };
     }
 
@@ -184,9 +174,7 @@ export class AttributeLogic<
      * @param context - The action context (speaker, scope) for the test.
      * @returns The test result, `undefined` if cancelled, or `false` on error.
      */
-    async successTest(
-        context: SohlActionContext,
-    ): Promise<SuccessTestResult | undefined | false> {
+    async successTest(context: SohlActionContext): Promise<SuccessTestResult | undefined | false> {
         return this.masteryLevel.successTest(context);
     }
 
@@ -201,9 +189,7 @@ export class AttributeLogic<
      * @param context - The action context (speaker, scope) for the test.
      * @returns The opposed test result, or `null` if cancelled or unavailable.
      */
-    async opposedTestStart(
-        context: SohlActionContext,
-    ): Promise<OpposedTestResult | null> {
+    async opposedTestStart(context: SohlActionContext): Promise<OpposedTestResult | null> {
         const tokenLogic = fvttActiveTokenLogicForActor(this.actor);
         if (!tokenLogic) {
             sohl.log.uiWarn(
@@ -252,13 +238,8 @@ export class AttributeLogic<
     /** @inheritdoc */
     override initialize(): void {
         super.initialize();
-        this.masteryLevel = new entity.MasteryLevelModifier(
-            {},
-            { parent: this },
-        );
-        this.score = new entity.ValueModifier(this).setBase(
-            this.data.scoreBase,
-        );
+        this.masteryLevel = new entity.MasteryLevelModifier({}, { parent: this });
+        this.score = new entity.ValueModifier(this).setBase(this.data.scoreBase);
     }
 
     /** @inheritdoc */

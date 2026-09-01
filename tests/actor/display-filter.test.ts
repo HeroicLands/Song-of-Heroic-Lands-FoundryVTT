@@ -33,8 +33,7 @@ function makeRow(searchName: string): any {
 /** Minimal stub for a content container. */
 function makeContent(rows: ReturnType<typeof makeRow>[]): any {
     return {
-        querySelectorAll: (sel: string) =>
-            sel === "[data-search-name]" ? rows : [],
+        querySelectorAll: (sel: string) => (sel === "[data-search-name]" ? rows : []),
     };
 }
 

@@ -32,16 +32,8 @@ function armorFields(overrides: Record<string, unknown> = {}) {
     };
 }
 
-function makeArmor(
-    overrides: Record<string, unknown> = {},
-    opts: Record<string, unknown> = {},
-) {
-    return makeItemLogic(
-        ArmorGearLogic,
-        ITEM_KIND.ARMORGEAR,
-        armorFields(overrides),
-        opts,
-    );
+function makeArmor(overrides: Record<string, unknown> = {}, opts: Record<string, unknown> = {}) {
+    return makeItemLogic(ArmorGearLogic, ITEM_KIND.ARMORGEAR, armorFields(overrides), opts);
 }
 
 describe("ArmorGearLogic", () => {
@@ -101,9 +93,7 @@ describe("ArmorGearLogic", () => {
             const logic = makeArmor({ isCarried: false });
             const action = logic.actions.get("toggleWorn")!;
             expect(action.isAvailable).toBe(false);
-            expect(action.unavailableReason).toBe(
-                "SOHL.Gear.actionRequiresCarried",
-            );
+            expect(action.unavailableReason).toBe("SOHL.Gear.actionRequiresCarried");
         });
 
         it("refuses to execute toggleWorn while the armor is not carried", async () => {
@@ -229,12 +219,8 @@ describe("ArmorGearDataModel", () => {
         it.todo("includes GearDataModel base schema fields");
         it.todo("defines isWorn as BooleanField defaulting to false");
         it.todo("defines material as a StringField");
-        it.todo(
-            "defines locations.flexible and locations.rigid as arrays of strings",
-        );
-        it.todo(
-            "defines protectionBase with blunt/edged/piercing/fire NumberFields",
-        );
+        it.todo("defines locations.flexible and locations.rigid as arrays of strings");
+        it.todo("defines protectionBase with blunt/edged/piercing/fire NumberFields");
         it.todo("defines encumbrance as NumberField with min 0");
     });
 });

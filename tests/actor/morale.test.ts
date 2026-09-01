@@ -34,21 +34,11 @@ import {
 describe("morale (#559)", () => {
     describe("moraleStateFromTest", () => {
         it("maps CS/MS/MF and splits the critical failure by last digit", () => {
-            expect(moraleStateFromTest(CRITICAL_SUCCESS, 0)).toBe(
-                MORALE_CATEGORY.BRAVE,
-            );
-            expect(moraleStateFromTest(MARGINAL_SUCCESS, 3)).toBe(
-                MORALE_CATEGORY.STEADY,
-            );
-            expect(moraleStateFromTest(MARGINAL_FAILURE, 7)).toBe(
-                MORALE_CATEGORY.WITHDRAWING,
-            );
-            expect(moraleStateFromTest(CRITICAL_FAILURE, 0)).toBe(
-                MORALE_CATEGORY.CATATONIC,
-            );
-            expect(moraleStateFromTest(CRITICAL_FAILURE, 5)).toBe(
-                MORALE_CATEGORY.ROUTED,
-            );
+            expect(moraleStateFromTest(CRITICAL_SUCCESS, 0)).toBe(MORALE_CATEGORY.BRAVE);
+            expect(moraleStateFromTest(MARGINAL_SUCCESS, 3)).toBe(MORALE_CATEGORY.STEADY);
+            expect(moraleStateFromTest(MARGINAL_FAILURE, 7)).toBe(MORALE_CATEGORY.WITHDRAWING);
+            expect(moraleStateFromTest(CRITICAL_FAILURE, 0)).toBe(MORALE_CATEGORY.CATATONIC);
+            expect(moraleStateFromTest(CRITICAL_FAILURE, 5)).toBe(MORALE_CATEGORY.ROUTED);
         });
     });
 
@@ -64,12 +54,9 @@ describe("morale (#559)", () => {
     describe("mostSevereMorale", () => {
         it("returns the highest level across sources, NONE for empty", () => {
             expect(mostSevereMorale([])).toBe(MORALE_CATEGORY.NONE);
-            expect(
-                mostSevereMorale([
-                    MORALE_CATEGORY.WITHDRAWING,
-                    MORALE_CATEGORY.ROUTED,
-                ]),
-            ).toBe(MORALE_CATEGORY.ROUTED);
+            expect(mostSevereMorale([MORALE_CATEGORY.WITHDRAWING, MORALE_CATEGORY.ROUTED])).toBe(
+                MORALE_CATEGORY.ROUTED,
+            );
         });
     });
 
@@ -93,21 +80,13 @@ describe("morale (#559)", () => {
 
     describe("reactionOutcome", () => {
         it("improves Catatonic to Routed and any other shaken to Steady on success", () => {
-            expect(reactionOutcome(MORALE_CATEGORY.CATATONIC, true)).toBe(
-                MORALE_CATEGORY.ROUTED,
-            );
-            expect(reactionOutcome(MORALE_CATEGORY.ROUTED, true)).toBe(
-                MORALE_CATEGORY.STEADY,
-            );
-            expect(reactionOutcome(MORALE_CATEGORY.WITHDRAWING, true)).toBe(
-                MORALE_CATEGORY.STEADY,
-            );
+            expect(reactionOutcome(MORALE_CATEGORY.CATATONIC, true)).toBe(MORALE_CATEGORY.ROUTED);
+            expect(reactionOutcome(MORALE_CATEGORY.ROUTED, true)).toBe(MORALE_CATEGORY.STEADY);
+            expect(reactionOutcome(MORALE_CATEGORY.WITHDRAWING, true)).toBe(MORALE_CATEGORY.STEADY);
         });
 
         it("leaves the state unchanged on failure", () => {
-            expect(reactionOutcome(MORALE_CATEGORY.ROUTED, false)).toBe(
-                MORALE_CATEGORY.ROUTED,
-            );
+            expect(reactionOutcome(MORALE_CATEGORY.ROUTED, false)).toBe(MORALE_CATEGORY.ROUTED);
         });
     });
 
@@ -130,9 +109,7 @@ describe("morale (#559)", () => {
 
     describe("moraleCategoryLabelKey", () => {
         it("returns a localization key per category and '' for unknown", () => {
-            expect(moraleCategoryLabelKey(MORALE_CATEGORY.ROUTED)).toMatch(
-                /^SOHL\./,
-            );
+            expect(moraleCategoryLabelKey(MORALE_CATEGORY.ROUTED)).toMatch(/^SOHL\./);
             expect(moraleCategoryLabelKey("bogus" as MoraleCategory)).toBe("");
         });
     });

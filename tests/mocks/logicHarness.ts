@@ -118,8 +118,7 @@ function buildActorData(actor: any, kind: string): any {
                 // Bare stubs carry id/name on the item, not the logic; the
                 // production code reads them off the logic, so copy them down.
                 if (it?.id != null && logic.id == null) logic.id = it.id;
-                if (it?.name != null && logic.name == null)
-                    logic.name = it.name;
+                if (it?.name != null && logic.name == null) logic.name = it.name;
                 out.push(logic);
             };
             for (const it of actor.items.values())
@@ -192,9 +191,7 @@ export function makeMockItem(kind: string, opts: MockItemOptions = {}): any {
         documentName: "Item",
         isOwner: opts.isOwner ?? true,
         actor: opts.actor ?? null,
-        getFlag: vi.fn(
-            (scope: string, key: string) => flags[`${scope}.${key}`],
-        ),
+        getFlag: vi.fn((scope: string, key: string) => flags[`${scope}.${key}`]),
         setFlag: vi.fn(async () => undefined),
         update: vi.fn(async (data: any) => data),
         system: null, // wired to the data object by makeItemData
@@ -315,9 +312,7 @@ export function makeActorLogic<T>(
  * `makeActorLogic(BeingLogic, …)` to give a being real anatomy/weight/reach.
  * Sub-objects (`structure`, `weight`) replace wholesale — pass them complete.
  */
-export function makeBodyData(
-    overrides: Record<string, unknown> = {},
-): Record<string, unknown> {
+export function makeBodyData(overrides: Record<string, unknown> = {}): Record<string, unknown> {
     return {
         structure: { zones: [], parts: [], locations: [] },
         weight: { base: 0, calc: "0" },

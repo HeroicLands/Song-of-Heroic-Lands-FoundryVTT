@@ -66,10 +66,7 @@ export abstract class TestResult extends SohlEntity {
      *   fields are optional and defaulted.
      * @param options - Must provide `options.parent`, the initiating Logic.
      */
-    constructor(
-        data: Partial<TestResult.Data>,
-        options: Partial<TestResult.Options>,
-    );
+    constructor(data: Partial<TestResult.Data>, options: Partial<TestResult.Options>);
     /**
      * Implementation backing the constructor overloads: normalizes the
      * `(parent)` shorthand and requires a resolved parent.

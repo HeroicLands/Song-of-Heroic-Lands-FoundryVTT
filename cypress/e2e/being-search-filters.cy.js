@@ -39,9 +39,7 @@ describe("Being sheet per-tab search filters (#312)", () => {
             const scope = 'section.tab[data-tab="mysteries"]';
             cy.get(`${scope} input[name="search-mysteries"]`).should("exist");
             cy.get(`${scope} .mysteries-list`).should("exist");
-            cy.get(`${scope} input[name="search-mysticalabilities"]`).should(
-                "exist",
-            );
+            cy.get(`${scope} input[name="search-mysticalabilities"]`).should("exist");
             cy.get(`${scope} .mysticalabilities-list`).should("exist");
         });
     });
@@ -51,12 +49,10 @@ describe("Being sheet per-tab search filters (#312)", () => {
             cy.prepare(actor);
             cy.openSheet(actor);
             cy.switchTab("trauma");
-            cy.get(
-                'section.tab[data-tab="trauma"] input[name="search-afflictions"]',
-            ).should("not.exist");
-            cy.get(
-                'section.tab[data-tab="trauma"] input[type="search"]',
-            ).should("not.exist");
+            cy.get('section.tab[data-tab="trauma"] input[name="search-afflictions"]').should(
+                "not.exist",
+            );
+            cy.get('section.tab[data-tab="trauma"] input[type="search"]').should("not.exist");
         });
     });
 });

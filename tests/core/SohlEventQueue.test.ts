@@ -5,15 +5,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {
-    afterEach,
-    beforeEach,
-    describe,
-    expect,
-    it,
-    vi,
-    type MockInstance,
-} from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi, type MockInstance } from "vitest";
 import { SohlEventQueue } from "@src/entity/event/SohlEventQueue";
 import type { SohlTriggerContext } from "@src/entity/event/event-trigger";
 import { SafeExpression } from "@src/entity/expr/SafeExpression";
@@ -60,9 +52,7 @@ function actionDoc(
 }
 
 /** Install a global `fromUuid` returning an actionDoc for every uuid. */
-function installActionDoc(
-    onAction: Parameters<typeof actionDoc>[0] = () => {},
-): void {
+function installActionDoc(onAction: Parameters<typeof actionDoc>[0] = () => {}): void {
     (globalThis as any).fromUuid = async (_uuid: string) => actionDoc(onAction);
 }
 
@@ -444,8 +434,7 @@ describe("SohlEventQueue", () => {
             let calls = 0;
             installActionDoc((_kind, ctx) => {
                 calls++;
-                if (ctx.name === "updateWorldTime")
-                    queue.scheduleAt("u", "k", 100);
+                if (ctx.name === "updateWorldTime") queue.scheduleAt("u", "k", 100);
             });
             queue.scheduleAt("u", "k", 100);
             await queue.fire(worldTimeCtx(1000));
@@ -501,9 +490,7 @@ describe("SohlEventQueue", () => {
         it("populates on non-GM clients so players can query dates locally", () => {
             setUserFlags({ isGM: false, isActiveGM: false });
             queue.scheduleAt("Actor.a.Item.x", "healingCheck", 9000);
-            expect(queue.nextFireTime("Actor.a.Item.x", "healingCheck")).toBe(
-                9000,
-            );
+            expect(queue.nextFireTime("Actor.a.Item.x", "healingCheck")).toBe(9000);
         });
     });
 
@@ -526,11 +513,7 @@ describe("SohlEventQueue", () => {
                 triggerName: "updateWorldTime",
                 fireAt: 50,
             });
-            expect(queue.debug().map((s) => s.actionName)).toEqual([
-                "a",
-                "m",
-                "z",
-            ]);
+            expect(queue.debug().map((s) => s.actionName)).toEqual(["a", "m", "z"]);
         });
     });
 
@@ -563,8 +546,7 @@ describe("SohlEventQueue", () => {
             const opts: any[] = [];
             (globalThis as any).fromUuid = async () => {
                 const speaker: any = new SohlSpeaker({});
-                speaker.toChat = async (_t: unknown, _d: any, o: any) =>
-                    opts.push(o);
+                speaker.toChat = async (_t: unknown, _d: any, o: any) => opts.push(o);
                 return { logic: { speaker } };
             };
             queue.scheduleAt("Actor.world", "checkForBandits", 1000, {
@@ -579,8 +561,7 @@ describe("SohlEventQueue", () => {
             const opts: any[] = [];
             (globalThis as any).fromUuid = async () => {
                 const speaker: any = new SohlSpeaker({});
-                speaker.toChat = async (_t: unknown, _d: any, o: any) =>
-                    opts.push(o);
+                speaker.toChat = async (_t: unknown, _d: any, o: any) => opts.push(o);
                 return { logic: { speaker } };
             };
             queue.scheduleAt("Actor.a", "healingCheck", 1000);
@@ -615,24 +596,14 @@ describe("SohlEventQueue", () => {
                 count++;
             });
             // Active scene is the vale; the schedule is bound to the hideout.
-            vi.spyOn(FoundryHelpers, "fvttActiveSceneUuid").mockReturnValue(
-                "Scene.vale",
-            );
-            queue.scheduleAt(
-                "Actor.world",
-                "checkForBandits",
-                1000,
-                undefined,
-                "Scene.hideout",
-            );
+            vi.spyOn(FoundryHelpers, "fvttActiveSceneUuid").mockReturnValue("Scene.vale");
+            queue.scheduleAt("Actor.world", "checkForBandits", 1000, undefined, "Scene.hideout");
 
             await queue.fire(worldTimeCtx(1000));
 
             expect(count).toBe(0); // gated: not offered
             // Not consumed — still armed and due for when the party returns.
-            expect(queue.isScheduled("Actor.world", "checkForBandits")).toBe(
-                true,
-            );
+            expect(queue.isScheduled("Actor.world", "checkForBandits")).toBe(true);
         });
 
         it("offers once its scene becomes active (the deferred check surfaces on arrival)", async () => {
@@ -643,13 +614,7 @@ describe("SohlEventQueue", () => {
             const sceneSpy = vi
                 .spyOn(FoundryHelpers, "fvttActiveSceneUuid")
                 .mockReturnValue("Scene.vale");
-            queue.scheduleAt(
-                "Actor.world",
-                "checkForBandits",
-                1000,
-                undefined,
-                "Scene.hideout",
-            );
+            queue.scheduleAt("Actor.world", "checkForBandits", 1000, undefined, "Scene.hideout");
 
             // Came due while away — gated.
             await queue.fire(worldTimeCtx(1000));
@@ -667,9 +632,7 @@ describe("SohlEventQueue", () => {
             installActionDoc(() => {
                 count++;
             });
-            vi.spyOn(FoundryHelpers, "fvttActiveSceneUuid").mockReturnValue(
-                "Scene.somewhere-else",
-            );
+            vi.spyOn(FoundryHelpers, "fvttActiveSceneUuid").mockReturnValue("Scene.somewhere-else");
             queue.scheduleAt("Actor.world", "plagueSpread", 1000);
 
             await queue.fire(worldTimeCtx(1000));

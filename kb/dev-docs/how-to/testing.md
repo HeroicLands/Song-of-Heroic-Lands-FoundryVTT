@@ -138,11 +138,7 @@ When production code needs a new Foundry global:
 Logic classes operate on Data **interfaces** (`SohlItemData` / `SohlActorData`) that Foundry DataModels implement in production. In tests, the harness at `tests/mocks/logicHarness.ts` supplies plain-object implementations of those interfaces, so a Logic instance is constructed exactly the way `SohlDataModel.create()` does — no Foundry required:
 
 ```typescript
-import {
-  makeItemLogic,
-  makeMockActor,
-  makeAttributeStub,
-} from "@tests/mocks/logicHarness";
+import { makeItemLogic, makeMockActor, makeAttributeStub } from "@tests/mocks/logicHarness";
 import { SkillLogic } from "@src/document/item/logic/SkillLogic";
 
 const actor = makeMockActor();
@@ -326,18 +322,18 @@ registered.
 import { renderTemplateReal } from "@tests/mocks/hbs-helpers";
 
 // (a) Render a template directly and assert its HTML.
-const html = renderTemplateReal(
-  "systems/sohl/templates/chat/treatment-request-card.hbs",
-  { patientName: "Aldric", woundName: "gash", aspect: "edged", severity: 4 },
-);
+const html = renderTemplateReal("systems/sohl/templates/chat/treatment-request-card.hbs", {
+  patientName: "Aldric",
+  woundName: "gash",
+  aspect: "edged",
+  severity: 4,
+});
 expect(html).toContain("Aldric");
 
 // (b) Drive an action and let its render go through the harness — spy the shim.
 import * as FoundryHelpersMock from "@src/core/FoundryHelpers";
-vi.spyOn(FoundryHelpersMock, "toHTMLWithTemplate").mockImplementation(((
-  tpl: any,
-  d: any,
-) => Promise.resolve(renderTemplateReal(String(tpl), d))) as any);
+vi.spyOn(FoundryHelpersMock, "toHTMLWithTemplate").mockImplementation(((tpl: any, d: any) =>
+  Promise.resolve(renderTemplateReal(String(tpl), d))) as any);
 const cardHtml = await buildActionCard(spec); // the action's real output
 expect(cardHtml).toContain('data-action="performTreatmentTest"');
 ```
@@ -712,9 +708,7 @@ There are two ways to answer, and the choice should model intent:
        const sys = win.game.actors.get(actorId).items.get(woundId).system;
        // The persisted entry is the reliable fact; isScheduled is safe here
        // too, because executeAction (and its finalize) has now resolved.
-       return (sys.scheduledActions || []).filter(
-         (e) => e.actionName === "healingCheck",
-       ).length;
+       return (sys.scheduledActions || []).filter((e) => e.actionName === "healingCheck").length;
      }),
    ).should("eq", 1);
    ```

@@ -106,8 +106,7 @@ img.sheet-header__portrait {
     transition: opacity 0.12s ease;
 }
 .sheet-header__identity:hover .sheet-header__edit-identity:not(:disabled),
-.sheet-header__identity:focus-within
-    .sheet-header__edit-identity:not(:disabled) {
+.sheet-header__identity:focus-within .sheet-header__edit-identity:not(:disabled) {
     opacity: 1;
 }
 // Read-only sheet: the pencil is disabled along with the rest of the controls

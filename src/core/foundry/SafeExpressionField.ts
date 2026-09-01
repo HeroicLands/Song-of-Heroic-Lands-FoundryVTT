@@ -12,10 +12,7 @@
  */
 
 import type { SafeExpression } from "@src/entity/expr/SafeExpression";
-import {
-    expressionScopes,
-    type ExpressionScope,
-} from "@src/entity/expr/ExpressionScopeRegistry";
+import { expressionScopes, type ExpressionScope } from "@src/entity/expr/ExpressionScopeRegistry";
 
 /**
  * A {@link foundry.data.fields.StringField} whose value is a
@@ -114,10 +111,7 @@ export class SafeExpressionField extends foundry.data.fields.StringField {
      * @throws {Error} If `scope` names a scope that is not declared in the
      *   expression-scope catalog.
      */
-    constructor(
-        options: SafeExpressionField.Options = {},
-        context: object = {},
-    ) {
+    constructor(options: SafeExpressionField.Options = {}, context: object = {}) {
         super(options as never, context as never);
         // Resolved eagerly so an unknown id is a startup error rather than a
         // field that silently validates nothing.
@@ -158,9 +152,7 @@ export namespace SafeExpressionField {
      * defaults here (`nullable`, `blank`, `trim`, `initial`); see the table on
      * {@link SafeExpressionField} for those and when overriding is reasonable.
      */
-    export type Options = ConstructorParameters<
-        typeof foundry.data.fields.StringField
-    >[0] & {
+    export type Options = ConstructorParameters<typeof foundry.data.fields.StringField>[0] & {
         /**
          * Id of the {@link sohl.entity.expr.ExpressionScope} declaring which
          * identifiers this field's expression may use (e.g. `"skill.base"`) —

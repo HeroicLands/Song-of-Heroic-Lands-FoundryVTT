@@ -66,10 +66,7 @@ export function buildExpressionScopesSection() {
 
     const rows = entries.map(([id, scope]) => {
         const bindings = Object.keys(scope.bindings);
-        const list =
-            bindings.length ?
-                bindings.map((b) => `\`${b}\``).join(", ")
-            :   "_none_";
+        const list = bindings.length ? bindings.map((b) => `\`${b}\``).join(", ") : "_none_";
         const open = scope.open ? " _(open)_" : "";
         return `| ${cell(scope.label)} | ${cell(scope.site)} | ${cell(scope.field)} | ${list}${open} | ${cell(scope.result)} |`;
     });
@@ -92,9 +89,7 @@ export function buildExpressionScopesSection() {
         lines.push(`**\`${id}\`** — ${scope.summary}`);
         lines.push("");
         if (Object.keys(scope.bindings).length === 0) {
-            lines.push(
-                "- _No bindings._ Only literals and helper calls may appear.",
-            );
+            lines.push("- _No bindings._ Only literals and helper calls may appear.");
         } else {
             for (const [name, description] of Object.entries(scope.bindings)) {
                 lines.push(`- \`${name}\` — ${description}`);
