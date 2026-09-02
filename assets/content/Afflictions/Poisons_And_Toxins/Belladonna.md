@@ -9,10 +9,10 @@ id: 4IS3ubM0teikWEpD
 img: icons/game-icons/lorc/poison-bottle.svg
 shortcode: bldna
 type: affliction
+subType: poisontoxin
 sohl:
   kbcat: poisontoxin
   archetype: 0
-  subType: poisontoxin
   levelBase: 1
   healingRateBase: 3
   contagionIndex: 3

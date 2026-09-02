@@ -7,6 +7,7 @@ name:
   alias: []
 description: "Ash or birch shaft, goose-feather fletching; workaday deer or skirmish arrow."
 type: projectilegear
+subType: arrow
 id: vBAd1CyPEqHNJyb0
 shortcode: ArwStd
 img: icons/game-icons/lorc/broadhead-arrow.svg
@@ -27,7 +28,6 @@ sohl:
   traits:
     ARvalue: 4
     bleed: false
-  subType: arrow
 folder: ADQPHjgKsdWsJhyy
 ---
 

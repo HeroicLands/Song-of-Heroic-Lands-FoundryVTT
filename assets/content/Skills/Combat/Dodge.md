@@ -9,10 +9,10 @@ id: E3HpfTHGnCfauHAc
 img: icons/game-icons/felbrigg/dodge.svg
 shortcode: dge
 type: skill
+subType: combat
 sohl:
   kbcat: combat
   archetype: 0
-  subType: combat
   skillBaseFormula: "sb(attr.agl, attr.per)"
   combatCategory: none
   parentSkillCode: ""

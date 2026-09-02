@@ -4,7 +4,7 @@ aliases:
   - SafeExpression
 id: JvKYOVjZcqyqQHgj
 type: doc
-category: user-guide
+subType: user-guide
 name:
   full: "Safe Expressions"
 shortcode: sfexprss

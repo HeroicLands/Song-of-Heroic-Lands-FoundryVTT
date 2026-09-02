@@ -3,7 +3,7 @@ aliases:
   - Mystery
 id: 6fJTkfpqjc4srAqd
 type: doc
-category: user-guide
+subType: user-guide
 name:
   full: "Mystery"
 shortcode: mystery

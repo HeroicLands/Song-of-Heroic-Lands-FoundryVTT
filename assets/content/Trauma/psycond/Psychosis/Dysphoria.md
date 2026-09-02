@@ -8,11 +8,12 @@ id: v0ROwdXmKi6IguNH
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: dysphr
 type: trauma
+subType: psycond
+data:
+  category: impulse
 sohl:
   kbcat: psypsychosis
   archetype: 0
-  subType: psycond
-  category: impulse
 folder: SpZzOv4eOwtdsMMo
 ---
 

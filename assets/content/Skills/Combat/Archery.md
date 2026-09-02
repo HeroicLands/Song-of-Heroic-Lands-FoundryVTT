@@ -9,10 +9,10 @@ id: 6fgtfnfNablzp2SI
 img: icons/game-icons/lorc/pocket-bow.svg
 shortcode: archery
 type: skill
+subType: combat
 sohl:
   kbcat: combat
   archetype: 0
-  subType: combat
   skillBaseFormula: "sb(attr.per, attr.dex)"
   combatCategory: melee
   parentSkillCode: ""

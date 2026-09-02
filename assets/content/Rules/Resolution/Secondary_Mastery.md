@@ -5,7 +5,7 @@ aliases:
   - Secondary Roll
 id: ZS7AkgrQvXdkku0g
 type: doc
-category: rules
+subType: rules
 name:
   full: Secondary Mastery
   aliases: []

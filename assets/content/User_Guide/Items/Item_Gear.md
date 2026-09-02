@@ -3,7 +3,7 @@ aliases:
   - Gear
 id: p5xXqvicKqdw49rA
 type: doc
-category: user-guide
+subType: user-guide
 name:
   full: "Gear"
 shortcode: itemgear

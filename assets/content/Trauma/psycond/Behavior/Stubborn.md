@@ -8,11 +8,12 @@ id: LxWK9FMZRwSxLh9G
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: stubborn
 type: trauma
+subType: psycond
+data:
+  category: quirk
 sohl:
   kbcat: psybehavior
   archetype: 0
-  subType: psycond
-  category: quirk
 folder: ECrcBb9CUCMX9JeJ
 ---
 

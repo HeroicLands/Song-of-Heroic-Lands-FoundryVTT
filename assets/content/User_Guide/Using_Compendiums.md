@@ -2,7 +2,7 @@
 aliases: []
 id: 0VrqqfwFEbVXxb3e
 type: doc
-category: user-guide
+subType: user-guide
 name:
   full: "Using Compendiums"
 shortcode: usngcmpn

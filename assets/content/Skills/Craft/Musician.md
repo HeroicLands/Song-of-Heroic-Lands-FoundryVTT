@@ -9,10 +9,10 @@ id: 5DPlnTLCpfyz4Rar
 img: icons/game-icons/delapouite/harp.svg
 shortcode: musc
 type: skill
+subType: craft
 sohl:
   kbcat: craft
   archetype: 0
-  subType: craft
   skillBaseFormula: "sb(attr.per, attr.cre)"
   combatCategory: none
   parentSkillCode: ""

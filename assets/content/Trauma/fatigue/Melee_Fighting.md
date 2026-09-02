@@ -10,11 +10,12 @@ id: 4xM2HdylF5p2fWJJ
 img: icons/game-icons/lorc/sleepy.svg
 shortcode: fight
 type: trauma
+subType: fatigue
+data:
+  category: windedness
 sohl:
   kbcat: fatigue
   archetype: 0
-  subType: fatigue
-  category: windedness
   levelBase: 1
   healingRateBase: 5
 folder: Y22wv8plMCfPXYBT

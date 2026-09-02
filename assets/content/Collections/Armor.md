@@ -6,7 +6,6 @@ name:
   full: Armor
   aliases: []
 type: doc
-category: collection
 shortcode: armor2
 section: armorgear
 tags:

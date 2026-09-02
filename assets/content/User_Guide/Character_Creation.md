@@ -3,7 +3,7 @@ aliases:
   - Character Creation
 id: 2jDp0HN2AvId0U5E
 type: doc
-category: user-guide
+subType: user-guide
 name:
   full: "Character Creation"
 shortcode: chrctrcr

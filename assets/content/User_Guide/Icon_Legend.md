@@ -5,7 +5,7 @@ aliases:
   - Glyphs
 id: GU59i07VkICWsT2l
 type: doc
-category: user-guide
+subType: user-guide
 name:
   full: "Icon Legend"
 shortcode: iconlgnd

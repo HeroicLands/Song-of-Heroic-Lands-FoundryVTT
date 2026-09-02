@@ -3,7 +3,7 @@ aliases:
   - Mind Trauma Introduction
 id: WWs3rkA2U7iu5epz
 type: doc
-category: rules
+subType: rules
 name:
   full: Mind Trauma Introduction
   aliases: []

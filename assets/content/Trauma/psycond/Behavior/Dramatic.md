@@ -8,11 +8,12 @@ id: 818J8niRG3lvFB9J
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: dramatic
 type: trauma
+subType: psycond
+data:
+  category: quirk
 sohl:
   kbcat: psybehavior
   archetype: 0
-  subType: psycond
-  category: quirk
 folder: ECrcBb9CUCMX9JeJ
 ---
 

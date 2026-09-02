@@ -3,7 +3,7 @@ aliases:
   - Impairment
 id: Aa8GO0i94Gh9cyGi
 type: doc
-category: rules
+subType: rules
 name:
   full: Impairment
   aliases: []

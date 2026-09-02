@@ -3,7 +3,7 @@ aliases:
   - Divine Incantation
 id: oorZPGmBmLEyzvFe
 type: doc
-category: rules
+subType: rules
 name:
   full: Divine Incantation
   aliases: []

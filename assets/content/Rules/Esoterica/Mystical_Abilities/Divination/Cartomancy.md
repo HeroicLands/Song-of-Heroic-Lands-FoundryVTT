@@ -3,7 +3,7 @@ aliases:
   - Cartomancy
 id: 3l5g6fs5EEwLMOzS
 type: doc
-category: rules
+subType: rules
 name:
   full: Cartomancy
   aliases: []

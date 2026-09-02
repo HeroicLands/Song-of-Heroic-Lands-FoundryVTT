@@ -9,11 +9,12 @@ id: XYxcQfNRWE3iLnfr
 img: icons/game-icons/delapouite/stomach.svg
 shortcode: frost
 type: trauma
+subType: physcond
+data:
+  category: impediment
 sohl:
   kbcat: physprivations
   archetype: 0
-  subType: physcond
-  category: impediment
   levelBase: 2
   healingRateBase: 2
 folder: wz4hXqKLntkdXNue

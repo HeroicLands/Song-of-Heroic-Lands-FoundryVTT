@@ -10,10 +10,10 @@ id: vbgEQjFYO3rVIK1b
 img: icons/game-icons/lorc/fangs.svg
 shortcode: bflkbite
 type: skill
+subType: combattechnique
 sohl:
   kbcat: unarmed
   archetype: 0
-  subType: combattechnique
   skillBaseFormula: "sb(attr.dex, attr.agl)"
   combatCategory: melee
   parentSkillCode: ""

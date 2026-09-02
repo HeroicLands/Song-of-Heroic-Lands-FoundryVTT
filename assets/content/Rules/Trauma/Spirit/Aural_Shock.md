@@ -5,7 +5,7 @@ aliases:
   - Aural Shock Recovery Test
 id: A8oMKQjucNVvKnpr
 type: doc
-category: rules
+subType: rules
 name:
   full: Aural Shock
   aliases: []

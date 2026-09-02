@@ -8,7 +8,7 @@ aliases:
   - Tactical Advantages
 id: OuEx3Wa9RNMHtrgc
 type: doc
-category: rules
+subType: rules
 name:
   full: Attack Resolution
   aliases: []

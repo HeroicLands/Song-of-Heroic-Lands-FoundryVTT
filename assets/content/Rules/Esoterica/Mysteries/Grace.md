@@ -3,7 +3,7 @@ aliases:
   - Grace
 id: VQ3MeSUiAE2YxrER
 type: doc
-category: rules
+subType: rules
 name:
   full: Grace
   aliases: []

@@ -6,7 +6,6 @@ name:
   full: Traits
   aliases: []
 type: doc
-category: collection
 shortcode: traits
 section: trait
 tags:

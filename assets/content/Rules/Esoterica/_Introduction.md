@@ -3,7 +3,7 @@ aliases:
   - Esoterica Introduction
 id: p9VfAypidUzXgdD0
 type: doc
-category: rules
+subType: rules
 name:
   full: Esoterica Introduction
   aliases: []

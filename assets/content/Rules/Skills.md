@@ -3,7 +3,7 @@ aliases:
   - Skills Introduction
 id: A38qwbVdPQHhGVgB
 type: doc
-category: rules
+subType: rules
 name:
   full: Skills Introduction
   aliases: []

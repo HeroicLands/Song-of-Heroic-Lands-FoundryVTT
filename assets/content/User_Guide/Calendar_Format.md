@@ -2,7 +2,7 @@
 aliases: []
 id: eFiHzB4DASknXQ2l
 type: doc
-category: user-guide
+subType: user-guide
 name:
   full: "Calendar JSON Format"
 shortcode: clndrjsn

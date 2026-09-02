@@ -3,7 +3,7 @@ aliases:
   - Injury Introduction
 id: mW5Qz3nO9kLwDLEO
 type: doc
-category: rules
+subType: rules
 name:
   full: Injury Introduction
   aliases: []

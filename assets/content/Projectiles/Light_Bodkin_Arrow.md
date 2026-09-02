@@ -7,6 +7,7 @@ name:
   alias: []
 description: "Slender shaft, square-sectioned spike; splits light mail at distance; militia, skirmish use."
 type: projectilegear
+subType: arrow
 id: 1TU7NC5Xy0q2NVmr
 shortcode: ArwLBod
 img: icons/game-icons/lorc/broadhead-arrow.svg
@@ -27,7 +28,6 @@ sohl:
   traits:
     ARvalue: 4
     bleed: false
-  subType: arrow
 folder: ADQPHjgKsdWsJhyy
 ---
 

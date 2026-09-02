@@ -9,11 +9,12 @@ id: AuSrW8gPY5nqihqT
 img: icons/game-icons/lorc/sleepy.svg
 shortcode: burden
 type: trauma
+subType: fatigue
+data:
+  category: weariness
 sohl:
   kbcat: fatigue
   archetype: 0
-  subType: fatigue
-  category: weariness
   levelBase: 1
   healingRateBase: 3
 folder: Y22wv8plMCfPXYBT

@@ -3,7 +3,7 @@ aliases:
   - Concoction
 id: nV3Nq6xe3fUcJJzd
 type: doc
-category: user-guide
+subType: user-guide
 name:
   full: "Concoction"
 shortcode: cncctn

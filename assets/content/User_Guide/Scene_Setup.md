@@ -2,7 +2,7 @@
 aliases: []
 id: WxM4H3SLZKQhLTog
 type: doc
-category: user-guide
+subType: user-guide
 name:
   full: "Scene Setup and Tokens"
 shortcode: scnstpan

@@ -3,7 +3,7 @@ aliases:
   - Mystical Powers
 id: eg6jbFFPRgbKj2a2
 type: doc
-category: user-guide
+subType: user-guide
 name:
   full: Mystical Powers
 shortcode: mystclpw

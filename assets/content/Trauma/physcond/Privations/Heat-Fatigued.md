@@ -9,11 +9,12 @@ id: qlaVHFHV69OLBhqV
 img: icons/game-icons/delapouite/stomach.svg
 shortcode: htfat
 type: trauma
+subType: physcond
+data:
+  category: trait
 sohl:
   kbcat: physprivations
   archetype: 0
-  subType: physcond
-  category: trait
   levelBase: 1
   healingRateBase: 5
 folder: wz4hXqKLntkdXNue

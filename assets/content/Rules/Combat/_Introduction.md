@@ -6,7 +6,7 @@ aliases:
   - Initiative Rank
 id: T7DKbPLUwqQyQL08
 type: doc
-category: rules
+subType: rules
 name:
   full: Combat Introduction
   aliases: []

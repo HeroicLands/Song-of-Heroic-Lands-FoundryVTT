@@ -3,7 +3,7 @@ aliases:
   - Tasseomancy
 id: V37Cp2A3oqdWwCES
 type: doc
-category: rules
+subType: rules
 name:
   full: Tasseomancy
   aliases: []

@@ -9,10 +9,10 @@ id: in1KGfGdrkpLzd9N
 img: icons/game-icons/badges/pencil.svg
 shortcode: draw
 type: skill
+subType: craft
 sohl:
   kbcat: craft
   archetype: 0
-  subType: craft
   skillBaseFormula: "sb(attr.dex, attr.cre)"
   combatCategory: none
   parentSkillCode: ""

@@ -3,7 +3,7 @@ aliases:
   - Attributes
 id: dg1YJe27cn88Q2mi
 type: doc
-category: rules
+subType: rules
 name:
   full: Attributes
   aliases: []

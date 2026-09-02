@@ -3,7 +3,7 @@ aliases:
   - Birthsign
 id: HOIFkzHnXv5I4A4C
 type: doc
-category: rules
+subType: rules
 name:
   full: Birthsign
   aliases: []

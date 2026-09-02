@@ -3,7 +3,7 @@ aliases:
   - Projectile
 id: vsv4MPXDQcskQEl9
 type: doc
-category: user-guide
+subType: user-guide
 name:
   full: "Projectile"
 shortcode: prjctl

@@ -2,7 +2,7 @@
 aliases: []
 id: Mi1p8gYEKJ91dxsM
 type: doc
-category: user-guide
+subType: user-guide
 name:
   full: "Combat Basics"
 shortcode: cmbtbscs

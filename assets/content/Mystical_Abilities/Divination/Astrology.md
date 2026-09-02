@@ -9,10 +9,10 @@ id: xSuXXuS0hRjrSdzR
 img: icons/game-icons/lorc/star-swirl.svg
 shortcode: astr
 type: mysticalability
+subType: divination
 sohl:
   kbcat: divination
   archetype: 0
-  subType: divination
   assocSkillCode: ""
   levelBase: 0
   masteryLevelBase: 0

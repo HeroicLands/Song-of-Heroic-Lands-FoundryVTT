@@ -3,7 +3,7 @@ aliases:
   - Divination Introduction
 id: Nao57h8vo7wCINl9
 type: doc
-category: rules
+subType: rules
 name:
   full: Divination Introduction
   aliases: []

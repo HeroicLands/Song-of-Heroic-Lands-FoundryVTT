@@ -4,7 +4,7 @@ aliases:
   - Combatants
 id: ORi4BIBMecFVaG4I
 type: doc
-category: user-guide
+subType: user-guide
 name:
   full: "Combatant"
 shortcode: cmbtnt

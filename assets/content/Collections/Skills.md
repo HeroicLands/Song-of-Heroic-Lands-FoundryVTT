@@ -6,7 +6,6 @@ name:
   full: Skills
   aliases: []
 type: doc
-category: collection
 shortcode: skills2
 section: skill
 tags:

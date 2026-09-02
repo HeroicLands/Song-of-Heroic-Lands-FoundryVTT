@@ -4,7 +4,7 @@ aliases:
   - Fear Test
 id: JQ6QycfbFNiwqmoW
 type: doc
-category: rules
+subType: rules
 name:
   full: Fear
   aliases: []

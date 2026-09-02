@@ -4,7 +4,7 @@ aliases:
   - SoHL Quickstart
 id: nXSQAexjRb8kxrvn
 type: doc
-category: user-guide
+subType: user-guide
 name:
   full: Song of Heroic Lands Quickstart
   alises: []

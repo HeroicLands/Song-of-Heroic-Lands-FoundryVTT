@@ -3,7 +3,7 @@ aliases:
   - Mystical Ability
 id: k2BO5PGE97a6YEZe
 type: doc
-category: user-guide
+subType: user-guide
 name:
   full: "Mystical Ability"
 shortcode: mystclab

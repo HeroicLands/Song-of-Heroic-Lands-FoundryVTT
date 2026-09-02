@@ -8,11 +8,12 @@ id: qdgboSZu0vOQXf4v
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: generous
 type: trauma
+subType: psycond
+data:
+  category: quirk
 sohl:
   kbcat: psybehavior
   archetype: 0
-  subType: psycond
-  category: quirk
 folder: SpZzOv4eOwtdsMMo
 ---
 

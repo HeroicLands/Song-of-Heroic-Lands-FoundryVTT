@@ -3,7 +3,7 @@ aliases:
   - Body Trauma Introduction
 id: Yjn2JOJNvxe0I9HY
 type: doc
-category: rules
+subType: rules
 name:
   full: Body Trauma Introduction
   aliases: []

@@ -9,10 +9,10 @@ id: oXYa53IldDytbfFq
 img: icons/game-icons/delapouite/enrage.svg
 shortcode: summ
 type: mysticalability
+subType: spiritaction
 sohl:
   kbcat: spiritaction
   archetype: 0
-  subType: spiritaction
   assocSkillCode: ""
   levelBase: 0
   masteryLevelBase: 0

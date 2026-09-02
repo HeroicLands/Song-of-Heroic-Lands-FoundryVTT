@@ -8,11 +8,12 @@ id: Wn0xXFSWaEqLYo7j
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: optimism
 type: trauma
+subType: psycond
+data:
+  category: quirk
 sohl:
   kbcat: psybehavior
   archetype: 0
-  subType: psycond
-  category: quirk
 folder: ECrcBb9CUCMX9JeJ
 ---
 

@@ -3,7 +3,7 @@ aliases:
   - Arcane Talent
 id: qOiNFIASYJVIfgHC
 type: doc
-category: rules
+subType: rules
 name:
   full: Arcane Talent
   aliases: []

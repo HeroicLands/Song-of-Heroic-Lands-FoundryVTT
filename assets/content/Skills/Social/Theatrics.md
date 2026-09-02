@@ -9,10 +9,10 @@ id: LPAYj3D7r0QjsnFA
 img: icons/game-icons/lorc/drama-masks.svg
 shortcode: thtcs
 type: skill
+subType: social
 sohl:
   kbcat: social
   archetype: 0
-  subType: social
   skillBaseFormula: "sb(attr.cre, attr.elo)"
   combatCategory: none
   parentSkillCode: ""

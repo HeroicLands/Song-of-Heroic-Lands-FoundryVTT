@@ -3,7 +3,7 @@ aliases:
   - Base Item
 id: DXyazxuH0KLFWj4l
 type: doc
-category: user-guide
+subType: user-guide
 name:
   full: Base Item
 shortcode: baseitem

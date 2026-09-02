@@ -8,7 +8,7 @@ aliases:
   - Index
 id: uil7KCJxAUM4nXLC
 type: doc
-category: rules
+subType: rules
 name:
   full: Mastery Level
   aliases: []

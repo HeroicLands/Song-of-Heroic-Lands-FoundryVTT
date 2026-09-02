@@ -8,12 +8,13 @@ id: BalaG26I7UrG7Q1A
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: agorphb
 type: trauma
+subType: fear
+data:
+  category: none
 sohl:
   kbcat: phobias
   archetype: 0
   levelBase: 0
-  subType: fear
-  category: none
 folder: 0eAg97lKuZbhIoZW
 ---
 

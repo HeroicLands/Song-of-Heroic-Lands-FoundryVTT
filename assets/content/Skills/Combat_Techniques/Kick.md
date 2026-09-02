@@ -10,10 +10,10 @@ id: uXdixGMpTKRvslpf
 img: icons/game-icons/lorc/foot-trip.svg
 shortcode: bflkkick
 type: skill
+subType: combattechnique
 sohl:
   kbcat: unarmed
   archetype: 0
-  subType: combattechnique
   skillBaseFormula: "sb(attr.dex, attr.agl)"
   combatCategory: melee
   parentSkillCode: ""

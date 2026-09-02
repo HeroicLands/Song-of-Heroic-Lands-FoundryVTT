@@ -9,10 +9,10 @@ id: TF3mC3ZBxSZubKF4
 img: icons/game-icons/delapouite/ballerina-shoes.svg
 shortcode: dnce
 type: skill
+subType: physical
 sohl:
   kbcat: physical
   archetype: 0
-  subType: physical
   skillBaseFormula: "sb(attr.agl, attr.cre)"
   combatCategory: none
   parentSkillCode: ""

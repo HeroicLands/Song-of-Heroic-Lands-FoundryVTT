@@ -5,7 +5,7 @@ aliases:
   - Coma Healing Rate
 id: bqBGHYIwbqvqaZ5I
 type: doc
-category: rules
+subType: rules
 name:
   full: Coma
   aliases: []

@@ -9,10 +9,10 @@ id: OWe6jR9RXag7ZMZk
 img: icons/game-icons/badges/lock.svg
 shortcode: lock
 type: skill
+subType: craft
 sohl:
   kbcat: craft
   archetype: 0
-  subType: craft
   skillBaseFormula: "sb(attr.dex, attr.per)"
   combatCategory: none
   parentSkillCode: ""

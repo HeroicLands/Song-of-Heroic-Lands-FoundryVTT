@@ -6,7 +6,6 @@ name:
   full: Mysteries
   aliases: []
 type: doc
-category: collection
 shortcode: mysteries
 section: mystery
 tags:

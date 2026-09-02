@@ -9,11 +9,12 @@ id: sQsHFwWlXtlIazk3
 img: icons/game-icons/lorc/sleepy.svg
 shortcode: anaemia
 type: trauma
+subType: fatigue
+data:
+  category: weakness
 sohl:
   kbcat: fatigue
   archetype: 0
-  subType: fatigue
-  category: weakness
   levelBase: 1
   healingRateBase: 1
 folder: Y22wv8plMCfPXYBT

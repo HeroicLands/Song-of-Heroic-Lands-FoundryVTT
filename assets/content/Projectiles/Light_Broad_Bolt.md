@@ -7,6 +7,7 @@ name:
   alias: []
 description: "Light quarrel, leaf-bladed iron head; opens bleeding wound; hunters, scouts, brigand foes."
 type: projectilegear
+subType: bolt
 id: GXOYUjcV8KKAIK7a
 shortcode: BltLBrd
 img: icons/game-icons/lorc/broadhead-arrow.svg
@@ -27,7 +28,6 @@ sohl:
   traits:
     ARvalue: 4
     bleed: true
-  subType: bolt
 folder: ADQPHjgKsdWsJhyy
 ---
 

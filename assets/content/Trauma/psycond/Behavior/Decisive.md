@@ -8,11 +8,12 @@ id: Io04JX6x1b3reGYd
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: decisive
 type: trauma
+subType: psycond
+data:
+  category: quirk
 sohl:
   kbcat: psybehavior
   archetype: 0
-  subType: psycond
-  category: quirk
 folder: SpZzOv4eOwtdsMMo
 ---
 

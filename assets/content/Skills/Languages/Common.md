@@ -9,10 +9,10 @@ id: dBrBO21uaYdmmk5j
 img: icons/game-icons/lorc/conversation.svg
 shortcode: common
 type: skill
+subType: language
 sohl:
   kbcat: languages
   archetype: 0
-  subType: language
   skillBaseFormula: "sb(attr.elo, attr.rea)"
   combatCategory: none
   parentSkillCode: ""

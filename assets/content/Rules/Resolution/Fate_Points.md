@@ -5,7 +5,7 @@ aliases:
   - Fate Mastery Level
 id: QTLdhEpRknXbUTsn
 type: doc
-category: rules
+subType: rules
 name:
   full: Fate Points
   aliases: []

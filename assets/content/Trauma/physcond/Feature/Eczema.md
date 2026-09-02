@@ -8,11 +8,12 @@ id: Jio2YGG0lXIm6KFU
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: eczema
 type: trauma
+subType: physcond
+data:
+  category: trait
 sohl:
   kbcat: physfeature
   archetype: 0
-  subType: physcond
-  category: trait
 folder: 4h8qyMcGHlkrfN1g
 ---
 

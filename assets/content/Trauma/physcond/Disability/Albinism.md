@@ -8,11 +8,12 @@ id: sCzXgO4xDCTBa2SS
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: albinism
 type: trauma
+subType: physcond
+data:
+  category: trait
 sohl:
   kbcat: physdisability
   archetype: 0
-  subType: physcond
-  category: trait
 folder: 4h8qyMcGHlkrfN1g
 ---
 

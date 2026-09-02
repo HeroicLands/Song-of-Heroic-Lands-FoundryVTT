@@ -8,11 +8,12 @@ id: qaSlCdUJGcu8z1Ba
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: ambx
 type: trauma
+subType: psycond
+data:
+  category: quirk
 sohl:
   kbcat: psybehavior
   archetype: 0
-  subType: psycond
-  category: quirk
 folder: SpZzOv4eOwtdsMMo
 ---
 

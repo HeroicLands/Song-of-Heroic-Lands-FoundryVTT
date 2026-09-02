@@ -8,12 +8,13 @@ id: z9pz8L76eUoBTVTG
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: mlnphb
 type: trauma
+subType: fear
+data:
+  category: none
 sohl:
   kbcat: phobias
   archetype: 0
   levelBase: 0
-  subType: fear
-  category: none
 folder: 0eAg97lKuZbhIoZW
 ---
 

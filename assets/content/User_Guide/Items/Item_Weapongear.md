@@ -3,7 +3,7 @@ aliases:
   - Weapon
 id: kSuLAvR1c8R8tIW6
 type: doc
-category: user-guide
+subType: user-guide
 name:
   full: "Weapon"
 shortcode: weapon

@@ -3,7 +3,7 @@ aliases:
   - Cohort
 id: 3uAE5ivwuwl1a1ir
 type: doc
-category: user-guide
+subType: user-guide
 name:
   full: "Cohort"
 shortcode: cohort

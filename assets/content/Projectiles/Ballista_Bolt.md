@@ -7,6 +7,7 @@ name:
   alias: []
 description: "Iron-headed shaft the length of a leg; loosed by engine, not by arm."
 type: projectilegear
+subType: bolt
 id: fJJTg0753k90BL8K
 shortcode: BltSge
 img: icons/game-icons/lorc/barbed-spear.svg
@@ -16,7 +17,6 @@ sohl:
     skill: fltch
     secondary: [wood, mtlc]
   archetype: 0
-  subType: bolt
   quality: 0
   durability: 12
   value: 2

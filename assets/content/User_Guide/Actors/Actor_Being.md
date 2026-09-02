@@ -3,7 +3,7 @@ aliases:
   - Being
 id: yGlzMjLsBc8dCO6J
 type: doc
-category: user-guide
+subType: user-guide
 name:
   full: "Being"
 shortcode: being

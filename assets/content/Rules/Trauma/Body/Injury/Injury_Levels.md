@@ -3,7 +3,7 @@ aliases:
   - Injury Levels
 id: B1UF3CTHNtQKtIxC
 type: doc
-category: rules
+subType: rules
 name:
   full: Injury Levels
   aliases: []

@@ -9,10 +9,10 @@ id: kcc6EipA4khnm9FB
 img: icons/game-icons/lorc/anchor.svg
 shortcode: smsh
 type: skill
+subType: nature
 sohl:
   kbcat: nature
   archetype: 0
-  subType: nature
   skillBaseFormula: "sb(attr.wil, attr.per)"
   combatCategory: none
   parentSkillCode: ""

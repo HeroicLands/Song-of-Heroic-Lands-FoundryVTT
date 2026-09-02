@@ -4,6 +4,7 @@ aliases:
 tags: []
 description: "Runs the combat attack workflow for the combatant whose turn it is."
 type: macro
+subType: script
 name:
   full: Automated Attack
   aliases: []

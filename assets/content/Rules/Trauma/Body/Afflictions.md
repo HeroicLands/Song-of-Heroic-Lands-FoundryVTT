@@ -7,7 +7,7 @@ aliases:
   - Symptomatic Period
 id: Tt1JjQ3kmqtUDIm9
 type: doc
-category: rules
+subType: rules
 name:
   full: Afflictions
   aliases: []

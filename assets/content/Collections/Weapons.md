@@ -6,7 +6,6 @@ name:
   full: Weapons
   aliases: []
 type: doc
-category: collection
 shortcode: weapons
 section: weapongear
 tags:

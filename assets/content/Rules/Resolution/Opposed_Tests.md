@@ -6,7 +6,7 @@ aliases:
   - Victory Stars
 id: qu9CxTZmDhQa31YN
 type: doc
-category: rules
+subType: rules
 name:
   full: Opposed Tests
   aliases: []

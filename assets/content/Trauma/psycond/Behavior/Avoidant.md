@@ -8,11 +8,12 @@ id: WTWC6Z0qzDZIaK4L
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: avoidant
 type: trauma
+subType: psycond
+data:
+  category: impulse
 sohl:
   kbcat: psybehavior
   archetype: 0
-  subType: psycond
-  category: impulse
 folder: ECrcBb9CUCMX9JeJ
 ---
 

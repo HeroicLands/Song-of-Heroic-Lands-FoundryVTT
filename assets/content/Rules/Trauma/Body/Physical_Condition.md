@@ -4,7 +4,7 @@ aliases:
   - Physical Conditions
 id: BkGKJhvkDMx4HOrQ
 type: doc
-category: rules
+subType: rules
 name:
   full: Physical Condition
   aliases: []

@@ -9,10 +9,10 @@ id: MMWQAgkjekFMjaqw
 img: icons/game-icons/lorc/broadhead-arrow.svg
 shortcode: fltch
 type: skill
+subType: craft
 sohl:
   kbcat: craft
   archetype: 0
-  subType: craft
   skillBaseFormula: "sb(attr.dex, attr.per)"
   combatCategory: none
   parentSkillCode: ""

@@ -3,7 +3,7 @@ aliases:
   - Affiliations
 id: l6WtRZ8ua1K0wZOK
 type: doc
-category: rules
+subType: rules
 name:
   full: Affiliations
   aliases: []

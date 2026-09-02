@@ -3,7 +3,7 @@ aliases:
   - Healing Rate
 id: MRqOJqtZ0rvN9AQD
 type: doc
-category: rules
+subType: rules
 name:
   full: Healing Rate
   aliases: []

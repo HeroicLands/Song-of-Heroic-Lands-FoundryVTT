@@ -10,11 +10,12 @@ id: tz9rLDZ0N2vzJBJ8
 img: icons/game-icons/lorc/sleepy.svg
 shortcode: mentstn
 type: trauma
+subType: fatigue
+data:
+  category: weariness
 sohl:
   kbcat: fatigue
   archetype: 0
-  subType: fatigue
-  category: weariness
   levelBase: 1
   healingRateBase: 3
 folder: Y22wv8plMCfPXYBT

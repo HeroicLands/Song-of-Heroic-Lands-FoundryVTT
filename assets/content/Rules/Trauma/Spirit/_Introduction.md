@@ -3,7 +3,7 @@ aliases:
   - Spirit Trauma Introduction
 id: wLmzxrnaOabxN1LW
 type: doc
-category: rules
+subType: rules
 name:
   full: Spirit Trauma Introduction
   aliases: []

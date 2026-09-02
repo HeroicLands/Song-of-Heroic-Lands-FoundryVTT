@@ -2,7 +2,7 @@
 aliases: []
 id: qB7c6j4tnrijhQ3P
 type: doc
-category: user-guide
+subType: user-guide
 name:
   full: "Working with Gear and Equipment"
 shortcode: wrkngwth

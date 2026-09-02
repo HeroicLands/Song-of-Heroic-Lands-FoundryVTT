@@ -8,11 +8,12 @@ id: UyGbQku6nZrU9l78
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: mchvlln
 type: trauma
+subType: psycond
+data:
+  category: impulse
 sohl:
   kbcat: psybehavior
   archetype: 0
-  subType: psycond
-  category: impulse
 folder: ECrcBb9CUCMX9JeJ
 ---
 

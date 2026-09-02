@@ -3,7 +3,7 @@ aliases:
   - Spirit Action
 id: rSZepxNYmUfj2FIs
 type: doc
-category: rules
+subType: rules
 name:
   full: Spirit Action
   aliases: []

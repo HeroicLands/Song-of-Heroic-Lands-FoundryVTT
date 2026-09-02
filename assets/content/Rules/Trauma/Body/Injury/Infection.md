@@ -4,7 +4,7 @@ aliases:
   - Infection Healing Test
 id: oG7E0HWgfvWL6uUQ
 type: doc
-category: rules
+subType: rules
 name:
   full: Infection
   aliases: []

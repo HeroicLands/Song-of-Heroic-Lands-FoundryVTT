@@ -10,10 +10,10 @@ id: XIQyx0G00NUQT7Wc
 img: icons/game-icons/lorc/punch-blast.svg
 shortcode: bflkpunch
 type: skill
+subType: combattechnique
 sohl:
   kbcat: unarmed
   archetype: 0
-  subType: combattechnique
   skillBaseFormula: "sb(attr.dex, attr.agl)"
   combatCategory: melee
   parentSkillCode: ""

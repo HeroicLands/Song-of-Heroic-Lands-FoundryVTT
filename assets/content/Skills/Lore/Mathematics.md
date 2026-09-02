@@ -9,10 +9,10 @@ id: SOBolhplOfgbMpre
 img: icons/game-icons/delapouite/abacus.svg
 shortcode: math
 type: skill
+subType: lore
 sohl:
   kbcat: lore
   archetype: 0
-  subType: lore
   skillBaseFormula: "sb(attr.rea, attr.cre)"
   combatCategory: none
   parentSkillCode: ""

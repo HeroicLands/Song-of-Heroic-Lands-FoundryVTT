@@ -2,7 +2,7 @@
 aliases: []
 id: iQzDh13KVsOrpbqc
 type: doc
-category: user-guide
+subType: user-guide
 name:
   full: "Actions"
 shortcode: actions

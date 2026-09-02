@@ -6,7 +6,7 @@ aliases:
   - Masterwork
 id: 3dQTVykMItQGXYTj
 type: doc
-category: rules
+subType: rules
 name:
   full: Crafting
   aliases: []

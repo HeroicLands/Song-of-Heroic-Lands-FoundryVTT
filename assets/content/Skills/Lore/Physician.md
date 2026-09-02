@@ -9,10 +9,10 @@ id: nMPKgtFbCnXMNzuI
 img: icons/game-icons/delapouite/caduceus.svg
 shortcode: pysn
 type: skill
+subType: lore
 sohl:
   kbcat: lore
   archetype: 0
-  subType: lore
   skillBaseFormula: "sb(attr.rea, attr.per)"
   combatCategory: none
   parentSkillCode: ""

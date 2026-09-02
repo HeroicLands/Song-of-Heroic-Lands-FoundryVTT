@@ -6,7 +6,7 @@ aliases:
   - Blood Stoppage Test
 id: edDvJKnODEldyaSh
 type: doc
-category: rules
+subType: rules
 name:
   full: Bleeding
   aliases: []

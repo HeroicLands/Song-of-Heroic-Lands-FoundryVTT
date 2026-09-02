@@ -3,7 +3,7 @@ aliases:
   - Mystical Abilities Introduction
 id: Flm6eeiyl4UHZUIq
 type: doc
-category: rules
+subType: rules
 name:
   full: Mystical Abilities Introduction
   aliases: []

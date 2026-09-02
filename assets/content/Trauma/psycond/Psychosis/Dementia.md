@@ -8,11 +8,12 @@ id: 0chhkNL2KxIEXxeE
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: dementia
 type: trauma
+subType: psycond
+data:
+  category: impulse
 sohl:
   kbcat: psypsychosis
   archetype: 0
-  subType: psycond
-  category: impulse
 folder: ECrcBb9CUCMX9JeJ
 ---
 

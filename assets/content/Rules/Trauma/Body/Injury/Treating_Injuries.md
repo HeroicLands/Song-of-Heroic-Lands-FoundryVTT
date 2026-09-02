@@ -3,7 +3,7 @@ aliases:
   - Treating Injuries
 id: tYs0q2sFoKHGe6vY
 type: doc
-category: rules
+subType: rules
 name:
   full: Treating Injuries
   aliases: []

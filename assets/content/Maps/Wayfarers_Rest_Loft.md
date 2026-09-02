@@ -8,7 +8,8 @@ name:
 description: "The sleeping loft above the common room, reached by one stair."
 id: UQijWayYHyaZTxlX
 shortcode: wayrestloft
-type: battlemap
+type: map
+subType: battlemap
 sohl:
   kbcat: map
   folder: Pw3nJvVsGuMdRb1K

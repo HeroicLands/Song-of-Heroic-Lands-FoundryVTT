@@ -7,6 +7,7 @@ name:
   alias: []
 description: "Smooth river pebble or kiln-fired clay; cracks skulls, breaks hound legs."
 type: projectilegear
+subType: bullet
 id: y4TUxJVQbQYoQThq
 shortcode: SSton
 img: icons/game-icons/delapouite/stone-pile.svg
@@ -27,7 +28,6 @@ sohl:
   traits:
     ARvalue: 0
     bleed: false
-  subType: bullet
 folder: ADQPHjgKsdWsJhyy
 ---
 

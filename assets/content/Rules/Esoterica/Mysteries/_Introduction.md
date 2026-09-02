@@ -3,7 +3,7 @@ aliases:
   - Mysteries Introduction
 id: 8gqF9lyFp5S6zceE
 type: doc
-category: rules
+subType: rules
 name:
   full: Mysteries Introduction
   aliases: []

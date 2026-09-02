@@ -5,7 +5,7 @@ aliases:
   - Psyche Stress Level
 id: R6LpCJeZV0uruifv
 type: doc
-category: rules
+subType: rules
 name:
   full: Psychological Condition
   aliases: []

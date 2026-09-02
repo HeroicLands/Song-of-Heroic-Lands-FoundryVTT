@@ -4,7 +4,7 @@ aliases:
   - Items Introduction
 id: 6AUDdg96HqINKHdv
 type: doc
-category: user-guide
+subType: user-guide
 name:
   full: Items
   aliases: []

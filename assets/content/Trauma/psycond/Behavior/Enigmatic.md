@@ -8,11 +8,12 @@ id: eiZ5TYf2XaCPtojK
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: engmtc
 type: trauma
+subType: psycond
+data:
+  category: quirk
 sohl:
   kbcat: psybehavior
   archetype: 0
-  subType: psycond
-  category: quirk
 folder: SpZzOv4eOwtdsMMo
 ---
 

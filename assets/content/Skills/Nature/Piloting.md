@@ -9,10 +9,10 @@ id: wemWW5uteGi8vVts
 img: icons/game-icons/delapouite/ship-wheel.svg
 shortcode: pilt
 type: skill
+subType: nature
 sohl:
   kbcat: nature
   archetype: 0
-  subType: nature
   skillBaseFormula: "sb(attr.rea, attr.per)"
   combatCategory: none
   parentSkillCode: ""

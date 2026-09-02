@@ -3,7 +3,7 @@ aliases:
   - Spirit Talent
 id: 3gNXNMLGhhsbQU6A
 type: doc
-category: rules
+subType: rules
 name:
   full: Spirit Talent
   aliases: []

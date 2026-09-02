@@ -9,10 +9,10 @@ id: L3Glc3p57exL0wQK
 img: icons/game-icons/delapouite/face-to-face.svg
 shortcode: dscr
 type: skill
+subType: social
 sohl:
   kbcat: social
   archetype: 0
-  subType: social
   skillBaseFormula: "sb(attr.rea, attr.elo)"
   combatCategory: none
   parentSkillCode: ""

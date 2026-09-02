@@ -10,11 +10,12 @@ id: 3r8IGjIBY9yG26cD
 img: icons/game-icons/lorc/sleepy.svg
 shortcode: coldexp
 type: trauma
+subType: fatigue
+data:
+  category: weariness
 sohl:
   kbcat: fatigue
   archetype: 0
-  subType: fatigue
-  category: weariness
   levelBase: 1
   healingRateBase: 3
 folder: Y22wv8plMCfPXYBT

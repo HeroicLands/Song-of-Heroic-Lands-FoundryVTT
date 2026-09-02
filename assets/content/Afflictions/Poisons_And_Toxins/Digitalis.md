@@ -9,10 +9,10 @@ id: SAqg0v8Xgy2cFp8w
 img: icons/game-icons/lorc/poison-bottle.svg
 shortcode: dgtls
 type: affliction
+subType: poisontoxin
 sohl:
   kbcat: poisontoxin
   archetype: 0
-  subType: poisontoxin
   levelBase: 1
   healingRateBase: 3
   contagionIndex: 3

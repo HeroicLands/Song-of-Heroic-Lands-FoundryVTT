@@ -9,10 +9,10 @@ id: JOWydK8KF9LbJg8r
 img: icons/game-icons/delapouite/amphora.svg
 shortcode: cmcs
 type: skill
+subType: craft
 sohl:
   kbcat: craft
   archetype: 0
-  subType: craft
   skillBaseFormula: "sb(attr.dex, attr.per)"
   combatCategory: none
   parentSkillCode: ""

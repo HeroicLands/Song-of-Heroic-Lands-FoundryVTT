@@ -9,10 +9,10 @@ id: 0QfuuxGDTEZlrOg1
 img: icons/game-icons/lorc/virus.svg
 shortcode: measles
 type: affliction
+subType: disease
 sohl:
   kbcat: diseases
   archetype: 0
-  subType: disease
   levelBase: 1
   healingRateBase: 3
   contagionIndex: 3

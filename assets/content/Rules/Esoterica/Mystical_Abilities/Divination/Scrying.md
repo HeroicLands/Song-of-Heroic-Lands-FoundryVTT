@@ -3,7 +3,7 @@ aliases:
   - Scrying
 id: fnTUYkZZllrMQirG
 type: doc
-category: rules
+subType: rules
 name:
   full: Scrying
   aliases: []

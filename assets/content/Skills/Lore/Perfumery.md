@@ -9,10 +9,10 @@ id: ZySPSvEiE6KdtjPN
 img: icons/game-icons/lorc/perfume-bottle.svg
 shortcode: pfmy
 type: skill
+subType: lore
 sohl:
   kbcat: lore
   archetype: 0
-  subType: lore
   skillBaseFormula: "sb(attr.per, attr.rea)"
   combatCategory: none
   parentSkillCode: ""

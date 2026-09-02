@@ -3,7 +3,7 @@ aliases:
   - Divine Intervention
 id: CKWywNBAT5axa27a
 type: doc
-category: rules
+subType: rules
 name:
   full: Divine Intervention
   aliases: []
