@@ -49,9 +49,10 @@ const { StringField, SchemaField, NumberField, ArrayField, ObjectField, JavaScri
 
 /**
  * Builds the Foundry data schema shared by every SoHL data model (shortcode,
- * the array of action definitions, and the generic schedule). Concrete document
- * schemas (`defineSohlItemDataSchema`, `defineSohlActorDataSchema`, the
- * combatant schema) spread this so every SoHL data model carries these fields.
+ * the archetype marker, the array of action definitions, and the generic
+ * schedule). Concrete document schemas (`defineSohlItemDataSchema`,
+ * `defineSohlActorDataSchema`, the combatant schema) spread this so every SoHL
+ * data model carries these fields.
  * @returns The shared SoHL data schema.
  */
 export function defineSohlDataSchema(): foundry.data.fields.DataSchema {
@@ -65,6 +66,16 @@ export function defineSohlDataSchema(): foundry.data.fields.DataSchema {
         // / `enforceShortcodeOnUpdate` (issue #766). Other documents (combatant,
         // …) never key on it and leave it blank.
         shortcode: new StringField({ initial: "" }),
+        // Create-dialog **archetype** marker and priority (issue #604, moved
+        // here from `flags.sohl.docArchetype` by #1780). Tri-state, and the two
+        // empty-looking states are NOT interchangeable: a **number** marks this
+        // document as an archetype *at that priority* — SoHL's own archetypes
+        // ship at `0` — while `null` means it is not an archetype at all. `0`
+        // is falsy, so every reader must test `typeof v === "number"` and never
+        // truthiness (see `readArchetypePriority`). `nullable`/`initial: null`
+        // is the "delete the flag" state the contract needs: discovery filters
+        // for a number, and `null` fails that exactly as an absent flag did.
+        archetype: new NumberField({ nullable: true, integer: true, initial: null }),
         actionDefs: new ArrayField(
             new SchemaField({
                 // Unique code identifying this action on its Logic instance —
@@ -200,6 +211,11 @@ export abstract class SohlDataModel<
     static readonly kind: string = "" as const;
     protected _logic!: TLogic;
     shortcode!: string;
+    /**
+     * The Create-dialog archetype priority, or `null` when this document is not
+     * an archetype. See the field declaration in {@link defineSohlDataSchema}.
+     */
+    archetype!: number | null;
     actionDefs!: SohlAction.Data[];
     scheduledActions!: ScheduledAction[];
     lastRun!: Record<string, number>;

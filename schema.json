@@ -8,6 +8,7 @@
                 "own": ["level", "office", "relation", "society", "subType", "title"],
                 "inherited": [
                     "actionDefs",
+                    "archetype",
                     "docHtml",
                     "lastRun",
                     "notes",
@@ -41,6 +42,7 @@
                 ],
                 "inherited": [
                     "actionDefs",
+                    "archetype",
                     "docHtml",
                     "lastRun",
                     "notes",
@@ -67,6 +69,7 @@
                 ],
                 "inherited": [
                     "actionDefs",
+                    "archetype",
                     "containerId",
                     "docHtml",
                     "durabilityBase",
@@ -86,6 +89,7 @@
                 "own": ["impairedByRoles", "initDiceFormula", "scoreBase", "valueDesc"],
                 "inherited": [
                     "actionDefs",
+                    "archetype",
                     "docHtml",
                     "lastRun",
                     "notes",
@@ -97,6 +101,7 @@
                 "own": ["potency", "strength", "subType"],
                 "inherited": [
                     "actionDefs",
+                    "archetype",
                     "containerId",
                     "docHtml",
                     "durabilityBase",
@@ -116,6 +121,7 @@
                 "own": ["maxCapacityBase"],
                 "inherited": [
                     "actionDefs",
+                    "archetype",
                     "containerId",
                     "docHtml",
                     "durabilityBase",
@@ -135,6 +141,7 @@
                 "own": [],
                 "inherited": [
                     "actionDefs",
+                    "archetype",
                     "containerId",
                     "docHtml",
                     "durabilityBase",
@@ -163,6 +170,7 @@
                 ],
                 "inherited": [
                     "actionDefs",
+                    "archetype",
                     "docHtml",
                     "lastRun",
                     "notes",
@@ -184,6 +192,7 @@
                 ],
                 "inherited": [
                     "actionDefs",
+                    "archetype",
                     "docHtml",
                     "lastRun",
                     "notes",
@@ -204,6 +213,7 @@
                 ],
                 "inherited": [
                     "actionDefs",
+                    "archetype",
                     "containerId",
                     "docHtml",
                     "durabilityBase",
@@ -234,6 +244,7 @@
                 ],
                 "inherited": [
                     "actionDefs",
+                    "archetype",
                     "docHtml",
                     "lastRun",
                     "notes",
@@ -263,6 +274,7 @@
                 ],
                 "inherited": [
                     "actionDefs",
+                    "archetype",
                     "docHtml",
                     "lastRun",
                     "notes",
@@ -274,6 +286,7 @@
                 "own": ["encumbranceBase", "heftBase", "strikeModes"],
                 "inherited": [
                     "actionDefs",
+                    "archetype",
                     "containerId",
                     "docHtml",
                     "durabilityBase",
@@ -309,6 +322,7 @@
                 "inherited": [
                     "actionDefs",
                     "appearance",
+                    "archetype",
                     "currentMoveMedium",
                     "dossier",
                     "health",
@@ -326,6 +340,7 @@
                 "inherited": [
                     "actionDefs",
                     "appearance",
+                    "archetype",
                     "currentMoveMedium",
                     "dossier",
                     "health",
@@ -343,6 +358,7 @@
                 "inherited": [
                     "actionDefs",
                     "appearance",
+                    "archetype",
                     "currentMoveMedium",
                     "dossier",
                     "health",
@@ -360,6 +376,7 @@
                 "inherited": [
                     "actionDefs",
                     "appearance",
+                    "archetype",
                     "currentMoveMedium",
                     "dossier",
                     "health",

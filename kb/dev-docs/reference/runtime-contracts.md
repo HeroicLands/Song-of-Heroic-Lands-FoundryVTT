@@ -101,19 +101,31 @@ Two reasons this is easy to miss:
   `system.strikeModes.<id>.<field>`) are also safe — object partial-merge is fine;
   the hazard is arrays specifically.
 
-### Reserved flags (`flags.sohl.*`)
+### The archetype marker (`system.archetype`)
 
-| Flag                      | Type     | On           | Meaning                                                                                                                                                                                                                                               |
-| ------------------------- | -------- | ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `flags.sohl.docArchetype` | `number` | Actor / Item | Marks the document as a Create-dialog **archetype** (a populated starting template) and carries its **priority**. See [Extension Points → Create-dialog archetypes](../how-to/extension-points.md#10-create-dialog-archetypes-flagssohldocarchetype). |
+| Field              | Type             | On           | Meaning                                                                                                                                                                                                                                                                          |
+| ------------------ | ---------------- | ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `system.archetype` | `number \| null` | Actor / Item | Marks the document as a Create-dialog **archetype** (a populated starting template) and carries its **priority**. `null` means "not an archetype". See [Extension Points → Create-dialog archetypes](../how-to/extension-points.md#10-create-dialog-archetypes-systemarchetype). |
 
-`docArchetype` is discovered across the world directory and matching compendium
+Declared once, on the shared base schema (`defineSohlDataSchema`), so it reaches
+every Actor, Item and Combatant subtype. It lived in `flags.sohl.docArchetype`
+until issue #1780; Foundry ships no flag editor, so a schema field is what lets a
+GM set it from the sheet instead of by export / hand-edit / re-import. SoHL
+declares no reserved `flags.sohl.*` keys any more.
+
+**`0` is a priority, not a blank.** The system's own archetypes ship at `0`, so a
+truthiness test on this field would hide every one of them. Read it through
+{@link sohl.entity.archetype.readArchetypePriority}, which tests
+`typeof v === "number"`.
+
+The marker is discovered across the world directory and matching compendium
 packs, deduped by `system.shortcode`, and resolved by _priority desc, source tier
 asc (world < system < module), UUID_ — the Foundry-free
-{@link sohl.entity.archetype} module. The flag is **stripped** when an archetype
-is _instantiated_ (Create dialog seed, drop-to-embed) and **preserved** when a
-document is copied verbatim (Import, Duplicate); the strip lives at those specific
-entry points and **never** in `_preCreate` (which cannot tell the two apart).
+{@link sohl.entity.archetype} module. It is **cleared to `null`** when an
+archetype is _instantiated_ (Create dialog seed, drop-to-embed) and **preserved**
+when a document is copied verbatim (Import, Duplicate); the clear lives at those
+specific entry points and **never** in `_preCreate` (which cannot tell the two
+apart).
 
 ## Document/DataModel/Logic contract
 

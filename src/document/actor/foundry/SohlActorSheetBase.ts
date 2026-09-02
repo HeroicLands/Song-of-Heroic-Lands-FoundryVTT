@@ -34,7 +34,12 @@ import {
     deleteAction,
     runAction,
 } from "@src/core/foundry/sheet-actions";
-import { fvttCallHook, fvttRenderSheet, dialog } from "@src/core/FoundryHelpers";
+import {
+    fvttCallHook,
+    fvttIsCurrentUserGM,
+    fvttRenderSheet,
+    dialog,
+} from "@src/core/FoundryHelpers";
 import {
     ITEM_KIND,
     GearKinds,
@@ -48,7 +53,7 @@ import {
     type MovementMedium,
 } from "@src/utils/constants";
 import { toHTMLString } from "@src/utils/helpers";
-import { stripDocArchetypeFlag } from "@src/entity/archetype/archetype";
+import { canMarkArchetype, clearArchetypeMarker } from "@src/entity/archetype/archetype";
 import { hintsToLabelTooltips } from "@src/apps/foundry/sheet-hints";
 
 // Define the base type for the sheet
@@ -210,12 +215,13 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
 
         const data = droppedItem.toObject();
         delete (data as any)._id;
-        // Drop-to-embed instantiates a live in-play item — never a template. Strip
-        // the archetype marker so it can't ride onto the owner and pollute
-        // discovery (or be re-instantiated as if it were a template). Import and
-        // Duplicate deliberately keep the flag; the strip lives here and in the
-        // Create dialog, never in the universal `_preCreate` (issue #604).
-        stripDocArchetypeFlag(data as any);
+        // Drop-to-embed instantiates a live in-play item — never a template.
+        // Clear the archetype marker (`system.archetype = null`) so it can't
+        // ride onto the owner and pollute discovery (or be re-instantiated as
+        // if it were a template). Import and Duplicate deliberately keep the
+        // marker; the clear lives here and in the Create dialog, never in the
+        // universal `_preCreate` (issues #604 / #1780).
+        clearArchetypeMarker(data as any);
 
         if (isMove && GearKinds.includes(droppedItem.type as any)) {
             // Physical gear between actors: move with quantity. The "How Many?"
@@ -426,10 +432,11 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
     }
 
     /**
-     * Build the `header` part's render context: the actor's name, portrait, and
-     * localized type label, which every actor header template binds. Subclasses
-     * override to add their own header content (a being's health bar, status
-     * pills, and body-part lozenges, for instance).
+     * Build the `header` part's render context: the actor's name, portrait,
+     * localized type label, and the archetype-marker control's binding (issue
+     * #1780), which every actor header template binds. Subclasses override to
+     * add their own header content (a being's health bar, status pills, and
+     * body-part lozenges, for instance).
      * @param context - The in-progress render context.
      * @param options - Sheet render options.
      * @returns The header part context.
@@ -443,6 +450,8 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
             actorName: actor.name,
             actorImg: actor.img,
             typeLabel: sohl.i18n.localize(`TYPES.Actor.${actor.type}`),
+            archetype: (actor.system as any)?.archetype ?? null,
+            canMarkArchetype: canMarkArchetype(fvttIsCurrentUserGM(), actor.isEmbedded),
         });
     }
 

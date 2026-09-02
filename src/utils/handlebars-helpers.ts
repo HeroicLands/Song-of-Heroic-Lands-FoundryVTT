@@ -109,6 +109,45 @@ export const SHARED_COHORTS_PARTIAL = `{{#if cohortChoices.length}}
 </div>
 {{/if}}`;
 
+/** Name of the shared archetype-marker field partial ({@link ARCHETYPE_FIELD_PARTIAL}). */
+export const ARCHETYPE_FIELD_PARTIAL_NAME = "archetypeField";
+
+/**
+ * The reusable **archetype-marker** control (issue #1780), registered as the
+ * named partial `archetypeField` and rendered in the identity block of every
+ * Actor and Item sheet header. It is the one place a document is marked as a
+ * Create-dialog **archetype** — a populated starting template the Create dialog
+ * offers to clone from (issue #604).
+ *
+ * The marker lives in the schema (`system.archetype`), so it binds to an
+ * ordinary number input: **a number** marks the document as an archetype _at
+ * that priority_, and **an empty box** means it is not one — Foundry's
+ * `FormDataExtended` casts an empty number input to `null`, which is exactly the
+ * field's "not an archetype" state. Before #1780 the marker was a flag, and
+ * Foundry ships no flag editor, so setting it meant export → hand-edit JSON →
+ * re-import.
+ *
+ * `0` is a real priority — SoHL's own archetypes ship at it — so the value must
+ * never be bound through a truthiness test, which would render `0` as an empty
+ * box and silently clear the marker on the next save. Plain `{{archetype}}` is
+ * exactly right here: Handlebars renders `null`/`undefined` as `""` but `0` as
+ * `"0"`, so the interpolation preserves the tri-state on its own. Do not
+ * "improve" it into an `{{#if}}`.
+ *
+ * Invocation context:
+ * - `canMarkArchetype` — renders nothing when falsy. The sheet sets it for a GM
+ *   viewing a top-level (non-embedded) document; an embedded item is by
+ *   definition an instance, never a library template.
+ * - `archetype` — the current `system.archetype` (a number, or `null`).
+ */
+export const ARCHETYPE_FIELD_PARTIAL = `{{#if canMarkArchetype}}
+<label class="sheet-header__archetype" data-tooltip="{{localize "SOHL.Archetype.hint"}}">
+    <span class="sheet-header__archetype-label">{{localize "SOHL.Archetype.label"}}</span>
+    <input class="sheet-header__archetype-input" type="number" step="1" name="system.archetype"
+        value="{{archetype}}" placeholder="{{localize "SOHL.Archetype.placeholder"}}" />
+</label>
+{{/if}}`;
+
 /** Name of the shared SafeExpression field partial ({@link EXPRESSION_FIELD_PARTIAL}). */
 export const EXPRESSION_FIELD_PARTIAL_NAME = "expressionField";
 
@@ -144,8 +183,9 @@ export const EXPRESSION_FIELD_PARTIAL = `<div class="expression-field">
  * Registers: `selectArray`, `endswith`, `optionalString`, `setHas`, `contains`,
  * `toJSON`, `toLowerCase`, `arrayToString`, `injurySeverity`, `array`, and the
  * `shortcodeRefField` ({@link SHORTCODE_REF_PARTIAL}), `expressionField`
- * ({@link EXPRESSION_FIELD_PARTIAL}), and `sharedWithCohortsField`
- * ({@link SHARED_COHORTS_PARTIAL}) partials.
+ * ({@link EXPRESSION_FIELD_PARTIAL}), `sharedWithCohortsField`
+ * ({@link SHARED_COHORTS_PARTIAL}), and `archetypeField`
+ * ({@link ARCHETYPE_FIELD_PARTIAL}) partials.
  *
  * @param H - The Handlebars instance to register onto (Foundry's global, or the
  *   `handlebars` package in tests).
@@ -259,4 +299,5 @@ export function registerPureHandlebarsHelpers(H: HandlebarsLike): void {
     H.registerPartial(SHORTCODE_REF_PARTIAL_NAME, SHORTCODE_REF_PARTIAL);
     H.registerPartial(EXPRESSION_FIELD_PARTIAL_NAME, EXPRESSION_FIELD_PARTIAL);
     H.registerPartial(SHARED_COHORTS_PARTIAL_NAME, SHARED_COHORTS_PARTIAL);
+    H.registerPartial(ARCHETYPE_FIELD_PARTIAL_NAME, ARCHETYPE_FIELD_PARTIAL);
 }

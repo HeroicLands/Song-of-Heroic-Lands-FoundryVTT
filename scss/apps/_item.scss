@@ -112,6 +112,37 @@ img.item-img {
     border-radius: var(--sohl-radius-sm);
 }
 
+// Archetype-marker control (#1780) — the GM-only field that marks this document
+// as a Create-dialog archetype and carries its priority. Sits beside the
+// shortcode chip in the identity row, matched to it in weight so it reads as
+// provenance metadata rather than as game data.
+.sheet-header__archetype {
+    display: inline-flex;
+    flex: 0 0 auto;
+    gap: 0.3rem;
+    align-items: center;
+    font-family: var(--sohl-font-sans);
+    font-size: 0.66rem;
+    color: var(--sohl-color-text-muted);
+}
+
+.sheet-header__archetype-label {
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.sheet-header__archetype-input {
+    width: 4rem;
+    margin: 0;
+    padding: 0.06rem 0.4rem;
+    font-family: var(--sohl-font-mono);
+    font-size: 0.72rem;
+    color: var(--sohl-color-text-muted);
+    background: var(--sohl-color-bg-sheet);
+    border: 1px solid var(--sohl-color-border-default);
+    border-radius: var(--sohl-radius-sm);
+}
+
 // --- Type label --------------------------------------------------------------
 // The localized item type name below the identity row — muted, uppercase, sans.
 .sheet-header__type {
