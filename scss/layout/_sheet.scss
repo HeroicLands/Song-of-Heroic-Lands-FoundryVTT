@@ -137,6 +137,25 @@ span.sep {
         font-weight: 400;
     }
 
+    // Archetype-marker control (#1780) — the GM-only field marking this
+    // document as a Create-dialog archetype. Sits under the shortcode, matched
+    // to it in scale so it reads as provenance rather than as game data.
+    .sheet-header__archetype {
+        display: flex;
+        gap: 5px;
+        align-items: center;
+        margin: 0 0 4px 5px;
+        font-size: 12px;
+        color: var(--sohl-color-text-muted);
+    }
+
+    .sheet-header__archetype-input {
+        width: 60px;
+        margin: 0;
+        padding: 2px 5px;
+        font-size: 12px;
+    }
+
     img.sheet-header__portrait {
         flex: 0 0 100px;
         max-width: 100px;

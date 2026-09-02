@@ -17,7 +17,13 @@ import {
     type GearCapacity,
 } from "@src/document/actor/foundry/SohlActorSheetBase";
 import { createAction, editAction, deleteAction, runAction } from "@src/core/foundry/sheet-actions";
-import { fvttCallHook, fvttEnrichHTML, fvttRenderSheet } from "@src/core/FoundryHelpers";
+import {
+    fvttCallHook,
+    fvttEnrichHTML,
+    fvttIsCurrentUserGM,
+    fvttRenderSheet,
+} from "@src/core/FoundryHelpers";
+import { canMarkArchetype } from "@src/entity/archetype/archetype";
 import {
     ACTION_SUBTYPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
@@ -645,13 +651,19 @@ export class BeingSheet extends SohlActorSheetBase {
     }
 
     /**
-     * `data-action="editIdentity"`: open a dialog to edit the being's `name` and
-     * `system.shortcode` together (the header identity pencil). Both are applied
-     * in a single `actor.update`; the document's update-path guard enforces the
-     * unique `(type, shortcode)` key and warns on a duplicate (#766). A blank
-     * name is refused; only changed fields are written. The dialog content is
-     * static markup with the current values HTML-escaped into value attributes —
-     * never interpolated as markup.
+     * `data-action="editIdentity"`: open a dialog to edit the being's `name`,
+     * `system.shortcode` and — for a GM — its `system.archetype` marker together
+     * (the header identity pencil). All are applied in a single `actor.update`;
+     * the document's update-path guard enforces the unique `(type, shortcode)`
+     * key and warns on a duplicate (#766). A blank name is refused; only changed
+     * fields are written. The dialog content is static markup with the current
+     * values HTML-escaped into value attributes — never interpolated as markup.
+     *
+     * The Being header shows its identity as text rather than as inputs, so this
+     * dialog is where a Being is marked as a Create-dialog archetype (#1780) —
+     * the equivalent of the header control every other sheet carries. A blank
+     * Archetype field means "not an archetype"; a number is its priority, and
+     * `0` is a real priority, not a blank.
      *
      * @param _event - The triggering pointer event (unused).
      * @param _target - The clicked pencil (unused).
@@ -664,7 +676,22 @@ export class BeingSheet extends SohlActorSheetBase {
         const actor = this.document;
         const currentName = actor.name ?? "";
         const currentCode = (actor.system as any).shortcode ?? "";
+        const currentArchetype = (actor.system as any).archetype ?? null;
+        const showArchetype = canMarkArchetype(fvttIsCurrentUserGM(), actor.isEmbedded);
         const esc = foundry.utils.escapeHTML;
+        // `currentArchetype` is a number or null, so the blank/`0` distinction
+        // survives: `String(0)` is `"0"`, and `null` becomes the empty box that
+        // means "not an archetype".
+        const archetypeGroup =
+            showArchetype ?
+                `<div class="form-group">
+                    <label>${esc(sohl.i18n.localize("SOHL.Archetype.label"))}</label>
+                    <input type="number" step="1" name="archetype"
+                        value="${currentArchetype == null ? "" : esc(String(currentArchetype))}"
+                        placeholder="${esc(sohl.i18n.localize("SOHL.Archetype.placeholder"))}"
+                        data-tooltip="${esc(sohl.i18n.localize("SOHL.Archetype.hint"))}" />
+                </div>`
+            :   "";
         const content = `
             <form class="edit-identity standard-form">
                 <div class="form-group">
@@ -675,6 +702,7 @@ export class BeingSheet extends SohlActorSheetBase {
                     <label>Shortcode</label>
                     <input type="text" name="shortcode" value="${esc(currentCode)}" />
                 </div>
+                ${archetypeGroup}
             </form>`;
         let fd: PlainObject | undefined;
         try {
@@ -704,6 +732,18 @@ export class BeingSheet extends SohlActorSheetBase {
         const update: PlainObject = {};
         if (name !== currentName) update.name = name;
         if (shortcode !== currentCode) update["system.shortcode"] = shortcode;
+        if (showArchetype) {
+            // A blank box clears the marker (`null`); any number — `0` included
+            // — sets the priority. Never a truthiness test: `0` is the priority
+            // SoHL's own archetypes ship at.
+            const raw = String(fd.archetype ?? "").trim();
+            const archetype = raw === "" ? null : Math.trunc(Number(raw));
+            if (raw !== "" && !Number.isFinite(archetype)) {
+                sohl.log.uiWarn(sohl.i18n.localize("SOHL.Archetype.invalid"));
+                return;
+            }
+            if (archetype !== currentArchetype) update["system.archetype"] = archetype;
+        }
         if (Object.keys(update).length) await actor.update(update);
     }
 

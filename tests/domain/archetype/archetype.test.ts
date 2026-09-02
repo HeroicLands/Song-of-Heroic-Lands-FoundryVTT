@@ -15,9 +15,11 @@ import { describe, it, expect } from "vitest";
 import {
     ARCHETYPE_TIER,
     buildArchetypeOptions,
+    canMarkArchetype,
     resolveArchetypes,
+    clearArchetypeMarker,
+    readArchetypePriority,
     resolveCreateIdentity,
-    stripDocArchetypeFlag,
     type ArchetypeCandidate,
 } from "@src/entity/archetype/archetype";
 
@@ -284,26 +286,83 @@ describe("resolveCreateIdentity — archetype-first defaults (#643)", () => {
     });
 });
 
-describe("stripDocArchetypeFlag", () => {
-    it("removes only flags.sohl.docArchetype, preserving other sohl flags", () => {
+describe("readArchetypePriority — the tri-state on `system.archetype` (#1780)", () => {
+    it("reads a number as the archetype priority", () => {
+        expect(readArchetypePriority({ archetype: 3 })).toBe(3);
+    });
+
+    it("reads 0 as priority 0, NOT as 'not an archetype' (the falsy trap)", () => {
+        // SoHL's own archetypes ship at priority 0, so a truthiness test here
+        // would hide every stock archetype from the Create dialog.
+        expect(readArchetypePriority({ archetype: 0 })).toBe(0);
+    });
+
+    it("reads null as 'not an archetype'", () => {
+        expect(readArchetypePriority({ archetype: null })).toBeUndefined();
+    });
+
+    it("reads an absent field as 'not an archetype'", () => {
+        expect(readArchetypePriority({})).toBeUndefined();
+        expect(readArchetypePriority(undefined)).toBeUndefined();
+    });
+
+    it("ignores a non-numeric value", () => {
+        // A stray string/boolean never enters discovery.
+        expect(readArchetypePriority({ archetype: "2" })).toBeUndefined();
+        expect(readArchetypePriority({ archetype: true })).toBeUndefined();
+    });
+});
+
+describe("clearArchetypeMarker", () => {
+    it("sets system.archetype to null, so the instance is not an archetype", () => {
+        const data = { name: "Seed", system: { archetype: 3, shortcode: "human" } };
+        clearArchetypeMarker(data);
+        expect(data.system.archetype).toBeNull();
+        expect(data.system.shortcode).toBe("human");
+    });
+
+    it("clears a priority-0 archetype too (0 is a marker, not a blank)", () => {
+        const data = { name: "Seed", system: { archetype: 0 } };
+        clearArchetypeMarker(data);
+        expect(data.system.archetype).toBeNull();
+        expect(readArchetypePriority(data.system)).toBeUndefined();
+    });
+
+    it("preserves every flag — the marker no longer lives in flags", () => {
         const data = {
             name: "Seed",
-            flags: { sohl: { docArchetype: 3, keepMe: "yes" }, core: { x: 1 } },
+            system: { archetype: 1 },
+            flags: { sohl: { keepMe: "yes" }, core: { x: 1 } },
         };
-        stripDocArchetypeFlag(data);
-        expect((data.flags.sohl as any).docArchetype).toBeUndefined();
+        clearArchetypeMarker(data);
         expect(data.flags.sohl.keepMe).toBe("yes");
         expect(data.flags.core.x).toBe(1);
     });
 
-    it("is a no-op when the flag is absent", () => {
-        const data = { name: "Seed", flags: { sohl: { other: 1 } } };
-        expect(() => stripDocArchetypeFlag(data)).not.toThrow();
-        expect(data.flags.sohl.other).toBe(1);
+    it("creates the system block when the create-data has none", () => {
+        const data: PlainObject = { name: "Seed" };
+        clearArchetypeMarker(data);
+        expect(data.system.archetype).toBeNull();
     });
 
-    it("tolerates missing flags entirely", () => {
-        const data = { name: "Seed" };
-        expect(() => stripDocArchetypeFlag(data)).not.toThrow();
+    it("is a no-op-shaped write when the document is already not an archetype", () => {
+        const data = { name: "Seed", system: { archetype: null } };
+        expect(() => clearArchetypeMarker(data)).not.toThrow();
+        expect(data.system.archetype).toBeNull();
+    });
+});
+
+describe("canMarkArchetype — who may offer the sheet control (#1780)", () => {
+    it("offers it to a GM on a top-level document", () => {
+        expect(canMarkArchetype(true, false)).toBe(true);
+    });
+
+    it("withholds it from a player — an archetype is world configuration", () => {
+        expect(canMarkArchetype(false, false)).toBe(false);
+    });
+
+    it("withholds it on an embedded document — an embedded item is an instance", () => {
+        expect(canMarkArchetype(true, true)).toBe(false);
+        expect(canMarkArchetype(false, true)).toBe(false);
     });
 });

@@ -29,7 +29,7 @@ describe("slugify (GitHub heading anchors)", () => {
 
     it("drops punctuation inside words rather than splitting them", () => {
         expect(slugify("10) Create-dialog archetypes")).toBe("10-create-dialog-archetypes");
-        expect(slugify("flags.sohl.docArchetype")).toBe("flagssohldocarchetype");
+        expect(slugify("system.archetype")).toBe("systemarchetype");
     });
 });
 

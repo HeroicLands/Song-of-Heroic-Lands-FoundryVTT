@@ -12,16 +12,29 @@
  */
 
 /**
- * Create-dialog archetype picker (issue #604). The dialog seeds a new Being from
- * a populated archetype (shipped "Basic Folk"), or a blank one for **(none)**.
- * The `flags.sohl.docArchetype` marker is stripped when an archetype is
+ * Create-dialog archetype picker (issue #604), on `system.archetype` (#1780).
+ * The dialog seeds a new Being from a populated archetype, or a blank one for
+ * **(none)**. The marker is cleared to `null` when an archetype is
  * _instantiated_ (dialog seed, drop-to-embed) and preserved when copied verbatim
  * (Import, Duplicate).
+ *
+ * **These specs seed their own world-tier archetype** rather than relying on the
+ * shipped compendium being marked. That is deliberate, and it is not merely
+ * hygiene: which documents the built packs carry a marker on depends on
+ * `@heroiclands/package-build`'s builders, and the emission target moves to
+ * `system.archetype` in HeroicLands/package-build#126 — the follow-on to this
+ * change. A spec that presented its own archetype is evidence about SoHL's
+ * discovery rules either side of that, instead of evidence about which build
+ * produced the packs.
+ *
+ * A world copy is the highest tier (world &lt; system &lt; module), so the seeded
+ * archetype is the picker's default whatever the packs carry.
  */
 
 import { tagName } from "../support/factories/ids.js";
 import { BASIC_FOLK } from "../support/factories/basicFolk.js";
 import { resolveDocId } from "../support/commands/import.js";
+import { toRealm } from "../support/resolve.js";
 
 /** The stable descriptor for Basic Folk (id-independent; survives pack rebuilds). */
 const BASIC_FOLK_REF = {
@@ -29,100 +42,154 @@ const BASIC_FOLK_REF = {
     name: BASIC_FOLK.name,
 };
 
-describe("Create dialog: archetype seeding (#604)", () => {
+/**
+ * Import Basic Folk into the world and mark it as an archetype at `priority`,
+ * yielding `{ id, name, shortcode, priority }`. The import run-tags the name and
+ * bumps the shortcode, so `cleanupWorld` sweeps it.
+ *
+ * @param {number} priority - the `system.archetype` value to set (default `0`,
+ *   the priority SoHL's own archetypes ship at).
+ */
+function seedWorldArchetype(priority = 0) {
+    return cy.importActor().then((actor) =>
+        cy.foundry(async (win) => {
+            const a = win.game.actors.get(actor.id);
+            // Cross-realm: an update payload built in the spec bundle is
+            // rejected by Foundry ("must be constructed with a DataModel or
+            // Object") — clone it into the game window first.
+            await a.update(toRealm(win, { "system.archetype": priority }));
+            return {
+                id: a.id,
+                name: a.name,
+                shortcode: a.system.shortcode,
+                priority: a.system.archetype,
+            };
+        }),
+    );
+}
+
+describe("Create dialog: archetype seeding (#604, #1780)", () => {
     before(() => cy.login().then(() => cy.cleanupWorld()));
     afterEach(() => cy.cleanupWorld());
 
-    it("Create → Being with the default archetype yields a populated being; blank Shortcode defaults to the archetype's (#643)", () => {
-        cy.foundry((win) => {
-            // A typed Name overrides the archetype's; Shortcode is left at its
-            // archetype default.
-            win.__created = win.CONFIG.Actor.documentClass.createDialog(
-                { name: tagName("Archetype Being") },
-                {},
-                {},
-            );
-            return null;
+    it("a priority-0 marker round-trips as 0, never as null (the falsy trap)", () => {
+        // SoHL's own archetypes ship at priority 0. `0` and `null` are both
+        // empty-looking and are NOT interchangeable: `0` is an archetype at
+        // priority 0, `null` is not an archetype at all. Any truthiness test
+        // anywhere in the write path would silently turn the first into the
+        // second.
+        seedWorldArchetype(0).should((a) => {
+            expect(a.priority, "0 persisted as 0").to.eq(0);
+            expect(a.priority, "…and not as null").to.not.be.null;
         });
-        // The Archetype select defaults to Basic Folk; just confirm.
-        cy.get("#archetype-select")
-            .should("exist")
-            .find("option")
-            .should("have.length.greaterThan", 1); // at least one archetype + (none)
-        cy.submitDialog("create");
-        cy.foundry((win) =>
-            win.__created.then((doc) => ({
-                id: doc.id,
-                name: doc.name,
-                bodyParts: doc.system?.body?.structure?.parts?.length ?? 0,
-                attributes: doc.items.filter((i) => i.type === "attribute").length,
-                movementProfiles: (doc.system?.movementProfiles || []).length,
-                archetypeFlag: doc.getFlag("sohl", "docArchetype"),
-                shortcode: doc.system?.shortcode,
-            })),
-        ).should((r) => {
-            expect(r.bodyParts, "body parts").to.be.greaterThan(0);
-            expect(r.attributes, "attribute items").to.be.greaterThan(0);
-            expect(r.movementProfiles, "movement profiles").to.be.greaterThan(0);
-            // Instantiation strips the archetype marker.
-            expect(r.archetypeFlag, "docArchetype stripped").to.be.undefined;
-            // The typed Name wins…
-            expect(r.name, "typed name overrides").to.eq(tagName("Archetype Being"));
-            // …but a blank Shortcode now defaults to the archetype's own (#643),
-            // subject only to uniqueness bumping.
-            expect(r.shortcode, "archetype shortcode default").to.match(/^basicfolk\d*$/);
+        cy.foundry((win) => {
+            const doc = win.game.actors.find((x) => x.system?.archetype === 0);
+            return { found: !!doc, value: doc?.system?.archetype };
+        }).should((r) => {
+            expect(r.found, "re-read from the collection").to.be.true;
+            expect(r.value).to.eq(0);
+        });
+    });
+
+    it("Create → Being with the default archetype yields a populated being; blank Shortcode defaults to the archetype's (#643)", () => {
+        seedWorldArchetype(0).then((arch) => {
+            cy.foundry((win) => {
+                // A typed Name overrides the archetype's; Shortcode is left at
+                // its archetype default.
+                win.__created = win.CONFIG.Actor.documentClass.createDialog(
+                    { name: tagName("Archetype Being") },
+                    {},
+                    {},
+                );
+                return null;
+            });
+            // The Archetype select defaults to the seeded archetype; just confirm.
+            cy.get("#archetype-select")
+                .should("exist")
+                .find("option")
+                .should("have.length.greaterThan", 1); // at least one archetype + (none)
+            cy.submitDialog("create");
+            cy.foundry((win) =>
+                win.__created.then((doc) => ({
+                    id: doc.id,
+                    name: doc.name,
+                    bodyParts: doc.system?.body?.structure?.parts?.length ?? 0,
+                    attributes: doc.items.filter((i) => i.type === "attribute").length,
+                    movementProfiles: (doc.system?.movementProfiles || []).length,
+                    archetype: doc.system?.archetype,
+                    shortcode: doc.system?.shortcode,
+                })),
+            ).should((r) => {
+                expect(r.bodyParts, "body parts").to.be.greaterThan(0);
+                expect(r.attributes, "attribute items").to.be.greaterThan(0);
+                expect(r.movementProfiles, "movement profiles").to.be.greaterThan(0);
+                // Instantiation clears the marker — to `null`, not to a falsy 0.
+                expect(r.archetype, "archetype cleared on instantiation").to.be.null;
+                // The typed Name wins…
+                expect(r.name, "typed name overrides").to.eq(tagName("Archetype Being"));
+                // …but a blank Shortcode now defaults to the archetype's own (#643),
+                // subject only to uniqueness bumping.
+                expect(r.shortcode, "archetype shortcode default").to.match(
+                    new RegExp(`^${arch.shortcode}\\d*$`),
+                );
+            });
         });
     });
 
     it("archetype-first: the default archetype pre-fills Name and Shortcode (#643)", () => {
-        cy.foundry((win) => {
-            win.__prefill = win.CONFIG.Actor.documentClass.createDialog({}, {}, {});
-            return null;
-        });
-        // With no pre-seeded name, the fields default to the chosen archetype's
-        // own name / shortcode (Basic Folk). Read them off the *rendered* dialog,
-        // then override the Name with a tagged one so cleanupWorld can sweep the
-        // created document.
-        cy.window({ log: false }).should((win) => {
-            const dlg = Array.from(win.foundry.applications.instances.values())
-                .reverse()
-                .find(
-                    (app) =>
-                        /dialog/i.test(app.constructor.name) &&
-                        app.rendered &&
-                        app.element &&
-                        app.element.querySelector("#archetype-select"),
+        seedWorldArchetype(0).then((arch) => {
+            cy.foundry((win) => {
+                win.__prefill = win.CONFIG.Actor.documentClass.createDialog({}, {}, {});
+                return null;
+            });
+            // With no pre-seeded name, the fields default to the chosen
+            // archetype's own name / shortcode. Read them off the *rendered*
+            // dialog, then override the Name with a tagged one so cleanupWorld
+            // can sweep the created document.
+            cy.window({ log: false }).should((win) => {
+                const dlg = Array.from(win.foundry.applications.instances.values())
+                    .reverse()
+                    .find(
+                        (app) =>
+                            /dialog/i.test(app.constructor.name) &&
+                            app.rendered &&
+                            app.element &&
+                            app.element.querySelector("#archetype-select"),
+                    );
+                expect(dlg, "open create dialog").to.exist;
+                const el = dlg.element;
+                expect(
+                    el.querySelector('input[name="name"]').value,
+                    "Name pre-filled from archetype",
+                ).to.eq(arch.name);
+                expect(
+                    el.querySelector('input[name="shortcode"]').value,
+                    "Shortcode pre-filled from archetype",
+                ).to.match(new RegExp(`^${arch.shortcode}\\d*$`));
+                // Rename so the artifact is tagged; a native input event marks the
+                // field edited so the default no longer clobbers it.
+                const nameInput = el.querySelector('input[name="name"]');
+                nameInput.value = tagName("Prefilled Being");
+                nameInput.dispatchEvent(new win.Event("input", { bubbles: true }));
+            });
+            cy.submitDialog("create");
+            cy.foundry((win) =>
+                win.__prefill.then((doc) => ({
+                    name: doc.name,
+                    shortcode: doc.system?.shortcode,
+                })),
+            ).should((r) => {
+                expect(r.name, "renamed to tagged").to.eq(tagName("Prefilled Being"));
+                // Shortcode was left at the archetype default.
+                expect(r.shortcode, "archetype shortcode default").to.match(
+                    new RegExp(`^${arch.shortcode}\\d*$`),
                 );
-            expect(dlg, "open create dialog").to.exist;
-            const el = dlg.element;
-            expect(
-                el.querySelector('input[name="name"]').value,
-                "Name pre-filled from archetype",
-            ).to.eq("Basic Folk");
-            expect(
-                el.querySelector('input[name="shortcode"]').value,
-                "Shortcode pre-filled from archetype",
-            ).to.match(/^basicfolk\d*$/);
-            // Rename so the artifact is tagged; a native input event marks the
-            // field edited so the default no longer clobbers it.
-            const nameInput = el.querySelector('input[name="name"]');
-            nameInput.value = tagName("Prefilled Being");
-            nameInput.dispatchEvent(new win.Event("input", { bubbles: true }));
-        });
-        cy.submitDialog("create");
-        cy.foundry((win) =>
-            win.__prefill.then((doc) => ({
-                name: doc.name,
-                shortcode: doc.system?.shortcode,
-            })),
-        ).should((r) => {
-            expect(r.name, "renamed to tagged").to.eq(tagName("Prefilled Being"));
-            // Shortcode was left at the archetype default.
-            expect(r.shortcode, "archetype shortcode default").to.match(/^basicfolk\d*$/);
+            });
         });
     });
 
     it("Create → Being with (none) yields a blank being", () => {
+        seedWorldArchetype(0);
         cy.foundry((win) => {
             win.__blank = win.CONFIG.Actor.documentClass.createDialog(
                 { name: tagName("Blank Being") },
@@ -135,9 +202,6 @@ describe("Create dialog: archetype seeding (#604)", () => {
         // *rendered* dialog (instances retain closed dialogs whose stale
         // #archetype-select would otherwise be matched), and confirm it took
         // before submitting so the form serializes "".
-        // Set the value on the *rendered* dialog's select, retrying until the
-        // dialog has registered (cy.foundry alone isn't retriable, and closed
-        // dialogs retain stale #archetype-select elements).
         cy.window({ log: false }).should((win) => {
             const dlg = Array.from(win.foundry.applications.instances.values())
                 .reverse()
@@ -165,65 +229,58 @@ describe("Create dialog: archetype seeding (#604)", () => {
         });
     });
 
-    it("Import preserves the docArchetype flag (copy-verbatim)", () => {
+    it("Import preserves system.archetype (copy-verbatim)", () => {
         cy.foundry(async (win) => {
             const pack = win.game.packs.get(BASIC_FOLK.pack);
             const src = await pack.getDocument(await resolveDocId(pack, BASIC_FOLK_REF));
-            const srcFlag = src.getFlag("sohl", "docArchetype");
+            // Import = toObject → create (no clear). Present the marker on the
+            // payload so the assertion is about what create preserves, not about
+            // what the packs happen to carry.
             const data = src.toObject();
-            // Import = toObject → create (no strip). Retag so cleanupWorld sweeps it.
             data.name = tagName("Imported Folk");
             // Alphanumeric only — the create guard rejects anything else (#1397).
             data.system.shortcode = `imp${Date.now()}`;
+            data.system.archetype = 3;
             const created = await win.Actor.create(data);
             return {
-                flag: created.getFlag("sohl", "docArchetype"),
-                srcFlag,
+                archetype: created.system?.archetype,
                 populated: (created.system?.body?.structure?.parts?.length ?? 0) > 0,
             };
         }).should((r) => {
-            // The flag is preserved verbatim — whatever priority the source
-            // carries (Basic Folk is priority 1 so it wins the create default).
-            expect(r.srcFlag, "source is an archetype").to.be.a("number");
-            expect(r.flag, "flag preserved on import").to.eq(r.srcFlag);
+            expect(r.archetype, "marker preserved on import").to.eq(3);
             expect(r.populated).to.be.true;
         });
     });
 
-    it("Duplicate preserves the docArchetype flag (copy-verbatim)", () => {
-        // Seed a flagged world archetype, then duplicate it.
-        cy.foundry(async (win) => {
-            const pack = win.game.packs.get(BASIC_FOLK.pack);
-            const src = await pack.getDocument(await resolveDocId(pack, BASIC_FOLK_REF));
-            const srcFlag = src.getFlag("sohl", "docArchetype");
-            const data = src.toObject();
-            data.name = tagName("Dup Source");
-            data.system.shortcode = `dup${Date.now()}`;
-            const world = await win.Actor.create(data);
-            // A directory Duplicate is a verbatim copy stamped with
-            // `_stats.duplicateSource`; replicate that faithfully.
-            const dup = world.toObject();
-            delete dup._id;
-            dup.name = tagName("Dup Copy");
-            dup.system.shortcode = `dupc${Date.now()}`;
-            dup._stats = { ...(dup._stats || {}), duplicateSource: world.uuid };
-            const copy = await win.Actor.create(dup);
-            // Preserved verbatim — equals the source's own priority, not a
-            // hardcoded 0 (Basic Folk is priority 1).
-            return { flag: copy.getFlag("sohl", "docArchetype"), srcFlag };
-        }).should((r) => {
-            expect(r.srcFlag, "source is an archetype").to.be.a("number");
-            expect(r.flag, "flag preserved on duplicate").to.eq(r.srcFlag);
+    it("Duplicate preserves system.archetype (copy-verbatim), including priority 0", () => {
+        // Seed a marked world archetype at priority 0 — the falsy value — then
+        // duplicate it: a truthiness test in the copy path would drop it.
+        seedWorldArchetype(0).then((arch) => {
+            cy.foundry(async (win) => {
+                const world = win.game.actors.get(arch.id);
+                // A directory Duplicate is a verbatim copy stamped with
+                // `_stats.duplicateSource`; replicate that faithfully.
+                const dup = world.toObject();
+                delete dup._id;
+                dup.name = tagName("Dup Copy");
+                dup.system.shortcode = `dupc${Date.now()}`;
+                dup._stats = { ...(dup._stats || {}), duplicateSource: world.uuid };
+                const copy = await win.Actor.create(dup);
+                return { archetype: copy.system?.archetype, srcArchetype: world.system?.archetype };
+            }).should((r) => {
+                expect(r.srcArchetype, "source is an archetype at 0").to.eq(0);
+                expect(r.archetype, "marker preserved on duplicate").to.eq(0);
+            });
         });
     });
 
-    it("Drop-to-embed strips the docArchetype flag", () => {
+    it("Drop-to-embed clears system.archetype", () => {
         cy.importActor().then((actor) => {
-            // A flagged world skill item — dropping it clones an embedded child,
+            // A marked world skill item — dropping it clones an embedded child,
             // which must NOT carry the archetype marker.
             cy.createWorldItem("skill", {
-                name: tagName("Flagged Skill"),
-                flags: { sohl: { docArchetype: 2 } },
+                name: tagName("Marked Skill"),
+                system: { archetype: 2 },
             }).then((skill) => {
                 cy.openSheet(actor);
                 cy.foundry(async (win) => {
@@ -247,16 +304,37 @@ describe("Create dialog: archetype seeding (#604)", () => {
                         if (child)
                             return {
                                 found: true,
-                                flag: child.getFlag("sohl", "docArchetype"),
+                                srcArchetype: src.system?.archetype,
+                                archetype: child.system?.archetype,
                             };
                         await new Promise((r) => setTimeout(r, 20));
                     }
                     return { found: false };
                 }).should((r) => {
                     expect(r.found, "embedded child created").to.be.true;
-                    expect(r.flag, "flag stripped on drop-embed").to.be.undefined;
+                    expect(r.srcArchetype, "source is an archetype").to.eq(2);
+                    expect(r.archetype, "marker cleared on drop-embed").to.be.null;
                 });
             });
+        });
+    });
+
+    it("the sheet control sets and clears system.archetype without editing JSON (#1780)", () => {
+        // The point of moving the marker into the schema: a GM marks a document
+        // from its sheet, instead of export → hand-edit JSON → re-import.
+        cy.createWorldItem("skill", { name: tagName("Sheet Marked Skill") }).then((skill) => {
+            cy.openSheet(skill);
+            cy.foundry((win) => win.game.items.get(skill.id).system.archetype).should("be.null");
+
+            // Set it to 0 — the priority SoHL's own archetypes ship at, and the
+            // value a truthiness bug would swallow.
+            cy.editSheetField(skill, "system.archetype", 0);
+            cy.foundry((win) => win.game.items.get(skill.id).system.archetype).should("eq", 0);
+
+            // …and clearing the box un-marks it: FormDataExtended casts an empty
+            // number input to `null`, the field's "not an archetype" state.
+            cy.editSheetField(skill, "system.archetype", "");
+            cy.foundry((win) => win.game.items.get(skill.id).system.archetype).should("be.null");
         });
     });
 });

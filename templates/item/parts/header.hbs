@@ -19,6 +19,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 placeholder="{{localize 'Name'}}" />
             <input class="sheet-header__shortcode" name="system.shortcode" type="text"
                 value="{{logic.data.shortcode}}" placeholder="{{localize "SOHL.Common.shortcode"}}" />
+            {{> archetypeField canMarkArchetype=canMarkArchetype archetype=archetype}}
         </div>
         <div class="sheet-header__type item-subtitle">{{typeLabel}}</div>
     </div>

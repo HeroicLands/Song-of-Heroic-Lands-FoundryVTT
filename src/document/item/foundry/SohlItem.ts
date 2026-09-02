@@ -35,7 +35,7 @@ import {
     buildArchetypeOptions,
     resolveArchetypes,
     resolveCreateIdentity,
-    stripDocArchetypeFlag,
+    clearArchetypeMarker,
     type ArchetypeCandidate,
     type ArchetypeIdentity,
 } from "@src/entity/archetype/archetype";
@@ -417,7 +417,7 @@ export async function sohlCreateDialog(
     if (result.archetype) {
         // Seed from the chosen archetype: clone its `toObject()` (embedded
         // documents included, so a being arrives fully populated), clean the
-        // copy the way an import does, strip the archetype marker (an instance
+        // copy the way an import does, clear the archetype marker (an instance
         // is not itself a template), then overlay the dialog's Name/Shortcode.
         createData = await seedFromArchetype(
             result.archetype,
@@ -447,9 +447,9 @@ export async function sohlCreateDialog(
  * Build create-data by cloning an archetype document, addressed by UUID. The
  * source's `toObject()` carries its embedded documents (items, effects), so a
  * being seeds fully populated. The copy is cleaned like an import — fresh id,
- * no folder/sort/ownership carried over — its `flags.sohl.docArchetype` marker
- * is stripped (an instance is not itself an archetype; see
- * {@link sohl.entity.archetype.stripDocArchetypeFlag}), and the dialog's
+ * no folder/sort/ownership carried over — its `system.archetype` marker is
+ * cleared to `null` (an instance is not itself an archetype; see
+ * {@link sohl.entity.archetype.clearArchetypeMarker}), and the dialog's
  * Name / Type / SubType / Shortcode are overlaid. `_preCreate` remains the
  * backstop for `(type, shortcode)` uniqueness.
  *
@@ -476,7 +476,6 @@ async function seedFromArchetype(
     if (seed._stats && typeof seed._stats === "object") {
         delete (seed._stats as PlainObject).duplicateSource;
     }
-    stripDocArchetypeFlag(seed);
     seed.name = name;
     seed.type = type;
     const system = (
@@ -486,6 +485,10 @@ async function seedFromArchetype(
     system.shortcode = shortcode;
     if (subType) system.subType = subType;
     seed.system = system;
+    // An instance is not itself an archetype: clear the marker the source
+    // carries (issue #1780). Done after the system block is normalized so the
+    // write lands on the object that is actually persisted.
+    clearArchetypeMarker(seed);
     return seed;
 }
 

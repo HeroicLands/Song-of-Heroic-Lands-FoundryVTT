@@ -25,7 +25,13 @@ import {
     deleteAction,
     runAction,
 } from "@src/core/foundry/sheet-actions";
-import { fvttCallHook, fvttCleanHTML, fvttWorldActors } from "@src/core/FoundryHelpers";
+import { canMarkArchetype } from "@src/entity/archetype/archetype";
+import {
+    fvttCallHook,
+    fvttCleanHTML,
+    fvttIsCurrentUserGM,
+    fvttWorldActors,
+} from "@src/core/FoundryHelpers";
 import { ACTOR_KIND, GearKinds } from "@src/utils/constants";
 import { localizeSubType, keyTransferredEffects } from "@src/document/item/logic/item-sheet-view";
 import { resolveDescriptionHtml } from "@src/document/item/logic/SohlItemBaseLogic";
@@ -511,7 +517,8 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
 
     /**
      * Prepare context for the sheet header.
-     * Provides the item name, image, and type label.
+     * Provides the item name, image, type label, and the archetype-marker
+     * control's binding (issue #1780).
      * @param context - The render context to augment.
      * @param _options - Sheet render options (unused).
      * @returns The context extended with header fields.
@@ -525,6 +532,8 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
             itemName: this.document.name,
             itemImg: this.document.img,
             typeLabel: this.document.logic?.typeLabel,
+            archetype: (this.document.system as any)?.archetype ?? null,
+            canMarkArchetype: canMarkArchetype(fvttIsCurrentUserGM(), this.document.isEmbedded),
         });
     }
 

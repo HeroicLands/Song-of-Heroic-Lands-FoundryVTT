@@ -22,7 +22,11 @@ import {
 import type { DialogSpec } from "@src/utils/types";
 import { AFFLICTION_SUBTYPE, ITEM_KIND, toMessageMode } from "@src/utils/constants";
 import type { AfflictionChoice } from "@src/document/actor/logic/affliction-contract";
-import { ARCHETYPE_TIER, type ArchetypeCandidate } from "@src/entity/archetype/archetype";
+import {
+    ARCHETYPE_TIER,
+    readArchetypePriority,
+    type ArchetypeCandidate,
+} from "@src/entity/archetype/archetype";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { SohlTokenDocument } from "@src/document/token/foundry/SohlTokenDocument";
 import type { SohlScene } from "@src/document/scene/foundry/SohlScene";
@@ -520,28 +524,18 @@ export async function fvttFindItemByShortcode(
 }
 
 /**
- * Read a numeric `flags.sohl.docArchetype` priority from a flags object, or
- * `undefined` when the flag is absent or not a number. A non-numeric marker is
- * ignored so a stray `true`/string never enters archetype discovery.
- * @param flags - A document's (or index entry's) `flags` object.
- * @returns The numeric priority, or `undefined`.
- */
-function readArchetypePriority(flags: any): number | undefined {
-    const v = flags?.sohl?.docArchetype;
-    return typeof v === "number" ? v : undefined;
-}
-
-/**
  * Discover every archetype candidate for a document type across the world
  * directory and all compendium packs whose `metadata.type` matches — the
  * Foundry-boundary half of the Create-dialog archetype picker (issue #604).
  *
- * A candidate is any document carrying a **numeric** `flags.sohl.docArchetype`
- * (its priority). This gathers them into the plain
+ * A candidate is any document carrying a **numeric** `system.archetype` (its
+ * priority; `null` is not an archetype — see
+ * {@link sohl.entity.archetype.readArchetypePriority} for the falsy trap on
+ * `0`). This gathers them into the plain
  * {@link sohl.entity.archetype.ArchetypeCandidate} records the Foundry-free
  * {@link sohl.entity.archetype.resolveArchetypes} rules consume — so all the
  * filter/dedup/winner logic stays unit-testable. Packs are read through their
- * **index** (with the shortcode / subType / flag fields requested) to avoid
+ * **index** (with the archetype / shortcode / subType fields requested) to avoid
  * loading full documents; the winner's `toObject()` is only fetched on confirm.
  *
  * Source tier is derived from the pack's `packageType` (world &lt; system &lt;
@@ -556,7 +550,7 @@ export async function fvttDiscoverArchetypes(documentName: string): Promise<Arch
 
     const worldCollection = documentName === "Actor" ? (game as any).actors : (game as any).items;
     for (const doc of (worldCollection ?? []) as Iterable<any>) {
-        const priority = readArchetypePriority(doc.flags);
+        const priority = readArchetypePriority(doc.system);
         if (priority === undefined) continue;
         out.push({
             uuid: doc.uuid,
@@ -576,10 +570,10 @@ export async function fvttDiscoverArchetypes(documentName: string): Promise<Arch
             : pack.metadata?.packageType === "world" ? ARCHETYPE_TIER.WORLD
             : ARCHETYPE_TIER.MODULE;
         const index = await pack.getIndex({
-            fields: ["flags.sohl.docArchetype", "system.shortcode", "system.subType"],
+            fields: ["system.archetype", "system.shortcode", "system.subType"],
         });
         for (const entry of index as Iterable<any>) {
-            const priority = readArchetypePriority(entry.flags);
+            const priority = readArchetypePriority(entry.system);
             if (priority === undefined) continue;
             out.push({
                 uuid: entry.uuid ?? `Compendium.${pack.collection}.${entry._id}`,

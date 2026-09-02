@@ -287,7 +287,7 @@ appear in the GM's calendar settings. The registry API
 format are documented in the
 [Calendar Reference](../reference/calendar.md#calendar-registry-and-gm-workflow).
 
-## 10) Create-dialog archetypes (`flags.sohl.docArchetype`)
+## 10) Create-dialog archetypes (`system.archetype`)
 
 The shared Create dialog (`sohlCreateDialog`, used by both `SohlActor` and
 `SohlItem`) offers an **Archetype** picker that seeds a new document from an
@@ -295,10 +295,26 @@ existing, fully-populated one — so a new Being is born with body, attributes, 
 movement instead of blank. Archetypes are **data, not code**: no source change is
 needed to add one.
 
-**The contract.** Flag any Actor/Item — in a compendium pack or in the world —
-with `flags.sohl.docArchetype = <priority:number>` and it becomes an archetype
-for its `(type, subType)` in the picker. The value is a numeric priority (see
-below); a non-numeric marker is ignored.
+**The contract.** Mark any Actor/Item — in a compendium pack or in the world —
+with `system.archetype = <priority:number>` and it becomes an archetype for its
+`(type, subType)` in the picker. The value is a numeric priority (see below);
+`null` — the field's initial value — means "not an archetype", and a non-numeric
+value is ignored.
+
+**`0` is a priority, not a blank.** SoHL's own archetypes ship at priority `0`,
+so the tri-state has two states that both look empty and are **not**
+interchangeable: a **number** is an archetype at that priority, `null` is not an
+archetype. `0` is falsy, so every reader tests `typeof v === "number"` and never
+truthiness — see {@link sohl.entity.archetype.readArchetypePriority}, which is
+the one place that decision is made.
+
+**Setting it needs no JSON editing.** The marker is a schema field, so each
+sheet header carries a GM-only **Archetype Priority** control bound to
+`system.archetype`; a blank box is `null`. (On the Being sheet, whose header
+renders identity as text, it lives in the header's identity dialog alongside
+Name and Shortcode.) It was a flag until issue #1780, and Foundry ships no flag
+editor — marking a document meant exporting it, hand-editing the JSON and
+re-importing.
 
 **Identity is the shortcode, not the name.** After the `(type, subType)` filter,
 an archetype's `system.shortcode` is its identity. Two candidates sharing a
@@ -349,30 +365,31 @@ never fails; without it, a collision is rejected. System-generated item creation
 (`fvttCreateEmbeddedItems`, cross-actor gear drops) opts in; the human dialog stays
 strict so the author picks a unique code deliberately.
 
-**Instantiation strips the flag; copy-verbatim preserves it.**
-`flags.sohl.docArchetype` is removed at every point where an archetype is
+**Instantiation clears the marker; copy-verbatim preserves it.**
+`system.archetype` is reset to `null` at every point where an archetype is
 _instantiated_ into a live document, and kept only when a document is copied _as
-a library entry_. The single stripping primitive is the pure
-{@link sohl.entity.archetype.stripDocArchetypeFlag} (it deletes exactly that one
-key; other `flags.sohl.*` are legitimate inherited data).
+a library entry_. The single primitive is the pure
+{@link sohl.entity.archetype.clearArchetypeMarker}. It **writes `null`** rather
+than deleting a key — `0` is a real marker, so "clear it" can never be spelled
+as "drop a falsy value".
 
-- **Strip — Create dialog** seeding from an archetype: a document created from an
+- **Clear — Create dialog** seeding from an archetype: a document created from an
   archetype is not itself an archetype.
-- **Strip — Drop-to-embed:** dragging a compendium **or world** item onto an
+- **Clear — Drop-to-embed:** dragging a compendium **or world** item onto an
   actor/item sheet creates an **embedded**, in-play child — never a template. The
-  strip lives in `SohlActorSheetBase._onDropItem`, immediately before
-  `createEmbeddedDocuments("Item", …)`, so the flag never rides onto the owner
+  clear lives in `SohlActorSheetBase._onDropItem`, immediately before
+  `createEmbeddedDocuments("Item", …)`, so the marker never rides onto the owner
   (an embedded item that kept it would pollute discovery and could be
   re-instantiated as if it were a template).
 - **Preserve — Import and Duplicate** of a top-level directory document: these are
   copy-verbatim operations that yield another _library_ document; preserving the
-  flag is exactly how a GM makes a world-tier override.
+  marker is exactly how a GM makes a world-tier override.
 
-> **Never move the strip into `_preCreate`.** That hook runs for _every_ create —
+> **Never move the clear into `_preCreate`.** That hook runs for _every_ create —
 > dialog, drop-embed, directory Import, and Duplicate alike — so it cannot
-> distinguish instantiation from copy-verbatim. If the strip ever migrates there,
-> the world-override workflow silently breaks (Import/Duplicate would lose the
-> flag). The strip must stay at the specific instantiation entry points (dialog +
+> distinguish instantiation from copy-verbatim. If it ever migrates there, the
+> world-override workflow silently breaks (Import/Duplicate would lose the
+> marker). It must stay at the specific instantiation entry points (dialog +
 > drop), and both sides are guarded by tests.
 
 See [Module Development → Archetypes](../contributing/module-development.md#shipping-create-dialog-archetypes)

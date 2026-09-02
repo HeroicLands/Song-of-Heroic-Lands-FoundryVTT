@@ -268,8 +268,12 @@ data — a module contributes them without any code.
 **Specify a new archetype.** Ship an Actor or Item in your module's compendium
 pack with two things:
 
-- `flags.sohl.docArchetype` set to a **number** (its priority), and
+- `system.archetype` set to a **number** (its priority), and
 - a stable, meaningful `system.shortcode`.
+
+`system.archetype` defaults to `null`, which means "not an archetype". Note that
+`0` is a real priority, not a blank — SoHL's own archetypes ship at it — so
+never test the value for truthiness.
 
 It then appears automatically in the Create picker for its `type` (and `subType`),
 alongside the shipped archetypes. A brand-new archetype with a **fresh shortcode**
@@ -277,8 +281,8 @@ needs no particular priority value — it shows up regardless of priority.
 
 **Override an existing archetype (prioritization).** To replace a shipped (or
 another module's) archetype rather than add a new one, ship a document with the
-**same `shortcode`** as the target and a **higher `docArchetype` priority** than
-the one you are overriding:
+**same `shortcode`** as the target and a **higher `system.archetype` priority**
+than the one you are overriding:
 
 - SoHL ships its stock archetypes at **priority 0**, so **any positive number**
   overrides a stock archetype.
@@ -295,9 +299,13 @@ localize or casually rename it (same spirit as the stable `lang/en.json` keys).
 The display **name** is free to vary or be localized — the picker labels options
 `Name (shortcode)` precisely because dedup can collapse divergent names.
 
-See [Extension Points → Create-dialog archetypes](../how-to/extension-points.md#10-create-dialog-archetypes-flagssohldocarchetype)
+A GM can set the same field from the sheet: every Actor and Item sheet header
+carries a GM-only **Archetype Priority** control bound to `system.archetype`
+(on the Being sheet it is in the header's identity dialog).
+
+See [Extension Points → Create-dialog archetypes](../how-to/extension-points.md#10-create-dialog-archetypes-systemarchetype)
 for the full contract, the Foundry-free discovery helper, and the
-instantiation-strips / copy-preserves boundary.
+instantiation-clears / copy-preserves boundary.
 
 ### Credits & attributions
 
