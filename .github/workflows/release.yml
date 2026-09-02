@@ -1,189 +1,60 @@
 name: Version and Release
 
+# The whole release process, from a merged pull request to a downloadable
+# system. Nothing here is started by hand.
+#
+#   1. A pull request declares its bump as a `.changeset/*.md` file.
+#   2. Merging it to `main` opens or updates the **Version Packages** pull
+#      request: the version bump plus the rewritten CHANGELOG.md.
+#   3. Merging *that* leaves no changesets, which is the signal to build the
+#      system, package it, and cut the `v<version>` tag and the GitHub Release
+#      that Foundry installs from.
+#
+# The steps live in HeroicLands/.github, not here. Six repositories carried
+# near-identical copies of them, and one dependency bump broke several at once:
+# `changesets/action` renamed every multi-word output at v2, a stale v1 name
+# resolves to the empty string, and the release step was skipped forever while
+# the job reported green (HeroicLands/.github#12). This is the sixth and last
+# adoption, taken after the other five so that the caller with the most to lose
+# went last.
+#
+# ---------------------------------------------------------------------------
+# THE FILE NAME IS LOAD-BEARING
+# ---------------------------------------------------------------------------
+#
+# npm Trusted Publishing binds the publisher to this repository *and this
+# workflow path*, and `release:post` publishes @heroiclands/sohl-types through
+# it. npm authorizes the workflow that **initiates** the run, not the reusable
+# one it calls, so moving the body of the release into the shared workflow needs
+# no change on npm — precisely because this file keeps its name. Renaming or
+# moving it invalidates the credential until the trusted publisher is
+# reconfigured on npm.
+
 on:
     push:
-        branches:
-            - main
+        branches: [main]
+    # Manual recovery: re-runs the decision for a version that is merged and
+    # versioned but never got its release. An existing tag is skipped rather
+    # than duplicated, so running this is safe.
+    workflow_dispatch:
 
-# contents: write   -> create the release, tag, and version commit
-# pull-requests: write -> open/update the "Version Packages" PR
-# id-token: write    -> OIDC for npm Trusted Publishing (the @heroiclands/* packages)
-# actions: write     -> dispatch deploy-sohl.yml when a release is published
+# Declared here rather than in the shared workflow: a called workflow cannot
+# grant itself more than its caller holds, so a fixed block there would have
+# capped every caller at the narrowest set — and this caller is the reason,
+# being the only one that needs more than the first two.
 permissions:
-    contents: write
-    pull-requests: write
-    id-token: write
-    actions: write
-
-# Never let two pushes to main race on the version PR or the release.
-concurrency:
-    group: release
-    cancel-in-progress: false
+    contents: write # push the version branch, create the tag and Release
+    pull-requests: write # open and update the Version Packages pull request
+    id-token: write # OIDC for npm Trusted Publishing (@heroiclands/sohl-types)
+    actions: write # dispatch deploy-sohl.yml from release:post
 
 jobs:
     release:
-        name: Version and Release
-        runs-on: ubuntu-latest
-
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v7
-              with:
-                  fetch-depth: 0
-
-            - name: Setup Node
-              uses: actions/setup-node@v7
-              with:
-                  node-version: 24
-                  cache: npm
-
-            - name: Install dependencies
-              run: npm ci
-
-            # When changesets are pending, this opens (or updates) the
-            # "Version Packages" PR that bumps the version and rewrites
-            # CHANGELOG.md. When that PR is merged, the changesets are gone, so
-            # this step is a no-op and `has-changesets` is false — which is the
-            # signal that a freshly-versioned commit just landed on main.
-            - name: Create or update the Version Packages PR
-              id: changesets
-              uses: changesets/action@v2
-              with:
-                  # The repository's own script, not a second spelling of it.
-                  # `changeset version` rewrites package.json and CHANGELOG.md
-                  # but never the lockfile, so `package-lock.json`'s root
-                  # `version` keeps the previous release's number until someone
-                  # happens to run an install; the script refreshes it, so the
-                  # two agree by construction.
-                  #
-                  # It must stay ONE command. This input is tokenized and
-                  # exec'd, never handed to a shell, so a `&&` chain written
-                  # here is read as arguments to the first command —
-                  # `changeset` would receive `--package-lock-only` and reject
-                  # it. That is exactly what broke every release in
-                  # `@heroiclands/content-build` (content-build#74); an npm
-                  # script is the seam that does get a shell.
-                  version-script: npm run changeset:version
-                  commit-message: "chore(release): version packages"
-                  pr-title: "chore(release): version packages"
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-            # Release only when the Version PR has merged: no changesets remain
-            # AND the current package version has not already been tagged. This
-            # makes the job idempotent — ordinary pushes to main never release.
-            #
-            # The output is `has-changesets`, kebab-case: changesets/action v2
-            # renamed it from v1's `has-changesets`. Reading the old name yields
-            # an empty string, `'' == 'false'` is false, and every release step
-            # below is skipped forever — the workflow runs green and cuts
-            # nothing. Bracket notation is required too, because a hyphen in a
-            # property name is parsed as subtraction.
-            - name: Decide whether to release
-              id: decide
-              if: steps.changesets.outputs['has-changesets'] == 'false'
-              run: |
-                  VERSION=$(node -p "require('./package.json').version")
-                  TAG="v$VERSION"
-                  if git ls-remote --exit-code --tags origin "refs/tags/$TAG" >/dev/null 2>&1; then
-                      echo "Tag $TAG already exists — nothing to release."
-                      echo "release=false" >> "$GITHUB_OUTPUT"
-                  else
-                      echo "Version $VERSION is untagged — releasing $TAG."
-                      echo "release=true" >> "$GITHUB_OUTPUT"
-                      echo "tag=$TAG" >> "$GITHUB_OUTPUT"
-                  fi
-
-            - name: Build system
-              if: steps.decide.outputs.release == 'true'
-              run: npm run build
-
-            - name: Package system
-              if: steps.decide.outputs.release == 'true'
-              run: npm run build:pack-release
-
-            # Written to a file rather than a step output: a version's section
-            # can be very large (e.g. many changesets accumulated between
-            # releases), and passing that much text through an action `input`
-            # delivers it via process environment — large enough and the
-            # runner can't even spawn the release action's Node process
-            # ("Argument list too long"). `body_path` below reads the file
-            # directly, sidestepping the env-size limit entirely.
-            - name: Read changelog section for this version
-              id: changelog
-              if: steps.decide.outputs.release == 'true'
-              run: |
-                  # Emit only the latest version's section: everything between
-                  # the first "## " heading and the next "## " heading,
-                  # excluding the version header line itself (the release title
-                  # already shows it).
-                  awk '/^## /{c++; if (c>=2) exit; next} c==1{print}' CHANGELOG.md > build/release-notes.md
-
-            # Creates the v<version> tag and the GitHub Release, attaching the
-            # packaged manifest + zip that Foundry installs from.
-            - name: Create GitHub Release
-              if: steps.decide.outputs.release == 'true'
-              uses: softprops/action-gh-release@v3
-              with:
-                  tag_name: ${{ steps.decide.outputs.tag }}
-                  name: Release ${{ steps.decide.outputs.tag }}
-                  body_path: build/release-notes.md
-                  files: |
-                      build/dist/system.zip
-                      build/dist/system.json
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-            # A published release moves the API half of /sohl/, which documents
-            # the newest release tag rather than `main` — so ask the deploy to
-            # run. Dispatched here, from the one step that knows a release was
-            # actually cut, rather than watched from the outside: this workflow
-            # completes successfully on every push to `main` whether it released
-            # or not, and deploy-sohl.yml's `workflow_run` trigger on that
-            # completion fired a second, redundant deploy every time (#1484).
-            # `workflow_dispatch` is one of the two events GITHUB_TOKEN may
-            # still start a workflow run with.
-            - name: Republish /sohl/ from the new release
-              if: steps.decide.outputs.release == 'true'
-              env:
-                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              run: gh workflow run deploy-sohl.yml --ref main
-
-            # Publish the types-only npm package via npm Trusted Publishing
-            # (OIDC) — no NPM_TOKEN. Requires a Trusted Publisher configured on
-            # npm for @heroiclands/sohl-types pointing at this repo + this
-            # workflow file, plus the `id-token: write` permission above.
-            # Idempotent: skips when the package's version is already on npm. The
-            # types package is versioned by hand in
-            # packages/sohl-types/package.json (independent of the system
-            # version); its `prepack` regenerates index.d.ts from source at pack
-            # time. npm >= 11.5 is required for OIDC, so upgrade the runner's npm.
-            # `continue-on-error`: this is a secondary, best-effort deliverable —
-            # Foundry installs from the Release's system.zip, not from npm, so a
-            # failure here must not mark the release job failed.
-            - name: Publish @heroiclands/sohl-types (npm Trusted Publishing)
-              if: steps.decide.outputs.release == 'true'
-              continue-on-error: true
-              run: |
-                  npm install -g npm@latest
-                  cd packages/sohl-types
-                  VERSION=$(node -p "require('./package.json').version")
-                  if npm view "@heroiclands/sohl-types@$VERSION" version >/dev/null 2>&1; then
-                      echo "@heroiclands/sohl-types@$VERSION already published — skipping."
-                  else
-                      npm publish
-                  fi
-
-            # @heroiclands/content-build is NOT published from here. It was
-            # extracted to HeroicLands/content-build (#1589) and publishes from
-            # its own repository; this one resolves it from the registry like
-            # every other consumer (#1604). The step that used to publish it
-            # `cd packages/content-build`-ed into a directory that no longer
-            # exists, and `continue-on-error` swallowed the failure — the same
-            # invisible-failure shape as #1613, so it went with it.
-
-            # API docs are not published here. The dispatch above runs
-            # deploy-sohl.yml, which rebuilds the whole of /sohl/ and takes the
-            # API documentation from the newest release tag — so it needs
-            # nothing from this job. Republish by hand with:
-            # gh workflow run deploy-sohl.yml
+        uses: HeroicLands/.github/.github/workflows/release-foundry-package.yml@main
+        with:
+            package-kind: system
+            # The two things only this repository does, after the Release
+            # exists: republish /sohl/ from the new tag, and publish the
+            # types-only npm package. See utils/release-post.mjs — the shared
+            # workflow runs the script and knows nothing about its contents.
+            post-release-script: release:post
