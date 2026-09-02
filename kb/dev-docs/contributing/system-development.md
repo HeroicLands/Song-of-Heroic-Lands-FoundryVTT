@@ -193,6 +193,22 @@ and the proposed fix go in a **comment**, not the body.
   human-readable label.
 - Issue-free types: `chore/<slug>`.
 
+**Committing on `main` is refused locally.** `main` is protected on GitHub, so a
+commit made on it could never be pushed — but that only becomes apparent at push
+time, once the commit exists and has to be moved off the branch. Two hooks in
+`.githooks/` (`pre-commit` and `pre-merge-commit`, sharing
+`protected-branch.sh`) move the refusal forward to the commit, where the fix is
+still just "branch first" — and `git switch -c <branch>` keeps whatever you have
+staged. There are two hooks because git runs `pre-merge-commit` _instead of_
+`pre-commit` for a merge, so guarding only the latter would still let a stray
+`git pull` on `main` write a merge commit.
+
+Like the `commit-msg` hook below, they are activated for you when `npm install`
+runs its `prepare` script. They are an accident guard, not a control:
+`git commit --no-verify` bypasses them, and `git config hooks.allowCommitOnMain
+true` opts a checkout out permanently. A rebase replays commits with HEAD
+detached and is deliberately unaffected.
+
 ### Test-driven development
 
 Write the test first, watch it fail, then implement. Tests run in Node via
