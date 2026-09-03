@@ -16,12 +16,12 @@ A **physical condition** is a [[doc-traumaintro|Trauma]] of the body that is not
 
 It is the bodily counterpart of a [[doc-psychlgc|psychological condition]], and it is told apart from its neighbours the same way:
 
-| Kind of trauma               | What it is                                                        |
-| ---------------------------- | ----------------------------------------------------------------- |
-| [[doc-injintro\|Injury]]     | Damage done to a location, which heals or kills                   |
-| [[doc-afflctns\|Affliction]] | A hostile agent — disease, poison, maladiction — running a course |
-| [[doc-fatigue\|Fatigue]]     | Depletion, which rest restores                                    |
-| **Physical condition**       | A state of the body, which lasts until its cause is removed       |
+| Kind of trauma                   | What it is                                                        |
+| -------------------------------- | ----------------------------------------------------------------- |
+| [[doc-injintro\|Injury]]         | Damage done to a location, which heals or kills                   |
+| [[doc-afflctnrules\|Affliction]] | A hostile agent — disease, poison, maladiction — running a course |
+| [[doc-fatigue\|Fatigue]]         | Depletion, which rest restores                                    |
+| **Physical condition**           | A state of the body, which lasts until its cause is removed       |
 
 Unlike a wound, a physical condition has **no injury level and no healing rate**; unlike a fatigue, it is not slept off. It is present or it is not, and while it is present it is described rather than counted.
 
@@ -72,4 +72,4 @@ The condition lasts exactly as long as whatever imposes it, and no longer.
 - [[doc-psychlgc|Psychological Condition]] — the same idea for the mind
 - [[doc-imprmnt|Impairment]] — the penalties injuries and maimings impose, and the permanent impairment a slow-healing wound leaves
 - [[doc-character#body-structure|Body Structure]] — the parts a condition attaches to
-- [[doc-afflctns#affliction-vs-trauma|Affliction vs. Trauma]] — why a disease is not a condition
+- [[doc-afflctnrules#affliction-vs-trauma|Affliction vs. Trauma]] — why a disease is not a condition

@@ -5,7 +5,7 @@ type: doc
 subType: user-guide
 name:
   full: "Working with Gear and Equipment"
-shortcode: wrkngwth
+shortcode: gearandequipug
 folder: IgwaG8rAUUO9vrtz
 ---
 
@@ -13,7 +13,7 @@ folder: IgwaG8rAUUO9vrtz
 
 Gear in SoHL includes weapons, armor, containers, potions, projectiles, and miscellaneous equipment. This guide explains how to manage gear on a character — adding, removing, equipping, and organizing items.
 
-See also: [[doc-crtngact|Creating Actors and Items]], [[doc-armor|Armor Gear]], [[doc-weapon|Weapon Gear]]
+See also: [[doc-crtngactitemug|Creating Actors and Items]], [[doc-armorgearug|Armor Gear]], [[doc-weapongearug|Weapon Gear]]
 
 # Adding Gear to a Character {#gear-adding}
 
@@ -40,11 +40,11 @@ Putting an item down also clears any "in use" state that depended on carrying it
 
 # See also
 
-- [[doc-itemgear|Gear]] — the properties every carried thing has, and the **Toggle Carried** action.
-- [[doc-weapon|Weapon]], [[doc-armor|Armor]], [[doc-prjctl|Projectile]], [[doc-cntnr|Container]], [[doc-cncctn|Concoction]], and [[doc-mscllnsg|Miscellaneous Gear]] — the individual kinds.
+- [[doc-gearug|Gear]] — the properties every carried thing has, and the **Toggle Carried** action.
+- [[doc-weapongearug|Weapon]], [[doc-armorgearug|Armor]], [[doc-projectilegearug|Projectile]], [[doc-containergearug|Container]], [[doc-concoctiongearug|Concoction]], and [[doc-miscgearug|Miscellaneous Gear]] — the individual kinds.
 - [[doc-ugitems|Items]] — every item type at a glance.
-- [[doc-cohort|Cohort]] — pooling gear across a group, and who is carrying what.
-- [[doc-being|Being]] — the Gear tab and the encumbrance it feeds.
+- [[doc-cohortug|Cohort]] — pooling gear across a group, and who is carrying what.
+- [[doc-beingug|Being]] — the Gear tab and the encumbrance it feeds.
 - [[doc-userguide|User Guide]] — back to the index.
 
 <!-- TODO: Document the specific icons and states, and how encumbrance

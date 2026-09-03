@@ -6,7 +6,7 @@ type: doc
 subType: user-guide
 name:
   full: "Structure"
-shortcode: structure
+shortcode: structureug
 folder: sYK1BozT9xFcinXK
 ---
 
@@ -14,7 +14,7 @@ folder: sYK1BozT9xFcinXK
 
 A Structure is a **place** — a house, a keep, a shrine, a storeroom, a bridge. It is somewhere things are kept and things happen, given an actor of its own so that it can be described, own its contents, and be pointed at.
 
-**Its unique capability is simply that it is a place that persists.** Unlike the other actor kinds, a Structure has no properties of its own at all — and that is deliberate. It is the plainest actor in the system: a name, a description, the gear stored in it, the actions you attach to it, and the effects laid on it. What distinguishes it from a [[doc-vehicle|Vehicle]] is not a mechanic but a fact about the fiction — **it does not go anywhere**, and so it has no occupants and no journey.
+**Its unique capability is simply that it is a place that persists.** Unlike the other actor kinds, a Structure has no properties of its own at all — and that is deliberate. It is the plainest actor in the system: a name, a description, the gear stored in it, the actions you attach to it, and the effects laid on it. What distinguishes it from a [[doc-vehicleug|Vehicle]] is not a mechanic but a fact about the fiction — **it does not go anywhere**, and so it has no occupants and no journey.
 
 Use it when a location deserves to be a thing in the game rather than a note: an inn the party keeps returning to, a cache in the woods, a temple with a standing blessing on it.
 
@@ -27,7 +27,7 @@ Use a Structure when:
 - A location carries a standing effect — a ward, a consecration, a curse
 - You want actions attached to a place (a lever, a ritual performed only there)
 
-For something that moves and carries people, use a [[doc-vehicle|Vehicle]] instead. For a body of people, use a [[doc-cohort|Cohort]].
+For something that moves and carries people, use a [[doc-vehicleug|Vehicle]] instead. For a body of people, use a [[doc-cohortug|Cohort]].
 
 # What a Structure Contains
 
@@ -41,7 +41,7 @@ A Structure is scenery with an inventory, not a combatant:
 
 - **No condition.** It has no structural integrity, no hit points, and no damage model. Walls cannot be battered down by the rules; a siege is narrated, not resolved against the Structure.
 - **No capacity.** A storeroom holds as much as you say it does — nothing counts or refuses the contents.
-- **No occupants.** A Structure does not track who is inside it. If who is present matters, that is a matter for tokens on the scene, or a [[doc-cohort|Cohort]] if the people form a standing group.
+- **No occupants.** A Structure does not track who is inside it. If who is present matters, that is a matter for tokens on the scene, or a [[doc-cohortug|Cohort]] if the people form a standing group.
 
 # The Structure Sheet
 
@@ -53,7 +53,7 @@ The Structure sheet has these tabs:
 - **Actions** — available actions
 - **Effects** — active effects
 
-All five are the common actor tabs, and they behave exactly as they do on a [[doc-being|Being]]: the Gear tab is the same inventory ledger (a structure's stores instead of a character's possessions), and the Actions and Effects tabs are identical. They are documented once, in [[doc-undrstnd|Understanding Sheets]] under _Common Actor Tabs_ — see that page for the columns, controls, and how to add, stow, and remove things.
+All five are the common actor tabs, and they behave exactly as they do on a [[doc-beingug|Being]]: the Gear tab is the same inventory ledger (a structure's stores instead of a character's possessions), and the Actions and Effects tabs are identical. They are documented once, in [[doc-undrstndsheetug|Understanding Sheets]] under _Common Actor Tabs_ — see that page for the columns, controls, and how to add, stow, and remove things.
 
 The **Profile** tab carries three things, and it is where a structure's private notes live:
 
@@ -80,17 +80,17 @@ A Structure defines no actions of its own. It carries only the actions every act
 | Delete              | `deleteDocument`    |
 | Make Default Medium | `makeDefaultMedium` |
 
-All three belong to every actor and are described on [[doc-baseitem|Base Item]], which covers what each one does, how it is invoked, and what it produces — the shared document actions are the same wherever they appear.
+All three belong to every actor and are described on [[doc-baseitemug|Base Item]], which covers what each one does, how it is invoked, and what it produces — the shared document actions are the same wherever they appear.
 
 **Make Default Medium** picks which movement medium an actor is currently moving in, driven by the star control in the movement table on the structure's own **Profile** tab. A structure does not move, so in practice it stays on the _None_ row; the control is there because movement is a capability every actor carries, not because a building is expected to use it.
 
-The contents stored in a structure are ordinary gear items with actions of their own — see [[doc-itemgear|Gear]] and the page for each kind of gear.
+The contents stored in a structure are ordinary gear items with actions of their own — see [[doc-gearug|Gear]] and the page for each kind of gear.
 
 # See also
 
 - [[doc-ugactors|Actors]] — the four actor kinds and how to choose between them.
-- [[doc-vehicle|Vehicle]] — the moving counterpart, for anything that carries people.
-- [[doc-itemgear|Gear]] and [[doc-wrkngwth|Working with Gear and Equipment]] — the goods a structure holds.
-- [[doc-actions|Actions]] — attaching an action to a place.
-- [[doc-undrstnd|Understanding Sheets]] — the tabs a structure shares with every other actor.
+- [[doc-vehicleug|Vehicle]] — the moving counterpart, for anything that carries people.
+- [[doc-gearug|Gear]] and [[doc-gearandequipug|Working with Gear and Equipment]] — the goods a structure holds.
+- [[doc-actionsug|Actions]] — attaching an action to a place.
+- [[doc-undrstndsheetug|Understanding Sheets]] — the tabs a structure shares with every other actor.
 - [[doc-userguide|User Guide]] — back to the index.

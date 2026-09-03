@@ -35,7 +35,7 @@ Read the chapters in the order below. Each is written on the terms the ones befo
 3. **[[doc-skills|Skills]]** — trained ability at some activity: which skills exist, what each is for, and how they attach to a character.
 4. **[[doc-affiliation|Affiliations]]** — standing with a body of people, and the credential that says not what a character can do but what they are entitled to do.
 5. **[[doc-character#body-structure|Characters]]** — the character as a physical body: its anatomy, where a blow lands on it, the health it carries, and what it is carrying.
-6. **[[doc-gear|Gear]]** — the catalogue: weapons, armour, containers, and the ordinary equipment of a life.
+6. **[[doc-gearrules|Gear]]** — the catalogue: weapons, armour, containers, and the ordinary equipment of a life.
 7. **[[doc-crafting|Crafting]]** — how the articles in that catalogue are made: the one routine every trade follows, and what a fine hand adds to it.
 8. **[[doc-combatintro|Combat]]** — the most rules-dense part of play, and the one with the most at stake. An exchange is a single contest between attacker and defender; everything else hangs off that comparison.
 9. **[[doc-traumaintro|Trauma]]** — what a blow leaves behind, and everything else that harms a character: injury, bleeding, shock, sickness, fear, and the slow business of recovering from any of them.

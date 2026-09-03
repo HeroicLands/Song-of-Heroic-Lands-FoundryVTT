@@ -6,7 +6,7 @@ type: doc
 subType: user-guide
 name:
   full: "Container"
-shortcode: cntnr
+shortcode: containergearug
 folder: QtOgPodi8X6gDWL0
 ---
 
@@ -20,7 +20,7 @@ Containers appear on the Being's **Gear** tab. Other gear (Miscellaneous, Concoc
 
 # Additional Properties
 
-In addition to the [[doc-itemgear|Standard Gear Properties]], the following additional properties are defined for containers:
+In addition to the [[doc-gearug|Standard Gear Properties]], the following additional properties are defined for containers:
 
 - **Capacity** — how much the container can hold, limiting what can be stored inside.
 - **Weight** — the weight of the container itself (contents add their own weight on top).
@@ -41,12 +41,12 @@ A container defines no actions of its own. Everything you can run against one is
 | Output Description to Chat | `outputDescription` |
 | Toggle Carried             | `toggleCarried`     |
 
-The first three belong to every item and are described on [[doc-baseitem|Base Item]]; **Toggle Carried** belongs to every piece of gear and is described on [[doc-itemgear|Gear]]. Those pages cover what each one does, how it is invoked, and what it produces — none of it changes for a container. Everything else about a container — its capacity, and what is nested inside it — is set on the sheet or by dragging gear onto the container, not by running an action.
+The first three belong to every item and are described on [[doc-baseitemug|Base Item]]; **Toggle Carried** belongs to every piece of gear and is described on [[doc-gearug|Gear]]. Those pages cover what each one does, how it is invoked, and what it produces — none of it changes for a container. Everything else about a container — its capacity, and what is nested inside it — is set on the sheet or by dragging gear onto the container, not by running an action.
 
 # See also
 
 - [[doc-ugitems|Items]] — every item type at a glance.
-- [[doc-itemgear|Gear]] — the properties and the **Toggle Carried** action every carried thing has.
-- [[doc-baseitem|Base Item]] — the three shared actions named above, including what deleting a container does to its contents.
-- [[doc-wrkngwth|Working with Gear and Equipment]] — nesting gear, and moving it between containers.
+- [[doc-gearug|Gear]] — the properties and the **Toggle Carried** action every carried thing has.
+- [[doc-baseitemug|Base Item]] — the three shared actions named above, including what deleting a container does to its contents.
+- [[doc-gearandequipug|Working with Gear and Equipment]] — nesting gear, and moving it between containers.
 - [[doc-userguide|User Guide]] — back to the index.

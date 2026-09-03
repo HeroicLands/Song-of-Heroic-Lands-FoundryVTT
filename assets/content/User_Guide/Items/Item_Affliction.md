@@ -1,12 +1,11 @@
 ---
-aliases:
-  - Affliction
+aliases: []
 id: MoyrkIfKbklVs8Pn
 type: doc
 subType: user-guide
 name:
   full: "Affliction"
-shortcode: afflctn
+shortcode: afflctnug
 folder: QtOgPodi8X6gDWL0
 ---
 
@@ -14,7 +13,7 @@ folder: QtOgPodi8X6gDWL0
 
 An Affliction is **something working on a character from the outside** — a disease, a poison, a curse. It has a source, a way of reaching a victim, a course it runs, and an end it is heading toward.
 
-What separates it from a [[doc-itemtrauma|Trauma]] is _where the harm comes from_. A Trauma is a state the character **carries**: a wound, exhaustion, terror. An Affliction is an **agent** at work on them, and it will get better or worse whether or not anything else happens. A poisoned character has an Affliction; the fatigue and the shock that poison inflicts on them are Traumas.
+What separates it from a [[doc-traumaug|Trauma]] is _where the harm comes from_. A Trauma is a state the character **carries**: a wound, exhaustion, terror. An Affliction is an **agent** at work on them, and it will get better or worse whether or not anything else happens. A poisoned character has an Affliction; the fatigue and the shock that poison inflicts on them are Traumas.
 
 Every affliction runs through three phases:
 
@@ -22,7 +21,7 @@ Every affliction runs through three phases:
 2. **Symptomatic** — from **onset** to the end. The body fights it, and the affliction's **Healing Rate** rises or falls with each Course Test.
 3. **Outcome** — the end of the road: death, or a cure, possibly leaving a Trauma behind.
 
-The [[doc-afflctns|Afflictions]] rules describe the mechanics behind those phases. This page describes the item, its fields, and the three actions that move it from one phase to the next.
+The [[doc-afflctnrules|Afflictions]] rules describe the mechanics behind those phases. This page describes the item, its fields, and the three actions that move it from one phase to the next.
 
 # Where It Appears
 
@@ -37,11 +36,11 @@ Afflictions live on the Being sheet's **Health** tab, in their own **Afflictions
 | **Next Heal Test** | When the next Course Test is due, or blank when nothing is scheduled  |
 | **⋮**              | The Actions menu for that affliction                                  |
 
-Afflictions arrive in three ways: the Being's **Contagion Test** action (rolled exposure — see [[doc-being|Being]]), a drag from a compendium of written-up diseases and poisons, or the **＋** control on the list when the table decides a character has caught something.
+Afflictions arrive in three ways: the Being's **Contagion Test** action (rolled exposure — see [[doc-beingug|Being]]), a drag from a compendium of written-up diseases and poisons, or the **＋** control on the list when the table decides a character has caught something.
 
 **How it arrived decides whether it goes anywhere.** Only **Contagion Test** offers to start the clock. An affliction you drag or add by hand sits inert: it is on the sheet, its fields are real, but nothing is scheduled and it will never onset on its own until someone arms it.
 
-To reach an affliction's actions, **right-click its row** (or use the **⋮**), or open the affliction and use its **Actions** tab. See [[doc-actions|Actions]] for how the menu works generally.
+To reach an affliction's actions, **right-click its row** (or use the **⋮**), or open the affliction and use its **Actions** tab. See [[doc-actionsug|Actions]] for how the menu works generally.
 
 # Additional Properties
 
@@ -54,9 +53,9 @@ The **SubType** is chosen when the affliction is created and is not editable aft
 | **Maladiction**  | Supernatural | a curse, a hex, a divine or spirit blight |
 | **Other**        | —            | anything not covered above                |
 
-The SubType is descriptive: it does **not** change the Course Test or the outcome machinery, which are the same for every affliction. It decides only which afflictions count as **contagious diseases** for exposure — only _Disease_ afflictions can be caught with a **Contagion Test**. Conditions a character _carries_ — fatigue, fear, morale, infection, aural shock — are **[[doc-itemtrauma|Traumas]]**, not afflictions.
+The SubType is descriptive: it does **not** change the Course Test or the outcome machinery, which are the same for every affliction. It decides only which afflictions count as **contagious diseases** for exposure — only _Disease_ afflictions can be caught with a **Contagion Test**. Conditions a character _carries_ — fatigue, fear, morale, infection, aural shock — are **[[doc-traumaug|Traumas]]**, not afflictions.
 
-Along with the [[doc-baseitem|Standard Item Properties]], the **Properties** tab offers:
+Along with the [[doc-baseitemug|Standard Item Properties]], the **Properties** tab offers:
 
 | Field                | What it is                                                                                                                                     |
 | -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -126,7 +125,7 @@ A **Check** and a **Test** are different things, and the difference is the whole
 
 ## How an affliction moves through the system
 
-1. **It is contracted.** A [[doc-being|Contagion Check]] on the exposed character offers a **Contagion Test**; failing that test catches the affliction, and — if the test's _add to character sheet_ box was ticked — it is created with **Contracted** stamped and its incubation already rolled. A critical failure takes hold twice as fast as a marginal one. An affliction added by hand skips all of this and sits inert.
+1. **It is contracted.** A [[doc-beingug|Contagion Check]] on the exposed character offers a **Contagion Test**; failing that test catches the affliction, and — if the test's _add to character sheet_ box was ticked — it is created with **Contracted** stamped and its incubation already rolled. A critical failure takes hold twice as fast as a marginal one. An affliction added by hand skips all of this and sits inert.
 2. **It onsets.** The onset reminder comes due and posts an [[#onset-check|Onset Check]] card; pressing its **Set Onset** button runs [[#set-onset|Set Onset]], which asks once, marks the affliction symptomatic, and then **offers** the course and resolution checks that carry it from here.
 3. **The body fights it.** Each [[#course-check|Course Check]] offers a [[#course-test|Course Test]]; the test moves the **Healing Rate** up or down, and the character reacts to wherever that rate now sits — fatigue, shock, or nothing. Reaching **HR 6** defeats the affliction and the recurrence ends.
 4. **It resolves.** If the clock runs out first, a [[#resolution-check|Resolution Check]] card offers [[#set-resolution|Set Resolution]], which asks **which** outcome the affliction settles on — death or cure — and applies it, plus any Trauma the affliction leaves behind, stamping the resolution date as now.
@@ -139,7 +138,7 @@ All three checks follow one pattern:
 
 > **offer → check → test → offer the next**
 
-When a check would begin, SoHL opens the **offer-schedule dialog**, described once on [[doc-baseitem|Base Item]], asking whether to set a reminder with the rolled cadence already filled in (_"Set a reminder to perform the Course Test in 5 days?"_). **Schedule It** arms it; **Not Now** declines, and nothing is tracked. When the time comes, a reminder card appears in chat with a **Perform** button. Nothing has happened to the character yet: the check runs when someone presses it.
+When a check would begin, SoHL opens the **offer-schedule dialog**, described once on [[doc-baseitemug|Base Item]], asking whether to set a reminder with the rolled cadence already filled in (_"Set a reminder to perform the Course Test in 5 days?"_). **Schedule It** arms it; **Not Now** declines, and nothing is tracked. When the time comes, a reminder card appears in chat with a **Perform** button. Nothing has happened to the character yet: the check runs when someone presses it.
 
 Declining is always safe. It does not cure the disease — it only means SoHL stops keeping time for you, and the table runs the check by hand when it decides the time has come.
 
@@ -290,7 +289,7 @@ After each Course Test, the character reacts to wherever the Healing Rate now si
 | **1**         | **Unconscious**                                  |
 | **Below 1**   | **Dead**                                         |
 
-The fatigue is recorded as its own Fatigue [[doc-itemtrauma|Trauma]] — the affliction is the agent, the exhaustion it causes is a Trauma the character carries.
+The fatigue is recorded as its own Fatigue [[doc-traumaug|Trauma]] — the affliction is the agent, the exhaustion it causes is a Trauma the character carries.
 
 The shock states only ever **worsen** the character's condition. A character already unconscious from something else is not woken up by an affliction that merely stuns.
 
@@ -373,7 +372,7 @@ Every affliction declares what it does to a character it beats:
 
 **Cured is the default**, and it is the benign one: an affliction nobody authored an ending for lets its victim go.
 
-Alongside it, an affliction may name an **Outcome Trauma** — a [[doc-sfexprss|Safe Expression]] giving the shortcode, or a list of shortcodes, of Traumas the character contracts at resolution. Each is looked for among the world's items first, then in the compendiums, and the first match found is added to the character's sheet. A shortcode that matches nothing is skipped with a warning rather than inventing something.
+Alongside it, an affliction may name an **Outcome Trauma** — a [[doc-sfexprssug|Safe Expression]] giving the shortcode, or a list of shortcodes, of Traumas the character contracts at resolution. Each is looked for among the world's items first, then in the compendiums, and the first match found is added to the character's sheet. A shortcode that matches nothing is skipped with a warning rather than inventing something.
 
 The two combine, which is where the interesting endings live: an affliction with **Cured** and an outcome trauma leaves its victim free of the disease but permanently marked by it — the fever breaks and the blindness stays.
 
@@ -381,11 +380,11 @@ The two combine, which is where the interesting endings live: an affliction with
 
 # See also
 
-- [[doc-itemtrauma|Trauma]] — what a character _carries_: wounds, fatigue, fear, and the Traumas an affliction inflicts along the way.
-- [[doc-afflandi|Afflictions and Injuries]] — the overview of how harm works on a character.
-- [[doc-being|Being]] — **Contagion Check** and **Contagion Test**, the exposure roll that starts most afflictions, and the character's shock state.
-- [[doc-baseitem|Base Item]] — the standard item properties and the offer-schedule dialog these three checks use.
-- [[doc-actions|Actions]] — how the Actions context menu and chat-card buttons work.
-- [[doc-afflctns|Afflictions]] and [[doc-hlngtst|Healing Test]] (rules) — the mechanics behind the Course Test, the reaction table, and the outcomes.
+- [[doc-traumaug|Trauma]] — what a character _carries_: wounds, fatigue, fear, and the Traumas an affliction inflicts along the way.
+- [[doc-afflinjug|Afflictions and Injuries]] — the overview of how harm works on a character.
+- [[doc-beingug|Being]] — **Contagion Check** and **Contagion Test**, the exposure roll that starts most afflictions, and the character's shock state.
+- [[doc-baseitemug|Base Item]] — the standard item properties and the offer-schedule dialog these three checks use.
+- [[doc-actionsug|Actions]] — how the Actions context menu and chat-card buttons work.
+- [[doc-afflctnrules|Afflictions]] and [[doc-hlngtst|Healing Test]] (rules) — the mechanics behind the Course Test, the reaction table, and the outcomes.
 - [[doc-ugitems|Items]] — every item type at a glance.
 - [[doc-userguide|User Guide]] — back to the index.

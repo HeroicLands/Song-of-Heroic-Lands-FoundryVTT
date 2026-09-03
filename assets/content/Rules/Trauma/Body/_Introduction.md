@@ -12,7 +12,7 @@ shortcode: bodytrmaintro
 ---
 
 - [[doc-injintro|Injuries]]
-- [[doc-afflctns|Afflictions]]
+- [[doc-afflctnrules|Afflictions]]
 - [[doc-fatigue|Fatigue]]
 - [[doc-physclcn|Physical Condition]]
 - [[doc-shock|Shock]]

@@ -21,7 +21,7 @@ Terms are listed under the name the rules use for them. Where a term is a kind o
 ## A
 
 - **Affiliation** — [[doc-affiliation|Affiliations]]
-- **Affliction** — [[doc-afflctns|Afflictions]]
+- **Affliction** — [[doc-afflctnrules|Afflictions]]
 - **Ambidextrous** — [[doc-character#dominance|Body Structure: Dominance]]
 - **Aspect** — [[doc-atkreslv#impact-and-aspect|Attack Resolution: Impact and Aspect]]
 - **Assistance** — [[doc-mstrylvl#assistance|Mastery Level: Assistance]]
@@ -52,7 +52,7 @@ Terms are listed under the name the rules use for them. Where a term is a kind o
 - **Competence** — [[doc-mstrylvl#competence|Mastery Level: Competence]]
 - **Core** (body role) — [[doc-character#body-part-roles|Body Structure: Body Part Roles]]
 - **Counterstrike** — [[doc-atkreslv#the-defence|Attack Resolution: The Defence]]
-- **Course Test** — [[doc-afflctns#course-test|Afflictions: Course Test]]
+- **Course Test** — [[doc-afflctnrules#course-test|Afflictions: Course Test]]
 - **Critical Failure (CF)** — [[doc-sccsstst#success-level|Success Tests: Success Level]]
 - **Critical Success (CS)** — [[doc-sccsstst#success-level|Success Tests: Success Level]]
 
@@ -82,7 +82,7 @@ Terms are listed under the name the rules use for them. Where a term is a kind o
 
 ## G
 
-- **Gear** — [[doc-gear|Gear]]
+- **Gear** — [[doc-gearrules|Gear]]
 - **Grace** — [[doc-grace|Grace]]
 - **Grade** (physical condition) — [[doc-physclcn#grades|Physical Condition: Grades]]
 
@@ -127,7 +127,7 @@ Terms are listed under the name the rules use for them. Where a term is a kind o
 
 - **Off-hand** — [[doc-character#dominance|Body Structure: Dominance]]
 - **Opposed Test** — [[doc-oppsdtst#opposed-test|Opposed Tests]]
-- **Outcome** (affliction) — [[doc-afflctns#outcome|Afflictions: Outcome]]
+- **Outcome** (affliction) — [[doc-afflctnrules#outcome|Afflictions: Outcome]]
 
 ## P
 
@@ -143,7 +143,7 @@ Terms are listed under the name the rules use for them. Where a term is a kind o
 - **Rally Test** — [[doc-morale#rally-test|Morale: Rally Test]]
 - **Range** — [[doc-msslattc#range|Missile Attacks: Range]]
 - **Reach** — [[doc-mlattcks#reach-and-engagement|Melee Attacks: Reach and Engagement]]
-- **Reaction** (affliction) — [[doc-afflctns#reaction|Afflictions: Reaction]]
+- **Reaction** (affliction) — [[doc-afflctnrules#reaction|Afflictions: Reaction]]
 - **Reaction Test** (morale) — [[doc-morale#reaction-test|Morale: Reaction Test]]
 - **Required Secondary Mastery** — [[doc-scndryms#secondary-mastery-requirement|Secondary Mastery: Requiring Secondary Mastery]]
 - **Round** — [[doc-combatintro#rounds-and-turns|Combat: Rounds and Turns]]
@@ -166,7 +166,7 @@ Terms are listed under the name the rules use for them. Where a term is a kind o
 - **Strength Trial** — [[doc-unrmdcmb#the-strength-trial|Unarmed Combat: The Strength Trial]]
 - **Strike Mode** — [[doc-strkmds#strike-modes|Strike Modes]]
 - **Stumble Test** — [[doc-character#mishaps-fumble-and-stumble|Body Structure: Mishaps]]
-- **Subtype** (affliction) — [[doc-afflctns#subtypes|Afflictions: Subtypes]]
+- **Subtype** (affliction) — [[doc-afflctnrules#subtypes|Afflictions: Subtypes]]
 - **Success Level** — [[doc-sccsstst#success-level|Success Tests: Success Level]]
 - **Success Test** — [[doc-sccsstst#success-test|Success Tests]]
 - **Success Value (SV)** — [[doc-sccssvlt#success-value|Success Value Tests: Success Value]]

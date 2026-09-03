@@ -5,7 +5,7 @@ type: doc
 subType: user-guide
 name:
   full: "Actions"
-shortcode: actions
+shortcode: actionsug
 folder: IgwaG8rAUUO9vrtz
 ---
 
@@ -160,10 +160,10 @@ Controls the context menu section:
 
 # See also
 
-- [[doc-baseitem|Base Item]] — the four actions that belong to _every_ document, and the dialogs nearly every action opens.
+- [[doc-baseitemug|Base Item]] — the four actions that belong to _every_ document, and the dialogs nearly every action opens.
 - [[doc-ugactors|Actors]] and [[doc-ugitems|Items]] — the built-in actions of each kind, each documented on its own page.
-- [[doc-sfexprss|Safe Expressions]] — the language the **Visible** condition and a Script Action's own expressions are written in.
-- [[doc-effcttrg|Effect Targeting]] — the other place an author-written expression decides what the system does.
-- [[doc-undrstnd|Understanding Sheets]] — the Actions tab these appear on.
-- [[doc-iconlgnd|Icon Legend]] — the glyph each built-in action uses.
+- [[doc-sfexprssug|Safe Expressions]] — the language the **Visible** condition and a Script Action's own expressions are written in.
+- [[doc-effcttrgug|Effect Targeting]] — the other place an author-written expression decides what the system does.
+- [[doc-undrstndsheetug|Understanding Sheets]] — the Actions tab these appear on.
+- [[doc-iconlgndug|Icon Legend]] — the glyph each built-in action uses.
 - [[doc-userguide|User Guide]] — back to the index.

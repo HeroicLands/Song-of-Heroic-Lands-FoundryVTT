@@ -6,7 +6,7 @@ type: doc
 subType: user-guide
 name:
   full: "Affiliation"
-shortcode: affltn
+shortcode: affltnug
 folder: QtOgPodi8X6gDWL0
 ---
 
@@ -14,7 +14,7 @@ folder: QtOgPodi8X6gDWL0
 
 An Affiliation represents a character's membership and standing in an organized body within the game world — a group, faction, order, or institution the character belongs to. It records not merely _that_ a character belongs, but _how far up_ they stand: their rank, role, and title within that body.
 
-Think of an Affiliation as a **credential**. It states who a character answers to and what standing they hold; it is not, by itself, a list of powers or skills. A priest's affiliation says they are a rank-3 priest of their church — the invocations they can call on are recorded separately as [[doc-mystery|Mysteries]] and [[doc-mystclab|Mystical Abilities]].
+Think of an Affiliation as a **credential**. It states who a character answers to and what standing they hold; it is not, by itself, a list of powers or skills. A priest's affiliation says they are a rank-3 priest of their church — the invocations they can call on are recorded separately as [[doc-mysteryug|Mysteries]] and [[doc-mysticalabilityug|Mystical Abilities]].
 
 # Where It Appears
 
@@ -38,11 +38,11 @@ Reach for an Affiliation for any organized body the character belongs to. Common
 - **Criminal organizations** — thieves' guilds, smuggling rings, or other outlaw bodies, with **Level** marking the character's place in the pecking order.
 - **Guilds, noble houses, and military units** — a trade guild, a house the character is sworn to, or a rank in a fighting company.
 
-> **Recording religious and arcane rank.** The **Level** field is the home for a character's rank in a religion or grade in an arcane school — it keeps "what the character _is_ within an order" together with the rest of their membership. This standing is a **capability credential**: a [[doc-mystclab|Mystical Ability]] tied to this affiliation can take the rank into account, so a full priest and a layperson of the same faith can differ in what they can invoke. The affiliation only _informs_ such a derivation — invoking a power is always the player's deliberate act, never something the system does on its own.
+> **Recording religious and arcane rank.** The **Level** field is the home for a character's rank in a religion or grade in an arcane school — it keeps "what the character _is_ within an order" together with the rest of their membership. This standing is a **capability credential**: a [[doc-mysticalabilityug|Mystical Ability]] tied to this affiliation can take the rank into account, so a full priest and a layperson of the same faith can differ in what they can invoke. The affiliation only _informs_ such a derivation — invoking a power is always the player's deliberate act, never something the system does on its own.
 
 # Additional Properties
 
-Along with the [[doc-baseitem|Standard Item Properties]], the following properties also appear in the **Properties** tab:
+Along with the [[doc-baseitemug|Standard Item Properties]], the following properties also appear in the **Properties** tab:
 
 - **Society:** The sub-group, sect, order, or convocation the character belongs to within the larger organization.
 - **Office:** The role or function the character fills within the organization, if any — for example a stewardship, a command, or a ministry.
@@ -59,15 +59,15 @@ An Affiliation is a credential rather than an activity, so it defines no action 
 | Delete                     | `deleteDocument`    |
 | Output Description to Chat | `outputDescription` |
 
-All three belong to every item and are described on [[doc-baseitem|Base Item]], which covers what each one does, how it is invoked, and what it produces.
+All three belong to every item and are described on [[doc-baseitemug|Base Item]], which covers what each one does, how it is invoked, and what it produces.
 
-Nothing is rolled against an affiliation. A power that takes the character's standing into account is invoked from the [[doc-mystclab|Mystical Ability]] that names this affiliation, and it is always the player who invokes it.
+Nothing is rolled against an affiliation. A power that takes the character's standing into account is invoked from the [[doc-mysticalabilityug|Mystical Ability]] that names this affiliation, and it is always the player who invokes it.
 
 # See also
 
 - [[doc-ugitems|Items]] — every item type at a glance.
-- [[doc-baseitem|Base Item]] — the three shared actions named above.
-- [[doc-mystclab|Mystical Ability]] — the item that draws on an affiliation's standing, and the roll that does it.
-- [[doc-being|Being]] — the Profile tab an affiliation appears on.
+- [[doc-baseitemug|Base Item]] — the three shared actions named above.
+- [[doc-mysticalabilityug|Mystical Ability]] — the item that draws on an affiliation's standing, and the roll that does it.
+- [[doc-beingug|Being]] — the Profile tab an affiliation appears on.
 - [[doc-affiliation|Affiliations]] (rules) — what standing is, and what it entitles a character to.
 - [[doc-userguide|User Guide]] — back to the index.
