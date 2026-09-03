@@ -17,7 +17,7 @@ import { makeItemLogic } from "@tests/mocks/logicHarness";
 /** Default AffiliationData fields; override per test. */
 function affiliationFields(overrides: Record<string, unknown> = {}) {
     return {
-        subType: AFFILIATION_SUBTYPE.SOCIAL,
+        subType: AFFILIATION_SUBTYPE.GUILD,
         society: "Guild of Arcane Lore",
         office: "Archivist",
         title: "Keeper",
@@ -91,9 +91,9 @@ describe("AffiliationLogic", () => {
     describe("subType (#1405)", () => {
         it("exposes the recorded kind of organization through data", () => {
             const logic = makeAffiliation({
-                subType: AFFILIATION_SUBTYPE.DIVINE,
+                subType: AFFILIATION_SUBTYPE.FAITHTRADITION,
             });
-            expect(logic.data.subType).toBe("divine");
+            expect(logic.data.subType).toBe("faithtradition");
         });
 
         it("accepts every declared subtype", () => {
@@ -165,13 +165,30 @@ describe("AffiliationLogic", () => {
     });
 });
 
-describe("AFFILIATION_SUBTYPE (#1405)", () => {
-    it("declares the four organizational kinds", () => {
-        expect([...AffiliationSubTypes].sort()).toEqual(["arcane", "divine", "social", "spirit"]);
+describe("AFFILIATION_SUBTYPE (#1405, #1788)", () => {
+    it("declares the eleven kinds the content format declares", () => {
+        // The format maps a note's `subType` straight onto `system.subType`, so
+        // the two vocabularies are one vocabulary and this list is the contract.
+        expect([...AffiliationSubTypes].sort()).toEqual([
+            "arcanetradition",
+            "criminal",
+            "faithtradition",
+            "fellowship",
+            "governmental",
+            "guild",
+            "lineage",
+            "order",
+            "polity",
+            "spirittradition",
+            "venture",
+        ]);
     });
 
-    it("guards its own values and rejects anything else", () => {
+    it("guards its own values and rejects the four it replaced", () => {
         for (const v of AffiliationSubTypes) expect(isAffiliationSubType(v)).toBe(true);
+        for (const legacy of ["arcane", "divine", "spirit", "social"]) {
+            expect(isAffiliationSubType(legacy)).toBe(false);
+        }
         expect(isAffiliationSubType("religious")).toBe(false);
         expect(isAffiliationSubType("")).toBe(false);
         expect(isAffiliationSubType(undefined)).toBe(false);
@@ -184,7 +201,9 @@ describe("AFFILIATION_SUBTYPE (#1405)", () => {
         expect(Object.keys(AffiliationSubTypeChoices).sort()).toEqual(
             [...AffiliationSubTypes].sort(),
         );
-        expect(AffiliationSubTypeChoices.divine).toBe("SOHL.Affiliation.SubType.divine");
+        expect(AffiliationSubTypeChoices.faithtradition).toBe(
+            "SOHL.Affiliation.SubType.faithtradition",
+        );
     });
 });
 

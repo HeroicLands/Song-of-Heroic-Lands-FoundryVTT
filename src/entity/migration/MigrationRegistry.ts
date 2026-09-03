@@ -133,13 +133,64 @@ const stripDocUrl: DocMigrator = (source) => {
 };
 
 /**
+ * The four values the affiliation subtype vocabulary replaced, and what each
+ * becomes (#1788).
+ *
+ * Three are renames: they named a tradition and the new vocabulary names the
+ * same tradition more precisely. `social` is not — it was a bucket covering
+ * eight secular kinds, and nothing in the stored value says which. See
+ * {@link remapAffiliationSubType}.
+ */
+const LEGACY_AFFILIATION_SUBTYPE: Readonly<Record<string, string>> = Object.freeze({
+    arcane: AFFILIATION_SUBTYPE.ARCANETRADITION,
+    divine: AFFILIATION_SUBTYPE.FAITHTRADITION,
+    spirit: AFFILIATION_SUBTYPE.SPIRITTRADITION,
+    social: AFFILIATION_SUBTYPE.FELLOWSHIP,
+});
+
+/**
+ * Move an affiliation off the four-value vocabulary onto the eleven (#1788).
+ *
+ * `arcane`, `divine` and `spirit` map onto the tradition each already named.
+ * **`social` cannot be resolved from the stored value alone**: it covered guild,
+ * order, polity, lineage, venture, criminal, governmental and fellowship
+ * together, and a bank, a legion and a noble house all carried it. The migration
+ * lands them on `fellowship` — the one value defined by the *absence* of the
+ * others' markers, so it claims least — and the step's description says so, since
+ * a GM re-picking eight-way is work only a human can do.
+ *
+ * Anything already in the new vocabulary is left alone, and so is anything
+ * unrecognized: filling that in is {@link stampAffiliationSubType}'s job.
+ *
+ * The payload spreads the document's own `system` because the runner updates
+ * non-recursively. See {@link DocMigrator}.
+ *
+ * @param source - The document's serialized source.
+ * @returns The replacement payload, or `undefined` when nothing legacy is stored.
+ */
+const remapAffiliationSubType: DocMigrator = (source) => {
+    if (source.type !== ITEM_KIND.AFFILIATION) return undefined;
+    const current = source.system?.subType;
+    if (typeof current !== "string") return undefined;
+    const replacement = LEGACY_AFFILIATION_SUBTYPE[current];
+    if (!replacement) return undefined;
+    return { system: { ...source.system, subType: replacement } };
+};
+
+/**
  * Stamp the default subtype on an affiliation that predates the field (#1405).
  *
  * `subType` is `required` with no `initial`, so an affiliation authored before it
  * existed carries no value at all — and an unrecognized value (hand-edited, or
  * left by a third-party module) fails the field's `choices` validation and is
- * dropped, which lands in the same place. Both are stamped `social`, the secular
- * default, which is what an unclassified body most often is.
+ * dropped, which lands in the same place. Both are stamped `fellowship`, the
+ * secular default, which is what an unclassified body most often is.
+ *
+ * **A legacy value is skipped, not stamped.** The four values #1788 replaced are
+ * unrecognized under the new vocabulary, so without this guard a `divine`
+ * affiliation would be defaulted here instead of remapped by
+ * {@link remapAffiliationSubType} — and which of the two ran first would decide
+ * the outcome. Skipping them makes the pair order-independent.
  *
  * The payload spreads the document's own `system` because the runner updates
  * non-recursively: a bare `{"system.subType": …}` would replace the whole system
@@ -150,9 +201,11 @@ const stripDocUrl: DocMigrator = (source) => {
  */
 const stampAffiliationSubType: DocMigrator = (source) => {
     if (source.type !== ITEM_KIND.AFFILIATION) return undefined;
-    if (isAffiliationSubType(source.system?.subType)) return undefined;
+    const current = source.system?.subType;
+    if (isAffiliationSubType(current)) return undefined;
+    if (typeof current === "string" && current in LEGACY_AFFILIATION_SUBTYPE) return undefined;
     return {
-        system: { ...source.system, subType: AFFILIATION_SUBTYPE.SOCIAL },
+        system: { ...source.system, subType: AFFILIATION_SUBTYPE.FELLOWSHIP },
     };
 };
 
@@ -206,6 +259,16 @@ export const SOHL_MIGRATIONS: readonly MigrationStep[] = Object.freeze([
             "Strip the retired system.docUrl field, which baked an external " +
             "documentation URL into world data (#1394).",
         migrators: { Actor: stripDocUrl, Item: stripDocUrl },
+    },
+    {
+        version: "0.9.0",
+        description:
+            "Remap the four legacy affiliation subtypes onto the eleven the " +
+            "content format declares: arcane, divine and spirit become their " +
+            "tradition values, while social was a bucket of eight secular kinds " +
+            "and cannot be resolved from the stored value — those land on " +
+            "fellowship and want a human's eye (#1788).",
+        migrators: { Item: remapAffiliationSubType },
     },
     {
         version: "0.9.0",
