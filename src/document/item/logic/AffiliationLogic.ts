@@ -16,7 +16,9 @@ import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import {
     AFFILIATION_STANDING,
     type AffiliationStanding,
+    type AffiliationClass,
     type AffiliationSubType,
+    affiliationClassOf,
 } from "@src/utils/constants";
 import {
     SohlItemBaseLogic,
@@ -31,7 +33,9 @@ import {
  * membership, noble house allegiance, religious order, military unit, or
  * any other organizational relationship. Each affiliation tracks:
  *
- * - **subType** — The kind of organization (arcane / divine / spirit / social)
+ * - **subType** — The kind of body it is, from the content format's eleven
+ *   (see {@link AffiliationSubType}); {@link AffiliationLogic.subTypeClass}
+ *   derives the arcane / divine / spirit / social partition from it
  * - **society** — The name of the organization
  * - **office** — A specific position held (e.g., "Captain," "Acolyte")
  * - **title** — A formal title granted (e.g., "Sir," "Elder")
@@ -62,6 +66,20 @@ export class AffiliationLogic<
      * automatically.
      */
     level!: ValueModifier;
+
+    /**
+     * Which of the four classes this body belongs to (#1788).
+     *
+     * Derived from {@link AffiliationData.subType}, never authored beside it:
+     * the three traditions class by what they face and every other kind of body
+     * is `social`. This is the partition a mystical-ability picker filters on,
+     * and deriving it means the filter cannot disagree with the record.
+     *
+     * @returns The affiliation's class.
+     */
+    get subTypeClass(): AffiliationClass {
+        return affiliationClassOf(this.data.subType);
+    }
 
     /**
      * This organization's standing toward another affiliation (#1404).
@@ -124,7 +142,7 @@ export class AffiliationLogic<
 export interface AffiliationData<
     TLogic extends SohlItemLogic<AffiliationData> = SohlItemLogic<any>,
 > extends SohlItemData<TLogic> {
-    /** The kind of organization this is (arcane / divine / spirit / social) */
+    /** The kind of body this is — one of the content format's eleven (#1788) */
     subType: AffiliationSubType;
     /** Subdivision of the organization or faction */
     society: string | null;

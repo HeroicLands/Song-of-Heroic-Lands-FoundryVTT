@@ -388,7 +388,7 @@ describe("0.9.0 — strip system.docUrl (#1394)", () => {
 // ---------------------------------------------------------------------------
 
 describe("0.9.0 — affiliation subType (#1405)", () => {
-    const step = SOHL_MIGRATIONS.find((s) => s.description.toLowerCase().includes("affiliation"));
+    const step = SOHL_MIGRATIONS.find((s) => s.description.includes("#1405"));
     const migrate = (source: MigrationSource) => step!.migrators!.Item!(source);
 
     it("is registered at the version that adds the field, with an Item migrator", () => {
@@ -397,18 +397,18 @@ describe("0.9.0 — affiliation subType (#1405)", () => {
         expect(Object.keys(step!.migrators ?? {})).toEqual(["Item"]);
     });
 
-    it("stamps the social default on an affiliation with no subType", () => {
+    it("stamps the secular default on an affiliation with no subType", () => {
         expect(migrate({ type: "affiliation", system: { society: "Guild" } })).toEqual({
-            system: { society: "Guild", subType: "social" },
+            system: { society: "Guild", subType: "fellowship" },
         });
     });
 
     it("stamps an affiliation whose subType is blank or null", () => {
         expect(migrate({ type: "affiliation", system: { subType: "" } })).toEqual({
-            system: { subType: "social" },
+            system: { subType: "fellowship" },
         });
         expect(migrate({ type: "affiliation", system: { subType: null } })).toEqual({
-            system: { subType: "social" },
+            system: { subType: "fellowship" },
         });
     });
 
@@ -416,12 +416,12 @@ describe("0.9.0 — affiliation subType (#1405)", () => {
         // A hand-edited or third-party value fails the field's `choices`
         // validation and is dropped, landing where an absent value does.
         expect(migrate({ type: "affiliation", system: { subType: "religious" } })).toEqual({
-            system: { subType: "social" },
+            system: { subType: "fellowship" },
         });
     });
 
     it("leaves an already-valid subType alone, writing nothing", () => {
-        expect(migrate({ type: "affiliation", system: { subType: "divine" } })).toBeUndefined();
+        expect(migrate({ type: "affiliation", system: { subType: "guild" } })).toBeUndefined();
     });
 
     it("ignores items of every other type", () => {
@@ -439,13 +439,13 @@ describe("0.9.0 — affiliation subType (#1405)", () => {
             relation: { peoni: "nemesis" },
         };
         expect(migrate({ type: "affiliation", system })).toEqual({
-            system: { ...system, subType: "social" },
+            system: { ...system, subType: "fellowship" },
         });
     });
 
     it("tolerates an affiliation with no system data at all", () => {
         expect(migrate({ type: "affiliation" })).toEqual({
-            system: { subType: "social" },
+            system: { subType: "fellowship" },
         });
     });
 
@@ -466,8 +466,86 @@ describe("0.9.0 — affiliation subType (#1405)", () => {
             plan,
         );
         expect(update).toEqual({
-            system: { shortcode: "affx", subType: "social" },
+            system: { shortcode: "affx", subType: "fellowship" },
         });
+    });
+});
+
+// ---------------------------------------------------------------------------
+// 0.9.0 — remap the four legacy affiliation subtypes onto the eleven (#1788)
+// ---------------------------------------------------------------------------
+
+describe("0.9.0 — affiliation subType vocabulary (#1788)", () => {
+    const step = SOHL_MIGRATIONS.find((s) => s.description.includes("#1788"));
+    const migrate = (source: MigrationSource) => step!.migrators!.Item!(source);
+
+    it("is registered at 0.9.0 with an Item migrator", () => {
+        expect(step).toBeDefined();
+        expect(step!.version).toBe("0.9.0");
+        expect(Object.keys(step!.migrators ?? {})).toEqual(["Item"]);
+    });
+
+    it("maps each of the three traditions onto its named successor", () => {
+        expect(migrate({ type: "affiliation", system: { subType: "arcane" } })).toEqual({
+            system: { subType: "arcanetradition" },
+        });
+        expect(migrate({ type: "affiliation", system: { subType: "divine" } })).toEqual({
+            system: { subType: "faithtradition" },
+        });
+        expect(migrate({ type: "affiliation", system: { subType: "spirit" } })).toEqual({
+            system: { subType: "spirittradition" },
+        });
+    });
+
+    it("lands `social` on fellowship, which the description says it cannot know", () => {
+        // `social` was a bucket of eight secular kinds. Nothing in the stored
+        // value distinguishes a guild from a legion, so the migration picks the
+        // least-committal of them and says so rather than guessing precisely.
+        expect(migrate({ type: "affiliation", system: { subType: "social" } })).toEqual({
+            system: { subType: "fellowship" },
+        });
+        expect(step!.description).toContain("social");
+    });
+
+    it("leaves a value already in the new vocabulary alone", () => {
+        expect(migrate({ type: "affiliation", system: { subType: "polity" } })).toBeUndefined();
+        expect(migrate({ type: "affiliation", system: { subType: "guild" } })).toBeUndefined();
+    });
+
+    it("leaves an absent or unrecognized value to the stamping step", () => {
+        expect(migrate({ type: "affiliation", system: {} })).toBeUndefined();
+        expect(migrate({ type: "affiliation", system: { subType: "religious" } })).toBeUndefined();
+    });
+
+    it("ignores items of every other type", () => {
+        expect(migrate({ type: "skill", system: { subType: "divine" } })).toBeUndefined();
+    });
+
+    it("preserves every other field verbatim — the payload replaces, it does not merge", () => {
+        const system = { shortcode: "affx", society: "Guild", subType: "divine" };
+        expect(migrate({ type: "affiliation", system })).toEqual({
+            system: { ...system, subType: "faithtradition" },
+        });
+    });
+
+    it("does not mutate the source it was handed", () => {
+        const system = { subType: "divine" };
+        migrate({ type: "affiliation", system });
+        expect(system).toEqual({ subType: "divine" });
+    });
+
+    it("folds with the stamping step in either order — neither can clobber the other", () => {
+        // The stamping step defaults an unrecognized value, and a legacy value is
+        // unrecognized under the new vocabulary. It must therefore skip the four
+        // this step owns, or a `divine` affiliation would land on `fellowship`.
+        const plan = planMigrations("0.8.2", "0.9.0");
+        expect(
+            migrateDocumentSource(
+                { type: "affiliation", system: { subType: "divine" } },
+                "Item",
+                plan,
+            ),
+        ).toEqual({ system: { subType: "faithtradition" } });
     });
 });
 
@@ -580,7 +658,7 @@ describe("0.9.0 — alphanumeric shortcodes (#1397)", () => {
         // Both repairs land: the shortcode is alphanumeric *and* the required
         // subType is stamped.
         expect(update).toEqual({
-            system: { shortcode: "affx", subType: "social" },
+            system: { shortcode: "affx", subType: "fellowship" },
         });
     });
 });

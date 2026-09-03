@@ -3,7 +3,11 @@ import { AffiliationLogic } from "@src/document/item/logic/AffiliationLogic";
 import { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import {
     AFFILIATION_STANDING,
+    AFFILIATION_CLASS,
     AFFILIATION_SUBTYPE,
+    AffiliationClassChoices,
+    AffiliationClasses,
+    affiliationClassOf,
     AffiliationStandingChoices,
     AffiliationStandings,
     AffiliationSubTypeChoices,
@@ -17,7 +21,7 @@ import { makeItemLogic } from "@tests/mocks/logicHarness";
 /** Default AffiliationData fields; override per test. */
 function affiliationFields(overrides: Record<string, unknown> = {}) {
     return {
-        subType: AFFILIATION_SUBTYPE.SOCIAL,
+        subType: AFFILIATION_SUBTYPE.GUILD,
         society: "Guild of Arcane Lore",
         office: "Archivist",
         title: "Keeper",
@@ -91,9 +95,9 @@ describe("AffiliationLogic", () => {
     describe("subType (#1405)", () => {
         it("exposes the recorded kind of organization through data", () => {
             const logic = makeAffiliation({
-                subType: AFFILIATION_SUBTYPE.DIVINE,
+                subType: AFFILIATION_SUBTYPE.FAITHTRADITION,
             });
-            expect(logic.data.subType).toBe("divine");
+            expect(logic.data.subType).toBe("faithtradition");
         });
 
         it("accepts every declared subtype", () => {
@@ -165,13 +169,30 @@ describe("AffiliationLogic", () => {
     });
 });
 
-describe("AFFILIATION_SUBTYPE (#1405)", () => {
-    it("declares the four organizational kinds", () => {
-        expect([...AffiliationSubTypes].sort()).toEqual(["arcane", "divine", "social", "spirit"]);
+describe("AFFILIATION_SUBTYPE (#1405, #1788)", () => {
+    it("declares the eleven kinds the content format declares", () => {
+        // The format maps a note's `subType` straight onto `system.subType`, so
+        // the two vocabularies are one vocabulary and this list is the contract.
+        expect([...AffiliationSubTypes].sort()).toEqual([
+            "arcanetradition",
+            "criminal",
+            "faithtradition",
+            "fellowship",
+            "governmental",
+            "guild",
+            "lineage",
+            "order",
+            "polity",
+            "spirittradition",
+            "venture",
+        ]);
     });
 
-    it("guards its own values and rejects anything else", () => {
+    it("guards its own values and rejects the four it replaced", () => {
         for (const v of AffiliationSubTypes) expect(isAffiliationSubType(v)).toBe(true);
+        for (const legacy of ["arcane", "divine", "spirit", "social"]) {
+            expect(isAffiliationSubType(legacy)).toBe(false);
+        }
         expect(isAffiliationSubType("religious")).toBe(false);
         expect(isAffiliationSubType("")).toBe(false);
         expect(isAffiliationSubType(undefined)).toBe(false);
@@ -184,7 +205,63 @@ describe("AFFILIATION_SUBTYPE (#1405)", () => {
         expect(Object.keys(AffiliationSubTypeChoices).sort()).toEqual(
             [...AffiliationSubTypes].sort(),
         );
-        expect(AffiliationSubTypeChoices.divine).toBe("SOHL.Affiliation.SubType.divine");
+        expect(AffiliationSubTypeChoices.faithtradition).toBe(
+            "SOHL.Affiliation.SubType.faithtradition",
+        );
+    });
+});
+
+describe("AFFILIATION_CLASS — the picker partition, derived (#1788)", () => {
+    it("declares the four classes the mystical-ability picker filters on", () => {
+        expect([...AffiliationClasses].sort()).toEqual(["arcane", "divine", "social", "spirit"]);
+    });
+
+    it("classes the three traditions by what they face", () => {
+        expect(affiliationClassOf("arcanetradition")).toBe(AFFILIATION_CLASS.ARCANE);
+        expect(affiliationClassOf("faithtradition")).toBe(AFFILIATION_CLASS.DIVINE);
+        expect(affiliationClassOf("spirittradition")).toBe(AFFILIATION_CLASS.SPIRIT);
+    });
+
+    it("classes every other body as social", () => {
+        for (const v of [
+            "guild",
+            "order",
+            "polity",
+            "lineage",
+            "venture",
+            "criminal",
+            "governmental",
+            "fellowship",
+        ] as const) {
+            expect(affiliationClassOf(v)).toBe(AFFILIATION_CLASS.SOCIAL);
+        }
+    });
+
+    it("classes every declared subtype — the partition is total", () => {
+        // A subtype added without a class would break the picker silently, so
+        // the map is exhaustive by construction and this asserts it stays so.
+        for (const v of AffiliationSubTypes) {
+            expect(AffiliationClasses).toContain(affiliationClassOf(v));
+        }
+    });
+
+    it("borrows the label keys the four-value field already owned", () => {
+        // Localization keys are permanent. These four labelled exactly this
+        // partition before it was derived, so the class borrows them rather
+        // than minting new ones and orphaning the old.
+        expect(AffiliationClassChoices.arcane).toBe("SOHL.Affiliation.SubType.arcane");
+        expect(AffiliationClassChoices.divine).toBe("SOHL.Affiliation.SubType.divine");
+        expect(AffiliationClassChoices.spirit).toBe("SOHL.Affiliation.SubType.spirit");
+        expect(AffiliationClassChoices.social).toBe("SOHL.Affiliation.SubType.social");
+    });
+
+    it("is reachable from a logic instance as subTypeClass", () => {
+        expect(makeAffiliation({ subType: AFFILIATION_SUBTYPE.ARCANETRADITION }).subTypeClass).toBe(
+            AFFILIATION_CLASS.ARCANE,
+        );
+        expect(makeAffiliation({ subType: AFFILIATION_SUBTYPE.GUILD }).subTypeClass).toBe(
+            AFFILIATION_CLASS.SOCIAL,
+        );
     });
 });
 
