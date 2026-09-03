@@ -1,17 +1,13 @@
 ---
 id: gw0PK5jHBTEdEEQR
+type: doc
+subType: miscgear
 name:
   full: Miscellaneous Gear
   aliases: []
-type: doc
 shortcode: miscelnsgr
-section: miscgear
-tags:
 description: Everyday equipment and sundry goods.
-banner: banners/miscgear.webp
 ---
-
-# Miscellaneous Gear
 
 Everyday equipment and sundry goods.
 
@@ -19,7 +15,7 @@ Everyday equipment and sundry goods.
 
 ```dataview
 TABLE WITHOUT ID link(file.path, name.full) AS "Name", sohl.value as "Value", sohl.weight as "Weight", description AS "Description"
-WHERE type = "miscgear" and contains(file.tags, "clothing") and package = "sohl"
+WHERE type = "miscgear" and contains(file.tags, "clothing")
 SORT name.full ASC
 ```
 
@@ -27,7 +23,7 @@ SORT name.full ASC
 
 ```dataview
 TABLE WITHOUT ID link(file.path, name.full) AS "Name", sohl.value as "Value", sohl.weight as "Weight", description AS "Description"
-WHERE type = "miscgear" and contains(file.tags, "cooking") and package = "sohl"
+WHERE type = "miscgear" and contains(file.tags, "cooking")
 SORT name.full ASC
 ```
 
@@ -35,7 +31,7 @@ SORT name.full ASC
 
 ```dataview
 TABLE WITHOUT ID link(file.path, name.full) AS "Name", sohl.value as "Value", sohl.weight as "Weight", description AS "Description"
-WHERE type = "miscgear" and contains(file.tags, "expedition") and package = "sohl"
+WHERE type = "miscgear" and contains(file.tags, "expedition")
 SORT name.full ASC
 ```
 
@@ -43,7 +39,7 @@ SORT name.full ASC
 
 ```dataview
 TABLE WITHOUT ID link(file.path, name.full) AS "Name", sohl.value as "Value", sohl.weight as "Weight", description AS "Description"
-WHERE type = "miscgear" and contains(file.tags, "food") and package = "sohl"
+WHERE type = "miscgear" and contains(file.tags, "food")
 SORT name.full ASC
 ```
 
@@ -51,7 +47,7 @@ SORT name.full ASC
 
 ```dataview
 TABLE WITHOUT ID link(file.path, name.full) AS "Name", sohl.value as "Value", sohl.weight as "Weight", description AS "Description"
-WHERE type = "miscgear" and contains(file.tags, "instruments") and package = "sohl"
+WHERE type = "miscgear" and contains(file.tags, "instruments")
 SORT name.full ASC
 ```
 
@@ -59,7 +55,7 @@ SORT name.full ASC
 
 ```dataview
 TABLE WITHOUT ID link(file.path, name.full) AS "Name", sohl.value as "Value", sohl.weight as "Weight", description AS "Description"
-WHERE type = "miscgear" and contains(file.tags, "jewelry_cash") and package = "sohl"
+WHERE type = "miscgear" and contains(file.tags, "jewelry_cash")
 SORT name.full ASC
 ```
 
@@ -67,7 +63,7 @@ SORT name.full ASC
 
 ```dataview
 TABLE WITHOUT ID link(file.path, name.full) AS "Name", sohl.value as "Value", sohl.weight as "Weight", description AS "Description"
-WHERE type = "miscgear" and contains(file.tags, "lighting") and package = "sohl"
+WHERE type = "miscgear" and contains(file.tags, "lighting")
 SORT name.full ASC
 ```
 
@@ -75,7 +71,7 @@ SORT name.full ASC
 
 ```dataview
 TABLE WITHOUT ID link(file.path, name.full) AS "Name", sohl.value as "Value", sohl.weight as "Weight", description AS "Description"
-WHERE type = "miscgear" and contains(file.tags, "medical") and package = "sohl"
+WHERE type = "miscgear" and contains(file.tags, "medical")
 SORT name.full ASC
 ```
 
@@ -83,7 +79,7 @@ SORT name.full ASC
 
 ```dataview
 TABLE WITHOUT ID link(file.path, name.full) AS "Name", sohl.value as "Value", sohl.weight as "Weight", description AS "Description"
-WHERE type = "miscgear" and contains(file.tags, "music") and package = "sohl"
+WHERE type = "miscgear" and contains(file.tags, "music")
 SORT name.full ASC
 ```
 
@@ -91,7 +87,7 @@ SORT name.full ASC
 
 ```dataview
 TABLE WITHOUT ID link(file.path, name.full) AS "Name", sohl.value as "Value", sohl.weight as "Weight", description AS "Description"
-WHERE type = "miscgear" and contains(file.tags, "natural") and package = "sohl"
+WHERE type = "miscgear" and contains(file.tags, "natural")
 SORT name.full ASC
 ```
 
@@ -99,7 +95,7 @@ SORT name.full ASC
 
 ```dataview
 TABLE WITHOUT ID link(file.path, name.full) AS "Name", sohl.value as "Value", sohl.weight as "Weight", description AS "Description"
-WHERE type = "miscgear" and contains(file.tags, "religous") and package = "sohl"
+WHERE type = "miscgear" and contains(file.tags, "religous")
 SORT name.full ASC
 ```
 
@@ -107,7 +103,7 @@ SORT name.full ASC
 
 ```dataview
 TABLE WITHOUT ID link(file.path, name.full) AS "Name", sohl.value as "Value", sohl.weight as "Weight", description AS "Description"
-WHERE type = "miscgear" and contains(file.tags, "scribe") and package = "sohl"
+WHERE type = "miscgear" and contains(file.tags, "scribe")
 SORT name.full ASC
 ```
 
@@ -115,7 +111,7 @@ SORT name.full ASC
 
 ```dataview
 TABLE WITHOUT ID link(file.path, name.full) AS "Name", sohl.value as "Value", sohl.weight as "Weight", description AS "Description"
-WHERE type = "miscgear" and contains(file.tags, "spirits") and package = "sohl"
+WHERE type = "miscgear" and contains(file.tags, "spirits")
 SORT name.full ASC
 ```
 
@@ -123,7 +119,7 @@ SORT name.full ASC
 
 ```dataview
 TABLE WITHOUT ID link(file.path, name.full) AS "Name", sohl.value as "Value", sohl.weight as "Weight", description AS "Description"
-WHERE type = "miscgear" and contains(file.tags, "stone") and package = "sohl"
+WHERE type = "miscgear" and contains(file.tags, "stone")
 SORT name.full ASC
 ```
 
@@ -131,6 +127,6 @@ SORT name.full ASC
 
 ```dataview
 TABLE WITHOUT ID link(file.path, name.full) AS "Name", sohl.value as "Value", sohl.weight as "Weight", description AS "Description"
-WHERE type = "miscgear" and contains(file.tags, "tack") and package = "sohl"
+WHERE type = "miscgear" and contains(file.tags, "tack")
 SORT name.full ASC
 ```

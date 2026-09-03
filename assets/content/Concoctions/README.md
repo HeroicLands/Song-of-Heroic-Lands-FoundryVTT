@@ -1,14 +1,12 @@
 ---
 id: zo3tZIMKCKxVzfZ6
+type: doc
+subType: concoctiongear
 name:
   full: Concoctions
   aliases: []
-type: doc
 shortcode: concoctins
-section: concoctiongear
-tags:
-description: Infusions, potions, elixirs, polutices, etc.
-banner: banners/containergear.webp
+description: "Infusions, potions, elixirs, polutices, etc."
 ---
 
 Infusions, potions, elixirs, polutices, etc.
@@ -17,7 +15,7 @@ Infusions, potions, elixirs, polutices, etc.
 
 ```dataview
 TABLE WITHOUT ID link(file.path, name.full) AS "Name", sohl.value as "Value", sohl.weight as "Weight", description AS "Description"
-WHERE type = "concoctiongear" and sohl.subType = "mundane" and package = "sohl"
+WHERE type = "concoctiongear" and subType = "mundane"
 SORT name.full ASC
 ```
 
@@ -27,7 +25,7 @@ SORT name.full ASC
 
 ```dataview
 TABLE WITHOUT ID link(file.path, name.full) AS "Name", sohl.value as "Value", sohl.weight as "Weight", description AS "Description"
-WHERE type = "concoctiongear" and sohl.subType = "exotic" and sohl.potency = "mild" and package = "sohl"
+WHERE type = "concoctiongear" and subType = "exotic" and sohl.potency = "mild"
 SORT name.full ASC
 ```
 
@@ -35,7 +33,7 @@ SORT name.full ASC
 
 ```dataview
 TABLE WITHOUT ID link(file.path, name.full) AS "Name", sohl.value as "Value", sohl.weight as "Weight", description AS "Description"
-WHERE type = "concoctiongear" and sohl.subType = "exotic" and sohl.potency = "strong" and package = "sohl"
+WHERE type = "concoctiongear" and subType = "exotic" and sohl.potency = "strong"
 SORT name.full ASC
 ```
 
@@ -43,7 +41,7 @@ SORT name.full ASC
 
 ```dataview
 TABLE WITHOUT ID link(file.path, name.full) AS "Name", sohl.value as "Value", sohl.weight as "Weight", description AS "Description"
-WHERE type = "concoctiongear" and sohl.subType = "exotic" and sohl.potency = "great" and package = "sohl"
+WHERE type = "concoctiongear" and subType = "exotic" and sohl.potency = "great"
 SORT name.full ASC
 ```
 
@@ -51,6 +49,6 @@ SORT name.full ASC
 
 ```dataview
 TABLE WITHOUT ID link(file.path, name.full) AS "Name", sohl.value as "Value", sohl.weight as "Weight", description AS "Description"
-WHERE type = "concoctiongear" and sohl.subType = "elixir" and package = "sohl"
+WHERE type = "concoctiongear" and subType = "elixir"
 SORT name.full ASC
 ```
