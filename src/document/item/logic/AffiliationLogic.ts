@@ -31,7 +31,8 @@ import {
  * membership, noble house allegiance, religious order, military unit, or
  * any other organizational relationship. Each affiliation tracks:
  *
- * - **subType** — The kind of organization (arcane / divine / spirit / social)
+ * - **subType** — The kind of body it is, from the content format's eleven
+ *   (see {@link AffiliationSubType})
  * - **society** — The name of the organization
  * - **office** — A specific position held (e.g., "Captain," "Acolyte")
  * - **title** — A formal title granted (e.g., "Sir," "Elder")
@@ -124,7 +125,7 @@ export class AffiliationLogic<
 export interface AffiliationData<
     TLogic extends SohlItemLogic<AffiliationData> = SohlItemLogic<any>,
 > extends SohlItemData<TLogic> {
-    /** The kind of organization this is (arcane / divine / spirit / social) */
+    /** The kind of body this is — one of the content format's eleven (#1788) */
     subType: AffiliationSubType;
     /** Subdivision of the organization or faction */
     society: string | null;

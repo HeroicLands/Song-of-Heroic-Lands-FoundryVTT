@@ -1746,22 +1746,39 @@ export const {
     /** Type guard for affiliation-subtype values. */
     isValue: isAffiliationSubType,
 } = defineType("SOHL.Affiliation.SubType", {
-    /** A school of magic, including an alchemical school. */
-    ARCANE: "arcane",
-    /** A religion or church — a deity-facing tradition. */
-    DIVINE: "divine",
-    /** A shamanic or totemic tradition; an ancestor or spirit cult. */
-    SPIRIT: "spirit",
-    /** A secular body: guild, bank, syndicate, noble house, military unit. */
-    SOCIAL: "social",
+    /** A sworn association of craftsmen holding monopoly over a trade within a locality. */
+    GUILD: "guild",
+    /** A body of members bound by vows or a rule of life to a shared purpose. */
+    ORDER: "order",
+    /** A sovereign body ordering the persons within a territory. */
+    POLITY: "polity",
+    /** A tradition of belief and practice concerning the divine. */
+    FAITHTRADITION: "faithtradition",
+    /** A tradition of belief and practice concerning magic. */
+    ARCANETRADITION: "arcanetradition",
+    /** A tradition concerning spirits — ancestors, totems, the numinous world. */
+    SPIRITTRADITION: "spirittradition",
+    /** A body claiming common descent, whose standing passes by birth. */
+    LINEAGE: "lineage",
+    /** A band bound by contract or shared undertaking rather than by vow. */
+    VENTURE: "venture",
+    /** An association organized to profit from what its host polity forbids. */
+    CRIMINAL: "criminal",
+    /** An organ constituted by a polity to exercise part of its authority. */
+    GOVERNMENTAL: "governmental",
+    /** A voluntary association without vow, trade monopoly, or public authority. */
+    FELLOWSHIP: "fellowship",
 });
 /**
  * Union of all affiliation-subtype values.
  *
- * `divine` and `spirit` are deliberately separate rather than one "religious"
- * bucket, because {@link MysticalAbilitySubType} already distinguishes the
- * deity-facing families from the spirit families — a picker filter is only as
- * useful as the partition it filters on.
+ * This is the content format's vocabulary, not a variant of it. The format maps
+ * a note's `subType` **straight onto** `system.subType`, so an authored value
+ * lands here unchanged and the two lists are one list; see the affiliation
+ * section of the content format specification. It replaced a four-value
+ * partition — `arcane` / `divine` / `spirit` / `social` — that was a picker
+ * filter wearing a taxonomy's name: `social` covered a guild, a bank, a noble
+ * house and a legion alike, and distinguished none of them (#1788).
  */
 export type AffiliationSubType = (typeof AFFILIATION_SUBTYPE)[keyof typeof AFFILIATION_SUBTYPE];
 

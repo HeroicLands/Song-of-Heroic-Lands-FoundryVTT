@@ -35,11 +35,11 @@ describe("affiliation — standing toward other affiliations (#1404)", () => {
         cy.then(function () {
             cy.createItemOn(this.actor, "affiliation", {
                 name: "Church of Larani",
-                system: { shortcode: "larani", subType: "divine" },
+                system: { shortcode: "larani", subType: "faithtradition" },
             }).as("larani");
             cy.createItemOn(this.actor, "affiliation", {
                 name: "Church of Peoni",
-                system: { shortcode: "peoni", subType: "divine" },
+                system: { shortcode: "peoni", subType: "faithtradition" },
             });
         });
         cy.then(function () {
