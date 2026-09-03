@@ -10,10 +10,10 @@ id: weH4SaOm6o870mBY
 img: icons/game-icons/lorc/shield-bash.svg
 shortcode: press
 type: skill
+subType: combattechnique
 sohl:
   kbcat: unarmed
   archetype: 0
-  subType: combattechnique
   skillBaseFormula: "sb(attr.dex, attr.agl)"
   combatCategory: melee
   parentSkillCode: ""

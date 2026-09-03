@@ -2,7 +2,7 @@
 aliases: []
 id: DplPGYa4Gv1DkL0H
 type: doc
-category: user-guide
+subType: user-guide
 name:
   full: "Understanding Sheets"
 shortcode: undrstnd

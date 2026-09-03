@@ -3,7 +3,7 @@ aliases:
   - Arcane Incantation
 id: YKeuv5F1K814MSfx
 type: doc
-category: rules
+subType: rules
 name:
   full: Arcane Incantation
   aliases: []

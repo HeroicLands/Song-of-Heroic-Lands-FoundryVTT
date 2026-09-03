@@ -7,6 +7,7 @@ name:
   alias: []
 description: "Heavy shaft, square-sectioned spike; splits mail, dents breastplate close up."
 type: projectilegear
+subType: bolt
 id: 1ykjrEPFWG47kjtO
 shortcode: BltHBod
 img: icons/game-icons/lorc/broadhead-arrow.svg
@@ -16,7 +17,6 @@ sohl:
     skill: fltch
     secondary: [wood, mtlc]
   archetype: 0
-  subType: bolt
   quality: 0
   durability: 10
   value: 1.5

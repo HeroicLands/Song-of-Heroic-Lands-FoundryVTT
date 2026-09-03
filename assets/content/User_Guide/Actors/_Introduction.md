@@ -4,7 +4,7 @@ aliases:
   - Actors Introduction
 id: 850gXkDZhbNwwg2D
 type: doc
-category: user-guide
+subType: user-guide
 name:
   full: Actors
   aliases: []

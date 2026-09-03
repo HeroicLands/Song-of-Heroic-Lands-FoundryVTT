@@ -3,7 +3,7 @@ aliases:
   - Affiliation
 id: hJGjCXud883VX96W
 type: doc
-category: user-guide
+subType: user-guide
 name:
   full: "Affiliation"
 shortcode: affltn

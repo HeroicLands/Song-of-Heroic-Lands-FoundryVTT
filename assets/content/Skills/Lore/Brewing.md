@@ -9,10 +9,10 @@ id: K0S3H3kzuwxmlSMj
 img: icons/game-icons/delapouite/barrel.svg
 shortcode: brew
 type: skill
+subType: lore
 sohl:
   kbcat: lore
   archetype: 0
-  subType: lore
   skillBaseFormula: "sb(attr.per, attr.rea)"
   combatCategory: none
   parentSkillCode: ""

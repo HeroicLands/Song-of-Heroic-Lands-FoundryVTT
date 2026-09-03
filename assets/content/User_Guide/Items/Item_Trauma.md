@@ -4,7 +4,7 @@ aliases:
   - Injuries
 id: PV8DkxfbuA1ORJ1U
 type: doc
-category: user-guide
+subType: user-guide
 name:
   full: "Trauma"
 shortcode: itemtrauma

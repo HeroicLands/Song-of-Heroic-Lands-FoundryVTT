@@ -8,10 +8,10 @@ id: VQlpTGHFybZZ5d2u
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: irrespon
 type: trauma
+subType: psycond
 sohl:
   kbcat: psybehavior
   archetype: 0
-  subType: psycond
   category: quirk
 folder: ECrcBb9CUCMX9JeJ
 ---

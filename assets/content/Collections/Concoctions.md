@@ -6,7 +6,6 @@ name:
   full: Concoctions
   aliases: []
 type: doc
-category: collection
 shortcode: concoctins
 section: concoctiongear
 tags:

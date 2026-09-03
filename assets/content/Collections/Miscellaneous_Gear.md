@@ -6,7 +6,6 @@ name:
   full: Miscellaneous Gear
   aliases: []
 type: doc
-category: collection
 shortcode: miscelnsgr
 section: miscgear
 tags:

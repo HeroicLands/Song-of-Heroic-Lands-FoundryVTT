@@ -3,7 +3,7 @@ aliases:
   - Spirit Power
 id: U2r6cMFiAZaQr4WZ
 type: doc
-category: rules
+subType: rules
 name:
   full: Spirit Power
   aliases: []

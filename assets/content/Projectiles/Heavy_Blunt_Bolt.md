@@ -7,6 +7,7 @@ name:
   alias: []
 description: "Heavy hardwood quarrel with ball head; breaks ribs, clears crowds bloodlessly."
 type: projectilegear
+subType: bolt
 id: MjWznQvdlB5alUHo
 shortcode: BltHBlt
 img: icons/game-icons/lorc/broadhead-arrow.svg
@@ -16,7 +17,6 @@ sohl:
     skill: fltch
     secondary: [wood, mtlc]
   archetype: 0
-  subType: bolt
   quality: 0
   durability: 10
   value: 1.5

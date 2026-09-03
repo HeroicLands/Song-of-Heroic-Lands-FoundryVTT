@@ -9,10 +9,10 @@ id: Na0Kzoqj13YDU3Xt
 img: icons/game-icons/delapouite/unicorn.svg
 shortcode: folklr
 type: skill
+subType: lore
 sohl:
   kbcat: lore
   archetype: 0
-  subType: lore
   skillBaseFormula: "sb(attr.rea, attr.wil)"
   combatCategory: none
   parentSkillCode: ""

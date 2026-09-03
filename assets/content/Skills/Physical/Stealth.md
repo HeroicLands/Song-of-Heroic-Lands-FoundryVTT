@@ -9,10 +9,10 @@ id: Gnyh1TB0R1my8Dfa
 img: icons/game-icons/lorc/hidden.svg
 shortcode: stlth
 type: skill
+subType: physical
 sohl:
   kbcat: physical
   archetype: 0
-  subType: physical
   skillBaseFormula: "sb(attr.agl, attr.wil)"
   combatCategory: none
   parentSkillCode: ""

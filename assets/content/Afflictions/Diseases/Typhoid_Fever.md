@@ -10,10 +10,10 @@ id: B6PazsO8AH0U8OlS
 img: icons/game-icons/lorc/virus.svg
 shortcode: typhfvr
 type: affliction
+subType: disease
 sohl:
   kbcat: diseases
   archetype: 0
-  subType: disease
   levelBase: 1
   healingRateBase: 3
   contagionIndex: 3

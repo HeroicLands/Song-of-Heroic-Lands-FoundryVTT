@@ -9,10 +9,10 @@ id: XHarmSgD2KoBYtJh
 img: icons/game-icons/delapouite/stomach.svg
 shortcode: hypgly
 type: trauma
+subType: physcond
 sohl:
   kbcat: physprivations
   archetype: 0
-  subType: physcond
   category: impediment
   levelBase: 2
   healingRateBase: 5

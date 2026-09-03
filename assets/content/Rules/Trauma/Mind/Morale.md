@@ -6,7 +6,7 @@ aliases:
   - Reaction Test
 id: jBDOZxRV8VpzsfPV
 type: doc
-category: rules
+subType: rules
 name:
   full: Morale
   aliases: []

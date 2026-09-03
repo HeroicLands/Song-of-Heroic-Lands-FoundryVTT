@@ -7,7 +7,7 @@ aliases:
   - Volley
 id: rDBP7stlZ05KJIfE
 type: doc
-category: rules
+subType: rules
 name:
   full: Missile Attacks
   aliases: []

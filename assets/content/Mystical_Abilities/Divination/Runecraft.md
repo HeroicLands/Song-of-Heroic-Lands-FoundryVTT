@@ -9,10 +9,10 @@ id: 2J0wXp8grPjaA70I
 img: icons/game-icons/lorc/rune-stone.svg
 shortcode: runecft
 type: mysticalability
+subType: divination
 sohl:
   kbcat: divination
   archetype: 0
-  subType: divination
   assocSkillCode: ""
   levelBase: 0
   masteryLevelBase: 0

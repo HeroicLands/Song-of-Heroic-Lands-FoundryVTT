@@ -9,10 +9,10 @@ id: fUCUOIumo1t0GIQ1
 img: icons/game-icons/faithtoken/card-random.svg
 shortcode: tarot
 type: mysticalability
+subType: divination
 sohl:
   kbcat: divination
   archetype: 0
-  subType: divination
   assocSkillCode: ""
   levelBase: 0
   masteryLevelBase: 0

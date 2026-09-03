@@ -9,10 +9,10 @@ id: DTPuFzFuaWPySSGj
 img: icons/game-icons/badges/paw.svg
 shortcode: anmcft
 type: skill
+subType: nature
 sohl:
   kbcat: nature
   archetype: 0
-  subType: nature
   skillBaseFormula: "sb(attr.emp, attr.wil)"
   combatCategory: none
   parentSkillCode: ""

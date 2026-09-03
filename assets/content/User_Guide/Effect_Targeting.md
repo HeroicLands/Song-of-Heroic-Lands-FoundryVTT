@@ -2,7 +2,7 @@
 aliases: []
 id: U0j0CeD2HOvqJ3UX
 type: doc
-category: user-guide
+subType: user-guide
 name:
   full: "Effect Targeting"
 shortcode: effcttrg

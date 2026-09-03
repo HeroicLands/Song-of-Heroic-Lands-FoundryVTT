@@ -6,7 +6,7 @@ aliases:
   - Strength Trial
 id: SNdlp2B249F9Enwx
 type: doc
-category: rules
+subType: rules
 name:
   full: Unarmed Combat
   aliases: []

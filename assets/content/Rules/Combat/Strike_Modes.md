@@ -8,7 +8,7 @@ aliases:
   - Attack Modes
 id: ixrwbYUvFCsmEkO9
 type: doc
-category: rules
+subType: rules
 name:
   full: Strike Modes
   aliases: []

@@ -8,10 +8,10 @@ id: nm3hkD4ctKMzYOje
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: dprssn
 type: trauma
+subType: psycond
 sohl:
   kbcat: psypsychosis
   archetype: 0
-  subType: psycond
   category: impulse
 folder: ECrcBb9CUCMX9JeJ
 ---

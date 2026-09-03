@@ -8,7 +8,7 @@ name:
   aliases: []
 shortcode: bestiary
 type: doc
-category: rules
+subType: rules
 folder: RqKUTBUBN2Y3MHYB
 ---
 

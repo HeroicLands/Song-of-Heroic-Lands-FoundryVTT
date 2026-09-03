@@ -9,10 +9,10 @@ id: NnySwLpA4EHqC42L
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: impaired
 type: trauma
+subType: physcond
 sohl:
   kbcat: physdisability
   archetype: 0
-  subType: physcond
   category: impediment
 folder: 4h8qyMcGHlkrfN1g
 ---

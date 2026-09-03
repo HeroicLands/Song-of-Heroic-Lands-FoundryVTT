@@ -8,10 +8,10 @@ id: XjdCLakpybIfqBsi
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: photosen
 type: trauma
+subType: physcond
 sohl:
   kbcat: physdisability
   archetype: 0
-  subType: physcond
   category: trait
 folder: 4h8qyMcGHlkrfN1g
 ---

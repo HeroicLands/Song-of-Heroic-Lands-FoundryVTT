@@ -3,7 +3,7 @@ aliases:
   - Armor
 id: yh3LCFXRlhJWMqLW
 type: doc
-category: user-guide
+subType: user-guide
 name:
   full: "Armor"
 shortcode: armor

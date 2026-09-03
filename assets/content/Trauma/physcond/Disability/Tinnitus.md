@@ -8,10 +8,10 @@ id: muA1zmYgl8R4y2Yf
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: tinnitus
 type: trauma
+subType: physcond
 sohl:
   kbcat: physdisability
   archetype: 0
-  subType: physcond
   category: trait
 folder: 4h8qyMcGHlkrfN1g
 ---

@@ -9,10 +9,10 @@ id: j7taHswPlFhvFIec
 img: icons/game-icons/lorc/sewing-needle.svg
 shortcode: txtl
 type: skill
+subType: craft
 sohl:
   kbcat: craft
   archetype: 0
-  subType: craft
   skillBaseFormula: "sb(attr.dex, attr.per)"
   combatCategory: none
   parentSkillCode: ""

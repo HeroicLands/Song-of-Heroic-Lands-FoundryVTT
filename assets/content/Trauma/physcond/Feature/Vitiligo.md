@@ -8,10 +8,10 @@ id: 59msy73NBMHpaVoR
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: vitiligo
 type: trauma
+subType: physcond
 sohl:
   kbcat: physfeature
   archetype: 0
-  subType: physcond
   category: trait
 folder: 4h8qyMcGHlkrfN1g
 ---

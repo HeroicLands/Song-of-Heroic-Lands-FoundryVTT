@@ -10,10 +10,10 @@ id: 4tmjKiz0ZXQ2pqWP
 img: icons/game-icons/lorc/psychic-waves.svg
 shortcode: spirit
 type: skill
+subType: mystical
 sohl:
   kbcat: mystical
   archetype: 0
-  subType: mystical
   skillBaseFormula: "sb(attr.aur, attr.wil)"
   combatCategory: none
   parentSkillCode: ""

@@ -4,7 +4,7 @@ aliases:
   - Rules Glossary
 id: GMJ5HjXALiKv03rx
 type: doc
-category: rules
+subType: rules
 name:
   full: Glossary
   aliases: []

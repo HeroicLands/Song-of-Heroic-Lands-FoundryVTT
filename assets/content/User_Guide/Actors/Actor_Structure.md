@@ -3,7 +3,7 @@ aliases:
   - Structure
 id: STezcXhJMlmYv9XT
 type: doc
-category: user-guide
+subType: user-guide
 name:
   full: "Structure"
 shortcode: structure

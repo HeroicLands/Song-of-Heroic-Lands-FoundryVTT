@@ -3,7 +3,7 @@ aliases:
   - Boost
 id: 6xY5jkTDBbRHjEdk
 type: doc
-category: rules
+subType: rules
 name:
   full: Boost
   aliases: []

@@ -3,7 +3,7 @@ aliases:
   - Attribute
 id: tFoBD6DazC0n9cxw
 type: doc
-category: user-guide
+subType: user-guide
 name:
   full: "Attribute"
 shortcode: attrbt

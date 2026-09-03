@@ -3,7 +3,7 @@ aliases:
   - Credits and Attributions
 id: VCCHelr5qIC5ydop
 type: doc
-category: credits
+subType: reference
 name:
   full: "Credits & Attributions"
   aliases: []

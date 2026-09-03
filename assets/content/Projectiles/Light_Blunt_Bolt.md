@@ -7,6 +7,7 @@ name:
   alias: []
 description: "Light quarrel with padded knob; stuns small game; spares fur and feather."
 type: projectilegear
+subType: bolt
 id: K3xckwemrgxTl0wl
 shortcode: BltLBlt
 img: icons/game-icons/lorc/broadhead-arrow.svg
@@ -27,7 +28,6 @@ sohl:
   traits:
     ARvalue: 4
     bleed: true
-  subType: bolt
 folder: ADQPHjgKsdWsJhyy
 ---
 

@@ -3,7 +3,7 @@ aliases:
   - Fate
 id: GSeR40tvrYO1pOHw
 type: doc
-category: rules
+subType: rules
 name:
   full: Fate
   aliases: []

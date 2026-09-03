@@ -3,7 +3,7 @@ aliases:
   - Boon
 id: IUE1zCOsO7IyrAbo
 type: doc
-category: rules
+subType: rules
 name:
   full: Boon
   aliases: []

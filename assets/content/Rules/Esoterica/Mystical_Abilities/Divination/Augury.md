@@ -3,7 +3,7 @@ aliases:
   - Augury
 id: vnhzmwxzgCuEHnuE
 type: doc
-category: rules
+subType: rules
 name:
   full: Augury
   aliases: []

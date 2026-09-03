@@ -7,7 +7,7 @@ aliases:
   - Pall Cloud
 id: RADvlTrsPHDSDYQN
 type: doc
-category: rules
+subType: rules
 name:
   full: The Pall
   aliases: []

@@ -9,10 +9,10 @@ id: kmkKoOgeVxj12Pbc
 img: icons/game-icons/delapouite/jump-across.svg
 shortcode: jump
 type: skill
+subType: physical
 sohl:
   kbcat: physical
   archetype: 0
-  subType: physical
   skillBaseFormula: "sb(attr.agl, attr.str)"
   combatCategory: none
   parentSkillCode: ""

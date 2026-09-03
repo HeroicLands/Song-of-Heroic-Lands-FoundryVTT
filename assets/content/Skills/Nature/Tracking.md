@@ -9,10 +9,10 @@ id: rve7MQf46F3L7gkU
 img: icons/game-icons/lorc/footprint.svg
 shortcode: trak
 type: skill
+subType: nature
 sohl:
   kbcat: nature
   archetype: 0
-  subType: nature
   skillBaseFormula: "sb(attr.rea, attr.per)"
   combatCategory: none
   parentSkillCode: ""

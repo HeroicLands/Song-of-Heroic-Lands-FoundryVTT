@@ -3,7 +3,7 @@ aliases:
   - Miscellaneous Gear
 id: 3tsCXpR4ep5hnzV1
 type: doc
-category: user-guide
+subType: user-guide
 name:
   full: "Miscellaneous Gear"
 shortcode: mscllnsg

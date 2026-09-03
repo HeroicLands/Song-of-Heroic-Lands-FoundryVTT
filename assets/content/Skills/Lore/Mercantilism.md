@@ -9,10 +9,10 @@ id: 0PErwXxsCUOTgoMV
 img: icons/game-icons/badges/coins.svg
 shortcode: mrcn
 type: skill
+subType: lore
 sohl:
   kbcat: lore
   archetype: 0
-  subType: lore
   skillBaseFormula: "sb(attr.rea, attr.per)"
   combatCategory: none
   parentSkillCode: ""

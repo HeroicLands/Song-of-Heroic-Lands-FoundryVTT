@@ -6,7 +6,7 @@ aliases:
   - Reach
 id: OqIctLS39bjX8rbr
 type: doc
-category: rules
+subType: rules
 name:
   full: Melee Attacks
   aliases: []

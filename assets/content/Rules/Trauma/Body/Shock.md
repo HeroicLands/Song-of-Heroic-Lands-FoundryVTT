@@ -7,7 +7,7 @@ aliases:
   - Extended Shock
 id: im1oSbKUZQFCBBI8
 type: doc
-category: rules
+subType: rules
 name:
   full: Shock
   aliases: []

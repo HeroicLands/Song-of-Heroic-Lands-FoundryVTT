@@ -6,7 +6,7 @@ aliases:
   - Encumbrance
 id: wjqsgt0VbETSKE6Y
 type: doc
-category: rules
+subType: rules
 name:
   full: Gear
   aliases: []

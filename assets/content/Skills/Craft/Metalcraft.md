@@ -9,10 +9,10 @@ id: UqwlRxBPRTT0qnaO
 img: icons/game-icons/lorc/metal-bar.svg
 shortcode: mtlc
 type: skill
+subType: craft
 sohl:
   kbcat: craft
   archetype: 0
-  subType: craft
   skillBaseFormula: "sb(attr.dex, attr.str)"
   combatCategory: none
   parentSkillCode: ""

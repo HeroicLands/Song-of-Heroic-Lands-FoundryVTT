@@ -3,7 +3,7 @@ aliases:
   - Haruspicy
 id: jlpNdIs8NF0IB4MP
 type: doc
-category: rules
+subType: rules
 name:
   full: Haruspicy
   aliases: []

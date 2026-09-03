@@ -8,10 +8,10 @@ id: 9foIScRpen8Bf7cl
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: apthtc
 type: trauma
+subType: psycond
 sohl:
   kbcat: psybehavior
   archetype: 0
-  subType: psycond
   category: impulse
 folder: ECrcBb9CUCMX9JeJ
 ---

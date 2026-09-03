@@ -3,7 +3,7 @@ aliases:
   - Rune Casting
 id: 4qy1qawptXZ8xQda
 type: doc
-category: rules
+subType: rules
 name:
   full: Rune Casting
   aliases: []

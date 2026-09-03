@@ -6,7 +6,6 @@ name:
   full: Projectiles
   aliases: []
 type: doc
-category: collection
 shortcode: projectils
 section: projectilegear
 tags:

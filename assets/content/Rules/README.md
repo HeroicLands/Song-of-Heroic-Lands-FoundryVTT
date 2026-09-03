@@ -4,7 +4,7 @@ aliases:
   - SoHL Rules
 id: Q0c9vOqCLix8iHC0
 type: doc
-category: rules
+subType: rules
 name:
   full: Song of Heroic Lands Rules
   aliases: []

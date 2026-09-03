@@ -9,10 +9,10 @@ id: VoZDMnV29TjcrO4T
 img: icons/game-icons/delapouite/wood-pile.svg
 shortcode: timb
 type: skill
+subType: nature
 sohl:
   kbcat: craft
   archetype: 0
-  subType: nature
   skillBaseFormula: "sb(attr.per, attr.rea)"
   combatCategory: none
   parentSkillCode: ""

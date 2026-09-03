@@ -8,10 +8,10 @@ id: W2jFes7iMr1QY4kF
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: cnfrmst
 type: trauma
+subType: psycond
 sohl:
   kbcat: psybehavior
   archetype: 0
-  subType: psycond
   category: impulse
 folder: ECrcBb9CUCMX9JeJ
 ---

@@ -6,7 +6,6 @@ name:
   full: Containers
   aliases: []
 type: doc
-category: collection
 shortcode: containers
 section: containergear
 tags:

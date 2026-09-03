@@ -9,10 +9,10 @@ id: ojQ9h4Gv5xdDuCWm
 img: icons/game-icons/caro-asercion/water-mill.svg
 shortcode: mill
 type: skill
+subType: craft
 sohl:
   kbcat: craft
   archetype: 0
-  subType: craft
   skillBaseFormula: "sb(attr.per, attr.str)"
   combatCategory: none
   parentSkillCode: ""

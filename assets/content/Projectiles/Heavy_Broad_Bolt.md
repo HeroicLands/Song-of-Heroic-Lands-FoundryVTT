@@ -7,6 +7,7 @@ name:
   alias: []
 description: "Heavy quarrel with wide barbed head; bleeds flesh, unseats mounted rider."
 type: projectilegear
+subType: bolt
 id: EjqzVPXe2q47OCWK
 shortcode: BltHBrd
 img: icons/game-icons/lorc/broadhead-arrow.svg
@@ -27,7 +28,6 @@ sohl:
   traits:
     ARvalue: 4
     bleed: true
-  subType: bolt
 folder: ADQPHjgKsdWsJhyy
 ---
 

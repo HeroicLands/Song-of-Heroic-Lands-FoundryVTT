@@ -9,10 +9,10 @@ id: aw5d6qqKckJDsKHN
 img: icons/game-icons/delapouite/sailboat.svg
 shortcode: shpw
 type: skill
+subType: lore
 sohl:
   kbcat: lore
   archetype: 0
-  subType: lore
   skillBaseFormula: "sb(attr.rea, attr.cre)"
   combatCategory: none
   parentSkillCode: ""

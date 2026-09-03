@@ -10,10 +10,10 @@ id: tFRbY5UycgJqeDxR
 img: icons/game-icons/lorc/sleepy.svg
 shortcode: invk
 type: trauma
+subType: fatigue
 sohl:
   kbcat: fatigue
   archetype: 0
-  subType: fatigue
   category: windedness
   levelBase: 1
   healingRateBase: 5

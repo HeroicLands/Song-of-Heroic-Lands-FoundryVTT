@@ -7,6 +7,7 @@ name:
   alias: []
 description: "Dressed round shot for an engine; a stone the weight of a man."
 type: projectilegear
+subType: bullet
 id: Iwb9HCPzqn4nEsPF
 shortcode: StnSge
 img: icons/game-icons/lorc/stone-block.svg
@@ -16,7 +17,6 @@ sohl:
     skill: srvl
     secondary: []
   archetype: 0
-  subType: bullet
   quality: 0
   durability: 15
   value: 0.5

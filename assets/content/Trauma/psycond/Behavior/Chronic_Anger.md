@@ -9,10 +9,10 @@ id: RQjTqzkqElEYzwtd
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: angerchr
 type: trauma
+subType: psycond
 sohl:
   kbcat: psybehavior
   archetype: 0
-  subType: psycond
   category: impulse
 folder: SpZzOv4eOwtdsMMo
 ---

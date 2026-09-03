@@ -3,7 +3,7 @@ aliases:
   - Spirit Rite
 id: TgCJ7QeTOa3GOMHe
 type: doc
-category: rules
+subType: rules
 name:
   full: Spirit Rite
   aliases: []

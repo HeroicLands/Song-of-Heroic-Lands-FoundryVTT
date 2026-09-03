@@ -9,10 +9,10 @@ id: s63FgaHbjReLffnl
 img: icons/game-icons/lorc/sleepy.svg
 shortcode: sleepdep
 type: trauma
+subType: fatigue
 sohl:
   kbcat: fatigue
   archetype: 0
-  subType: fatigue
   category: weariness
   levelBase: 2
   healingRateBase: 5

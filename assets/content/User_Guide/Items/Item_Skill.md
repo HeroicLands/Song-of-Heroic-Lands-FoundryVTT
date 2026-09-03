@@ -3,7 +3,7 @@ aliases:
   - Skill
 id: rbl6nD2s5gxsx9gR
 type: doc
-category: user-guide
+subType: user-guide
 name:
   full: "Skill"
 shortcode: skill

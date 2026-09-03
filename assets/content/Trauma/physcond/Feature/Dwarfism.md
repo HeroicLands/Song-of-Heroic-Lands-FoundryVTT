@@ -8,10 +8,10 @@ id: ShfK05q4kdaeCC9s
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: dwarfism
 type: trauma
+subType: physcond
 sohl:
   kbcat: physfeature
   archetype: 0
-  subType: physcond
   category: impediment
 folder: 4h8qyMcGHlkrfN1g
 ---

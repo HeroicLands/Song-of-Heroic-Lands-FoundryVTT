@@ -7,6 +7,7 @@ name:
   alias: []
 description: "Thick shaft, four-sided iron spike; pierces plate, mail, gambeson up close."
 type: projectilegear
+subType: arrow
 id: rNZGHJbveWGRoidQ
 shortcode: ArwHBod
 img: icons/game-icons/lorc/broadhead-arrow.svg
@@ -16,7 +17,6 @@ sohl:
     skill: fltch
     secondary: [wood, mtlc]
   archetype: 0
-  subType: arrow
   quality: 0
   durability: 10
   value: 1.5

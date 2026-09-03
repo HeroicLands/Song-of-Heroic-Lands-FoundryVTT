@@ -3,7 +3,7 @@ aliases:
   - Container
 id: rF2XSEFWmBoOwkks
 type: doc
-category: user-guide
+subType: user-guide
 name:
   full: "Container"
 shortcode: cntnr

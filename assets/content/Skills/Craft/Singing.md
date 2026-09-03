@@ -9,10 +9,10 @@ id: lH0RVKjTxtHEUacl
 img: icons/game-icons/lorc/sing.svg
 shortcode: sing
 type: skill
+subType: social
 sohl:
   kbcat: craft
   archetype: 0
-  subType: social
   skillBaseFormula: "sb(attr.voi, attr.cre)"
   combatCategory: none
   parentSkillCode: ""

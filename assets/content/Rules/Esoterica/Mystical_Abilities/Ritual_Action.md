@@ -3,7 +3,7 @@ aliases:
   - Ritual Action
 id: SAPsZAA28wMkaRbl
 type: doc
-category: rules
+subType: rules
 name:
   full: Ritual Action
   aliases: []

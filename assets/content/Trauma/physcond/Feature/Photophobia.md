@@ -8,12 +8,12 @@ id: 69Bur733yhdGFSWi
 img: icons/game-icons/cathelineau/dread.svg
 shortcode: photophb
 type: trauma
+subType: physcond
 sohl:
   kbcat: physfeature
   archetype: 0
-  levelBase: 0
-  subType: physcond
   category: trait
+  levelBase: 0
 folder: 4h8qyMcGHlkrfN1g
 ---
 

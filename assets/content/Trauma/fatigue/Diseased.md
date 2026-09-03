@@ -10,10 +10,10 @@ id: gsxHptSAKPJcqCV3
 img: icons/game-icons/lorc/sleepy.svg
 shortcode: disd
 type: trauma
+subType: fatigue
 sohl:
   kbcat: fatigue
   archetype: 0
-  subType: fatigue
   category: weakness
   levelBase: 1
   healingRateBase: 1

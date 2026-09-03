@@ -4,7 +4,7 @@ aliases:
   - Resolution Introduction
 id: hzGEcwoamHndfE66
 type: doc
-category: rules
+subType: rules
 name:
   full: Resolution
   aliases: []

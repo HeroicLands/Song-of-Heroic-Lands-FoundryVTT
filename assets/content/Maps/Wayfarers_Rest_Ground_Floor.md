@@ -8,7 +8,8 @@ name:
 description: "The common room of a roadside shelter: one hearth, one stair, one door."
 id: Xwo4dsmey2A3Rvrn
 shortcode: wayrestground
-type: battlemap
+type: map
+subType: battlemap
 sohl:
   kbcat: map
   folder: Pw3nJvVsGuMdRb1K

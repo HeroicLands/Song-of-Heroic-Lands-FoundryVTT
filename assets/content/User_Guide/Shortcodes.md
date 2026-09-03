@@ -3,7 +3,7 @@ aliases:
   - Shortcode
 id: b44b338b7c4477fb
 type: doc
-category: user-guide
+subType: user-guide
 name:
   full: "Shortcodes"
 shortcode: shrtcds

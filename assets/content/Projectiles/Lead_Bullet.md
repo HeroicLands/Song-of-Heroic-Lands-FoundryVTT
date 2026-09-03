@@ -7,6 +7,7 @@ name:
   alias: []
 description: "Cast lead almond-shaped ball; farther-flying, harder-striking than stone; pierces gambesons."
 type: projectilegear
+subType: bullet
 id: AeDgnvIYfTWbk4Z7
 shortcode: LBul
 img: icons/game-icons/delapouite/stone-pile.svg
@@ -27,7 +28,6 @@ sohl:
   traits:
     ARvalue: 0
     bleed: false
-  subType: bullet
 folder: ADQPHjgKsdWsJhyy
 ---
 

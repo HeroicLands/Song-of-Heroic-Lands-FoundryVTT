@@ -10,10 +10,10 @@ id: L5Jzm8yQ4Gijxuen
 img: icons/game-icons/delapouite/handcuffed.svg
 shortcode: immob
 type: trauma
+subType: physcond
 sohl:
   kbcat: physdisability
   archetype: 0
-  subType: physcond
   category: impediment
 folder: 4h8qyMcGHlkrfN1g
 ---

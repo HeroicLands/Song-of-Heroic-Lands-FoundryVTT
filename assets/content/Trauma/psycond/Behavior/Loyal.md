@@ -8,10 +8,10 @@ id: dZsXpK6LNwh13oqk
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: loyal
 type: trauma
+subType: psycond
 sohl:
   kbcat: psybehavior
   archetype: 0
-  subType: psycond
   category: quirk
 folder: SpZzOv4eOwtdsMMo
 ---

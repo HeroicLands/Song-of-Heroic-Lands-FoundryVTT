@@ -3,7 +3,7 @@ aliases:
   - Afflictions and Injuries
 id: jzsvrPQas8ak9Ti0
 type: doc
-category: user-guide
+subType: user-guide
 name:
   full: "Afflictions and Injuries"
 shortcode: afflandi

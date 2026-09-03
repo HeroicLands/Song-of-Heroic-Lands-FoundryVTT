@@ -9,10 +9,10 @@ id: mARFb83ni5upS4h3
 img: icons/game-icons/delapouite/cavalry.svg
 shortcode: ridg
 type: skill
+subType: physical
 sohl:
   kbcat: physical
   archetype: 0
-  subType: physical
   skillBaseFormula: "sb(attr.emp, attr.agl)"
   combatCategory: none
   parentSkillCode: ""

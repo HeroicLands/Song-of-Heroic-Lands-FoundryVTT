@@ -8,10 +8,10 @@ id: CUrZV9t7UWIBaqpQ
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: ggntsm
 type: trauma
+subType: physcond
 sohl:
   kbcat: physfeature
   archetype: 0
-  subType: physcond
   category: impediment
 folder: 4h8qyMcGHlkrfN1g
 ---

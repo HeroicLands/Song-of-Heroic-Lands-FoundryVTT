@@ -10,10 +10,10 @@ id: XuQiB0mzLPGDqqHt
 img: icons/game-icons/lorc/sleepy.svg
 shortcode: spiritcnfl
 type: trauma
+subType: fatigue
 sohl:
   kbcat: fatigue
   archetype: 0
-  subType: fatigue
   category: windedness
   levelBase: 1
   healingRateBase: 5

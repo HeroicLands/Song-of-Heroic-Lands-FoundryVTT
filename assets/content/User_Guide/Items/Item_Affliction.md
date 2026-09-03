@@ -3,7 +3,7 @@ aliases:
   - Affliction
 id: MoyrkIfKbklVs8Pn
 type: doc
-category: user-guide
+subType: user-guide
 name:
   full: "Affliction"
 shortcode: afflctn

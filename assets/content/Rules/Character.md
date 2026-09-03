@@ -4,7 +4,7 @@ aliases:
   - Character Introduction
 id: xl7OIGqVKu52E5Oc
 type: doc
-category: rules
+subType: rules
 name:
   full: Characters Introduction
   aliases: []

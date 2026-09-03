@@ -10,10 +10,10 @@ id: Md5Txip6KMAelFK2
 img: icons/game-icons/lorc/sleepy.svg
 shortcode: swltr
 type: trauma
+subType: fatigue
 sohl:
   kbcat: fatigue
   archetype: 0
-  subType: fatigue
   category: weariness
   levelBase: 1
   healingRateBase: 3

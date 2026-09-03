@@ -3,7 +3,7 @@ aliases:
   - Alchemy
 id: 1qMLpYvFGBZ6dLgh
 type: doc
-category: rules
+subType: rules
 name:
   full: Alchemy
   aliases: []

@@ -10,10 +10,10 @@ id: q3cLJY0FJHMDiMaw
 img: icons/game-icons/lorc/sleepy.svg
 shortcode: march
 type: trauma
+subType: fatigue
 sohl:
   kbcat: fatigue
   archetype: 0
-  subType: fatigue
   category: weariness
   levelBase: 1
   healingRateBase: 3

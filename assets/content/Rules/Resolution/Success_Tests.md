@@ -6,7 +6,7 @@ aliases:
   - Success Level
 id: V5ocvTbZq3Vw94oz
 type: doc
-category: rules
+subType: rules
 name:
   full: Success Tests
   aliases: []

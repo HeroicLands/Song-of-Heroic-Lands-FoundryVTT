@@ -9,10 +9,10 @@ id: IVp2za6i2KFNZxSJ
 img: icons/game-icons/delapouite/hand-saw.svg
 shortcode: wood
 type: skill
+subType: craft
 sohl:
   kbcat: craft
   archetype: 0
-  subType: craft
   skillBaseFormula: "sb(attr.dex, attr.str)"
   combatCategory: none
   parentSkillCode: ""

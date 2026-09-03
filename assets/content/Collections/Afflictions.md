@@ -6,7 +6,6 @@ name:
   full: Afflictions
   aliases: []
 type: doc
-category: collection
 shortcode: aflictions
 section: affliction
 tags:

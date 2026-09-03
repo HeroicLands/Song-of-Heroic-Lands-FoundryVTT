@@ -3,7 +3,7 @@ aliases:
   - Prone
 id: ly7IlkeD7MGlz6wt
 type: doc
-category: rules
+subType: rules
 name:
   full: Prone
   aliases: []

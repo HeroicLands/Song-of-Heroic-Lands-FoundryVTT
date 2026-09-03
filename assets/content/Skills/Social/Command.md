@@ -9,10 +9,10 @@ id: tKieDfHG5pLS0Pca
 img: icons/game-icons/lorc/conversation.svg
 shortcode: cmd
 type: skill
+subType: social
 sohl:
   kbcat: social
   archetype: 0
-  subType: social
   skillBaseFormula: "sb(attr.wil, attr.elo)"
   combatCategory: none
   parentSkillCode: ""

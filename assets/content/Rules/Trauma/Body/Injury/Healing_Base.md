@@ -3,7 +3,7 @@ aliases:
   - Healing Base
 id: Sb8dCIBSChIPJpKr
 type: doc
-category: rules
+subType: rules
 name:
   full: Healing Base
   aliases: []

@@ -2,7 +2,7 @@
 aliases: []
 id: YApc5TRsPXe62WOA
 type: doc
-category: user-guide
+subType: user-guide
 name:
   full: "System Settings"
 shortcode: systmstt

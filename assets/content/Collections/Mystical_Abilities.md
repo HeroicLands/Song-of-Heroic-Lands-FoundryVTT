@@ -6,7 +6,6 @@ name:
   full: Mystical Abilities
   aliases: []
 type: doc
-category: collection
 shortcode: mystclblts
 section: mysticalability
 tags:

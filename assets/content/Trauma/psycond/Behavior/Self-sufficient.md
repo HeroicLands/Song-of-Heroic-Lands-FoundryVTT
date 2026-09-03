@@ -8,10 +8,10 @@ id: bNm2Q0383zIRo2wG
 img: icons/game-icons/lorc/battle-gear.svg
 shortcode: selfsuf
 type: trauma
+subType: psycond
 sohl:
   kbcat: psybehavior
   archetype: 0
-  subType: psycond
   category: quirk
 folder: SpZzOv4eOwtdsMMo
 ---

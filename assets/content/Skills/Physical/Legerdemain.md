@@ -9,10 +9,10 @@ id: CJxIqMc6kNXL3dxb
 img: icons/game-icons/lorc/juggler.svg
 shortcode: lgdm
 type: skill
+subType: physical
 sohl:
   kbcat: physical
   archetype: 0
-  subType: physical
   skillBaseFormula: "sb(attr.dex, attr.per)"
   combatCategory: none
   parentSkillCode: ""

@@ -3,7 +3,7 @@ aliases:
   - Tokens
 id: cuzEYQJCbBO4RFDq
 type: doc
-category: user-guide
+subType: user-guide
 name:
   full: "Token"
 shortcode: token

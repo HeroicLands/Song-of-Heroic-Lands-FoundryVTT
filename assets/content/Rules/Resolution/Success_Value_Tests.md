@@ -6,7 +6,7 @@ aliases:
   - Value Diamonds
 id: PqED2bmjJU5AdEsU
 type: doc
-category: rules
+subType: rules
 name:
   full: Success Value Tests
   aliases: []

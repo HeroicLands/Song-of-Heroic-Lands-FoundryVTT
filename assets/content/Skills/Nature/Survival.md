@@ -9,10 +9,10 @@ id: 8SCHvY0B1oHUgWnM
 img: icons/game-icons/lorc/campfire.svg
 shortcode: srvl
 type: skill
+subType: nature
 sohl:
   kbcat: nature
   archetype: 0
-  subType: nature
   skillBaseFormula: "sb(attr.wil, attr.rea)"
   combatCategory: none
   parentSkillCode: ""

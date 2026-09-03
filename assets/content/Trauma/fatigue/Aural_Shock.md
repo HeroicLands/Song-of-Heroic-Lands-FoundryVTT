@@ -10,10 +10,10 @@ id: iq1b2rwWQuvhSbGk
 img: icons/game-icons/lorc/sleepy.svg
 shortcode: auralshk
 type: trauma
+subType: fatigue
 sohl:
   kbcat: fatigue
   archetype: 0
-  subType: fatigue
   category: weakness
   levelBase: 1
   healingRateBase: 1

@@ -3,7 +3,7 @@ aliases:
   - Vehicle
 id: UzvfN3dVTI3CCC2V
 type: doc
-category: user-guide
+subType: user-guide
 name:
   full: "Vehicle"
 shortcode: vehicle

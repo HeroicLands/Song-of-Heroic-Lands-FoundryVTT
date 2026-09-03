@@ -7,6 +7,7 @@ name:
   alias: []
 description: "Light shaft with wooden knob or leather pad; squirrel, hare, bird hunting."
 type: projectilegear
+subType: arrow
 id: 8i5eKRDIguMJHsXx
 shortcode: ArwLBlt
 img: icons/game-icons/lorc/broadhead-arrow.svg
@@ -27,7 +28,6 @@ sohl:
   traits:
     ARvalue: 4
     bleed: true
-  subType: arrow
 folder: ADQPHjgKsdWsJhyy
 ---
 

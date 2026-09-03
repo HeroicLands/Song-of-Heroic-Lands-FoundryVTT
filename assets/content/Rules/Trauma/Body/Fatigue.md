@@ -8,7 +8,7 @@ aliases:
   - Weakness
 id: G1UDnlgH8sI9oNO7
 type: doc
-category: rules
+subType: rules
 name:
   full: Fatigue
   aliases: []

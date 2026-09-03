@@ -4,7 +4,7 @@ aliases:
   - Healing Tests
 id: O1G83N1o9pJYVDbA
 type: doc
-category: rules
+subType: rules
 name:
   full: Healing Test
   aliases: []

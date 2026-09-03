@@ -3,7 +3,7 @@ aliases:
   - Astrology
 id: 5NyYLL2GEcOVdpjS
 type: doc
-category: rules
+subType: rules
 name:
   full: Astrology
   aliases: []
