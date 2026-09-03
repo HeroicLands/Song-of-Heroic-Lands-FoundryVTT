@@ -1,0 +1,32 @@
+// Draft link — a wikilink whose target exists but is not written yet.
+//
+// The content build wraps such a link in `<span class="sohl-draft-link">`
+// (HeroicLands/package-build#183) and leaves the link itself alone, so the
+// `@UUID` inside still enriches into a live content link. This marks it, so a
+// reader can see before clicking that the page they are being sent to is a
+// placeholder, and an author can see which of their links still owe content.
+//
+// **Deliberately not the unresolved-link marking**, because the two say
+// different things: an unresolved link's target does not exist, while a draft
+// link's does and is simply unwritten. So this keeps the link's normal weight
+// — it *is* a real link — and marks it in amber with a dashed underline,
+// against the unresolved marker's bold red and dotted one.
+//
+// Unscoped for the same reason as `_unresolved-link.scss`: this renders inside
+// compiled journal and item-doc prose, which appears in journal sheets, chat
+// cards and tooltips, not only under a `.sohl` frame.
+//
+// `light-dark()` rather than a media query, because Foundry drives its themes
+// through `color-scheme` (`color-scheme: var(--color-scheme)`), so the two stay
+// in step with the user's chosen theme rather than with the OS. Both values are
+// contrast-checked at 4.5:1 or better against the plausible sheet backgrounds
+// of their own mode — #805500 reaches 5.1–6.5:1 on light, #F2B950 7.1–9.7:1 on
+// dark — so neither is merely "an amber that looked fine".
+.sohl-draft-link {
+    color: var(--sohl-draft-link-color, light-dark(#805500, #f2b950));
+    // Dashed rather than the unresolved marker's dotted, so the two are
+    // tellable apart by a reader who cannot separate the hues.
+    text-decoration: underline dashed currentcolor;
+    text-underline-offset: 0.15em;
+    cursor: help;
+}
