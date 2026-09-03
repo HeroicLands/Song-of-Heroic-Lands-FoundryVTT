@@ -352,3 +352,28 @@ can see.
 pack-only package (#1516) publishes Foundry addresses and no pages, so the
 author wrote a real address and there is simply nothing to link to — see
 consumer rule 3 above. Marking it would report correct content as a mistake.
+
+## Links into a draft note
+
+A note tagged `draft` is a note that exists so a link into it is not dead, and
+nothing else. It is **not** a resolution failure — the note compiles, validates,
+publishes and resolves like any other, and it is in the packs, in this manifest
+and on the site — so it is marked separately, and for a different reason: the
+target exists and is unwritten, where an unresolved link's target does not exist
+at all.
+
+Both surfaces mark it, in the same markup, with the link left live inside:
+
+```html
+<span class="sohl-draft-link" title="Draft — not yet written">@UUID[Compendium.…]{Text}</span>
+```
+
+The appearance follows the same split as above: `scss/components/_draft-link.scss`
+in Foundry, the Hugo theme on the knowledgebase. It is deliberately unlike the
+unresolved marking — normal weight, amber, a dashed underline rather than a bold
+red dotted one — because a reader has to be able to tell the two apart.
+
+This is not the retired `draft:` frontmatter field, which is still refused by
+name. That field moved a note from _published_ to unresolvable without saying
+so, and suppressed the build failures the note carried; the tag changes nothing
+but how a citing link looks.
