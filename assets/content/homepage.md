@@ -23,6 +23,7 @@
 # this site — so the whole landing follows the /sohl/ mount rather than restating
 # it link by link.
 type: homepage
+shortcode: root
 title: Song of Heroic Lands
 description: A classless, skill-based fantasy system for Foundry Virtual Tabletop —
   HârnMaster-compatible, and built to keep the books while you make the calls.
