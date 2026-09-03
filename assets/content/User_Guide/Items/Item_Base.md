@@ -6,7 +6,7 @@ type: doc
 subType: user-guide
 name:
   full: Base Item
-shortcode: baseitem
+shortcode: baseitemug
 folder: QtOgPodi8X6gDWL0
 ---
 
@@ -20,7 +20,7 @@ The Item sheet displays information about the individual item. There are general
 
 Although each type of Item has different properties, some properties are common among all Items. These properties include:
 
-- **Shortcode:** A relatively short alphanumeric text string that uniquely identifies this item within similarly-typed items. The shortcode is often used in code to identify an item, since name can change through localization (shortcodes are never localized). See [[doc-shrtcds|Shortcodes]] for what a shortcode means and why two items that share one are treated as the same thing.
+- **Shortcode:** A relatively short alphanumeric text string that uniquely identifies this item within similarly-typed items. The shortcode is often used in code to identify an item, since name can change through localization (shortcodes are never localized). See [[doc-shortcodesug|Shortcodes]] for what a shortcode means and why two items that share one are treated as the same thing.
 - **Notes:** A single-line note associated with an item that is normally displayed on the character sheet next to the item. This differs from the Description, which is a rich text multi-line block of text.
 
 ## Documentation Tab
@@ -32,7 +32,7 @@ A **Documentation** field holding nothing but a link is a special case worth kno
 
 ## Actions Tab
 
-Actions represent specific behaviors that can be triggered. Some of these are predefined, others can be custom made. See [[doc-actions|Actions]] for how actions work as a mechanism — the action types, their fields, and who is permitted to run them.
+Actions represent specific behaviors that can be triggered. Some of these are predefined, others can be custom made. See [[doc-actionsug|Actions]] for how actions work as a mechanism — the action types, their fields, and who is permitted to run them.
 
 Most actions belong to one kind of item, and are documented on that item's own page. A handful belong to **everything**, and are documented here once: [[#the-shared-document-actions|the shared document actions]]. Several **dialogs** are shared the same way — nearly every roll in SoHL opens [[#the-standard-test-dialog|the standard test dialog]] — and those are described once here too.
 
@@ -78,7 +78,7 @@ Four actions are not features of any one item type — they belong to every docu
 
 None of them roll anything, and none of them touch another character's sheet.
 
-> The combat tracker is the one place **Edit** and **Delete** are deliberately left out of the menu: the tracker has its own controls for both. See [[doc-cmbtnt|Combatant]].
+> The combat tracker is the one place **Edit** and **Delete** are deliberately left out of the menu: the tracker has its own controls for both. See [[doc-cmbtntug|Combatant]].
 
 # Edit {#edit}
 
@@ -121,7 +121,7 @@ Closing the dialog with the window's ✕ also cancels. The safe answer is the ea
 
 ## Containers delete their contents
 
-A [[doc-cntnr|Container]] asks a stronger question, because the answer costs more: its dialog is titled **Delete Container: _{name}_** and warns _"WARNING: All items in this container will be deleted as well!"_. Confirming removes the container **and everything inside it** in one step.
+A [[doc-containergearug|Container]] asks a stronger question, because the answer costs more: its dialog is titled **Delete Container: _{name}_** and warns _"WARNING: All items in this container will be deleted as well!"_. Confirming removes the container **and everything inside it** in one step.
 
 If you want to keep the contents, move them out of the container first, then delete the empty container.
 
@@ -192,14 +192,14 @@ A fourth, [[#editing-a-posted-test-result-gm|the GM's result edit]], re-opens th
 
 **Nearly every roll in SoHL opens this dialog first.** Skill tests, attribute tests, healing checks, morale, treatment — if an action ends in a d100, this is the window that appears before the dice are thrown. It is your chance to say what the situation is worth before the roll is made, rather than arguing about it after.
 
-| Field                      | What it is                                                                                                                                                        |
-| -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Target**                 | Read-only. The number the roll must come in at or under, with everything already applied                                                                          |
-| _The modifier breakdown_   | Read-only. Every modifier making up that target, itemized, so you can see where the number came from                                                              |
-| **Situational Modifier**   | A whole number you type in — positive for favorable circumstances, negative for adverse ones. Starts at 0                                                         |
-| **Success Level Modifier** | A whole number that shifts the **result** rather than the roll: +1 turns a marginal success into a critical one, −1 the reverse                                   |
-| **Roll Visibility**        | Who sees the roll and its result                                                                                                                                  |
-| **Break Ties**             | Opposed tests only, and only for the side starting one. Off by default; ticked, a tied contest is settled instead of reported as a tie — see [[doc-token\|Token]] |
+| Field                      | What it is                                                                                                                                                          |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Target**                 | Read-only. The number the roll must come in at or under, with everything already applied                                                                            |
+| _The modifier breakdown_   | Read-only. Every modifier making up that target, itemized, so you can see where the number came from                                                                |
+| **Situational Modifier**   | A whole number you type in — positive for favorable circumstances, negative for adverse ones. Starts at 0                                                           |
+| **Success Level Modifier** | A whole number that shifts the **result** rather than the roll: +1 turns a marginal success into a critical one, −1 the reverse                                     |
+| **Roll Visibility**        | Who sees the roll and its result                                                                                                                                    |
+| **Break Ties**             | Opposed tests only, and only for the side starting one. Off by default; ticked, a tied contest is settled instead of reported as a tie — see [[doc-tokenug\|Token]] |
 
 **Situational Modifier vs. Success Level Modifier.** The first changes how likely you are to succeed; the second changes how well you did once you have. Use the situational modifier for the ordinary "that's harder than usual" adjustments — darkness, a bad footing, a helpful assistant. The success-level modifier is the rarer tool, for rules and effects that grade a result up or down without making the attempt itself easier.
 
@@ -215,7 +215,7 @@ A fourth, [[#editing-a-posted-test-result-gm|the GM's result edit]], re-opens th
 
 **Cancelling abandons the test.** Dismissing the dialog — the ✕, or Escape — rolls nothing, posts nothing, and changes nothing. A test you started by mistake costs you a keystroke, not a re-write of the chat log.
 
-Some tests add extra fields to this same window when their action needs them — an aim, an impact modifier, a target's movement. Those belong to combat and are described with the actions that use them; see [[doc-cmbtbscs|Combat Basics]] and [[doc-cmbtnt|Combatant]].
+Some tests add extra fields to this same window when their action needs them — an aim, an impact modifier, a target's movement. Those belong to combat and are described with the actions that use them; see [[doc-cmbtbscsug|Combat Basics]] and [[doc-cmbtntug|Combatant]].
 
 A few actions deliberately **skip** this dialog and roll straight away, because the difficulty is not yours to set — the Trauma page's **Treatment Test** is the clearest example, where the wound decides the difficulty. Each such action says so in its own entry.
 
@@ -270,7 +270,7 @@ Accepting does not hand anything over either. When the time comes, a **reminder 
 
 Every standard test-result card carries a small pencil beside its title — but only on a GM's screen. Pressing it re-opens [[#the-standard-test-dialog|the standard test dialog]] for a roll that has already been made, pre-filled with the modifiers that roll actually used.
 
-This is the GM's counterpart to [[doc-thftsyst|Fate]]: where a player spends Fate to nudge a result, a GM adjusts the arithmetic that produced it — because a modifier was forgotten, or applied when it should not have been.
+This is the GM's counterpart to [[doc-thftsystug|Fate]]: where a player spends Fate to nudge a result, a GM adjusts the arithmetic that produced it — because a modifier was forgotten, or applied when it should not have been.
 
 **It never re-rolls.** The die is already cast and stays cast. Only the two modifier fields are yours to change:
 
@@ -285,12 +285,12 @@ The pencil is not shown to players, and the action refuses a non-GM even if the 
 
 # See also
 
-- [[doc-actions|Actions]] — how actions work as a mechanism: types, fields, visibility, and execute permissions.
-- [[doc-undrstnd|Understanding Sheets]] — the sheets these tabs belong to.
-- [[doc-shrtcds|Shortcodes]] — what a shortcode means and why it matters.
-- [[doc-sklltsts|Skill Tests]] — what the numbers in the standard test dialog are doing.
-- [[doc-thftsyst|Fate]] — the player-side counterpart to the GM result edit.
-- [[doc-cmbtbscs|Combat Basics]] and [[doc-cmbtnt|Combatant]] — the combat actions that add fields to the standard test dialog, and where strike modes come from.
-- [[doc-itemtrauma|Trauma]] and [[doc-afflctn|Affliction]] — the recurring checks that use the offer-schedule dialog most.
+- [[doc-actionsug|Actions]] — how actions work as a mechanism: types, fields, visibility, and execute permissions.
+- [[doc-undrstndsheetug|Understanding Sheets]] — the sheets these tabs belong to.
+- [[doc-shortcodesug|Shortcodes]] — what a shortcode means and why it matters.
+- [[doc-sklltestug|Skill Tests]] — what the numbers in the standard test dialog are doing.
+- [[doc-thftsystug|Fate]] — the player-side counterpart to the GM result edit.
+- [[doc-cmbtbscsug|Combat Basics]] and [[doc-cmbtntug|Combatant]] — the combat actions that add fields to the standard test dialog, and where strike modes come from.
+- [[doc-traumaug|Trauma]] and [[doc-afflctnug|Affliction]] — the recurring checks that use the offer-schedule dialog most.
 - [[doc-ugitems|Items]] — every item type at a glance.
 - [[doc-userguide|User Guide]] — back to the index.

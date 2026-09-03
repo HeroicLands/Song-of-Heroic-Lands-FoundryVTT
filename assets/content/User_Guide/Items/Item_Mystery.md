@@ -6,7 +6,7 @@ type: doc
 subType: user-guide
 name:
   full: "Mystery"
-shortcode: mystery
+shortcode: mysteryug
 folder: QtOgPodi8X6gDWL0
 ---
 
@@ -20,7 +20,7 @@ Mysteries appear on the Being sheet's **Mysteries** tab.
 
 # Additional Properties
 
-Along with the [[doc-baseitem|Standard Item Properties]], the following properties also appear in the **Properties** tab:
+Along with the [[doc-baseitemug|Standard Item Properties]], the following properties also appear in the **Properties** tab:
 
 - **SubType:**
 - **Level:** Power level of this mystery, if applicable
@@ -38,15 +38,15 @@ A Mystery describes what a character _is_, not something they roll, so it define
 | Delete                     | `deleteDocument`    |
 | Output Description to Chat | `outputDescription` |
 
-All three belong to every item and are described on [[doc-baseitem|Base Item]], which covers what each one does, how it is invoked, and what it produces.
+All three belong to every item and are described on [[doc-baseitemug|Base Item]], which covers what each one does, how it is invoked, and what it produces.
 
-A Mystery's effect on a character is applied through the Active Effects it carries, and any power a character actively invokes is a [[doc-mystclab|Mystical Ability]], which has its own action and roll.
+A Mystery's effect on a character is applied through the Active Effects it carries, and any power a character actively invokes is a [[doc-mysticalabilityug|Mystical Ability]], which has its own action and roll.
 
 # See also
 
 - [[doc-ugitems|Items]] — every item type at a glance.
-- [[doc-baseitem|Base Item]] — the three shared actions named above.
-- [[doc-mystclab|Mystical Ability]] — the counterpart a character actively invokes.
-- [[doc-mystclpw|Mystical Powers]] — the Mysteries tab, and using the supernatural at the table.
+- [[doc-baseitemug|Base Item]] — the three shared actions named above.
+- [[doc-mysticalabilityug|Mystical Ability]] — the counterpart a character actively invokes.
+- [[doc-mystclpwug|Mystical Powers]] — the Mysteries tab, and using the supernatural at the table.
 - [[doc-mysteryintro|Mysteries]] (rules) — the standing conditions themselves.
 - [[doc-userguide|User Guide]] — back to the index.

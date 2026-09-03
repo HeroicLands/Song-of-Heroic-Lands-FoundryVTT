@@ -124,5 +124,5 @@ This is why ammunition is a supply rather than a consumable, and why an archer's
 - [[doc-atkreslv|Attack Resolution]] — the exchange in full
 - [[doc-strkmds|Strike Modes]] — projectile type, range, draw, volley multiplier
 - [[doc-mlattcks|Melee Attacks]] — attacking at contact
-- [[doc-gear#weapons|Weapons]] — the missile weapons themselves
+- [[doc-gearrules#weapons|Weapons]] — the missile weapons themselves
 - [[skill-fltch|Fletching]] — making projectiles, and working recovered shafts back into them

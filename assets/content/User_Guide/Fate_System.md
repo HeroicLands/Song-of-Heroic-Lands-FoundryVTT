@@ -5,7 +5,7 @@ type: doc
 subType: user-guide
 name:
   full: "The Fate System"
-shortcode: thftsyst
+shortcode: thftsystug
 folder: IgwaG8rAUUO9vrtz
 ---
 
@@ -13,7 +13,7 @@ folder: IgwaG8rAUUO9vrtz
 
 Fate represents a character's luck, destiny, or divine favor. Characters can spend Fate points to influence dice rolls, avoid death, or gain other benefits. Fate is a limited resource that refreshes under specific circumstances.
 
-See also: [[doc-sklltsts|Skill Tests]]
+See also: [[doc-sklltestug|Skill Tests]]
 
 # Fate Points {#fate-points}
 
@@ -50,13 +50,13 @@ Characters can voluntarily spend Fate points to:
 
 The **Fate** option in the system settings controls whether Fate is tracked automatically.
 
-See [[doc-systmstt|System Settings]] for more configuration options.
+See [[doc-syssetngug|System Settings]] for more configuration options.
 
 # See also
 
-- [[doc-sklltsts|Skill Tests and Opposed Tests]] — the settled result that Fate is spent to improve.
-- [[doc-baseitem|Base Item]] — the test-result card the Fate button appears on, and the GM's counterpart result edit.
-- [[doc-being|Being]] — where a character's Fate Points are held.
-- [[doc-systmstt|System Settings]] — the **Fate** world setting.
+- [[doc-sklltestug|Skill Tests and Opposed Tests]] — the settled result that Fate is spent to improve.
+- [[doc-baseitemug|Base Item]] — the test-result card the Fate button appears on, and the GM's counterpart result edit.
+- [[doc-beingug|Being]] — where a character's Fate Points are held.
+- [[doc-syssetngug|System Settings]] — the **Fate** world setting.
 - [[doc-fatepnts|Fate]] (rules) — what Fate is and what spending it may buy.
 - [[doc-userguide|User Guide]] — back to the index.

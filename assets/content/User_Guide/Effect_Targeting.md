@@ -5,7 +5,7 @@ type: doc
 subType: user-guide
 name:
   full: "Effect Targeting"
-shortcode: effcttrg
+shortcode: effcttrgug
 folder: IgwaG8rAUUO9vrtz
 ---
 
@@ -21,7 +21,7 @@ Every SoHL Active Effect is described by three things:
 | **Target Predicate** (`test`) | _Which specific ones_ of that kind?    | Details tab      |
 | **Changes**                   | _What_ does it do to them?             | Changes tab      |
 
-The Target Predicate is a **Safe Expression** — a short, sandboxed condition you type in. This page explains scopes and gives predicate examples; for the full predicate language and the list of helper functions, see [[doc-sfexprss|Safe Expressions]].
+The Target Predicate is a **Safe Expression** — a short, sandboxed condition you type in. This page explains scopes and gives predicate examples; for the full predicate language and the list of helper functions, see [[doc-sfexprssug|Safe Expressions]].
 
 # Target Scope
 
@@ -39,7 +39,7 @@ The **Target Scope** dropdown chooses the kind of thing the effect targets.
 
 # Target Predicate
 
-When the scope is an item kind or a strike-mode scope, the **Target Predicate** decides which candidates are actually affected. It is a [[doc-sfexprss|Safe Expression]] that must evaluate to `true` for a candidate to be included.
+When the scope is an item kind or a strike-mode scope, the **Target Predicate** decides which candidates are actually affected. It is a [[doc-sfexprssug|Safe Expression]] that must evaluate to `true` for a candidate to be included.
 
 What the expression can see depends on the scope:
 
@@ -132,11 +132,11 @@ Combine conditions freely — `itemLogic.name === "Broadsword" && sm.name === "T
   - For an item-kind or strike-mode scope, remember an **empty predicate matches everything** — if you typed a predicate, check it evaluates `true` for your target. A predicate that fails to parse matches **nothing** (and logs a warning to the console).
   - Check the change **key** — a `mod:` key must resolve to a real modifier on the target.
 - **Too many things changed.** Your predicate is too broad. Tighten it: compare an exact `itemLogic.data.shortcode`, or use `matches(...)` with anchored `^…$` patterns instead of loose substrings.
-- **The predicate won't save / shows an error.** It uses syntax the language doesn't allow (for example an assignment, a method call, or a loose `a == b` comparison). See [[doc-sfexprss|Safe Expressions]] for what's allowed.
+- **The predicate won't save / shows an error.** It uses syntax the language doesn't allow (for example an assignment, a method call, or a loose `a == b` comparison). See [[doc-sfexprssug|Safe Expressions]] for what's allowed.
 
 # See also
 
-- [[doc-sfexprss|Safe Expressions]] — the predicate language and every built-in helper.
-- [[doc-actions|Actions]] — actions use the same Safe Expression language for their trigger and visibility conditions.
+- [[doc-sfexprssug|Safe Expressions]] — the predicate language and every built-in helper.
+- [[doc-actionsug|Actions]] — actions use the same Safe Expression language for their trigger and visibility conditions.
 - API reference: [`SafeExpression`](https://www.heroiclands.org/sohl/api/classes/sohl.entity.expr.SafeExpression-1).
 - [[doc-userguide|User Guide]] — back to the index.

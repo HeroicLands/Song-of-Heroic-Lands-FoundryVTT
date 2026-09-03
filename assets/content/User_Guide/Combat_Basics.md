@@ -5,7 +5,7 @@ type: doc
 subType: user-guide
 name:
   full: "Combat Basics"
-shortcode: cmbtbscs
+shortcode: cmbtbscsug
 folder: IgwaG8rAUUO9vrtz
 ---
 
@@ -88,13 +88,13 @@ If you don't have (or don't want) a full encounter set up, use **Assisted Combat
 
 ## How to use it
 
-1. **Set up the encounter.** Place tokens for the combatants and add them to the combat tracker (see [[doc-scnstpan|Scene Setup]]).
+1. **Set up the encounter.** Place tokens for the combatants and add them to the combat tracker (see [[doc-scnsetuptokug|Scene Setup]]).
 2. **On the attacker's turn, target the opponent** (target their token), then **right-click the attacker's row in the combat tracker** and choose **Automated Combat**.
 3. **Answer the attack dialog** — pick the strike mode, set the aim and any situational modifier; defaults are pre-filled.
 4. **The defender responds** using the buttons that appear on their client, choosing one of the defenses below.
 5. **Read the results in chat.** Impact, hit location, armor, and injury are handled for you; the injury lands on the target sheet.
 
-Every automated action lives on the **combatant** — the tracker row, not the character sheet. See [[doc-cmbtnt|Combatant]] for the per-action reference: what each one asks for, when it refuses, and which are offered only as chat-card buttons.
+Every automated action lives on the **combatant** — the tracker row, not the character sheet. See [[doc-cmbtntug|Combatant]] for the per-action reference: what each one asks for, when it refuses, and which are offered only as chat-card buttons.
 
 ## The attack dialog
 
@@ -138,7 +138,7 @@ When attacked in Automated Combat, the defender chooses one. These four are offe
 - **Dodge** — get out of the way (a Dodge-skill roll). Avoids the blow when you clearly beat the attack. Nothing is asked; the roll is made when you press the button.
 - **Ignore** — take no defensive action; the attack simply resolves against you. An incapacitated defender is limited to Ignore.
 
-See [[doc-cmbtnt|Combatant]] for the full entry on each of these responses.
+See [[doc-cmbtntug|Combatant]] for the full entry on each of these responses.
 
 # Blending the two modes {#blending-the-two-modes}
 
@@ -183,7 +183,7 @@ Once a blow connects and a location is chosen:
 - **Impact (damage) is rolled** for the strike mode, by damage **aspect** (blunt, edged, piercing, etc.).
 - The location's **effective protection** — its natural protection plus any worn armor covering it — is subtracted from the impact.
 - The remaining effective impact maps to an **injury level** (from a light M1 up through the grievous G-levels), and the system derives the **Shock Index**, whether it was a glancing blow, any stumble/fumble, and whether **bleeding** or **amputation** results.
-- In Automated Combat the injury is recorded on the target sheet for you; you can also produce the same injury by hand via the **Add Injury** flow (see [[doc-afflandi|Afflictions & Injuries]]).
+- In Automated Combat the injury is recorded on the target sheet for you; you can also produce the same injury by hand via the **Add Injury** flow (see [[doc-afflinjug|Afflictions & Injuries]]).
 
 # Tips
 
@@ -195,9 +195,9 @@ Once a blow connects and a location is chosen:
 
 # See also
 
-- [[doc-cmbtnt|Combatant]] — the combat-tracker row and its actions: starting an automated attack, answering one, and moving a combatant between groups.
-- [[doc-sklltsts|Skill Tests]] — the d100 roll-under test that underlies every combat roll.
-- [[doc-wrkngwth|Working with Gear]] — equipping weapons, armor, and shields.
-- [[doc-afflandi|Afflictions & Injuries]] — recording and healing the injuries combat produces.
-- [[doc-thftsyst|Fate System]] — spending fate to re-roll.
+- [[doc-cmbtntug|Combatant]] — the combat-tracker row and its actions: starting an automated attack, answering one, and moving a combatant between groups.
+- [[doc-sklltestug|Skill Tests]] — the d100 roll-under test that underlies every combat roll.
+- [[doc-gearandequipug|Working with Gear]] — equipping weapons, armor, and shields.
+- [[doc-afflinjug|Afflictions & Injuries]] — recording and healing the injuries combat produces.
+- [[doc-thftsystug|Fate System]] — spending fate to re-roll.
 - [[doc-userguide|User Guide]] — back to the index.

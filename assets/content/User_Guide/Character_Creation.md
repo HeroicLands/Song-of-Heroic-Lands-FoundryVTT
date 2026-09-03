@@ -6,7 +6,7 @@ type: doc
 subType: user-guide
 name:
   full: "Character Creation"
-shortcode: chrctrcr
+shortcode: charcreationug
 folder: IgwaG8rAUUO9vrtz
 ---
 
@@ -14,7 +14,7 @@ folder: IgwaG8rAUUO9vrtz
 
 This guide walks through creating a playable **Being** actor in SoHL.
 
-See also: [[doc-userguide|Documentation Hub]], [[doc-quickstart|Quickstart]], [[doc-cmbtbscs|Combat Basics]]
+See also: [[doc-userguide|Documentation Hub]], [[doc-quickstartug|Quickstart]], [[doc-cmbtbscsug|Combat Basics]]
 
 # Create the actor {#8qHUveVr9fydLyt2}
 
@@ -65,10 +65,10 @@ Before play, confirm:
 
 # See also
 
-- [[doc-quickstart|Quickstart]] — the shortest version of this, from install to first roll.
-- [[doc-being|Being]] — the sheet you are filling in, tab by tab.
-- [[doc-attrbt|Attribute]] and [[doc-skill|Skill]] — the two item types a character is mostly made of, and how their values are set.
-- [[doc-usngcmpn|Using Compendiums]] — importing a starting character rather than building one from nothing.
-- [[doc-crtngact|Creating Actors and Items]] — the four ways to make an actor, and how to add items to it.
-- [[doc-wrkngwth|Working with Gear and Equipment]] — arming and equipping the finished character.
+- [[doc-quickstartug|Quickstart]] — the shortest version of this, from install to first roll.
+- [[doc-beingug|Being]] — the sheet you are filling in, tab by tab.
+- [[doc-attributeug|Attribute]] and [[doc-skillug|Skill]] — the two item types a character is mostly made of, and how their values are set.
+- [[doc-usingpacksug|Using Compendiums]] — importing a starting character rather than building one from nothing.
+- [[doc-crtngactitemug|Creating Actors and Items]] — the four ways to make an actor, and how to add items to it.
+- [[doc-gearandequipug|Working with Gear and Equipment]] — arming and equipping the finished character.
 - [[doc-userguide|User Guide]] — back to the index.

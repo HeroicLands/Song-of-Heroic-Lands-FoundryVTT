@@ -5,7 +5,7 @@ type: doc
 subType: user-guide
 name:
   full: "System Settings"
-shortcode: systmstt
+shortcode: syssetngug
 folder: IgwaG8rAUUO9vrtz
 ---
 
@@ -18,7 +18,7 @@ Settings are divided into two categories:
 - **World settings** are configured by the GM and apply to all players.
 - **Player settings** are configured independently by each user.
 
-This guide documents all available settings. For a quick start, see [[doc-quickstart|Quickstart]].
+This guide documents all available settings. For a quick start, see [[doc-quickstartug|Quickstart]].
 
 # World Settings {#WorldSettings}
 
@@ -52,7 +52,7 @@ You can import custom calendars from JSON files stored in your Foundry data dire
 
 Imported calendars are persisted in the world data and will survive server restarts. They appear in the "Imported Calendars" section of the settings menu, where they can be deleted if no longer needed.
 
-For the JSON file format specification and an example, see [[doc-clndrjsn|Calendar JSON Format]].
+For the JSON file format specification and an example, see [[doc-calendarfmtug|Calendar JSON Format]].
 
 ### Deleting an Imported Calendar
 
@@ -163,9 +163,9 @@ Controls the verbosity of SoHL's system log messages in the browser console. Thi
 
 # See also
 
-- [[doc-clndrjsn|Calendar JSON Format]] — the shape of a custom calendar file the **Calendar** setting can load.
-- [[doc-thftsyst|The Fate System]] — what the **Fate** setting turns on.
-- [[doc-afflandi|Afflictions and Injuries]] — what the **Healing Interval** setting paces.
-- [[doc-cmbtbscs|Combat Basics]] — the combat behaviour the projectile, gear damage, and distance settings affect.
-- [[doc-usngcmpn|Using Compendiums]] — the content a new world starts from.
+- [[doc-calendarfmtug|Calendar JSON Format]] — the shape of a custom calendar file the **Calendar** setting can load.
+- [[doc-thftsystug|The Fate System]] — what the **Fate** setting turns on.
+- [[doc-afflinjug|Afflictions and Injuries]] — what the **Healing Interval** setting paces.
+- [[doc-cmbtbscsug|Combat Basics]] — the combat behaviour the projectile, gear damage, and distance settings affect.
+- [[doc-usingpacksug|Using Compendiums]] — the content a new world starts from.
 - [[doc-userguide|User Guide]] — back to the index.

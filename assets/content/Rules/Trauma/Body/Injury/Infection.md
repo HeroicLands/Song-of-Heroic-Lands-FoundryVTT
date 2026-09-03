@@ -48,4 +48,4 @@ When the infection's Healing Rate rises to **6 or greater**, the infection is **
 
 ## See also
 
-- [[doc-injrylvl|Injury]], [[doc-hlngbs|Healing Base]], [[doc-fatigue|Fatigue]], [[doc-afflctns|Afflictions]].
+- [[doc-injrylvl|Injury]], [[doc-hlngbs|Healing Base]], [[doc-fatigue|Fatigue]], [[doc-afflctnrules|Afflictions]].

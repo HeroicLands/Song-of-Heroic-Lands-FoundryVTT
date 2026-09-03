@@ -5,7 +5,7 @@ type: doc
 subType: user-guide
 name:
   full: "Using Compendiums"
-shortcode: usngcmpn
+shortcode: usingpacksug
 folder: IgwaG8rAUUO9vrtz
 ---
 
@@ -13,7 +13,7 @@ folder: IgwaG8rAUUO9vrtz
 
 Compendiums are pre-built libraries of actors, items, and journal entries that come with SoHL. They contain ready-to-use characters, creatures, equipment, skills, and reference material. Instead of creating everything from scratch, you import from compendiums and customize.
 
-See also: [[doc-crtngact|Creating Actors and Items]], [[doc-quickstart|Quickstart]]
+See also: [[doc-crtngactitemug|Creating Actors and Items]], [[doc-quickstartug|Quickstart]]
 
 # Available Compendium Packs {#compendium-packs}
 
@@ -29,11 +29,11 @@ Contains pre-built Beings — characters, NPCs, and creatures ready to use. Each
 
 # See also
 
-- [[doc-crtngact|Creating Actors and Items]] — the other three ways to make a document.
-- [[doc-shrtcds|Shortcodes]] — the identifier that keeps an imported copy matched to its compendium original.
-- [[doc-chrctrcr|Character Creation]] — building on top of an imported character.
-- [[doc-quickstart|Quickstart]] — the import-and-play path, in ten minutes.
-- [[doc-systmstt|System Settings]] — what to set before importing into a new world.
+- [[doc-crtngactitemug|Creating Actors and Items]] — the other three ways to make a document.
+- [[doc-shortcodesug|Shortcodes]] — the identifier that keeps an imported copy matched to its compendium original.
+- [[doc-charcreationug|Character Creation]] — building on top of an imported character.
+- [[doc-quickstartug|Quickstart]] — the import-and-play path, in ten minutes.
+- [[doc-syssetngug|System Settings]] — what to set before importing into a new world.
 - [[doc-userguide|User Guide]] — back to the index.
 
 <!-- TODO: List other notable entries as they are added to the compendium -->
@@ -103,7 +103,7 @@ You can drag compendium items directly onto actor sheets without importing them 
 - **Don't modify compendium originals.** Always work with imported copies in your world. Compendium content may be updated when SoHL is updated.
 - **Use Basic Folk as a template.** Import it, duplicate it, and customize the duplicate for each new character.
 - **Search works.** Use the search bar at the top of an open compendium to find specific entries by name.
-- **Your copy stays linked to its origin by shortcode.** An imported copy has a new id and can be customized freely, but it still corresponds to the compendium entry it came from because they share a type and **shortcode**. Keep the shortcode to preserve that link; change it to make a genuinely separate thing. See [[doc-shrtcds|Shortcodes]].
+- **Your copy stays linked to its origin by shortcode.** An imported copy has a new id and can be customized freely, but it still corresponds to the compendium entry it came from because they share a type and **shortcode**. Keep the shortcode to preserve that link; change it to make a genuinely separate thing. See [[doc-shortcodesug|Shortcodes]].
 
 <!-- TODO: Document how to create custom compendium packs, how world
      compendiums differ from system compendiums, and how updates affect

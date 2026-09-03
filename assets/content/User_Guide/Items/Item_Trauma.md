@@ -7,7 +7,7 @@ type: doc
 subType: user-guide
 name:
   full: "Trauma"
-shortcode: itemtrauma
+shortcode: traumaug
 folder: QtOgPodi8X6gDWL0
 ---
 
@@ -17,7 +17,7 @@ A **Trauma** is one instance of harm to a character — everything a Being carri
 
 **An injury is a Trauma.** There is no separate Injury item: a wound is a Trauma whose **Trauma Type** is _Injury_. Everything on this page about wounds, bleeding, treatment, and healing is describing that sub-type.
 
-What separates a Trauma from an [[doc-afflctn|Affliction]] is _where the harm comes from_. A Trauma is something the character **carries** — the state their body or mind is now in. An Affliction is an outside **agent** working on them: a disease, a poison, a curse. A poisoned character has an Affliction; the fatigue and the shock that poison inflicts are Traumas.
+What separates a Trauma from an [[doc-afflctnug|Affliction]] is _where the harm comes from_. A Trauma is something the character **carries** — the state their body or mind is now in. An Affliction is an outside **agent** working on them: a disease, a poison, a curse. A poisoned character has an Affliction; the fatigue and the shock that poison inflicts are Traumas.
 
 ## The Trauma Types
 
@@ -45,13 +45,13 @@ Traumas live on the Being sheet's **Health** tab, which lists everything the cha
 
 Most Traumas are created for you. A wound arrives from the combat pipeline when an attack lands; an infection is contracted by a bad healing test; anemia fatigue accrues from blood loss. You can also add one by hand — for a fall, a fire, a night in the cold, or anything else the table decides has hurt the character.
 
-To reach a Trauma's actions, **right-click its row** on the Health tab, or open the Trauma and use its **Actions** tab. See [[doc-actions|Actions]] for how the menu works generally.
+To reach a Trauma's actions, **right-click its row** on the Health tab, or open the Trauma and use its **Actions** tab. See [[doc-actionsug|Actions]] for how the menu works generally.
 
 > **Known gap.** The injury actions — **Request Treatment**, **Treat Injury**, and **Treatment Test** — are currently missing from that context menu because of a visibility bug (issue #1085). Until it is fixed they can only be reached the other ways described below: the chat-card buttons, and the physician's own **Perform Treatment Test** action on the Being sheet.
 
 # Additional Properties
 
-Along with the [[doc-baseitem|Standard Item Properties]], a Trauma's **Properties** tab shows only the fields that mean something for its Trauma Type — a Fear Trauma has no Aspect, and a wound has no Sub-Category.
+Along with the [[doc-baseitemug|Standard Item Properties]], a Trauma's **Properties** tab shows only the fields that mean something for its Trauma Type — a Fear Trauma has no Aspect, and a wound has no Sub-Category.
 
 | Field                             | Shown for                                                           | What it is                                                                                                                                                                                                                                                                        |
 | --------------------------------- | ------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -121,7 +121,7 @@ The recurring checks — healing, blood loss, course, and the three recoveries �
 
 > **offer → check → test → offer the next**
 
-When a check would begin, SoHL opens the **offer-schedule dialog**, described once on [[doc-baseitem|Base Item]], asking whether to set a reminder with the rolled cadence already filled in (_"Set a reminder to perform the Healing Check in 5 days?"_). **Schedule It** arms it; **Not Now** declines, and nothing is tracked. When the time comes, a **check card** appears in chat with a button offering its test. Nothing has happened to the character yet: the test runs when you press it, and then offers the next one.
+When a check would begin, SoHL opens the **offer-schedule dialog**, described once on [[doc-baseitemug|Base Item]], asking whether to set a reminder with the rolled cadence already filled in (_"Set a reminder to perform the Healing Check in 5 days?"_). **Schedule It** arms it; **Not Now** declines, and nothing is tracked. When the time comes, a **check card** appears in chat with a button offering its test. Nothing has happened to the character yet: the test runs when you press it, and then offers the next one.
 
 Declining is always safe. It only means SoHL stops keeping time for you — the wound is still there, and you can run the check by hand whenever you like.
 
@@ -162,7 +162,7 @@ It refuses in two cases, with a notice:
 
 **The button is open to anyone.** Unlike most card buttons it is not addressed to one character — whoever presses it answers with **their own** default character. That character must have the Physician skill; if they do not, they are told so and the card stays live for someone who does.
 
-That is the point of the card: the patient does not have to know who the physician is, and no physician is volunteered by someone else. The physician's side of this — the **Perform Treatment Test** action, its dialog, and the Treatment Result card it posts — is documented on the [[doc-being|Being]] page.
+That is the point of the card: the patient does not have to know who the physician is, and no physician is volunteered by someone else. The physician's side of this — the **Perform Treatment Test** action, its dialog, and the Treatment Result card it posts — is documented on the [[doc-beingug|Being]] page.
 
 # Treat Injury {#treat-injury}
 
@@ -260,7 +260,7 @@ As with the treatment card, the button is **open to anyone** — whoever presses
 
 If an earlier stoppage attempt failed narrowly, this request quietly carries a **+10 bonus** to the next test. You do not have to track that; the wound remembers.
 
-The physician's side — the roll and the Blood Stoppage Result card — is documented on the [[doc-being|Being]] page.
+The physician's side — the roll and the Blood Stoppage Result card — is documented on the [[doc-beingug|Being]] page.
 
 # Accept Blood Stoppage {#accept-blood-stoppage}
 
@@ -476,12 +476,12 @@ See [[doc-thepall|The Pall]] for what each fate means.
 
 # See also
 
-- [[doc-afflandi|Afflictions and Injuries]] — the overview of how harm works, and how a Trauma differs from an Affliction.
-- [[doc-afflctn|Affliction]] — diseases, poisons, and curses: the outside agents that inflict Traumas.
-- [[doc-being|Being]] — the physician's side of treatment and blood stoppage, and the character's shock state.
-- [[doc-baseitem|Base Item]] — the standard item properties, the standard test dialog, and the offer-schedule dialog.
-- [[doc-cmbtbscs|Combat Basics]] — where most wounds come from, and the injury card that creates them.
-- [[doc-actions|Actions]] — how the Actions context menu and chat-card buttons work.
+- [[doc-afflinjug|Afflictions and Injuries]] — the overview of how harm works, and how a Trauma differs from an Affliction.
+- [[doc-afflctnug|Affliction]] — diseases, poisons, and curses: the outside agents that inflict Traumas.
+- [[doc-beingug|Being]] — the physician's side of treatment and blood stoppage, and the character's shock state.
+- [[doc-baseitemug|Base Item]] — the standard item properties, the standard test dialog, and the offer-schedule dialog.
+- [[doc-cmbtbscsug|Combat Basics]] — where most wounds come from, and the injury card that creates them.
+- [[doc-actionsug|Actions]] — how the Actions context menu and chat-card buttons work.
 - [[doc-traumaintro|Trauma]], [[doc-injrylvl|Injury]], [[doc-bleeding|Bleeding]], [[doc-infctn|Infection]], [[doc-shock|Shock]], and [[doc-hlngtst|Healing Test]] (rules) — the mechanics behind these actions.
 - [[doc-ugitems|Items]] — every item type at a glance.
 - [[doc-userguide|User Guide]] — back to the index.

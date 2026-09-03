@@ -6,7 +6,7 @@ type: doc
 subType: user-guide
 name:
   full: "Skill"
-shortcode: skill
+shortcode: skillug
 folder: QtOgPodi8X6gDWL0
 ---
 
@@ -36,11 +36,11 @@ Each row on the Skills tab is itself a set of controls:
 | **☆ star**       | [[#toggle-improve-flag\|Flags the skill for improvement]]. Shown only when you may improve it      |
 | **⋮ menu**       | The Actions context menu — every action on this page                                               |
 
-Spending Fate is described on [[doc-thftsyst|Fate]].
+Spending Fate is described on [[doc-thftsystug|Fate]].
 
 # Additional Properties
 
-Along with the [[doc-baseitem|Standard Item Properties]], the following properties also appear in the **Properties** tab:
+Along with the [[doc-baseitemug|Standard Item Properties]], the following properties also appear in the **Properties** tab:
 
 - **Category:** Type of this skill. One of:
   - **Social**
@@ -53,7 +53,7 @@ Along with the [[doc-baseitem|Standard Item Properties]], the following properti
   - **Physical**
   - **Combat**
   - **Combat Technique** — a natural or unarmed fighting maneuver; adds a **Strike Modes** tab (see [[#combat-techniques|Combat Techniques]])
-- **Skill Base Formula:** Formula for calculating the skill base from referenced attributes. Written as a [[doc-sfexprss|Safe Expression]] over attribute values, such as `sb(attr.str, attr.dex)`; the **✎** button beside it opens the formula editor. A blank formula is allowed and yields a Skill Base of 0; a malformed one is flagged on the sheet and shows a ✗ in the Skills tab's SB column.
+- **Skill Base Formula:** Formula for calculating the skill base from referenced attributes. Written as a [[doc-sfexprssug|Safe Expression]] over attribute values, such as `sb(attr.str, attr.dex)`; the **✎** button beside it opens the formula editor. A blank formula is allowed and yields a Skill Base of 0; a malformed one is flagged on the sheet and shows a ✗ in the Skills tab's SB column.
 - **Mastery Level:** Base mastery level representing training and experience. Leave it **blank** to have a skill on a character open automatically at _Skill Base × Init Multiplier_; enter a number to set the level explicitly.
 - **Init Multiplier:** Multiplier applied to the skill base to open the skill's mastery level for a new character. When _Mastery Level_ is blank and the skill is on a character, the opening mastery level is _Skill Base × Init Multiplier_.
 - **Parent Skill:** Shortcode of the base skill if this is a specialization. Leave it as _None_ when the skill stands on its own.
@@ -121,7 +121,7 @@ A **missile** technique has no Defense section: you cannot block or counterstrik
 | [[#the-two-hidden-half-toggles\|Flag for Improvement]]   | `setImproveFlag`    | _Hidden_ — superseded by the toggle |
 | [[#the-two-hidden-half-toggles\|Clear Improvement Flag]] | `unsetImproveFlag`  | _Hidden_ — superseded by the toggle |
 
-**Attack**, **Block**, and **Counterstrike** appear **only on a Combat Technique** skill; every other category has the rest. Every skill also carries the shared document actions — **Edit**, **Delete**, and **Output Description to Chat** — described once on [[doc-baseitem|Base Item]].
+**Attack**, **Block**, and **Counterstrike** appear **only on a Combat Technique** skill; every other category has the rest. Every skill also carries the shared document actions — **Edit**, **Delete**, and **Output Description to Chat** — described once on [[doc-baseitemug|Base Item]].
 
 A **hidden** action is never in the Actions context menu. It is not off-limits: it is simply reached another way — here, by a script or macro that wants to set the flag rather than flip it.
 
@@ -145,7 +145,7 @@ Use it for any single attempt with a clear pass/fail shape: picking a lock, spot
 
 ## What happens on screen
 
-1. **The standard test dialog opens.** Target, the modifier breakdown, Situational Modifier, Success Level Modifier, and Roll Visibility — its fields are described once on [[doc-baseitem|Base Item]]. Cancelling it rolls nothing and posts nothing. Clicking the EML cell with **Shift** held skips the dialog and rolls at once.
+1. **The standard test dialog opens.** Target, the modifier breakdown, Situational Modifier, Success Level Modifier, and Roll Visibility — its fields are described once on [[doc-baseitemug|Base Item]]. Cancelling it rolls nothing and posts nothing. Clicking the EML cell with **Shift** held skips the dialog and rolls at once.
 2. **The d100 is rolled** against the effective mastery level.
 3. **A test-result card posts to chat** showing the modifier breakdown, the Target, the Roll, and the outcome, colored by success or failure.
 
@@ -161,7 +161,7 @@ Use it for any single attempt with a clear pass/fail shape: picking a lock, spot
 | **Result**               | The named outcome, with its description below it                         |
 | **Fate** button          | Offered when the character has a Fate Point to spend                     |
 
-The GM's pencil is described on [[doc-baseitem|Base Item]], under _Editing a Posted Test Result_; spending Fate is described on [[doc-thftsyst|Fate]].
+The GM's pencil is described on [[doc-baseitemug|Base Item]], under _Editing a Posted Test Result_; spending Fate is described on [[doc-thftsystug|Fate]].
 
 ## Two things that change the roll for you
 
@@ -278,13 +278,13 @@ Both sides roll, the system compares the two results, and reports who won and by
 
 - **Your character needs a token on the current scene.** Without one the action refuses, reporting that the skill "cannot start an opposed test: its actor has no token on the canvas."
 - **Target exactly one opponent** with Foundry _targeting_ (the crosshair), not selection. With nothing targeted you are told "No tokens targeted."; with more than one, you are warned and the first is used.
-- **You must own the targeted token.** If you do not, the contest refuses to start. In practice the GM starts contests against NPCs — see [[doc-token|Token]] for what this means at the table.
+- **You must own the targeted token.** If you do not, the contest refuses to start. In practice the GM starts contests against NPCs — see [[doc-tokenug|Token]] for what this means at the table.
 
 ## What happens on screen
 
 The skill hands the contest to your character's token, which runs it from there. The standard test dialog opens for your roll, your result posts, and an **Opposed Action Request** card invites the other side to answer with a skill or attribute of their own.
 
-The whole flow — the targeting rules, both cards, the responder's dialog, and how Victory Stars are read — is described once on [[doc-token|Token]], under _Starting an Opposed Test_. For the rules behind a contest, see the [[doc-oppsdtst|Opposed Tests]] rules.
+The whole flow — the targeting rules, both cards, the responder's dialog, and how Victory Stars are read — is described once on [[doc-tokenug|Token]], under _Starting an Opposed Test_. For the rules behind a contest, see the [[doc-oppsdtst|Opposed Tests]] rules.
 
 **Nobody rolls for anybody.** The request card sits in the chat log until a user who owns the target answers it, and it can be ignored entirely if the table would rather rule the outcome by hand.
 
@@ -311,7 +311,7 @@ They are the same three tests a weapon offers, on the same rows of the Combat ta
 
 ## How they run
 
-A technique carries exactly one strike mode, so **you are never asked which mode you meant**: the strike-mode picker that a multi-mode weapon shows never appears here. The technique's mode is used, the standard test dialog opens, and a test-result card posts — the same card described under [[#success-test|Success Test]]. Both dialogs are described once on [[doc-baseitem|Base Item]].
+A technique carries exactly one strike mode, so **you are never asked which mode you meant**: the strike-mode picker that a multi-mode weapon shows never appears here. The technique's mode is used, the standard test dialog opens, and a test-result card posts — the same card described under [[#success-test|Success Test]]. Both dialogs are described once on [[doc-baseitemug|Base Item]].
 
 Clicking the **Atk**, **Blk**, or **CX** cell on the Combat tab is the direct route, and holding **Shift** while you click skips the pre-roll dialog.
 
@@ -320,17 +320,17 @@ Clicking the **Atk**, **Blk**, or **CX** cell on the Combat tab is the direct ro
 - **Block and Counterstrike need a melee mode.** A missile technique — a flung quill, a spat venom — has no defense to roll, so those two actions are not offered on it. The Combat tab's Missile ledger has no Blk or CX columns at all.
 - **A mode can be switched off individually.** A melee technique whose attack, block, or counterstrike has been disabled shows a ✗ in that column instead of a rollable value.
 
-**Assisted, not automated.** These actions roll the test and report it; they do not move a combatant, spend an initiative, or apply an injury to anyone. For the full combat sequence — declaring an exchange, resolving a strike against a defender, and turning impact into a wound — see [[doc-cmbtbscs|Combat Basics]] and [[doc-cmbtnt|Combatant]].
+**Assisted, not automated.** These actions roll the test and report it; they do not move a combatant, spend an initiative, or apply an injury to anyone. For the full combat sequence — declaring an exchange, resolving a strike against a defender, and turning impact into a wound — see [[doc-cmbtbscsug|Combat Basics]] and [[doc-cmbtntug|Combatant]].
 
 # See also
 
-- [[doc-baseitem|Base Item]] — the standard item properties, the shared **Edit** / **Delete** / **Output Description** actions, and the standard test dialog every roll on this page opens.
-- [[doc-sklltsts|Skill Tests]] — what the numbers in a skill test mean, and how success levels are read.
-- [[doc-thftsyst|Fate]] — spending a Fate Point to improve a settled result.
-- [[doc-sfexprss|Safe Expressions]] — how to write a Skill Base formula.
-- [[doc-token|Token]] — the opposed-test flow this page's **Opposed Test** action hands off to.
-- [[doc-cmbtbscs|Combat Basics]] and [[doc-cmbtnt|Combatant]] — where a combat technique's attack, block, and counterstrike sit in a fight.
-- [[doc-weapon|Weapon Gear]] — the weapon counterpart, with the same three combat actions across several strike modes.
-- [[doc-shrtcds|Shortcodes]] — what **Parent Skill** and **Associated Skill** are naming.
+- [[doc-baseitemug|Base Item]] — the standard item properties, the shared **Edit** / **Delete** / **Output Description** actions, and the standard test dialog every roll on this page opens.
+- [[doc-sklltestug|Skill Tests]] — what the numbers in a skill test mean, and how success levels are read.
+- [[doc-thftsystug|Fate]] — spending a Fate Point to improve a settled result.
+- [[doc-sfexprssug|Safe Expressions]] — how to write a Skill Base formula.
+- [[doc-tokenug|Token]] — the opposed-test flow this page's **Opposed Test** action hands off to.
+- [[doc-cmbtbscsug|Combat Basics]] and [[doc-cmbtntug|Combatant]] — where a combat technique's attack, block, and counterstrike sit in a fight.
+- [[doc-weapongearug|Weapon Gear]] — the weapon counterpart, with the same three combat actions across several strike modes.
+- [[doc-shortcodesug|Shortcodes]] — what **Parent Skill** and **Associated Skill** are naming.
 - [[doc-ugitems|Items]] — every item type at a glance.
 - [[doc-userguide|User Guide]] — back to the index.

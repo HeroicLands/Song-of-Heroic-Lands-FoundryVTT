@@ -6,7 +6,7 @@ type: doc
 subType: user-guide
 name:
   full: "Afflictions and Injuries"
-shortcode: afflandi
+shortcode: afflinjug
 folder: IgwaG8rAUUO9vrtz
 ---
 
@@ -14,13 +14,13 @@ folder: IgwaG8rAUUO9vrtz
 
 Characters in SoHL can suffer from two types of harm: **injuries** (physical wounds from combat or accidents) and **afflictions** (ongoing conditions like diseases, poisons, and curses). Both have their own lifecycle and can significantly affect a character's capabilities.
 
-See also: [[doc-itemtrauma|Trauma]], [[doc-afflctn|Afflictions]], [[doc-cmbtbscs|Combat Basics]]
+See also: [[doc-traumaug|Trauma]], [[doc-afflctnug|Afflictions]], [[doc-cmbtbscsug|Combat Basics]]
 
 # Injuries {#conditions-injuries}
 
 An **injury** represents a specific wound — a sword cut, a broken bone, a burn. Injuries are tied to specific **body locations** on the character's anatomy model.
 
-An injury is one kind of **[[doc-itemtrauma|Trauma]]** — the item that records every sort of harm a character carries, from wounds and bleeding to fatigue, fear, and shock. See that page for the wound's properties and for the treatment, bleeding, and healing actions described below.
+An injury is one kind of **[[doc-traumaug|Trauma]]** — the item that records every sort of harm a character carries, from wounds and bleeding to fatigue, fear, and shock. See that page for the wound's properties and for the treatment, bleeding, and healing actions described below.
 
 ## How Injuries Happen
 
@@ -40,11 +40,11 @@ Injuries impose penalties on the character:
 
 # See also
 
-- [[doc-itemtrauma|Trauma]] — the wound item itself: its properties, its severity, and every check it offers.
-- [[doc-afflctn|Affliction]] — the disease or poison item, with its onset, course, and treatment.
-- [[doc-being|Being]] — the health bar, the body-part grid, and the shock, contagion, and treatment actions on the character.
-- [[doc-cmbtbscs|Combat Basics]] — where most wounds come from, and the injury card that records them.
-- [[doc-traumaintro|Trauma]] and [[doc-afflctns|Afflictions]] (rules) — the mechanics all of this implements.
+- [[doc-traumaug|Trauma]] — the wound item itself: its properties, its severity, and every check it offers.
+- [[doc-afflctnug|Affliction]] — the disease or poison item, with its onset, course, and treatment.
+- [[doc-beingug|Being]] — the health bar, the body-part grid, and the shock, contagion, and treatment actions on the character.
+- [[doc-cmbtbscsug|Combat Basics]] — where most wounds come from, and the injury card that records them.
+- [[doc-traumaintro|Trauma]] and [[doc-afflctnrules|Afflictions]] (rules) — the mechanics all of this implements.
 - [[doc-userguide|User Guide]] — back to the index.
 
 <!-- TODO: Document the injury severity levels, how injury penalties are

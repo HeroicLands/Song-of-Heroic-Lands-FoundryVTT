@@ -5,7 +5,7 @@ type: doc
 subType: user-guide
 name:
   full: "Understanding Sheets"
-shortcode: undrstnd
+shortcode: undrstndsheetug
 folder: IgwaG8rAUUO9vrtz
 ---
 
@@ -15,7 +15,7 @@ When you double-click an actor or item in SoHL, a **sheet** opens. The sheet is 
 
 This guide explains the common tabs you'll encounter across all sheets, so you know where to find things regardless of which type of actor or item you're looking at.
 
-See also: [[doc-being|Beings]], [[doc-chrctrcr|Character Creation]]
+See also: [[doc-beingug|Beings]], [[doc-charcreationug|Character Creation]]
 
 # Sheet Header {#sheets-header}
 
@@ -29,7 +29,7 @@ The header is always visible regardless of which tab you're on.
 
 # Common Actor Tabs {#sheets-actor-tabs}
 
-Actor sheets (Beings, Cohorts, Structures, Vehicles) share several common tabs. Not every actor type has every tab, but when a tab appears, it works the same way across all actor types — the **Gear**, **Actions**, and **Effects** tabs described below are the same tab on a character, a ship, and a warehouse, and this is the one place they are documented. The individual type pages ([[doc-being|Being]], [[doc-vehicle|Vehicle]], [[doc-structure|Structure]], [[doc-cohort|Cohort]]) describe only what is particular to that type.
+Actor sheets (Beings, Cohorts, Structures, Vehicles) share several common tabs. Not every actor type has every tab, but when a tab appears, it works the same way across all actor types — the **Gear**, **Actions**, and **Effects** tabs described below are the same tab on a character, a ship, and a warehouse, and this is the one place they are documented. The individual type pages ([[doc-beingug|Being]], [[doc-vehicleug|Vehicle]], [[doc-structureug|Structure]], [[doc-cohortug|Cohort]]) describe only what is particular to that type.
 
 ## Facade
 
@@ -57,13 +57,13 @@ The **Mysteries** tab shows mysteries and mystical abilities. This is where spel
 
 ## Members (Cohorts only)
 
-The **Members** tab is unique to Cohorts. It rosters the individuals that belong to the group — each named by the actor it references, with its role and a chess-king marking the leader — and carries the controls that add a member, remove one, and set who leads. See [[doc-cohort|Cohort]].
+The **Members** tab is unique to Cohorts. It rosters the individuals that belong to the group — each named by the actor it references, with its role and a chess-king marking the leader — and carries the controls that add a member, remove one, and set who leads. See [[doc-cohortug|Cohort]].
 
 ## Gear
 
 The **Gear** tab is the actor's inventory: a character's possessions, a vehicle's cargo, a structure's stores. It lists every piece of gear the actor holds — weapons, armor, containers, projectiles, concoctions, and miscellaneous items.
 
-Gear is grouped into **sections**. The first, **On Body**, holds everything that is not inside a container; each container the actor holds then gets its own section listing its contents, so a sword in a scabbard appears under the scabbard rather than loose. A section's banner carries a capacity readout: a container shows how much it holds against how much it can hold, and a [[doc-being|Being]]'s On Body section shows total carried weight and the resulting encumbrance instead (a vehicle or structure is not encumbered by its load, so it shows the weight alone).
+Gear is grouped into **sections**. The first, **On Body**, holds everything that is not inside a container; each container the actor holds then gets its own section listing its contents, so a sword in a scabbard appears under the scabbard rather than loose. A section's banner carries a capacity readout: a container shows how much it holds against how much it can hold, and a [[doc-beingug|Being]]'s On Body section shows total carried weight and the resulting encumbrance instead (a vehicle or structure is not encumbered by its load, so it shows the weight alone).
 
 Each row shows the item's icon and name, its **Type**, **Qty** (quantity), **Weight**, **Qual** (quality), **Dur** (durability), and **Notes**. Hovering Weight, Qual, or Dur shows how that value was derived — the base value and every modifier applied to it.
 
@@ -78,7 +78,7 @@ From this tab you can:
 
 ## Shared Gear (Cohorts only)
 
-The **Shared Gear** tab is unique to Cohorts. It lists the gear the group's members have marked as shared with the cohort, with the member who carries each item. It is a view, not a store: the items stay on their carriers. See [[doc-cohort|Cohort]].
+The **Shared Gear** tab is unique to Cohorts. It lists the gear the group's members have marked as shared with the cohort, with the member who carries each item. It is a view, not a store: the items stay on their carriers. See [[doc-cohortug|Cohort]].
 
 ## Actions
 
@@ -90,7 +90,7 @@ The **Actions** tab lists every action the actor can run, in two sections.
 
 Each row shows the action's icon and name, the menu group it sorts into, and any notes. Click the **▶** control to run an action; hold **shift** while clicking to skip its configuration dialog and run it with its defaults. Internal lifecycle actions the system runs on its own are never listed here.
 
-Actions are always run at your say-so — SoHL never runs one for you. See [[doc-actions|Actions]] for what actions are and how they work.
+Actions are always run at your say-so — SoHL never runs one for you. See [[doc-actionsug|Actions]] for what actions are and how they work.
 
 ## Effects
 
@@ -133,10 +133,10 @@ The **Effects** tab shows active effects attached to this item. Item-level effec
 
 - [[doc-ugactors|Actors]] — the four actor sheets, kind by kind.
 - [[doc-ugitems|Items]] — the item sheets, and what every one of them shares.
-- [[doc-iconlgnd|Icon Legend]] — every glyph on a tab strip or a row.
-- [[doc-actions|Actions]] — what the Actions tab lists, and how to add to it.
-- [[doc-crtngact|Creating Actors and Items]] — making the documents these sheets open onto.
-- [[doc-wrkngwth|Working with Gear and Equipment]] — using the Gear tab.
+- [[doc-iconlgndug|Icon Legend]] — every glyph on a tab strip or a row.
+- [[doc-actionsug|Actions]] — what the Actions tab lists, and how to add to it.
+- [[doc-crtngactitemug|Creating Actors and Items]] — making the documents these sheets open onto.
+- [[doc-gearandequipug|Working with Gear and Equipment]] — using the Gear tab.
 - [[doc-userguide|User Guide]] — back to the index.
 
 <!-- TODO: Add screenshots showing the sheet layout for each actor type.

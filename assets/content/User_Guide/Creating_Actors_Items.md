@@ -5,7 +5,7 @@ type: doc
 subType: user-guide
 name:
   full: "Creating Actors and Items"
-shortcode: crtngact
+shortcode: crtngactitemug
 folder: IgwaG8rAUUO9vrtz
 ---
 
@@ -13,7 +13,7 @@ folder: IgwaG8rAUUO9vrtz
 
 There are several ways to create actors and items in SoHL. The method you choose depends on whether you're starting from scratch, copying something from a compendium, or building a complex item with nested components.
 
-See also: [[doc-quickstart|Quickstart]], [[doc-undrstnd|Understanding Sheets]]
+See also: [[doc-quickstartug|Quickstart]], [[doc-undrstndsheetug|Understanding Sheets]]
 
 # Creating Actors {#creating-actors}
 
@@ -24,7 +24,7 @@ The **Create Actor** button now starts you from a populated template — an **ar
 1. Click the **Create Actor** button at the top of the Actors sidebar tab.
 2. The Create dialog offers these fields:
    - **Name** — the actor's name.
-   - **Shortcode** — a short code that must be **unique among documents of the same type** (it is how the system looks this document up). It auto-fills from the name (and stays in sync as you type) until you edit it by hand; leave it and the system derives and uniquifies one for you on create. If you type a code that is already taken by another document of the same type, the dialog flags it and **Create stays disabled until you pick a unique one**. (Documents of _different_ types may safely share a code.) See [[doc-shrtcds|Shortcodes]] for why the shortcode is the actor's identity — two actors of the same type that share one are treated as the same thing.
+   - **Shortcode** — a short code that must be **unique among documents of the same type** (it is how the system looks this document up). It auto-fills from the name (and stays in sync as you type) until you edit it by hand; leave it and the system derives and uniquifies one for you on create. If you type a code that is already taken by another document of the same type, the dialog flags it and **Create stays disabled until you pick a unique one**. (Documents of _different_ types may safely share a code.) See [[doc-shortcodesug|Shortcodes]] for why the shortcode is the actor's identity — two actors of the same type that share one are treated as the same thing.
    - **Type** — the actor type (Being, Cohort, Structure, Vehicle).
    - **SubType** — shown only for types that have subtypes.
    - **Archetype** — the starting template. It defaults to the best-matching populated archetype for the chosen type (for a Being, "Basic Folk"), and lists every archetype available for that type plus **(none)**.
@@ -97,10 +97,10 @@ When deleting items, be aware that **items with nested children cannot be delete
 
 - [[doc-ugactors|Actors]] — what each of the four actor kinds is for.
 - [[doc-ugitems|Items]] — what each item type is for, and what they share.
-- [[doc-usngcmpn|Using Compendiums]] — the content that ships with the system, and importing from it.
-- [[doc-shrtcds|Shortcodes]] — why a duplicate keeps its original's shortcode, and when to change it.
-- [[doc-chrctrcr|Character Creation]] — building a playable character end to end.
-- [[doc-undrstnd|Understanding Sheets]] — reading the sheet you have just created.
+- [[doc-usingpacksug|Using Compendiums]] — the content that ships with the system, and importing from it.
+- [[doc-shortcodesug|Shortcodes]] — why a duplicate keeps its original's shortcode, and when to change it.
+- [[doc-charcreationug|Character Creation]] — building a playable character end to end.
+- [[doc-undrstndsheetug|Understanding Sheets]] — reading the sheet you have just created.
 - [[doc-userguide|User Guide]] — back to the index.
 
 <!-- TODO: Expand with details on bulk operations, folder organization in
