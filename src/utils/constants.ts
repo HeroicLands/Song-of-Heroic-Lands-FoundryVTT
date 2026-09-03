@@ -1779,85 +1779,8 @@ export const {
  * partition — `arcane` / `divine` / `spirit` / `social` — that was a picker
  * filter wearing a taxonomy's name: `social` covered a guild, a bank, a noble
  * house and a legion alike, and distinguished none of them (#1788).
- *
- * The partition itself survives as {@link AffiliationClass}, **derived** from
- * these values rather than authored beside them.
  */
 export type AffiliationSubType = (typeof AFFILIATION_SUBTYPE)[keyof typeof AFFILIATION_SUBTYPE];
-
-export const {
-    /** Map of affiliation-class key → value. */
-    kind: AFFILIATION_CLASS,
-    /** All affiliation-class values, as an array. */
-    values: AffiliationClasses,
-    /** Value-keyed label map for a picker filter. */
-    choices: AffiliationClassChoices,
-    /** Type guard for affiliation-class values. */
-    isValue: isAffiliationClass,
-} = defineType(
-    "SOHL.Affiliation.Class",
-    {
-        /** Facing magic and its practice. */
-        ARCANE: "arcane",
-        /** Facing a deity. */
-        DIVINE: "divine",
-        /** Facing the spirit world — ancestors, totems, the numinous. */
-        SPIRIT: "spirit",
-        /** Facing none of the three: a body of this world. */
-        SOCIAL: "social",
-    },
-    // These four keys labelled exactly this partition when it was the subtype
-    // field, and localization keys are permanent — so the class borrows them
-    // rather than minting `SOHL.Affiliation.Class.*` and orphaning the old set.
-    {
-        ARCANE: "SOHL.Affiliation.SubType.arcane",
-        DIVINE: "SOHL.Affiliation.SubType.divine",
-        SPIRIT: "SOHL.Affiliation.SubType.spirit",
-        SOCIAL: "SOHL.Affiliation.SubType.social",
-    },
-);
-/**
- * Union of all affiliation-class values.
- *
- * `divine` and `spirit` are deliberately separate rather than one "religious"
- * bucket, because {@link MysticalAbilitySubType} already distinguishes the
- * deity-facing families from the spirit families — a picker filter is only as
- * useful as the partition it filters on.
- */
-export type AffiliationClass = (typeof AFFILIATION_CLASS)[keyof typeof AFFILIATION_CLASS];
-
-/**
- * Which of the four classes each affiliation subtype belongs to.
- *
- * Exhaustive by construction: the `satisfies` clause makes a subtype added
- * without a class a compile error rather than a picker that silently drops it.
- */
-const AFFILIATION_CLASS_BY_SUBTYPE = {
-    arcanetradition: "arcane",
-    faithtradition: "divine",
-    spirittradition: "spirit",
-    guild: "social",
-    order: "social",
-    polity: "social",
-    lineage: "social",
-    venture: "social",
-    criminal: "social",
-    governmental: "social",
-    fellowship: "social",
-} as const satisfies Record<AffiliationSubType, AffiliationClass>;
-
-/**
- * Classify an affiliation subtype for the picker filter (#1788).
- *
- * The three traditions are classed by what they face; every other kind of body
- * is `social`, which is what that value always meant.
- *
- * @param subType - The affiliation's declared subtype.
- * @returns The class the subtype belongs to.
- */
-export function affiliationClassOf(subType: AffiliationSubType): AffiliationClass {
-    return AFFILIATION_CLASS_BY_SUBTYPE[subType];
-}
 
 export const {
     /** Map of affiliation-standing key → value. */

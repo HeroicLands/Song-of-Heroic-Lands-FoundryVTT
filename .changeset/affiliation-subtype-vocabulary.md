@@ -18,14 +18,12 @@ to the format compiled a document this system could not construct. The check tha
 verifies every `system.*` target the format names _exists_ cannot see that the
 _values_ disagree, so it passed and failed at construction instead.
 
-**The four-value partition survives, derived.** `AFFILIATION_CLASS` and
-`affiliationClassOf()` classify the eleven: the three traditions by what they
-face — arcane, divine, spirit — and every other kind of body as `social`, which
-is what that value always meant. `AffiliationLogic.subTypeClass` reads it off a
-document. The map is exhaustive by construction, so a subtype added without a
-class is a compile error rather than a picker that silently drops it. The four
-localization keys are borrowed rather than reminted: they labelled exactly this
-partition already, and keys are permanent.
+**The four-value partition is not replaced by anything.** It was a picker filter
+wearing a taxonomy's name, and the eleven values carry the distinction it drew
+without needing a second vocabulary beside them: a mystical ability that must
+associate with a faith tradition can say `faithtradition`. The four labels
+`SOHL.Affiliation.SubType.arcane`, `.divine`, `.spirit` and `.social` are removed
+with the values they labelled, since nothing produces those keys any more.
 
 **A world on the old values migrates without intervention.** `arcane`, `divine`
 and `spirit` become `arcanetradition`, `faithtradition` and `spirittradition` —

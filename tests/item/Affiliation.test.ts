@@ -3,11 +3,7 @@ import { AffiliationLogic } from "@src/document/item/logic/AffiliationLogic";
 import { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import {
     AFFILIATION_STANDING,
-    AFFILIATION_CLASS,
     AFFILIATION_SUBTYPE,
-    AffiliationClassChoices,
-    AffiliationClasses,
-    affiliationClassOf,
     AffiliationStandingChoices,
     AffiliationStandings,
     AffiliationSubTypeChoices,
@@ -207,60 +203,6 @@ describe("AFFILIATION_SUBTYPE (#1405, #1788)", () => {
         );
         expect(AffiliationSubTypeChoices.faithtradition).toBe(
             "SOHL.Affiliation.SubType.faithtradition",
-        );
-    });
-});
-
-describe("AFFILIATION_CLASS — the picker partition, derived (#1788)", () => {
-    it("declares the four classes the mystical-ability picker filters on", () => {
-        expect([...AffiliationClasses].sort()).toEqual(["arcane", "divine", "social", "spirit"]);
-    });
-
-    it("classes the three traditions by what they face", () => {
-        expect(affiliationClassOf("arcanetradition")).toBe(AFFILIATION_CLASS.ARCANE);
-        expect(affiliationClassOf("faithtradition")).toBe(AFFILIATION_CLASS.DIVINE);
-        expect(affiliationClassOf("spirittradition")).toBe(AFFILIATION_CLASS.SPIRIT);
-    });
-
-    it("classes every other body as social", () => {
-        for (const v of [
-            "guild",
-            "order",
-            "polity",
-            "lineage",
-            "venture",
-            "criminal",
-            "governmental",
-            "fellowship",
-        ] as const) {
-            expect(affiliationClassOf(v)).toBe(AFFILIATION_CLASS.SOCIAL);
-        }
-    });
-
-    it("classes every declared subtype — the partition is total", () => {
-        // A subtype added without a class would break the picker silently, so
-        // the map is exhaustive by construction and this asserts it stays so.
-        for (const v of AffiliationSubTypes) {
-            expect(AffiliationClasses).toContain(affiliationClassOf(v));
-        }
-    });
-
-    it("borrows the label keys the four-value field already owned", () => {
-        // Localization keys are permanent. These four labelled exactly this
-        // partition before it was derived, so the class borrows them rather
-        // than minting new ones and orphaning the old.
-        expect(AffiliationClassChoices.arcane).toBe("SOHL.Affiliation.SubType.arcane");
-        expect(AffiliationClassChoices.divine).toBe("SOHL.Affiliation.SubType.divine");
-        expect(AffiliationClassChoices.spirit).toBe("SOHL.Affiliation.SubType.spirit");
-        expect(AffiliationClassChoices.social).toBe("SOHL.Affiliation.SubType.social");
-    });
-
-    it("is reachable from a logic instance as subTypeClass", () => {
-        expect(makeAffiliation({ subType: AFFILIATION_SUBTYPE.ARCANETRADITION }).subTypeClass).toBe(
-            AFFILIATION_CLASS.ARCANE,
-        );
-        expect(makeAffiliation({ subType: AFFILIATION_SUBTYPE.GUILD }).subTypeClass).toBe(
-            AFFILIATION_CLASS.SOCIAL,
         );
     });
 });
