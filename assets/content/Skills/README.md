@@ -1,17 +1,13 @@
 ---
 id: AVuARfyd5TjmGqUh
+type: doc
+subType: skill
 name:
   full: Skills
   aliases: []
-type: doc
 shortcode: skills2
-section: skill
-tags:
 description: Learned abilities and proficiencies.
-banner: banners/skill.webp
 ---
-
-# Skills
 
 Learned abilities and proficiencies — the trained and practiced competences that define what a character can actually _do_, as distinct from the innate gifts measured by their traits.
 
@@ -21,7 +17,7 @@ Skills for swaying hearts and minds — the arts of conversation, performance, p
 
 ```dataview
 TABLE WITHOUT ID link(file.path, name.full) AS "Name", description AS "Description"
-WHERE type = "skill" and sohl.subType = "social" and package = "sohl"
+WHERE type = "skill" and subType = "social"
 SORT name.full ASC
 ```
 
@@ -31,7 +27,7 @@ Skills for working with the living world — husbandry of land, beast, and water
 
 ```dataview
 TABLE WITHOUT ID link(file.path, name.full) AS "Name", description AS "Description"
-WHERE type = "skill" and sohl.subType = "nature" and package = "sohl"
+WHERE type = "skill" and subType = "nature"
 SORT name.full ASC
 ```
 
@@ -41,7 +37,7 @@ Hand-trades of the workshop — the shaping of raw material into finished goods,
 
 ```dataview
 TABLE WITHOUT ID link(file.path, name.full) AS "Name", description AS "Description"
-WHERE type = "skill" and sohl.subType = "craft" and package = "sohl"
+WHERE type = "skill" and subType = "craft"
 SORT name.full ASC
 ```
 
@@ -51,7 +47,7 @@ Bookish and professional knowledge — scholarship, reckoning, jurisprudence, me
 
 ```dataview
 TABLE WITHOUT ID link(file.path, name.full) AS "Name", description AS "Description"
-WHERE type = "skill" and sohl.subType = "lore" and package = "sohl"
+WHERE type = "skill" and subType = "lore"
 SORT name.full ASC
 ```
 
@@ -61,7 +57,7 @@ Skills of the trained body — balance, stealth, speed, and the finer coordinati
 
 ```dataview
 TABLE WITHOUT ID link(file.path, name.full) AS "Name", description AS "Description"
-WHERE type = "skill" and sohl.subType = "physical" and package = "sohl"
+WHERE type = "skill" and subType = "physical"
 SORT name.full ASC
 ```
 
@@ -71,7 +67,7 @@ Skills of the trained warrior — striking, parrying, shooting, and the timing a
 
 ```dataview
 TABLE WITHOUT ID link(file.path, name.full) AS "Name", description AS "Description"
-WHERE type = "skill" and sohl.subType = "combat" and package = "sohl"
+WHERE type = "skill" and subType = "combat"
 SORT name.full ASC
 ```
 
@@ -81,7 +77,7 @@ Spoken tongues — the languages a character can understand and speak, from moth
 
 ```dataview
 TABLE WITHOUT ID link(file.path, name.full) AS "Name", description AS "Description"
-WHERE type = "skill" and sohl.subType = "language" and package = "sohl"
+WHERE type = "skill" and subType = "language"
 SORT name.full ASC
 ```
 
@@ -91,7 +87,7 @@ Written systems — the scripts a character can read and write, which may or may
 
 ```dataview
 TABLE WITHOUT ID link(file.path, name.full) AS "Name", description AS "Description"
-WHERE type = "skill" and sohl.subType = "script" and package = "sohl"
+WHERE type = "skill" and subType = "script"
 SORT name.full ASC
 ```
 
@@ -101,7 +97,7 @@ Occult arts and hidden disciplines — alchemy, astrology, runecraft, tarotry, a
 
 ```dataview
 TABLE WITHOUT ID link(file.path, name.full) AS "Name", description AS "Description"
-WHERE type = "skill" and sohl.subType = "esoteric" and package = "sohl"
+WHERE type = "skill" and subType = "esoteric"
 SORT name.full ASC
 ```
 
@@ -111,6 +107,6 @@ Formal devotional practice — the sacred rites by which a character petitions a
 
 ```dataview
 TABLE WITHOUT ID link(file.path, name.full) AS "Name", description AS "Description"
-WHERE type = "skill" and sohl.subType = "ritual" and package = "sohl"
+WHERE type = "skill" and subType = "ritual"
 SORT name.full ASC
 ```

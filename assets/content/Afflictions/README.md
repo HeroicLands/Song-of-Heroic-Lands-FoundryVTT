@@ -1,14 +1,12 @@
 ---
 id: YX8E9Qy0Ysm66VsH
+type: doc
+subType: affliction
 name:
   full: Afflictions
   aliases: []
-type: doc
 shortcode: aflictions
-section: affliction
-tags:
-description: Diseases, curses, poisons, and other ailments.
-banner: banners/affliction.webp
+description: "Diseases, curses, poisons, and other ailments."
 ---
 
 Diseases, curses, poisons, and other ailments.
@@ -17,7 +15,7 @@ Diseases, curses, poisons, and other ailments.
 
 ```dataview
 TABLE WITHOUT ID link(file.path, name.full) AS "Name", description AS "Description"
-WHERE type = "affliction" and sohl.subType = "disease" and package = "sohl"
+WHERE type = "affliction" and subType = "disease"
 SORT name.full ASC
 ```
 
@@ -25,7 +23,7 @@ SORT name.full ASC
 
 ```dataview
 TABLE WITHOUT ID link(file.path, name.full) AS "Name", description AS "Description"
-WHERE type = "affliction" and sohl.subType = "poisontoxin" and package = "sohl"
+WHERE type = "affliction" and subType = "poisontoxin"
 SORT name.full ASC
 ```
 
@@ -33,7 +31,7 @@ SORT name.full ASC
 
 ```dataview
 TABLE WITHOUT ID link(file.path, name.full) AS "Name", description AS "Description"
-WHERE type = "affliction" and sohl.subType = "privation" and package = "sohl"
+WHERE type = "affliction" and subType = "privation"
 SORT name.full ASC
 ```
 
@@ -41,7 +39,7 @@ SORT name.full ASC
 
 ```dataview
 TABLE WITHOUT ID link(file.path, name.full) AS "Name", description AS "Description"
-WHERE type = "affliction" and sohl.subType = "fatigue" and package = "sohl"
+WHERE type = "affliction" and subType = "fatigue"
 SORT name.full ASC
 ```
 
@@ -49,7 +47,7 @@ SORT name.full ASC
 
 ```dataview
 TABLE WITHOUT ID link(file.path, name.full) AS "Name", description AS "Description"
-WHERE type = "affliction" and sohl.subType = "fear" and package = "sohl"
+WHERE type = "affliction" and subType = "fear"
 SORT name.full ASC
 ```
 
@@ -57,7 +55,7 @@ SORT name.full ASC
 
 ```dataview
 TABLE WITHOUT ID link(file.path, name.full) AS "Name", description AS "Description"
-WHERE type = "affliction" and sohl.subType = "morale" and package = "sohl"
+WHERE type = "affliction" and subType = "morale"
 SORT name.full ASC
 ```
 
@@ -65,7 +63,7 @@ SORT name.full ASC
 
 ```dataview
 TABLE WITHOUT ID link(file.path, name.full) AS "Name", description AS "Description"
-WHERE type = "affliction" and sohl.subType = "infection" and package = "sohl"
+WHERE type = "affliction" and subType = "infection"
 SORT name.full ASC
 ```
 
@@ -73,7 +71,7 @@ SORT name.full ASC
 
 ```dataview
 TABLE WITHOUT ID link(file.path, name.full) AS "Name", description AS "Description"
-WHERE type = "affliction" and sohl.subType = "shadow" and package = "sohl"
+WHERE type = "affliction" and subType = "shadow"
 SORT name.full ASC
 ```
 
@@ -81,7 +79,7 @@ SORT name.full ASC
 
 ```dataview
 TABLE WITHOUT ID link(file.path, name.full) AS "Name", description AS "Description"
-WHERE type = "affliction" and sohl.subType = "psyche" and package = "sohl"
+WHERE type = "affliction" and subType = "psyche"
 SORT name.full ASC
 ```
 
@@ -89,6 +87,6 @@ SORT name.full ASC
 
 ```dataview
 TABLE WITHOUT ID link(file.path, name.full) AS "Name", description AS "Description"
-WHERE type = "affliction" and sohl.subType = "auralshock" and package = "sohl"
+WHERE type = "affliction" and subType = "auralshock"
 SORT name.full ASC
 ```

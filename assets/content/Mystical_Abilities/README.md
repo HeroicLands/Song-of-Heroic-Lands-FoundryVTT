@@ -1,23 +1,19 @@
 ---
 id: tQE57KhK7HYcEVDw
+type: doc
+subType: mysticalability
 name:
   full: Mystical Abilities
   aliases: []
-type: doc
 shortcode: mystclblts
-section: mysticalability
-tags:
 description: Magical and supernatural powers.
-banner: banners/mysticalability.webp
 ---
-
-# Mystical Abilities
 
 ## Arcane Incantation
 
 ```dataview
 TABLE WITHOUT ID link(file.path, name.full) AS "Name", description AS "Description"
-WHERE type = "mysticalability" and sohl.subType = "arcaneincantation" and package = "sohl"
+WHERE type = "mysticalability" and subType = "arcaneincantation"
 SORT name.full ASC
 ```
 
@@ -25,7 +21,7 @@ SORT name.full ASC
 
 ```dataview
 TABLE WITHOUT ID link(file.path, name.full) AS "Name", description AS "Description"
-WHERE type = "mysticalability" and sohl.subType = "arcanetalent" and package = "sohl"
+WHERE type = "mysticalability" and subType = "arcanetalent"
 SORT name.full ASC
 ```
 
@@ -33,7 +29,7 @@ SORT name.full ASC
 
 ```dataview
 TABLE WITHOUT ID link(file.path, name.full) AS "Name", description AS "Description"
-WHERE type = "mysticalability" and sohl.subType = "shamanicrite" and package = "sohl"
+WHERE type = "mysticalability" and subType = "shamanicrite"
 SORT name.full ASC
 ```
 
@@ -41,7 +37,7 @@ SORT name.full ASC
 
 ```dataview
 TABLE WITHOUT ID link(file.path, name.full) AS "Name", description AS "Description"
-WHERE type = "mysticalability" and sohl.subType = "spiritaction" and package = "sohl"
+WHERE type = "mysticalability" and subType = "spiritaction"
 SORT name.full ASC
 ```
 
@@ -49,7 +45,7 @@ SORT name.full ASC
 
 ```dataview
 TABLE WITHOUT ID link(file.path, name.full) AS "Name", description AS "Description"
-WHERE type = "mysticalability" and sohl.subType = "spiritpower" and package = "sohl"
+WHERE type = "mysticalability" and subType = "spiritpower"
 SORT name.full ASC
 ```
 
@@ -57,7 +53,7 @@ SORT name.full ASC
 
 ```dataview
 TABLE WITHOUT ID link(file.path, name.full) AS "Name", description AS "Description"
-WHERE type = "mysticalability" and sohl.subType = "benediction" and package = "sohl"
+WHERE type = "mysticalability" and subType = "benediction"
 SORT name.full ASC
 ```
 
@@ -65,7 +61,7 @@ SORT name.full ASC
 
 ```dataview
 TABLE WITHOUT ID link(file.path, name.full) AS "Name", description AS "Description"
-WHERE type = "mysticalability" and sohl.subType = "divinedevotion" and package = "sohl"
+WHERE type = "mysticalability" and subType = "divinedevotion"
 SORT name.full ASC
 ```
 
@@ -73,7 +69,7 @@ SORT name.full ASC
 
 ```dataview
 TABLE WITHOUT ID link(file.path, name.full) AS "Name", description AS "Description"
-WHERE type = "mysticalability" and sohl.subType = "divineincantation" and package = "sohl"
+WHERE type = "mysticalability" and subType = "divineincantation"
 SORT name.full ASC
 ```
 
@@ -81,7 +77,7 @@ SORT name.full ASC
 
 ```dataview
 TABLE WITHOUT ID link(file.path, name.full) AS "Name", description AS "Description"
-WHERE type = "mysticalability" and sohl.subType = "spirittalent" and package = "sohl"
+WHERE type = "mysticalability" and subType = "spirittalent"
 SORT name.full ASC
 ```
 
@@ -89,7 +85,7 @@ SORT name.full ASC
 
 ```dataview
 TABLE WITHOUT ID link(file.path, name.full) AS "Name", description AS "Description"
-WHERE type = "mysticalability" and sohl.subType = "alchemy" and package = "sohl"
+WHERE type = "mysticalability" and subType = "alchemy"
 SORT name.full ASC
 ```
 
@@ -97,6 +93,6 @@ SORT name.full ASC
 
 ```dataview
 TABLE WITHOUT ID link(file.path, name.full) AS "Name", description AS "Description"
-WHERE type = "mysticalability" and sohl.subType = "divination" and package = "sohl"
+WHERE type = "mysticalability" and subType = "divination"
 SORT name.full ASC
 ```

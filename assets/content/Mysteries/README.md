@@ -1,17 +1,13 @@
 ---
 id: PK3S3tmvGF9iEbWW
+type: doc
+subType: mystery
 name:
   full: Mysteries
   aliases: []
-type: doc
 shortcode: mysteries
-section: mystery
-tags:
 description: Esoteric knowledge and hidden lore.
-banner: banners/mystery.webp
 ---
-
-# Mysteries
 
 Esoteric knowledge and hidden lore.
 
@@ -19,7 +15,7 @@ Esoteric knowledge and hidden lore.
 
 ```dataview
 TABLE WITHOUT ID link(file.path, name.full) AS "Name", description AS "Description"
-WHERE type = "mystery" and sohl.subType = "grace" and package = "sohl"
+WHERE type = "mystery" and subType = "grace"
 SORT name.full ASC
 ```
 
@@ -27,7 +23,7 @@ SORT name.full ASC
 
 ```dataview
 TABLE WITHOUT ID link(file.path, name.full) AS "Name", description AS "Description"
-WHERE type = "mystery" and sohl.subType = "piety" and package = "sohl"
+WHERE type = "mystery" and subType = "piety"
 SORT name.full ASC
 ```
 
@@ -35,7 +31,7 @@ SORT name.full ASC
 
 ```dataview
 TABLE WITHOUT ID link(file.path, name.full) AS "Name", description AS "Description"
-WHERE type = "mystery" and sohl.subType = "fate" and package = "sohl"
+WHERE type = "mystery" and subType = "fate"
 SORT name.full ASC
 ```
 
@@ -43,7 +39,7 @@ SORT name.full ASC
 
 ```dataview
 TABLE WITHOUT ID link(file.path, name.full) AS "Name", description AS "Description"
-WHERE type = "mystery" and sohl.subType = "fateBonus" and package = "sohl"
+WHERE type = "mystery" and subType = "fateBonus"
 SORT name.full ASC
 ```
 
@@ -51,7 +47,7 @@ SORT name.full ASC
 
 ```dataview
 TABLE WITHOUT ID link(file.path, name.full) AS "Name", description AS "Description"
-WHERE type = "mystery" and sohl.subType = "fatePointBonus" and package = "sohl"
+WHERE type = "mystery" and subType = "fatePointBonus"
 SORT name.full ASC
 ```
 
@@ -59,7 +55,7 @@ SORT name.full ASC
 
 ```dataview
 TABLE WITHOUT ID link(file.path, name.full) AS "Name", description AS "Description"
-WHERE type = "mystery" and sohl.subType = "blessing" and package = "sohl"
+WHERE type = "mystery" and subType = "blessing"
 SORT name.full ASC
 ```
 
@@ -67,7 +63,7 @@ SORT name.full ASC
 
 ```dataview
 TABLE WITHOUT ID link(file.path, name.full) AS "Name", description AS "Description"
-WHERE type = "mystery" and sohl.subType = "ancestorSpiritPower" and package = "sohl"
+WHERE type = "mystery" and subType = "ancestorSpiritPower"
 SORT name.full ASC
 ```
 
@@ -75,6 +71,6 @@ SORT name.full ASC
 
 ```dataview
 TABLE WITHOUT ID link(file.path, name.full) AS "Name", description AS "Description"
-WHERE type = "mystery" and sohl.subType = "totemSpiritPower" and package = "sohl"
+WHERE type = "mystery" and subType = "totemSpiritPower"
 SORT name.full ASC
 ```

@@ -1,22 +1,18 @@
 ---
 id: MA6x5oaB16x7cvyk
+type: doc
+subType: armorgear
 name:
   full: Armor
   aliases: []
-type: doc
 shortcode: armor2
-section: armorgear
-tags:
-description: Defensive gear — mail, plate, shields, and more.
-banner: banners/armorgear.webp
+description: "Defensive gear — mail, plate, shields, and more."
 ---
-
-# Armor
 
 Defensive gear — mail, plate, shields, and more.
 
 ```dataview
 TABLE WITHOUT ID link(file.path, name.full) AS "Name", sohl.value as "Value", sohl.weight as "Weight", description AS "Description"
-WHERE type = "armorgear" and package = "sohl"
+WHERE type = "armorgear"
 SORT name.full ASC
 ```
