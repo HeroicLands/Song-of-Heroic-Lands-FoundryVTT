@@ -1,17 +1,12 @@
 ---
-aliases:
-  - Afflictions
-  - Affliction
-  - Course Test
-  - Incubation Period
-  - Symptomatic Period
+aliases: []
 id: Tt1JjQ3kmqtUDIm9
 type: doc
 subType: rules
 name:
   full: Afflictions
   aliases: []
-shortcode: afflctns
+shortcode: afflctnrules
 folder: edGOkxiCotuMzc1O
 ---
 

@@ -1,6 +1,5 @@
 ---
-aliases:
-  - Miscellaneous Gear
+aliases: []
 id: gw0PK5jHBTEdEEQR
 name:
   full: Miscellaneous Gear

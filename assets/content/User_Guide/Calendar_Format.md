@@ -5,13 +5,13 @@ type: doc
 subType: user-guide
 name:
   full: "Calendar JSON Format"
-shortcode: clndrjsn
+shortcode: calendarfmtug
 folder: IgwaG8rAUUO9vrtz
 ---
 
 # Calendar JSON Format {#CalendarFormat}
 
-This reference describes the JSON format used for custom calendar files in Song of Heroic Lands. For instructions on importing calendars, see [[doc-systmstt|System Settings]].
+This reference describes the JSON format used for custom calendar files in Song of Heroic Lands. For instructions on importing calendars, see [[doc-syssetngug|System Settings]].
 
 A calendar JSON file must contain a single JSON object with the structure described below. All fields are required unless marked as optional.
 
@@ -145,7 +145,7 @@ The `era` object is a SoHL-specific extension that adds era-based dating (e.g., 
 
 # See also
 
-- [[doc-systmstt|System Settings]] — where a calendar is chosen and the world date is set.
-- [[doc-afflandi|Afflictions and Injuries]] — the healing and course reminders that the passage of game time drives.
-- [[doc-itemtrauma|Trauma]] and [[doc-afflctn|Affliction]] — the items whose scheduled checks come due on this calendar.
+- [[doc-syssetngug|System Settings]] — where a calendar is chosen and the world date is set.
+- [[doc-afflinjug|Afflictions and Injuries]] — the healing and course reminders that the passage of game time drives.
+- [[doc-traumaug|Trauma]] and [[doc-afflctnug|Affliction]] — the items whose scheduled checks come due on this calendar.
 - [[doc-userguide|User Guide]] — back to the index.

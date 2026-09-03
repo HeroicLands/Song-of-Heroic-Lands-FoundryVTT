@@ -5,7 +5,7 @@ type: doc
 subType: user-guide
 name:
   full: "Scene Setup and Tokens"
-shortcode: scnstpan
+shortcode: scnsetuptokug
 folder: IgwaG8rAUUO9vrtz
 ---
 
@@ -13,7 +13,7 @@ folder: IgwaG8rAUUO9vrtz
 
 Scenes in SoHL work like standard Foundry VTT scenes, with some additional features specific to SoHL. This guide covers placing tokens on scenes, Theatre of the Mind mode, and the Cohort expand feature.
 
-See also: [[doc-being|Beings]], [[doc-cohort|Cohorts]]
+See also: [[doc-beingug|Beings]], [[doc-cohortug|Cohorts]]
 
 # Shipped Maps and Adventures {#scene-shipped-maps}
 
@@ -68,11 +68,11 @@ This is useful when a group encounter transitions into individual combat — sta
 
 # See also
 
-- [[doc-token|Token]] — what you can do from a placed token, including starting and answering an opposed test.
-- [[doc-cmbtbscs|Combat Basics]] — running the fight the scene is set up for.
-- [[doc-cmbtnt|Combatant]] — the combat tracker, its groups, and the combatant row.
-- [[doc-cohort|Cohort]] — the group a scene can expand into its members.
-- [[doc-being|Being]] — the actor most tokens stand for.
+- [[doc-tokenug|Token]] — what you can do from a placed token, including starting and answering an opposed test.
+- [[doc-cmbtbscsug|Combat Basics]] — running the fight the scene is set up for.
+- [[doc-cmbtntug|Combatant]] — the combat tracker, its groups, and the combatant row.
+- [[doc-cohortug|Cohort]] — the group a scene can expand into its members.
+- [[doc-beingug|Being]] — the actor most tokens stand for.
 - [[doc-userguide|User Guide]] — back to the index.
 
 <!-- TODO: Document how to collapse individual tokens back into a cohort,
@@ -107,7 +107,7 @@ Nothing else changes: the grid, token movement, vision, and the combat sequence 
 
 When combat begins on a scene, SoHL uses its own initiative and combat tracking system.
 
-See [[doc-cmbtbscs|Combat Basics]] for details on how combat encounters work.
+See [[doc-cmbtbscsug|Combat Basics]] for details on how combat encounters work.
 
 <!-- TODO: Document how to start combat, add combatants, and the relationship
      between tokens and combatants in SoHL's combat system. -->

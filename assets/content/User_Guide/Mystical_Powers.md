@@ -6,7 +6,7 @@ type: doc
 subType: user-guide
 name:
   full: Mystical Powers
-shortcode: mystclpw
+shortcode: mystclpwug
 folder: IgwaG8rAUUO9vrtz
 ---
 
@@ -14,7 +14,7 @@ folder: IgwaG8rAUUO9vrtz
 
 Mystical powers in SoHL encompass all supernatural abilities — arcane spellcasting, divine miracles, spiritual gifts, and other extraordinary capabilities.
 
-They arrive on a character as two kinds of item, and the difference matters: a [[doc-mystery|Mystery]] is a standing condition the character _is_ subject to, applied through the effects it carries; a [[doc-mystclab|Mystical Ability]] is an act the character _performs_, and it has a test of its own. This page covers using them at the table; those two pages cover the items themselves. What the traditions actually _are_ is the rules chapter [[doc-estrcint|Esoterica]].
+They arrive on a character as two kinds of item, and the difference matters: a [[doc-mysteryug|Mystery]] is a standing condition the character _is_ subject to, applied through the effects it carries; a [[doc-mysticalabilityug|Mystical Ability]] is an act the character _performs_, and it has a test of its own. This page covers using them at the table; those two pages cover the items themselves. What the traditions actually _are_ is the rules chapter [[doc-estrcint|Esoterica]].
 
 # Casting Spells and Performing Miracles
 
@@ -50,10 +50,10 @@ The Mysteries tab on a Being's sheet shows:
 
 # See also
 
-- [[doc-mystclab|Mystical Ability]] — the item, its Effective Mastery Level, and the Success Test that performs it.
-- [[doc-mystery|Mystery]] — the item, and how a standing condition is applied.
-- [[doc-affltn|Affiliation]] — the standing a power can draw on.
-- [[doc-being|Being]] — the sheet the Mysteries tab belongs to.
-- [[doc-sklltsts|Skill Tests and Opposed Tests]] — how the roll behind a casting is read.
+- [[doc-mysticalabilityug|Mystical Ability]] — the item, its Effective Mastery Level, and the Success Test that performs it.
+- [[doc-mysteryug|Mystery]] — the item, and how a standing condition is applied.
+- [[doc-affltnug|Affiliation]] — the standing a power can draw on.
+- [[doc-beingug|Being]] — the sheet the Mysteries tab belongs to.
+- [[doc-sklltestug|Skill Tests and Opposed Tests]] — how the roll behind a casting is read.
 - [[doc-estrcint|Esoterica]] (rules) — what the traditions are, and what each ability does.
 - [[doc-userguide|User Guide]] — back to the index.

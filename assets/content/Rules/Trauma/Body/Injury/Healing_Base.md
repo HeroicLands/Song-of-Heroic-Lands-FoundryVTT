@@ -21,10 +21,10 @@ Healing Base is the **average of the creature's Endurance (END) and Will (WIL) a
 | 13  | 12  | 12.5    | 13 (END > WIL → up)   |
 | 12  | 13  | 12.5    | 12 (END ≤ WIL → down) |
 
-Healing Base is the mastery level used, together with a **Healing Rate**, in nearly every recovery roll — the [[doc-hlngtst|Injury Healing Test]], the affliction [[doc-afflctns#course-test|Course Test]], the [[doc-infctn|Infection]], and the Extended Shock and Coma course tests (see [[doc-shock|Shock]]). In each case the test is rolled against **`Healing Base × Healing Rate`**.
+Healing Base is the mastery level used, together with a **Healing Rate**, in nearly every recovery roll — the [[doc-hlngtst|Injury Healing Test]], the affliction [[doc-afflctnrules#course-test|Course Test]], the [[doc-infctn|Infection]], and the Extended Shock and Coma course tests (see [[doc-shock|Shock]]). In each case the test is rolled against **`Healing Base × Healing Rate`**.
 
 ## See also
 
 - [[doc-injrylvl|Injury]] — Healing Rate and the Injury Healing Test.
-- [[doc-afflctns|Afflictions]] — the Course Test.
+- [[doc-afflctnrules|Afflictions]] — the Course Test.
 - [[doc-sccsstst#success-level|Success levels]] — the CF / MF / MS / CS scale.

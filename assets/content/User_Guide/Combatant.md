@@ -7,7 +7,7 @@ type: doc
 subType: user-guide
 name:
   full: "Combatant"
-shortcode: cmbtnt
+shortcode: cmbtntug
 folder: IgwaG8rAUUO9vrtz
 ---
 
@@ -15,7 +15,7 @@ A **Combatant** is a character's entry in the **combat tracker** — the row tha
 
 Because it is the encounter's record of a character, the Combatant is also where **Automated Combat** actions live: starting an automated attack, answering one as the defender, and moving a combatant between groups. You will not find these on the character sheet — they are on the tracker row and on the chat cards the exchange produces.
 
-> ⚗️ **Automated Combat is still being finished.** It is deliberately outside the frozen feature set for the Being-centric beta, so expect rough edges. The actions below are documented as they exist; [[doc-cmbtbscs|Assisted Combat]] is the supported path for play in the meantime.
+> ⚗️ **Automated Combat is still being finished.** It is deliberately outside the frozen feature set for the Being-centric beta, so expect rough edges. The actions below are documented as they exist; [[doc-cmbtbscsug|Assisted Combat]] is the supported path for play in the meantime.
 
 # Combat groups {#combat-groups}
 
@@ -35,7 +35,7 @@ There is nothing else to configure — no allegiance matrix, no degrees of frien
 
 **Where the group comes from.** A combatant joins a group automatically when it enters the encounter, taking the name from its character's **Default Combat Group** (on the Combat tab of the character sheet, GM-only); when that is blank it joins **Opponents**. Matching is case-insensitive, so _bandits_ and _Bandits_ are one group, and a group is created the first time someone needs it. To change it afterwards — a mid-fight betrayal, or just cleaning up after a messy setup — use [[#move-to-group|Move to Group…]].
 
-**What groups do _not_ do.** They do not affect turn order: the tracker sorts by individual initiative, and a group is never moved or rolled as a block. They do not restrict targeting either — nothing stops you attacking someone in your own group, deliberately or by accident. And a group has no leader; if you want a body of troops that acts as one, that is a [[doc-cohort|Cohort]], not a combat group.
+**What groups do _not_ do.** They do not affect turn order: the tracker sorts by individual initiative, and a group is never moved or rolled as a block. They do not restrict targeting either — nothing stops you attacking someone in your own group, deliberately or by accident. And a group has no leader; if you want a body of troops that acts as one, that is a [[doc-cohortug|Cohort]], not a combat group.
 
 # The combatant row
 
@@ -57,7 +57,7 @@ A combatant is placed in a group automatically when it joins the encounter — s
 
 Two things are deliberately _not_ in this menu:
 
-- **The shared document actions** (Edit, Delete, and the rest described on [[doc-baseitem|the Base Item page]]) are left out, because the tracker already has its own controls for updating and removing a combatant.
+- **The shared document actions** (Edit, Delete, and the rest described on [[doc-baseitemug|the Base Item page]]) are left out, because the tracker already has its own controls for updating and removing a combatant.
 - **The defense responses** (Block, Dodge, Counterstrike, Ignore). They are **hidden actions**: they never appear in the context menu, because they only make sense as an answer to a specific attack. They arrive as **buttons on the attack card** in chat, on the defending player's screen — see [[#answering-an-attack|Answering an attack]].
 
 # Automated Combat
@@ -70,11 +70,11 @@ Two things are deliberately _not_ in this menu:
 | **Invoked by** | The **Actions context menu** on the combatant's tracker row                                                                                                     |
 | **API**        | [`SohlCombatantLogic.startAutomatedAttack`](https://www.heroiclands.org/sohl/api/classes/sohl.document.combatant.logic.SohlCombatantLogic#startautomatedattack) |
 
-**What it does.** This is the **single entry point** for an automated attack — the workflow-driven exchange described under [[doc-cmbtbscs|Automated Combat in Combat Basics]]. Reach for it when you want the system to run the whole attack-and-defense sequence: your attack roll, the defender's answer, the comparison on the combat tables, and — if the blow lands — impact, hit location, armor, and the injury.
+**What it does.** This is the **single entry point** for an automated attack — the workflow-driven exchange described under [[doc-cmbtbscsug|Automated Combat in Combat Basics]]. Reach for it when you want the system to run the whole attack-and-defense sequence: your attack roll, the defender's answer, the comparison on the combat tables, and — if the blow lands — impact, hit location, armor, and the injury.
 
 **How to use it.** Target the opponent's token, then right-click **your** combatant's row in the tracker and choose **Automated Combat**.
 
-**What it asks for.** It opens the automated-combat **attack dialog** (Strike Mode, Aim, and an additional modifier). Those fields, and every card the exchange posts, are described in one place — see [[doc-cmbtbscs|the Automated Combat section of Combat Basics]].
+**What it asks for.** It opens the automated-combat **attack dialog** (Strike Mode, Aim, and an additional modifier). Those fields, and every card the exchange posts, are described in one place — see [[doc-cmbtbscsug|the Automated Combat section of Combat Basics]].
 
 **What happens.** Once you confirm the dialog, the system:
 
@@ -123,7 +123,7 @@ When someone attacks you in Automated Combat, the attack card that lands in chat
 - **Counterstrike** appears only if you have a melee strike mode to strike back with.
 - **Ignore** is always available — and if you are **incapacitated**, it is the _only_ button offered.
 
-The cards themselves — what the attack card shows, and how to read the result card the exchange posts — are described under [[doc-cmbtbscs|Automated Combat in Combat Basics]].
+The cards themselves — what the attack card shows, and how to read the result card the exchange posts — are described under [[doc-cmbtbscsug|Automated Combat in Combat Basics]].
 
 ## Block
 
@@ -175,9 +175,9 @@ Take no defensive action. Nothing is asked and nothing is rolled on your side; t
 
 # See also
 
-- [[doc-cmbtbscs|Combat Basics]] — Assisted and Automated Combat, the dialogs and cards the automated exchange uses, and how a hit is resolved.
-- [[doc-scnstpan|Scene Setup]] — placing tokens and building the encounter the combatant belongs to.
-- [[doc-baseitem|Item Base]] — the shared document actions and dialogs every SoHL document inherits.
-- [[doc-actions|Actions]] — how actions work in general, and how to add your own.
-- [[doc-afflandi|Afflictions Injuries]] — recording and healing the injuries an exchange produces.
+- [[doc-cmbtbscsug|Combat Basics]] — Assisted and Automated Combat, the dialogs and cards the automated exchange uses, and how a hit is resolved.
+- [[doc-scnsetuptokug|Scene Setup]] — placing tokens and building the encounter the combatant belongs to.
+- [[doc-baseitemug|Item Base]] — the shared document actions and dialogs every SoHL document inherits.
+- [[doc-actionsug|Actions]] — how actions work in general, and how to add your own.
+- [[doc-afflinjug|Afflictions Injuries]] — recording and healing the injuries an exchange produces.
 - [[doc-userguide|User Guide]] — back to the index.

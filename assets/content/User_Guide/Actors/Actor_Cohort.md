@@ -6,13 +6,13 @@ type: doc
 subType: user-guide
 name:
   full: "Cohort"
-shortcode: cohort
+shortcode: cohortug
 folder: sYK1BozT9xFcinXK
 ---
 
 # What Is a Cohort?
 
-A Cohort is a **named body of individuals** — a squad of soldiers, a band of followers, a ship's crew, a household. It does not replace those individuals: each member remains their own [[doc-being|Being]], with their own sheet, skills, and wounds. What the Cohort adds is the **fact of the group** — who belongs to it, who leads it, and what its members have pooled — recorded in one place so you do not have to hold it in your head.
+A Cohort is a **named body of individuals** — a squad of soldiers, a band of followers, a ship's crew, a household. It does not replace those individuals: each member remains their own [[doc-beingug|Being]], with their own sheet, skills, and wounds. What the Cohort adds is the **fact of the group** — who belongs to it, who leads it, and what its members have pooled — recorded in one place so you do not have to hold it in your head.
 
 **Its unique capability is the roster.** A Cohort is the only actor that maintains a membership list of _other actors_ and reads their state back to you. Open it and you see, at a glance, who is in the group, what part each of them plays in it, who is in charge, and — since each member's health is listed beside their name — how the group as a whole is faring. That last point is the practical reason to keep one: after a hard fight you can see which of your twelve guardsmen need a healer without opening twelve sheets.
 
@@ -28,7 +28,7 @@ Use a Cohort when a set of characters has an identity as a group that outlives a
 
 **A Cohort is not a way to avoid making characters.** Its members are real actors, and it works by pointing at them. If you want a mob you never have to detail, a single Being standing in for the whole is the simpler tool.
 
-**A Cohort is also not a combat side.** Who fights whom in an encounter is decided by [[doc-cmbtnt|combat groups]], not by cohort membership; a cohort's members can end up on opposite sides of a brawl. See _Combat groups_ on the [[doc-cmbtnt|Combatant]] page.
+**A Cohort is also not a combat side.** Who fights whom in an encounter is decided by [[doc-cmbtntug|combat groups]], not by cohort membership; a cohort's members can end up on opposite sides of a brawl. See _Combat groups_ on the [[doc-cmbtntug|Combatant]] page.
 
 # What a Cohort Contains
 
@@ -54,7 +54,7 @@ The Cohort sheet has these tabs:
 - **Actions** — available group actions
 - **Effects** — active effects on the group
 
-**Facade**, **Profile**, **Actions**, and **Effects** are the common actor tabs and behave exactly as they do on a [[doc-being|Being]]; they are documented once, in [[doc-undrstnd|Understanding Sheets]] under _Common Actor Tabs_. The **Members** and **Shared Gear** tabs are particular to a Cohort.
+**Facade**, **Profile**, **Actions**, and **Effects** are the common actor tabs and behave exactly as they do on a [[doc-beingug|Being]]; they are documented once, in [[doc-undrstndsheetug|Understanding Sheets]] under _Common Actor Tabs_. The **Members** and **Shared Gear** tabs are particular to a Cohort.
 
 The **Profile** tab carries three things, and it is where a cohort's private notes live:
 
@@ -93,14 +93,14 @@ The **trashcan** on a row removes that member from the cohort, after asking you 
 
 The roster is what the rest of the cohort reads:
 
-- **Expanding onto a scene.** Dropping a cohort and choosing _Individual Tokens_ (or using the token's expand button) places one token per member, resolved through these same handles. See [[doc-scnstpan|Scene Setup]].
+- **Expanding onto a scene.** Dropping a cohort and choosing _Individual Tokens_ (or using the token's expand button) places one token per member, resolved through these same handles. See [[doc-scnsetuptokug|Scene Setup]].
 - **Shared Gear.** The gear listed on the next tab is gathered from these members — see below.
 
 # The Shared Gear Tab
 
 **Shared Gear** answers one question: what does this group collectively have to hand? It lists every piece of gear the cohort's members carry _and have marked as shared with this cohort_ — the party's rope, lantern, tent, and rations, gathered into one view no matter whose pack they are actually in.
 
-It shows the same columns as an ordinary [[doc-itemgear|Gear]] tab — item, type, quantity, weight, quality, durability, notes — plus one more: **Carried By**, the member whose sheet the item actually lives on.
+It shows the same columns as an ordinary [[doc-gearug|Gear]] tab — item, type, quantity, weight, quality, durability, notes — plus one more: **Carried By**, the member whose sheet the item actually lives on.
 
 ## It Is a View, Not a Store
 
@@ -114,7 +114,7 @@ If a member leaves the cohort — or the item is deleted, or you cannot see the 
 
 ## Sharing an Item With the Cohort
 
-Sharing is set on the **item**, on the character that carries it: open the gear item's **Properties** tab and pick the cohort (or cohorts) in **Shared With**. See [[doc-itemgear|Gear]] for the control. Because sharing lives on the item, the carrier's player is always the one who decides what the group gets to see — the cohort can never reach out and claim something.
+Sharing is set on the **item**, on the character that carries it: open the gear item's **Properties** tab and pick the cohort (or cohorts) in **Shared With**. See [[doc-gearug|Gear]] for the control. Because sharing lives on the item, the carrier's player is always the one who decides what the group gets to see — the cohort can never reach out and claim something.
 
 <!-- TODO: Expand with details on how cohort-level skills/attributes interact
      with individual member capabilities, and how cohort combat works -->
@@ -145,7 +145,7 @@ It also carries the actions every actor shares:
 | Delete              | `deleteDocument`    |
 | Make Default Medium | `makeDefaultMedium` |
 
-All three belong to every actor and are described on [[doc-baseitem|Base Item]], which covers what each one does, how it is invoked, and what it produces — the shared document actions are the same wherever they appear.
+All three belong to every actor and are described on [[doc-baseitemug|Base Item]], which covers what each one does, how it is invoked, and what it produces — the shared document actions are the same wherever they appear.
 
 **Make Default Medium** picks which movement medium an actor is currently moving in, driven by the star control in the movement table on the cohort's own **Profile** tab. A cohort does not move as a body — its members each move themselves — so in practice it stays on the _None_ row; the control is there because movement is a capability every actor carries.
 
@@ -154,8 +154,8 @@ The Beings listed on the **Members** tab keep their own actions on their own she
 # See also
 
 - [[doc-ugactors|Actors]] — the four actor kinds and how to choose between them.
-- [[doc-being|Being]] — the actor each member of a cohort is.
-- [[doc-scnstpan|Scene Setup and Tokens]] — placing a cohort on a scene and expanding it into its members.
-- [[doc-itemgear|Gear]] and [[doc-wrkngwth|Working with Gear and Equipment]] — the items the Shared Gear tab is a view onto.
-- [[doc-undrstnd|Understanding Sheets]] — the tabs a cohort shares with every other actor.
+- [[doc-beingug|Being]] — the actor each member of a cohort is.
+- [[doc-scnsetuptokug|Scene Setup and Tokens]] — placing a cohort on a scene and expanding it into its members.
+- [[doc-gearug|Gear]] and [[doc-gearandequipug|Working with Gear and Equipment]] — the items the Shared Gear tab is a view onto.
+- [[doc-undrstndsheetug|Understanding Sheets]] — the tabs a cohort shares with every other actor.
 - [[doc-userguide|User Guide]] — back to the index.

@@ -8,7 +8,7 @@ subType: user-guide
 name:
   full: Song of Heroic Lands Quickstart
   alises: []
-shortcode: quickstart
+shortcode: quickstartug
 folder: IgwaG8rAUUO9vrtz
 ---
 
@@ -40,7 +40,7 @@ Generally speaking, you should avoid using the Create Actor dialog for Beings. I
 1. In an open character sheet, click on the Skills tab.
 2. Click on the name of a skill. A Success Test Dialog should appear. Simply press OK to perform the roll. The result should show in the chat window.
 
-See [[doc-cmbtbscs|Combat Basics]] for round flow and common checks.
+See [[doc-cmbtbscsug|Combat Basics]] for round flow and common checks.
 
 # See Also
 

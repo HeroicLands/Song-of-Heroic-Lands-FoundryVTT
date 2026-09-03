@@ -6,7 +6,7 @@ type: doc
 subType: user-guide
 name:
   full: "Attribute"
-shortcode: attrbt
+shortcode: attributeug
 folder: QtOgPodi8X6gDWL0
 ---
 
@@ -30,7 +30,7 @@ Attributes appear on the Being sheet's **Profile** tab, as a grid of small cards
 
 **There is no click-to-roll cell.** Unlike a skill's EML cell on the Skills tab, neither the Score nor the TL is a button — an attribute is rolled from its **⋮** menu (or from the attribute's own **Actions** tab), and there is no Shift-click shortcut past the pre-roll dialog.
 
-Attributes are displayed prominently since they form the basis of skill base formulas — every skill derives its starting value from one or more attributes, named in the skill's [[doc-sfexprss|Skill Base formula]] by shortcode.
+Attributes are displayed prominently since they form the basis of skill base formulas — every skill derives its starting value from one or more attributes, named in the skill's [[doc-sfexprssug|Skill Base formula]] by shortcode.
 
 Attributes are typically added from compendium packs when creating a character, not created from scratch. **Add Attribute** above the grid creates a blank one.
 
@@ -38,7 +38,7 @@ An attribute turns up in one more place: when someone answers an [[#opposed-test
 
 # Additional Properties
 
-Along with the [[doc-baseitem|Standard Item Properties]], the following properties also appear in the **Properties** tab:
+Along with the [[doc-baseitemug|Standard Item Properties]], the following properties also appear in the **Properties** tab:
 
 - **Score:** The attribute's base value — the number the Profile card shows, and the number the Target Level is five times. This is the **first** of the two boxes on the tab.
 - **Init Dice Formula:** The dice formula a new character's score for this attribute is meant to be rolled from, such as `3d6`. It is a record of the generation rule, not a control: **nothing rolls it for you today** — you enter the score yourself (issue #1108). Leave it blank for an attribute that is not randomly generated. This is the **second** box on the tab.
@@ -54,11 +54,11 @@ Along with the [[doc-baseitem|Standard Item Properties]], the following properti
 | [[#success-test\|Success Test]] | `successTest`      | Actions context menu |
 | [[#opposed-test\|Opposed Test]] | `opposedTestStart` | Actions context menu |
 
-Every attribute also carries the shared document actions — **Edit**, **Delete**, and **Output Description to Chat** — described once on [[doc-baseitem|Base Item]]. The full menu on an attribute is therefore: _Edit_, _Success Test_, _Delete_, _Output Description to Chat_, _Opposed Test_.
+Every attribute also carries the shared document actions — **Edit**, **Delete**, and **Output Description to Chat** — described once on [[doc-baseitemug|Base Item]]. The full menu on an attribute is therefore: _Edit_, _Success Test_, _Delete_, _Output Description to Chat_, _Opposed Test_.
 
 To reach any of them, click the **⋮** on the attribute's card on the Profile tab, or open the attribute and use its **Actions** tab.
 
-An attribute defines **no hidden actions of its own** — everything it can do is in that menu. The one action you will meet elsewhere is the shared GM **result edit**, reached from the ✎ pencil on a posted test-result card and described on [[doc-baseitem|Base Item]].
+An attribute defines **no hidden actions of its own** — everything it can do is in that menu. The one action you will meet elsewhere is the shared GM **result edit**, reached from the ✎ pencil on a posted test-result card and described on [[doc-baseitemug|Base Item]].
 
 # Success Test {#success-test}
 
@@ -80,7 +80,7 @@ Reach for it when no skill really covers the attempt and the question is about t
 
 ## What happens on screen
 
-1. **The standard test dialog opens.** Target, the modifier breakdown, Situational Modifier, Success Level Modifier, and Roll Visibility — its fields are described once on [[doc-baseitem|Base Item]]. Cancelling it rolls nothing and posts nothing.
+1. **The standard test dialog opens.** Target, the modifier breakdown, Situational Modifier, Success Level Modifier, and Roll Visibility — its fields are described once on [[doc-baseitemug|Base Item]]. Cancelling it rolls nothing and posts nothing.
 2. **The d100 is rolled** against the attribute's Target Level.
 3. **A test-result card posts to chat** with the modifier breakdown, the Target, the Roll, and the outcome, colored by success or failure.
 
@@ -95,7 +95,7 @@ Reach for it when no skill really covers the attempt and the question is about t
 | **Roll**                 | The d100 result, green on a success and red on a failure                 |
 | **Result**               | The named outcome, with its description below it                         |
 
-The GM's pencil is described on [[doc-baseitem|Base Item]], under _Editing a Posted Test Result_.
+The GM's pencil is described on [[doc-baseitemug|Base Item]], under _Editing a Posted Test Result_.
 
 ## Injury changes the roll for you
 
@@ -123,26 +123,26 @@ Both sides roll, the system compares the two results, and reports who won and by
 
 - **Your character needs a token on the current scene.** Without one the action refuses, reporting that the attribute _"cannot start an opposed test: its actor has no token on the canvas."_
 - **Target exactly one opponent** with Foundry _targeting_ (the crosshair), not selection. With nothing targeted you are told "No tokens targeted."; with more than one, you are warned and the first is used.
-- **You must own the targeted token.** If you do not, the contest refuses to start. In practice the GM starts contests against NPCs — see [[doc-token|Token]] for what this means at the table.
+- **You must own the targeted token.** If you do not, the contest refuses to start. In practice the GM starts contests against NPCs — see [[doc-tokenug|Token]] for what this means at the table.
 
 ## What happens on screen
 
 The attribute hands the contest to your character's token, which runs it from there. The standard test dialog opens for your roll, your result posts, and an **Opposed Action Request** card invites the other side to answer with a skill or attribute of their own.
 
-The whole flow — the targeting rules, both cards, the responder's dialog, and how Victory Stars are read — is described once on [[doc-token|Token]], under _Starting an Opposed Test_. For the rules behind a contest, see the [[doc-oppsdtst|Opposed Tests]] rules.
+The whole flow — the targeting rules, both cards, the responder's dialog, and how Victory Stars are read — is described once on [[doc-tokenug|Token]], under _Starting an Opposed Test_. For the rules behind a contest, see the [[doc-oppsdtst|Opposed Tests]] rules.
 
 **Nobody rolls for anybody.** The request card sits in the chat log until a user who owns the target answers it, and it can be ignored entirely if the table would rather rule the outcome by hand.
 
 # See also
 
-- [[doc-baseitem|Base Item]] — the standard item properties, the shared **Edit** / **Delete** / **Output Description** actions, and the standard test dialog both rolls on this page open.
-- [[doc-skill|Skill]] — the learned counterpart, whose Skill Base formulas are built from these attributes.
-- [[doc-sklltsts|Skill Tests]] — what the numbers in a test mean, and how success levels are read.
-- [[doc-token|Token]] — the opposed-test flow this page's **Opposed Test** action hands off to.
+- [[doc-baseitemug|Base Item]] — the standard item properties, the shared **Edit** / **Delete** / **Output Description** actions, and the standard test dialog both rolls on this page open.
+- [[doc-skillug|Skill]] — the learned counterpart, whose Skill Base formulas are built from these attributes.
+- [[doc-sklltestug|Skill Tests]] — what the numbers in a test mean, and how success levels are read.
+- [[doc-tokenug|Token]] — the opposed-test flow this page's **Opposed Test** action hands off to.
 - [[doc-oppsdtst|Opposed Tests]] (rules) — Victory Stars and ties.
-- [[doc-thftsyst|Fate]] — spending a Fate Point on a settled result.
-- [[doc-sfexprss|Safe Expressions]] — how an attribute is referenced from a Skill Base formula.
-- [[doc-shrtcds|Shortcodes]] — what a Skill Base formula is naming when it says `attr.str`.
-- [[doc-chrctrcr|Character Creation]] — where a character's attribute scores come from.
+- [[doc-thftsystug|Fate]] — spending a Fate Point on a settled result.
+- [[doc-sfexprssug|Safe Expressions]] — how an attribute is referenced from a Skill Base formula.
+- [[doc-shortcodesug|Shortcodes]] — what a Skill Base formula is naming when it says `attr.str`.
+- [[doc-charcreationug|Character Creation]] — where a character's attribute scores come from.
 - [[doc-ugitems|Items]] — every item type at a glance.
 - [[doc-userguide|User Guide]] — back to the index.

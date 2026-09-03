@@ -37,5 +37,5 @@ An immediate Healing Test or the single highest test bonus from an arcane healin
 
 - [[doc-hlngbs|Healing Base]] — Primary metric determining healing.
 - [[doc-hlngrt|Healing Rate]] - Describes the Healing Rate.
-- [[doc-afflctns|Afflictions]] — the Course Test.
+- [[doc-afflctnrules|Afflictions]] — the Course Test.
 - [[doc-sccsstst#success-level|Success levels]] — the CF / MF / MS / CS scale.

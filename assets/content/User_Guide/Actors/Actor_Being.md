@@ -6,7 +6,7 @@ type: doc
 subType: user-guide
 name:
   full: "Being"
-shortcode: being
+shortcode: beingug
 folder: sYK1BozT9xFcinXK
 ---
 
@@ -16,7 +16,7 @@ A Being is a single person or creature in the game world. This includes player c
 
 Most of your interaction with the system will involve Beings.
 
-See also: [[doc-chrctrcr|Character Creation]], [[doc-cmbtbscs|Combat Basics]]
+See also: [[doc-charcreationug|Character Creation]], [[doc-cmbtbscsug|Combat Basics]]
 
 # What a Being Contains
 
@@ -45,7 +45,7 @@ The Being sheet is organized into several tabs:
 - **Actions** — available actions for this character (see [[#actions-on-a-being|Actions on a Being]])
 - **Effects** — active effects modifying this character
 
-**Facade**, **Gear**, **Actions**, and **Effects** are the common actor tabs — the same tabs, working the same way, on a [[doc-vehicle|Vehicle]] or a [[doc-structure|Structure]]. They are documented once, in [[doc-undrstnd|Understanding Sheets]] under _Common Actor Tabs_; this page covers what is particular to a Being. The rest of the tabs are Being-only.
+**Facade**, **Gear**, **Actions**, and **Effects** are the common actor tabs — the same tabs, working the same way, on a [[doc-vehicleug|Vehicle]] or a [[doc-structureug|Structure]]. They are documented once, in [[doc-undrstndsheetug|Understanding Sheets]] under _Common Actor Tabs_; this page covers what is particular to a Being. The rest of the tabs are Being-only.
 
 # The Being Sheet Header
 
@@ -80,7 +80,7 @@ As injuries heal, a part's color climbs back toward white. A part may also carry
 
 Generally, you should not create a Being from scratch using the Create Actor dialog. Instead, duplicate an existing Being from the compendium (such as "Basic Folk") and customize it.
 
-See [[doc-chrctrcr|Character Creation]] for step-by-step instructions.
+See [[doc-charcreationug|Character Creation]] for step-by-step instructions.
 
 # Beings on Scenes
 
@@ -97,7 +97,7 @@ Beings can be placed on scenes as tokens. Each token represents the Being's phys
 
 A Being carries a set of built-in **actions** — the procedures the system knows how to run for a character. You reach them from the **Actions** tab on the Being sheet, or by right-clicking the Being in the Actors sidebar and choosing from the **Actions** context menu.
 
-Nothing here ever fires on its own. Every action runs because a person picked it, or clicked a button on a chat card addressed to their own character. Where an action would change your character's state, the system asks first. See [[doc-actions|Actions]] for how actions work in general, and [[doc-baseitem|Base Item]] for the standard test dialog that most rolls open.
+Nothing here ever fires on its own. Every action runs because a person picked it, or clicked a button on a chat card addressed to their own character. Where an action would change your character's state, the system asks first. See [[doc-actionsug|Actions]] for how actions work in general, and [[doc-baseitemug|Base Item]] for the standard test dialog that most rolls open.
 
 These are the actions a Being defines:
 
@@ -162,7 +162,7 @@ Use it when something has just hit the character hard enough that staying consci
    Shock only ever **worsens** here: a fresh test never improves a state that is
    already worse. Improving is the [[#shock-re-test|Shock Re-Test]].
 
-5. **If the character entered ordinary shock**, the _Set a Shock Re-Test Reminder?_ offer follows (the shared offer-schedule dialog described on [[doc-baseitem|Base Item]]). Accepting arms a reminder — at the **end of each of the character's own turns** while Incapacitated, or **ten minutes later** while Unconscious. Declining arms nothing.
+5. **If the character entered ordinary shock**, the _Set a Shock Re-Test Reminder?_ offer follows (the shared offer-schedule dialog described on [[doc-baseitemug|Base Item]]). Accepting arms a reminder — at the **end of each of the character's own turns** while Incapacitated, or **ten minutes later** while Unconscious. Declining arms nothing.
 
 For the full rules — the Shock State Index table and what each state means in play — see the [[doc-shock|Shock]] rules.
 
@@ -198,7 +198,7 @@ You will not find this on the Actions menu. It comes to you: when the reminder a
 3. **A new Extended Shock or Coma offers a Course Test reminder.** Those lasting conditions do not recover through further re-tests; each recovers through its own Course Test.
 4. **The ordinary Re-Test reminder is cleared** either way. A performed re-test ends that cycle — the character is out of ordinary shock, one way or the other — so nothing re-arms itself behind your back.
 
-A Coma's Healing Rate is derived from the worst active wound (12 minus its location's Shock Value minus its Injury Level). See the [[doc-shock|Shock]] rules for Extended Shock and Coma recovery, and [[doc-afflandi|Afflictions Injuries]] for living with the resulting trauma.
+A Coma's Healing Rate is derived from the worst active wound (12 minus its location's Shock Value minus its Injury Level). See the [[doc-shock|Shock]] rules for Extended Shock and Coma recovery, and [[doc-afflinjug|Afflictions Injuries]] for living with the resulting trauma.
 
 # Stumble Test and Fumble Test {#stumble-test-and-fumble-test}
 
@@ -248,7 +248,7 @@ Neither test changes anything on the sheet — the card is the record, and what 
 
 ## The standard test dialog {#the-standard-test-dialog}
 
-Both tests open the ordinary pre-roll dialog — Target, the modifier breakdown, **Situational Modifier**, **Success Level Modifier**, and **Roll Visibility** — described once on [[doc-baseitem|Base Item]]. Cancelling it abandons the test.
+Both tests open the ordinary pre-roll dialog — Target, the modifier breakdown, **Situational Modifier**, **Success Level Modifier**, and **Roll Visibility** — described once on [[doc-baseitemug|Base Item]]. Cancelling it abandons the test.
 
 # Fear Test {#fear-test}
 
@@ -457,7 +457,7 @@ This is a plumbing step in the combat flow rather than something you would norma
 | **Aspect**                             | Blunt, Edged, Piercing, or Fire                                                                                                                                 |
 | **Calculate _{target}_ Injury** button | Runs [[#resolve-injury\|Resolve Injury]] on the target, carrying the impact, the aspect, and — when the blow was aimed — the aimed zone and the strike's spread |
 
-The button acts on the **target's** character, so the target's own player (or the GM) settles the wound. See [[doc-cmbtbscs|Combat Basics]] for where the damage card fits into an exchange.
+The button acts on the **target's** character, so the target's own player (or the GM) settles the wound. See [[doc-cmbtbscsug|Combat Basics]] for where the damage card fits into an exchange.
 
 # Resolve Injury {#resolve-injury}
 
@@ -519,7 +519,7 @@ The Strength roll then posts to chat. A failure may sever the location — which
 
 If the scatter die sends the blow off the body entirely, a **miss** card posts instead: it shows the aim trace and reports that nothing was hit. No wound, no record.
 
-A recorded wound becomes a trauma item on the sheet, shows up in the body-part grid, and drives the health bar. See [[doc-afflandi|Afflictions Injuries]] for living with it, the [[doc-injrylvl|Injury]] rules for the tables behind it, and [[doc-bleeding|Bleeding]] for what a bleeder costs.
+A recorded wound becomes a trauma item on the sheet, shows up in the body-part grid, and drives the health bar. See [[doc-afflinjug|Afflictions Injuries]] for living with it, the [[doc-injrylvl|Injury]] rules for the tables behind it, and [[doc-bleeding|Bleeding]] for what a bleeder costs.
 
 # Contagion Check {#contagion-check}
 
@@ -574,7 +574,7 @@ The d100 posts to chat as an ordinary test result.
 
 If the checkbox was ticked, the affliction is created on the sheet with its **Contracted** date stamped as now and its incubation set to the rolled value.
 
-**Nothing offers to schedule another Contagion Test.** Exposure is an event, not a condition — if the character walks back into the plague ward, that is a new check. What the affliction does from there is its own business; see [[doc-afflctn|Item Affliction]] and the [[doc-afflctns|Afflictions]] rules.
+**Nothing offers to schedule another Contagion Test.** Exposure is an event, not a condition — if the character walks back into the plague ward, that is a new check. What the affliction does from there is its own business; see [[doc-afflctnug|Item Affliction]] and the [[doc-afflctnrules|Afflictions]] rules.
 
 # Perform Affliction Treatment {#perform-affliction-treatment}
 
@@ -590,7 +590,7 @@ If the checkbox was ticked, the affliction is created on the sheet with its **Co
 
 The physician's half of treating someone else's affliction. Only a character with the **Physician** skill can answer; anyone else is told so and nothing happens.
 
-It rolls **this** physician's own Physician skill as a Success Value test and posts a result card. The **Value Diamonds** earned become a proposed **Course Bonus**, which the patient accepts through their affliction's [[doc-afflctn|Treat Affliction]] action — nothing is applied to the patient until they press that button.
+It rolls **this** physician's own Physician skill as a Success Value test and posts a result card. The **Value Diamonds** earned become a proposed **Course Bonus**, which the patient accepts through their affliction's [[doc-afflctnug|Treat Affliction]] action — nothing is applied to the patient until they press that button.
 
 # Perform Treatment Test {#perform-treatment-test}
 
@@ -636,7 +636,7 @@ The roll follows, at the modifier the wound's aspect and severity require.
 
 **Only the patient's side can press Accept**, and pressing it is what actually changes the wound — the physician proposes, the patient records. A GM-directed test with no linked wound posts the same card **without** the button; someone applies the result by hand.
 
-See [[doc-afflandi|Afflictions Injuries]] for treating and healing wounds, and the [[doc-hlngbs|Healing Base]] and [[doc-infctn|Infection]] rules for what a Healing Rate does over time.
+See [[doc-afflinjug|Afflictions Injuries]] for treating and healing wounds, and the [[doc-hlngbs|Healing Base]] and [[doc-infctn|Infection]] rules for what a Healing Rate does over time.
 
 # Perform Blood Stoppage {#perform-blood-stoppage}
 
@@ -680,12 +680,12 @@ As with treatment, **only the patient's side presses Accept**, and that press is
 
 # See also
 
-- [[doc-actions|Actions]] — how actions, the Actions tab, and the context menu work.
-- [[doc-baseitem|Base Item]] — the standard test dialog and the offer-schedule dialog these actions share.
-- [[doc-afflandi|Afflictions Injuries]] — wounds, diseases, and conditions on the sheet.
-- [[doc-cmbtbscs|Combat Basics]] — where the damage and injury cards fit into an exchange.
-- [[doc-cmbtnt|Combatant]] — the combat tracker row and its own actions.
-- [[doc-sklltsts|Skill Tests]] — the d100 roll-under test underneath all of these.
-- [[doc-chrctrcr|Character Creation]] — building the Being in the first place.
+- [[doc-actionsug|Actions]] — how actions, the Actions tab, and the context menu work.
+- [[doc-baseitemug|Base Item]] — the standard test dialog and the offer-schedule dialog these actions share.
+- [[doc-afflinjug|Afflictions Injuries]] — wounds, diseases, and conditions on the sheet.
+- [[doc-cmbtbscsug|Combat Basics]] — where the damage and injury cards fit into an exchange.
+- [[doc-cmbtntug|Combatant]] — the combat tracker row and its own actions.
+- [[doc-sklltestug|Skill Tests]] — the d100 roll-under test underneath all of these.
+- [[doc-charcreationug|Character Creation]] — building the Being in the first place.
 - [[doc-ugactors|Actors]] — the other three actor kinds, and how to choose.
 - [[doc-userguide|User Guide]] — back to the index.

@@ -20,7 +20,7 @@ A **strike mode** is a specific way an attack can be delivered. It bundles toget
 
 # Strike Modes {#strike-modes}
 
-A strike mode represents a **particular way of using a weapon or combat technique**. A single instrument of attack rarely does just one thing: a sword can **slash** (edged), **pierce** with the point (piercing), or strike with its **pommel** (blunt) — three separate ways of attacking, and so three separate strike modes on the same weapon. A spear can be **Thrust** in the hand or **Thrown**; a war-axe can **Chop** in melee or be **Hurled** as a missile. A **[[doc-gear|weapon]]** therefore carries **one or more** strike modes, and the wielder chooses which mode to use for a given attack.
+A strike mode represents a **particular way of using a weapon or combat technique**. A single instrument of attack rarely does just one thing: a sword can **slash** (edged), **pierce** with the point (piercing), or strike with its **pommel** (blunt) — three separate ways of attacking, and so three separate strike modes on the same weapon. A spear can be **Thrust** in the hand or **Thrown**; a war-axe can **Chop** in melee or be **Hurled** as a missile. A **[[doc-gearrules#weapons|weapon]]** therefore carries **one or more** strike modes, and the wielder chooses which mode to use for a given attack.
 
 Each mode is a distinct attack with its **own properties** — a different **aspect**, a different **impact**, and a different number of **required body parts** (a pommel strike and a two-handed thrust do not demand the same grip). Choosing a strike mode is choosing which of a weapon's attacks to make.
 
@@ -82,7 +82,7 @@ A **melee** strike mode is a close-combat attack. In addition to the common prop
 
 A **missile** strike mode is a ranged attack. In addition to the common properties, it has:
 
-- **Projectile type** — the ammunition it consumes (arrow, bolt, bullet, dart), or **none** when the weapon itself is the missile (a thrown spear or axe). A weapon that fires ammunition draws matching **[[doc-prjctl|projectiles]]**, and the projectile's impact combines with the strike mode's to determine the blow.
+- **Projectile type** — the ammunition it consumes (arrow, bolt, bullet, dart), or **none** when the weapon itself is the missile (a thrown spear or axe). A weapon that fires ammunition draws matching **[[doc-projectilegearug|projectiles]]**, and the projectile's impact combines with the strike mode's to determine the blow.
 - **Range** — the base distance of a direct shot, and the measure the [[doc-msslattc#range|range bands]] are read against.
 - **Draw** — the pull the weapon demands of whoever shoots it. A bow too heavy to manage is a bow that cannot be shot well; heavy crossbows are spanned with mechanical aid for exactly that reason.
 - **Volley multiplier** — how far past its base range the mode can put a **lobbed** shot, as a multiple of that range. A war bow reaching 210 feet directly volleys four times as far; a javelin manages twice its throw.

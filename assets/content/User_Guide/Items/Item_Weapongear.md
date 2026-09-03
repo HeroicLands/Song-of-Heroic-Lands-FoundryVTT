@@ -6,7 +6,7 @@ type: doc
 subType: user-guide
 name:
   full: "Weapon"
-shortcode: weapon
+shortcode: weapongearug
 folder: QtOgPodi8X6gDWL0
 ---
 
@@ -26,7 +26,7 @@ Weapon items are typically added from compendium packs.
 
 # Additional Properties
 
-Along with the [[doc-itemgear|Standard Gear Properties]] (Quantity, Weight, Value, Quality, Durability, and Is Carried), a weapon's **Properties** tab adds:
+Along with the [[doc-gearug|Standard Gear Properties]] (Quantity, Weight, Value, Quality, Durability, and Is Carried), a weapon's **Properties** tab adds:
 
 - **Encumbrance:** If specified, this overrides the encumbrance based on weight while the weapon is carried — a weapon that is more awkward than its raw weight suggests.
 - **Heft:** How unwieldy the weapon is in the hand. It is shown as the **HFT** column on the Combat tab's melee ledger.
@@ -51,11 +51,11 @@ Each row shows:
 
 ## The strike-mode editor
 
-Editing a mode opens the same configuration window a combat technique uses; its fields are described once on [[doc-skill|Skill]], under _The strike-mode editor_. A mode's **Type** (Melee or Missile) is fixed once created — to change it, delete the mode and add a new one.
+Editing a mode opens the same configuration window a combat technique uses; its fields are described once on [[doc-skillug|Skill]], under _The strike-mode editor_. A mode's **Type** (Melee or Missile) is fixed once created — to change it, delete the mode and add a new one.
 
 Three of those fields matter differently on a weapon than on a technique:
 
-- **Associated Skill** — on a weapon this is what supplies the mastery level. A weapon has **no mastery level of its own**, so unlike a combat technique there is no fall-back: if this does not name a skill the character actually has, the mode contributes only its own flat Attack / Block / Counterstrike modifiers and the character swings at little more than nothing. Set it to the weapon skill that governs the mode (see [[doc-shrtcds|Shortcodes]]).
+- **Associated Skill** — on a weapon this is what supplies the mastery level. A weapon has **no mastery level of its own**, so unlike a combat technique there is no fall-back: if this does not name a skill the character actually has, the mode contributes only its own flat Attack / Block / Counterstrike modifiers and the character swings at little more than nothing. Set it to the weapon skill that governs the mode (see [[doc-shortcodesug|Shortcodes]]).
 - **Min Parts** — how many limbs must grip the weapon for this mode to be usable. A hand-and-a-half sword's two-handed mode, or a longbow that needs both hands to draw, sets this to 2, and the mode is simply absent from the Combat tab until enough limbs hold the weapon.
 - **Length** _(melee)_ — the weapon's reach in feet before the wielder's own body reach is added; the sum is the **RCH** column on the Combat tab.
 
@@ -66,7 +66,7 @@ Three of those fields matter differently on a weapon than on a technique:
 To pick a weapon up, open the Being sheet's **Combat** tab and find the **Held Items** list, below the strike-mode ledgers. It has one row per limb that can hold something, with a dropdown listing the character's holdable gear. Choose the weapon in a limb's dropdown and it is now held; choose the blank entry to let go.
 
 - **A two-handed grip is two selections.** Select the same weapon in _both_ limbs' dropdowns. That is also how a mode with **Min Parts** 2 becomes usable.
-- **Holding is not carrying.** Both must be true for a weapon to be usable: the gear must be **carried** (see _Carried Gear Only_ on [[doc-itemgear|Gear]]) and it must be **held**. Setting a weapon down with **Toggle Carried** takes its actions away even if a limb still names it.
+- **Holding is not carrying.** Both must be true for a weapon to be usable: the gear must be **carried** (see _Carried Gear Only_ on [[doc-gearug|Gear]]) and it must be **held**. Setting a weapon down with **Toggle Carried** takes its actions away even if a limb still names it.
 - **An injured hand costs you.** If a limb holding the weapon is impaired by an unhealed injury, the mode's attack and defense tests are penalized; if a holding limb is unusable altogether, the test **fails critically** without a roll.
 
 # The Weapon Actions
@@ -78,7 +78,7 @@ To pick a weapon up, open the Being sheet's **Combat** tab and find the **Held I
 | [[#attack-block-and-counterstrike\|Counterstrike]] | `counterstrikeTest` | The Combat tab's **CX** cell; the item's Actions tab  |
 | Toggle Carried                                     | `toggleCarried`     | The Actions context menu; the row's sack button       |
 
-**Toggle Carried** belongs to every piece of gear and is described once on [[doc-itemgear|Gear]] — it behaves no differently on a weapon. **Edit**, **Delete**, and **Output Description to Chat** belong to every item and are described once on [[doc-baseitem|Base Item]].
+**Toggle Carried** belongs to every piece of gear and is described once on [[doc-gearug|Gear]] — it behaves no differently on a weapon. **Edit**, **Delete**, and **Output Description to Chat** belong to every item and are described once on [[doc-baseitemug|Base Item]].
 
 A weapon has **no hidden actions**: everything it can do is on the list above.
 
@@ -122,8 +122,8 @@ Hover any of those cells to see the breakdown without rolling.
 
 ## What happens on screen
 
-1. **The strike-mode picker opens** — but only when SoHL cannot tell which mode you meant: two or more modes on the weapon, and the action reached from the Actions tab rather than a Combat-tab cell. A single-mode weapon never asks, and clicking a Combat-tab cell has already said which mode you meant. The dialog is described once on [[doc-baseitem|Base Item]], under _The Strike-Mode Picker_.
-2. **The standard test dialog opens** — Target, the modifier breakdown, Situational Modifier, Success Level Modifier, and Roll Visibility, described once on [[doc-baseitem|Base Item]]. Cancelling it rolls nothing and posts nothing. Shift-clicking the cell skips this step.
+1. **The strike-mode picker opens** — but only when SoHL cannot tell which mode you meant: two or more modes on the weapon, and the action reached from the Actions tab rather than a Combat-tab cell. A single-mode weapon never asks, and clicking a Combat-tab cell has already said which mode you meant. The dialog is described once on [[doc-baseitemug|Base Item]], under _The Strike-Mode Picker_.
+2. **The standard test dialog opens** — Target, the modifier breakdown, Situational Modifier, Success Level Modifier, and Roll Visibility, described once on [[doc-baseitemug|Base Item]]. Cancelling it rolls nothing and posts nothing. Shift-clicking the cell skips this step.
 3. **The d100 is rolled** against the target.
 4. **A test-result card posts to chat.**
 
@@ -137,9 +137,9 @@ Hover any of those cells to see the breakdown without rolling.
 | **Roll**             | The d100 result, green on a success and red on a failure                 |
 | _Footer_             | The named outcome — Critical Success, Marginal Success, and so on        |
 
-The GM's pencil is described on [[doc-baseitem|Base Item]], under _Editing a Posted Test Result_.
+The GM's pencil is described on [[doc-baseitemug|Base Item]], under _Editing a Posted Test Result_.
 
-> **Known gap. Fate cannot be spent on a weapon's combat tests** — the card never offers the **Fate** button, even to a character holding a charged Fate Point, and even though the very skill the weapon rolls through _does_ offer it on its own tests (issue #1106). Spending Fate is described on [[doc-thftsyst|Fate]].
+> **Known gap. Fate cannot be spent on a weapon's combat tests** — the card never offers the **Fate** button, even to a character holding a charged Fate Point, and even though the very skill the weapon rolls through _does_ offer it on its own tests (issue #1106). Spending Fate is described on [[doc-thftsystug|Fate]].
 
 ## Where they are unavailable
 
@@ -147,15 +147,15 @@ The GM's pencil is described on [[doc-baseitem|Base Item]], under _Editing a Pos
 - **A mode needs enough hands.** A mode whose **Min Parts** exceeds the number of limbs gripping the weapon is not listed on the Combat tab at all.
 - **Block and Counterstrike need a melee mode.** You cannot parry with a loosed arrow, so the Combat tab's Missile ledger has no Blk or CX columns, and a weapon whose _only_ strike mode is a missile mode — a plain bow or sling — does not offer the two actions at all. A weapon with both a melee and a missile mode keeps them and blocks with its melee mode. If a block or counterstrike still reaches a missile mode some other way (a macro, say), SoHL says so on screen rather than doing nothing.
 
-**Assisted, not automated.** These actions roll the test and report it. They do not move a combatant, spend an initiative, choose a target, or apply an injury to anyone. For the full combat sequence — declaring an exchange, resolving a strike against a defender, and turning impact into a wound — see [[doc-cmbtbscs|Combat Basics]] and [[doc-cmbtnt|Combatant]].
+**Assisted, not automated.** These actions roll the test and report it. They do not move a combatant, spend an initiative, choose a target, or apply an injury to anyone. For the full combat sequence — declaring an exchange, resolving a strike against a defender, and turning impact into a wound — see [[doc-cmbtbscsug|Combat Basics]] and [[doc-cmbtntug|Combatant]].
 
 # See also
 
-- [[doc-itemgear|Gear]] — the standard gear properties, **Toggle Carried**, and the rule that uncarried gear can do nothing.
-- [[doc-baseitem|Base Item]] — the standard item properties, the shared **Edit** / **Delete** / **Output Description** actions, the standard test dialog, and the strike-mode picker.
-- [[doc-skill|Skill]] — weapon skills (what a strike mode's **Associated Skill** names), combat techniques, and the strike-mode editor's field-by-field reference.
-- [[doc-sklltsts|Skill Tests]] — what the numbers in a test mean, and how success levels are read.
-- [[doc-cmbtbscs|Combat Basics]] and [[doc-cmbtnt|Combatant]] — where a weapon's attack, block, and counterstrike sit in a fight.
-- [[doc-shrtcds|Shortcodes]] — what the **Associated Skill** field is naming.
+- [[doc-gearug|Gear]] — the standard gear properties, **Toggle Carried**, and the rule that uncarried gear can do nothing.
+- [[doc-baseitemug|Base Item]] — the standard item properties, the shared **Edit** / **Delete** / **Output Description** actions, the standard test dialog, and the strike-mode picker.
+- [[doc-skillug|Skill]] — weapon skills (what a strike mode's **Associated Skill** names), combat techniques, and the strike-mode editor's field-by-field reference.
+- [[doc-sklltestug|Skill Tests]] — what the numbers in a test mean, and how success levels are read.
+- [[doc-cmbtbscsug|Combat Basics]] and [[doc-cmbtntug|Combatant]] — where a weapon's attack, block, and counterstrike sit in a fight.
+- [[doc-shortcodesug|Shortcodes]] — what the **Associated Skill** field is naming.
 - [[doc-ugitems|Items]] — every item type at a glance.
 - [[doc-userguide|User Guide]] — back to the index.

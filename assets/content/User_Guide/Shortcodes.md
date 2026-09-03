@@ -6,13 +6,13 @@ type: doc
 subType: user-guide
 name:
   full: "Shortcodes"
-shortcode: shrtcds
+shortcode: shortcodesug
 folder: IgwaG8rAUUO9vrtz
 ---
 
 Every Actor and every Item in SoHL carries a **shortcode** — a short, plain-text label such as `bsw` for a broadsword or `basic-folk` for the starter character. It sits right under the name on the sheet, and it usually fills itself in, so it is easy to overlook. But the shortcode is how the system knows _what a thing is_, and a little understanding of it goes a long way — especially once you start importing from the compendiums.
 
-See also: [[doc-crtngact|Creating Actors Items]], [[doc-usngcmpn|Using Compendiums]]
+See also: [[doc-crtngactitemug|Creating Actors Items]], [[doc-usingpacksug|Using Compendiums]]
 
 # What a Shortcode Is
 
@@ -44,7 +44,7 @@ Sameness of _(type + shortcode)_ is what identity means here — not the interna
 Because the shortcode carries identity, it is what lets the system **match** one document against another. That matters most between the **compendiums** and your **world**:
 
 - When you import **Basic Folk** and later customize your copy, it still "is" the Basic Folk from the compendium, because they share a type and shortcode — the id and the values changed, the identity did not.
-- Archetypes (the starting templates in the Create dialog) work the same way: if you keep a world copy's shortcode the same as a shipped archetype, your copy _shadows_ the original in the picker — the system recognizes them as the same archetype and prefers yours. (See [[doc-crtngact|Creating Actors Items]].)
+- Archetypes (the starting templates in the Create dialog) work the same way: if you keep a world copy's shortcode the same as a shipped archetype, your copy _shadows_ the original in the picker — the system recognizes them as the same archetype and prefers yours. (See [[doc-crtngactitemug|Creating Actors Items]].)
 
 # In Practice
 
@@ -55,9 +55,9 @@ For everyday play you can mostly ignore shortcodes — they fill in and stay uni
 
 # See also
 
-- [[doc-baseitem|Base Item]] — where the shortcode field lives on an item sheet.
-- [[doc-usngcmpn|Using Compendiums]] — importing content, and why the copy stays matched to its original.
-- [[doc-crtngact|Creating Actors and Items]] — duplicating a thing, and when to give the copy a new shortcode.
+- [[doc-baseitemug|Base Item]] — where the shortcode field lives on an item sheet.
+- [[doc-usingpacksug|Using Compendiums]] — importing content, and why the copy stays matched to its original.
+- [[doc-crtngactitemug|Creating Actors and Items]] — duplicating a thing, and when to give the copy a new shortcode.
 - [[doc-ugitems|Items]] — the item types a shortcode identifies.
-- [[doc-sfexprss|Safe Expressions]] — expressions that name a skill or attribute by its shortcode.
+- [[doc-sfexprssug|Safe Expressions]] — expressions that name a skill or attribute by its shortcode.
 - [[doc-userguide|User Guide]] — back to the index.

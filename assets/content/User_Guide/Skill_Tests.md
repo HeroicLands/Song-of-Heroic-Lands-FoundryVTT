@@ -5,7 +5,7 @@ type: doc
 subType: user-guide
 name:
   full: "Skill Tests and Opposed Tests"
-shortcode: sklltsts
+shortcode: sklltestug
 folder: IgwaG8rAUUO9vrtz
 ---
 
@@ -13,7 +13,7 @@ folder: IgwaG8rAUUO9vrtz
 
 Most actions in SoHL are resolved through **skill tests** — rolling dice against a target number derived from a character's skill mastery level. When two characters compete, the system uses **opposed tests** to determine the winner.
 
-See also: [[doc-skill|Skills]], [[doc-cmbtbscs|Combat Basics]]
+See also: [[doc-skillug|Skills]], [[doc-cmbtbscsug|Combat Basics]]
 
 # Performing a Skill Test {#tests-performing}
 
@@ -39,11 +39,11 @@ The exact thresholds depend on the effective mastery level.
 
 # See also
 
-- [[doc-skill|Skill]] and [[doc-attrbt|Attribute]] — the items these tests are run from, and their own test actions.
-- [[doc-baseitem|Base Item]] — the standard test dialog every roll opens, and the GM's result edit.
-- [[doc-token|Token]] — starting and answering an opposed test between two tokens.
-- [[doc-thftsyst|The Fate System]] — improving a result after it has settled.
-- [[doc-iconlgnd|Icon Legend]] — the Victory Stars and Value Diamonds a result card draws.
+- [[doc-skillug|Skill]] and [[doc-attributeug|Attribute]] — the items these tests are run from, and their own test actions.
+- [[doc-baseitemug|Base Item]] — the standard test dialog every roll opens, and the GM's result edit.
+- [[doc-tokenug|Token]] — starting and answering an opposed test between two tokens.
+- [[doc-thftsystug|The Fate System]] — improving a result after it has settled.
+- [[doc-iconlgndug|Icon Legend]] — the Victory Stars and Value Diamonds a result card draws.
 - [[doc-resolutionintro|Resolution]] (rules) — what a Mastery Level, a success level, and a Victory Star actually are.
 - [[doc-userguide|User Guide]] — back to the index.
 
@@ -79,7 +79,7 @@ The card also shows the underlying roll and target, so you can see how the grade
 
 # Editing a Test Result (GM) {#tests-gm-edit}
 
-Every posted test result card carries a small **edit pencil** in its header. This is a **GM-only** tool — players do not see it — and it is the GM's higher-fidelity counterpart to a player spending [[doc-thftsyst|Fate]]: it lets you correct or adjust a result you have already rolled **without re-rolling the dice**.
+Every posted test result card carries a small **edit pencil** in its header. This is a **GM-only** tool — players do not see it — and it is the GM's higher-fidelity counterpart to a player spending [[doc-thftsystug|Fate]]: it lets you correct or adjust a result you have already rolled **without re-rolling the dice**.
 
 To edit a result:
 
@@ -123,7 +123,7 @@ Every skill has a **skill base formula** that determines its starting value from
 
 The skill base is calculated automatically when attributes are set. The mastery level builds on top of the skill base through training and experience.
 
-See [[doc-skill|Skills]] for more about how skill bases work.
+See [[doc-skillug|Skills]] for more about how skill bases work.
 
 <!-- TODO: Document how skill improvement works — SDR (Skill Development
      Roll), experience-based advancement, and the relationship between

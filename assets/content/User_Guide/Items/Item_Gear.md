@@ -6,7 +6,7 @@ type: doc
 subType: user-guide
 name:
   full: "Gear"
-shortcode: itemgear
+shortcode: gearug
 folder: QtOgPodi8X6gDWL0
 ---
 
@@ -14,11 +14,11 @@ folder: QtOgPodi8X6gDWL0
 
 Gear are physical items that are carried by the character. There are a number of different types of gear:
 
-- [[doc-armor|Armor]]
-- [[doc-cncctn|Potions, Elixirs, and Concoctions]]
-- [[doc-cntnr|Containers]]
-- [[doc-weapon|Weapons]]
-- [[doc-prjctl|Projectiles]]
+- [[doc-armorgearug|Armor]]
+- [[doc-concoctiongearug|Potions, Elixirs, and Concoctions]]
+- [[doc-containergearug|Containers]]
+- [[doc-weapongearug|Weapons]]
+- [[doc-projectilegearug|Projectiles]]
 
 # Where It Appears
 
@@ -28,7 +28,7 @@ Gear items are typically added from compendium packs that define standard equipm
 
 # Additional Properties
 
-Along with the [[doc-baseitem|Standard Item Properties]], the following properties also appear in the **Properties** tab for all Gear type items:
+Along with the [[doc-baseitemug|Standard Item Properties]], the following properties also appear in the **Properties** tab for all Gear type items:
 
 - **Quantity:** The quantity of items. Some items should never have more than Quantity 1: things like Armor, Weapons, and Containers are meant to be unique, and if multiple versions of it are available then separate instances of the gear should be on the actor (such as "Dagger 1", "Dagger 2", and "Dagger 3", rather than "Dagger" with Quantity 3). This is not true for things like projectiles (arrows, bolts, etc.), Miscellaneous Gear (such as Pence, etc.), or Concoctions, which may have a quantity specified.
 - **Weight Base:** The weight of a single instance of the item. The total weight will be calculated as the Weight Base x Quantity.
@@ -37,11 +37,11 @@ Along with the [[doc-baseitem|Standard Item Properties]], the following properti
 - **Durability Base:** How durable an item is against damage. Most metal weapons and armor have a durability between 8-12, glass from 4-6, paper 3-5, granite 15-17, etc.
 - **Is Carried:** Whether the item is being carried or not. When carried, the item participates in encumbrance calculations, but it then may also be used. Items that are not carried remain noted on your character sheet, but it is assumed they have been left on the ground or maybe on a cart or other location. An item that is not carried can do nothing for you — see **Carried Gear Only**, below.
 - \*\*Is Equipped:" Certain items have the ability to be equipped, such as armor and weapons. An Equipped Armor actively protects the body locations it is meant to protect, and an equipped weapon is ready to be used. Unequipped weapons and armor that is nevertheless carried might be strapped to the body, slung over the shouldler, or put into a backpack.
-- **Shared With:** The [[doc-cohort|Cohorts]] this item is shared with — see **Sharing Gear With a Cohort**, below. The control appears only when the world actually has a Cohort to share with.
+- **Shared With:** The [[doc-cohortug|Cohorts]] this item is shared with — see **Sharing Gear With a Cohort**, below. The control appears only when the world actually has a Cohort to share with.
 
 # Sharing Gear With a Cohort
 
-A [[doc-cohort|Cohort]] — a party, a patrol, a ship's crew — has a **Shared Gear** tab that lists what the group collectively has to hand. An item reaches that list from here: pick one or more cohorts in **Shared With** on the item's **Properties** tab.
+A [[doc-cohortug|Cohort]] — a party, a patrol, a ship's crew — has a **Shared Gear** tab that lists what the group collectively has to hand. An item reaches that list from here: pick one or more cohorts in **Shared With** on the item's **Properties** tab.
 
 Sharing is a **label, not a transfer**. Nothing moves and nothing is copied:
 
@@ -59,9 +59,9 @@ Every piece of gear — of _any_ gear type — adds one action of its own to the
 | ----------------------------------- | --------------- | -------------------------------------------------------------- |
 | [[#toggle-carried\|Toggle Carried]] | `toggleCarried` | Picks the item up onto the character's person, or sets it down |
 
-**Edit**, **Delete**, and **Output Description to Chat** belong to every item and are described once on [[doc-baseitem|Base Item]] — they behave no differently on gear.
+**Edit**, **Delete**, and **Output Description to Chat** belong to every item and are described once on [[doc-baseitemug|Base Item]] — they behave no differently on gear.
 
-Individual gear types add further actions of their own: a weapon has its attack and defence actions ([[doc-weapon|Weapon]]) and armor has **Toggle Worn** ([[doc-armor|Armor]]). The types that add nothing — [[doc-cntnr|Containers]], [[doc-cncctn|Concoctions]], [[doc-prjctl|Projectiles]], and [[doc-mscllnsg|Miscellaneous Gear]] — inherit **Toggle Carried** exactly as described below.
+Individual gear types add further actions of their own: a weapon has its attack and defence actions ([[doc-weapongearug|Weapon]]) and armor has **Toggle Worn** ([[doc-armorgearug|Armor]]). The types that add nothing — [[doc-containergearug|Containers]], [[doc-concoctiongearug|Concoctions]], [[doc-projectilegearug|Projectiles]], and [[doc-miscgearug|Miscellaneous Gear]] — inherit **Toggle Carried** exactly as described below.
 
 # Toggle Carried {#toggle-carried}
 
@@ -104,7 +104,7 @@ Two details of that tally are worth knowing:
 ## What it does not do
 
 - **It does not ask first, and it does not undo.** The toggle applies immediately; run it again to put the state back.
-- **It does not put anything on.** Picking an item back up leaves it merely carried: armor comes back off the character's body, and you put it back on deliberately with **Toggle Worn** on [[doc-armor|Armor]]. Setting an item **down**, on the other hand, does take it off — see **Carried Gear Only**, below.
+- **It does not put anything on.** Picking an item back up leaves it merely carried: armor comes back off the character's body, and you put it back on deliberately with **Toggle Worn** on [[doc-armorgearug|Armor]]. Setting an item **down**, on the other hand, does take it off — see **Carried Gear Only**, below.
 - **It does not cascade into a container.** Each item tracks its own carried state, so setting a backpack down leaves everything inside it still marked carried; toggle the contents too if you mean the whole load to come off.
 - **Encumbrance is a Being's concern.** Gear on a Structure, Vehicle, or Cohort still toggles, but those sheets keep no carried-weight total for it to feed.
 
@@ -130,8 +130,8 @@ Setting an item **down** also clears any "in use" state that depended on carryin
 # See also
 
 - [[doc-ugitems|Items]] — every item type at a glance.
-- [[doc-baseitem|Base Item]] — the tabs, actions, and dialogs every item shares.
-- [[doc-wrkngwth|Working with Gear and Equipment]] — using gear at the table: adding, equipping, nesting, and handing it over.
-- [[doc-weapon|Weapon]], [[doc-armor|Armor]], [[doc-prjctl|Projectile]], [[doc-cntnr|Container]], [[doc-cncctn|Concoction]], and [[doc-mscllnsg|Miscellaneous Gear]] — the kinds that build on these properties.
-- [[doc-cohort|Cohort]] — sharing a piece of gear with a group.
+- [[doc-baseitemug|Base Item]] — the tabs, actions, and dialogs every item shares.
+- [[doc-gearandequipug|Working with Gear and Equipment]] — using gear at the table: adding, equipping, nesting, and handing it over.
+- [[doc-weapongearug|Weapon]], [[doc-armorgearug|Armor]], [[doc-projectilegearug|Projectile]], [[doc-containergearug|Container]], [[doc-concoctiongearug|Concoction]], and [[doc-miscgearug|Miscellaneous Gear]] — the kinds that build on these properties.
+- [[doc-cohortug|Cohort]] — sharing a piece of gear with a group.
 - [[doc-userguide|User Guide]] — back to the index.
