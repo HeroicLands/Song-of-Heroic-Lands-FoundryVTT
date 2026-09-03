@@ -344,7 +344,7 @@ aliases:
     - Glyphs
 id: ${PAGE_ID}
 type: ${PAGE_TYPE}
-category: user-guide
+subType: user-guide
 name:
     full: "Icon Legend"
 shortcode: ${PAGE_SHORTCODE}
