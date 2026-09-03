@@ -9,11 +9,10 @@ img: icons/game-icons/lorc/battle-gear.svg
 shortcode: playful
 type: trauma
 subType: psycond
-data:
-  category: impulse
 sohl:
   kbcat: psybehavior
   archetype: 0
+  category: impulse
 folder: SpZzOv4eOwtdsMMo
 ---
 

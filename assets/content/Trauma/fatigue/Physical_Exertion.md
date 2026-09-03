@@ -11,11 +11,10 @@ img: icons/game-icons/lorc/sleepy.svg
 shortcode: physex
 type: trauma
 subType: fatigue
-data:
-  category: windedness
 sohl:
   kbcat: fatigue
   archetype: 0
+  category: windedness
   levelBase: 1
   healingRateBase: 5
 folder: Y22wv8plMCfPXYBT

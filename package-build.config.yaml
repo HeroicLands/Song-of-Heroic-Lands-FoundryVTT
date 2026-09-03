@@ -471,11 +471,10 @@ site:
         mysticalability: { title: Mystical Abilities, banner: banners/mystical-abilities.webp }
         skill: { title: Skills/Attributes, banner: banners/skills-attributes.webp }
         attribute: { title: Skills/Attributes, banner: banners/skills-attributes.webp }
-        # Map notes. No banner: the heroes are CDN assets and there is none for
-        # maps yet, so these landings render without one.
-        battlemap: { title: Battlemaps }
-        localmap: { title: Local Maps }
-        regionalmap: { title: Regional Maps }
+        # Map notes — one type, whose subType decides the derived canvas. No
+        # banner: the heroes are CDN assets and there is none for maps yet, so
+        # this landing renders without one.
+        map: { title: Maps }
     # Landing title + hero for the doc sections, whose index comes from a README.
     readmeSections:
         dev-docs: { title: Developer Documentation, banner: banners/dev-docs.webp }

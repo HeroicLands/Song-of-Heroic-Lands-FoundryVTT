@@ -10,11 +10,10 @@ img: icons/game-icons/lorc/battle-gear.svg
 shortcode: cmpldsr
 type: trauma
 subType: psycond
-data:
-  category: impulse
 sohl:
   kbcat: psypsychosis
   archetype: 0
+  category: impulse
 folder: ECrcBb9CUCMX9JeJ
 ---
 

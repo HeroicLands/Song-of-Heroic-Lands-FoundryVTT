@@ -10,11 +10,10 @@ img: icons/game-icons/lorc/hand.svg
 shortcode: rdmnc
 type: trauma
 subType: physcond
-data:
-  category: trait
 sohl:
   kbcat: physfeature
   archetype: 0
+  category: trait
 folder: 4h8qyMcGHlkrfN1g
 ---
 

@@ -10,11 +10,10 @@ img: icons/game-icons/lorc/battle-gear.svg
 shortcode: morbusmo
 type: trauma
 subType: physcond
-data:
-  category: impediment
 sohl:
   kbcat: physfeature
   archetype: 0
+  category: impediment
 folder: 4h8qyMcGHlkrfN1g
 ---
 

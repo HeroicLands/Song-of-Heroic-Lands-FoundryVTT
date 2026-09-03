@@ -9,11 +9,10 @@ img: icons/game-icons/lorc/battle-gear.svg
 shortcode: deafness
 type: trauma
 subType: physcond
-data:
-  category: debility
 sohl:
   kbcat: physdisability
   archetype: 0
+  category: debility
 folder: 4h8qyMcGHlkrfN1g
 ---
 

@@ -9,11 +9,10 @@ img: icons/game-icons/lorc/battle-gear.svg
 shortcode: syndacty
 type: trauma
 subType: physcond
-data:
-  category: trait
 sohl:
   kbcat: physfeature
   archetype: 0
+  category: trait
 folder: 4h8qyMcGHlkrfN1g
 ---
 
