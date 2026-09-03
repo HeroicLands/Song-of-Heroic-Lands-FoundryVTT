@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Ring Vest
 tags: []
 name:
   full: Ring Vest

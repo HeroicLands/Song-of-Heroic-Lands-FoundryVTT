@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Giraffe
 tags:
   - animal
   - image-needed

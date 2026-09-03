@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Projectile
 id: vsv4MPXDQcskQEl9
 type: doc
 subType: user-guide

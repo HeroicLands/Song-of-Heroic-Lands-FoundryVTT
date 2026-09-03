@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Worsted Breeches
 tags: []
 name:
   full: Worsted Breeches

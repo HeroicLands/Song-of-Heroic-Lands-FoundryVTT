@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Horn, bone, hunting"
 tags:
   - music
 name:

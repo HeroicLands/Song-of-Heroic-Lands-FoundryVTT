@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Ale, Pint"
 tags:
   - spirits
 name:

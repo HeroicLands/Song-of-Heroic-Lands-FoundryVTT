@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Cloth Shoes
 tags: []
 name:
   full: Cloth Shoes

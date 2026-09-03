@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Longbow 175
 tags: []
 name:
   full: Longbow 175

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Chest, wicker, large"
 tags: []
 name:
   full: "Chest, wicker, large"

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Scallions
 tags:
   - food
 name:

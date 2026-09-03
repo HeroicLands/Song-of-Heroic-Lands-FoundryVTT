@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Impaired Hearing
 tags: []
 name:
   full: Impaired Hearing

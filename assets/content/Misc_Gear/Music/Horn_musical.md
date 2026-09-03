@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Horn, musical"
 tags:
   - music
 name:

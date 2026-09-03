@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Quilted Cowl
 tags: []
 name:
   full: Quilted Cowl

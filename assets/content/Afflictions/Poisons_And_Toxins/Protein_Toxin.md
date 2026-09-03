@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Protein Toxin
 tags: []
 name:
   full: Protein Toxin

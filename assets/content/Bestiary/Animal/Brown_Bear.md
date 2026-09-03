@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Brown Bear
 tags:
   - animal
 name:

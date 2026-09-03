@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Scale Leggings
 tags: []
 name:
   full: Scale Leggings

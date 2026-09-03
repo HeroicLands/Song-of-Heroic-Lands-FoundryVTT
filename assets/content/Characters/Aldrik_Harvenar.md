@@ -1,7 +1,4 @@
 ---
-aliases:
-  - Áldrik Hárvenar
-  - Aldrik Harvenar
 tags:
   - todo-warrior
 name:

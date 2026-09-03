@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Horsemeat
 tags:
   - food
 name:

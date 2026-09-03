@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Homespun Breeches
 tags: []
 name:
   full: Homespun Breeches

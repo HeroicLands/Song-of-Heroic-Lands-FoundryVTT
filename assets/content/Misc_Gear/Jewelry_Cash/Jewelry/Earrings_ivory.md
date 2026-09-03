@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Earrings, ivory"
 tags:
   - jewelry_cash
 name:

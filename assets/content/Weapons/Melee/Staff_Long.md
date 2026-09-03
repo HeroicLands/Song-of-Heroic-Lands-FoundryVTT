@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Staff, Long
 tags: []
 name:
   full: Staff, Long

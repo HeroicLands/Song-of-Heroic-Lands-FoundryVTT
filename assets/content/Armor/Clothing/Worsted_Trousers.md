@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Worsted Trousers
 tags: []
 name:
   full: Worsted Trousers

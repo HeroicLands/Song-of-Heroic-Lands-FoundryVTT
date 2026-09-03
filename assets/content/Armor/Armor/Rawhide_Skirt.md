@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Rawhide Skirt
 tags: []
 name:
   full: Rawhide Skirt

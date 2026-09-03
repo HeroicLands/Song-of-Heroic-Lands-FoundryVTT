@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Condor
 tags:
   - animal
   - image-needed

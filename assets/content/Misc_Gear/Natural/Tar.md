@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Tar
 tags:
   - natural
 name:

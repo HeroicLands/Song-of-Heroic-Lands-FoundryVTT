@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Skills
 id: AVuARfyd5TjmGqUh
 name:
   full: Skills

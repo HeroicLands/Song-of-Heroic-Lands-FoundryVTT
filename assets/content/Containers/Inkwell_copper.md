@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Inkwell, copper"
 tags: []
 name:
   full: "Inkwell, copper"

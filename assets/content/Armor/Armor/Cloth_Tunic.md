@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Cloth Tunic
 tags: []
 name:
   full: Cloth Tunic

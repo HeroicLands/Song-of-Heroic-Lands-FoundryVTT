@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Sling Staff
 tags: []
 name:
   full: Sling Staff

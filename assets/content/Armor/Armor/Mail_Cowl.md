@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Mail Cowl
 tags: []
 name:
   full: Mail Cowl

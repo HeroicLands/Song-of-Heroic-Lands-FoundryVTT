@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Belt pouch, silk, med"
 tags: []
 name:
   full: "Belt pouch, silk, med"

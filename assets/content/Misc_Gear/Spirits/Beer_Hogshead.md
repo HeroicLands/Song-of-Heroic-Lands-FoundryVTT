@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Beer, Hogshead"
 tags:
   - spirits
 name:

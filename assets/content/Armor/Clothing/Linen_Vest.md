@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Linen Vest
 tags: []
 name:
   full: Linen Vest

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Sealskin Shirt
 tags: []
 name:
   full: Sealskin Shirt

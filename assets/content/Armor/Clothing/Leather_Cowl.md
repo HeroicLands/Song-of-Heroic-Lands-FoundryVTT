@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Leather Cowl
 tags: []
 name:
   full: Leather Cowl

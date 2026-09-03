@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Velvet Shirt
 tags: []
 name:
   full: Velvet Shirt

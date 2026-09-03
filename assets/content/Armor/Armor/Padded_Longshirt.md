@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Padded Longshirt
 tags: []
 name:
   full: Padded Longshirt

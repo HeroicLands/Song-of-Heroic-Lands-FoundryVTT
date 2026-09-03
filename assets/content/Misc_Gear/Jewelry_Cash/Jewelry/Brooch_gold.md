@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Brooch, gold"
 tags:
   - jewelry_cash
 name:

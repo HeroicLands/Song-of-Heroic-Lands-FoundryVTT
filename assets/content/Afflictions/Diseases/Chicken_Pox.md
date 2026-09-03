@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Chicken Pox
 tags: []
 name:
   full: Chicken Pox

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Rawhide Knee Boots
 tags: []
 name:
   full: Rawhide Knee Boots

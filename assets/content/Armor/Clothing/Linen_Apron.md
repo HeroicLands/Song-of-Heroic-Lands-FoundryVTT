@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Linen Apron
 tags: []
 name:
   full: Linen Apron

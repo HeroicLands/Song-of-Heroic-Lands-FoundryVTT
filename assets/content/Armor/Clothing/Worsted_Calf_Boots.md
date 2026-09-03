@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Worsted Calf Boots
 tags: []
 name:
   full: Worsted Calf Boots

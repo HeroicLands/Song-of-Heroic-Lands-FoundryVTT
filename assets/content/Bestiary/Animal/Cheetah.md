@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Cheetah
 tags:
   - animal
   - image-needed

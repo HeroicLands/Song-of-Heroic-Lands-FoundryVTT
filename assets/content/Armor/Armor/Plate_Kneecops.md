@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Plate Kneecops
 tags: []
 name:
   full: Plate Kneecops

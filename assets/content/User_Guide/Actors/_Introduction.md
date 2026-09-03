@@ -1,7 +1,4 @@
 ---
-aliases:
-  - Actor Types
-  - Actors Introduction
 id: 850gXkDZhbNwwg2D
 type: doc
 subType: user-guide

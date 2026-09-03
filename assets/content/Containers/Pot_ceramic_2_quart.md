@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Pot, ceramic, 2 quart"
 tags: []
 name:
   full: "Pot, ceramic, 2 quart"

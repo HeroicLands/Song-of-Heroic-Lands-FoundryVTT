@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Grimoire
 tags:
   - scribe
 name:

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Sack, leather, med"
 tags: []
 name:
   full: "Sack, leather, med"

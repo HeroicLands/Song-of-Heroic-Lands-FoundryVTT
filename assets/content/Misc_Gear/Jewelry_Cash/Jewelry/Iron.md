@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Iron
 tags:
   - jewelry_cash
 name:

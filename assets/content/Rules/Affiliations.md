@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Affiliations
 id: l6WtRZ8ua1K0wZOK
 type: doc
 subType: rules

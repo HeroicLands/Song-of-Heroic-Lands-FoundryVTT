@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Silk Cloak
 tags: []
 name:
   full: Silk Cloak

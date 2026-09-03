@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Quartz, cut"
 tags:
   - jewelry_cash
 name:

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Gold Crown
 tags:
   - jewelry_cash
 name:

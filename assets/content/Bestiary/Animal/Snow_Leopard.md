@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Snow Leopard
 tags:
   - animal
 name:

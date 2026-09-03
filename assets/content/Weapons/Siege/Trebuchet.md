@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Trebuchet
 tags: []
 name:
   full: Trebuchet

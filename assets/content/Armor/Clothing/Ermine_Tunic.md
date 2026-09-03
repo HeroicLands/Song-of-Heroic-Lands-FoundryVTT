@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Ermine Tunic
 tags: []
 name:
   full: Ermine Tunic

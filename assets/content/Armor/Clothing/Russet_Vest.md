@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Russet Vest
 tags: []
 name:
   full: Russet Vest

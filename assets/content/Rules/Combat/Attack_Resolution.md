@@ -1,11 +1,4 @@
 ---
-aliases:
-  - Attack Resolution
-  - Resolving an Attack
-  - The Exchange
-  - Combat Exchange
-  - Tactical Advantage
-  - Tactical Advantages
 id: OuEx3Wa9RNMHtrgc
 type: doc
 subType: rules

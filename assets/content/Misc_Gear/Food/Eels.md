@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Eels
 tags:
   - food
 name:

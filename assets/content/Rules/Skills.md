@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Skills Introduction
 id: A38qwbVdPQHhGVgB
 type: doc
 subType: rules

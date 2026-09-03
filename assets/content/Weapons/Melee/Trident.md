@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Trident
 tags: []
 name:
   full: Trident

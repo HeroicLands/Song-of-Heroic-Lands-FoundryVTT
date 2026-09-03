@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Serge Swaddle
 tags: []
 name:
   full: Serge Swaddle

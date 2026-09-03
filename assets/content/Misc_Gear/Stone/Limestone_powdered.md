@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Limestone, powdered"
 tags:
   - stone
 name:

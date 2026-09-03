@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Scale Habergeon
 tags: []
 name:
   full: Scale Habergeon

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Plate Ailettes
 tags: []
 name:
   full: Plate Ailettes

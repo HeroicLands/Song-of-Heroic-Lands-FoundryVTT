@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Necklace, copper"
 tags:
   - jewelry_cash
 name:

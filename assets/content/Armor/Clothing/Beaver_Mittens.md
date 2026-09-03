@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Beaver Mittens
 tags: []
 name:
   full: Beaver Mittens

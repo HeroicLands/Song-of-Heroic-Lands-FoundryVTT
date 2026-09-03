@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Steppe Lion
 tags:
   - animal
 name:

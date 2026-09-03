@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Glass Lizard
 tags:
   - animal
 name:

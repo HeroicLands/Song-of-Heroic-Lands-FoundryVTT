@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Icon, religious, wood, lg"
 tags:
   - religious
 name:

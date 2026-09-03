@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Bow case
 tags:
   - expedition
 name:

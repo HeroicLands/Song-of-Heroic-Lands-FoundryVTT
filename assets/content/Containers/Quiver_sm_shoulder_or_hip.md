@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Quiver, sm (shoulder or hip)"
 tags: []
 name:
   full: "Quiver, sm (shoulder or hip)"

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Venison
 tags:
   - food
 name:

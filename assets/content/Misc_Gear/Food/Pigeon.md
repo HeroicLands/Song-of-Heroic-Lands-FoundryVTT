@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Pigeon
 tags:
   - food
 name:

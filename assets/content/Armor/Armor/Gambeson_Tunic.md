@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Gambeson Tunic
 tags: []
 name:
   full: Gambeson Tunic

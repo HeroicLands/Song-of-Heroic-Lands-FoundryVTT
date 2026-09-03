@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Circlet, copper"
 tags:
   - jewelry_cash
 name:

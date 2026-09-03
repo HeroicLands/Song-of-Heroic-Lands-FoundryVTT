@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Fishing Line, per 10 ft."
 tags:
   - expedition
 name:

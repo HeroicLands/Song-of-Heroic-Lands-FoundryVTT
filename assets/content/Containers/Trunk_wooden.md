@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Trunk, wooden"
 tags: []
 name:
   full: "Trunk, wooden"

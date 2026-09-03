@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Haruspicy
 id: jlpNdIs8NF0IB4MP
 type: doc
 subType: rules

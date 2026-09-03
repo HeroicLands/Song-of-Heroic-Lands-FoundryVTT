@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Spirit Conflict
 tags: []
 name:
   full: Spirit Conflict

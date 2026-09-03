@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Oil, cinnamon"
 tags:
   - expedition
 name:

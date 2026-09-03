@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Incense
 tags:
   - expedition
 name:

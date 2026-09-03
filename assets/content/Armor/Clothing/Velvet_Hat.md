@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Velvet Hat
 tags: []
 name:
   full: Velvet Hat

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Tarpaulin"
 tags:
   - expedition
 name:

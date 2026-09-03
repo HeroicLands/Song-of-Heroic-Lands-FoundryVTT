@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Scythe"
 tags:
   - instruments
 name:

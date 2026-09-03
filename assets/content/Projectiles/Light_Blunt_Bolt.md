@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Light Blunt Bolt
 tags: []
 name:
   full: Light Blunt Bolt

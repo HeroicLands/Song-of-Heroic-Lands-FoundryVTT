@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Grainflail
 tags: []
 name:
   full: Grainflail

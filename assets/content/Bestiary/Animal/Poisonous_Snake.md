@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Poisonous Snake
 tags:
   - animal
 name:

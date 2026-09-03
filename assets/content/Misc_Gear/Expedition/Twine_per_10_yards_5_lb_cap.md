@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Twine, per 10 yards (5 lb. cap.)"
 tags:
   - expedition
 name:

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Pence
 tags:
   - jewelry_cash
 name:

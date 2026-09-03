@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Caracal
 tags:
   - animal
   - image-needed

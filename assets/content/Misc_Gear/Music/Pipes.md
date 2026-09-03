@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Pipes
 tags:
   - music
 name:

@@ -1,10 +1,4 @@
 ---
-aliases:
-  - The Pall
-  - Pall
-  - Pall Strength
-  - Pall Stress
-  - Pall Cloud
 id: RADvlTrsPHDSDYQN
 type: doc
 subType: rules

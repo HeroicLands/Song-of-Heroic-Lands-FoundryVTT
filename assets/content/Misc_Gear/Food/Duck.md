@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Duck
 tags:
   - food
 name:

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Serge Cowl
 tags: []
 name:
   full: Serge Cowl

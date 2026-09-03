@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Trap, hunting, small"
 tags:
   - expedition
 name:

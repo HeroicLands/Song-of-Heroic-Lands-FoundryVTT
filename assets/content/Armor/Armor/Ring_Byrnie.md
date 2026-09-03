@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Ring Byrnie
 tags: []
 name:
   full: Ring Byrnie

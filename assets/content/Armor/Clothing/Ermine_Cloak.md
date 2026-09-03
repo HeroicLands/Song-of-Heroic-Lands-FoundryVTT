@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Ermine Cloak
 tags: []
 name:
   full: Ermine Cloak

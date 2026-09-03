@@ -1,9 +1,4 @@
 ---
-aliases:
-  - Crafting
-  - Craft
-  - Crafting Routine
-  - Masterwork
 id: 3dQTVykMItQGXYTj
 type: doc
 subType: rules

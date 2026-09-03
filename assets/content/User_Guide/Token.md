@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Tokens
 id: cuzEYQJCbBO4RFDq
 type: doc
 subType: user-guide

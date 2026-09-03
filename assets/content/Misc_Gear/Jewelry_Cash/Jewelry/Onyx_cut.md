@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Onyx, cut"
 tags:
   - jewelry_cash
 name:

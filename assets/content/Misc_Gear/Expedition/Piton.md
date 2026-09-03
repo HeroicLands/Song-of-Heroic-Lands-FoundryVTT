@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Piton
 tags:
   - expedition
 name:

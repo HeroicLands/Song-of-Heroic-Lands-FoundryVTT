@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Sewing Kit
 tags:
   - instruments
 name:

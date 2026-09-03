@@ -1,10 +1,9 @@
 ---
-aliases:
-  - Headbutt
 tags: []
 name:
   full: Folk Headbutt
-  aliases: []
+  aliases:
+    - Headbutt
 description: "The forehead driven into a face, from too close for anything else to work."
 id: UnarmedHeadbutt1
 img: icons/game-icons/lorc/wrecking-ball.svg

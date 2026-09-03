@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Spigot
 tags:
   - cooking
 name:

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Hide, Reindeer"
 tags:
   - natural
 name:

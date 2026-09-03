@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Stick
 tags: []
 name:
   full: Stick

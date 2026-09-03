@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Padded Cap
 tags: []
 name:
   full: Padded Cap

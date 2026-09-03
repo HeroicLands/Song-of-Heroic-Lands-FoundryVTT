@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Rawhide Calf Boots
 tags: []
 name:
   full: Rawhide Calf Boots

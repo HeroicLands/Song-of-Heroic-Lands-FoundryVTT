@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Homespun Trousers
 tags: []
 name:
   full: Homespun Trousers

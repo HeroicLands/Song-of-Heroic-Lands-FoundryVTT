@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Sickleclaw Troodon
 tags:
   - animal
 name:

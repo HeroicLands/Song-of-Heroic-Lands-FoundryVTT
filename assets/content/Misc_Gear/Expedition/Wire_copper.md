@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Wire, copper"
 tags:
   - expedition
 name:

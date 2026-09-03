@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Maul
 tags: []
 name:
   full: Maul

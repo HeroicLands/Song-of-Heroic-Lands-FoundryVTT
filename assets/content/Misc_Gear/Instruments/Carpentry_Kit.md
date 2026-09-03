@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Carpentry Kit
 tags:
   - instruments
 name:

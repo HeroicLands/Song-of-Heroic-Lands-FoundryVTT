@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Heavy Bodkin Arrow
 tags: []
 name:
   full: Heavy Bodkin Arrow

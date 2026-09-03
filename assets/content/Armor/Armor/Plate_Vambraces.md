@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Plate Vambraces
 tags: []
 name:
   full: Plate Vambraces

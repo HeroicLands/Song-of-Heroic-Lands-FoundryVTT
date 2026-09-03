@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Beaver Tunic
 tags: []
 name:
   full: Beaver Tunic

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Tea
 tags:
   - food
 name:

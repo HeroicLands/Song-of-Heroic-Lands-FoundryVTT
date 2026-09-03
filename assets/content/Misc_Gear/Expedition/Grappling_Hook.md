@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Grappling Hook
 tags:
   - expedition
 name:

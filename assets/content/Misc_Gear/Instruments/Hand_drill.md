@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Hand drill
 tags:
   - instruments
 name:

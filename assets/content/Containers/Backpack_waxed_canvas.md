@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Backpack, waxed canvas"
 tags: []
 name:
   full: "Backpack, waxed canvas"

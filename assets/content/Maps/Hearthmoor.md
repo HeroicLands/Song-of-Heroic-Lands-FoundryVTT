@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Hearthmoor
 tags: []
 name:
   full: Hearthmoor

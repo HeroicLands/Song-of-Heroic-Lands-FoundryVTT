@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Linen Mantle
 tags: []
 name:
   full: Linen Mantle

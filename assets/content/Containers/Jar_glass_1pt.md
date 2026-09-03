@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Jar, glass, 1 pt."
 tags: []
 name:
   full: "Jar, glass, 1 pt."

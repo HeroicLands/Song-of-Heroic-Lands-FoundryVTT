@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Rock Python
 tags:
   - animal
 name:

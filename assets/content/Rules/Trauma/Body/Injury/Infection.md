@@ -1,7 +1,4 @@
 ---
-aliases:
-  - Infection
-  - Infection Healing Test
 id: oG7E0HWgfvWL6uUQ
 type: doc
 subType: rules

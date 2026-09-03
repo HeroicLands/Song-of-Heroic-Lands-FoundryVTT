@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Typhoid Fever
 tags: []
 name:
   full: Typhoid Fever

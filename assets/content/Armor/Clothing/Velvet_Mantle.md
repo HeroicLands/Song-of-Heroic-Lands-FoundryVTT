@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Velvet Mantle
 tags: []
 name:
   full: Velvet Mantle

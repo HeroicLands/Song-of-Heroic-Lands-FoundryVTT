@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Truncheon
 tags: []
 name:
   full: Truncheon

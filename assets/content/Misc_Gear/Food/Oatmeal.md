@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Oatmeal
 tags:
   - food
 name:

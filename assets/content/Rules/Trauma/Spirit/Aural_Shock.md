@@ -1,8 +1,4 @@
 ---
-aliases:
-  - Aural Shock
-  - Aural Shock Level
-  - Aural Shock Recovery Test
 id: A8oMKQjucNVvKnpr
 type: doc
 subType: rules

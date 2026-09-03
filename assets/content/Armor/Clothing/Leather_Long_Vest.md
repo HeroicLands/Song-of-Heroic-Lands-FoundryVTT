@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Leather Long Vest
 tags: []
 name:
   full: Leather Long Vest

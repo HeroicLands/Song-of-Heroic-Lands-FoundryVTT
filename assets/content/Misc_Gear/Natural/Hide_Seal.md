@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Hide, Seal"
 tags:
   - natural
 name:

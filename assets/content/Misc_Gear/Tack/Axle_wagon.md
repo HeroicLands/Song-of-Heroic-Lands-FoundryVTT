@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Axle, wagon"
 tags:
   - tack
 name:

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Alembic, glass, 1 pint"
 tags: []
 name:
   full: "Alembic, glass, 1 pint"

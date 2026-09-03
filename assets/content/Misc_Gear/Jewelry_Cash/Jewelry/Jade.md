@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Jade
 tags:
   - jewelry_cash
 name:

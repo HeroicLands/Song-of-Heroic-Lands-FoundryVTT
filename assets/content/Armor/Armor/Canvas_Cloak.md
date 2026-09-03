@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Canvas Cloak
 tags: []
 name:
   full: Canvas Cloak

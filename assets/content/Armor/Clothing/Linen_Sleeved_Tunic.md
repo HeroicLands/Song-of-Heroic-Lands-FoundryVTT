@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Linen Sleeved Tunic
 tags: []
 name:
   full: Linen Sleeved Tunic

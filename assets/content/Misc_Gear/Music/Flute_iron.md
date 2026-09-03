@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Flute, iron"
 tags:
   - music
 name:

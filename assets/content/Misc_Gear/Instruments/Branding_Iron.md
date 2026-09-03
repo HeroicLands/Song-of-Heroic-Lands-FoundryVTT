@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Branding Iron
 tags:
   - instruments
 name:

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Necklace, gold"
 tags:
   - jewelry_cash
 name:

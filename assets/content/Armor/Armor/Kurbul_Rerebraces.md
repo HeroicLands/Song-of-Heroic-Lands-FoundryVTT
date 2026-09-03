@@ -1,7 +1,4 @@
 ---
-aliases:
-  - Kurbul Rerebraces
-  - Kûrbúl Rerebraces
 tags: []
 name:
   full: Kûrbúl Rerebraces

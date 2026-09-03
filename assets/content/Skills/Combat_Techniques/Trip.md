@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Trip
 tags: []
 name:
   full: Trip

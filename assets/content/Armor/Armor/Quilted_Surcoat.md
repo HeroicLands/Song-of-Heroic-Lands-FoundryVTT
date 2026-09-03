@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Quilted Surcoat
 tags: []
 name:
   full: Quilted Surcoat

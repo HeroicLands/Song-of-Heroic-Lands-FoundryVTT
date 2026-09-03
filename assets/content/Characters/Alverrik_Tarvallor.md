@@ -1,7 +1,4 @@
 ---
-aliases:
-  - Álverrik Tárvallor
-  - Alverrik Tarvallor
 tags: []
 name:
   full: Álverrik Tárvallor

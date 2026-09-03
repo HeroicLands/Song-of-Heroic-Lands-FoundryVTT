@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Injury Levels
 id: B1UF3CTHNtQKtIxC
 type: doc
 subType: rules

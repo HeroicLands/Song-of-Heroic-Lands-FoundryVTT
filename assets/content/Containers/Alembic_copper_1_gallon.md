@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Alembic, copper, 1 gallon"
 tags: []
 name:
   full: "Alembic, copper, 1 gallon"

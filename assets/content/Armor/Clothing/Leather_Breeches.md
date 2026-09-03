@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Leather Breeches
 tags: []
 name:
   full: Leather Breeches

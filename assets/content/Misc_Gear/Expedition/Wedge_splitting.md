@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Wedge, splitting"
 tags:
   - expedition
 name:

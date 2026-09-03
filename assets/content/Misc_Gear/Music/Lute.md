@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Lute
 tags:
   - music
 name:

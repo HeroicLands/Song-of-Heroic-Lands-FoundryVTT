@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Ladle, copper"
 tags:
   - cooking
 name:

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Cohort
 id: 3uAE5ivwuwl1a1ir
 type: doc
 subType: user-guide

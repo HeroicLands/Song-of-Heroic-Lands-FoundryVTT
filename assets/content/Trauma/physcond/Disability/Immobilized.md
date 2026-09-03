@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Immobilized
 tags: []
 name:
   full: Immobilized

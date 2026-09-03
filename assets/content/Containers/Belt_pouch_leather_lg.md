@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Belt pouch, leather, lg
 tags: []
 name:
   full: Belt pouch, leather, lg

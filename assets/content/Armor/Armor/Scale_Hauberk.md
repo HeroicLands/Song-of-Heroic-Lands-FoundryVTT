@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Scale Hauberk
 tags: []
 name:
   full: Scale Hauberk

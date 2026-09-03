@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Map
 tags:
   - scribe
 name:

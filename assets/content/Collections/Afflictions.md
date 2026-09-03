@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Afflictions
 id: YX8E9Qy0Ysm66VsH
 name:
   full: Afflictions

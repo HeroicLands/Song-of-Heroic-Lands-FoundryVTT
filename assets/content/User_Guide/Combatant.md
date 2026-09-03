@@ -1,7 +1,4 @@
 ---
-aliases:
-  - Combatant
-  - Combatants
 id: ORi4BIBMecFVaG4I
 type: doc
 subType: user-guide

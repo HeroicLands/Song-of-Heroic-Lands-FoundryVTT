@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Bag, lg, canvas
 tags: []
 name:
   full: Bag, lg, canvas

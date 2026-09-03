@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Ball, leather"
 tags:
   - expedition
 name:

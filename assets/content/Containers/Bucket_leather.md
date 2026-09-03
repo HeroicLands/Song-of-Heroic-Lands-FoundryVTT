@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Bucket, leather"
 tags: []
 name:
   full: "Bucket, leather"

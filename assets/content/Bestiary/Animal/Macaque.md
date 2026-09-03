@@ -1,13 +1,11 @@
 ---
-aliases:
-  - Temple Monkey
-  - Macaque
 tags:
   - animal
   - image-needed
 name:
   full: Macaque
-  aliases: []
+  aliases:
+    - Temple Monkey
 description: "A stocky, intelligent medium-sized monkey of Vedyara thriving everywhere from temples to cities by stealing and extorting food from humans."
 id: Wd9cQgzgGxgMomn7
 img: icons/game-icons/lorc/monkey.svg

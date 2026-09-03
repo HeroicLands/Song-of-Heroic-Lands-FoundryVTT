@@ -1,7 +1,4 @@
 ---
-aliases:
-  - Item Types
-  - Items Introduction
 id: 6AUDdg96HqINKHdv
 type: doc
 subType: user-guide

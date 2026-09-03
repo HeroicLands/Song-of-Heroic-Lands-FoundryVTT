@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Paper case, leather"
 tags: []
 name:
   full: "Paper case, leather"

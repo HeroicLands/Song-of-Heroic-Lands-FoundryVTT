@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Padded Cowl
 tags: []
 name:
   full: Padded Cowl

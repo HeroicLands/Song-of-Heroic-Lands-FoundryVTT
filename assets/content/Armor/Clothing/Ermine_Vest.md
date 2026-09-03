@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Ermine Vest
 tags: []
 name:
   full: Ermine Vest

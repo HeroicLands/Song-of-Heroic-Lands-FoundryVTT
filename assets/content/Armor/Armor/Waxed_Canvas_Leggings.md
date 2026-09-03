@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Waxed Canvas Leggings
 tags: []
 name:
   full: Waxed Canvas Leggings

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Brooch, ivory"
 tags:
   - jewelry_cash
 name:

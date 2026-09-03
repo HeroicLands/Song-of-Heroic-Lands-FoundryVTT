@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Padded Leggings
 tags: []
 name:
   full: Padded Leggings

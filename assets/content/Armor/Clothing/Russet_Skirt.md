@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Russet Skirt
 tags: []
 name:
   full: Russet Skirt

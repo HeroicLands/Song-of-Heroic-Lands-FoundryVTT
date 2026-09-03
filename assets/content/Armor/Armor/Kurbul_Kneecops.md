@@ -1,7 +1,4 @@
 ---
-aliases:
-  - Kurbul Kneecops
-  - Kûrbúl Kneecops
 tags: []
 name:
   full: Kûrbúl Kneecops

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Impaired Smell
 tags: []
 name:
   full: Impaired Smell

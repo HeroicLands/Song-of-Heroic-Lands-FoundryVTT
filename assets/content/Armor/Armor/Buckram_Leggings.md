@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Buckram Leggings
 tags: []
 name:
   full: Buckram Leggings

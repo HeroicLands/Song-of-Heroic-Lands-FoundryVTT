@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Cup Wine
 tags:
   - spirits
 name:

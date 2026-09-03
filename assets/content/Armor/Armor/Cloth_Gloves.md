@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Cloth Gloves
 tags: []
 name:
   full: Cloth Gloves

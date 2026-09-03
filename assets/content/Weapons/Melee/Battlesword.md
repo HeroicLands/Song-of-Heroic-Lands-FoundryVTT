@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Battlesword
 tags: []
 name:
   full: Battlesword

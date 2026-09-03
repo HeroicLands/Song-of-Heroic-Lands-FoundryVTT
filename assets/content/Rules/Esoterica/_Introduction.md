@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Esoterica Introduction
 id: p9VfAypidUzXgdD0
 type: doc
 subType: rules

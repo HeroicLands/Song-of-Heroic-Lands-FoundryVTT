@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Hide, Ermine/Sable"
 tags:
   - natural
 name:

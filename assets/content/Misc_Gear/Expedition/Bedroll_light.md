@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Bedroll, light
 tags:
   - expedition
 name:

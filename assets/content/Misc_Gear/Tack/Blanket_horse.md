@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Blanket, horse"
 tags:
   - tack
 name:

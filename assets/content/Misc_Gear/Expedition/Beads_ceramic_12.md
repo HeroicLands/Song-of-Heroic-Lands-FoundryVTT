@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Beads, ceramic, 12"
 tags:
   - expedition
 name:

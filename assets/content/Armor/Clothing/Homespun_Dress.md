@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Homespun Dress
 tags: []
 name:
   full: Homespun Dress

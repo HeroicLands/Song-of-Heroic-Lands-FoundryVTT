@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Spirit Trauma Introduction
 id: wLmzxrnaOabxN1LW
 type: doc
 subType: rules

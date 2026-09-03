@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Pork
 tags:
   - food
 name:

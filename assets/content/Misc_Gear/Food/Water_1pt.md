@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Water, 1pt."
 tags:
   - food
 name:

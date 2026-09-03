@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Amulet, ivory"
 tags:
   - jewelry_cash
 name:

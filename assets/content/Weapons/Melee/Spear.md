@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Spear
 tags: []
 name:
   full: Spear

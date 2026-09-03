@@ -1,9 +1,4 @@
 ---
-aliases:
-  - Success Test
-  - Skill Test
-  - d100 Test
-  - Success Level
 id: V5ocvTbZq3Vw94oz
 type: doc
 subType: rules

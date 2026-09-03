@@ -1,10 +1,4 @@
 ---
-aliases:
-  - Missile Attacks
-  - Missile Attack
-  - Missile Sequence
-  - Ranged Attacks
-  - Volley
 id: rDBP7stlZ05KJIfE
 type: doc
 subType: rules

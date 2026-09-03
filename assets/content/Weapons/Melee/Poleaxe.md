@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Poleaxe
 tags: []
 name:
   full: Poleaxe

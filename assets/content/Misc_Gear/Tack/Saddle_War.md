@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Saddle, War"
 tags:
   - tack
 name:

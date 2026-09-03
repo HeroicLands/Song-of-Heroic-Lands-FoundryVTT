@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Basket, large
 tags: []
 name:
   full: Basket, large

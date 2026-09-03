@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Mail Cuisse
 tags: []
 name:
   full: Mail Cuisse

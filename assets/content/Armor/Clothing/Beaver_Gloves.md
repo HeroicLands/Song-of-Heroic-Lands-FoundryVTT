@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Beaver Gloves
 tags: []
 name:
   full: Beaver Gloves

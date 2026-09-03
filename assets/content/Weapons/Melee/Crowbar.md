@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Crowbar
 tags: []
 name:
   full: Crowbar

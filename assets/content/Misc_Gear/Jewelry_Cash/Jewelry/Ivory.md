@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Ivory
 tags:
   - jewelry_cash
 name:

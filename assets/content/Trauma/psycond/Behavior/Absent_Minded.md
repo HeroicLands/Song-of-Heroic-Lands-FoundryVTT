@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Absent-Minded
 tags: []
 name:
   full: Absent-Minded

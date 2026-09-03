@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Lock, door, heavy-duty"
 tags:
   - expedition
 name:

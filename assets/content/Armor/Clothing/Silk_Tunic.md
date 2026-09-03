@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Silk Tunic
 tags: []
 name:
   full: Silk Tunic

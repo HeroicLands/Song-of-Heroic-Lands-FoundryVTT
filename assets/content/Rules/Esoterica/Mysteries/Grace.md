@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Grace
 id: VQ3MeSUiAE2YxrER
 type: doc
 subType: rules

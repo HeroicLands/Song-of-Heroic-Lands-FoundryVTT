@@ -1,7 +1,4 @@
 ---
-aliases:
-  - Kurbul Vambraces
-  - Kûrbúl Vambraces
 tags: []
 name:
   full: Kûrbúl Vambraces

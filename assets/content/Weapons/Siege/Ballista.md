@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Ballista
 tags: []
 name:
   full: Ballista

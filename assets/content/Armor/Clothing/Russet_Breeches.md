@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Russet Breeches
 tags: []
 name:
   full: Russet Breeches

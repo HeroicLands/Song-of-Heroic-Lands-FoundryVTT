@@ -1,7 +1,4 @@
 ---
-aliases:
-  - Kurbul Coudes
-  - Kûrbúl Coudes
 tags: []
 name:
   full: Kûrbúl Coudes

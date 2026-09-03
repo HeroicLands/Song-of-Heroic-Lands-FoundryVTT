@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Amphora, ceramic, 15 gallon"
 tags: []
 name:
   full: "Amphora, ceramic, 15 gallon"

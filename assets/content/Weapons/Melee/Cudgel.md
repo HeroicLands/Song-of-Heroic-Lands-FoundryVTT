@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Cudgel
 tags: []
 name:
   full: Cudgel

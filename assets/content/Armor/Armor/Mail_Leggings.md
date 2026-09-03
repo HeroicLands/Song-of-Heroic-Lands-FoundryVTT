@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Mail Leggings
 tags: []
 name:
   full: Mail Leggings

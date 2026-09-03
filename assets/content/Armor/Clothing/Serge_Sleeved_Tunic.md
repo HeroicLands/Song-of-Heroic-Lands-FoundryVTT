@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Serge Sleeved Tunic
 tags: []
 name:
   full: Serge Sleeved Tunic

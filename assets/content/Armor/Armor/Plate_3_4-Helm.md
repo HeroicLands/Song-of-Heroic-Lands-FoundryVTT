@@ -1,7 +1,4 @@
 ---
-aliases:
-  - Plate 3/4-Helm
-  - Plate ¾-Helm
 tags: []
 name:
   full: Plate ¾-Helm

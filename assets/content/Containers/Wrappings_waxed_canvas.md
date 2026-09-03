@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Wrappings, waxed canvas"
 tags: []
 name:
   full: "Wrappings, waxed canvas"

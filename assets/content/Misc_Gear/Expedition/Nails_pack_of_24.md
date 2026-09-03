@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Nails, pack of 24"
 tags:
   - expedition
 name:

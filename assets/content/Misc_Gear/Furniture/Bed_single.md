@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Bed, single"
 tags:
   - furniture
 name:

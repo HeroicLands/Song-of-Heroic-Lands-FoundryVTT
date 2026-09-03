@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Book case, travelling"
 tags: []
 name:
   full: "Book case, travelling"

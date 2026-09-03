@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Beaver Cowl
 tags: []
 name:
   full: Beaver Cowl

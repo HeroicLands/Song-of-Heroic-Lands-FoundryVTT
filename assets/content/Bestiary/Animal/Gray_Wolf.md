@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Gray Wolf
 tags:
   - animal
 name:

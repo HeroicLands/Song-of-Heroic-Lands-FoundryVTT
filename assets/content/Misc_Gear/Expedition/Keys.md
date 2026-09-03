@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Keys
 tags:
   - expedition
 name:

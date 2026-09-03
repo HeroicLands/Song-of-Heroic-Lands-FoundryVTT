@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Wild Boar
 tags:
   - animal
 name:

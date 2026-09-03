@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Quilted Sleeved Tunic
 tags: []
 name:
   full: Quilted Sleeved Tunic

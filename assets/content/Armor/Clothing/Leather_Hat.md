@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Leather Hat
 tags: []
 name:
   full: Leather Hat

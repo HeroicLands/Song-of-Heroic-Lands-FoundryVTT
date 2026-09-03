@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Worsted Cowl
 tags: []
 name:
   full: Worsted Cowl

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Ermine Hat
 tags: []
 name:
   full: Ermine Hat

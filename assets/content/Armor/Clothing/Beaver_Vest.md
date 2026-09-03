@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Beaver Vest
 tags: []
 name:
   full: Beaver Vest

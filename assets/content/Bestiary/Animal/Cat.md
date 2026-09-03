@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Cat
 tags:
   - animal
 name:

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Stone, Marble"
 tags:
   - stone
 name:

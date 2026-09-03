@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Longknife
 tags: []
 name:
   full: Longknife

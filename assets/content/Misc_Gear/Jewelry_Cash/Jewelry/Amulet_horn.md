@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Amulet, horn"
 tags:
   - jewelry_cash
 name:

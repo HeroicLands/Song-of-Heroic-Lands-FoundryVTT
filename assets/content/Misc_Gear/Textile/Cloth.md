@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Cloth, per sq yard"
 tags:
   - clothing
 name:

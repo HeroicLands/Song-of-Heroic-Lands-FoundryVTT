@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Stone, Fine"
 tags:
   - stone
 name:

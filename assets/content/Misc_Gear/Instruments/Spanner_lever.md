@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Spanner, lever"
 tags:
   - instruments
 name:

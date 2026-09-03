@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Scrying
 id: fnTUYkZZllrMQirG
 type: doc
 subType: rules

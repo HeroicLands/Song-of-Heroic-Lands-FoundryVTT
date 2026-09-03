@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Quilted Vest
 tags: []
 name:
   full: Quilted Vest

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Cloth Sleeved Tunic
 tags: []
 name:
   full: Cloth Sleeved Tunic

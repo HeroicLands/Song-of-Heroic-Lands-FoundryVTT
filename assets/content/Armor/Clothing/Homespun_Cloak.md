@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Homespun Cloak
 tags: []
 name:
   full: Homespun Cloak

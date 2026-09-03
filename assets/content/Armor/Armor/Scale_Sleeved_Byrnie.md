@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Scale Sleeved Byrnie
 tags: []
 name:
   full: Scale Sleeved Byrnie

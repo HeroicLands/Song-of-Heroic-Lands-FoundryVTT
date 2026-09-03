@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Leather Loincloth
 tags: []
 name:
   full: Leather Loincloth

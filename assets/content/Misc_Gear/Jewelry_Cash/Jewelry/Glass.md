@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Glass
 tags:
   - jewelry_cash
 name:

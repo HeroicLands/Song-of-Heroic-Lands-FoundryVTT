@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Velvet Apron
 tags: []
 name:
   full: Velvet Apron

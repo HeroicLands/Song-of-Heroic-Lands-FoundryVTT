@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Cabinet"
 tags: []
 name:
   full: "Cabinet"

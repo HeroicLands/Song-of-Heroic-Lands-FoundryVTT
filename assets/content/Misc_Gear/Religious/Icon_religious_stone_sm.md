@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Icon, religious, stone, sm"
 tags:
   - religious
 name:

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Tent, Military"
 tags:
   - expedition
 name:

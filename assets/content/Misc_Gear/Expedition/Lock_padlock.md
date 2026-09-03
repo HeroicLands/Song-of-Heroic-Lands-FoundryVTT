@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Lock, padlock"
 tags:
   - expedition
 name:

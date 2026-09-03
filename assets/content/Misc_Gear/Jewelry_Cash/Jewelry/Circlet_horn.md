@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Circlet, horn"
 tags:
   - jewelry_cash
 name:

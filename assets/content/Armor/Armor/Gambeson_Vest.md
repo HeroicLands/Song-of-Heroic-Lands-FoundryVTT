@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Gambeson Vest
 tags: []
 name:
   full: Gambeson Vest

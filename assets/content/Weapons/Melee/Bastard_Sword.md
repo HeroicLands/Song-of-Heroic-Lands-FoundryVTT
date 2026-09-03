@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Bastard Sword
 tags: []
 name:
   full: Bastard Sword

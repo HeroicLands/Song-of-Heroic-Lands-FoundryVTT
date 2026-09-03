@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Cup, pewter"
 tags:
   - cooking
 name:

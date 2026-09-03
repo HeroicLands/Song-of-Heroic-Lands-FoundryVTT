@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Flax
 tags:
   - food
 name:

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Hogshead Good Wine
 tags:
   - spirits
 name:

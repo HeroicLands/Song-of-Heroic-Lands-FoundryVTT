@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Buckram Sleeved Tunic
 tags: []
 name:
   full: Buckram Sleeved Tunic

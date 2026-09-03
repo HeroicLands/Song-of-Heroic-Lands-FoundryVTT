@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Weaponsmith's Kit
 tags:
   - instruments
 name:

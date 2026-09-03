@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Leather Shirt
 tags: []
 name:
   full: Leather Shirt

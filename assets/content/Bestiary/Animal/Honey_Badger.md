@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Honey Badger
 tags:
   - animal
 name:

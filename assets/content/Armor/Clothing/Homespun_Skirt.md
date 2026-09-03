@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Homespun Skirt
 tags: []
 name:
   full: Homespun Skirt

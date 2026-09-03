@@ -1,7 +1,4 @@
 ---
-aliases:
-  - Kurbul Helm
-  - Kûrbúl Helm
 tags: []
 name:
   full: Kûrbúl Helm

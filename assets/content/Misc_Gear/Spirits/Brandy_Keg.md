@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Brandy, Keg"
 tags:
   - spirits
 name:

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Leather Robe
 tags: []
 name:
   full: Leather Robe

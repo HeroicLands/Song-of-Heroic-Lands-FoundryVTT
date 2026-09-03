@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Oil, Cooking"
 tags:
   - food
 name:

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Trunk, leather & wood"
 tags: []
 name:
   full: "Trunk, leather & wood"

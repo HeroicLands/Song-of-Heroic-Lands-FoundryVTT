@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Padded Mittens
 tags: []
 name:
   full: Padded Mittens

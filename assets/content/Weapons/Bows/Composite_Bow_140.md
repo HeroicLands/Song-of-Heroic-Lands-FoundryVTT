@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Composite Bow 140
 tags: []
 name:
   full: Composite Bow 140

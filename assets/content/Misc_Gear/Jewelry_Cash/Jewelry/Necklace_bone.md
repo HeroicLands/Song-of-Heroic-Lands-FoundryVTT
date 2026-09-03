@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Necklace, bone"
 tags:
   - jewelry_cash
 name:

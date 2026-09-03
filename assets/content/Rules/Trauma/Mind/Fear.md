@@ -1,7 +1,4 @@
 ---
-aliases:
-  - Fear
-  - Fear Test
 id: JQ6QycfbFNiwqmoW
 type: doc
 subType: rules

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Leather Surcoat
 tags: []
 name:
   full: Leather Surcoat

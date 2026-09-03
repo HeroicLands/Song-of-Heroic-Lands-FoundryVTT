@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Buckram Gloves
 tags: []
 name:
   full: Buckram Gloves

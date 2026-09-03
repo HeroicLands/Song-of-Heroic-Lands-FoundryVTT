@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Chain, light"
 tags:
   - expedition
 name:

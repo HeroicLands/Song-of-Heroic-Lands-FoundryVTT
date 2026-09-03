@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Russet Shirt
 tags: []
 name:
   full: Russet Shirt

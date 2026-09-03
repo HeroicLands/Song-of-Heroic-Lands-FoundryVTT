@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Cloth Cap
 tags: []
 name:
   full: Cloth Cap

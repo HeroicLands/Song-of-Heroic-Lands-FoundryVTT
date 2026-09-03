@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Amulet, bronze"
 tags:
   - jewelry_cash
 name:

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Mystical Powers
 id: eg6jbFFPRgbKj2a2
 type: doc
 subType: user-guide

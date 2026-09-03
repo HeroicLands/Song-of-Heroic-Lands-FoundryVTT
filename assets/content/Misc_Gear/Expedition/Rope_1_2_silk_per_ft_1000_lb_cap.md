@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Rope, ½” silk, per ft (1000 lb cap.)"
 tags:
   - expedition
 name:

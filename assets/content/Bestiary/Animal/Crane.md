@@ -1,12 +1,11 @@
 ---
-aliases:
-  - Celestial Crane
 tags:
   - animal
   - image-needed
 name:
   full: Crane
-  aliases: []
+  aliases:
+    - Celestial Crane
 description: "A tall, elegant wading bird of Tānvür's wetlands, so revered in imperial culture that harming one carries legal punishment."
 id: i63ZifkjQf8TYoHl
 img: icons/game-icons/lorc/paw-print.svg

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Sling Stone
 tags: []
 name:
   full: Sling Stone

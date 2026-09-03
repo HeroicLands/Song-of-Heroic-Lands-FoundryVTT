@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Constrictor Snake
 tags:
   - animal
 name:

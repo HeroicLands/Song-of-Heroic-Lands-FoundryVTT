@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Table"
 tags:
   - furniture
 name:

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Plums
 tags:
   - food
 name:

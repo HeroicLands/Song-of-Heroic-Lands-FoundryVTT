@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Icon, religious, wood, sm"
 tags:
   - religious
 name:

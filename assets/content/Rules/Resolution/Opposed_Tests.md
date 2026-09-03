@@ -1,9 +1,4 @@
 ---
-aliases:
-  - Opposed Test
-  - Opposed Success Test
-  - Victory Degrees
-  - Victory Stars
 id: qu9CxTZmDhQa31YN
 type: doc
 subType: rules

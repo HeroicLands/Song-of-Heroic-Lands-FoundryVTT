@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Jug, ceramic, 1 gallon"
 tags: []
 name:
   full: "Jug, ceramic, 1 gallon"

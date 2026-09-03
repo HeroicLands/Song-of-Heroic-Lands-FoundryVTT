@@ -1,7 +1,4 @@
 ---
-aliases:
-  - Kurbul Halfhelm
-  - Kûrbúl Halfhelm
 tags: []
 name:
   full: Kûrbúl Halfhelm

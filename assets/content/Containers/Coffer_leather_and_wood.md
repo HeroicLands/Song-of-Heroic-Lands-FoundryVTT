@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Coffer, leather & wood"
 tags: []
 name:
   full: "Coffer, leather & wood"

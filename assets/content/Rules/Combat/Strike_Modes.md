@@ -1,11 +1,4 @@
 ---
-aliases:
-  - Strike Modes
-  - Strike Mode
-  - Melee Strike Mode
-  - Missile Strike Mode
-  - Attack Mode
-  - Attack Modes
 id: ixrwbYUvFCsmEkO9
 type: doc
 subType: rules

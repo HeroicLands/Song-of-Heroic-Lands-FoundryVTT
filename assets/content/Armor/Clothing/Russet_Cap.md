@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Russet Cap
 tags: []
 name:
   full: Russet Cap

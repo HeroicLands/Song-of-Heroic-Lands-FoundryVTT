@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Straw Hat
 tags: []
 name:
   full: Straw Hat

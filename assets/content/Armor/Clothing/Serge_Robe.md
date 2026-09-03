@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Serge Robe
 tags: []
 name:
   full: Serge Robe

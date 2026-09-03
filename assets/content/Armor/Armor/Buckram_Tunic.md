@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Buckram Tunic
 tags: []
 name:
   full: Buckram Tunic

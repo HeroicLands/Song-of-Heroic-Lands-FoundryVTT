@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Scales & Weights"
 tags:
   - instruments
 name:

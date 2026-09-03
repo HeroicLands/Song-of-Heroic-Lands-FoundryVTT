@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Ink, Black"
 tags:
   - scribe
 name:

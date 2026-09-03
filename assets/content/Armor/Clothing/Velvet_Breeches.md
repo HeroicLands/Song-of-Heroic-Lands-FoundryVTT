@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Velvet Breeches
 tags: []
 name:
   full: Velvet Breeches

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Silk Gloves
 tags: []
 name:
   full: Silk Gloves

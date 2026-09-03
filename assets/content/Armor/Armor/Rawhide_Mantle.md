@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Rawhide Mantle
 tags: []
 name:
   full: Rawhide Mantle

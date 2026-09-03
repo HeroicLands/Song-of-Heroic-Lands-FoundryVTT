@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Sapphire, cut"
 tags:
   - jewelry_cash
 name:

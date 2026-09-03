@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Tent, Conical"
 tags:
   - expedition
 name:

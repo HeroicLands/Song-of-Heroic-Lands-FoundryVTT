@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Tent, Dome"
 tags:
   - expedition
 name:

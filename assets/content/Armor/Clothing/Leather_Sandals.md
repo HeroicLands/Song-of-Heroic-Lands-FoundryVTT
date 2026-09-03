@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Leather Sandals
 tags: []
 name:
   full: Leather Sandals

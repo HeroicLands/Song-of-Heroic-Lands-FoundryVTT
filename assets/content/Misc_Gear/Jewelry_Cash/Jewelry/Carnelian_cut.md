@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Carnelian, cut"
 tags:
   - jewelry_cash
 name:

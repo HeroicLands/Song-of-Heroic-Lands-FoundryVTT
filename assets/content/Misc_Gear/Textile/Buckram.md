@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Buckram, per sq yard"
 tags:
   - clothing
 name:

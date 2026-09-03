@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Ale, Keg"
 tags:
   - spirits
 name:

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Scale Vest
 tags: []
 name:
   full: Scale Vest

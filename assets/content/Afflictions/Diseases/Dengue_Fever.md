@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Dengue Fever
 tags: []
 name:
   full: Dengue Fever

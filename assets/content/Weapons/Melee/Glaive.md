@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Glaive
 tags: []
 name:
   full: Glaive

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Psychological Distress
 tags: []
 name:
   full: Psychological Distress

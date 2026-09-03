@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Bone (for carving)
 tags:
   - natural
 name:

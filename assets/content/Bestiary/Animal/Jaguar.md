@@ -1,13 +1,11 @@
 ---
-aliases:
-  - Ix'balam
-  - Jaguar
 tags:
   - animal
   - image-needed
 name:
   full: Jaguar
-  aliases: []
+  aliases:
+    - Ix'balam
 description: "The stocky apex cat of K'ich'chik's jungles and riverbanks, wielding the strongest proportional bite of any cat, able to puncture turtle shell and skull."
 id: tkljuvLrqQH2rXzd
 img: icons/game-icons/delapouite/feline.svg

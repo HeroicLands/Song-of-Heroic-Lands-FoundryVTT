@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Leather Sleeved Tunic
 tags: []
 name:
   full: Leather Sleeved Tunic

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Worsted Tunic
 tags: []
 name:
   full: Worsted Tunic

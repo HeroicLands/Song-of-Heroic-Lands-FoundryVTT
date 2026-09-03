@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Sledgehammer
 tags: []
 name:
   full: Sledgehammer

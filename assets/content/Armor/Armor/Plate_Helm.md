@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Plate Helm
 tags: []
 name:
   full: Plate Helm

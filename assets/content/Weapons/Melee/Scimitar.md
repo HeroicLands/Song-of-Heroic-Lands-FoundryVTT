@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Scimitar
 tags: []
 name:
   full: Scimitar

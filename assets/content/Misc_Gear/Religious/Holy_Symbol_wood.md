@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Holy Symbol, wood"
 tags:
   - religious
 name:

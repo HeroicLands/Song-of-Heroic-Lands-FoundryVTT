@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Herring
 tags:
   - food
 name:

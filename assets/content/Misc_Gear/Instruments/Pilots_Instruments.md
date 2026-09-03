@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Pilot's Instruments
 tags:
   - instruments
 name:

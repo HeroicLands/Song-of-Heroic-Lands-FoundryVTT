@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Urn, ceramic, 5 gallon"
 tags: []
 name:
   full: "Urn, ceramic, 5 gallon"

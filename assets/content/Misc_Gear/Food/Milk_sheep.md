@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Milk, sheep"
 tags:
   - food
 name:

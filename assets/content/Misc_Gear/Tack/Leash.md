@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Leash
 tags:
   - tack
 name:

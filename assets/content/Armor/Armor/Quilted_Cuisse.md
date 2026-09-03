@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Quilted Cuisse
 tags: []
 name:
   full: Quilted Cuisse

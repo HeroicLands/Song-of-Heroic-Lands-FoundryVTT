@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Homespun Cap
 tags: []
 name:
   full: Homespun Cap

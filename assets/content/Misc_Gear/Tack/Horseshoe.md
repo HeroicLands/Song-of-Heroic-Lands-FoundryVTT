@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Horseshoe
 tags:
   - tack
 name:

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Linen Cloak
 tags: []
 name:
   full: Linen Cloak

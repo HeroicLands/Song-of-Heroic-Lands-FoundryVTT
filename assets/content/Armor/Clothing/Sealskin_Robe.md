@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Sealskin Robe
 tags: []
 name:
   full: Sealskin Robe

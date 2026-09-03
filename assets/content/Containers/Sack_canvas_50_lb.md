@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Sack, canvas, 50 lb"
 tags: []
 name:
   full: "Sack, canvas, 50 lb"

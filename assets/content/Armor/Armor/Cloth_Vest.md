@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Cloth Vest
 tags: []
 name:
   full: Cloth Vest

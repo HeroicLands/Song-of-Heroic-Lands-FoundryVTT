@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Broadsword
 tags: []
 name:
   full: Broadsword

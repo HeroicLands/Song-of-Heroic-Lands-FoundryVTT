@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Candlestick, iron"
 tags:
   - lighting
 name:

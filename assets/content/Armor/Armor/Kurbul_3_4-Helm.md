@@ -1,8 +1,4 @@
 ---
-aliases:
-  - Kurbul 3/4-Helm
-  - Kûrbúl 3/4-Helm
-  - Kûrbúl ¾-Helm
 tags: []
 name:
   full: Kûrbúl ¾-Helm

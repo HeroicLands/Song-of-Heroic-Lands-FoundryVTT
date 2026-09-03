@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Llama
 tags:
   - animal
   - image-needed

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Lockcraft Kit
 tags:
   - instruments
 name:

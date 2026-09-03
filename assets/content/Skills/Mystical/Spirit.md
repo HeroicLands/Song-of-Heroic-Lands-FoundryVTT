@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Spirit
 tags: []
 name:
   full: Spirit

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Sealskin Cap
 tags: []
 name:
   full: Sealskin Cap

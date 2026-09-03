@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Bridle
 tags:
   - tack
 name:

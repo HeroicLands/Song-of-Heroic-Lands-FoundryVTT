@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Cloth Cowl
 tags: []
 name:
   full: Cloth Cowl

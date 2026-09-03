@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Butter
 tags:
   - food
 name:

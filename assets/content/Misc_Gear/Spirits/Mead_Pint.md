@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Mead, Pint"
 tags:
   - spirits
 name:

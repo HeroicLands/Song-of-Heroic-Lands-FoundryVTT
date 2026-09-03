@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Bell, small"
 tags:
   - music
 name:

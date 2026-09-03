@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Monitor Lizard
 tags:
   - animal
 name:

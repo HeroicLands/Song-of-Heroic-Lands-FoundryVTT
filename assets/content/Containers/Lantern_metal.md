@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Lantern, metal"
 tags: []
 name:
   full: "Lantern, metal"

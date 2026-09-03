@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Howler Monkey
 tags:
   - animal
   - image-needed

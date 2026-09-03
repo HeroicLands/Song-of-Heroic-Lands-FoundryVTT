@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Water Buffalo
 tags:
   - animal
   - image-needed

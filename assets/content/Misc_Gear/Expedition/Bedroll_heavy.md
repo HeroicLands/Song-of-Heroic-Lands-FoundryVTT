@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Bedroll, heavy
 tags:
   - expedition
 name:

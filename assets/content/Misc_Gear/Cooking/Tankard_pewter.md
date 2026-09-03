@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Tankard, pewter"
 tags:
   - cooking
 name:

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Bench"
 tags:
   - furniture
 name:

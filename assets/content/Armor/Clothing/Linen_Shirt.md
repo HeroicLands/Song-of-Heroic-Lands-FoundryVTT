@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Linen Shirt
 tags: []
 name:
   full: Linen Shirt

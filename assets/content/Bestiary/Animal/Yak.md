@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Yak
 tags:
   - animal
   - image-needed

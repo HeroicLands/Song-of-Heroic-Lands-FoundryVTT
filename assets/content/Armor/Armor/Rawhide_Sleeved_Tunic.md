@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Rawhide Sleeved Tunic
 tags: []
 name:
   full: Rawhide Sleeved Tunic

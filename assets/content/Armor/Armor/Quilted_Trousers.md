@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Quilted Trousers
 tags: []
 name:
   full: Quilted Trousers

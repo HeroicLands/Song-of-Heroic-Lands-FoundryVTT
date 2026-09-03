@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Hide, Kip (large calf)"
 tags:
   - natural
 name:

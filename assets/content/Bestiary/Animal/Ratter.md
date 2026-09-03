@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Ratter
 tags:
   - animal
 name:

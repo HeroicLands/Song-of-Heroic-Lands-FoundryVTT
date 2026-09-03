@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Knife
 tags: []
 name:
   full: Knife

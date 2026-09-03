@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Anklet, ivory"
 tags:
   - jewelry_cash
 name:

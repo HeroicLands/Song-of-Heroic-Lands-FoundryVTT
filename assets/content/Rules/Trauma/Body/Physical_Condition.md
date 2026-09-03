@@ -1,7 +1,4 @@
 ---
-aliases:
-  - Physical Condition
-  - Physical Conditions
 id: BkGKJhvkDMx4HOrQ
 type: doc
 subType: rules

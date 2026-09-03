@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Satchel, canvas, lg"
 tags: []
 name:
   full: "Satchel, canvas, lg"

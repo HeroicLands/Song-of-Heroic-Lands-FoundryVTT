@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Hideworking Kit
 tags:
   - instruments
 name:

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Lentils
 tags:
   - food
 name:

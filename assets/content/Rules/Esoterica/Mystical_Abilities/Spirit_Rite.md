@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Spirit Rite
 id: TgCJ7QeTOa3GOMHe
 type: doc
 subType: rules

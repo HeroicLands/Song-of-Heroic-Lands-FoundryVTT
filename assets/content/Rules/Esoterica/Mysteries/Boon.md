@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Boon
 id: IUE1zCOsO7IyrAbo
 type: doc
 subType: rules

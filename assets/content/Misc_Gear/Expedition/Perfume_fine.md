@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Perfume, fine"
 tags:
   - expedition
 name:

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Lard
 tags:
   - food
 name:

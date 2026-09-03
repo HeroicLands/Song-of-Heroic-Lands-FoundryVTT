@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Bag, sm, canvas
 tags: []
 name:
   full: Bag, sm, canvas

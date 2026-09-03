@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Oil, rose"
 tags:
   - expedition
 name:

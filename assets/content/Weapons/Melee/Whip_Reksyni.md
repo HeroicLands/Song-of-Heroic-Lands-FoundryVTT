@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Whip, Reksyni
 tags: []
 name:
   full: Whip, Reksyni

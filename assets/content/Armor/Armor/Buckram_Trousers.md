@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Buckram Trousers
 tags: []
 name:
   full: Buckram Trousers

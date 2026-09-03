@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Leather Gloves
 tags: []
 name:
   full: Leather Gloves

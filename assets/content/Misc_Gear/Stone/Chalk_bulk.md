@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Chalk, bulk"
 tags:
   - stone
 name:

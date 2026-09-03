@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Berries
 tags:
   - food
 name:

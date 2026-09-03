@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Tapir
 tags:
   - animal
   - image-needed

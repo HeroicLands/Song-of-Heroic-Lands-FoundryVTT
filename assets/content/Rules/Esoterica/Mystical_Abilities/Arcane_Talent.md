@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Arcane Talent
 id: qOiNFIASYJVIfgHC
 type: doc
 subType: rules

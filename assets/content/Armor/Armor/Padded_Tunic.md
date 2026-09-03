@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Padded Tunic
 tags: []
 name:
   full: Padded Tunic

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Bagpipes
 tags:
   - music
 name:

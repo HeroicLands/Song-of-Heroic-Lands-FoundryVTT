@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Tiger
 tags:
   - animal
   - image-needed

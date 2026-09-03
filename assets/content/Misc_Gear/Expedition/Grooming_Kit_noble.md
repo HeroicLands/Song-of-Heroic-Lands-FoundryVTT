@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Grooming Kit, noble"
 tags:
   - instruments
 name:

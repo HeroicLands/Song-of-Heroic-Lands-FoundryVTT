@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Jar, glass, 1/2-gallon"
 tags: []
 name:
   full: "Jar, glass, 1/2-gallon"

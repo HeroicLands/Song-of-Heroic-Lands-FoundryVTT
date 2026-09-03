@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Woolly Rhino
 tags:
   - animal
 name:

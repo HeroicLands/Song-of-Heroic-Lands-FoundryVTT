@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Beaver Sleeved Tunic
 tags: []
 name:
   full: Beaver Sleeved Tunic

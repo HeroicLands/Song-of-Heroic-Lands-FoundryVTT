@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Canvas Surcoat
 tags: []
 name:
   full: Canvas Surcoat

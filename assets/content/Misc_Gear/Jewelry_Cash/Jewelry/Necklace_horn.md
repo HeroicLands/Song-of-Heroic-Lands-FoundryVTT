@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Necklace, horn"
 tags:
   - jewelry_cash
 name:

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Box, ceramic, lidded, 12 x 8 x 6 in"
 tags: []
 name:
   full: "Box, ceramic, lidded, 12 x 8 x 6 in"

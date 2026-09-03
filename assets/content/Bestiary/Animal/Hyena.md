@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Hyena
 tags:
   - animal
 name:

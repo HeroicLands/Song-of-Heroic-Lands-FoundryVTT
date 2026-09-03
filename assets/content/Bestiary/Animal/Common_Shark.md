@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Common Shark
 tags:
   - animal
 name:

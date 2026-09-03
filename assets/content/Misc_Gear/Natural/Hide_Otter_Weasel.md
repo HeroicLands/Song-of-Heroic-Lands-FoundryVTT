@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Hide, Otter/Weasel"
 tags:
   - natural
 name:

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Ring Leggings
 tags: []
 name:
   full: Ring Leggings

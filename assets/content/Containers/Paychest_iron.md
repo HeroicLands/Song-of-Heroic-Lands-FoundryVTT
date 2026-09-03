@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Paychest, iron"
 tags: []
 name:
   full: "Paychest, iron"

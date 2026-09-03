@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Dromedary Camel
 tags:
   - animal
 name:

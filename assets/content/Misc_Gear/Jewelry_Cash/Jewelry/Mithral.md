@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Mithral
 tags:
   - jewelry_cash
 name:

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Oil, myrtle"
 tags:
   - expedition
 name:

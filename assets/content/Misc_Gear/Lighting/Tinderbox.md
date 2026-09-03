@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Tinderbox
 tags:
   - lighting
 name:

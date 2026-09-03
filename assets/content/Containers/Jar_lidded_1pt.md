@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Jar, lidded, 1 pint"
 tags: []
 name:
   full: "Jar, lidded, 1 pint"

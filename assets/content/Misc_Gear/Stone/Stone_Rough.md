@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Stone, Rough"
 tags:
   - stone
 name:

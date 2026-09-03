@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Heavy Blunt Arrow
 tags: []
 name:
   full: Heavy Blunt Arrow

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Rawhide Blacksmith Apron
 tags: []
 name:
   full: Rawhide Blacksmith Apron

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Linen Cowl
 tags: []
 name:
   full: Linen Cowl

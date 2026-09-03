@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Composite Crossbow 300
 tags: []
 name:
   full: Composite Crossbow 300

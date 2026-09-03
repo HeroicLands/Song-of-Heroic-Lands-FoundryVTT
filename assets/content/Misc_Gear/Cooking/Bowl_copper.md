@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Bowl, copper"
 tags:
   - cooking
 name:

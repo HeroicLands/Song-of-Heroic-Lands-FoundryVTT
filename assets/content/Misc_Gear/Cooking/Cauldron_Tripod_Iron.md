@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Cauldron Tripod, Iron"
 tags:
   - cooking
 name:

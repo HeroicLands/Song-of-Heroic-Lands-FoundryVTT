@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Serge Cloak
 tags: []
 name:
   full: Serge Cloak

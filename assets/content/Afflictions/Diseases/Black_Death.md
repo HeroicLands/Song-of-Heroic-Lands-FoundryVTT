@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Black Death
 tags: []
 name:
   full: Black Death

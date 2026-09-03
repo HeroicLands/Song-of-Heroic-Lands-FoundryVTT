@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Jar, lidded, 1 gallon"
 tags: []
 name:
   full: "Jar, lidded, 1 gallon"

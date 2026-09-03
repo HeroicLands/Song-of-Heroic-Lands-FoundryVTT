@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Swan
 tags:
   - food
 name:

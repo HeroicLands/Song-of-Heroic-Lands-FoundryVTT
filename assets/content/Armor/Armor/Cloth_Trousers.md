@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Cloth Trousers
 tags: []
 name:
   full: Cloth Trousers

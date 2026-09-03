@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Earrings, wood"
 tags:
   - jewelry_cash
 name:

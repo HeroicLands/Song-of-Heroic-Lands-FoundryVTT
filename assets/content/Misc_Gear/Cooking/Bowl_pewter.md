@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Bowl, pewter"
 tags:
   - cooking
 name:

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Ring, wood"
 tags:
   - jewelry_cash
 name:

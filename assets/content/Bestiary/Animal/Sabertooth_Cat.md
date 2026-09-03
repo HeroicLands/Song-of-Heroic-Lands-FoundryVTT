@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Sabertooth Cat
 tags:
   - animal
 name:

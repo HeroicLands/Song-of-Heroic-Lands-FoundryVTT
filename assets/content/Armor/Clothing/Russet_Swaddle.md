@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Russet Swaddle
 tags: []
 name:
   full: Russet Swaddle

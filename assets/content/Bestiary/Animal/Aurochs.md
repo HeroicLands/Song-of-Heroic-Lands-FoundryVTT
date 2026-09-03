@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Aurochs
 tags:
   - animal
 name:

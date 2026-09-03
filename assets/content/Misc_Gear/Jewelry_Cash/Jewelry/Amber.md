@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Amber
 tags:
   - jewelry_cash
 name:

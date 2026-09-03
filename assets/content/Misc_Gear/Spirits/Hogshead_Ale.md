@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Hogshead Ale
 tags:
   - spirits
 name:

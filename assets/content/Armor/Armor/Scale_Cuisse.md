@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Scale Cuisse
 tags: []
 name:
   full: Scale Cuisse

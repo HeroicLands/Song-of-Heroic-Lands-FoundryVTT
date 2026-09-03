@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Homespun Coat
 tags: []
 name:
   full: Homespun Coat

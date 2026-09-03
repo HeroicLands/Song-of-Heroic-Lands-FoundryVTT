@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Grab
 tags: []
 name:
   full: Grab

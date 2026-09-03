@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Necklace, ivory"
 tags:
   - jewelry_cash
 name:

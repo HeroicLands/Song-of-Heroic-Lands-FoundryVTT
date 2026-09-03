@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Grindstone
 tags:
   - stone
 name:

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Aludel, glass"
 tags: []
 name:
   full: "Aludel, glass"

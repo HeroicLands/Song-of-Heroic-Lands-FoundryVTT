@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Diamond, cut"
 tags:
   - jewelry_cash
 name:

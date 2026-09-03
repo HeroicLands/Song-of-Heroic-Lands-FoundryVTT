@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Vulture
 tags:
   - animal
   - image-needed

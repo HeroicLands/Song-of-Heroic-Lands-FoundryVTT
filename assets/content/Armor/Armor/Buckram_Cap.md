@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Buckram Cap
 tags: []
 name:
   full: Buckram Cap

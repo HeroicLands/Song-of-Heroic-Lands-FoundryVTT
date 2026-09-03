@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Character Creation
 id: 2jDp0HN2AvId0U5E
 type: doc
 subType: user-guide

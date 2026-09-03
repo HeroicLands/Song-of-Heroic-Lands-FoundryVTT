@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Rope, 1” hemp, per ft  (1,125 lb cap.)"
 tags:
   - expedition
 name:

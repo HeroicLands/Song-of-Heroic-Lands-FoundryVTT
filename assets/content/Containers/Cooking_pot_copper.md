@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Cooking pot, copper"
 tags: []
 name:
   full: "Cooking pot, copper"

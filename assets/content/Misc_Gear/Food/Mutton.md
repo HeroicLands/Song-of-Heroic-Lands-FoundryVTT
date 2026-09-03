@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Mutton
 tags:
   - food
 name:

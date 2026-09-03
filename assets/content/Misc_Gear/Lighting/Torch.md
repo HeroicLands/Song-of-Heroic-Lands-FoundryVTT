@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Torch
 tags:
   - lighting
 name:

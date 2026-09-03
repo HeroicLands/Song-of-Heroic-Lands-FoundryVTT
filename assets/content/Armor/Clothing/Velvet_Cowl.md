@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Velvet Cowl
 tags: []
 name:
   full: Velvet Cowl

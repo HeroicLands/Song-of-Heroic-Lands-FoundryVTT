@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Sealskin Vest
 tags: []
 name:
   full: Sealskin Vest

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Silk Swaddle
 tags: []
 name:
   full: Silk Swaddle

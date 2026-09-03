@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Cage, wooden, large"
 tags:
   - expedition
 name:

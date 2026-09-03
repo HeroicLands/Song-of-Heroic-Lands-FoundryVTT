@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Drum, hand"
 tags:
   - music
 name:

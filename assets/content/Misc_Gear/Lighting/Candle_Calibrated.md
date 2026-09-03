@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Candle, Calibrated"
 tags:
   - lighting
 name:

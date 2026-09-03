@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Russet Mantle
 tags: []
 name:
   full: Russet Mantle

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Homespun Sleeved Tunic
 tags: []
 name:
   full: Homespun Sleeved Tunic

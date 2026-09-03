@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Rawhide Vest
 tags: []
 name:
   full: Rawhide Vest

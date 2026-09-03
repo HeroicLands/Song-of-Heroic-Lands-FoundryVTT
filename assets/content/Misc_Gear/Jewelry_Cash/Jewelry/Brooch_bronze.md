@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Brooch, bronze"
 tags:
   - jewelry_cash
 name:

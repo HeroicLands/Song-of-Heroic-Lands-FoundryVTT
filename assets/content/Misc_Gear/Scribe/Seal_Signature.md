@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Seal, Signature"
 tags:
   - scribe
 name:

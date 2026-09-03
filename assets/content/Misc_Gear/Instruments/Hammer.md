@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Hammer"
 tags:
   - instruments
 name:

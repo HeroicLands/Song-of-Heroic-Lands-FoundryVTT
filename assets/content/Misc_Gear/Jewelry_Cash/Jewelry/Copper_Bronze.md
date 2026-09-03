@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Copper/Bronze
 tags:
   - jewelry_cash
 name:

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Jeweler's Kit
 tags:
   - instruments
 name:

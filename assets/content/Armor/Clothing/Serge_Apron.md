@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Serge Apron
 tags: []
 name:
   full: Serge Apron

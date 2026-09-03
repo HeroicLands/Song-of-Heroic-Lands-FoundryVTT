@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Mail Mittens
 tags: []
 name:
   full: Mail Mittens

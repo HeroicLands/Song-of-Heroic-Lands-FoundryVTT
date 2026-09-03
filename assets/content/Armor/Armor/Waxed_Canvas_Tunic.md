@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Waxed Canvas Tunic
 tags: []
 name:
   full: Waxed Canvas Tunic

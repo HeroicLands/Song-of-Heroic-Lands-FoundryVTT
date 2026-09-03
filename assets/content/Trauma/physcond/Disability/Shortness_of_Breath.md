@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Shortness of Breath
 tags: []
 name:
   full: Shortness of Breath

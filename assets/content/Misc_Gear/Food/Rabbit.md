@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Rabbit
 tags:
   - food
 name:

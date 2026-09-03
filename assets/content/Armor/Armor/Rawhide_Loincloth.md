@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Rawhide Loincloth
 tags: []
 name:
   full: Rawhide Loincloth

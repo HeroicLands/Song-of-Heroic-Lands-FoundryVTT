@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Total Amnesia
 tags: []
 name:
   full: Total Amnesia

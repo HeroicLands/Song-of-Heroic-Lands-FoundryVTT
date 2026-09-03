@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Beaver Cloak
 tags: []
 name:
   full: Beaver Cloak

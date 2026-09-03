@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Back bag, lg, leather"
 tags: []
 name:
   full: "Back bag, lg, leather"

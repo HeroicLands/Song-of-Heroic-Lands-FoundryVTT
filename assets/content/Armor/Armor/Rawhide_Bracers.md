@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Rawhide Bracers
 tags: []
 name:
   full: Rawhide Bracers

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Buckram Cowl
 tags: []
 name:
   full: Buckram Cowl

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Salt, rock"
 tags:
   - food
 name:

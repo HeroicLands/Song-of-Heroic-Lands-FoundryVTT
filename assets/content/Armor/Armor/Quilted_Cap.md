@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Quilted Cap
 tags: []
 name:
   full: Quilted Cap

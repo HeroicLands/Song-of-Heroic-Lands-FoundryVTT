@@ -1,7 +1,4 @@
 ---
-aliases:
-  - Kurbul Cuirass
-  - Kûrbúl Cuirass
 tags: []
 name:
   full: Kûrbúl Cuirass

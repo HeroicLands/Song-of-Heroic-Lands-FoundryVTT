@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Amulet, gold"
 tags:
   - jewelry_cash
 name:

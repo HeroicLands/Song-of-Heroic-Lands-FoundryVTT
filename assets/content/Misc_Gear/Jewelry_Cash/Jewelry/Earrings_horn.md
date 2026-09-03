@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Earrings, horn"
 tags:
   - jewelry_cash
 name:

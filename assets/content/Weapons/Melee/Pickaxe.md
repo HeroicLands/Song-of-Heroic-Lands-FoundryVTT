@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Pickaxe
 tags: []
 name:
   full: Pickaxe

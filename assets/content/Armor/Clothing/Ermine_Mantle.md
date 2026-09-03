@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Ermine Mantle
 tags: []
 name:
   full: Ermine Mantle

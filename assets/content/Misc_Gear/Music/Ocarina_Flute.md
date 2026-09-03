@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Ocarina Flute
 tags:
   - music
 name:

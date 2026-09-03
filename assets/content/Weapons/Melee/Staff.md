@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Staff
 tags: []
 name:
   full: Staff

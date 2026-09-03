@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Homespun Cowl
 tags: []
 name:
   full: Homespun Cowl

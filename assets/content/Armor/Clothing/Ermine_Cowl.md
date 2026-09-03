@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Ermine Cowl
 tags: []
 name:
   full: Ermine Cowl

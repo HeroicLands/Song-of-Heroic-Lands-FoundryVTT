@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Lockbox, iron-bound, small"
 tags: []
 name:
   full: "Lockbox, iron-bound, small"

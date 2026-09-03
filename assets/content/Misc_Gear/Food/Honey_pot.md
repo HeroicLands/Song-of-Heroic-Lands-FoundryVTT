@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Honey, pot"
 tags:
   - food
 name:

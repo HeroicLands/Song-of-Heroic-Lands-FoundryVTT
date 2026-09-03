@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Pan, copper, medium"
 tags:
   - cooking
 name:

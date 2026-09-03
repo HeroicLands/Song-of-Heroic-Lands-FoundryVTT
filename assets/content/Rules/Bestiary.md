@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Bestiary
 tags: []
 id: w21JSRk0uXGTaznQ
 name:

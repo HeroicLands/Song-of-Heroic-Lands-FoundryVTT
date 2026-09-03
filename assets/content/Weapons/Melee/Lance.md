@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Lance
 tags: []
 name:
   full: Lance

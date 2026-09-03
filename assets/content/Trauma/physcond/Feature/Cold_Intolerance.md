@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Cold Intolerance
 tags: []
 name:
   full: Cold Intolerance

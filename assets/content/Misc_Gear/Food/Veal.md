@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Veal
 tags:
   - food
 name:

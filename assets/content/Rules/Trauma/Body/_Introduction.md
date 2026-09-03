@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Body Trauma Introduction
 id: Yjn2JOJNvxe0I9HY
 type: doc
 subType: rules

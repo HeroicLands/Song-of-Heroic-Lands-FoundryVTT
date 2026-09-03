@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Cobra
 tags:
   - animal
   - image-needed

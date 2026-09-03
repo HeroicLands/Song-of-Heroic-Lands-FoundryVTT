@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Backpack, wicker"
 tags: []
 name:
   full: "Backpack, wicker"

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Lyre
 tags:
   - music
 name:

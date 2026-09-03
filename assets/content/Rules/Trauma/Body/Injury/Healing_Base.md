@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Healing Base
 id: Sb8dCIBSChIPJpKr
 type: doc
 subType: rules

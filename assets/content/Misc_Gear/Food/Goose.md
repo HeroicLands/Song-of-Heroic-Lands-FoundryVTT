@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Goose
 tags:
   - food
 name:

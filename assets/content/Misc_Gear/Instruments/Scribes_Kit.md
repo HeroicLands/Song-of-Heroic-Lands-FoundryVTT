@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Scribe's Kit
 tags:
   - instruments
 name:

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Homespun Leggings
 tags: []
 name:
   full: Homespun Leggings

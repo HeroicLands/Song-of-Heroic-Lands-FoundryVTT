@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Partial Amnesia
 tags: []
 name:
   full: Partial Amnesia

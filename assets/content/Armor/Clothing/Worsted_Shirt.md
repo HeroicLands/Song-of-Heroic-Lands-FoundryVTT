@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Worsted Shirt
 tags: []
 name:
   full: Worsted Shirt

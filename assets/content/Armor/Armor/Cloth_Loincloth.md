@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Cloth Loincloth
 tags: []
 name:
   full: Cloth Loincloth

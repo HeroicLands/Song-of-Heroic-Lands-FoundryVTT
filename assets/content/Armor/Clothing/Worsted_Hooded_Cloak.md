@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Worsted Hooded Cloak
 tags: []
 name:
   full: Worsted Hooded Cloak

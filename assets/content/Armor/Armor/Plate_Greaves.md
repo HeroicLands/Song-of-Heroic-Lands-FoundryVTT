@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Plate Greaves
 tags: []
 name:
   full: Plate Greaves

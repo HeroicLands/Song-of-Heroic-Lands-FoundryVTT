@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Warflail
 tags: []
 name:
   full: Warflail

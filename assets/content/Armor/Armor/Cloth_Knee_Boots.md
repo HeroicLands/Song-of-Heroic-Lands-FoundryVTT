@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Cloth Knee Boots
 tags: []
 name:
   full: Cloth Knee Boots

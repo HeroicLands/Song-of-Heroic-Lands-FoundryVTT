@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Limb Block
 tags: []
 name:
   full: Limb Block

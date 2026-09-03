@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Cloth Shirt
 tags: []
 name:
   full: Cloth Shirt

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Ring, silver"
 tags:
   - jewelry_cash
 name:

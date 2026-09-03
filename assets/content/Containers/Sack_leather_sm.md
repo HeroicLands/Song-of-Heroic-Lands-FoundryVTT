@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Sack, leather, sm"
 tags: []
 name:
   full: "Sack, leather, sm"

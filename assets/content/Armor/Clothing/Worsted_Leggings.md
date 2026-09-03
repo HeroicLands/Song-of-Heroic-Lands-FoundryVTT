@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Worsted Leggings
 tags: []
 name:
   full: Worsted Leggings

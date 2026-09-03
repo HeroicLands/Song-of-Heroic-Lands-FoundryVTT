@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Bucket, copper"
 tags: []
 name:
   full: "Bucket, copper"

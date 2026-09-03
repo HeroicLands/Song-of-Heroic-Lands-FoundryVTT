@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Plate Great Helm
 tags: []
 name:
   full: Plate Great Helm

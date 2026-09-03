@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Right Dominance
 tags: []
 name:
   full: Right Dominance

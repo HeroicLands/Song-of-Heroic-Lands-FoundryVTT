@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Mysteries
 id: PK3S3tmvGF9iEbWW
 name:
   full: Mysteries

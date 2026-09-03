@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Serge Leggings
 tags: []
 name:
   full: Serge Leggings

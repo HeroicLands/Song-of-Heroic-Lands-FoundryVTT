@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Belt pouch, leather, sm"
 tags: []
 name:
   full: "Belt pouch, leather, sm"

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Bloodstone, cut"
 tags:
   - jewelry_cash
 name:

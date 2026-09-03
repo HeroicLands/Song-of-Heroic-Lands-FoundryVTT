@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Jackal
 tags:
   - animal
   - image-needed

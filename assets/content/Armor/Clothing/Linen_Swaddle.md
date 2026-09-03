@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Linen Swaddle
 tags: []
 name:
   full: Linen Swaddle

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Roundshield
 tags: []
 name:
   full: Roundshield

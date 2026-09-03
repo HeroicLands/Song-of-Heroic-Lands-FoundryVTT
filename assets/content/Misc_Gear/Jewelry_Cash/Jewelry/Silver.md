@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Silver
 tags:
   - jewelry_cash
 name:

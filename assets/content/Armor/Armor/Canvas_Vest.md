@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Canvas Vest
 tags: []
 name:
   full: Canvas Vest

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Homespun Swaddle
 tags: []
 name:
   full: Homespun Swaddle

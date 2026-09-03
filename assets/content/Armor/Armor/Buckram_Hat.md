@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Buckram Hat
 tags: []
 name:
   full: Buckram Hat

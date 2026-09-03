@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Salt, sack"
 tags:
   - food
 name:

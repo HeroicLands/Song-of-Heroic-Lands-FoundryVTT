@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Great White Shark
 tags:
   - animal
 name:

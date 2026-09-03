@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Canvas Cowl
 tags: []
 name:
   full: Canvas Cowl

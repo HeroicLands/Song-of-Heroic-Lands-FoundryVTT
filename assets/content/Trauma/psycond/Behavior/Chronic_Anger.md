@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Chronic Anger
 tags: []
 name:
   full: Chronic Anger

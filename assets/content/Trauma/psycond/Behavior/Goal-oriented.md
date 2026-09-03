@@ -1,5 +1,4 @@
 ---
-aliases: []
 tags: []
 name:
   full: Goal-oriented

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Russet Leggings
 tags: []
 name:
   full: Russet Leggings

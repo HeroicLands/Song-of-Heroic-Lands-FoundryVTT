@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Bipolar Disorder
 tags: []
 name:
   full: Bipolar Disorder

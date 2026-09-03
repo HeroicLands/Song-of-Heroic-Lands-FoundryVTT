@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Beeswax
 tags:
   - expedition
 name:

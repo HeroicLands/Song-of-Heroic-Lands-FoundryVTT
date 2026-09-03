@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Dye, Tazach Purple"
 tags:
   - clothing
 name:

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Earrings, copper"
 tags:
   - jewelry_cash
 name:

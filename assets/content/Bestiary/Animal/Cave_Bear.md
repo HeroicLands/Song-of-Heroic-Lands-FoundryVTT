@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Cave Bear
 tags:
   - animal
 name:

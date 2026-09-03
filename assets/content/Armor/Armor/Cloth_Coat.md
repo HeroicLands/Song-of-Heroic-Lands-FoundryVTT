@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Cloth Coat
 tags: []
 name:
   full: Cloth Coat

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Great Stag
 tags:
   - animal
 name:

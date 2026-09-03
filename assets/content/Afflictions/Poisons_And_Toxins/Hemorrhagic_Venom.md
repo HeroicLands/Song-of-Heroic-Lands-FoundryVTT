@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Hemorrhagic Venom
 tags: []
 name:
   full: Hemorrhagic Venom

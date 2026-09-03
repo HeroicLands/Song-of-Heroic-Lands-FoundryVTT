@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Worsted Surcoat
 tags: []
 name:
   full: Worsted Surcoat

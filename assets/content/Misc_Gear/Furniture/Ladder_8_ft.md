@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Ladder, 8 ft"
 tags:
   - furniture
 name:

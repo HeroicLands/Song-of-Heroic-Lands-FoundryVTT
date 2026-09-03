@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Beaver Shirt
 tags: []
 name:
   full: Beaver Shirt

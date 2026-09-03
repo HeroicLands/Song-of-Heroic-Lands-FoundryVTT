@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Cauldron, Iron"
 tags: []
 name:
   full: "Cauldron, Iron"

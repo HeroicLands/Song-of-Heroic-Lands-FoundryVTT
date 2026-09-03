@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Ink, Blue"
 tags:
   - scribe
 name:

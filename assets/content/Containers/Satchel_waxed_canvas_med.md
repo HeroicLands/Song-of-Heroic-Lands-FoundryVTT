@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Satchel, waxed canvas, med"
 tags: []
 name:
   full: "Satchel, waxed canvas, med"

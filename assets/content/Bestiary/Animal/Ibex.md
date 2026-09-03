@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Ibex
 tags:
   - animal
   - image-needed

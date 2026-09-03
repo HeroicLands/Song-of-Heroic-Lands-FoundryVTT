@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Harp, Jarind (great)"
 tags:
   - music
 name:

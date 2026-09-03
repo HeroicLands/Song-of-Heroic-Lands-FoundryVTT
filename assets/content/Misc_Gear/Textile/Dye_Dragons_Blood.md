@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Dye, Dragon's Blood"
 tags:
   - clothing
 name:

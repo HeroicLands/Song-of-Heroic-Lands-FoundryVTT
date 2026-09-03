@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Silk Sleeved Tunic
 tags: []
 name:
   full: Silk Sleeved Tunic

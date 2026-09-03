@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Mental Strain
 tags: []
 name:
   full: Mental Strain

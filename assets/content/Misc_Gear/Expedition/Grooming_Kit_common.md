@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Grooming Kit, common"
 tags:
   - instruments
 name:

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Afflictions and Injuries
 id: jzsvrPQas8ak9Ti0
 type: doc
 subType: user-guide

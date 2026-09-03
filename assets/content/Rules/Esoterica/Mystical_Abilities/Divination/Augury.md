@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Augury
 id: vnhzmwxzgCuEHnuE
 type: doc
 subType: rules

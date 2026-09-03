@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Homespun Tunic
 tags: []
 name:
   full: Homespun Tunic

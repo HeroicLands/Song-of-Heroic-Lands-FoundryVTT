@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Horned Toad
 tags:
   - animal
 name:

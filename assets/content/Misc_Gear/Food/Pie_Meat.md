@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Pie, Meat"
 tags:
   - food
 name:

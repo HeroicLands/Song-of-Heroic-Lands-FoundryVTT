@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Club
 tags: []
 name:
   full: Club

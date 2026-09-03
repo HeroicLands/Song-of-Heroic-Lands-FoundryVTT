@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Chest, wooden, large"
 tags: []
 name:
   full: "Chest, wooden, large"

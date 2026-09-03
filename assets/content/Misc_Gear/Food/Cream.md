@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Cream
 tags:
   - food
 name:

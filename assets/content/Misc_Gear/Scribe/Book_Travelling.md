@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Book, Travelling"
 tags:
   - scribe
 name:

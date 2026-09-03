@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Surgical Kit
 tags:
   - instruments
 name:

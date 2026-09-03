@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Bacon
 tags:
   - food
 name:

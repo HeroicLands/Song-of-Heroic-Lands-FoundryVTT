@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Fate
 id: GSeR40tvrYO1pOHw
 type: doc
 subType: rules

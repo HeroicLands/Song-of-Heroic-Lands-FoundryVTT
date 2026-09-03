@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Mail Habergeon
 tags: []
 name:
   full: Mail Habergeon

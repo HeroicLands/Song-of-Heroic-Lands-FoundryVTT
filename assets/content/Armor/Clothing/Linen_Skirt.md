@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Linen Skirt
 tags: []
 name:
   full: Linen Skirt

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Chronic Fatigue Syndrome
 tags: []
 name:
   full: Chronic Fatigue Syndrome

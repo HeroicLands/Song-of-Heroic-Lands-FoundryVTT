@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Ring Hauberk
 tags: []
 name:
   full: Ring Hauberk

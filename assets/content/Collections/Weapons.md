@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Weapons
 id: Go1pBv5Wt8EKxaG7
 name:
   full: Weapons

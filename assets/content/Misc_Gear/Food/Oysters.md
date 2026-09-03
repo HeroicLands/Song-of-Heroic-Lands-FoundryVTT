@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Oysters
 tags:
   - food
 name:

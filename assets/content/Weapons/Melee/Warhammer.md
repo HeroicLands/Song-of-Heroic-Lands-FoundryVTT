@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Warhammer
 tags: []
 name:
   full: Warhammer

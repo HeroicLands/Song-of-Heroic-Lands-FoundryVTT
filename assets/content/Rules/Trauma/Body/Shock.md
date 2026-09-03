@@ -1,10 +1,4 @@
 ---
-aliases:
-  - Shock
-  - Shock State
-  - Shock State Index
-  - Shock Re-Test
-  - Extended Shock
 id: im1oSbKUZQFCBBI8
 type: doc
 subType: rules

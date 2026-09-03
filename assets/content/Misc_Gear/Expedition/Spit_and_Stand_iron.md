@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Spit and Stand, iron"
 tags:
   - expedition
 name:

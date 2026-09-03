@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Purse, silk"
 tags: []
 name:
   full: "Purse, silk"

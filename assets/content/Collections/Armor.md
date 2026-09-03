@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Armor
 id: MA6x5oaB16x7cvyk
 name:
   full: Armor
