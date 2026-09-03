@@ -89,7 +89,8 @@ describe.each(ROWS)("unarmed %s", (code, name, lng, zd, die, mod, aspect, role) 
     it("exists as a combat-technique skill", () => {
         expect(fm, `no item with shortcode "${code}"`).toBeDefined();
         expect(fm.type).toBe("skill");
-        expect(fm.sohl.subType).toBe("combattechnique");
+        // `subType` is a top-level property of the note, not a `sohl:` key.
+        expect(fm.subType).toBe("combattechnique");
         expect(fm.name.full).toBe(name);
     });
 
