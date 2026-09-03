@@ -59,7 +59,7 @@ const KIND_DEFAULTS = {
     // `initial`, so a bare create fails validation — a valid fixture must supply
     // it. subType is never silently defaulted (see `requireSubType` in the pack
     // builder); each entry names a valid choice.
-    affiliation: { subType: "social" },
+    affiliation: { subType: "fellowship" },
     skill: { masteryLevelBase: 0, subType: "social" },
     trauma: { subType: "injury" },
     projectilegear: { subType: "arrow" },
