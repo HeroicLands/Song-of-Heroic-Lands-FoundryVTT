@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Projectiles
 id: DuzvuEQp2xMqiZWY
 name:
   full: Projectiles

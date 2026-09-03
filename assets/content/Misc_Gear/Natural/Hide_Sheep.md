@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Hide, Sheep"
 tags:
   - natural
 name:

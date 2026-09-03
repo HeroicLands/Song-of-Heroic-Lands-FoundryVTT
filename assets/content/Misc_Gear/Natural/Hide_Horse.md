@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Hide, Horse"
 tags:
   - natural
 name:

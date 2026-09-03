@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Dice, pack of 6"
 tags:
   - expedition
 name:

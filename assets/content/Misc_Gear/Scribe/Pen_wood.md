@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Pen, wood"
 tags:
   - scribe
 name:

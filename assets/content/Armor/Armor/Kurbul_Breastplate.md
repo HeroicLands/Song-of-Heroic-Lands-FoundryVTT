@@ -1,7 +1,4 @@
 ---
-aliases:
-  - Kurbul Breastplate
-  - Kûrbúl Breastplate
 tags: []
 name:
   full: Kûrbúl Breastplate

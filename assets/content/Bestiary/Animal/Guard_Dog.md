@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Guard Dog
 tags:
   - animal
 name:

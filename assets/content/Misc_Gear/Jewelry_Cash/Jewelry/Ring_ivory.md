@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Ring, ivory"
 tags:
   - jewelry_cash
 name:

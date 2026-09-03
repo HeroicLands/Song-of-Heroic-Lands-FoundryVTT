@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Weapon
 id: kSuLAvR1c8R8tIW6
 type: doc
 subType: user-guide

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Crucible, medium"
 tags: []
 name:
   full: "Crucible, medium"

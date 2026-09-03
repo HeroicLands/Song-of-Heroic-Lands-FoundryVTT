@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Crow
 tags:
   - animal
 name:

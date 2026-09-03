@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Canvas Leggings
 tags: []
 name:
   full: Canvas Leggings

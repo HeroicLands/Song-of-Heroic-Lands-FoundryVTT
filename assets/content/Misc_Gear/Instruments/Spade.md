@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Spade"
 tags:
   - instruments
 name:

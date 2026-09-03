@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Vehicle
 id: UzvfN3dVTI3CCC2V
 type: doc
 subType: user-guide

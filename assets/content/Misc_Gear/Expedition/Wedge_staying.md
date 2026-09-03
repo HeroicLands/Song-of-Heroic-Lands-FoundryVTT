@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Wedge, staying"
 tags:
   - expedition
 name:

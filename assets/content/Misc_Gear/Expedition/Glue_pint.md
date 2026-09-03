@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Glue, pint"
 tags:
   - expedition
 name:

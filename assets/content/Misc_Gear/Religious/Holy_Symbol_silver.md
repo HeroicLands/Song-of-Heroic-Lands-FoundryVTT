@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Holy Symbol, silver"
 tags:
   - religious
 name:

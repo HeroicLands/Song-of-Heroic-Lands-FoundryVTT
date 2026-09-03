@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Spinel, cut"
 tags:
   - jewelry_cash
 name:

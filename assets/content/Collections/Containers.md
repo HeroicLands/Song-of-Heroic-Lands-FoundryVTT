@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Containers
 id: RtMkTCGjBNTXWJCB
 name:
   full: Containers

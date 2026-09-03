@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Estoc
 tags: []
 name:
   full: Estoc

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Falcastra
 tags: []
 name:
   full: Falcastra

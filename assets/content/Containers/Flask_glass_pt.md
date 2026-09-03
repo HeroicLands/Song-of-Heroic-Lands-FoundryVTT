@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Flask, glass, 1 pint"
 tags: []
 name:
   full: "Flask, glass, 1 pint"

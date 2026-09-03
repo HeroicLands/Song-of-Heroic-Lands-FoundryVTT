@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Ring Gauntlets
 tags: []
 name:
   full: Ring Gauntlets

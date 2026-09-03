@@ -1,8 +1,4 @@
 ---
-aliases:
-  - Fate Point
-  - Fate Points
-  - Fate Mastery Level
 id: QTLdhEpRknXbUTsn
 type: doc
 subType: rules

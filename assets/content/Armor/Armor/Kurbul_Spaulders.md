@@ -1,7 +1,4 @@
 ---
-aliases:
-  - Kurbul Spaulders
-  - Kûrbúl Spaulders
 tags: []
 name:
   full: Kûrbúl Spaulders

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Stag
 tags:
   - animal
 name:

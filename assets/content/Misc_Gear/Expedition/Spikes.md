@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Spikes
 tags:
   - expedition
 name:

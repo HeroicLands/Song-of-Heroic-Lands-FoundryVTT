@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Book, Base"
 tags:
   - scribe
 name:

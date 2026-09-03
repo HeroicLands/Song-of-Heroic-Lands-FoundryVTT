@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Orangutan
 tags:
   - animal
 name:

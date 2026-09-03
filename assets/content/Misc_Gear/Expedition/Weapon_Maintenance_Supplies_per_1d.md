@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Weapon Maintenance Supplies, per 1d"
 tags:
   - expedition
 name:

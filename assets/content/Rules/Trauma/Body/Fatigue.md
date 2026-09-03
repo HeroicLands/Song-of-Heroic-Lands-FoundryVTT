@@ -1,11 +1,4 @@
 ---
-aliases:
-  - Fatigue
-  - Fatigue Level
-  - Fatigue Penalty
-  - Windedness
-  - Weariness
-  - Weakness
 id: G1UDnlgH8sI9oNO7
 type: doc
 subType: rules

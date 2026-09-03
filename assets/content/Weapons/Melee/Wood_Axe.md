@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Wood Axe
 tags: []
 name:
   full: Wood Axe

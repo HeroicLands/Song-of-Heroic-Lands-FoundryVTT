@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Yoke, ox"
 tags:
   - tack
 name:

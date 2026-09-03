@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Russet Tunic
 tags: []
 name:
   full: Russet Tunic

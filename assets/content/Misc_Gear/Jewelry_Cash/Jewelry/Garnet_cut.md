@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Garnet, cut"
 tags:
   - jewelry_cash
 name:

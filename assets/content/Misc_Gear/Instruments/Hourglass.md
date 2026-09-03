@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Hourglass"
 tags:
   - instruments
 name:

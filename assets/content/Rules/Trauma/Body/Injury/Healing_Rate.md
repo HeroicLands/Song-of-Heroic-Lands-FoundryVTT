@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Healing Rate
 id: MRqOJqtZ0rvN9AQD
 type: doc
 subType: rules

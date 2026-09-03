@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Cloth Swaddle
 tags: []
 name:
   full: Cloth Swaddle

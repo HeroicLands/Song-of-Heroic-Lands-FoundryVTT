@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Candles, Tallow"
 tags:
   - lighting
 name:

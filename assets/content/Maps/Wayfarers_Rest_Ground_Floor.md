@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Wayfarer's Rest, Ground Floor
 tags: []
 name:
   full: Wayfarer's Rest, Ground Floor

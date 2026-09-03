@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Vetches
 tags:
   - food
 name:

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Fleece
 tags:
   - food
 name:

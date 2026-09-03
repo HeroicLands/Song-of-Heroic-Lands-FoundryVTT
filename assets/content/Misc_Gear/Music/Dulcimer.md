@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Dulcimer
 tags:
   - music
 name:

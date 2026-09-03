@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Velvet Dress
 tags: []
 name:
   full: Velvet Dress

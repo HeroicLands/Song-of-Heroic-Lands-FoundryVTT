@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Gorilla
 tags:
   - animal
 name:

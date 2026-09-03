@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Bronze
 tags:
   - jewelry_cash
 name:

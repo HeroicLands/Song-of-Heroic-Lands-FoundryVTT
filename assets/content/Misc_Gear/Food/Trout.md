@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Trout
 tags:
   - food
 name:

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Serge, per sq yard"
 tags:
   - clothing
 name:

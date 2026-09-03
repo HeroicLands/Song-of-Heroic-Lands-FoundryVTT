@@ -1,13 +1,11 @@
 ---
-aliases:
-  - Killer Whale
-  - Orca
 tags:
   - animal
   - image-needed
 name:
   full: Orca
-  aliases: []
+  aliases:
+    - Killer Whale
 description: "A massive, intelligent pack-hunting marine mammal and apex predator of every ocean, the most dangerous animal encounter possible on open water."
 id: HUbSiJXZrGu9Uz6t
 img: icons/game-icons/delapouite/sperm-whale.svg

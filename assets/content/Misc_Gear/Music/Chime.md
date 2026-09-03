@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Chime
 tags:
   - music
 name:

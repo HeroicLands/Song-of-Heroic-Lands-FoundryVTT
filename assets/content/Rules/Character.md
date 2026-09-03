@@ -1,7 +1,4 @@
 ---
-aliases:
-  - Characters Introduction
-  - Character Introduction
 id: xl7OIGqVKu52E5Oc
 type: doc
 subType: rules

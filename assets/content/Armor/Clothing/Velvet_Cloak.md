@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Velvet Cloak
 tags: []
 name:
   full: Velvet Cloak

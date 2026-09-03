@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Chimpanzee
 tags:
   - animal
 name:

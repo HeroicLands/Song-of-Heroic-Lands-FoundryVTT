@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Wool, Raw"
 tags:
   - food
 name:

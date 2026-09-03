@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Serge Trousers
 tags: []
 name:
   full: Serge Trousers

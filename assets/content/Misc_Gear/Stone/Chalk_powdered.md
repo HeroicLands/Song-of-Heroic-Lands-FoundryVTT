@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Chalk, powdered"
 tags:
   - stone
 name:

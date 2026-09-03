@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Velvet Gloves
 tags: []
 name:
   full: Velvet Gloves

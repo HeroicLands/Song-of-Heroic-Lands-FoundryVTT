@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Straw Sandals
 tags: []
 name:
   full: Straw Sandals

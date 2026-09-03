@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Being
 id: yGlzMjLsBc8dCO6J
 type: doc
 subType: user-guide

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Rawhide Cowl
 tags: []
 name:
   full: Rawhide Cowl

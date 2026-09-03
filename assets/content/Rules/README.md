@@ -1,7 +1,4 @@
 ---
-aliases:
-  - Song of Heroic Lands Rules
-  - SoHL Rules
 id: Q0c9vOqCLix8iHC0
 type: doc
 subType: rules

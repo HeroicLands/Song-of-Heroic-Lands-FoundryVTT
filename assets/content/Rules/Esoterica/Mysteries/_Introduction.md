@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Mysteries Introduction
 id: 8gqF9lyFp5S6zceE
 type: doc
 subType: rules

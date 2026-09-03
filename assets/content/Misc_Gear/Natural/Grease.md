@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Grease
 tags:
   - natural
 name:

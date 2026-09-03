@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Bread, Rye, loaf"
 tags:
   - food
 name:

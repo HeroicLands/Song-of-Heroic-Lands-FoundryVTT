@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Handaxe
 tags: []
 name:
   full: Handaxe

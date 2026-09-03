@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Mead, Keg"
 tags:
   - spirits
 name:

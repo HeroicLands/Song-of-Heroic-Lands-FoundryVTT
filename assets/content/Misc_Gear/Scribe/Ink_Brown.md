@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Ink, Brown"
 tags:
   - scribe
 name:

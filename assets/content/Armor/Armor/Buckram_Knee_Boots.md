@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Buckram Knee Boots
 tags: []
 name:
   full: Buckram Knee Boots

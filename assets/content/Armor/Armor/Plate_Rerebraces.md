@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Plate Rerebraces
 tags: []
 name:
   full: Plate Rerebraces

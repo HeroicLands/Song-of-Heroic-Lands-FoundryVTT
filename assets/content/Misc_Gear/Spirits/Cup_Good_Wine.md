@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Cup Good Wine
 tags:
   - spirits
 name:

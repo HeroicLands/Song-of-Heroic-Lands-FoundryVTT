@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Bottle, glass, medium"
 tags: []
 name:
   full: "Bottle, glass, medium"

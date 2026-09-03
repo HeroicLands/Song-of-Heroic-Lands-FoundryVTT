@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Vase, ceramic"
 tags: []
 name:
   full: "Vase, ceramic"

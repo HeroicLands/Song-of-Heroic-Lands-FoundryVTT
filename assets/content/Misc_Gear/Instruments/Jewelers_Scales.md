@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Jeweler's Scales"
 tags:
   - instruments
 name:

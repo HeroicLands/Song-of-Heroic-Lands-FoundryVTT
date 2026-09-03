@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Beaver Hat
 tags: []
 name:
   full: Beaver Hat

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Mystical Ability
 id: k2BO5PGE97a6YEZe
 type: doc
 subType: user-guide

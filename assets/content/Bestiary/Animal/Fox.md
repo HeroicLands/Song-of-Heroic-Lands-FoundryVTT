@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Fox
 tags:
   - animal
 name:

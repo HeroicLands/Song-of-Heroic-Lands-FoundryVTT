@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Mackerel
 tags:
   - food
 name:

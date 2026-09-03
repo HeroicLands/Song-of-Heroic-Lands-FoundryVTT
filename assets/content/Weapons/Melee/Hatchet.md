@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Hatchet
 tags: []
 name:
   full: Hatchet

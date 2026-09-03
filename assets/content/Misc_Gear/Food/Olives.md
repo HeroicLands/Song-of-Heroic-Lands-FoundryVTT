@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Olives
 tags:
   - food
 name:

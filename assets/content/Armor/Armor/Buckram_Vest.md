@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Buckram Vest
 tags: []
 name:
   full: Buckram Vest

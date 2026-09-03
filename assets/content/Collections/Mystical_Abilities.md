@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Mystical Abilities
 id: tQE57KhK7HYcEVDw
 name:
   full: Mystical Abilities

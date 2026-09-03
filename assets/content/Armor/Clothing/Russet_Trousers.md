@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Russet Trousers
 tags: []
 name:
   full: Russet Trousers

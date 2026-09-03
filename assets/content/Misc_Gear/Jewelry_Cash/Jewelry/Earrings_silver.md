@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Earrings, silver"
 tags:
   - jewelry_cash
 name:

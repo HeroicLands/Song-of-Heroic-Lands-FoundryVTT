@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Tasseomancy
 id: V37Cp2A3oqdWwCES
 type: doc
 subType: rules

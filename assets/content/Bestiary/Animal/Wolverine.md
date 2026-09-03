@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Wolverine
 tags:
   - animal
 name:

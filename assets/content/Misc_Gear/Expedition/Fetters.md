@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Fetters
 tags:
   - expedition
 name:

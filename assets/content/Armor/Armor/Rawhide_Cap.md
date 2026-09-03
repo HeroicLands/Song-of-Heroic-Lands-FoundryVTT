@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Rawhide Cap
 tags: []
 name:
   full: Rawhide Cap

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Coffer, wood"
 tags: []
 name:
   full: "Coffer, wood"

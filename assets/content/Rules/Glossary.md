@@ -1,7 +1,4 @@
 ---
-aliases:
-  - Glossary
-  - Rules Glossary
 id: GMJ5HjXALiKv03rx
 type: doc
 subType: rules

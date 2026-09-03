@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Rations, Standard
 tags:
   - food
 name:

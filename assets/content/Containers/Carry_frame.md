@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Carry frame"
 tags: []
 name:
   full: "Carry frame"

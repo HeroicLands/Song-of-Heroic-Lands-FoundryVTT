@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Homespun Surcoat
 tags: []
 name:
   full: Homespun Surcoat

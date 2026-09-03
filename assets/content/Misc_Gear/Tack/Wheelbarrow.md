@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Wheelbarrow"
 tags:
   - tack
 name:

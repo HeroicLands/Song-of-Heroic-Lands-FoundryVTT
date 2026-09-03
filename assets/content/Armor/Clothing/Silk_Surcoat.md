@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Silk Surcoat
 tags: []
 name:
   full: Silk Surcoat

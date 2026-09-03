@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Linen, per sq yard"
 tags:
   - clothing
 name:

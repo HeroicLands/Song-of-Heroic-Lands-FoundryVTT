@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Wrappings, leather"
 tags: []
 name:
   full: "Wrappings, leather"

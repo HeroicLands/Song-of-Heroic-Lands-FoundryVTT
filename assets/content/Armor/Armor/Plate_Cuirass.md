@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Plate Cuirass
 tags: []
 name:
   full: Plate Cuirass

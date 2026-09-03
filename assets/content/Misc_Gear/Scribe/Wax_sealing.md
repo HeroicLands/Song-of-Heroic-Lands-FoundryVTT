@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Wax, sealing"
 tags:
   - scribe
 name:

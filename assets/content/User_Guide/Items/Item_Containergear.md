@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Container
 id: rF2XSEFWmBoOwkks
 type: doc
 subType: user-guide

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Pony
 tags:
   - animal
 name:

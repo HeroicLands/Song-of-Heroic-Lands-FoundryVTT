@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Apples
 tags:
   - food
 name:

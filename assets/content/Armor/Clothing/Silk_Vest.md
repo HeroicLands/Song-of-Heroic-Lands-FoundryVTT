@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Silk Vest
 tags: []
 name:
   full: Silk Vest

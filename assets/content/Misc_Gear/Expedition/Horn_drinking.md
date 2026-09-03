@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Horn, drinking"
 tags:
   - expedition
 name:

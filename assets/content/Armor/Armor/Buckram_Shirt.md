@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Buckram Shirt
 tags: []
 name:
   full: Buckram Shirt

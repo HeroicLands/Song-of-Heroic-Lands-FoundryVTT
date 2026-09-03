@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Cloth Hood
 tags: []
 name:
   full: Cloth Hood

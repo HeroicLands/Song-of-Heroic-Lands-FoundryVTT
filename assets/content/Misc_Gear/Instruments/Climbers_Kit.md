@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Climber's Kit
 tags:
   - instruments
 name:

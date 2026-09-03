@@ -1,11 +1,4 @@
 ---
-aliases:
-  - Mastery Level
-  - ML
-  - Effective Mastery Level
-  - EML
-  - Skill Base
-  - Index
 id: uil7KCJxAUM4nXLC
 type: doc
 subType: rules

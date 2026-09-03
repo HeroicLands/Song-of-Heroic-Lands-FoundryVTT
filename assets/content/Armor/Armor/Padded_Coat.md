@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Padded Coat
 tags: []
 name:
   full: Padded Coat

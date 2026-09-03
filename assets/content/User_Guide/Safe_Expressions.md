@@ -1,7 +1,4 @@
 ---
-aliases:
-  - Safe Expressions
-  - SafeExpression
 id: JvKYOVjZcqyqQHgj
 type: doc
 subType: user-guide

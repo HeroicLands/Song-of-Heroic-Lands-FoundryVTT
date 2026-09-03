@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Cod
 tags:
   - food
 name:

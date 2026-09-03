@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Dye, Ochre Yellow"
 tags:
   - clothing
 name:

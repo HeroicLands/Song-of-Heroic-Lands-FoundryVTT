@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Homespun Robe
 tags: []
 name:
   full: Homespun Robe

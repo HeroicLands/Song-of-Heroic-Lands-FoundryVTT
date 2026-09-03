@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Standard Bolt
 tags: []
 name:
   full: Standard Bolt

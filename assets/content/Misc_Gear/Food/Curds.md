@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Curds
 tags:
   - food
 name:

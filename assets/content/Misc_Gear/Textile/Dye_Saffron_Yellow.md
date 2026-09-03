@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Dye, Saffron Yellow"
 tags:
   - clothing
 name:

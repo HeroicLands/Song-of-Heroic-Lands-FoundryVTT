@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Silk Leggings
 tags: []
 name:
   full: Silk Leggings

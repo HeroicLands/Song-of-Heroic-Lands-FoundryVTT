@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Ritual Invoking
 tags: []
 name:
   full: Ritual Invoking

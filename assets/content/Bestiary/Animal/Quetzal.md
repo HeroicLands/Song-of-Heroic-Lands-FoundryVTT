@@ -1,12 +1,11 @@
 ---
-aliases:
-  - Sacred Quetzal
 tags:
   - animal
   - image-needed
 name:
   full: Quetzal
-  aliases: []
+  aliases:
+    - Sacred Quetzal
 description: "A small, brilliantly iridescent jungle trogon whose trailing green tail feathers are prized above gold across Ki'ichek civilization."
 id: vM0KoDFiLa917lSx
 img: icons/game-icons/lorc/paw-print.svg

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Vial, glass, small"
 tags: []
 name:
   full: "Vial, glass, small"

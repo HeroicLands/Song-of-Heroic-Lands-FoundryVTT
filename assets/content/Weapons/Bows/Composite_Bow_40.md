@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Composite Bow 40
 tags: []
 name:
   full: Composite Bow 40

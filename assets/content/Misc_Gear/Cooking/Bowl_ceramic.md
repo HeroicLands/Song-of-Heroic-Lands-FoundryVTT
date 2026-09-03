@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Bowl, ceramic"
 tags:
   - cooking
 name:

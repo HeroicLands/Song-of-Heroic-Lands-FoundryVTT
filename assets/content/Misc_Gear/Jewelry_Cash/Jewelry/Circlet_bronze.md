@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Circlet, bronze"
 tags:
   - jewelry_cash
 name:

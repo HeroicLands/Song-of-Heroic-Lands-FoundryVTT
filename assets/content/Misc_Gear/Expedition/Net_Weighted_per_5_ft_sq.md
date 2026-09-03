@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Net, Weighted, per 5 ft sq."
 tags:
   - expedition
 name:

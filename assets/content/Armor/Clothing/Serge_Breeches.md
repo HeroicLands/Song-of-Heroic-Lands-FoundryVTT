@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Serge Breeches
 tags: []
 name:
   full: Serge Breeches

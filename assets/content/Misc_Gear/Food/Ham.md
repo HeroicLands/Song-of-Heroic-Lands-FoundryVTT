@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Ham
 tags:
   - food
 name:

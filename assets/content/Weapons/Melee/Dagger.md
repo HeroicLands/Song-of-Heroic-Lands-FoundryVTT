@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Dagger
 tags: []
 name:
   full: Dagger

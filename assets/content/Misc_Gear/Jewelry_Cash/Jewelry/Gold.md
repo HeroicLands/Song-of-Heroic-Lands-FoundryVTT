@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Gold
 tags:
   - jewelry_cash
 name:

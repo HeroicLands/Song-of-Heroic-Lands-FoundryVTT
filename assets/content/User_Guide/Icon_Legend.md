@@ -1,8 +1,4 @@
 ---
-aliases:
-  - Icon Legend
-  - Icons
-  - Glyphs
 id: GU59i07VkICWsT2l
 type: doc
 subType: user-guide

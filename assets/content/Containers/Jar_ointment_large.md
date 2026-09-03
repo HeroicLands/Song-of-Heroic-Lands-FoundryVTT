@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Jar, ointment, large"
 tags: []
 name:
   full: "Jar, ointment, large"

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Dye, Forest Green"
 tags:
   - clothing
 name:

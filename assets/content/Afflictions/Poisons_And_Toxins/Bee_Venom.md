@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Bee Venom
 tags: []
 name:
   full: Bee Venom

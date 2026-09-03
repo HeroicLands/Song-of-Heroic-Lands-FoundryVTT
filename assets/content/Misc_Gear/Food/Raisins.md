@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Raisins
 tags:
   - food
 name:

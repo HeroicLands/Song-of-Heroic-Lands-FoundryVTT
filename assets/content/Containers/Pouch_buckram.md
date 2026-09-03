@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Pouch, buckram"
 tags: []
 name:
   full: "Pouch, buckram"

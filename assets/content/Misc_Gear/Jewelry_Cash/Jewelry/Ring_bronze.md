@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Ring, bronze"
 tags:
   - jewelry_cash
 name:

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Destrier
 tags:
   - animal
 name:

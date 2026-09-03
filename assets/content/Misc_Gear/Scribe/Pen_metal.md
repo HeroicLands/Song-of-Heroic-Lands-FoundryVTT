@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Pen, metal"
 tags:
   - scribe
 name:

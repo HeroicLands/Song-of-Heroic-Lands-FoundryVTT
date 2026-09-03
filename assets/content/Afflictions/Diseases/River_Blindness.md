@@ -1,6 +1,4 @@
 ---
-aliases:
-  - River Blindness
 tags: []
 name:
   full: River Blindness

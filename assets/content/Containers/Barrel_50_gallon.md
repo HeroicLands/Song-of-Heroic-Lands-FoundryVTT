@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Barrel, 50 gallon"
 tags: []
 name:
   full: "Barrel, 50 gallon"

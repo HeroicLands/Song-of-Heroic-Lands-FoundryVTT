@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Sealskin Cloak
 tags: []
 name:
   full: Sealskin Cloak

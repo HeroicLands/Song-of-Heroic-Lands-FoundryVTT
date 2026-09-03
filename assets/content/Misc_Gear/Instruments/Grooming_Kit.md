@@ -1,14 +1,11 @@
 ---
-aliases:
-  - Grooming Kit
-  - Personal Grooming Kit
-  - Toilet Kit
 tags:
   - instruments
 name:
   full: Grooming Kit
   aliases:
     - Toilet Kit
+    - Personal Grooming Kit
 description: "Leather roll with comb, brush, folding razor, hand mirror, soap, pomade; daily upkeep of hair, beard, and skin."
 id: WAoCcpTuCJlTBP3O
 img: icons/game-icons/lorc/swap-bag.svg

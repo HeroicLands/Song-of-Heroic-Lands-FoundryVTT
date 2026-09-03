@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Impairment
 id: Aa8GO0i94Gh9cyGi
 type: doc
 subType: rules

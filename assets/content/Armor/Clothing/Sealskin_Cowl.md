@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Sealskin Cowl
 tags: []
 name:
   full: Sealskin Cowl

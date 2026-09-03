@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Spanner, windlass"
 tags:
   - instruments
 name:

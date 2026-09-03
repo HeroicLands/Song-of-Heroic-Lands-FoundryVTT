@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Pheasant
 tags:
   - food
 name:

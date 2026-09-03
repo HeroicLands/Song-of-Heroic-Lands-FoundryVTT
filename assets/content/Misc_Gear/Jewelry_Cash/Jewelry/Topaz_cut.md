@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Topaz, cut"
 tags:
   - jewelry_cash
 name:

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Russet Sleeved Tunic
 tags: []
 name:
   full: Russet Sleeved Tunic

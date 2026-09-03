@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Divination Introduction
 id: Nao57h8vo7wCINl9
 type: doc
 subType: rules

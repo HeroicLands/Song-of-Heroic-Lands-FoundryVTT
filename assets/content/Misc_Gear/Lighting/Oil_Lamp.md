@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Oil, Lamp"
 tags:
   - lighting
 name:

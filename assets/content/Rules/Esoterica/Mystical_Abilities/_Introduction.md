@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Mystical Abilities Introduction
 id: Flm6eeiyl4UHZUIq
 type: doc
 subType: rules

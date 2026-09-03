@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Paint, per gallon"
 tags:
   - expedition
 name:

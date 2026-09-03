@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Buckram Cloak
 tags: []
 name:
   full: Buckram Cloak

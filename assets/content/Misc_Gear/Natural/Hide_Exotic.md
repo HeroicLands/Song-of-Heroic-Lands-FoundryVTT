@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Hide, Exotic"
 tags:
   - natural
 name:

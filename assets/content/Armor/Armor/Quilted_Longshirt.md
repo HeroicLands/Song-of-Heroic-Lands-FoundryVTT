@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Quilted Longshirt
 tags: []
 name:
   full: Quilted Longshirt

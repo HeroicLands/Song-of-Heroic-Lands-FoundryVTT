@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Fletcher's Kit
 tags:
   - instruments
 name:

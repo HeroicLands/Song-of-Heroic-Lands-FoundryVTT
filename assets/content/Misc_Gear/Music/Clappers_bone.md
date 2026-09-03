@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Clappers, bone"
 tags:
   - music
 name:

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - String
 tags:
   - expedition
 name:

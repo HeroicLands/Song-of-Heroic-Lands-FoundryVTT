@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Ermine Cap
 tags: []
 name:
   full: Ermine Cap

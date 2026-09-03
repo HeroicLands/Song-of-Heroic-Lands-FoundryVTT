@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Light Broad Arrow
 tags: []
 name:
   full: Light Broad Arrow

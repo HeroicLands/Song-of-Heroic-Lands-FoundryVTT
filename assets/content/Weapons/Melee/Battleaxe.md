@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Battleaxe
 tags: []
 name:
   full: Battleaxe

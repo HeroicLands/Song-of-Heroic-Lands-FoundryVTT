@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Tackle Block
 tags:
   - expedition
 name:

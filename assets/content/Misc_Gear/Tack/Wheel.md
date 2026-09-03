@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Wheel"
 tags:
   - tack
 name:

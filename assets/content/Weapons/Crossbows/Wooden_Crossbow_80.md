@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Wooden Crossbow 80
 tags: []
 name:
   full: Wooden Crossbow 80

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Disguise Kit
 tags:
   - instruments
 name:

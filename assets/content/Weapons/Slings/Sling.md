@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Sling
 tags: []
 name:
   full: Sling

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Earrings, bronze"
 tags:
   - jewelry_cash
 name:

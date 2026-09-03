@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Padded Sleeved Tunic
 tags: []
 name:
   full: Padded Sleeved Tunic

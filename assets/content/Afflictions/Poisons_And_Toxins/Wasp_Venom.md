@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Wasp Venom
 tags: []
 name:
   full: Wasp Venom

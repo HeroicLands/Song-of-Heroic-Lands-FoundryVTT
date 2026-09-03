@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Candleholder, hand"
 tags:
   - lighting
 name:

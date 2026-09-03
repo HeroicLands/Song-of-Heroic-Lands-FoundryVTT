@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Linen Leggings
 tags: []
 name:
   full: Linen Leggings

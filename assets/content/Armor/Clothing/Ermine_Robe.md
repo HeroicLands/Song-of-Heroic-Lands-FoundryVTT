@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Ermine Robe
 tags: []
 name:
   full: Ermine Robe

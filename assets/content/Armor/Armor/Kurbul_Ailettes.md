@@ -1,7 +1,4 @@
 ---
-aliases:
-  - Kurbul Ailettes
-  - Kûrbúl Ailettes
 tags: []
 name:
   full: Kûrbúl Ailettes

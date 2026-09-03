@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Homespun, per sq yard"
 tags:
   - clothing
 name:

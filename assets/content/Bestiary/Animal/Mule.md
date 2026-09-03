@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Mule
 tags:
   - animal
 name:

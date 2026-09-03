@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Gazelle
 tags:
   - animal
   - image-needed

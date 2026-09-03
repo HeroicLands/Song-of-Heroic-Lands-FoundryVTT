@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Holy Symbol, iron"
 tags:
   - religious
 name:

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Herbalist's Kit
 tags:
   - instruments
 name:

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Linen Cap
 tags: []
 name:
   full: Linen Cap

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Pike
 tags: []
 name:
   full: Pike

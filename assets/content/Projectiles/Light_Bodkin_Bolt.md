@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Light Bodkin Bolt
 tags: []
 name:
   full: Light Bodkin Bolt

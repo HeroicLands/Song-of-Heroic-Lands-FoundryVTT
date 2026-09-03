@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Melee Fighting
 tags: []
 name:
   full: Melee Fighting

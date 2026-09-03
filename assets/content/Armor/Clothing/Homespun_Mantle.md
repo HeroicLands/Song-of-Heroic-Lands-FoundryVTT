@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Homespun Mantle
 tags: []
 name:
   full: Homespun Mantle

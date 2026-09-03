@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Crab
 tags:
   - food
 name:

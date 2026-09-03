@@ -1,9 +1,4 @@
 ---
-aliases:
-  - Morale
-  - Morale Test
-  - Rally Test
-  - Reaction Test
 id: jBDOZxRV8VpzsfPV
 type: doc
 subType: rules

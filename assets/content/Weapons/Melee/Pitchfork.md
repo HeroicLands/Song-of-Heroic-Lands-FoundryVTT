@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Pitchfork
 tags: []
 name:
   full: Pitchfork

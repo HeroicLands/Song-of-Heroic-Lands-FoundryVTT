@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Anklet, gold"
 tags:
   - jewelry_cash
 name:

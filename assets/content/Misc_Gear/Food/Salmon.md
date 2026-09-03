@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Salmon
 tags:
   - food
 name:

@@ -1,9 +1,4 @@
 ---
-aliases:
-  - Melee Attacks
-  - Melee Attack
-  - Melee Combat
-  - Reach
 id: OqIctLS39bjX8rbr
 type: doc
 subType: rules

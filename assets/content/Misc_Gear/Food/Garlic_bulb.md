@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Garlic bulb
 tags:
   - food
 name:

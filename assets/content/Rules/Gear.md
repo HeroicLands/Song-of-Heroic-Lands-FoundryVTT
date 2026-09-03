@@ -1,9 +1,4 @@
 ---
-aliases:
-  - Gear
-  - Equipment
-  - Inventory
-  - Encumbrance
 id: wjqsgt0VbETSKE6Y
 type: doc
 subType: rules

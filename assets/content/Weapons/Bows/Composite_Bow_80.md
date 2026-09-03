@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Composite Bow 80
 tags: []
 name:
   full: Composite Bow 80

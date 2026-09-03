@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Rations, Iron
 tags:
   - food
 name:

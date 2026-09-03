@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Club, Large
 tags: []
 name:
   full: Club, Large

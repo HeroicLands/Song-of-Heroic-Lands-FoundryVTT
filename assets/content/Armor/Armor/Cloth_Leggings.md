@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Cloth Leggings
 tags: []
 name:
   full: Cloth Leggings

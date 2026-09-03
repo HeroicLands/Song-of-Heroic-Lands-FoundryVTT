@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Compulsive Disclosure
 tags: []
 name:
   full: Compulsive Disclosure

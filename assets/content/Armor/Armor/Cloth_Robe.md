@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Cloth Robe
 tags: []
 name:
   full: Cloth Robe

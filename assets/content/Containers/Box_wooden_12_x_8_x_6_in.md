@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Box, wooden, 12 x 8 x 6 in"
 tags: []
 name:
   full: "Box, wooden, 12 x 8 x 6 in"

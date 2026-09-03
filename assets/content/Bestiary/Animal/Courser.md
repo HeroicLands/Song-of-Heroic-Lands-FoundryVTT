@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Courser
 tags:
   - animal
 name:

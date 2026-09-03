@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Cider, Keg"
 tags:
   - spirits
 name:

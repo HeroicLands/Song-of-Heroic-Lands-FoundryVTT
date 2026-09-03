@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Plate, ceramic"
 tags:
   - cooking
 name:

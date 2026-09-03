@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Chicken
 tags:
   - food
 name:

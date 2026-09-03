@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Waterskin, 2qt.
 tags: []
 name:
   full: Waterskin, 2qt.

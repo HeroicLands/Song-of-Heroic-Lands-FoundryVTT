@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Ram
 tags:
   - animal
 name:

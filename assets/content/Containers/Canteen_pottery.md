@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Canteen, pottery"
 tags: []
 name:
   full: "Canteen, pottery"

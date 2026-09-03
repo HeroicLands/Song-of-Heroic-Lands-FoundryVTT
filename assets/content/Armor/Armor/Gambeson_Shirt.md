@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Gambeson Shirt
 tags: []
 name:
   full: Gambeson Shirt

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Morningstar
 tags: []
 name:
   full: Morningstar

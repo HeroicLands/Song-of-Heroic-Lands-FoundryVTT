@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Mace, Steel Handle
 tags: []
 name:
   full: Mace, Steel Handle

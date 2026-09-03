@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Serge Shirt
 tags: []
 name:
   full: Serge Shirt

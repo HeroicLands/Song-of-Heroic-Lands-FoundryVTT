@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Wine, 1 pt."
 tags:
   - spirits
 name:

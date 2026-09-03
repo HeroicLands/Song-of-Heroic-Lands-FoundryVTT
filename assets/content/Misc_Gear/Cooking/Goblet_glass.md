@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Goblet, glass"
 tags:
   - cooking
 name:

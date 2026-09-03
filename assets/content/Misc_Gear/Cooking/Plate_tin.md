@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Plate, tin"
 tags:
   - cooking
 name:

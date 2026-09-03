@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Plate Breastplate
 tags: []
 name:
   full: Plate Breastplate

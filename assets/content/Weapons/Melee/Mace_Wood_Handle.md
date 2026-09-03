@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Mace, Wood Handle
 tags: []
 name:
   full: Mace, Wood Handle

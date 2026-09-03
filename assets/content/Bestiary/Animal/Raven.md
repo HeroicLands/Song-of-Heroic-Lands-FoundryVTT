@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Raven
 tags:
   - animal
 name:

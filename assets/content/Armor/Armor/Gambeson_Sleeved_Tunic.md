@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Gambeson Sleeved Tunic
 tags: []
 name:
   full: Gambeson Sleeved Tunic

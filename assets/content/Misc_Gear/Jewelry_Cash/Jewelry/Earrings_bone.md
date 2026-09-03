@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Earrings, bone"
 tags:
   - jewelry_cash
 name:

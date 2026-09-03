@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Opal, cut"
 tags:
   - jewelry_cash
 name:

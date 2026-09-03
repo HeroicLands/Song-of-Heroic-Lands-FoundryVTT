@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Russet Robe
 tags: []
 name:
   full: Russet Robe

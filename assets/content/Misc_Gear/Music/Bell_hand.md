@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Bell, hand"
 tags:
   - music
 name:

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Leather Cap
 tags: []
 name:
   full: Leather Cap

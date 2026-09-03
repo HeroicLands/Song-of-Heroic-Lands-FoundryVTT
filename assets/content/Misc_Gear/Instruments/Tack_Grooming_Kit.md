@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Tack & Grooming Kit
 tags:
   - instruments
 name:

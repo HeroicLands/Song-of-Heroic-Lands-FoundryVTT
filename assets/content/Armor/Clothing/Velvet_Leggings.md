@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Velvet Leggings
 tags: []
 name:
   full: Velvet Leggings

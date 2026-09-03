@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Oryx
 tags:
   - animal
   - image-needed

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Jar, lidded, 1 quart"
 tags: []
 name:
   full: "Jar, lidded, 1 quart"

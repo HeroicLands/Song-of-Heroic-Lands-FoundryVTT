@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Falcon
 tags:
   - animal
 name:

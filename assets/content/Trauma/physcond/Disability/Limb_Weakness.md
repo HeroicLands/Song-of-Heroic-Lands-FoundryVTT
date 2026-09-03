@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Limb Weakness
 tags: []
 name:
   full: Limb Weakness

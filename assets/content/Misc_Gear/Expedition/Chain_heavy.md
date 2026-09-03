@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Chain, heavy"
 tags:
   - expedition
 name:

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Hunting Dog
 tags:
   - animal
 name:

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Hide, Deer"
 tags:
   - natural
 name:

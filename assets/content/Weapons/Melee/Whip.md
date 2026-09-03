@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Whip
 tags: []
 name:
   full: Whip

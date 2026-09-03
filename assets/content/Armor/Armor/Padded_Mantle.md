@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Padded Mantle
 tags: []
 name:
   full: Padded Mantle

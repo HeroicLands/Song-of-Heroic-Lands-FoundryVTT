@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Bovine
 tags:
   - animal
 name:

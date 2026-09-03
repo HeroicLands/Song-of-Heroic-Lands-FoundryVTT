@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Spirit Power
 id: U2r6cMFiAZaQr4WZ
 type: doc
 subType: rules

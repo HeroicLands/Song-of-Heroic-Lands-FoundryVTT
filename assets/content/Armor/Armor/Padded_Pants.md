@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Padded Pants
 tags: []
 name:
   full: Padded Pants

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Keg Wine
 tags:
   - spirits
 name:

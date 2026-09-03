@@ -1,9 +1,4 @@
 ---
-aliases:
-  - Unarmed Combat
-  - Combat Technique
-  - Combat Techniques
-  - Strength Trial
 id: SNdlp2B249F9Enwx
 type: doc
 subType: rules

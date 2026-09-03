@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Millstone
 tags:
   - stone
 name:

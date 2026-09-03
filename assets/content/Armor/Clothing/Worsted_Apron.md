@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Worsted Apron
 tags: []
 name:
   full: Worsted Apron

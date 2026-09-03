@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Leather Cloak
 tags: []
 name:
   full: Leather Cloak

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Basic Folk
 tags: []
 name:
   full: Basic Folk

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Hide, Beaver"
 tags:
   - natural
 name:

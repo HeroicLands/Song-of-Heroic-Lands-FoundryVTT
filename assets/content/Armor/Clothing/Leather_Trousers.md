@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Leather Trousers
 tags: []
 name:
   full: Leather Trousers

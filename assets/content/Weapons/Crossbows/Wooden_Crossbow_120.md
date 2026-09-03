@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Wooden Crossbow 120
 tags: []
 name:
   full: Wooden Crossbow 120

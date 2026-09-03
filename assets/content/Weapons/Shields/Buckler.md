@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Buckler
 tags: []
 name:
   full: Buckler

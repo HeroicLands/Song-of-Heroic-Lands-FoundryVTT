@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Ballista Bolt
 tags: []
 name:
   full: Ballista Bolt

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Rawhide Tunic
 tags: []
 name:
   full: Rawhide Tunic

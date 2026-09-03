@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Net
 tags: []
 name:
   full: Net

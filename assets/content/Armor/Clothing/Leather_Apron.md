@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Leather Apron
 tags: []
 name:
   full: Leather Apron

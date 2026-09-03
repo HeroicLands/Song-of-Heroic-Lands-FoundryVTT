@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Viper
 tags:
   - animal
 name:

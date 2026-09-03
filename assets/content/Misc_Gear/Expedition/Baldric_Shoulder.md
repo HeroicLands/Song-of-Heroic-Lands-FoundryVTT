@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Baldric, Shoulder"
 tags:
   - expedition
 name:

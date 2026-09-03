@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Attribute
 id: tFoBD6DazC0n9cxw
 type: doc
 subType: user-guide

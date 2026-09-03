@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Boost
 id: 6xY5jkTDBbRHjEdk
 type: doc
 subType: rules

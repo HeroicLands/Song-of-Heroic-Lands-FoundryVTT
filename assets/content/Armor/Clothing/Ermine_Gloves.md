@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Ermine Gloves
 tags: []
 name:
   full: Ermine Gloves

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Sickle
 tags: []
 name:
   full: Sickle

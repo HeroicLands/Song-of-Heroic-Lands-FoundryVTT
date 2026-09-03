@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Horn (for carving)
 tags:
   - natural
 name:

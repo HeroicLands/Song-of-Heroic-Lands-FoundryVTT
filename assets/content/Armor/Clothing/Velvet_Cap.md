@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Velvet Cap
 tags: []
 name:
   full: Velvet Cap

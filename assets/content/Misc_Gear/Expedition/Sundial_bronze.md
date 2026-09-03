@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Sundial, bronze"
 tags:
   - expedition
 name:

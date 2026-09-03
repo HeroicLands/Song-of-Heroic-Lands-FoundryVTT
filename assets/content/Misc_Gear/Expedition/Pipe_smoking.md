@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Pipe, smoking"
 tags:
   - expedition
 name:

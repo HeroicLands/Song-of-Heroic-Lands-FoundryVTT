@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Carpet, wool"
 tags:
   - expedition
 name:

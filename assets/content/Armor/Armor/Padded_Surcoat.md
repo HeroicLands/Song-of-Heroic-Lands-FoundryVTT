@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Padded Surcoat
 tags: []
 name:
   full: Padded Surcoat

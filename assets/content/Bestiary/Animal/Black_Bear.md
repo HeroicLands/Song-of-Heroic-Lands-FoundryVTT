@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Black Bear
 tags:
   - animal
 name:

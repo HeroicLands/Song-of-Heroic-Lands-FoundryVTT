@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Crucible, small"
 tags: []
 name:
   full: "Crucible, small"

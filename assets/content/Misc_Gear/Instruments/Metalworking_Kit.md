@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Metalworking Kit
 tags:
   - instruments
 name:

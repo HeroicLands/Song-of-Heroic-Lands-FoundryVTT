@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Tin
 tags:
   - jewelry_cash
 name:

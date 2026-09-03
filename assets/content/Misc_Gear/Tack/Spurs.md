@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Spurs
 tags:
   - tack
 name:

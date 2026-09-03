@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Dye, Nut Brown"
 tags:
   - clothing
 name:

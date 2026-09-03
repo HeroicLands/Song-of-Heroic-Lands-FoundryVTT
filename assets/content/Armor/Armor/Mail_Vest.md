@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Mail Vest
 tags: []
 name:
   full: Mail Vest

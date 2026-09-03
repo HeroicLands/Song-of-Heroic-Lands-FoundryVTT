@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Scale Gauntlets
 tags: []
 name:
   full: Scale Gauntlets

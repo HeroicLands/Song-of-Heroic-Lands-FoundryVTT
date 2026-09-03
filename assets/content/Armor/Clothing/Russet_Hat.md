@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Russet Hat
 tags: []
 name:
   full: Russet Hat

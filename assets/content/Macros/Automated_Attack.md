@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Automated Attack
 tags: []
 description: "Runs the combat attack workflow for the combatant whose turn it is."
 type: macro

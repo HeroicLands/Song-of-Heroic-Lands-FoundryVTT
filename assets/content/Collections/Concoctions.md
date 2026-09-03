@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Concoctions
 id: zo3tZIMKCKxVzfZ6
 name:
   full: Concoctions

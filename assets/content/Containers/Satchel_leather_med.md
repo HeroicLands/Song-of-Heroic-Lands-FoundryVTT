@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Satchel, leather, med"
 tags: []
 name:
   full: "Satchel, leather, med"

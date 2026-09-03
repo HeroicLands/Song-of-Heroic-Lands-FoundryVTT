@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Silk Apron
 tags: []
 name:
   full: Silk Apron

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Palfrey
 tags:
   - animal
 name:

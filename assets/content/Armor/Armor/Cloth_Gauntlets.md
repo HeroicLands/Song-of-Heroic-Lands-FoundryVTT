@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Cloth Gauntlets
 tags: []
 name:
   full: Cloth Gauntlets

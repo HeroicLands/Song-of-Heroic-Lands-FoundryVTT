@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Satchel, leather, lg"
 tags: []
 name:
   full: "Satchel, leather, lg"

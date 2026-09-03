@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Mail Long Cowl
 tags: []
 name:
   full: Mail Long Cowl

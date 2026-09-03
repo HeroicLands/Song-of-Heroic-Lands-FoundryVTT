@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Slingshot
 tags: []
 name:
   full: Slingshot

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Plate Spaulders
 tags: []
 name:
   full: Plate Spaulders

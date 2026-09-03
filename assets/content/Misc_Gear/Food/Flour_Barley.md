@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Flour, Barley"
 tags:
   - food
 name:

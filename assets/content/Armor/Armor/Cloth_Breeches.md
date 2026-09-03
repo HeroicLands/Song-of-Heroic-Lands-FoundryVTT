@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Cloth Breeches
 tags: []
 name:
   full: Cloth Breeches

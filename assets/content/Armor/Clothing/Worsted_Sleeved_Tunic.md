@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Worsted Sleeved Tunic
 tags: []
 name:
   full: Worsted Sleeved Tunic

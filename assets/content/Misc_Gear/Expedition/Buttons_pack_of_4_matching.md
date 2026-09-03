@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Buttons, pack of 4 (matching)"
 tags:
   - expedition
 name:

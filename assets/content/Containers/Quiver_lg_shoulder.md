@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Quiver, lg (shoulder)"
 tags: []
 name:
   full: "Quiver, lg (shoulder)"

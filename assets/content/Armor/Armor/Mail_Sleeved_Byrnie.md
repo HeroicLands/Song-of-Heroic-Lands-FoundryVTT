@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Mail Sleeved Byrnie
 tags: []
 name:
   full: Mail Sleeved Byrnie

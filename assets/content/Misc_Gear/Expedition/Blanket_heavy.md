@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Blanket, heavy
 tags:
   - expedition
 name:

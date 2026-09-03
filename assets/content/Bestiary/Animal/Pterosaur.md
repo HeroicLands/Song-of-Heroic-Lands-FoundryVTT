@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Pterosaur
 tags:
   - animal
 name:

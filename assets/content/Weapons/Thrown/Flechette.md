@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Fléchette
 tags: []
 name:
   full: Fléchette

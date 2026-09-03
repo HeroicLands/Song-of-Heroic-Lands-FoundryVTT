@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Bag, 15 lb, leather"
 tags: []
 name:
   full: "Bag, 15 lb, leather"

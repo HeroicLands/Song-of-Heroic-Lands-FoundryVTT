@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Quilted Coat
 tags: []
 name:
   full: Quilted Coat

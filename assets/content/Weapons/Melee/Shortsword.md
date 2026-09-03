@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Shortsword
 tags: []
 name:
   full: Shortsword

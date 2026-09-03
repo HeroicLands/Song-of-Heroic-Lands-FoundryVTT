@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Springald
 tags: []
 name:
   full: Springald

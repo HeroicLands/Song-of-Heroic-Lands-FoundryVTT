@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Kite Shield
 tags: []
 name:
   full: Kite Shield

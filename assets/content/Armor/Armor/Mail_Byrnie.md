@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Mail Byrnie
 tags: []
 name:
   full: Mail Byrnie

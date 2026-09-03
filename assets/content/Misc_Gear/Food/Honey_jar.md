@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Honey, jar"
 tags:
   - food
 name:

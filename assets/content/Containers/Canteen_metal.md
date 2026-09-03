@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Canteen, metal"
 tags: []
 name:
   full: "Canteen, metal"

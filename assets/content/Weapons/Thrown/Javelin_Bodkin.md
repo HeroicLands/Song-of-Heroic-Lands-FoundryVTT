@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Javelin, Bodkin
 tags: []
 name:
   full: Javelin, Bodkin

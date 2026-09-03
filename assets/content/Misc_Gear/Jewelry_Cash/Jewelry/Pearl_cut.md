@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Pearl, cut"
 tags:
   - jewelry_cash
 name:

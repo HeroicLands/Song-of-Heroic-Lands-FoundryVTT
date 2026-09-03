@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Straw Skirt
 tags: []
 name:
   full: Straw Skirt

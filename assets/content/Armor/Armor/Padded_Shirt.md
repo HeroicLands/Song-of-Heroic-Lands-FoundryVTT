@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Padded Shirt
 tags: []
 name:
   full: Padded Shirt

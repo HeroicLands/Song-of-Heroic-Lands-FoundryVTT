@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Brandy, Dram"
 tags:
   - spirits
 name:

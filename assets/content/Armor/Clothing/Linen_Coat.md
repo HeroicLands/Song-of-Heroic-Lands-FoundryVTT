@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Linen Coat
 tags: []
 name:
   full: Linen Coat

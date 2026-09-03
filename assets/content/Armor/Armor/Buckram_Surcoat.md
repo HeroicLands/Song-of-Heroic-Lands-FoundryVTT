@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Buckram Surcoat
 tags: []
 name:
   full: Buckram Surcoat

@@ -1,9 +1,4 @@
 ---
-aliases:
-  - Bleeding
-  - Blood Loss
-  - Blood Loss Advance Test
-  - Blood Stoppage Test
 id: edDvJKnODEldyaSh
 type: doc
 subType: rules

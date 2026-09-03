@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Quilted Mantle
 tags: []
 name:
   full: Quilted Mantle

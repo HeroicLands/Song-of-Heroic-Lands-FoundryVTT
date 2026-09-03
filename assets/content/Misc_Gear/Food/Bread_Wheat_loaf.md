@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Bread, Wheat, loaf"
 tags:
   - food
 name:

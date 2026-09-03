@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Woodworking Kit
 tags:
   - instruments
 name:

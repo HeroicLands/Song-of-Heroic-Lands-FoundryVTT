@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Worsted Swaddle
 tags: []
 name:
   full: Worsted Swaddle

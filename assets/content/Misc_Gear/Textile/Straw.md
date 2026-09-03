@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Straw, woven, per sq yard"
 tags:
   - clothing
 name:

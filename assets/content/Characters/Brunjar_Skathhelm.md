@@ -1,7 +1,4 @@
 ---
-aliases:
-  - Brunjár Skathhelm
-  - Brunjar Skathhelm
 tags:
   - blackpine-wolves
   - brigand

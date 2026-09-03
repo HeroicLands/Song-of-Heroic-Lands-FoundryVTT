@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Tabûri
 tags: []
 name:
   full: Tabûri

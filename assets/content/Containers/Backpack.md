@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Backpack
 tags: []
 name:
   full: Backpack

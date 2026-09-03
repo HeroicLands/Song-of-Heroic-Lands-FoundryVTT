@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Cider, Pint"
 tags:
   - spirits
 name:

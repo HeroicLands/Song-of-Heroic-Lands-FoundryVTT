@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Vellum, per page"
 tags:
   - scribe
 name:

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Worsted Hat
 tags: []
 name:
   full: Worsted Hat

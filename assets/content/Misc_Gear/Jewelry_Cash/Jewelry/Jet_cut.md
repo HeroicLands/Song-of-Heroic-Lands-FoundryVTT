@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Jet, cut"
 tags:
   - jewelry_cash
 name:

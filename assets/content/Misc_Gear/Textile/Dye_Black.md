@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Dye, Black"
 tags:
   - clothing
 name:

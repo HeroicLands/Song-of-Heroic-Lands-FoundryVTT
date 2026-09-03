@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Holy Symbol, gold"
 tags:
   - religious
 name:

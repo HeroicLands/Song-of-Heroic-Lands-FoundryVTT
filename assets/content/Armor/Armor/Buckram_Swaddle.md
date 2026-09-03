@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Buckram Swaddle
 tags: []
 name:
   full: Buckram Swaddle

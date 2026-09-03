@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Rawhide Shoes
 tags: []
 name:
   full: Rawhide Shoes

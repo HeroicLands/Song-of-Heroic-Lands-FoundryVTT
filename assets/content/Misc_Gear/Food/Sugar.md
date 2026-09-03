@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Sugar
 tags:
   - food
 name:

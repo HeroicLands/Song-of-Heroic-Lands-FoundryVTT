@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Hide, Calf"
 tags:
   - natural
 name:

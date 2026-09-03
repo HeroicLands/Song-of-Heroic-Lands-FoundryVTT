@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Spirit Action
 id: rSZepxNYmUfj2FIs
 type: doc
 subType: rules

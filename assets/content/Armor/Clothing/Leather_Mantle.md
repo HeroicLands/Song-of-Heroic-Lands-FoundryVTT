@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Leather Mantle
 tags: []
 name:
   full: Leather Mantle

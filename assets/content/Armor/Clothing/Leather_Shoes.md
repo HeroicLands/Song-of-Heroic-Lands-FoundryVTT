@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Leather Shoes
 tags: []
 name:
   full: Leather Shoes

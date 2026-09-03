@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Harness, Ox"
 tags:
   - tack
 name:

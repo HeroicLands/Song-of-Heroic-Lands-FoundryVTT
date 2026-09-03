@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Goblet, pewter"
 tags:
   - cooking
 name:

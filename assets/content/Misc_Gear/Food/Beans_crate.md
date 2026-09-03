@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Beans, crate"
 tags:
   - food
 name:

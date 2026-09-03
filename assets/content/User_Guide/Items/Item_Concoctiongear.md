@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Concoction
 id: nV3Nq6xe3fUcJJzd
 type: doc
 subType: user-guide

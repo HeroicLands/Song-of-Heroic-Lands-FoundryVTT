@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Serge Skirt
 tags: []
 name:
   full: Serge Skirt

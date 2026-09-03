@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Harp, Aeolian (small)"
 tags:
   - music
 name:

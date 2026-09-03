@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Cauliflower Ear
 tags: []
 name:
   full: Cauliflower Ear

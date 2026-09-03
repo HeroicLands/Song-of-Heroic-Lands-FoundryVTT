@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Eggs
 tags:
   - food
 name:

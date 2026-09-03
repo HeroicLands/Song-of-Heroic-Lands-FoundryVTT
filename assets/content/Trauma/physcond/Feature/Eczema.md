@@ -1,5 +1,4 @@
 ---
-aliases: []
 tags: []
 name:
   full: Eczema

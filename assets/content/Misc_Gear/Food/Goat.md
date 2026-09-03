@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Goat
 tags:
   - food
 name:

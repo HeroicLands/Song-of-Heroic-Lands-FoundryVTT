@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Canvas Tunic
 tags: []
 name:
   full: Canvas Tunic

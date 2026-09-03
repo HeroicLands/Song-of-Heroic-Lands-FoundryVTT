@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Muzzle
 tags:
   - tack
 name:

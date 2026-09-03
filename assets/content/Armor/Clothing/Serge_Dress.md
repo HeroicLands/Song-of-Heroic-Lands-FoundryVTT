@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Serge Dress
 tags: []
 name:
   full: Serge Dress

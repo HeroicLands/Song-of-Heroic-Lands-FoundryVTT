@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Jousting Pole
 tags: []
 name:
   full: Jousting Pole

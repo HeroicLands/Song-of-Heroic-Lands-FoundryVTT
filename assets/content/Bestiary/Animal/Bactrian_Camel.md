@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Bactrian Camel
 tags:
   - animal
 name:

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Feathers
 tags:
   - food
 name:

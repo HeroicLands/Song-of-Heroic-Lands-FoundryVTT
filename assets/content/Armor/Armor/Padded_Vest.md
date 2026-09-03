@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Padded Vest
 tags: []
 name:
   full: Padded Vest

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Brooch, copper"
 tags:
   - jewelry_cash
 name:

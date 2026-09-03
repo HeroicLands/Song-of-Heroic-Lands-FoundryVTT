@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Agate, cut"
 tags:
   - jewelry_cash
 name:

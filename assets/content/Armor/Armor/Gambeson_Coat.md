@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Gambeson Coat
 tags: []
 name:
   full: Gambeson Coat

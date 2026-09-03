@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Circlet, gold"
 tags:
   - jewelry_cash
 name:

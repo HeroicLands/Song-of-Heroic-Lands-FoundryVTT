@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Worsted Skirt
 tags: []
 name:
   full: Worsted Skirt

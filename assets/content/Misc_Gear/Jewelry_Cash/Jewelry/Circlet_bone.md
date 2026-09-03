@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Circlet, bone"
 tags:
   - jewelry_cash
 name:

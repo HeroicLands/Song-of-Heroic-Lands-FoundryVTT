@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Onager
 tags:
   - animal
   - image-needed

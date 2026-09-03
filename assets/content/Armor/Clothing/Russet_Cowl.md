@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Russet Cowl
 tags: []
 name:
   full: Russet Cowl

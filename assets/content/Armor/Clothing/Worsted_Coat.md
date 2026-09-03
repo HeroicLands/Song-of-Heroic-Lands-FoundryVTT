@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Worsted Coat
 tags: []
 name:
   full: Worsted Coat

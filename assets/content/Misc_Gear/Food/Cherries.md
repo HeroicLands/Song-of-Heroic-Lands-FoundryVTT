@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Cherries
 tags:
   - food
 name:

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Charger
 tags:
   - animal
 name:

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Ring, copper"
 tags:
   - jewelry_cash
 name:

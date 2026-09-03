@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Impaired Vision
 tags: []
 name:
   full: Impaired Vision

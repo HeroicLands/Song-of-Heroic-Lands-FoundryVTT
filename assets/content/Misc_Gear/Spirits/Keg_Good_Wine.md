@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Keg Good Wine
 tags:
   - spirits
 name:

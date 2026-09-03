@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Hide, Elk"
 tags:
   - natural
 name:

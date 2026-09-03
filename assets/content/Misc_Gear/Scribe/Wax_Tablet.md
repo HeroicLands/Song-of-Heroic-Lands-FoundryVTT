@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Wax Tablet
 tags:
   - scribe
 name:

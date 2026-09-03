@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Talc, Rough"
 tags:
   - stone
 name:

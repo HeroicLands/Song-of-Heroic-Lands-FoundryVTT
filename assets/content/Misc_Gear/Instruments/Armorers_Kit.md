@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Armorer's Kit
 tags:
   - instruments
 name:

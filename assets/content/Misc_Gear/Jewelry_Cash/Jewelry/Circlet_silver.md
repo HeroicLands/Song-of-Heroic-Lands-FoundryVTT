@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Circlet, silver"
 tags:
   - jewelry_cash
 name:

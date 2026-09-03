@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Sealskin Tunic
 tags: []
 name:
   full: Sealskin Tunic

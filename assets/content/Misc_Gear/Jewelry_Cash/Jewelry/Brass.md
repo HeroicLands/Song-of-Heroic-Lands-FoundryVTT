@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Brass
 tags:
   - jewelry_cash
 name:

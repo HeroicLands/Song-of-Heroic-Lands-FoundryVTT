@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Drum, bass"
 tags:
   - music
 name:

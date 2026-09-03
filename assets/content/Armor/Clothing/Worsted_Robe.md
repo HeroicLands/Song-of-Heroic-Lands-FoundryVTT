@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Worsted Robe
 tags: []
 name:
   full: Worsted Robe

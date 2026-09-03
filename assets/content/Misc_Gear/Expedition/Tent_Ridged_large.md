@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Tent, Ridged, large"
 tags:
   - expedition
 name:

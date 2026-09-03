@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Barley
 tags:
   - food
 name:

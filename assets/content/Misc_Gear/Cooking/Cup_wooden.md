@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Cup, wooden"
 tags:
   - cooking
 name:

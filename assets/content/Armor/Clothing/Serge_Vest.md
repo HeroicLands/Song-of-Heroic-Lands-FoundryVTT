@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Serge Vest
 tags: []
 name:
   full: Serge Vest

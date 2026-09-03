@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Linen Trousers
 tags: []
 name:
   full: Linen Trousers

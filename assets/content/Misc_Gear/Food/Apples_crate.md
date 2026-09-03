@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Apples, crate"
 tags:
   - food
 name:

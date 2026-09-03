@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Silk Mantle
 tags: []
 name:
   full: Silk Mantle

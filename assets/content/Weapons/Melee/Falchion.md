@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Falchion
 tags: []
 name:
   full: Falchion

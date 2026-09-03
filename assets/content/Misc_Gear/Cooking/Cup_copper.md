@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Cup, copper"
 tags:
   - cooking
 name:

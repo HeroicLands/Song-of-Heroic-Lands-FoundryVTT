@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Mirror, bronze"
 tags:
   - expedition
 name:

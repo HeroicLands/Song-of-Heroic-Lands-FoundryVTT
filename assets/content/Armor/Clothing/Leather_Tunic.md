@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Leather Tunic
 tags: []
 name:
   full: Leather Tunic

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Bottle, ceramic, 2 pints"
 tags: []
 name:
   full: "Bottle, ceramic, 2 pints"

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Light Broad Bolt
 tags: []
 name:
   full: Light Broad Bolt

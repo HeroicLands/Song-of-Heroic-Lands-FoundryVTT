@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Base Item
 id: DXyazxuH0KLFWj4l
 type: doc
 subType: user-guide

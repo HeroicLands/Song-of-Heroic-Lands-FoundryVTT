@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Worsted Cap
 tags: []
 name:
   full: Worsted Cap

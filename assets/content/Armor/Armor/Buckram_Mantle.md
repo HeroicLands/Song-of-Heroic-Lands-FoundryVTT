@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Buckram Mantle
 tags: []
 name:
   full: Buckram Mantle

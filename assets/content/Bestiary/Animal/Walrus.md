@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Walrus
 tags:
   - animal
   - image-needed

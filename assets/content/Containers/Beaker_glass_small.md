@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Beaker, glass, small"
 tags: []
 name:
   full: "Beaker, glass, small"

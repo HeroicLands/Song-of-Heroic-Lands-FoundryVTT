@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Perfume, cheap"
 tags:
   - expedition
 name:

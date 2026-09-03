@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Whip, Teamster
 tags: []
 name:
   full: Whip, Teamster

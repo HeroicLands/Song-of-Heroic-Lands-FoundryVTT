@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Leather Calf Boots
 tags: []
 name:
   full: Leather Calf Boots

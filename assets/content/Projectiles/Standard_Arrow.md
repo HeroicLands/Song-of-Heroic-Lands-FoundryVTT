@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Standard Arrow
 tags: []
 name:
   full: Standard Arrow

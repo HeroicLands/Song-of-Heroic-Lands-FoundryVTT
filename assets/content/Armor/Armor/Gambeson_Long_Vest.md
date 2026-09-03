@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Gambeson Long Vest
 tags: []
 name:
   full: Gambeson Long Vest

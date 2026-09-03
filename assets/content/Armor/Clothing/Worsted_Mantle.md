@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Worsted Mantle
 tags: []
 name:
   full: Worsted Mantle

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Credits and Attributions
 id: VCCHelr5qIC5ydop
 type: doc
 subType: reference

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Physical Exertion
 tags: []
 name:
   full: Physical Exertion

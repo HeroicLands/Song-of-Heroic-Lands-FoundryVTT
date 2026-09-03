@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Worsted, per sq yard"
 tags:
   - clothing
 name:

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Gear
 id: p5xXqvicKqdw49rA
 type: doc
 subType: user-guide

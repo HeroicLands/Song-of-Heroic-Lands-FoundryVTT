@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Scones
 tags:
   - food
 name:

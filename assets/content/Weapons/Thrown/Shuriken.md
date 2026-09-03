@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Shuriken
 tags: []
 name:
   full: Shuriken

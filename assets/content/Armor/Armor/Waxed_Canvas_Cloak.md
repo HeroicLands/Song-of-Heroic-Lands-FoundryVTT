@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Waxed Canvas Cloak
 tags: []
 name:
   full: Waxed Canvas Cloak

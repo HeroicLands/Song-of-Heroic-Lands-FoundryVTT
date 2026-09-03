@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Pipe weed
 tags:
   - expedition
 name:

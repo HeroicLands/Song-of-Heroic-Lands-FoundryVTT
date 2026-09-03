@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Padded Cloak
 tags: []
 name:
   full: Padded Cloak

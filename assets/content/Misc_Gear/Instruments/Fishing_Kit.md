@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Fishing Kit
 tags:
   - instruments
 name:

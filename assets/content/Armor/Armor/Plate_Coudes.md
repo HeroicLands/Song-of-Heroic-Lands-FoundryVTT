@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Plate Coudes
 tags: []
 name:
   full: Plate Coudes

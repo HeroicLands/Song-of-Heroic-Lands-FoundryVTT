@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Worsted Dress
 tags: []
 name:
   full: Worsted Dress

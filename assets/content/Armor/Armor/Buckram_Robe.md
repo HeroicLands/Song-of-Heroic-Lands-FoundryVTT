@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Buckram Robe
 tags: []
 name:
   full: Buckram Robe

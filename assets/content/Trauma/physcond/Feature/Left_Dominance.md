@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Left Dominance
 tags: []
 name:
   full: Left Dominance

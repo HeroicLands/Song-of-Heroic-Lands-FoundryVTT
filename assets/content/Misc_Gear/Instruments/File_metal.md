@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "File, metal"
 tags:
   - instruments
 name:

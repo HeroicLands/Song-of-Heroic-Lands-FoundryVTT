@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Hide, Cow"
 tags:
   - natural
 name:

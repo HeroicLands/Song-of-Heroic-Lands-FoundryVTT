@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Lockbox, large"
 tags: []
 name:
   full: "Lockbox, large"

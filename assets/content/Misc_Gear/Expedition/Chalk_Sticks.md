@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Chalk Sticks
 tags:
   - expedition
 name:

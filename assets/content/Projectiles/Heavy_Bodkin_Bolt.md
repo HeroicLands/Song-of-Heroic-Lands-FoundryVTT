@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Heavy Bodkin Bolt
 tags: []
 name:
   full: Heavy Bodkin Bolt

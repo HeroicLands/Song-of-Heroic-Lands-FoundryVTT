@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Lead Bullet
 tags: []
 name:
   full: Lead Bullet

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Buns
 tags:
   - food
 name:

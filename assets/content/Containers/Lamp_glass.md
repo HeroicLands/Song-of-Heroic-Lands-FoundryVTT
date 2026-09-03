@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Lamp. glass
 tags: []
 name:
   full: Lamp. glass

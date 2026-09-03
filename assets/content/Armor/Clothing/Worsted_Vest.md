@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Worsted Vest
 tags: []
 name:
   full: Worsted Vest

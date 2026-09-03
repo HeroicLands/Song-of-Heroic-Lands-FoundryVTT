@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Flour, Rye"
 tags:
   - food
 name:

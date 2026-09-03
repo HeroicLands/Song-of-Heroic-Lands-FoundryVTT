@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Harness, Horse"
 tags:
   - tack
 name:

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Mirror, iron, silver-coated"
 tags:
   - expedition
 name:

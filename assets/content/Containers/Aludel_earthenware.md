@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Aludel, earthenware"
 tags: []
 name:
   full: "Aludel, earthenware"

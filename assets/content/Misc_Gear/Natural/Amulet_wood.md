@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Amulet, wood"
 tags:
   - jewelry_cash
 name:

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Anklet, bronze"
 tags:
   - jewelry_cash
 name:

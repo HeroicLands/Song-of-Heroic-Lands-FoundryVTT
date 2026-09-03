@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Linen Hat
 tags: []
 name:
   full: Linen Hat

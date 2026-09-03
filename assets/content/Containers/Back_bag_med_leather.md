@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Back bag, med, leather"
 tags: []
 name:
   full: "Back bag, med, leather"

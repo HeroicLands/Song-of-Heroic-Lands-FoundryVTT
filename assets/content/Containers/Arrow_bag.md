@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Arrow bag"
 tags: []
 name:
   full: "Arrow bag"

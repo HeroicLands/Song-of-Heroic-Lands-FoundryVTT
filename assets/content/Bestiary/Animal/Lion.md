@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Lion
 tags:
   - animal
 name:

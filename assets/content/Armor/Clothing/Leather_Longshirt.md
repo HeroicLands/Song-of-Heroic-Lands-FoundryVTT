@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Leather Longshirt
 tags: []
 name:
   full: Leather Longshirt

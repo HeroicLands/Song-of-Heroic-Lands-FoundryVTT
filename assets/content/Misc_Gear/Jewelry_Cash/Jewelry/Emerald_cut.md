@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Emerald, cut"
 tags:
   - jewelry_cash
 name:

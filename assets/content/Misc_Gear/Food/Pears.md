@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Pears
 tags:
   - food
 name:

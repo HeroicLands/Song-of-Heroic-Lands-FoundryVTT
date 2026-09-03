@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Pewter
 tags:
   - jewelry_cash
 name:

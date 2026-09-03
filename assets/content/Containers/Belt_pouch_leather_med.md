@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Belt pouch, leather, med
 tags: []
 name:
   full: Belt pouch, leather, med

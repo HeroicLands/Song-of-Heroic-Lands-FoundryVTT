@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Inkwell, glass"
 tags: []
 name:
   full: "Inkwell, glass"

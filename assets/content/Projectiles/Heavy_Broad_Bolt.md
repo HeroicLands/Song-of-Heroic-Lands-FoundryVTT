@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Heavy Broad Bolt
 tags: []
 name:
   full: Heavy Broad Bolt

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Silk Robe
 tags: []
 name:
   full: Silk Robe

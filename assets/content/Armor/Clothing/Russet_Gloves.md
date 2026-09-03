@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Russet Gloves
 tags: []
 name:
   full: Russet Gloves

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Medical Supplies, per IL"
 tags:
   - medical
 name:

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Beaver Mantle
 tags: []
 name:
   full: Beaver Mantle

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Throwing Axe
 tags: []
 name:
   full: Throwing Axe

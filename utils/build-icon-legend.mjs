@@ -53,21 +53,14 @@ const USER_GUIDE_FOLDER_ID = "IgwaG8rAUUO9vrtz";
 /**
  * The note's logical identity — `(type, shortcode)`.
  *
- * **No `doc-iconlgndug` address alias.** The generator used to emit one, on the
- * reasoning that Obsidian resolves `[[doc-iconlgndug]]` against the literal
- * string in a note's `aliases`, so a note without it had no address in the
- * editor. That was an accommodation for the editor, not a requirement of the
- * build: both resolvers reach the address through `readQualifier` →
- * `type/shortcode`, and `lint:addresses` — which is `content-build lint` — is
- * clean without it. Every note in the tree has had its self-alias removed for
- * that reason; a generator that kept emitting one would put this page's back
+ * **No top-level `aliases` block.** The generator used to emit one, naming the
+ * page and a couple of synonyms, because the bare `[[Alias]]` wikilink form
+ * resolved through it. That form and its index are retired
+ * (HeroicLands/package-build#180): a link now names an address,
+ * `[[type-shortcode|Text]]`, which both resolvers reach through
+ * `readQualifier` → `type/shortcode` without consulting any alias. The field is
+ * refused outright, so a generator that kept emitting one would fail the build
  * on the next run.
- *
- * It also has to go rather than merely being tolerated: under the four-segment
- * address grammar (HeroicLands/package-build#59) the pipe distinguishes an
- * alias lookup from an address lookup, so a note listing its own address among
- * its aliases makes `[[doc-iconlgndug]]` and `[[doc-iconlgndug|]]` collide on the
- * same note.
  *
  * See kb/dev-docs/reference/content-links.md.
  */
@@ -338,10 +331,6 @@ async function renderPage() {
         .join("\n\n");
 
     const page = `---
-aliases:
-    - Icon Legend
-    - Icons
-    - Glyphs
 id: ${PAGE_ID}
 type: ${PAGE_TYPE}
 subType: user-guide

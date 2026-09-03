@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Rye
 tags:
   - food
 name:

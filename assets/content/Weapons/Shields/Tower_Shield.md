@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Tower Shield
 tags: []
 name:
   full: Tower Shield

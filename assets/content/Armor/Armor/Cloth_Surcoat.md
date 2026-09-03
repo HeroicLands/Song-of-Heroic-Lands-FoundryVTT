@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Cloth Surcoat
 tags: []
 name:
   full: Cloth Surcoat

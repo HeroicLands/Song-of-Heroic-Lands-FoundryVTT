@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Candles, Beeswax"
 tags:
   - lighting
 name:

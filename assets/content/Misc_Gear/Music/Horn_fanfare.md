@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Horn, fanfare"
 tags:
   - music
 name:

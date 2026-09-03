@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Rawhide Trousers
 tags: []
 name:
   full: Rawhide Trousers

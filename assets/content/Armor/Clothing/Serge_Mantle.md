@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Serge Mantle
 tags: []
 name:
   full: Serge Mantle

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Icon, religious, ceramic, sm"
 tags:
   - religious
 name:

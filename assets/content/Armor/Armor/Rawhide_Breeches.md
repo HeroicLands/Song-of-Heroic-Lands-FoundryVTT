@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Rawhide Breeches
 tags: []
 name:
   full: Rawhide Breeches

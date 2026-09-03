@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Linen Surcoat
 tags: []
 name:
   full: Linen Surcoat

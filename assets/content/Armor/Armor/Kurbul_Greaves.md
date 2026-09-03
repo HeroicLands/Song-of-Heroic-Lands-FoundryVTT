@@ -1,7 +1,4 @@
 ---
-aliases:
-  - Kurbul Greaves
-  - Kûrbúl Greaves
 tags: []
 name:
   full: Kûrbúl Greaves

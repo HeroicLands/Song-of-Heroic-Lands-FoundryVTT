@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Light Bodkin Arrow
 tags: []
 name:
   full: Light Bodkin Arrow

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Leather Bracers
 tags: []
 name:
   full: Leather Bracers

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Lenses"
 tags:
   - instruments
 name:

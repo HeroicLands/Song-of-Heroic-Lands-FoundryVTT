@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Morbus Monstruosus
 tags: []
 name:
   full: Morbus Monstruosus

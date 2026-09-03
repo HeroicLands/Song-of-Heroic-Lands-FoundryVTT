@@ -1,9 +1,4 @@
 ---
-aliases:
-  - Combat Introduction
-  - Combat
-  - Combat Round
-  - Initiative Rank
 id: T7DKbPLUwqQyQL08
 type: doc
 subType: rules

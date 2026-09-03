@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Skill
 id: rbl6nD2s5gxsx9gR
 type: doc
 subType: user-guide

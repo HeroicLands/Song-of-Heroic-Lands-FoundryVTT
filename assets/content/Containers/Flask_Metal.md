@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Flask, Metal"
 tags: []
 name:
   full: "Flask, Metal"

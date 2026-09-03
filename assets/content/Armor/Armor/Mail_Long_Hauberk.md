@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Mail Long Hauberk
 tags: []
 name:
   full: Mail Long Hauberk

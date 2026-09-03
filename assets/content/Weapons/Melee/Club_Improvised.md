@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Club, Improvised
 tags: []
 name:
   full: Club, Improvised

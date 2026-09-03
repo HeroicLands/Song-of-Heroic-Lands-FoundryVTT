@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Linen Robe
 tags: []
 name:
   full: Linen Robe

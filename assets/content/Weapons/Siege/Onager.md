@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Onager
 tags: []
 name:
   full: Onager

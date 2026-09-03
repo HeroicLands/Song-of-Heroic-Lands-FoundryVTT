@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Cnidarian Toxin
 tags: []
 name:
   full: Cnidarian Toxin

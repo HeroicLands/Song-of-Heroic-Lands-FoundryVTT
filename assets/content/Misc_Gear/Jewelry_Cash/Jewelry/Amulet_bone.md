@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Amulet, bone"
 tags:
   - jewelry_cash
 name:

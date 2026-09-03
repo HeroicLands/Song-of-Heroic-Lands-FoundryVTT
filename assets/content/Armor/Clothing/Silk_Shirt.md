@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Silk Shirt
 tags: []
 name:
   full: Silk Shirt

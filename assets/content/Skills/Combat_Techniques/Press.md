@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Press
 tags: []
 name:
   full: Press

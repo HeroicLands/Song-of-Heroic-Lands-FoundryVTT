@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Heat Intolerance
 tags: []
 name:
   full: Heat Intolerance

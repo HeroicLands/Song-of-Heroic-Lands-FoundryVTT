@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Komodo Dragon
 tags:
   - animal
 name:

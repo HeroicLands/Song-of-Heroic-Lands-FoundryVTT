@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Ermine Shirt
 tags: []
 name:
   full: Ermine Shirt

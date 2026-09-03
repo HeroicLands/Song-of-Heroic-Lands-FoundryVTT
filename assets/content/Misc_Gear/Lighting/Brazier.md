@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Brazier
 tags:
   - lighting
 name:

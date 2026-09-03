@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Sealskin Longshirt
 tags: []
 name:
   full: Sealskin Longshirt

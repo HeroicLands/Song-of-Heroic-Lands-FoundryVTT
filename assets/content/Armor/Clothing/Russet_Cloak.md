@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Russet Cloak
 tags: []
 name:
   full: Russet Cloak

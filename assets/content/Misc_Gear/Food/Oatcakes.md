@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Oatcakes
 tags:
   - food
 name:

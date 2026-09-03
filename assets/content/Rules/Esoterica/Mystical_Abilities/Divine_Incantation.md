@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Divine Incantation
 id: oorZPGmBmLEyzvFe
 type: doc
 subType: rules

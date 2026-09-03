@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Buckram Breeches
 tags: []
 name:
   full: Buckram Breeches

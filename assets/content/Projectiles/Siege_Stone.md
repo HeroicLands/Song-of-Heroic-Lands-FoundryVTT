@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Siege Stone
 tags: []
 name:
   full: Siege Stone

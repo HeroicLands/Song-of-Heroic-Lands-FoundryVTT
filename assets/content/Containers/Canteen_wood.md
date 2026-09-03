@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Canteen, wood"
 tags: []
 name:
   full: "Canteen, wood"

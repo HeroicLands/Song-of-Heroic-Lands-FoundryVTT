@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Ostrich
 tags:
   - animal
   - image-needed

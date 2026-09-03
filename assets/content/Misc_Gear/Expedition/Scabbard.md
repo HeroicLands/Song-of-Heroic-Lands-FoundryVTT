@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Scabbard
 tags:
   - expedition
 name:

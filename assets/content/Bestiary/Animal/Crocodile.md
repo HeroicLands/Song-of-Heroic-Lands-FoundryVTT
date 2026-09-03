@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Crocodile
 tags:
   - animal
 name:

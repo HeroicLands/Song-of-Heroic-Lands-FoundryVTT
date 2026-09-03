@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Velvet Trousers
 tags: []
 name:
   full: Velvet Trousers

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Anklet, bone"
 tags:
   - jewelry_cash
 name:

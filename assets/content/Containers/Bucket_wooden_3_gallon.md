@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Bucket, wooden, 3 gallon"
 tags: []
 name:
   full: "Bucket, wooden, 3 gallon"

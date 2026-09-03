@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Russet, per sq yard"
 tags:
   - clothing
 name:

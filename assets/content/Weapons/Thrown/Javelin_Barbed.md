@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Javelin, Barbed
 tags: []
 name:
   full: Javelin, Barbed

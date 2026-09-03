@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Linen Dress
 tags: []
 name:
   full: Linen Dress

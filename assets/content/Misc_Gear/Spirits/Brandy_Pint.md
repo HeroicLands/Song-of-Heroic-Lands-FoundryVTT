@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Brandy, Pint"
 tags:
   - spirits
 name:

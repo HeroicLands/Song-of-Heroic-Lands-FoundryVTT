@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Leather, Tanned, per sq yard"
 tags:
   - natural
 name:

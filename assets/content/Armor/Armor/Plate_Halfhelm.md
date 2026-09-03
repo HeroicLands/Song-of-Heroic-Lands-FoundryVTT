@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Plate Halfhelm
 tags: []
 name:
   full: Plate Halfhelm

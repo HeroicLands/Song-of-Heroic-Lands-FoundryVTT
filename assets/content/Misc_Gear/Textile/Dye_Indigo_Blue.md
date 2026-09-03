@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Dye, Indigo Blue"
 tags:
   - clothing
 name:

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Circlet, ivory"
 tags:
   - jewelry_cash
 name:

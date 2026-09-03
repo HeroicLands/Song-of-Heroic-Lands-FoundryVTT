@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Cooking Kit
 tags:
   - instruments
 name:

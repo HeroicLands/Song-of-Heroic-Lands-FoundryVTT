@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Velvet, per sq yard"
 tags:
   - clothing
 name:

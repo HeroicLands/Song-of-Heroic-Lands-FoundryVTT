@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Amulet, copper"
 tags:
   - jewelry_cash
 name:

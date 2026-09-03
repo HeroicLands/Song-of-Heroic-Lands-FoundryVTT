@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Astral Journeying
 tags: []
 name:
   full: Astral Journeying

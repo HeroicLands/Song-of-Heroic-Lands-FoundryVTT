@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Bone/Horn
 tags:
   - music
 name:

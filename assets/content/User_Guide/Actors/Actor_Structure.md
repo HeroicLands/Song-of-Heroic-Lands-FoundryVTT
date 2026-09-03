@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Structure
 id: STezcXhJMlmYv9XT
 type: doc
 subType: user-guide

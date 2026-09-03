@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Cloth Mantle
 tags: []
 name:
   full: Cloth Mantle

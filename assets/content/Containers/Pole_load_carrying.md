@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Pole, load carrying"
 tags: []
 name:
   full: "Pole, load carrying"

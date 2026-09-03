@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Ring, bone"
 tags:
   - jewelry_cash
 name:

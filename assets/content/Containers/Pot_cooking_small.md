@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Pot, cooking, small"
 tags: []
 name:
   full: "Pot, cooking, small"

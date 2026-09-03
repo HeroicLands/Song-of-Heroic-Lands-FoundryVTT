@@ -1,8 +1,4 @@
 ---
-aliases:
-  - Psychological Condition
-  - Psyche Stress
-  - Psyche Stress Level
 id: R6LpCJeZV0uruifv
 type: doc
 subType: rules

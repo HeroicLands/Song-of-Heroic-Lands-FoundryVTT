@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Hide, Lambskin"
 tags:
   - natural
 name:

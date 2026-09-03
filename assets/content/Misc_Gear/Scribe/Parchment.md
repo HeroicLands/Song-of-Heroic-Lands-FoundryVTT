@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Parchment
 tags:
   - scribe
 name:

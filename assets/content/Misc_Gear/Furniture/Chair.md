@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Chair"
 tags:
   - furniture
 name:

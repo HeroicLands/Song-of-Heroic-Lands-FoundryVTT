@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Wild Horse
 tags:
   - animal
   - image-needed

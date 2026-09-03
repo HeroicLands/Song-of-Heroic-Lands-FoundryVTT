@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Chisel
 tags:
   - instruments
 name:

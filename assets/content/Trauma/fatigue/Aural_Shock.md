@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Aural Shock
 tags: []
 name:
   full: Aural Shock

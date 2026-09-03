@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Brooch, horn"
 tags:
   - jewelry_cash
 name:

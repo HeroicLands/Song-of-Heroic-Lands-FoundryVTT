@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Cheese
 tags:
   - food
 name:

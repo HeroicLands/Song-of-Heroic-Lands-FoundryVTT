@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Cloth Calf Boots
 tags: []
 name:
   full: Cloth Calf Boots

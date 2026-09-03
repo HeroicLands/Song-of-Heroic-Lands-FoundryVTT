@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Jankorez, cut"
 tags:
   - jewelry_cash
 name:

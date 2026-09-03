@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Quilted Tunic
 tags: []
 name:
   full: Quilted Tunic

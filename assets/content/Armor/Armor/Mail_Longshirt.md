@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Mail Longshirt
 tags: []
 name:
   full: Mail Longshirt

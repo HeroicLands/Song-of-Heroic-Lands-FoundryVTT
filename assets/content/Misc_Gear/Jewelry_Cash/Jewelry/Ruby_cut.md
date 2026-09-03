@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Ruby, cut"
 tags:
   - jewelry_cash
 name:

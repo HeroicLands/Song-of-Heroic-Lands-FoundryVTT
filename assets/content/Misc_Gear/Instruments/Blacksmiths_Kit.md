@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Blacksmith's Kit
 tags:
   - instruments
 name:

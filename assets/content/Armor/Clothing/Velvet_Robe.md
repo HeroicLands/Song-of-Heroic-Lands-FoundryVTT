@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Velvet Robe
 tags: []
 name:
   full: Velvet Robe

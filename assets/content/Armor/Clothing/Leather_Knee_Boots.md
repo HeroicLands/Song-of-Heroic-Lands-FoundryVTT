@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Leather Knee Boots
 tags: []
 name:
   full: Leather Knee Boots

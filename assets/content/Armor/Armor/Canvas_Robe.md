@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Canvas Robe
 tags: []
 name:
   full: Canvas Robe

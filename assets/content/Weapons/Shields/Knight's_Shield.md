@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Knight's Shield
 tags: []
 name:
   full: Knight's Shield

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Cold Exposure
 tags: []
 name:
   full: Cold Exposure

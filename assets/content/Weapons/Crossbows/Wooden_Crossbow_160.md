@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Wooden Crossbow 160
 tags: []
 name:
   full: Wooden Crossbow 160

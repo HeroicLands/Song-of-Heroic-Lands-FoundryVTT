@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Buckram Skirt
 tags: []
 name:
   full: Buckram Skirt

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Linen Tunic
 tags: []
 name:
   full: Linen Tunic

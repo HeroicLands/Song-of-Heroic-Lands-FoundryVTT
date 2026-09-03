@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Mail Shirt
 tags: []
 name:
   full: Mail Shirt

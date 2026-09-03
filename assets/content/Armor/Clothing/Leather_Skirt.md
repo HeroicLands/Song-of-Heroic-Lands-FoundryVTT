@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Leather Skirt
 tags: []
 name:
   full: Leather Skirt

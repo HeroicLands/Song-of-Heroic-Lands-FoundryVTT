@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Velvet Sleeved Tunic
 tags: []
 name:
   full: Velvet Sleeved Tunic

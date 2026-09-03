@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Anchovies
 tags:
   - food
 name:

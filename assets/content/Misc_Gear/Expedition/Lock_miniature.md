@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Lock, miniature"
 tags:
   - expedition
 name:

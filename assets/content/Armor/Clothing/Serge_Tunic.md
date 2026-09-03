@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Serge Tunic
 tags: []
 name:
   full: Serge Tunic

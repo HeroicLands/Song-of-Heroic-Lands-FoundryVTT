@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Armor Maintenance Supplies, per 1d"
 tags:
   - expedition
 name:

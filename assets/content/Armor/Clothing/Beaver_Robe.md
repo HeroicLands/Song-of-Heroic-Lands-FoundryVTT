@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Beaver Robe
 tags: []
 name:
   full: Beaver Robe

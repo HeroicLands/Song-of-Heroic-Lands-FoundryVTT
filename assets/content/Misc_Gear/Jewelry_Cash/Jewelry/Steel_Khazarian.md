@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Steel, Khazárian
 tags:
   - jewelry_cash
 name:

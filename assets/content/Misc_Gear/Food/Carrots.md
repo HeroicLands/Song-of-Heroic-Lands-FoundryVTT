@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Carrots
 tags:
   - food
 name:

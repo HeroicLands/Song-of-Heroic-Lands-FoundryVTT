@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Beaver Trousers
 tags: []
 name:
   full: Beaver Trousers

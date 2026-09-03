@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Worsted Cloak
 tags: []
 name:
   full: Worsted Cloak

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Wayfarer's Rest, Loft
 tags: []
 name:
   full: Wayfarer's Rest, Loft

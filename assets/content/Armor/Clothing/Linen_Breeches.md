@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Linen Breeches
 tags: []
 name:
   full: Linen Breeches

@@ -1,7 +1,4 @@
 ---
-aliases:
-  - Resolution
-  - Resolution Introduction
 id: hzGEcwoamHndfE66
 type: doc
 subType: rules

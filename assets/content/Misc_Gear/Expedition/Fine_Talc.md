@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Fine Talc
 tags:
   - expedition
 name:

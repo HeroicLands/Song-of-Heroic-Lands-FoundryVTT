@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Beads, glass"
 tags:
   - expedition
 name:

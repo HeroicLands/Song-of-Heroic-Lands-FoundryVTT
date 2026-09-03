@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Ritual Action
 id: SAPsZAA28wMkaRbl
 type: doc
 subType: rules

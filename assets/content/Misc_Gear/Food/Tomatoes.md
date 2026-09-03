@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Tomatoes
 tags:
   - food
 name:

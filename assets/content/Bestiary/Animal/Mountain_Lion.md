@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Mountain Lion
 tags:
   - animal
 name:

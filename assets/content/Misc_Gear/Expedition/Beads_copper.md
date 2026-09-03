@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Beads, copper"
 tags:
   - expedition
 name:

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Great Elk
 tags:
   - animal
 name:

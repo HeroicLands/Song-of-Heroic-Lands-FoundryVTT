@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Hippopotamus
 tags:
   - animal
   - image-needed

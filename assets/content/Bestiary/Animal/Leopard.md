@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Leopard
 tags:
   - animal
   - image-needed

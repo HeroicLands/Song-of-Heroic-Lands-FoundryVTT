@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Pen, quill"
 tags:
   - scribe
 name:

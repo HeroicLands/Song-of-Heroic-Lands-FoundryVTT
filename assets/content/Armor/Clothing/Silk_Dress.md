@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Silk Dress
 tags: []
 name:
   full: Silk Dress

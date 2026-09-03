@@ -1,8 +1,4 @@
 ---
-aliases:
-  - Coma
-  - Coma Course Test
-  - Coma Healing Rate
 id: bqBGHYIwbqvqaZ5I
 type: doc
 subType: rules

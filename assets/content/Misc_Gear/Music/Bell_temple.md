@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Bell, temple"
 tags:
   - music
 name:

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Sack, waxed canvas, sm"
 tags: []
 name:
   full: "Sack, waxed canvas, sm"

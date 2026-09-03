@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Serge Cap
 tags: []
 name:
   full: Serge Cap

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Armor
 id: yh3LCFXRlhJWMqLW
 type: doc
 subType: user-guide

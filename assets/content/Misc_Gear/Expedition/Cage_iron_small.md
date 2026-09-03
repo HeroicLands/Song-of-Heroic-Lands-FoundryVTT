@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Cage, iron, small"
 tags:
   - expedition
 name:

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Saddle, Riding"
 tags:
   - tack
 name:

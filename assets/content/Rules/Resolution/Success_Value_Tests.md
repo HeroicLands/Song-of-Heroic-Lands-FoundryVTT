@@ -1,9 +1,4 @@
 ---
-aliases:
-  - Success Value Test
-  - SV Test
-  - Success Value
-  - Value Diamonds
 id: PqED2bmjJU5AdEsU
 type: doc
 subType: rules

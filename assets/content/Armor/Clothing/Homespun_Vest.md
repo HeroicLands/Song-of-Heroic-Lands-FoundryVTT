@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Homespun Vest
 tags: []
 name:
   full: Homespun Vest

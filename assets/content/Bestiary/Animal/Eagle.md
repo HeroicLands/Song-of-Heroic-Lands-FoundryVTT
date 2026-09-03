@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Eagle
 tags:
   - animal
 name:

@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Milk, goat"
 tags:
   - food
 name:

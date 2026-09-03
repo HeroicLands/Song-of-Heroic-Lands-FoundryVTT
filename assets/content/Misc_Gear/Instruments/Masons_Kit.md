@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Mason's Kit
 tags:
   - instruments
 name:

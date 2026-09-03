@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Rawhide Gauntlets
 tags: []
 name:
   full: Rawhide Gauntlets

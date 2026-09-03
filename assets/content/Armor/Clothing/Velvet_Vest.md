@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Velvet Vest
 tags: []
 name:
   full: Velvet Vest

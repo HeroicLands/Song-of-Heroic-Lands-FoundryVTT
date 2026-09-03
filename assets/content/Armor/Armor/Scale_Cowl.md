@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Scale Cowl
 tags: []
 name:
   full: Scale Cowl

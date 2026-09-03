@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Spoon, pewter"
 tags:
   - cooking
 name:

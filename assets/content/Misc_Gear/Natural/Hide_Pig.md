@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Hide, Pig"
 tags:
   - natural
 name:

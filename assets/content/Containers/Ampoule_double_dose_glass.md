@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Ampoule, double dose, glass"
 tags: []
 name:
   full: "Ampoule, double dose, glass"

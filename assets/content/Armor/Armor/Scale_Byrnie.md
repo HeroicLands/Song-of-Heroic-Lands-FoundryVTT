@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Scale Byrnie
 tags: []
 name:
   full: Scale Byrnie

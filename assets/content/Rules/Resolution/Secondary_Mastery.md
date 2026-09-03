@@ -1,8 +1,4 @@
 ---
-aliases:
-  - Secondary Mastery
-  - Secondary Modifier
-  - Secondary Roll
 id: ZS7AkgrQvXdkku0g
 type: doc
 subType: rules

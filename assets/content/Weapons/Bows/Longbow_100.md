@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Longbow 100
 tags: []
 name:
   full: Longbow 100

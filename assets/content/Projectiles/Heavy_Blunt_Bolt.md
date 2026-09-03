@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Heavy Blunt Bolt
 tags: []
 name:
   full: Heavy Blunt Bolt

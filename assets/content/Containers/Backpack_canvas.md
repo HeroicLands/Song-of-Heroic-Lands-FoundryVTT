@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Backpack, canvas"
 tags: []
 name:
   full: "Backpack, canvas"

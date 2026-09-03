@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Ploughshare"
 tags:
   - instruments
 name:

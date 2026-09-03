@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Padded Cuisse
 tags: []
 name:
   full: Padded Cuisse

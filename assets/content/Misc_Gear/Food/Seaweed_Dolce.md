@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Seaweed, Dolce"
 tags:
   - food
 name:

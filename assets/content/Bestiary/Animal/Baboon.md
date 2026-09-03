@@ -1,6 +1,4 @@
 ---
-aliases:
-  - Baboon
 tags:
   - animal
   - image-needed

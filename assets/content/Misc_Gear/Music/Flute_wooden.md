@@ -1,6 +1,4 @@
 ---
-aliases:
-  - "Flute, wooden"
 tags:
   - music
 name:
