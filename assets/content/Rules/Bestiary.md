@@ -19,7 +19,7 @@ TABLE WITHOUT ID
   sohl.body.weight.base AS "Weight",
   sohl.body.bodyScaleBase AS "BodyScale",
   description AS "Description"
-WHERE type = "creature" AND sohl.kbcat = "animal"
+WHERE type = "being" AND sohl.kbcat = "animal"
 ```
 
 # Constructs
@@ -33,7 +33,7 @@ TABLE WITHOUT ID
   sohl.body.weight.base AS "Weight",
   sohl.body.bodyScaleBase AS "BodyScale",
   description AS "Description"
-WHERE type = "creature" AND sohl.kbcat = "construct"
+WHERE type = "being" AND sohl.kbcat = "construct"
 ```
 
 # Dreadspawn
@@ -45,7 +45,7 @@ TABLE WITHOUT ID
   sohl.body.weight.base AS "Weight",
   sohl.body.bodyScaleBase AS "BodyScale",
   description AS "Description"
-WHERE type = "creature" AND sohl.kbcat = "dreadspawn"
+WHERE type = "being" AND sohl.kbcat = "dreadspawn"
 ```
 
 # Elementals
@@ -57,7 +57,7 @@ TABLE WITHOUT ID
   sohl.body.weight.base AS "Weight",
   sohl.body.bodyScaleBase AS "BodyScale",
   description AS "Description"
-WHERE type = "creature" AND sohl.kbcat = "elemental"
+WHERE type = "being" AND sohl.kbcat = "elemental"
 ```
 
 # Grukar - A Blight Upon the Land {#grukar}
@@ -165,7 +165,7 @@ TABLE WITHOUT ID
   sohl.body.weight.base AS "Weight",
   sohl.body.bodyScaleBase AS "BodyScale",
   description AS "Description"
-WHERE type = "creature" AND sohl.kbcat = "goblin"
+WHERE type = "being" AND sohl.kbcat = "goblin"
 ```
 
 # Helspawn
@@ -193,7 +193,7 @@ TABLE WITHOUT ID
   sohl.body.weight.base AS "Weight",
   sohl.body.bodyScaleBase AS "BodyScale",
   description AS "Description"
-WHERE type = "creature" AND sohl.kbcat = "helspawn"
+WHERE type = "being" AND sohl.kbcat = "helspawn"
 ```
 
 # Mythic Creatures
@@ -205,7 +205,7 @@ TABLE WITHOUT ID
   sohl.body.weight.base AS "Weight",
   sohl.body.bodyScaleBase AS "BodyScale",
   description AS "Description"
-WHERE type = "creature" AND sohl.kbcat = "mythic"
+WHERE type = "being" AND sohl.kbcat = "mythic"
 ```
 
 # Spirit Creatures
@@ -217,5 +217,5 @@ TABLE WITHOUT ID
   sohl.body.weight.base AS "Weight",
   sohl.body.bodyScaleBase AS "BodyScale",
   description AS "Description"
-WHERE type = "creature" AND sohl.kbcat = "spirit"
+WHERE type = "being" AND sohl.kbcat = "spirit"
 ```
