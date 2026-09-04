@@ -5,7 +5,7 @@
 **Generated content tables — Dataview `TABLE` queries** (#1275, #1410)
 
 A content note can now declare a catalog table by query instead of authoring its rows
-by hand, in the same fenced `dataview` block Obsidian renders live:
+by hand, in a fenced `dataview` block:
 
 ```text
 TABLE WITHOUT ID
@@ -17,9 +17,8 @@ SORT name.full ASC
 ```
 
 The build fills in the rows from the matching notes' frontmatter, in both content
-builds — the Foundry compendium packs and the knowledgebase — so one authored query
-yields the same table while writing in the vault, in Foundry (with `@UUID` links), and
-on the KB (with site links).
+builds — the Foundry compendium packs (with `@UUID` links) and the knowledgebase
+(with site links) — so one authored query yields the same table in both.
 
 - _Columns_ are any expression, optionally named with `AS "Header"`. Numeric columns
   right-align, absent values render as an em dash, and `link(file.path, …)` links a
@@ -33,6 +32,6 @@ on the KB (with site links).
   a tag; `SORT` takes several keys with per-key direction; `LIMIT` caps the rows.
 - A malformed query, an unsupported clause (`LIST`, `GROUP BY`, `FLATTEN`), an unknown
   function, or a column resolving to an object fails the build naming the problem. A
-  query matching nothing renders as an empty table, exactly as it does in Obsidian.
+  query matching nothing renders as an empty table.
 
 See _Generated Content Tables_ in the developer documentation.

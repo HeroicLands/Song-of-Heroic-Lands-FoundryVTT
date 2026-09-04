@@ -25,10 +25,10 @@ widened from `{ label, url }` to `{ label, url }` _or_ `{ label, action }`, and 
 existing "drop an entry whose value is empty" rule carries over unchanged — a build
 that failed to stamp the UUID renders no entry rather than a dead control.
 
-**The page is ordinary content.** `assets/content/Credits/README.md` is a standard
-`type: doc` note (`shortcode: credits`, alias `doc-credits`) in a new `credits`
-category, so it compiles into the journals pack like any other note and publishes to
-the knowledgebase at `/sohl/kb/credits/`. It carries the Game-Icons contributor
+**The page is ordinary content.** The credits note is a standard `type: doc` note
+(`shortcode: credits`), so it compiles into the journals pack like any other note
+and publishes to the knowledgebase, addressed `doc-credits`. It carries the
+Game-Icons contributor
 credits and the CC BY 3.0 §4(a) modification disclosure, the dual-licence summary,
 the trademark reservation, and the statement of independence from Kelestia
 Productions.

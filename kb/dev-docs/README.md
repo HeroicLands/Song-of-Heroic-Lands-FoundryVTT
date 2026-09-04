@@ -66,7 +66,7 @@ Authoring the content notes in `assets/content/` that compile into compendium do
 - [Actor Notes](content-creator/actor-notes.md) — authoring a `being`, and the `(type, shortcode)` address space its embedded items resolve through.
 - [Map Notes](content-creator/map-notes.md) — authoring a Foundry Scene as a markdown note: the `battlemap` / `localmap` / `regionalmap` schema, the two unit conventions, regions and their behaviours, and how a map is packaged.
 - [Authoring a Macro Content Note](content-creator/macro-notes.md) — how a `type: macro` note compiles into a Foundry Macro plus its documentation, and what the `{#script}` anchor does.
-- [Linking Between Content Notes](content-creator/content-links.md) — wikilinks for content authors: the four forms, and why an item and its documentation need two different addresses.
+- [Linking Between Content Notes](content-creator/content-links.md) — wikilinks for content authors: the three forms, and why an item and its documentation need two different addresses.
 - [Asset Conventions](content-creator/asset-conventions.md) — where art files live, how `img:` resolves to a shipped path, image and SVG standards, and default item art.
 - [Generated Content Tables](content-creator/content-tables.md) — Dataview `TABLE` queries that tabulate content notes from their frontmatter.
 

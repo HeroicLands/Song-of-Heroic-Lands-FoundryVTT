@@ -24,6 +24,8 @@ The tables are rendered from the declaration that _builds_ each document, not fr
 | `level`    | number                                  | no       | `0`     | Standing within the society.                                           |
 | `relation` | map of affiliation shortcode → standing | no       | `{}`    | How this society regards others: aligned, unaligned, rival or nemesis. |
 
+**`title` is not read from the note's top level.** There it means the note's own title — the heading its page is published under, which has nothing to do with the style of address an office carries. Author this on the membership instead: `sohl.system.title` on the item, or the `system.title` of the entry in a being's `sohl.items`.
+
 ```markdown
 ---
 name:

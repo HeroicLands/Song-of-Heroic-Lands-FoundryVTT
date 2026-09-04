@@ -26,32 +26,29 @@ depends on a sibling checkout being present or current.
 
 ## How an entry's `path` is derived
 
-Every `path` in this file is produced by the same address rule the knowledgebase
-build emits its pages at, from one setting in `package-build.config.yaml`:
+A `path` is the note's **address** — `<type>-<shortcode>/`, lowercased — and
+nothing else. It is a pure function of the note's frontmatter: no directory, no
+filename and no display string reaches it, so it is unique by construction and
+survives every rename.
 
-```yaml
-publish:
-  address:
-    prefix: kb/ # this package's content mounts under `kb/`
-    landing: readme # a `README.md` addresses its section
-```
+The site build and this emitter produce it by calling **one function**, and that
+is the point. A manifest is a set of promises about where pages are, so a
+manifest deriving addresses independently of the build that publishes them will
+eventually promise one that resolves at build time and 404s for a reader — which
+is the failure the whole format exists to prevent.
 
-That the two read one setting is the point. A manifest is a set of promises
-about where pages are, so a manifest deriving addresses independently of the
-build that publishes them will eventually promise one that resolves at build
-time and 404s for a reader — which is the failure the whole format exists to
-prevent.
+**A page's address carries no mount.** `publish.address.prefix` in
+`package-build.config.yaml` says where the content tree mounts _inside_ the
+package — which Hugo directory the pages are written under — and it does not
+reach the address. `sohl` writes its pages under `kb/` and still addresses them
+`/sohl/affliction-aconite/`. Nor does the address carry where the package itself
+is served: that is the consuming build's knowledge, applied when it resolves an
+entry (see [What a consumer must do](#what-a-consumer-must-do)).
 
-`prefix` is where the content tree mounts **inside this package**, never where
-the package itself is served: that is the consuming build's knowledge, applied
-when it resolves an entry (see [What a consumer must do](#what-a-consumer-must-do)).
-`sohl` publishes a knowledgebase alongside generated API docs, so its notes sit
-under `kb/`; a package whose site is nothing but its content has no prefix.
-
-A note the rule yields no address for — a `doc` with no `category` — is reported
-as a located diagnostic and left out of the manifest. It is never given a guessed
-address, because an entry pointing at a page that does not exist is worse than no
-entry at all.
+A note the rule yields no address for — one declaring no `type`, or no
+`shortcode` — is reported as a located diagnostic and left out of the manifest.
+It is never given a guessed address, because an entry pointing at a page that
+does not exist is worse than no entry at all.
 
 ## Format
 
@@ -62,13 +59,13 @@ entry at all.
   "foundryPackage": "sohl", // the FOUNDRY package shipping the documents
   "entries": {
     "sohl-affliction-aconite": {
-      "path": "kb/affliction/aconite/",
+      "path": "affliction-aconite/",
       "name": "Aconite",
       "uuid": "Compendium.sohl.items.Item.J6aklskzkfBdEnoo",
       "doc": "sohl-docaffliction-aconite",
     },
     "sohl-docaffliction-aconite": {
-      "path": "kb/affliction/aconite/",
+      "path": "affliction-aconite/",
       "name": "Aconite",
       "uuid": "Compendium.sohl.journals.JournalEntry.e0e3f50b1f1ebcf8",
       "anchors": {
@@ -322,9 +319,10 @@ such a dependency.
 ## Unresolved addresses
 
 Once every linkable package is either built locally or vendored, an address that
-resolves nowhere can only be a typo, so a **qualified** address failing to
-resolve fails the build. A **bare** alias does not — it may be ordinary prose
-that merely looks like a link.
+resolves nowhere can only be a typo, so an address failing to resolve fails the
+build. A link that is not written as an address at all — unlabelled, or naming
+no known type — is a separate finding, because the correction is a different
+one: it has to _become_ an address, where a dead address has a shortcode to fix.
 
 **Not failing the build is not the same as saying nothing.** An unresolved link
 keeps the author's text, marked with the `sohl-unresolved-link` class so a

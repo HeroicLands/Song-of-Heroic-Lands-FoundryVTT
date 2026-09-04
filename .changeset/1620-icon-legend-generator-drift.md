@@ -5,24 +5,20 @@
 **`npm run build:icon-legend` no longer breaks the page it generates.** The
 generator and the file it owns had diverged, and the page's own header says _"do
 not edit by hand"_ — so the divergence could only ever be resolved by the
-generator overwriting work it knew nothing about. Running it failed
-`lint:content-aliases` and would have taken live links down with it.
+generator overwriting work it knew nothing about. Running it would have taken
+live links down with it.
 
 Four things had drifted, and all four are fixed in the generator rather than in
 the page:
 
-- **The `doc-iconlgnd` address alias was missing.** It is now derived from the
-  same `type` and `shortcode` constants the generator writes into the
-  frontmatter, so the three cannot come apart. This is the one that mattered:
-  Obsidian resolves `[[doc-iconlgnd]]` against the literal string in `aliases`,
-  so dropping it takes the page's address away in the editor where content is
-  authored — and the link goes dead rather than erroring.
+- **The page's own address was missing from its frontmatter.** It is now derived
+  from the same `type` and `shortcode` constants the generator writes into the
+  frontmatter, so the three cannot come apart.
 - **`slug: "icon-legend"` was emitted.** Authored slugs are retired (#1278); a
-  note's URL derives from its shortcode, no other content note carries the key,
-  and nothing reads it. The generator no longer writes it.
-- **The "See also" links used the retired `[[doc/shortcode]]` slash form.**
-  Obsidian reads a slash as a vault path, so each was a broken link in the
-  editor. They are hyphen-qualified now, as every other note in the tree is.
+  note's URL is its `type-shortcode` address, no other content note carries the
+  key, and nothing reads it. The generator no longer writes it.
+- **The "See also" links used the older `[[doc/shortcode]]` slash form.** They
+  are hyphen-qualified now, as every other note in the tree is.
 - **The prose was hard-wrapped.** Content notes are authored unwrapped and
   Prettier's `proseWrap` is `preserve`, so every run reflowed four paragraphs
   that nothing else in `assets/content/` wraps.
