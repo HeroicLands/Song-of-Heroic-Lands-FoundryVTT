@@ -1,7 +1,7 @@
 ---
 id: t5Fr0y9WRvj8YeGD
 type: doc
-subType: user-guide
+subType: userguide
 name:
   full: "Creating Actors and Items"
 shortcode: crtngactitemug

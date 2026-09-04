@@ -1,7 +1,7 @@
 ---
 id: Mi1p8gYEKJ91dxsM
 type: doc
-subType: user-guide
+subType: userguide
 name:
   full: "Combat Basics"
 shortcode: cmbtbscsug

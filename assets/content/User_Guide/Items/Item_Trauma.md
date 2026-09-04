@@ -1,7 +1,7 @@
 ---
 id: PV8DkxfbuA1ORJ1U
 type: doc
-subType: user-guide
+subType: userguide
 name:
   full: "Trauma"
 shortcode: traumaug

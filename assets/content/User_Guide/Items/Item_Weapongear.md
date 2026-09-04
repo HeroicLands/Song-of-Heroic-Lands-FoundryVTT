@@ -1,7 +1,7 @@
 ---
 id: kSuLAvR1c8R8tIW6
 type: doc
-subType: user-guide
+subType: userguide
 name:
   full: "Weapon"
 shortcode: weapongearug

@@ -1,7 +1,7 @@
 ---
 id: 3tsCXpR4ep5hnzV1
 type: doc
-subType: user-guide
+subType: userguide
 name:
   full: "Misc Gear"
 shortcode: miscgearug

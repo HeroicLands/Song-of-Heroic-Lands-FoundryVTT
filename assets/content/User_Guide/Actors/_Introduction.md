@@ -1,7 +1,7 @@
 ---
 id: 850gXkDZhbNwwg2D
 type: doc
-subType: user-guide
+subType: userguide
 name:
   full: Actors
   aliases: []

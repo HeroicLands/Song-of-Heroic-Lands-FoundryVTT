@@ -1,7 +1,7 @@
 ---
 id: rbl6nD2s5gxsx9gR
 type: doc
-subType: user-guide
+subType: userguide
 name:
   full: "Skill"
 shortcode: skillug

@@ -1,7 +1,7 @@
 ---
 id: eFiHzB4DASknXQ2l
 type: doc
-subType: user-guide
+subType: userguide
 name:
   full: "Calendar JSON Format"
 shortcode: calendarfmtug

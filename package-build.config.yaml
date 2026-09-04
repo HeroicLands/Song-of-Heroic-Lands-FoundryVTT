@@ -493,6 +493,15 @@ site:
         # whose front page is now an ordinary note inside them
         # (`doc-rulesintro`, `doc-userguide`) rather than their landing;
         # `reference` holds the credits and the ten type introductions.
+        #
+        # A key here is a **section** — a published URL — not a subType, and
+        # `user-guide` is the one place the two differ. The notes carry
+        # `subType: userguide`, because a subType is an address segment and a
+        # segment is `^[A-Za-z0-9]+$` (package-build#207); the section keeps its
+        # hyphen because `/sohl/kb/user-guide/` is linked from the home page,
+        # the menu and the sitemap. Nothing joins the two — pages emit flat and
+        # `kb/layouts/kb/user-guide/list.html` selects its members by
+        # frontmatter — so they are free to differ.
         rules: { title: Rules, banner: banners/rules.webp }
         user-guide: { title: User Guide, banner: banners/user-guide.webp }
         reference: { title: Reference }

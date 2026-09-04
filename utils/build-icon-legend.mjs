@@ -333,7 +333,7 @@ async function renderPage() {
     const page = `---
 id: ${PAGE_ID}
 type: ${PAGE_TYPE}
-subType: user-guide
+subType: userguide
 name:
     full: "Icon Legend"
 shortcode: ${PAGE_SHORTCODE}

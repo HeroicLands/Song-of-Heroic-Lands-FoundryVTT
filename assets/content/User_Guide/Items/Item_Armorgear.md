@@ -1,7 +1,7 @@
 ---
 id: yh3LCFXRlhJWMqLW
 type: doc
-subType: user-guide
+subType: userguide
 name:
   full: "Armor"
 shortcode: armorgearug

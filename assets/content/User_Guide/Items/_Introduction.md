@@ -1,7 +1,7 @@
 ---
 id: 6AUDdg96HqINKHdv
 type: doc
-subType: user-guide
+subType: userguide
 name:
   full: Items
   aliases: []

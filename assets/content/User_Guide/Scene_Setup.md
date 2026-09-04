@@ -1,7 +1,7 @@
 ---
 id: WxM4H3SLZKQhLTog
 type: doc
-subType: user-guide
+subType: userguide
 name:
   full: "Scene Setup and Tokens"
 shortcode: scnsetuptokug

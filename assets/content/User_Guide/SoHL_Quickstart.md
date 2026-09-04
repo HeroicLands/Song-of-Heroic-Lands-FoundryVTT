@@ -1,7 +1,7 @@
 ---
 id: nXSQAexjRb8kxrvn
 type: doc
-subType: user-guide
+subType: userguide
 name:
   full: Song of Heroic Lands Quickstart
   alises: []
