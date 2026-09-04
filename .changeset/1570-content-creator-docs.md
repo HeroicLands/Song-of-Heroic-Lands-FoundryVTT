@@ -1,5 +1,5 @@
 ---
-"sohl": minor
+"sohl": patch
 ---
 
 Content authoring now has a documentation home: a **Content Creator** section

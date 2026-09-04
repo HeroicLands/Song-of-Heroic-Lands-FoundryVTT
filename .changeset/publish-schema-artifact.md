@@ -1,5 +1,5 @@
 ---
-"sohl": minor
+"sohl": patch
 ---
 
 Publish this system's `system` field sets as `schema.json`, so a content build

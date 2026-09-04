@@ -1,5 +1,5 @@
 ---
-"sohl": minor
+"sohl": patch
 ---
 
 Changed: Jewelcraft now prices the jeweller's work, not just his metal.

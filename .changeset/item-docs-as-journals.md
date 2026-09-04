@@ -1,5 +1,5 @@
 ---
-"sohl": minor
+"sohl": patch
 ---
 
 _Item descriptions now live in the journals compendium, once._

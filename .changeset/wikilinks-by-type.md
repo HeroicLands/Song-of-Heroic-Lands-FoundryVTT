@@ -1,5 +1,5 @@
 ---
-"sohl": minor
+"sohl": patch
 ---
 
 **Wikilinks address a note by `type/shortcode`** (#1281)

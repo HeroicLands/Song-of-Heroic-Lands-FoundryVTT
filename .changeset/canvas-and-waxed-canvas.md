@@ -1,5 +1,5 @@
 ---
-"sohl": minor
+"sohl": patch
 ---
 
 Add Canvas and Waxed Canvas as armour detail materials, and fill nine gaps in the

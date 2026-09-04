@@ -1,5 +1,5 @@
 ---
-"sohl": minor
+"sohl": patch
 ---
 
 Give the Spirit, Elemental and Dreadspawn creatures a body, natural weapons and

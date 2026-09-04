@@ -1,5 +1,5 @@
 ---
-"sohl": minor
+"sohl": patch
 ---
 
 Changed: cast work takes a quarter longer, in every craft.

@@ -1,5 +1,5 @@
 ---
-"sohl": minor
+"sohl": patch
 ---
 
 Calibrate every container price against an external medieval costs reference. 48 of 66

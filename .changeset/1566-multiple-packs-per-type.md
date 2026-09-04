@@ -1,5 +1,5 @@
 ---
-"sohl": minor
+"sohl": patch
 ---
 
 **Several compendium packs of one document type, with notes routed between them** (#1566)

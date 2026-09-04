@@ -1,5 +1,5 @@
 ---
-"sohl": minor
+"sohl": patch
 ---
 
 Record which skill produces every item, and make every craft catalog row name a real

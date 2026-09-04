@@ -1,5 +1,5 @@
 ---
-"sohl": minor
+"sohl": patch
 ---
 
 Added: the textile materials, and the Dye folder becomes Textile.

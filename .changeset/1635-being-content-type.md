@@ -1,5 +1,5 @@
 ---
-"sohl": minor
+"sohl": patch
 ---
 
 **One content type for actors: `character` and `creature` are now `being`.** Both

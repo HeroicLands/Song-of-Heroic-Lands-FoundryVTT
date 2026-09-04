@@ -1,5 +1,5 @@
 ---
-"sohl": minor
+"sohl": patch
 ---
 
 **Birthsigns combine by taking the best aptitude, and the twelve cusp signs are

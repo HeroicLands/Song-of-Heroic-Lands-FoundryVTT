@@ -1,5 +1,5 @@
 ---
-"sohl": minor
+"sohl": patch
 ---
 
 Add rings, earrings, amulets and necklaces in five materials — twenty finished

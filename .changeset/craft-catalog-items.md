@@ -1,5 +1,5 @@
 ---
-"sohl": minor
+"sohl": patch
 ---
 
 Add the 42 articles that the craft catalogs price but the compendium did not contain,

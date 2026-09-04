@@ -1,5 +1,5 @@
 ---
-"sohl": minor
+"sohl": patch
 ---
 
 Move the Create-dialog archetype marker from `flags.sohl.docArchetype` into the

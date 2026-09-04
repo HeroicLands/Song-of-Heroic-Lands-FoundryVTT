@@ -1,5 +1,5 @@
 ---
-"sohl": minor
+"sohl": patch
 ---
 
 **An Affiliation can now record how its organization stands toward others.**
