@@ -32,13 +32,11 @@ tree holds 1,457 notes today, dominated by gear and injuries:
 | `skill`         |    73 | `macro`           |     1 |
 | `containergear` |    64 |                   |       |
 
-The directory is opened as an **Obsidian vault**. That is not incidental: it is
-why wikilinks are hyphen-separated and why every note carries its own address in
-`aliases:` (see [Linking Between Content Notes](content-links.md)), and it is why
-[Dataview](content-tables.md) tables render live while you author — a collection
-page shows the notes it collects as you edit them, rather than only after a
-build. The vault's `Templates/` directory is templater scaffolding and is
-excluded from every compile pass.
+Notes are plain Markdown with YAML frontmatter, edited in whatever editor you
+prefer; nothing about the tree depends on a particular one. A note declares
+[what it wants tabulated](content-tables.md) rather than carrying a hand-written
+table, and the build fills the rows in. The `Templates/` directory holds authoring
+scaffolding and is excluded from every compile pass.
 
 ## The shared envelope
 
@@ -47,8 +45,6 @@ Every note, of every type, carries the same frontmatter envelope. Only the neste
 
 ```yaml
 ---
-aliases:
-  - skill-ritual # the note's own address; see content-links.md
 name:
   full: Ritual
 description: "Conducting ceremonies, rites, and worship services."
@@ -65,21 +61,19 @@ sohl:
 Prose goes here, and becomes this skill's write-up.
 ```
 
-| Field        | Required         | What it decides                              |
-| ------------ | ---------------- | -------------------------------------------- |
-| `type:`      | yes              | Which compiler claims it                     |
-| `id:`        | yes¹             | The Foundry document `_id`                   |
-| `shortcode:` | for link targets | The note's logical identity, and its address |
-| `aliases:`   | yes¹             | That address, resolvable inside Obsidian     |
-| `name.full`  | in practice      | The document's name, and its published URL   |
-| `folder:`    | no               | Which compendium folder the document sits in |
-| `img:`       | no               | The document's artwork                       |
-| `draft:`     | no               | Withholds the note from everything           |
-| `pack:`      | no               | Which compendium of its type receives it     |
-| `sohl:`      | by type          | The type-specific fields                     |
+| Field        | Required         | What it decides                                       |
+| ------------ | ---------------- | ----------------------------------------------------- |
+| `type:`      | yes              | Which compiler claims it                              |
+| `id:`        | yes¹             | The Foundry document `_id`                            |
+| `shortcode:` | for link targets | The note's logical identity, its address, and its URL |
+| `name.full`  | in practice      | The document's name                                   |
+| `folder:`    | no               | Which compendium folder the document sits in          |
+| `img:`       | no               | The document's artwork                                |
+| `draft:`     | no               | Withholds the note from everything                    |
+| `pack:`      | no               | Which compendium of its type receives it              |
+| `sohl:`      | by type          | The type-specific fields                              |
 
-¹ `id:` is fatal for every pass but Journals; the address alias is required of
-every note that carries a `shortcode`. Both are explained below.
+¹ `id:` is fatal for every pass but Journals, which is explained below.
 
 **The order the compiler applies these is load-bearing**, because it decides
 which mistake produces which symptom. Each pass walks the whole content tree once
@@ -153,16 +147,19 @@ claim the same one. A duplicate surfaces only as an opaque LevelDB key collision
 at compile time, naming a key rather than the two notes that fought over it. Copy
 a note to start a new one and the first thing to change is its `id:`.
 
-## `name:` and the published URL
+## `name:` — the display name
 
 Display names resolve through one helper: `name.full` wins, then a scalar
 `name:`, then the literal string `"Unnamed"`. Nothing errors on a missing name —
 a nameless note compiles cleanly and ships as "Unnamed".
 
-**The published URL derives from `name.full`, never from an authored slug.** That
-is the one derivation rule every surface downstream of the content tree shares,
-so a note's knowledgebase address follows its name and there is no second place
-to keep in sync.
+**The name is display only, and reaches no address.** A note's URL is built from
+`(type, shortcode)`, so retitling a note moves nothing: no link to repoint, no
+redirect to write. Say what the thing is called and change your mind freely.
+
+The nested `name.aliases` is **reserved** — held for a use that does not exist
+yet. Nothing consults it: no index, no resolver, no lint rule, no emitter. A note
+carrying one compiles, resolves and publishes exactly as if it were absent.
 
 ## Shortcodes: the identity key
 
@@ -180,34 +177,15 @@ to keep in sync.
 compile will happily emit two documents sharing an address; the lint is what
 refuses it. Run it before you commit.
 
+The shortcode is a **public** address as well as an internal one: the note
+publishes at `/<package>/<type>-<shortcode>/`.
+
 Renaming a shipped shortcode is expensive, and worth understanding before you
 choose one. The address is not a lookup convenience — it is a logical identity
 that existing worlds have already stored, so a rename needs a world migration on
 top of the edits to every note that links to it. See
 [Shortcode Integrity](../reference/shortcode-integrity.md) for the identity
 semantics and the migration path.
-
-## `aliases:` — the address, written by hand
-
-Every content note carries **exactly one** `type-shortcode` alias, matched
-case-sensitively:
-
-```yaml
-aliases:
-  - Weaponcraft # a display name
-  - skill-wpnc # ← the note's address
-```
-
-Obsidian resolves a wikilink against the files on disk, so the address only
-resolves in the editor if the literal string sits in that note's `aliases`. A
-build-time derivation cannot stand in for it — the editor is not running the
-build. `npm run lint:addresses` fails on a note with none, with two, or
-with one that is not its own address; the exactness is the point, since a stale
-alias left behind after a rename keeps resolving and reports nothing.
-
-Any other aliases are display names, and are merged into wikilink resolution
-along with the note's filename with `_` read as a space. See
-[Linking Between Content Notes](content-links.md).
 
 ## Folders
 
@@ -359,13 +337,12 @@ which note caused it.
 
 ## What to run before you commit
 
-Three lints answer questions the compilers cannot, and all three are part of
+Two lints answer questions the compilers cannot, and both are part of
 `npm run lint`:
 
 - **`npm run lint:addresses`** — the shortcode shape and `(type, shortcode)`
-  uniqueness rules. Not enforced by the compile.
-- **`npm run lint:addresses`** — every note carrying a `type` also carries
-  exactly one address alias equal to its own address.
+  uniqueness rules, and that exactly one note claims the package's own address.
+  None of it is enforced by the compile.
 - **`npm run lint:content-links`** — every wikilink resolves, every `#anchor`
   lands on a heading that declares it, and no wikilink is authored in
   frontmatter.

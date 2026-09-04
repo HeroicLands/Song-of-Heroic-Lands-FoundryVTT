@@ -165,10 +165,9 @@ same-address notes to different packs does not separate them (#1678). Authored
 content therefore has to satisfy the stricter rule, even though the runtime
 uniqueness table above scopes a compendium to itself.
 
-Content is authored in the vault and exported here, so a malformed key is fixed in
-the **vault note** and re-exported — an edit to `assets/content/` alone is reverted by
-the next export. A key that has already shipped also needs a world migration, since
-`shortcode` is identity referenced from saved world data.
+Content is authored directly under `assets/content/`, so a malformed key is fixed in
+the note that carries it. A key that has already shipped also needs a world migration,
+since `shortcode` is identity referenced from saved world data.
 
 ### Existing worlds — migration
 
@@ -229,53 +228,52 @@ operation field, so typed call sites cast the options object.
   until it is unique (warning key `SOHL.CreateDocument.duplicateShortcode`). See
   [Extension Points §10](../how-to/extension-points.md).
 
-## Shortcodes are identity, not URLs
+## A shortcode is half of the published URL
 
-A shortcode is unique, stable, and short — which makes it a tempting URL segment. It
-is deliberately **not** one. Content notes carry no authored `slug` either (#1278);
-the published URL is derived from the note's **name**:
+**A page's URL is its address**: a content note publishes at
+`/<package>/<type>-<shortcode>/` — `/sohl/skill-wpnc/` for Weaponcraft. Notes carry
+no authored `slug` (#1278) and no display string reaches the URL;
+`contentAddress` in `@heroiclands/package-build/engine/content-address` derives it
+from the frontmatter's `type` and `shortcode` alone.
 
-a knowledgebase page is `/<section>/<name-slug>/` — e.g. `/creature/nusvorroth/`.
+That follows from the invariant above rather than fighting it. `(type, shortcode)`
+names one note, so an address is **unique by construction**: the uniqueness rule
+this page already states is the URL's guarantee too, and there is no second,
+URL-specific collision check. And because the address is
+identity rather than presentation, **a rename does not move it**: retitling a note
+changes what the page says and nothing about where it lives, so every link into it —
+authored, published, or bookmarked — goes on resolving. Nothing needs redirecting,
+so nothing records former URLs.
 
-The reason is the invariant above: a shortcode is referenced from **saved world
-data** — actions, cohorts, expressions, archetypes, pack lookups. Binding a public URL
-to it would turn a cosmetic URL change into a data migration, and would publish
-`/creature/nsvrroth/` where a reader expects `/creature/nusvorroth/`. Identity and
-presentation are kept apart: the shortcode addresses the document, the name addresses
-the page.
+The cost is paid on the other side. A shortcode is referenced from **saved world
+data** — actions, cohorts, expressions, archetypes, pack lookups — so changing one is
+a data migration rather than a cosmetic edit, and it moves a public URL as well.
+Pick it once, and pick it to last.
 
 No document stores a URL of its own, either. In-app documentation is the compiled
-JournalEntry an item points at through `docHtml`'s `@UUID`, which survives any change
-to the published address; a per-document absolute URL would make one a pack rebuild
-plus a world migration.
+JournalEntry an item points at through `docHtml`'s `@UUID`, which is a Foundry
+reference rather than a web address; a per-document absolute URL would make a change
+to either one a pack rebuild plus a world migration.
 
-`contentSlug` in `@heroiclands/package-build/engine/content-slug` is the single derivation. It transliterates
-before reducing, so an accented character is carried across rather than dropped —
-`Nüsvōrroth` becomes `nusvorroth`, where the old slugifier produced `n-sv-rroth` and
-forced a hand-written override. Ligatures expand as a reader would spell them
-(`þ`→`th`, `æ`→`ae`, `œ`→`oe`, `ß`→`ss`, `ĳ`→`ij`, `ﬁ`→`fi`; eth follows the Icelandic
-`d`), apostrophes are removed rather than made separators (`Armorer's Kit` →
+**`slugify` is a different job.** `@heroiclands/package-build/engine/content-slug`
+reduces a piece of prose to a URL-safe token for **heading anchors** — where an
+author writes the matching key by hand, pinning `locations.stair-foot` at a heading
+called _Stair Foot_ — and for **pack filenames**, read back only by the unpacker. It
+transliterates before reducing, so an accented character is carried across rather
+than dropped: `Nüsvōrroth` reduces to `nusvorroth`, where a stripping slugifier
+produced `n-sv-rroth`. Ligatures expand as a reader would spell them (`þ`→`th`,
+`æ`→`ae`, `œ`→`oe`, `ß`→`ss`, `ĳ`→`ij`, `ﬁ`→`fi`; eth follows the Icelandic `d`),
+apostrophes are removed rather than made separators (`Armorer's Kit` →
 `armorers-kit`), and a fraction keeps its digits together (`Kûrbúl ¾-Helm` →
 `kurbul-34-helm`, not `kurbul-3-4-helm`).
 
-Nothing stops two notes in one section from sharing a name, so `findSlugCollisions`
-fails the build naming every claimant rather than letting one page overwrite the other;
-the fix is a more specific title. The content tree has no collisions today.
-
-**A URL is presentation, and it is not kept stable.** A rename changes the page's
-address, and the knowledgebase publishes no redirect from the old one: the record of
-former URLs that used to drive them (`kb/data/legacy-slugs.json`, and the pre-split
-section map) has been retired. That is a deliberate trade — the addresses had already
-moved without redirects more than once, so the table was recording a stability nothing
-else was honouring.
-
-**`aliases` means two different things, and only one of them is a URL.** In Obsidian a
-note's `aliases` are alternative _names_ — what a reader might call the thing, and what
-makes a bare `[[Text]]` wikilink resolve (see
-[Linking Between Content Notes](../content-creator/content-links.md)). In Hugo they are _redirects_.
-So an authored alias is **stripped** on the way to the site: published as-is, each name
-would become a redirect stub at its own text — `/Wayfarer's Rest, Loft/` and the like.
-Names stay in the vault, where they mean something.
+**There is no alias namespace.** A wikilink is always qualified —
+`[[type-shortcode|Text]]`, see
+[Linking Between Content Notes](../content-creator/content-links.md) — and a note
+authors no top-level `aliases:` field; the build refuses one. The nested
+`name.aliases` is kept but **reserved**: no index, resolver, lint rule or emitter
+consults it, and a note carrying one compiles, resolves and publishes exactly as if
+it were absent.
 
 Developer docs (`kb/dev-docs/`) are not content notes — they have no shortcode and keep
 their own `slug` frontmatter, routed by source path.
@@ -288,8 +286,9 @@ their own `slug` frontmatter, routed by source path.
   injected `makeRandomId` stub (no Foundry).
 - **Migration** — `tests/domain/migration/MigrationRegistry.test.ts` covers the
   0.9.0 repair, including the three renamed content keys.
-- **URL derivation** — `HeroicLands/content-build's `tests/content-slug.test.ts`` covers
-  `contentSlug` and `findSlugCollisions` (no Foundry).
+- **Address and slug derivation** — covered by
+  [`@heroiclands/package-build`](https://github.com/HeroicLands/package-build)'s own
+  suite, against fixtures it owns (no Foundry).
 - **Runtime + dialog + pack** — `cypress/e2e/shortcode-uniqueness.cy.js` drives the
   live client: an explicit collision is rejected on create, `shortcodeDedupe` suffixes
   it, renaming into a collision is rejected on update, and the same code on a different
