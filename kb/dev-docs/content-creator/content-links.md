@@ -12,84 +12,41 @@ prose that becomes an **item's documentation**. The one thing to internalise is
 in [An item and its documentation are two documents](#an-item-and-its-documentation-are-two-documents):
 the link that opens a skill's _sheet_ is not the link that opens its _write-up_.
 
-## The four forms
+## The three forms
 
-| Form                            | Addresses                                             |
-| ------------------------------- | ----------------------------------------------------- |
-| `[[type-shortcode\|Text]]`      | a document of that type                               |
-| `[[Text]]`                      | an alias unique **within the source note's own type** |
-| `[[type-shortcode#slug\|Text]]` | a section of that document                            |
-| `[[#slug\|Text]]`               | a section of the note you are writing                 |
+| Form                            | Addresses                             |
+| ------------------------------- | ------------------------------------- |
+| `[[type-shortcode\|Text]]`      | a document of that type               |
+| `[[type-shortcode#slug\|Text]]` | a section of that document            |
+| `[[#slug\|Text]]`               | a section of the note you are writing |
 
 The qualifier is the note's **type**, not its directory. `(type, shortcode)` is
 the system's logical identity and is unique by rule (see
 [Shortcode Integrity](../reference/shortcode-integrity.md)), so an address stays valid when
 a note is refiled. There is deliberately no path form.
 
-**The separator is a hyphen, because content is authored in Obsidian.** Obsidian
-reads `/` inside a wikilink as a **path** and resolves it against the vault's
-folder structure, so a slash-qualified link is a broken link in the editor where
-notes are written — no autocomplete, no backlinks, and no warning when a target is
-renamed. Every note additionally carries its own `type-shortcode` in frontmatter
-`aliases`, which is what lets Obsidian resolve the form natively.
+**A bare `[[Text]]` addresses nothing.** There is no namespace of names to look a
+target up in, so every link names an address. The build reports a bare link as its
+own kind of finding — separate from an address that resolves nowhere, because the
+corrections differ — and the fix is always `[[type-shortcode|Text]]`.
 
-A hyphen qualifies **only when what precedes it is a known type**: note names
-contain hyphens too (`Grukar-ahk`), and those keep resolving as aliases. The split
-is at the _first_ hyphen, so a shortcode may itself contain one. The older
-`type/shortcode` form is still resolved, so a link written before the vault
-migration does not silently die.
+**The canonical separator is a hyphen** (#1398), and it qualifies **only when what
+precedes it is a known type**: note names contain hyphens too (`Grukar-ahk`), and a
+target that is one is reported as not being an address rather than split at an
+arbitrary place. The split is at the _first_ hyphen, so a shortcode may itself
+contain one (`trauma-self-pro` is `trauma` + `self-pro`). The older
+`type/shortcode` form is still resolved, so an older link does not silently die; a
+slash is _unconditionally_ a qualifier, and the split is at the last one.
 
-### Every note carries its own address, exactly once
+A leading **package** segment is optional and outermost — `sohl-skill-lang` is
+`skill-lang` in the `sohl` package — and is read only where the resolver is given
+the packages it may name, so a note called `Grukar-ahk` is never mistaken for one
+(#1499).
 
-The alias is not decoration and it is not derived: Obsidian resolves a wikilink
-against the **files on disk**, so `[[skill-wpnc]]` only resolves in the editor if
-the literal string `skill-wpnc` sits in that note's frontmatter `aliases`. A
-build-time derivation cannot stand in for it — the editor is not running the
-build.
-
-```yaml
----
-aliases:
-  - Weaponcraft
-  - skill-wpnc # ← the note's address
-type: skill
-shortcode: wpnc
----
-```
-
-Write it by hand when you create a note. **Exactly one** address alias is
-allowed, and `npm run lint:addresses` fails on any note that has none, has
-two, or has one that is not its own address. The count is the point: change a
-shortcode and leave the old alias behind, and every stale `[[skill-oldcode|…]]`
-goes on resolving to the right note — nothing degrades, nothing is reported, and
-the tree quietly carries two live addresses for one document until the retired
-code is reused and the old links land somewhere else entirely.
-
-Nothing writes these for you. The check reports; you edit the note.
-
-**A generated note is the exception, and it bit once (#1620).** Where a page is
-written by a build script rather than by hand, the alias has to come from the
-generator — `utils/build-icon-legend.mjs` derives it from the same `type` and
-`shortcode` constants it writes into the frontmatter, so the three cannot drift
-apart. It previously emitted neither, and the alias was added to the page by hand
-instead: `lint:addresses` passed, and the next run of the generator would
-have silently deleted the address again. If you add a generator that emits a
-content note, emit its address alias too, and gate the output the way
-`lint:icon-legend` does.
-
-The bare `[[Text]]` form resolves only against aliases of the **source's own
-type** — a `doc` reaches another `doc` by name, but not a `skill`. Where two
-notes of one type share a name the bare form is ambiguous and resolves to
-neither; write the qualified form instead. A link that cannot be resolved is
-left as literal text and reported by the build, so a mistake degrades visibly
-rather than silently.
-
-**The `|Text` label is optional, and leaving it off means two different things.**
-On a qualified link the target is an _address_, so both builds show the target
-document's **name**: `[[doc-shock]]` reads as "Shock". On a bare link the target
-is already the prose you wrote, so it stands as written — `worsens the [[Shock
-State]]` keeps saying "Shock State". Write the label whenever the sentence needs
-different words from the document's name.
+**The `|Text` label is required, in every form** — an anchor-only link included.
+The target is an address, not prose, so without a label there is nothing to
+display. Both builds render the words you wrote, so write whatever the sentence
+needs, whether or not it matches the document's name.
 
 ## An item and its documentation are two documents
 
@@ -207,12 +164,10 @@ at a document — writes an ordinary markdown link to its URL.
 
 ## What the build checks
 
-`npm run lint:addresses` (part of `npm run lint`) enforces that every note
-carrying a `type` also carries **exactly one** `type-shortcode` alias, equal to
-its own address — see
-[Every note carries its own address, exactly once](#every-note-carries-its-own-address-exactly-once).
-It verifies and fails; it never rewrites a note. Notes with no `shortcode` are
-skipped, since they cannot be link targets at all.
+`npm run lint:addresses` (part of `npm run lint`) enforces the identity rules a
+link depends on: a `shortcode` is ASCII-alphanumeric, `(type, shortcode)` names one
+note, and exactly one note claims the package's own address. It verifies and fails;
+it never rewrites a note.
 
 `npm run lint:content-links` (part of `npm run lint`) enforces several things the
 compilers cannot:
