@@ -34,15 +34,11 @@ standalone subtree of `www.heroiclands.org`, built and published by one workflow
 
 **Knowledgebase changes**
 
-- Content is generated into `kb/content/kb/`, and every generated link, redirect
-  and manifest entry carries the mount. A Hugo `alias` is publishDir-relative
-  and does _not_ inherit the `baseURL` path, so the site root is stripped on the
-  way into the frontmatter — an alias spelled as a full site URL would publish
-  at `/sohl/sohl/…`.
-- Section landings that Hugo used to generate for free (`macro`, `collection`)
-  are now written by the build. Nested directories are not sections, so those
-  two addresses would otherwise have silently stopped existing while every page
-  inside them kept working. `macro`'s heading loses Hugo's inflection — it reads
+- Content is generated into `kb/content/kb/`, and every generated link and
+  manifest entry carries the mount.
+- Section landings that Hugo used to generate for free are now written by the
+  build, so an address does not silently stop existing while every page inside
+  it keeps working. `macro`'s heading loses Hugo's inflection — it reads
   "Macros", not "Macroes".
 - Per-type listing layouts select on the frontmatter `type` rather than the Hugo
   section, which is now `kb` for every page.

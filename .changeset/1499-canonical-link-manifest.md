@@ -42,7 +42,7 @@ means the citing note's own package; `[[sohl-skill-lang]]` names one explicitly,
 for the case where two packages claim an address. It parses unambiguously because
 no type and no shortcode contains a hyphen, and it is read only when the segment
 names a known package _and_ the remainder is itself a valid address — so a note
-called "Grukar-ahk" stays an alias.
+called "Grukar-ahk" is never mistaken for one.
 
 **`utils/packs/` is parameterised, restoring its diff with `sohl-thalorna`.**
 `ids.mjs` gains `compendiumUuid()` / `pageUuid()` and owns the type → pack
@@ -61,7 +61,7 @@ the UUID the manifest states, anchors included. 43 links now address
 
 With every linkable package either built here or vendored, a _qualified_ address
 that resolves nowhere can only be a typo, so it now fails the note rather than
-degrading silently. A bare alias stays a warning: it may be ordinary prose.
+degrading silently.
 
 **An unresolved link keeps its text and is marked.** It renders as
 `<span class="sohl-unresolved-link">`, styled in

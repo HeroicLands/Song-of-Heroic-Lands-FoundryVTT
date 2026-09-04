@@ -31,12 +31,6 @@ the two cannot drift — and `npm run docs:item-fields` renders the page from it
 `npm run lint:item-fields` fails the build on a stale copy, matching the
 `docs:catalog` / `lint:type-catalog` contract.
 
-**Moved pages keep their old addresses.** Dev-doc redirects had no way to
-record a page moving between sections: the generated redirect used the page's
-_current_ path, so a moved page would have claimed an address it never
-published at while both of its real ones 404'd. The move is now recorded, and
-each moved page redirects from both addresses it actually served.
-
 **Two guards got less fragile.** `check-docs-index` read its section list from
 a literal array, so a _new_ section was invisible to it rather than covered by
 it — precisely the silent orphaning that guard exists to prevent; it now reads
