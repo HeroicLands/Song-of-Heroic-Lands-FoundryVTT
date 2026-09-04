@@ -1,11 +1,11 @@
 ---
 id: DuzvuEQp2xMqiZWY
 type: doc
-subType: projectilegear
+subType: reference
 name:
   full: Projectiles
   aliases: []
-shortcode: projectils
+shortcode: projectilegear
 description: "Projectiles - arrows, stones, bolts, etc."
 ---
 

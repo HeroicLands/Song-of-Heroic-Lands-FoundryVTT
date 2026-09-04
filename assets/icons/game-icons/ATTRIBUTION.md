@@ -38,7 +38,7 @@ icons it describes, so anyone who receives the artwork receives the notice.
 The same credits — together with the Noun Project creators, the bundled
 typefaces, and the project's license terms — are also published for the people
 playing the game, at
-<https://www.heroiclands.org/sohl/kb/credits/>, and in Foundry as the
+<https://www.heroiclands.org/sohl/doc-credits/>, and in Foundry as the
 **Credits** link in the Game Settings sidebar.
 
 ## Contributors

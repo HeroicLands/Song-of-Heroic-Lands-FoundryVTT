@@ -1,11 +1,11 @@
 ---
 id: MA6x5oaB16x7cvyk
 type: doc
-subType: armorgear
+subType: reference
 name:
   full: Armor
   aliases: []
-shortcode: armor2
+shortcode: armorgear
 description: "Defensive gear — mail, plate, shields, and more."
 ---
 

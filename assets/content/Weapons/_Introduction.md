@@ -1,11 +1,11 @@
 ---
 id: Go1pBv5Wt8EKxaG7
 type: doc
-subType: weapongear
+subType: reference
 name:
   full: Weapons
   aliases: []
-shortcode: weapons
+shortcode: weapongear
 description: Arms used in combat.
 ---
 

@@ -1,11 +1,11 @@
 ---
 id: zo3tZIMKCKxVzfZ6
 type: doc
-subType: concoctiongear
+subType: reference
 name:
   full: Concoctions
   aliases: []
-shortcode: concoctins
+shortcode: concoctiongear
 description: "Infusions, potions, elixirs, polutices, etc."
 ---
 
