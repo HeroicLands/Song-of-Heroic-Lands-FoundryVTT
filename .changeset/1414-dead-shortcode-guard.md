@@ -13,15 +13,14 @@ and the knowledgebase build's own guard only ever recognised the legacy `type/sl
 form, which nothing is written in any more.
 
 `lint:content-links` now checks it, so it gates every `npm run lint` rather than a
-build step nobody runs locally. A bare `[[Name]]` is still never reported — that is the
-long-standing placeholder for worldbuilding notes kept outside this repository, and a
-hyphenated _name_ like `[[Grukar-ahk]]` stays a name, since a hyphen only qualifies on
-a known type.
+build step nobody runs locally. A hyphenated _name_ like `[[Grukar-ahk]]` is not
+reported as a dead address, since a hyphen only qualifies on a known type — the
+finding for a target that is not an address is its own, because the correction is a
+different one.
 
 What made this awkward is that the same syntax addresses content in a **package this
 build does not publish**: `Rules/Bestiary.md` links six setting-package creatures that
-are real notes in the vault, resolving in Obsidian and on heroiclands.org but not here.
-Nothing distinguishes them from a typo, so they are listed by name in
-`FOREIGN_ADDRESS_ALLOWLIST` with the note each one means — six reviewed entries rather
-than a blanket tolerance — and the check warns when an entry stops being used. The list
-goes away once the tree has a single source (#1385) and every package is visible.
+are real notes elsewhere, resolving on heroiclands.org but not here. Nothing
+distinguished them from a typo at the time, so they were listed by name with the note
+each one means — six reviewed entries rather than a blanket tolerance. The list goes
+away once the tree has a single source (#1385) and every package is visible.

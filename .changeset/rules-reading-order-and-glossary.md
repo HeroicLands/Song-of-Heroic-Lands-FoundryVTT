@@ -33,9 +33,9 @@ inbound link — it compiled and published, but could not be arrived at by readi
 the Bestiary introduction now links it the way it already links Grukar.
 
 **The walk is committed as a lint.** `npm run lint:content-links` (part of
-`npm run lint`) resolves links exactly as the two content builds do — `type/shortcode`,
-then a type-scoped alias, with `(@Table …)` directives expanded first — and fails on
-either of two defects that both builds pass silently:
+`npm run lint`) resolves links exactly as the two content builds do, with generated
+tables expanded first — and fails on either of two defects that both builds pass
+silently:
 
 | Defect                                        | Why it survives the build                                                                                                       |
 | --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |

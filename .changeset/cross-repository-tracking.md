@@ -4,16 +4,15 @@
 
 **Where cross-repository work is tracked, and what "done" means for it** (#1400)
 
-The project spans three repositories — the system, the Obsidian vault, and
-heroiclands.org — but the issue standard described only the first, so a growing share
-of tracked work had no documented home, label, or completion rule.
+The project spans several repositories, but the issue standard described only this
+one, so a growing share of tracked work had no documented home, label, or
+completion rule.
 
-- _One tracker._ A new [Issue Reporting §9](https://www.heroiclands.org/sohl/kb/dev-docs/how-to/issue-reporting/)
-  states that this repository tracks all three, and why: the four-axis standard is
-  per-repository machinery that would have to be triplicated, the work forms one
-  dependency chain, and the vault is private.
-- _A `vault` label_ joins `site` in the closed registry, so an issue's delivery target
-  is visible at a glance.
+- _Which repository an issue belongs in._ A new
+  [Issue Reporting §9](https://www.heroiclands.org/sohl/kb/dev-docs/how-to/issue-reporting/)
+  names the repositories the project spans and what each one tracks, so an issue
+  has a documented home.
+- _A delivery-target label_ makes the surface an issue lands on visible at a glance.
 - _Closing keywords do not cross repositories._ `Closes …#123` from another repository
   records a reference and leaves the issue **open**. Such issues are closed by hand,
   citing the delivering commit — previously an easy way to strand an issue silently.
