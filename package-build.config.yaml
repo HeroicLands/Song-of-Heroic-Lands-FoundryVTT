@@ -503,7 +503,7 @@ site:
         # Map notes — one type, whose subType decides the derived canvas. No
         # banner: the heroes are CDN assets and there is none for maps yet, so
         # this landing renders without one.
-        map: { title: Maps }
+        map: { title: Maps, listType: map }
         # The doc genres. `rules` and `user-guide` each hold a chapter set
         # whose front page is now an ordinary note inside them
         # (`doc-rulesintro`, `doc-userguide`) rather than their landing;
@@ -515,17 +515,23 @@ site:
         # segment is `^[A-Za-z0-9]+$` (package-build#207); the section keeps its
         # hyphen because `/sohl/kb/user-guide/` is linked from the home page,
         # the menu and the sitemap. Nothing joins the two — pages emit flat and
-        # `kb/layouts/kb/user-guide/list.html` selects its members by
+        # the landing's own `listSubType` below selects its members by
         # frontmatter — so they are free to differ.
-        rules: { title: Rules, banner: banners/rules.webp }
-        user-guide: { title: User Guide, banner: banners/user-guide.webp }
-        reference: { title: Reference }
+        rules: { title: Rules, banner: banners/rules.webp, listType: doc, listSubType: rules }
+        user-guide:
+            {
+                title: User Guide,
+                banner: banners/user-guide.webp,
+                listType: doc,
+                listSubType: userguide,
+            }
+        reference: { title: Reference, listType: doc, listSubType: reference }
         # Macro notes. Declared rather than backfilled: this landing existed only
         # because `backfillSections` invented it from the directory the macro
         # pages sat in, and flat emission leaves no such directory — so without
         # this line `/sohl/kb/macro/` becomes a 404 for a URL that answers today
         # and is in the sitemap.
-        macro: { title: Macros }
+        macro: { title: Macros, listType: macro }
         # One per item type, each introduced by a `doc-<type>` note filed under
         # `reference` above. Declared even where the type ships no content note
         # yet (`concoctiongear`, `mystery`): `writeSectionLandings` creates the
@@ -539,8 +545,8 @@ site:
         mysticalability: { title: Mystical Abilities, banner: banners/mystical-abilities.webp }
         skill: { title: Skills/Attributes, banner: banners/skills-attributes.webp }
         # No banner: the heroes are CDN assets and neither section has one.
-        concoctiongear: { title: Concoctions }
-        mystery: { title: Mysteries }
+        concoctiongear: { title: Concoctions, listType: concoctiongear }
+        mystery: { title: Mysteries, listType: mystery }
     # Landing title + hero for a **tree** whose index comes from a `README.md`.
     # A `trees` entry mounts a repository directory into the knowledgebase
     # rather than compiling content notes, and it still lands on its README — so
