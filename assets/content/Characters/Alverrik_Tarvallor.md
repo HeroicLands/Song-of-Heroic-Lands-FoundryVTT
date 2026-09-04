@@ -49,21 +49,6 @@ gear:
 sohl:
   kbcat: npc
   archetype: null
-  attributes:
-    str: 16
-    end: 15
-    dex: 12
-    agl: 10
-    per: 14
-    cml: 9
-    aur: 11
-    wil: 12
-    rea: 10
-    cre: 8
-    emp: 10
-    elo: 9
-    mor: 13
-    voi: 11
   body:
     structure:
       zones:
@@ -523,175 +508,65 @@ sohl:
       disabled: false
   defaultCombatGroup: null
   items:
-    - shortcode: cook
-      type: skill
-      system:
-        masteryLevelBase: 24
-    - shortcode: eng
-      type: skill
-      system:
-        masteryLevelBase: 9
-    - shortcode: folklr
-      type: skill
-      system:
-        masteryLevelBase: 11
-    - shortcode: hrld
-      type: skill
-      system:
-        masteryLevelBase: 22
-    - shortcode: pysn
-      type: skill
-      system:
-        masteryLevelBase: 24
-    - shortcode: ritual
-      type: skill
-      system:
-        masteryLevelBase: 11
-    - shortcode: chrm
-      type: skill
-      system:
-        masteryLevelBase: 27
-    - shortcode: cmd
-      type: skill
-      system:
-        masteryLevelBase: 22
-    - shortcode: dscr
-      type: skill
-      system:
-        masteryLevelBase: 20
-    - shortcode: guil
-      type: skill
-      system:
-        masteryLevelBase: 27
-    - shortcode: intr
-      type: skill
-      system:
-        masteryLevelBase: 40
-    - shortcode: sing
-      type: skill
-      system:
-        masteryLevelBase: 27
-    - shortcode: thtcs
-      type: skill
-      system:
-        masteryLevelBase: 8
-    - shortcode: herb
-      type: skill
-      system:
-        masteryLevelBase: 24
-    - shortcode: pilt
-      type: skill
-      system:
-        masteryLevelBase: 24
-    - shortcode: srvl
-      type: skill
-      system:
-        masteryLevelBase: 55
-    - shortcode: awar
-      type: skill
-      system:
-        masteryLevelBase: 65
-    - shortcode: clmb
-      type: skill
-      system:
-        masteryLevelBase: 33
-    - shortcode: dnce
-      type: skill
-      system:
-        masteryLevelBase: 18
-    - shortcode: jump
-      type: skill
-      system:
-        masteryLevelBase: 39
-    - shortcode: ridg
-      type: skill
-      system:
-        masteryLevelBase: 10
-    - shortcode: stlth
-      type: skill
-      system:
-        masteryLevelBase: 33
-    - shortcode: swim
-      type: skill
-      system:
-        masteryLevelBase: 12
-    - shortcode: archery
-      type: skill
-      system:
-        masteryLevelBase: 13
-    - shortcode: init
-      type: skill
-      system:
-        masteryLevelBase: 55
-    - shortcode: melee
-      type: skill
-      system:
-        masteryLevelBase: 44
-    - shortcode: thro
-      type: skill
-      system:
-        masteryLevelBase: 52
-    - shortcode: draw
-      type: skill
-      system:
-        masteryLevelBase: 10
-    - shortcode: fltch
-      type: skill
-      system:
-        masteryLevelBase: 13
-    - shortcode: glas
-      type: skill
-      system:
-        masteryLevelBase: 26
-    - shortcode: masn
-      type: skill
-      system:
-        masteryLevelBase: 14
-    - shortcode: mtlc
-      type: skill
-      system:
-        masteryLevelBase: 14
-    - shortcode: mill
-      type: skill
-      system:
-        masteryLevelBase: 30
-    - shortcode: wpnc
-      type: skill
-      system:
-        masteryLevelBase: 56
-    - shortcode: tlnt
-      type: mysticalability
-      system:
-        masteryLevelBase: 33
-    - shortcode: spirit
-      type: skill
-      initSkillMult: 3
-    - shortcode: bflkbite
-      type: skill
-      initSkillMult: 2
-    - shortcode: bflkgrab
-      type: skill
-      initSkillMult: 2
-    - shortcode: bflkheadbutt
-      type: skill
-      initSkillMult: 2
-    - shortcode: bflkkick
-      type: skill
-      initSkillMult: 2
-    - shortcode: limbblock
-      type: skill
-      initSkillMult: 2
-    - shortcode: press
-      type: skill
-      initSkillMult: 2
-    - shortcode: bflkpunch
-      type: skill
-      initSkillMult: 2
-    - shortcode: trip
-      type: skill
-      initSkillMult: 2
-    - shortcode: sprt
-      type: mysticalability
+    - { shortcode: str, type: attribute, system: { scoreBase: 16 } }
+    - { shortcode: end, type: attribute, system: { scoreBase: 15 } }
+    - { shortcode: dex, type: attribute, system: { scoreBase: 12 } }
+    - { shortcode: agl, type: attribute, system: { scoreBase: 10 } }
+    - { shortcode: per, type: attribute, system: { scoreBase: 14 } }
+    - { shortcode: cml, type: attribute, system: { scoreBase: 9 } }
+    - { shortcode: aur, type: attribute, system: { scoreBase: 11 } }
+    - { shortcode: wil, type: attribute, system: { scoreBase: 12 } }
+    - { shortcode: rea, type: attribute, system: { scoreBase: 10 } }
+    - { shortcode: cre, type: attribute, system: { scoreBase: 8 } }
+    - { shortcode: emp, type: attribute, system: { scoreBase: 10 } }
+    - { shortcode: elo, type: attribute, system: { scoreBase: 9 } }
+    - { shortcode: mor, type: attribute, system: { scoreBase: 13 } }
+    - { shortcode: voi, type: attribute, system: { scoreBase: 11 } }
+    - { shortcode: cook, type: skill, system: { masteryLevelBase: 24 } }
+    - { shortcode: eng, type: skill, system: { masteryLevelBase: 9 } }
+    - { shortcode: folklr, type: skill, system: { masteryLevelBase: 11 } }
+    - { shortcode: hrld, type: skill, system: { masteryLevelBase: 22 } }
+    - { shortcode: pysn, type: skill, system: { masteryLevelBase: 24 } }
+    - { shortcode: ritual, type: skill, system: { masteryLevelBase: 11 } }
+    - { shortcode: chrm, type: skill, system: { masteryLevelBase: 27 } }
+    - { shortcode: cmd, type: skill, system: { masteryLevelBase: 22 } }
+    - { shortcode: dscr, type: skill, system: { masteryLevelBase: 20 } }
+    - { shortcode: guil, type: skill, system: { masteryLevelBase: 27 } }
+    - { shortcode: intr, type: skill, system: { masteryLevelBase: 40 } }
+    - { shortcode: sing, type: skill, system: { masteryLevelBase: 27 } }
+    - { shortcode: thtcs, type: skill, system: { masteryLevelBase: 8 } }
+    - { shortcode: herb, type: skill, system: { masteryLevelBase: 24 } }
+    - { shortcode: pilt, type: skill, system: { masteryLevelBase: 24 } }
+    - { shortcode: srvl, type: skill, system: { masteryLevelBase: 55 } }
+    - { shortcode: awar, type: skill, system: { masteryLevelBase: 65 } }
+    - { shortcode: clmb, type: skill, system: { masteryLevelBase: 33 } }
+    - { shortcode: dnce, type: skill, system: { masteryLevelBase: 18 } }
+    - { shortcode: jump, type: skill, system: { masteryLevelBase: 39 } }
+    - { shortcode: ridg, type: skill, system: { masteryLevelBase: 10 } }
+    - { shortcode: stlth, type: skill, system: { masteryLevelBase: 33 } }
+    - { shortcode: swim, type: skill, system: { masteryLevelBase: 12 } }
+    - { shortcode: archery, type: skill, system: { masteryLevelBase: 13 } }
+    - { shortcode: init, type: skill, system: { masteryLevelBase: 55 } }
+    - { shortcode: melee, type: skill, system: { masteryLevelBase: 44 } }
+    - { shortcode: thro, type: skill, system: { masteryLevelBase: 52 } }
+    - { shortcode: draw, type: skill, system: { masteryLevelBase: 10 } }
+    - { shortcode: fltch, type: skill, system: { masteryLevelBase: 13 } }
+    - { shortcode: glas, type: skill, system: { masteryLevelBase: 26 } }
+    - { shortcode: masn, type: skill, system: { masteryLevelBase: 14 } }
+    - { shortcode: mtlc, type: skill, system: { masteryLevelBase: 14 } }
+    - { shortcode: mill, type: skill, system: { masteryLevelBase: 30 } }
+    - { shortcode: wpnc, type: skill, system: { masteryLevelBase: 56 } }
+    - { shortcode: tlnt, type: mysticalability, system: { masteryLevelBase: 33 } }
+    - { shortcode: spirit, type: skill, initSkillMult: 3 }
+    - { shortcode: bflkbite, type: skill, initSkillMult: 2 }
+    - { shortcode: bflkgrab, type: skill, initSkillMult: 2 }
+    - { shortcode: bflkheadbutt, type: skill, initSkillMult: 2 }
+    - { shortcode: bflkkick, type: skill, initSkillMult: 2 }
+    - { shortcode: limbblock, type: skill, initSkillMult: 2 }
+    - { shortcode: press, type: skill, initSkillMult: 2 }
+    - { shortcode: bflkpunch, type: skill, initSkillMult: 2 }
+    - { shortcode: trip, type: skill, initSkillMult: 2 }
+    - { shortcode: sprt, type: mysticalability }
 ---
 
 # Appearance {#appearance}

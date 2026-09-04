@@ -13,16 +13,6 @@ type: being
 sohl:
   kbcat: animal
   archetype: 0
-  attributes:
-    str: 4
-    end: 10
-    agl: 10
-    per: 26
-    snt: 3
-    aur: 5
-    wil: 10
-    rea: 8
-    cre: 8
   attrRollFormula:
     str: 1d4+2
     end: 1d6+7
@@ -236,30 +226,21 @@ sohl:
       disabled: false
   defaultCombatGroup: null
   items:
-    - shortcode: awar
-      type: skill
-      system:
-        masteryLevelBase: 90
-    - shortcode: stlth
-      type: skill
-      system:
-        masteryLevelBase: 72
-    - shortcode: sprt
-      type: mysticalability
-      system:
-        masteryLevelBase: 21
-    - shortcode: init
-      type: skill
-      system:
-        masteryLevelBase: 36
-    - shortcode: dge
-      type: skill
-      system:
-        masteryLevelBase: 72
-    - shortcode: shok
-      type: skill
-      system:
-        masteryLevelBase: 28
+    - { shortcode: str, type: attribute, system: { scoreBase: 4 } }
+    - { shortcode: end, type: attribute, system: { scoreBase: 10 } }
+    - { shortcode: agl, type: attribute, system: { scoreBase: 10 } }
+    - { shortcode: per, type: attribute, system: { scoreBase: 26 } }
+    - { shortcode: snt, type: attribute, system: { scoreBase: 3 } }
+    - { shortcode: aur, type: attribute, system: { scoreBase: 5 } }
+    - { shortcode: wil, type: attribute, system: { scoreBase: 10 } }
+    - { shortcode: rea, type: attribute, system: { scoreBase: 8 } }
+    - { shortcode: cre, type: attribute, system: { scoreBase: 8 } }
+    - { shortcode: awar, type: skill, system: { masteryLevelBase: 90 } }
+    - { shortcode: stlth, type: skill, system: { masteryLevelBase: 72 } }
+    - { shortcode: sprt, type: mysticalability, system: { masteryLevelBase: 21 } }
+    - { shortcode: init, type: skill, system: { masteryLevelBase: 36 } }
+    - { shortcode: dge, type: skill, system: { masteryLevelBase: 72 } }
+    - { shortcode: shok, type: skill, system: { masteryLevelBase: 28 } }
     - name: Talon
       type: skill
       system:

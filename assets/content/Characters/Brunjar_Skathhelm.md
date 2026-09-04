@@ -43,21 +43,6 @@ traits:
 sohl:
   kbcat: npc
   archetype: null
-  attributes:
-    str: 10
-    end: 10
-    dex: 12
-    agl: 11
-    per: 13
-    cml: 12
-    aur: 8
-    wil: 6
-    rea: 10
-    cre: 9
-    emp: 11
-    elo: 10
-    mor: 8
-    voi: 11
   body:
     structure:
       zones:
@@ -517,127 +502,56 @@ sohl:
       disabled: false
   defaultCombatGroup: null
   items:
-    - shortcode: melee
-      type: skill
-      system:
-        masteryLevelBase: 42
-    - shortcode: dge
-      type: skill
-      system:
-        masteryLevelBase: 38
-    - shortcode: shok
-      type: skill
-      system:
-        masteryLevelBase: 30
-    - shortcode: init
-      type: skill
-      system:
-        masteryLevelBase: 35
-    - shortcode: awar
-      type: skill
-      system:
-        masteryLevelBase: 45
-    - shortcode: thro
-      type: skill
-      system:
-        masteryLevelBase: 40
-    - shortcode: stlth
-      type: skill
-      system:
-        masteryLevelBase: 50
-    - shortcode: srvl
-      type: skill
-      system:
-        masteryLevelBase: 35
-    - shortcode: clmb
-      type: skill
-      system:
-        masteryLevelBase: 42
-    - shortcode: swim
-      type: skill
-      system:
-        masteryLevelBase: 18
-    - shortcode: trak
-      type: skill
-      system:
-        masteryLevelBase: 30
-    - shortcode: slng
-      type: skill
-      system:
-        masteryLevelBase: 55
-    - shortcode: anmcft
-      type: skill
-      system:
-        masteryLevelBase: 35
-    - shortcode: cook
-      type: skill
-      system:
-        masteryLevelBase: 30
-    - shortcode: common
-      type: skill
-      system:
-        masteryLevelBase: 45
-    - shortcode: guil
-      type: skill
-      system:
-        masteryLevelBase: 25
-    - shortcode: chrm
-      type: skill
-      system:
-        masteryLevelBase: 28
-    - shortcode: archery
-      type: skill
-      system:
-        masteryLevelBase: 20
-    - shortcode: Clb
-      type: weapongear
-    - shortcode: Dgr
-      type: weapongear
-    - shortcode: Slng
-      type: weapongear
-    - shortcode: HsTunic
-      type: armorgear
-    - shortcode: LtShoe
-      type: armorgear
-    - shortcode: bgsmcvs
-      type: containergear
-    - shortcode: SSton
-      type: projectilegear
-      system:
-        quantity: 2
-    - shortcode: pence
-      type: miscgear
-      system:
-        quantity: 2
-    - shortcode: spirit
-      type: skill
-      initSkillMult: 3
-    - shortcode: bflkbite
-      type: skill
-      initSkillMult: 2
-    - shortcode: bflkgrab
-      type: skill
-      initSkillMult: 2
-    - shortcode: bflkheadbutt
-      type: skill
-      initSkillMult: 2
-    - shortcode: bflkkick
-      type: skill
-      initSkillMult: 2
-    - shortcode: limbblock
-      type: skill
-      initSkillMult: 2
-    - shortcode: press
-      type: skill
-      initSkillMult: 2
-    - shortcode: bflkpunch
-      type: skill
-      initSkillMult: 2
-    - shortcode: trip
-      type: skill
-      initSkillMult: 2
-    - shortcode: sprt
-      type: mysticalability
+    - { shortcode: str, type: attribute, system: { scoreBase: 10 } }
+    - { shortcode: end, type: attribute, system: { scoreBase: 10 } }
+    - { shortcode: dex, type: attribute, system: { scoreBase: 12 } }
+    - { shortcode: agl, type: attribute, system: { scoreBase: 11 } }
+    - { shortcode: per, type: attribute, system: { scoreBase: 13 } }
+    - { shortcode: cml, type: attribute, system: { scoreBase: 12 } }
+    - { shortcode: aur, type: attribute, system: { scoreBase: 8 } }
+    - { shortcode: wil, type: attribute, system: { scoreBase: 6 } }
+    - { shortcode: rea, type: attribute, system: { scoreBase: 10 } }
+    - { shortcode: cre, type: attribute, system: { scoreBase: 9 } }
+    - { shortcode: emp, type: attribute, system: { scoreBase: 11 } }
+    - { shortcode: elo, type: attribute, system: { scoreBase: 10 } }
+    - { shortcode: mor, type: attribute, system: { scoreBase: 8 } }
+    - { shortcode: voi, type: attribute, system: { scoreBase: 11 } }
+    - { shortcode: melee, type: skill, system: { masteryLevelBase: 42 } }
+    - { shortcode: dge, type: skill, system: { masteryLevelBase: 38 } }
+    - { shortcode: shok, type: skill, system: { masteryLevelBase: 30 } }
+    - { shortcode: init, type: skill, system: { masteryLevelBase: 35 } }
+    - { shortcode: awar, type: skill, system: { masteryLevelBase: 45 } }
+    - { shortcode: thro, type: skill, system: { masteryLevelBase: 40 } }
+    - { shortcode: stlth, type: skill, system: { masteryLevelBase: 50 } }
+    - { shortcode: srvl, type: skill, system: { masteryLevelBase: 35 } }
+    - { shortcode: clmb, type: skill, system: { masteryLevelBase: 42 } }
+    - { shortcode: swim, type: skill, system: { masteryLevelBase: 18 } }
+    - { shortcode: trak, type: skill, system: { masteryLevelBase: 30 } }
+    - { shortcode: slng, type: skill, system: { masteryLevelBase: 55 } }
+    - { shortcode: anmcft, type: skill, system: { masteryLevelBase: 35 } }
+    - { shortcode: cook, type: skill, system: { masteryLevelBase: 30 } }
+    - { shortcode: common, type: skill, system: { masteryLevelBase: 45 } }
+    - { shortcode: guil, type: skill, system: { masteryLevelBase: 25 } }
+    - { shortcode: chrm, type: skill, system: { masteryLevelBase: 28 } }
+    - { shortcode: archery, type: skill, system: { masteryLevelBase: 20 } }
+    - { shortcode: Clb, type: weapongear }
+    - { shortcode: Dgr, type: weapongear }
+    - { shortcode: Slng, type: weapongear }
+    - { shortcode: HsTunic, type: armorgear }
+    - { shortcode: LtShoe, type: armorgear }
+    - { shortcode: bgsmcvs, type: containergear }
+    - { shortcode: SSton, type: projectilegear, system: { quantity: 2 } }
+    - { shortcode: pence, type: miscgear, system: { quantity: 2 } }
+    - { shortcode: spirit, type: skill, initSkillMult: 3 }
+    - { shortcode: bflkbite, type: skill, initSkillMult: 2 }
+    - { shortcode: bflkgrab, type: skill, initSkillMult: 2 }
+    - { shortcode: bflkheadbutt, type: skill, initSkillMult: 2 }
+    - { shortcode: bflkkick, type: skill, initSkillMult: 2 }
+    - { shortcode: limbblock, type: skill, initSkillMult: 2 }
+    - { shortcode: press, type: skill, initSkillMult: 2 }
+    - { shortcode: bflkpunch, type: skill, initSkillMult: 2 }
+    - { shortcode: trip, type: skill, initSkillMult: 2 }
+    - { shortcode: sprt, type: mysticalability }
 ---
 
 # Appearance {#appearance}

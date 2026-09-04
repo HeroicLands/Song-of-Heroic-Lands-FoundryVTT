@@ -506,6 +506,24 @@ function items(sohl: any, type: string, subType?: string): any[] {
     );
 }
 
+/**
+ * The note's ability scores, by attribute shortcode.
+ *
+ * Attributes are ordinary `sohl.items` entries rather than a `sohl.attributes`
+ * map, so the scores are read back the same way every other embedded item is.
+ * The effective shortcode is `system.shortcode ?? shortcode`: a top-level
+ * `shortcode` only selects the template it is written from and never reaches
+ * the document, while `system.shortcode` is the instance's own key.
+ */
+function attrScores(sohl: any): Record<string, number> {
+    const scores: Record<string, number> = {};
+    for (const item of items(sohl, "attribute")) {
+        const code = item.system?.shortcode ?? item.shortcode;
+        if (code) scores[code] = item.system?.scoreBase;
+    }
+    return scores;
+}
+
 /* ------------------------------------------------------------------ */
 /*  Specification                                                     */
 /* ------------------------------------------------------------------ */
@@ -515,7 +533,7 @@ describe.each(ROWS)("$file", (row) => {
 
     it("carries the table's ability scores", () => {
         const expected = Object.fromEntries(ATTR_ORDER.map((code, i) => [code, row.scores[i]]));
-        expect(sohl.attributes).toEqual(expected);
+        expect(attrScores(sohl)).toEqual(expected);
     });
 
     it("derives each roll formula from its score", () => {
@@ -725,7 +743,7 @@ describe.each(ALL_CREATURES)("%s (every creature)", (file) => {
     });
 
     it("scales injuries to its own Strength", () => {
-        const str = sohl.attributes?.str;
+        const str = attrScores(sohl).str;
         expect(str, "no Strength").toBeGreaterThan(0);
         expect(sohl.body.bodyScaleBase).toBeCloseTo(bodyScale(str), 2);
     });

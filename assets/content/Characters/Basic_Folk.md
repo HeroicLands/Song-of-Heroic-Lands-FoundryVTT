@@ -37,21 +37,6 @@ traits:
 sohl:
   kbcat: archetype
   archetype: 1
-  attributes:
-    str: 11
-    end: 11
-    dex: 11
-    agl: 11
-    per: 11
-    cml: 11
-    aur: 11
-    wil: 11
-    rea: 11
-    cre: 11
-    emp: 11
-    elo: 11
-    mor: 11
-    voi: 11
   body:
     structure:
       zones:
@@ -511,112 +496,56 @@ sohl:
       disabled: false
   defaultCombatGroup: null
   items:
-    - shortcode: archery
-      type: skill
-      initSkillMult: 1
-    - shortcode: awar
-      type: skill
-      initSkillMult: 3
-    - shortcode: chrm
-      type: skill
-      initSkillMult: 3
-    - shortcode: clmb
-      type: skill
-      initSkillMult: 3
-    - shortcode: cmd
-      type: skill
-      initSkillMult: 2
-    - shortcode: cook
-      type: skill
-      initSkillMult: 2
-    - shortcode: dnce
-      type: skill
-      initSkillMult: 2
-    - shortcode: dscr
-      type: skill
-      initSkillMult: 2
-    - shortcode: draw
-      type: skill
-      initSkillMult: 1
-    - shortcode: folklr
-      type: skill
-      initSkillMult: 1
-    - shortcode: guil
-      type: skill
-      initSkillMult: 3
-    - shortcode: init
-      type: skill
-      initSkillMult: 3
-    - shortcode: shok
-      type: skill
-      initSkillMult: 3
-    - shortcode: intr
-      type: skill
-      initSkillMult: 3
-    - shortcode: jump
-      type: skill
-      initSkillMult: 3
-    - shortcode: melee
-      type: skill
-      initSkillMult: 2
-    - shortcode: dge
-      type: skill
-      initSkillMult: 2
-    - shortcode: pysn
-      type: skill
-      initSkillMult: 1
-    - shortcode: ridg
-      type: skill
-      initSkillMult: 1
-    - shortcode: sing
-      type: skill
-      initSkillMult: 3
-    - shortcode: stlth
-      type: skill
-      initSkillMult: 3
-    - shortcode: srvl
-      type: skill
-      initSkillMult: 1
-    - shortcode: spirit
-      type: skill
-      initSkillMult: 3
-    - shortcode: swim
-      type: skill
-      initSkillMult: 1
-    - shortcode: thtcs
-      type: skill
-      initSkillMult: 1
-    - shortcode: thro
-      type: skill
-      initSkillMult: 2
-    - shortcode: bflkbite
-      type: skill
-      initSkillMult: 2
-    - shortcode: bflkgrab
-      type: skill
-      initSkillMult: 2
-    - shortcode: bflkheadbutt
-      type: skill
-      initSkillMult: 2
-    - shortcode: bflkkick
-      type: skill
-      initSkillMult: 2
-    - shortcode: limbblock
-      type: skill
-      initSkillMult: 2
-    - shortcode: press
-      type: skill
-      initSkillMult: 2
-    - shortcode: bflkpunch
-      type: skill
-      initSkillMult: 2
-    - shortcode: trip
-      type: skill
-      initSkillMult: 2
-    - shortcode: sprt
-      type: mysticalability
-    - shortcode: pence
-      type: miscgear
+    - { shortcode: str, type: attribute, system: { scoreBase: 11 } }
+    - { shortcode: end, type: attribute, system: { scoreBase: 11 } }
+    - { shortcode: dex, type: attribute, system: { scoreBase: 11 } }
+    - { shortcode: agl, type: attribute, system: { scoreBase: 11 } }
+    - { shortcode: per, type: attribute, system: { scoreBase: 11 } }
+    - { shortcode: cml, type: attribute, system: { scoreBase: 11 } }
+    - { shortcode: aur, type: attribute, system: { scoreBase: 11 } }
+    - { shortcode: wil, type: attribute, system: { scoreBase: 11 } }
+    - { shortcode: rea, type: attribute, system: { scoreBase: 11 } }
+    - { shortcode: cre, type: attribute, system: { scoreBase: 11 } }
+    - { shortcode: emp, type: attribute, system: { scoreBase: 11 } }
+    - { shortcode: elo, type: attribute, system: { scoreBase: 11 } }
+    - { shortcode: mor, type: attribute, system: { scoreBase: 11 } }
+    - { shortcode: voi, type: attribute, system: { scoreBase: 11 } }
+    - { shortcode: archery, type: skill, initSkillMult: 1 }
+    - { shortcode: awar, type: skill, initSkillMult: 3 }
+    - { shortcode: chrm, type: skill, initSkillMult: 3 }
+    - { shortcode: clmb, type: skill, initSkillMult: 3 }
+    - { shortcode: cmd, type: skill, initSkillMult: 2 }
+    - { shortcode: cook, type: skill, initSkillMult: 2 }
+    - { shortcode: dnce, type: skill, initSkillMult: 2 }
+    - { shortcode: dscr, type: skill, initSkillMult: 2 }
+    - { shortcode: draw, type: skill, initSkillMult: 1 }
+    - { shortcode: folklr, type: skill, initSkillMult: 1 }
+    - { shortcode: guil, type: skill, initSkillMult: 3 }
+    - { shortcode: init, type: skill, initSkillMult: 3 }
+    - { shortcode: shok, type: skill, initSkillMult: 3 }
+    - { shortcode: intr, type: skill, initSkillMult: 3 }
+    - { shortcode: jump, type: skill, initSkillMult: 3 }
+    - { shortcode: melee, type: skill, initSkillMult: 2 }
+    - { shortcode: dge, type: skill, initSkillMult: 2 }
+    - { shortcode: pysn, type: skill, initSkillMult: 1 }
+    - { shortcode: ridg, type: skill, initSkillMult: 1 }
+    - { shortcode: sing, type: skill, initSkillMult: 3 }
+    - { shortcode: stlth, type: skill, initSkillMult: 3 }
+    - { shortcode: srvl, type: skill, initSkillMult: 1 }
+    - { shortcode: spirit, type: skill, initSkillMult: 3 }
+    - { shortcode: swim, type: skill, initSkillMult: 1 }
+    - { shortcode: thtcs, type: skill, initSkillMult: 1 }
+    - { shortcode: thro, type: skill, initSkillMult: 2 }
+    - { shortcode: bflkbite, type: skill, initSkillMult: 2 }
+    - { shortcode: bflkgrab, type: skill, initSkillMult: 2 }
+    - { shortcode: bflkheadbutt, type: skill, initSkillMult: 2 }
+    - { shortcode: bflkkick, type: skill, initSkillMult: 2 }
+    - { shortcode: limbblock, type: skill, initSkillMult: 2 }
+    - { shortcode: press, type: skill, initSkillMult: 2 }
+    - { shortcode: bflkpunch, type: skill, initSkillMult: 2 }
+    - { shortcode: trip, type: skill, initSkillMult: 2 }
+    - { shortcode: sprt, type: mysticalability }
+    - { shortcode: pence, type: miscgear }
 ---
 
 <!-- The contents of the header with id "appearance" (and all sub-headers and contents) will  be written to the appearance property of the actor, and the contents of the header with id "dossier" (and all sub-headers and contents) will be written to the dossier property of the actor. To ensure least trouble, these should both be H1 headers. All other markdown text will be ignored when converting the note to a character. -->
