@@ -12,17 +12,13 @@ All 95 actor notes in this repository move: 91 in `Bestiary/Animal/` and 4 in
 `Characters/`. The compiled actors pack is unchanged apart from the type — same
 95 documents, same ids.
 
-**Published URLs.** The two knowledgebase sections merge into one, so 95 pages
-move from `/sohl/kb/creature/…` and `/sohl/kb/character/…` to `/sohl/kb/being/…`.
-Every one of them redirects from the address it actually had, and the new
-`/sohl/kb/being/` landing redirects from both retired section landings — nothing
-that resolved before stops resolving.
+**Published URLs.** A page's address carries its type, so all 95 move from
+`creature-…` and `character-…` to `being-…`, and the two knowledgebase sections
+merge into one.
 
-Which of the two sections a page used to sit in is the one thing the retype
-erases from a note, so it is derived from `sohl.kbcat`, the field that now
-carries the distinction. The 91 bestiary notes already had one; the four under
-`Characters/` gained theirs here. A being added _after_ the merge has no old URL
-and correctly gets no redirect.
+Which of the two a note used to declare is the one thing the retype erases, so
+the distinction is carried by `sohl.kbcat` instead. The 91 bestiary notes
+already had one; the four under `Characters/` gained theirs here.
 
 **Beings still show their profile sidebar.** The shared Hugo theme chose between
 a character and a creature sidebar by branching on the retired type, so without

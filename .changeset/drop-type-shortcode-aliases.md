@@ -4,10 +4,9 @@
 
 Remove the `<type>-<shortcode>` self-alias from every note — 1,603 of them.
 
-Each note carried its own canonical address as an alias, so `affliction-hemotxn`
-appeared both as the note's address and in its `aliases:` list. They were added
-so the hyphen form resolved inside Obsidian, and they have never been what makes
-the address work in either build.
+Each note carried its own canonical address in its `aliases:` list, so
+`affliction-hemotxn` appeared both as the note's address and as a name for it.
+They have never been what makes the address work in either build.
 
 **Dead weight, verified rather than assumed.** Both resolvers reach
 `[[affliction-hemotxn]]` through `readQualifier` → `type/shortcode`, not through
@@ -24,8 +23,9 @@ web-wikilinks   typeAlias PRESENT => [Hemotoxin](/affliction/hemotoxin/)
 `alias.toLowerCase() === `${type}-${shortcode}`.toLowerCase()`. A rule phrased as
 "drop any alias containing a hyphen" would have destroyed real names, and this
 tree has plenty: `Absent-Minded`, `Kûrbúl ¾-Helm`, `Plate 3/4-Helm`,
-`Lockbox, iron-bound, large`. All 1,407 surviving aliases are untouched — including
-every hyphenated one, and including notes that carried both forms:
+`Lockbox, iron-bound, large`. Every entry that was not the note's own address was
+left exactly as authored — including every hyphenated one, and including notes
+that carried both forms:
 
 ```diff
  aliases:
@@ -55,10 +55,8 @@ identical output before and after:
 every homepage address resolvable.
 ```
 
-**Why now.** The four-segment address grammar (HeroicLands/package-build#59)
-makes the pipe the thing that distinguishes an address lookup from an alias
-lookup — `[[grod]]` is an alias, `[[grod|]]` is the address. A note that lists
-its own address among its aliases makes those two spellings collide on the same
-note, which is exactly the ambiguity the single-hit rule has to be able to
-report. Clearing them is a prerequisite, and it is worth doing on its own merits
+**Why now.** A note that lists its own address among its names makes an address
+and a name collide on the same note, which is exactly the ambiguity a
+single-hit resolution rule has to be able to report. Clearing them is a
+prerequisite to retiring the field, and it is worth doing on its own merits
 regardless.
