@@ -66,9 +66,6 @@ id: HSNwLca3kMYLN3Ag
 shortcode: autoattack
 img: icons/game-icons/lorc/crossed-swords.svg
 folder: null
-aliases:
-  - Automated Attack
-  - macro-autoattack
 ---
 ```
 

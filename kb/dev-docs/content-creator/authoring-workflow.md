@@ -69,7 +69,6 @@ Prose goes here, and becomes this skill's write-up.
 | `name.full`  | in practice      | The document's name                                   |
 | `folder:`    | no               | Which compendium folder the document sits in          |
 | `img:`       | no               | The document's artwork                                |
-| `draft:`     | no               | Withholds the note from everything                    |
 | `pack:`      | no               | Which compendium of its type receives it              |
 | `sohl:`      | by type          | The type-specific fields                              |
 
@@ -77,10 +76,12 @@ Prose goes here, and becomes this skill's write-up.
 
 **The order the compiler applies these is load-bearing**, because it decides
 which mistake produces which symptom. Each pass walks the whole content tree once
-and tests, in this order: whether the type is retired, then whether this pass
-claims the type at all, then `draft:`, then `id:`, then `pack:`, then the pass's
-own rejection rules. A note rejected early never reaches the checks that would
-have explained it.
+and tests, in this order: first the **retired frontmatter fields** — `package:`,
+`draft:`, `aliases:`, `section:`, each refused by name — then whether the `type:`
+itself is retired, then whether this pass claims the type at all, then `id:`,
+then `pack:`, then the pass's own rejection rules. The retired fields come first
+deliberately, so a note carrying one is answered whichever pass would have
+claimed it; everything after that, a note rejected early never reaches.
 
 ## The package is the repository's, not the note's
 
@@ -219,16 +220,19 @@ journals pack's own file. The consequence is that `journal-folders.yaml` must
 independently declare the ids the item tree uses, or those documentation entries
 land under a folder no journals pack declares.
 
-## Drafts withhold a note from everything
+## An unfinished note is tagged, not withheld
 
-`draft: true` removes the note from the compendium packs, from the
-[link manifest](../reference/link-manifest.md), and from the knowledgebase and
-site — the last because Hugo's own default excludes drafts and `build:kb` passes
-no `--buildDrafts`. Net: **a draft ships nowhere.**
+A note that is written but not finished carries the `draft` tag. The build
+ignores it: the note compiles, validates, publishes and resolves like any other,
+and it is in the packs, in the link manifest and on the site. What the tag
+changes is only how a link _into_ it looks — both builds wrap such a link in a
+`sohl-draft-link` marking with the link live inside, so a reader can tell the
+target is unwritten. See
+[Links into a draft note](../reference/link-manifest.md#links-into-a-draft-note).
 
-The pack skip is silent per note, though the pass does report a count
-(`Skipped N draft(s)`), which is enough to notice that something is being held
-back. No SoHL note currently uses it.
+A `draft:` **frontmatter field** is refused by name. Withholding a note silently
+made every wikilink into it read as a link to a note that does not exist, and hid
+any compile error the note carried.
 
 ## `pack:` — which compendium receives the document
 
