@@ -13,16 +13,6 @@ type: being
 sohl:
   kbcat: animal
   archetype: 0
-  attributes:
-    str: 25
-    end: 12
-    agl: 12
-    per: 17
-    snt: 3
-    aur: 4
-    wil: 12
-    rea: 5
-    cre: 6
   attrRollFormula:
     str: 1d6+22
     end: 1d6+9
@@ -267,30 +257,21 @@ sohl:
       disabled: false
   defaultCombatGroup: null
   items:
-    - shortcode: awar
-      type: skill
-      system:
-        masteryLevelBase: 75
-    - shortcode: stlth
-      type: skill
-      system:
-        masteryLevelBase: 56
-    - shortcode: sprt
-      type: mysticalability
-      system:
-        masteryLevelBase: 24
-    - shortcode: init
-      type: skill
-      system:
-        masteryLevelBase: 27
-    - shortcode: dge
-      type: skill
-      system:
-        masteryLevelBase: 62
-    - shortcode: shok
-      type: skill
-      system:
-        masteryLevelBase: 39
+    - { shortcode: str, type: attribute, system: { scoreBase: 25 } }
+    - { shortcode: end, type: attribute, system: { scoreBase: 12 } }
+    - { shortcode: agl, type: attribute, system: { scoreBase: 12 } }
+    - { shortcode: per, type: attribute, system: { scoreBase: 17 } }
+    - { shortcode: snt, type: attribute, system: { scoreBase: 3 } }
+    - { shortcode: aur, type: attribute, system: { scoreBase: 4 } }
+    - { shortcode: wil, type: attribute, system: { scoreBase: 12 } }
+    - { shortcode: rea, type: attribute, system: { scoreBase: 5 } }
+    - { shortcode: cre, type: attribute, system: { scoreBase: 6 } }
+    - { shortcode: awar, type: skill, system: { masteryLevelBase: 75 } }
+    - { shortcode: stlth, type: skill, system: { masteryLevelBase: 56 } }
+    - { shortcode: sprt, type: mysticalability, system: { masteryLevelBase: 24 } }
+    - { shortcode: init, type: skill, system: { masteryLevelBase: 27 } }
+    - { shortcode: dge, type: skill, system: { masteryLevelBase: 62 } }
+    - { shortcode: shok, type: skill, system: { masteryLevelBase: 39 } }
     - name: Kick
       type: skill
       system:

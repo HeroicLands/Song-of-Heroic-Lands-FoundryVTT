@@ -53,21 +53,6 @@ gear:
 sohl:
   kbcat: npc
   archetype: null
-  attributes:
-    agl: 14
-    aur: 9
-    cml: 11
-    cre: 12
-    dex: 12
-    elo: 10
-    emp: 8
-    end: 13
-    mor: 12
-    per: 14
-    rea: 13
-    str: 15
-    voi: 10
-    wil: 13
   body:
     structure:
       zones:
@@ -527,74 +512,40 @@ sohl:
       disabled: false
   defaultCombatGroup: null
   items:
-    - shortcode: awar
-      type: skill
-      system:
-        masteryLevelBase: 42
-    - shortcode: cmd
-      type: skill
-      system:
-        masteryLevelBase: 27
-    - shortcode: dge
-      type: skill
-      system:
-        masteryLevelBase: 28
-    - shortcode: init
-      type: skill
-      system:
-        masteryLevelBase: 44
-    - shortcode: melee
-      type: skill
-      system:
-        masteryLevelBase: 59
-    - shortcode: ridg
-      type: skill
-      system:
-        masteryLevelBase: 15
-    - shortcode: shok
-      type: skill
-      system:
-        masteryLevelBase: 46
-    - shortcode: swim
-      type: skill
-      system:
-        masteryLevelBase: 30
-    - shortcode: spirit
-      type: skill
-      initSkillMult: 3
-    - shortcode: swim
-      type: skill
-      initSkillMult: 1
-    - shortcode: thtcs
-      type: skill
-      initSkillMult: 1
-    - shortcode: thro
-      type: skill
-      initSkillMult: 2
-    - shortcode: bflkbite
-      type: skill
-      initSkillMult: 2
-    - shortcode: bflkgrab
-      type: skill
-      initSkillMult: 2
-    - shortcode: bflkheadbutt
-      type: skill
-      initSkillMult: 2
-    - shortcode: bflkkick
-      type: skill
-      initSkillMult: 2
-    - shortcode: limbblock
-      type: skill
-      initSkillMult: 2
-    - shortcode: press
-      type: skill
-      initSkillMult: 2
-    - shortcode: bflkpunch
-      type: skill
-      initSkillMult: 2
-    - shortcode: trip
-      type: skill
-      initSkillMult: 2
+    - { shortcode: agl, type: attribute, system: { scoreBase: 14 } }
+    - { shortcode: aur, type: attribute, system: { scoreBase: 9 } }
+    - { shortcode: cml, type: attribute, system: { scoreBase: 11 } }
+    - { shortcode: cre, type: attribute, system: { scoreBase: 12 } }
+    - { shortcode: dex, type: attribute, system: { scoreBase: 12 } }
+    - { shortcode: elo, type: attribute, system: { scoreBase: 10 } }
+    - { shortcode: emp, type: attribute, system: { scoreBase: 8 } }
+    - { shortcode: end, type: attribute, system: { scoreBase: 13 } }
+    - { shortcode: mor, type: attribute, system: { scoreBase: 12 } }
+    - { shortcode: per, type: attribute, system: { scoreBase: 14 } }
+    - { shortcode: rea, type: attribute, system: { scoreBase: 13 } }
+    - { shortcode: str, type: attribute, system: { scoreBase: 15 } }
+    - { shortcode: voi, type: attribute, system: { scoreBase: 10 } }
+    - { shortcode: wil, type: attribute, system: { scoreBase: 13 } }
+    - { shortcode: awar, type: skill, system: { masteryLevelBase: 42 } }
+    - { shortcode: cmd, type: skill, system: { masteryLevelBase: 27 } }
+    - { shortcode: dge, type: skill, system: { masteryLevelBase: 28 } }
+    - { shortcode: init, type: skill, system: { masteryLevelBase: 44 } }
+    - { shortcode: melee, type: skill, system: { masteryLevelBase: 59 } }
+    - { shortcode: ridg, type: skill, system: { masteryLevelBase: 15 } }
+    - { shortcode: shok, type: skill, system: { masteryLevelBase: 46 } }
+    - { shortcode: swim, type: skill, system: { masteryLevelBase: 30 } }
+    - { shortcode: spirit, type: skill, initSkillMult: 3 }
+    - { shortcode: swim, type: skill, initSkillMult: 1 }
+    - { shortcode: thtcs, type: skill, initSkillMult: 1 }
+    - { shortcode: thro, type: skill, initSkillMult: 2 }
+    - { shortcode: bflkbite, type: skill, initSkillMult: 2 }
+    - { shortcode: bflkgrab, type: skill, initSkillMult: 2 }
+    - { shortcode: bflkheadbutt, type: skill, initSkillMult: 2 }
+    - { shortcode: bflkkick, type: skill, initSkillMult: 2 }
+    - { shortcode: limbblock, type: skill, initSkillMult: 2 }
+    - { shortcode: press, type: skill, initSkillMult: 2 }
+    - { shortcode: bflkpunch, type: skill, initSkillMult: 2 }
+    - { shortcode: trip, type: skill, initSkillMult: 2 }
 ---
 
 # Appearance {#appearance}
