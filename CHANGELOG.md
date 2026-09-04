@@ -1,5 +1,5916 @@
 # sohl
 
+## 0.8.3
+
+### Patch Changes
+
+- 8fc51c5: **e2e: four specs no longer hard-code Basic Folk's content values.** Each failed
+  deterministically once the compendium packs were rebuilt, because it pinned a
+  number that content has since moved — the system was correct in every case. The
+  unarmed combat techniques added for #1252 give Basic Folk intrinsic natural
+  strike modes, and its attribute scores are now 11 (mastery level 55).
+  
+  - `gear-equip.cy.js` scoped its "strike-mode rows appear only after `holdItem`"
+    assertion to an unqualified `[data-sm-id]`, which the eight intrinsic unarmed
+    rows now match with nothing held; it now scopes to the weapon's own rows via
+    `data-item-id`.
+  - `movement-reach.cy.js` used Basic Folk to model "a being with no melee modes",
+    which it no longer is (its reach is 2, from Kick/Trip); the empty case now uses
+    a bare being.
+  - `skillbase.cy.js` pinned "25 skills, every skillBase 10"; it now derives the
+    expectation from the actor — every attribute shares one score, and averaging
+    equal attributes yields exactly that score — with a floor on the roster size so
+    an empty result still fails.
+  - `keep-control-tests.cy.js` pinned Agility/Dexterity at mastery level 50; it now
+    reads the attribute's mastery base off the actor and places the competing skill
+    relative to it, so the specs pin the better-of selection rule rather than a
+    content number.
+  
+  (Closes #1271.)
+- 526da0d: **A failed attack no longer lands, and a tied block now wards the blow.**
+  `CombatResult.attackerLandsBlow` decided the outcome purely from the victory
+  score, so an attack that missed still arrived whenever the defence blundered
+  worse — and a block that tied was treated as beaten rather than as the ward it
+  is.
+  
+  Both conditions of the written rule are now enforced, in this order:
+  
+  - **The attack test must have succeeded.** Previously only _Ignore_ checked it;
+    Block, Counterstrike and Dodge all landed a failed attack on a favourable
+    margin. A marginal-failure attack against a critical-failure defence is a
+    miss, not a hit.
+  - **The attack must out-level a Block** (`VS > 0`). A tie is the blocker's, and
+    is precisely what its weapon-break check exists for — so that check now fires
+    only when there was a blow to absorb, not on a tie between two failures.
+  
+  Counterstrike (`VS >= 0`, since a counterstrike wards nothing) and Dodge (win
+  outright, or take the tiebreak on the higher roll) keep their margins.
+  
+  (Closes #1302.)
+- dacd0bd: **626 localization keys that nothing consumes are removed** — `lang/en.json` goes from
+  2430 to 1804 keys. A translator localizing SoHL today would have translated hundreds of
+  strings that render nowhere.
+  
+  Largest blocks: `SOHL.BodyLocation.*` (128) and `SOHL.BodyPart.*` (41), a
+  per-shortcode name mechanism with zero call sites — parts and locations are named by the
+  literal `name` field baked into the compendium; the `defineType` byproducts
+  `SOHL.Affliction.CODE.*` (65), `SOHL.Skill.CODE.*` (64) and `SOHL.Attribute.CODE.*` (14),
+  whose bundles are consumed as `kind`/`values` only; `SOHL.SuccessTestResult.tests.*` (24)
+  and `SOHL.CombatResult.tests.*` (8), superseded by the per-namespace `*.Action.*` keys;
+  and the terrain enums `SOHL.Biome` (28), `SurfaceCover` (17), `Topography` (6),
+  `Hydrology`, `MovementFactorScope` (8), none of which has a consumer.
+  
+  **Method.** Deadness was established three ways, because no single one is sufficient:
+  concrete literals and _whole-shape_ dynamic references (`` `SOHL.Calendar.Vylarian.Month.${i}.label` ``
+  matches only `SOHL.Calendar.Vylarian.Month.<seg>.label`, not all of `SOHL.*`);
+  `utils/check-lang-coverage.mjs` as an oracle, deleting candidates and restoring
+  everything it proved a consumed `defineType` bundle or a concrete reference still needs;
+  and the test suite, which caught four families no static analysis could see.
+  
+  **Deliberately retained**, because they are reachable only through a _variable_ prefix
+  or by Foundry itself: `TYPES.Item.*` / `TYPES.Actor.*` (core reads these directly for the
+  sidebar and create dialog), every `SOHL.<Namespace>.Action.*` title (built as
+  `` `${titlePrefix}.${shortcode}` `` by `defineImproveSdrActions` and friends),
+  `SOHL.ContextMenu.SortGroup.*`, `SOHL.Being.StumbleTest.*` / `FumbleTest.*`, and
+  `SOHL.Reminder.effect.*`.
+  
+  `kb/dev-docs/reference/body-structure.md` is corrected: it described the removed keys as
+  a live "parallel mechanism" and told authors to add one per new part or location. It now
+  says the literal `name` is the only name the system reads, and distinguishes the
+  `*.FIELDS.*` keys that remain — those label the config apps' form fields, not the parts.
+  
+  (Closes #1349.)
+- 208bb10: **The system is now actually translatable: every user-visible string in every
+  template is a localization key.** A translator who translated all of `lang/en.json`
+  would previously still have seen English across the Being sheet's combat, profile,
+  trauma and print tabs, the body-structure and strike-mode config apps, the gear and
+  effects ledgers, and a dozen chat cards — because those strings had never become keys
+  at all. A scan of `templates/**` found **516 hardcoded English literals across 61
+  templates**; all of them are keys now.
+  
+  **The unreachable `FIELDS` groups.** `SOHL.StrikeMode.FIELDS.*`,
+  `SOHL.MeleeWeaponStrikeMode.FIELDS.*` and `SOHL.MissileWeaponStrikeMode.FIELDS.*` were
+  written in Foundry's auto-localization convention but sat under a namespace no
+  `LOCALIZATION_PREFIXES` declares, so nothing ever read them while
+  `strike-mode-config.hbs` hardcoded the same words. The config app now reads those keys.
+  `SOHL.Encounter.*` (35 keys — the feature does not exist in `src/`) and
+  `SOHL.Action.FIELDS.*` (35 keys — `SohlAction` is a `SohlEntity`, never a DataModel, so
+  Foundry could not auto-localize them and no surface reads them) are deleted; the live
+  `SOHL.Action.*` vocabulary is unaffected. `SOHL.Scene.FIELDS.*` needed no change — the
+  scene tab reads it with an explicit `localize`.
+  
+  **Reuse over restatement.** Where a label already existed it is reused rather than
+  duplicated: gear columns resolve through `SOHL.Gear.FIELDS.*`, skill headings through
+  `SOHL.Skill.Heading.*`, aspects through `SOHL.ImpactModifier.ASPECT.*`, trauma columns
+  through `SOHL.Trauma.COLUMN/COLTIP.*`. Genuinely generic words (`None`, `Menu`,
+  `Expand`, `Drag to reorder`) now have one home in a new `SOHL.Common.*` namespace.
+  Displayed English is unchanged except where the print sheet and the combat tab used
+  different tooltip wording for the same column, which is now unified.
+  
+  New keys follow the standard published in #1351: singular PascalCase concept
+  namespaces, PascalCase group segments, camelCase leaves, single-braced `{camelCase}`
+  placeholders.
+  
+  A guard (`tests/guards/template-localization.test.ts`) walks the direction
+  `lint:lang-coverage` cannot — **UI text → key** — and fails on any user-visible literal
+  left in a template, with a short justified allowlist. It also compiles every template,
+  because the easy way to break one while localizing it is to nest `{{localize …}}`
+  inside another mustache (legal in an HTML attribute; a parse error inside a helper's
+  hash, where a `(localize …)` subexpression is required).
+  
+  (Closes #1350.)
+- c29aa29: **Localization keys now have a written naming standard, and the two namespaces that
+  were spelled twice are consolidated.** `lang/en.json` had no naming rule, so each
+  namespace imitated whatever was nearest — which produced five spellings for the same
+  role and, in two places, two homes for one concept.
+  
+  **The standard.** `kb/dev-docs/reference/localization-keys.md` publishes it: keys are
+  `SOHL.<Namespace>[.<Group>].<leaf>`, where the namespace is a singular PascalCase
+  _concept_ (`SOHL.Action`, never `SOHL.SohlAction`), group segments are PascalCase with
+  ALL-CAPS reserved for Foundry's own `FIELDS`, leaves are camelCase or an enum's stored
+  value, and placeholders are single-braced `{camelCase}`. No method names and no data —
+  paths, UUIDs, names — in a key segment. It also records the `expandObject`
+  leaf-or-branch rule, and the narrow conditions under which a key may be renamed despite
+  being permanent. `CLAUDE.md` and _System Development_ link to it.
+  
+  **`TYPE.*` → `TYPES.*`.** The pre-v10 `TYPE.ACTOR.*` / `TYPE.ITEM.*` document-type
+  labels duplicated `TYPES.Actor.*` / `TYPES.Item.*` with identical values. The 17 old
+  keys are gone; `SohlLogic.typeLabel` and the active-effect target label now read the
+  `TYPES.*` root Foundry itself reads.
+  
+  **`SOHL.Actions.*` → `SOHL.Action.*`.** The actions-panel strings sat in a plural
+  namespace beside the singular `SOHL.Action` concept. The 15 live keys moved onto
+  `SOHL.Action`, with every call site in `src/`, `templates/`, and `tests/` updated in the
+  same change.
+  
+  A guard (`tests/guards/lang-key-naming.test.ts`) holds all three: no `TYPE.*` root,
+  every actor and item kind labelled under `TYPES.*` singular and plural, no plural
+  namespace shadowing a singular one, no _new_ class-named namespace, and
+  `{camelCase}` placeholders throughout.
+  
+  (Closes #1351.)
+- cc6c2f7: **Each label in `lang/en.json` now has one owner instead of being restated per
+  subtype.** 300 distinct values were duplicated across 832 keys — a third of the file —
+  so a translator localized `Durability` six times and the six copies could drift apart on
+  the six sheets that read them.
+  
+  `defineType` grows an optional third argument, `labelKeys`: a per-member map pointing a
+  member at an **existing** localization key instead of minting one under its own prefix.
+  That is the mechanism the consolidation needed, and it keeps the borrowing visible at
+  the declaration rather than hidden in the lang file.
+  
+  - **Gear effect keys share `SOHL.Gear.*`.** All six gear subtypes carry the same
+    `WEIGHT` / `VALUE` / `QUALITY` / `DURABILITY` / `ENCUMBRANCE` effect keys; they now
+    resolve to the `SOHL.Gear.FIELDS.*` labels that already owned those words (30 keys
+    retired). `Encumbrance` gains a shared `SOHL.Gear.FIELDS.encumbrance` owner, replacing
+    the Armor and Weapon copies. The same treatment applies to the other
+    `EffectKey` ↔ `FIELDS` restatements — `Level`, `Charges`, `Maximum Charges`,
+    `Mastery Level`, `Healing Rate`, `Impact`.
+  - **One owner for the duplicated enum sets.** `SOHL.CombatResult.TacticalAdvantage.*`
+    (dead — nothing declared it) is deleted in favour of
+    `SOHL.AttackResult.TacticalAdvantage.*`, and the five mishaps a defender shares with
+    an attacker borrow `SOHL.AttackResult.Mishap.*`.
+  - **`SOHL.Key.*` is retired** — 68 v12-era keys restating labels that now live in their
+    proper namespaces. Its one live member moved to `SOHL.Common.none`, the shared home
+    for genuinely generic words introduced in #1350.
+  - **The `Affliction.FEAR` / `FATIGUE` leftovers are gone**; the Trauma-side enums are
+    the live ones per the Trait→Trauma migration.
+  
+  `MiscGearDataModel` drops its `SOHL.MiscGear` prefix: with the shared labels borrowed it
+  owns no keys at all, so the prefix could no longer resolve — the same rule #1353 applied
+  to `SOHL.Structure`, and the guard from that issue is what caught it.
+  
+  `utils/check-lang-coverage.mjs` learns to read `labelKeys` (including a spread of the
+  shared gear table), so it no longer demands keys a borrowing member never mints.
+  
+  Result: **2557 → 2430 keys**, duplicated values **300 → 279** across **832 → 728** keys.
+  The remainder are deliberate — distinct concepts whose English happens to coincide, such
+  as an attack `Modifier` and an impact `Modifier` — and a ratchet test now fails if the
+  count rises.
+  
+  (Closes #1352.)
+- 60aeb54: **The delete-confirmation dialog named the wrong thing, and Structure declared a
+  localization prefix that resolved to nothing.**
+  
+  **Delete confirmation.** The dialog built its document-type name from
+  `` `TYPE.${documentName.toUpperCase()}.${type}` `` — the pre-v10 root retired in #1351 —
+  so it read _"Delete TYPE.ITEM.skill: Old Sword"_ instead of _"Delete Skill: Old
+  Sword"_. It now reads the `TYPES.*` root Foundry itself uses; `documentName` is already
+  that segment's spelling.
+  
+  The caution line beneath it was assembled the other way round from every other dialog:
+  the localized prose was spliced into the template source (`` `<p>${localize(…)}</p>` ``)
+  and carried a Handlebars `{{docType}}` that only substituted because `dialog()`
+  compiles `content`. That is the pattern rule #10 forbids. The value now uses Foundry's
+  single-brace `{docType}` and is interpolated with `format()`, and the template source is
+  author-static (`<p>{{caution}}</p>`) with the prose riding in `data` — the same shape
+  `ContainerGearLogic` already used.
+  
+  **Structure labels.** `StructureDataModel` declared `LOCALIZATION_PREFIXES` of
+  `["SOHL.Structure", "SOHL.Actor"]`, but Structure adds no fields of its own — its schema
+  is exactly `SohlActorDataModel`'s — so `SOHL.Structure` had no keys and could never
+  label anything. Its labels and hints have always come from `SOHL.Actor`; the stale
+  prefix is removed, to be added back with the first Structure-specific field.
+  
+  Three guards hold this: no `lang/en.json` value may use Handlebars double braces, every
+  `SOHL.*` `LOCALIZATION_PREFIXES` entry must resolve to at least one key, and the delete
+  dialog must name its type from `TYPES.*` with the prose in `data`.
+  
+  (Closes #1353.)
+- 61cee14: **The localization guards can now catch what this epic had to find by hand.**
+  
+  `check-lang-coverage.mjs --unused` reported **zero** unused keys while 37.5% of the file
+  was dead, because its predicate treated a key as used when _any_ referenced token or
+  namespace prefix was a dotted ancestor — and `LOCALIZATION_PREFIXES` entries absorbed
+  whole namespaces. Three changes fix it:
+  
+  - A dynamic reference now vouches for its **shape**, not its head:
+    `` `SOHL.Calendar.Vylarian.Month.${i}.label` `` vouches for
+    `SOHL.Calendar.Vylarian.Month.<segment>.label` and nothing else. A single
+    `` `SOHL.${x}…` `` no longer vouches for the entire file.
+  - A `LOCALIZATION_PREFIXES` entry vouches only for the shape Foundry actually looks up:
+    `<PREFIX>.FIELDS.<path>.label|hint`.
+  - Concrete keys inside **template-literal text** (inline HTML in a helper, e.g.
+    `` `…{{localize "SOHL.ExpressionEditor.editTooltip"}}…` ``) are read out explicitly —
+    a template literal is not a string-literal node, so the AST scan had been blind to
+    them. Each chunk is scanned separately so a token cannot be glued across a `${…}`.
+  
+  Unused keys are now an **error**, not an always-silent warning, with a `RETAINED` table
+  for the keys that are genuinely reachable but invisible to any scan — action titles
+  built as `` `${titlePrefix}.${shortcode}` ``, enum values concatenated in a template —
+  each with the reason, in `[prefix, reason]` form. 39 keys the tightened predicate
+  exposed are deleted (`*.EffectKey.*` members whose label bundles are not consumed, the
+  `SOHL.CALENDAR.DEFAULT.*` and `SOHL.Calendar.Default.Month.*` leftovers): 1804 → 1765.
+  
+  **New `lint:lang-hardcoded`** walks the reverse direction — _UI text → key_ — that
+  `lint:lang-coverage` structurally cannot, failing on any user-visible literal left in a
+  template, with an `ALLOWED` list carrying a stated reason per entry. It also compiles
+  every template, because nesting `{{localize …}}` inside another mustache is legal in an
+  HTML attribute but a parse error inside a helper's hash. It replaces the temporary
+  vitest guard from #1350 and is wired into `npm run lint`.
+  
+  **`check-lang.mjs` gains two structural checks**, both failing: no Handlebars double
+  braces or unbalanced brace in any value (the `{{docType}}` rendering bug of #1353), and
+  no key segment outside `[A-Za-z0-9_-]` (the `"…SOUND.sounds/dice.wav"` shape that walks
+  data into a key and invites the `expandObject` collision of #636).
+  
+  All three guards fail rather than warn, and the build is green — closing epic #1355.
+  
+  `kb/dev-docs/reference/localization-keys.md` gains a **The guards** section documenting
+  all of it: what each check fails on, what `lint:lang-coverage` can and cannot see (a key
+  built from a _variable_ prefix is invisible to it), the `RETAINED` / `ALLOWED` escape
+  hatches and their `[prefix, reason]` format — with the standing rule that deleting the
+  key is the honest fix — plus `defineType`'s `labelKeys`, the `SOHL.Common.*` home for
+  generic words, and why a `{{localize}}` nested in a helper's hash will not compile. It
+  also removes a caveat that had gone stale: the page told contributors not to trust
+  `--unused`, which was true when it was written and is the very thing this issue fixed.
+  
+  (Closes #1354.)
+- 77a0522: **e2e: the item-sheet suite now probes each numeric field with a value that field
+  permits.** The shared `itemSheetSuite` "persists edits to its simple properties
+  fields" test typed `3` into every enabled numeric input and asserted the
+  round-trip, so any field whose schema bounds exclude `3` failed against a system
+  behaving correctly — Foundry cleans an out-of-range value back to the field's
+  initial. `ArmorGearDataModel.perceptionPenaltyBase` (`max: 0`, because a
+  perception penalty is zero or negative) made `item-sheet-armorgear.cy.js` fail
+  deterministically. The suite now reads each numeric input's bounds — from its
+  schema field, falling back to the input's own `min`/`max` attributes — and picks
+  the first in-range candidate that differs from the current value, so the edit
+  still proves persistence (a `max: 0` field is probed with `-3`) and any bounded
+  field added later is handled without touching the suite. (Closes #1359.)
+- 1cf01a2: **Birthsigns combine by taking the best aptitude, and the twelve cusp signs are
+  gone.** A cusp was never a sign in its own right: its modifiers are the
+  elementwise maximum of the two signs it sits between. Holding that derived
+  result as twelve more content files meant nothing enforced the derivation
+  (editing a principal sign silently desynchronised its two cusps), nothing stated
+  it, and a birth under three signs could not be expressed at all. Closes #1378.
+  
+  **A generic aptitude field.** Mysteries carry `system.skillAptitudes` — a map of
+  selector to mastery-level modifier, where a selector is a skill shortcode or
+  `subType:<value>`. Nothing about it is birthsign-specific; any item asserting an
+  innate leaning toward or away from a class of skills can carry one.
+  
+  **Aptitudes never sum.** Where several items speak to one selector, the
+  _greatest_ value wins, and a skill matched both by shortcode and by subtype takes
+  the greater of the two. Each aptitude-bearing item merges into the being's
+  accumulator during the evaluate phase; each skill applies its own entry as a
+  single `Aptitude` delta on its mastery level during finalize. A selector matched
+  at `0` adds no delta, though the `0` still counts in the merge — an element left
+  untouched beats one another sign hinders.
+  
+  **What this means in play.** One sign behaves exactly as before. Two neighbouring
+  signs — a birth on the threshold — reproduce the former cusp values precisely,
+  including the +15 standing surplus, the +15 peak, and the −10 floor, which the
+  rules now state as a consequence of the rule rather than leaving as an unexplained
+  property of half the wheel. Three or more signs keep climbing, which the rules
+  frame as a deliberate GM choice.
+  
+  **Migration.** None is required. A birthsign already embedded on an actor keeps
+  the Active Effects it was created with and carries no aptitude map, so it neither
+  breaks nor double-counts — including a cusp item, whose baked-in values are
+  already the maximum of its neighbours.
+- ee9fa4f: **e2e: `shortcode-header.cy.js` no longer expects an unlocalized placeholder.**
+  The item-sheet header's shortcode input renders
+  `placeholder="{{localize "SOHL.Common.shortcode"}}"` since the template strings
+  were localized, so the spec's literal `"shortcode"` expectation failed against a
+  rendered `"Shortcode"`. It now reads the localized value off `game.i18n` and
+  asserts against that — pinning the binding rather than the wording, so the next
+  copy change cannot break it — and additionally asserts the placeholder is not a
+  raw `SOHL.*` key.
+  
+  (Closes #1379.)
+- c94df34: Read `type-shortcode` wikilinks
+  ([#1387](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues/1387)).
+  
+  **Wikilinks read `type-shortcode`.** A hyphen qualifies only when what precedes it
+  is a known type — note names contain hyphens too (`Grukar-ahk`), so a target that
+  is one is reported as not being an address rather than split at an arbitrary place
+  — and the split is at the first hyphen, so a shortcode may contain one. The
+  `type/shortcode` form is still resolved, so nothing written before the migration
+  dies.
+  
+  This mattered more than it looks. The pack resolver's alias index was scoped to the
+  _source_ note's type, so a hyphen link happened to resolve between two `doc` notes
+  and silently failed from every other type: 283 links, including every
+  `docskill-…` reference to an item's write-up, compiled to literal text.
+  
+  **Two silent failures are now loud.** An absent or empty content tree used to
+  compile zero documents and _succeed_, shipping blank compendiums with nothing in
+  the log to say so, while `lint:packs` reported every one of nothing as uniquely
+  keyed. The pack build and that check now both fail on an empty tree, and
+  `lint:rules-vtt` names the missing tree instead of throwing a bare `ENOENT`.
+  
+  **Content no longer in the system.** 145 creature notes and the twelve Astrokýklos
+  birthsign notes belong to the `thalorna` package, so they no longer compile into
+  this system's compendiums. The birthsign **matrix** remains a tested specification
+  and the aptitude-combination logic it drives is unchanged.
+- 27e4b76: **`system.docUrl` is removed** (#1394)
+  
+  Every compiled item carried an absolute `https://heroiclands.org/...` documentation URL
+  in its system data, and every world inherited a copy the moment the item was imported.
+  Nothing read it — in-app documentation is the compiled JournalEntry an item points at
+  through `docHtml`'s `@UUID` — so its only effect was to make any future change to the
+  published address a pack rebuild _plus_ a world migration. Six items' URLs were already
+  404ing.
+  
+  The field is gone from the shared data schema and from the pack builder, and its four
+  `lang/en.json` label/hint keys are retired with it. Should an external documentation link
+  be wanted later it will be derived at render time from one base constant, not stored per
+  document.
+  
+  **Existing worlds are migrated.** A `0.9.0` step rewrites each actor's and item's
+  `system` object with the key omitted. It has to be a rewrite rather than a deletion:
+  Foundry prunes any key its schema does not declare out of both a document's source and
+  an update's change set, so once the field left the schema a `-=docUrl` payload would
+  delete nothing — and a migrator could no longer even see the stale value. The stored
+  record is what still holds it, and the write scrubs it.
+  
+  **The runner now writes embedded documents on the same terms as top-level ones**
+  (#1402). It passed `{diff: false, recursive: false}` for an Actor but nothing at all for
+  the Items embedded on it, so embedded documents migrated on Foundry's defaults. A
+  diffed update drops a payload that restates existing data — exactly the shape a
+  field-removal migration must take — leaving the record unwritten while the run still
+  counted it as applied; and `recursive` decides whether a root-level key replaces or
+  merges, so one migrator meant two different things depending on where the document
+  lived. Seeding a world with 51 stale records showed 49 of them, all embedded, surviving
+  a run that reported `{planned: 1, applied: 51, errors: 0}`.
+  
+  **Two migration contracts are corrected** while the first real migration goes in. A
+  migrator's payload **replaces each root-level key rather than merging into it** — a
+  dot-path payload such as `{"system.foo": 1}` expands and discards the rest of `system`,
+  which for a SoHL item fails validation on the required `subType`. Build payloads by
+  spreading the source object. And a field already absent from the schema cannot be
+  removed by key at all. Both are now documented on `DocMigrator` and in the migration
+  reference.
+- a4170d6: **An Affiliation can now record how its organization stands toward others.**
+  An affiliation described only a character's position _inside_ one body, so
+  cross-faction standing — a syndicate member met by a guild reeve, a priest before
+  a rival shrine, two houses in open rivalry — had nowhere to live but the GM's
+  memory, and nothing could consult it.
+  
+  - **New `relation` table**, keyed by another affiliation's shortcode, with one of
+    four standings: **aligned**, **unaligned**, **rival**, **nemesis**. Only
+    non-neutral relations need authoring — an unlisted affiliation reads as
+    `unaligned`, so an empty table means neutral toward everyone.
+  - **`AffiliationLogic.standingWith(shortcode)`** is the stable seam to read it,
+    answering `unaligned` for anything unrecorded.
+  - **Edited on the affiliation's Properties tab.** _Add Relation_ prompts for the
+    other affiliation — picked from the character's own affiliations, or entered by
+    shortcode on a world/compendium item — and its standing; each row's standing is
+    a live control, and the trash icon returns that pair to neutral. A recorded
+    shortcode that resolves to nothing is shown flagged rather than dropped.
+  - **Authorable in content** via a `relation` map in an affiliation's frontmatter;
+    an unknown standing is a build error rather than a silently neutralized one.
+  
+  This records and reports a relationship; it never acts on one. Nothing is rolled
+  or applied because two bodies are hostile, and any later use of the standing stays
+  behind a human trigger. Overarching groupings (a pantheon, an arcane tradition)
+  need no new field: author the grouping as an affiliation in its own right and let
+  its members name it, so a member can be aligned with the pantheon and the nemesis
+  of another god within it.
+  
+  (Closes #1404.)
+- a4170d6: **An Affiliation now records what kind of organization it is.**
+  Affiliation was the only item type without a `subType`, so nothing could ask
+  whether a body was a church, a school of magic, a spirit tradition or a secular
+  guild — and the associated-affiliation picker on a Mystical Ability or Mystery
+  had to offer all of them, presenting a thieves' guild to a divine incantation.
+  
+  - **New `subType`**, chosen from **arcane** (schools of magic, including
+    alchemical schools), **divine** (religions and churches), **spirit** (shamanic
+    and totemic traditions, ancestor and spirit cults) and **social** (everything
+    secular: guilds, banks, syndicates, noble houses, military units). It is
+    `required` with no default, matching every other subtype-bearing item type,
+    and is edited on the affiliation's Properties tab. `divine` and `spirit` stay
+    distinct because the mystical-ability subtypes already tell those families
+    apart, and a filter is only as good as the partition beneath it.
+  - **Existing worlds migrate automatically.** The first entry in the migration
+    registry stamps `social` on affiliations that predate the field (and on any
+    value outside the permitted set, which Foundry would otherwise drop silently).
+    No manual intervention is needed, and no shipped content is affected — the
+    system ships no affiliations of its own.
+  - **`actorItemRefOptions` takes an optional predicate**, so a picker can narrow
+    what it offers to the affiliations of a relevant kind. Existing call sites pass
+    nothing and are unchanged. The specific mystical-ability-subtype → affiliation-
+    subtype mapping is a rules decision and is left to follow-up work.
+  
+  The subtype records what a body _is_; it narrows what a user is offered and
+  never chooses for them.
+  
+  (Closes #1405.)
+- 6a0d83d: Fail the build on a wikilink that addresses a document which does not exist (#1414).
+  
+  A qualified `[[type-shortcode]]` names a document by its identity, so one resolving to
+  nothing is a dead address. It degraded silently: the link kept its label and rendered
+  as plain text, so the prose still read correctly while the href was simply gone — the
+  failure mode that hides best. Nothing reported it. `lint:content-links` explicitly
+  skipped an unresolvable target as "an external reference, not this check's business",
+  and the knowledgebase build's own guard only ever recognised the legacy `type/slash`
+  form, which nothing is written in any more.
+  
+  `lint:content-links` now checks it, so it gates every `npm run lint` rather than a
+  build step nobody runs locally. A hyphenated _name_ like `[[Grukar-ahk]]` is not
+  reported as a dead address, since a hyphen only qualifies on a known type — the
+  finding for a target that is not an address is its own, because the correction is a
+  different one.
+  
+  What made this awkward is that the same syntax addresses content in a **package this
+  build does not publish**: `Rules/Bestiary.md` links six setting-package creatures that
+  are real notes elsewhere, resolving on heroiclands.org but not here. Nothing
+  distinguished them from a typo at the time, so they were listed by name with the note
+  each one means — six reviewed entries rather than a blanket tolerance. The list goes
+  away once the tree has a single source (#1385) and every package is visible.
+- 88d108e: Answer a real 404 for a knowledgebase address that does not exist (#1416).
+  
+  An unknown path on `kb.heroiclands.org` returned **200** and served the landing page.
+  Cloudflare Pages falls back to the site root when a deployment carries no `404.html`,
+  and the knowledgebase build emitted none — neither the shared theme nor `kb/layouts/`
+  provided a template — so nothing about the response distinguished a missing page from a
+  real one.
+  
+  A soft-404 fails in the direction that hides: every "does this URL resolve?" check
+  reports success, which is how eight URLs that resolve to nothing were counted as
+  resolving while measuring redirect coverage. Search engines index a soft-404 as a live
+  page, so retired content keeps its listing, and a reader following a stale link is
+  handed the front page rather than being told the page is gone.
+  
+  `kb/layouts/404.html` now renders a "Page not found" page through the usual site chrome
+  — it names the address that failed and offers the routes back (home, developer
+  documentation, user guide, rules) — and Pages serves that file with a genuine 404
+  status. The deploy workflow asserts the artifact exists before publishing, since the
+  absence of a 404 page is invisible until someone follows a broken link.
+- a729146: Refuse a wikilink authored inside a frontmatter value (#1428).
+  
+  Both content builds walk a note's **body** and copy its frontmatter through verbatim,
+  so a `[[…]]` written in a `description`, a `government.summary`, or any other
+  prose-bearing field is never resolved. It reaches the reader as literal brackets, in
+  whatever the theme renders that field as — an infobox row, a card subtitle — and
+  nothing downstream notices, because the value is a perfectly good string. The page
+  builds, the link checks are body-only, and the defect is visible solely to someone who
+  looks at the rendered field.
+  
+  `lint:content-links` now reports every one and fails, naming the file, the dotted key
+  path, and the link as written; `build-kb-content` refuses the same thing before it
+  writes a single page, so the form cannot publish even if the lint is bypassed.
+  
+  The form is refused rather than resolved on purpose. Resolving it would mean choosing
+  an output syntax for a field whose renderer this build does not know — a markdown link
+  is inert in a template that prints the value as text, and an `<a>` is unusable in one
+  that escapes it — and it would bless an authoring habit the pack compilers have no way
+  to honour at all. Frontmatter carries data; a link belongs in the prose the field
+  summarises.
+  
+  Values are read from the _parsed_ frontmatter, so a `[[` inside a YAML comment is not a
+  hit, nested maps and lists are walked, and every hit can be pointed at by the path an
+  author would look for.
+- 013bd82: Retire the HeroicLands vault as a content source (#1447).
+  
+  The vault was the migration's source, not an ongoing one. With `sohl` (#1445),
+  `thalorna` (#1441) and the site (#1448) each owning their content, nothing reads
+  it any more — but several places still told a reader otherwise.
+  
+  - _The dead export config is gone._ `.env.local.example` still documented
+    `HEROICLANDS_VAULT`, `npm run content:check` and `npm run content:export` as the
+    way to regenerate `assets/content/`. None of those exist; the block is removed.
+  - _`assets/content/` is described as source._ `content-tables.md` said content is
+    authored "in the HeroicLands Obsidian vault". It is authored in
+    `assets/content/`, which is opened as a vault so Dataview still renders the
+    tables live while writing.
+  - _The cross-repository map matches the repositories that exist._ Issue Reporting
+    §9 and the Definition of Done listed a three-repository project with the vault as
+    one of them; they now name `sohl-thalorna` alongside the system and the site.
+  - _The `vault` label is retired, not deleted._ `sync-labels.mjs` deletes any label
+    absent from `.github/labels.yml`, which would strip the label from every issue
+    that carries it. It stays, redescribed as retired, so historical issues keep
+    their delivery target.
+  
+  A note count reconciles the vault against the package repositories: all 1,442
+  `SoHL/` notes and 11 `Types/SoHL/` collections are in this repository, and all
+  1,725 `Setting/` notes and 15 `Types/Thalorna/` collections are in `sohl-thalorna`.
+  Nothing was lost in transit.
+- 7b06f6f: **API documentation is published for the current release only, unversioned.**
+  `api.heroiclands.org` now serves one build — the newest release tag — at its
+  root. The accretive archive is retired: no `/latest`, no `/main`, no `/<tag>`,
+  and no per-branch directories. Git tags are the history, and the documentation
+  for any release is reproducible from its tag with `npm run docs:html`.
+  
+  - `deploy-docs.yml` resolves the newest release from the GitHub API and builds
+    that tag, so the ref that triggered the run no longer decides what is
+    published. It runs on completion of the release workflow and on manual
+    dispatch, replacing the `workflow_call` indirection that existed because a
+    Release created with `GITHUB_TOKEN` cannot trigger a `release:` event.
+  - Removed with the archive: `/latest` mirroring, branch-slug directories, the
+    root redirect page, and the cleanup job that fired on branch deletion.
+  - `CNAME` is preserved rather than rewritten — GitHub Pages maintains it from
+    the custom-domain setting.
+  - `docs:version` (`utils/sync-doc-version.mjs`) is gone. It pinned generated
+    `…/latest` links to `…/v<version>`, an address that no longer exists.
+  
+  (Closes #1452.)
+- 5d45241: **Every link to `kb.heroiclands.org` and `api.heroiclands.org` now points at
+  where those pages actually live.** Both hostnames have been withdrawn, so these
+  were dead links, not merely dated ones — including two the system itself ships.
+  
+  **In the shipped system**
+  
+  - The **Game System** links in Foundry's settings sidebar. `system.json` carried
+    a knowledgebase URL on a retired host and an API URL composed as
+    `<host>/v<version>`, an address that stopped existing when the documentation
+    became a single unversioned tree (#1452). `package.json` now carries the
+    finished address (`apiDocsBaseUrl` → `apiDocsUrl`), and the build uses it as
+    given rather than composing a version onto it. Both suites that assert those
+    links assert the new ones.
+  
+  **In the generated API documentation**
+  
+  - Its own masthead pointed at both retired hosts, and at a project page
+    (`/projects/sohl/`) that 404s. All three now resolve.
+  - The home page's links to the Architecture Overview and Getting Started omitted
+    the `/dev-docs/` section and had been dead independently of the move.
+  
+  **In the documentation**
+  
+  - JSDoc across `src/` (17 files), `CONTRIBUTING.md`, the developer docs, and the
+    build utilities. `CONTRIBUTING.md`'s three "published on the website" links
+    pointed at TypeDoc `documents/…` pages, an arrangement that ended when the
+    prose moved to the knowledgebase; they now point at the pages that hold the
+    material.
+  - The "Player & GM rules" links pointed at the site's own `/sohl/` guide pages,
+    retired when the site stopped publishing the package. They now point at the
+    knowledgebase's user guide and rules.
+  - The convention for a JSDoc → doc-page link is stated once, in
+    [System Development](https://www.heroiclands.org/sohl/kb/dev-docs/contributing/system-development/),
+    and now names the current address.
+  
+  Every rewritten URL was fetched: all 32 distinct addresses this repository emits
+  resolve.
+  
+  (Closes #1455.)
+- bfa20d9: **The API documentation is published only at `www.heroiclands.org/sohl/api/`.**
+  `api.heroiclands.org` and the machinery behind it are gone: `deploy-docs.yml`
+  and the `gh-pages` branch it published to are deleted, along with the page
+  documenting that hosting.
+  
+  Nothing about the documentation itself changes — the same TypeDoc build, from
+  the same newest release tag, still ships with every release. It is now one half
+  of the single `/sohl/` deploy (#1470) rather than a second deployment of the
+  same pages to a second host, which is what could drift and what made "which
+  release does this describe?" answerable two ways.
+  
+  - `.github/workflows/deploy-docs.yml` — deleted. `deploy-sohl.yml` already
+    builds the API documentation from the newest release tag on the same trigger,
+    so no publish is lost and none is duplicated.
+  - The `gh-pages` branch — deleted. It held one build and no history worth
+    keeping; git tags are the history, and any release's documentation is
+    reproducible from its tag with `npm run docs:html`.
+  - `kb/dev-docs/contributing/api-docs-hosting.md` — deleted, and unlinked from
+    the documentation index. It described a branch-based Pages deploy, a `CNAME`
+    file and a cache-purge step that no longer exist.
+  
+  `kb/hugo.toml`, `kb/layouts/`, `kb/data/` and the shared-theme submodule are
+  untouched and still in use: this repository renders its own pages.
+  
+  (Closes #1456.)
+- 61d30c1: **`/sohl/` has a landing page written for the reader who has already arrived.**
+  It is the address the site's navigation, the system's in-app help, and every
+  external link to the project use, and what stood there was a placeholder carried
+  over from the deploy that created it (#1470).
+  
+  It leads with **how to install the system** — the manifest URL, pasted into
+  Foundry's _Game Systems → Install System_ — because that is the one thing no
+  other page gives concretely, and the project page still says the system is not
+  packaged.
+  
+  Below it, three doors chosen by **what a reader came to do** rather than by which
+  surface happens to publish the answer, since someone at the table should not have
+  to know that the rules live on the knowledgebase and the API reference does not:
+  
+  - _At the table_ — the user guide, the rules, the quickstart, character creation.
+  - _What it ships with_ — the catalog of creatures, gear, skills, afflictions.
+  - _Building on it_ — the developer docs, the API reference, extension points.
+  
+  Deliberately **not** a second copy of the site's front page, which already
+  carries Knowledgebase and API cards, nor of the project page, which pitches the
+  system to someone still deciding.
+  
+  Both landing pages now resolve their artwork through the shared theme's
+  `cdn-url.html` against `params.cdnBaseURL`, so **no layout in this repository
+  names a host**. The knowledgebase landing renders byte-identically across that
+  change.
+- 26935d4: **This repository now builds and deploys the whole of `/sohl/` as one site.**
+  What used to be two deployments on two hosting platforms — the knowledgebase at
+  `kb.heroiclands.org` and the API documentation at `api.heroiclands.org` — is one
+  standalone subtree of `www.heroiclands.org`, built and published by one workflow
+  (#1444).
+  
+  **What is published where**
+  
+  | Address      | What                                     | Built from             |
+  | ------------ | ---------------------------------------- | ---------------------- |
+  | `/sohl/`     | A landing page for the package           | `main`                 |
+  | `/sohl/kb/`  | The knowledgebase, unchanged in content  | `main`                 |
+  | `/sohl/api/` | The API documentation, mounted as a tree | the newest release tag |
+  
+  **The deploy**
+  
+  - `deploy-kb.yml` becomes `deploy-sohl.yml` and publishes all three surfaces in
+    one run. A Cloudflare Pages deploy replaces the whole tree, so both halves are
+    rebuilt every run — publishing one alone would take the other offline.
+  - The deployment carries the `/sohl/` prefix **physically**
+    (`build/site/sohl/…`), so every link resolves at the hosting project's own
+    address exactly as it will at `www`, and the routing layer that composes the
+    hostname (#1468) has nothing to rewrite.
+  - `utils/build-site.mjs` (`npm run site:assemble`) mounts the TypeDoc output and
+    refuses to finish unless the landing page, the knowledgebase, the API
+    documentation and the `404.html` are all present. `npm run build:site` builds
+    the lot locally.
+  - Hugo renders into `build/site/sohl/` rather than `kb/public/`, and cleans its
+    destination, so a stale page from an earlier layout can no longer be deployed.
+  
+  **Knowledgebase changes**
+  
+  - Content is generated into `kb/content/kb/`, and every generated link and
+    manifest entry carries the mount.
+  - Section landings that Hugo used to generate for free are now written by the
+    build, so an address does not silently stop existing while every page inside
+    it keeps working. `macro`'s heading loses Hugo's inflection — it reads
+    "Macros", not "Macroes".
+  - Per-type listing layouts select on the frontmatter `type` rather than the Hugo
+    section, which is now `kb` for every page.
+  - The knowledgebase hero banner pointed at a CDN path that 404s
+    (`images/sohl-banner.webp`); it now resolves.
+  - The shared theme is bumped for its own fix to the breadcrumb's middle crumb,
+    which composed `/{package}/{section}/` — an address only a site publishing
+    several packages as path segments has. It was dead on all 1,450 content
+    pages before this and would have doubled the prefix after it.
+  - `deploy-docs.yml` and `gh-pages` still run and still serve `api.heroiclands.org`.
+    Retiring them is #1456, deliberately later.
+  
+  (Closes #1470.)
+- 605b6fe: **One `/sohl/` deploy per push, and no more whole-zone cache purges.**
+  `deploy-sohl.yml` watched the release workflow's _completion_ as its
+  "a new release exists" signal, but that workflow runs on every push to `main`
+  and succeeds whether or not it cuts a release — so most pushes published the
+  site twice, and every publish ended in a `purge_everything` across the whole
+  `heroiclands.org` zone.
+  
+  - The `workflow_run` trigger is gone. `release.yml` now dispatches the deploy
+    itself, from the one step that knows a release was actually published, so the
+    API half still refreshes when the tag it documents moves.
+  - The push trigger republishes on **every** push to `main`, no longer only on
+    changes to a hand-maintained path list. The site is cheap to rebuild against
+    how quietly such a list goes stale.
+  - The post-deploy cache purge is removed. `/sohl/` is served through the routing
+    Worker straight from Cloudflare Pages, which sends
+    `cache-control: public, max-age=0, must-revalidate` and is never held in the
+    zone edge cache — so the purge invalidated nothing under `/sohl/` and evicted
+    only the surfaces the deploy never touched (`www`'s own pages, `cdn`).
+  
+  (Closes #1484.)
+- 12fcf2f: **Every API link in the user guide points at a page that exists again.** 71 links
+  across 14 notes named `api.heroiclands.org`, a hostname withdrawn when the
+  documentation consolidated under `/sohl/` — so they failed at DNS, with no
+  redirect to follow, both in the knowledgebase and in the compiled Foundry
+  journals.
+  
+  Two drifts had landed on the same links and the second hid the first: every one
+  also kept a `/main/` or `/latest/` segment, which the API site stopped publishing
+  when it became a single unversioned tree, so they were already 404ing before the
+  host went away. Repointing the host alone would have moved a dead link rather
+  than fixed it; both segments are dropped, and `.html` with them, since the
+  extensionless page is a direct 200 where `.html` costs a redirect hop.
+  
+  Two of the links additionally named `API_Reference.SafeExpression`, a symbol path
+  from a TypeDoc layout the project no longer uses; they now name the class's
+  current page. All 71 addresses — page **and** `#anchor` — were checked against
+  the published API index, and every distinct page fetched: all resolve.
+  
+  **The same rot now fails the build.** An absolute URL is opaque to the wikilink
+  checks in `lint:content-links`, which is why 71 of these could ship unremarked.
+  That guard now also rejects a link to any hostname the project has retired
+  (`utils/retired-hosts.mjs` is the list), printing the working address for each
+  one it finds.
+  
+  (Closes #1485.)
+- 22c17ae: **The published API documentation no longer offers hostnames that do not resolve.**
+  
+  `/sohl/api/` linked `kb.heroiclands.org` and `api.heroiclands.org` from its
+  header dropdown and its landing prose — five dead ends on the canonical surface,
+  each failing at DNS with no redirect to follow. The addresses were corrected on
+  `main`, but the API documentation is rebuilt from the newest _release tag_, and
+  that tag predates the correction, so every deploy reproduced them.
+  
+  The site assembler now closes both halves of that. It repoints a retired-host
+  link in the API tree — whose source cannot be corrected after the tag is cut —
+  and takes a replacement **only when the page it names is present in the tree it
+  has just assembled**, so a repair is verified rather than guessed. That matters
+  here: the old landing linked the developer docs without their section segment,
+  so swapping the host alone would have resolved at DNS and then 404ed. It then
+  reads every rendered page and **fails the build** on any `href` or `src` still
+  addressing a withdrawn host, which is what stops the next release reintroducing
+  one. Prose that merely names a retired host is left alone — the developer docs
+  explain the move, and saying so is not a dead end.
+  
+  Closes #1487.
+- 54d08f0: Publish Foundry UUIDs in the link manifest, and address every note canonically (#1499).
+  
+  The manifest from #1446 carried each note's web address only, so a build compiling
+  packs had no way to resolve a link into another package — and no way to notice a
+  shortcode another package already claimed.
+  
+  **Manifest version 4.** Keys are now **canonical**: fully qualified and spelled
+  with the authored hyphen separator, so a key _is_ the address an author writes —
+  `sohl-affliction-aconite`. Entries carry the Foundry `uuid` beside the web
+  `path`, with `foundryPackage` in the header.
+  
+  **An item and its documentation are two entries.** They are two documents with
+  two UUIDs, so they get two addresses — `sohl-affliction-aconite` and
+  `sohl-docaffliction-aconite` — each stating its own `uuid`. The item entry
+  carries a `doc` pointer naming the other address rather than repeating its UUID,
+  because the doc entry owns that fact.
+  
+  **Entries carry `anchors`**, mapping a note's named sections to the **whole**
+  UUID each compiled to, with the first page under the reserved name `$lead` — the
+  one page every journal has, and what an item's `docHtml` points at. Whole UUIDs
+  rather than fragments appended to `uuid`: nothing owns a page address, so a
+  complete link restates nothing, an anchor is free to live outside its own entry,
+  and the page-id hash (sha256 → base64 → strip → truncate) stays out of the
+  published contract entirely. A consumer resolves a section link with a lookup
+  instead of reimplementing it.
+  
+  **The manifest is emitted beside the pack compilers**, not from the knowledgebase
+  build, because only the build that splits notes into pages knows their anchors.
+  The web address moves to a shared `content-address.mjs` that both builds import,
+  so the two cannot drift. A canonical key is globally unique, which is what lets a vendored
+  manifest merge straight into a local index — one map, one lookup, no precedence
+  rule — and makes a key already present a real conflict rather than an artefact of
+  two packages sharing a namespace. The version bump is load-bearing: a v2 key read
+  as a v3 one addresses a package named after a type.
+  
+  **The package segment is optional in authored links.** `[[skill-lang]]` still
+  means the citing note's own package; `[[sohl-skill-lang]]` names one explicitly,
+  for the case where two packages claim an address. It parses unambiguously because
+  no type and no shortcode contains a hyphen, and it is read only when the segment
+  names a known package _and_ the remainder is itself a valid address — so a note
+  called "Grukar-ahk" is never mistaken for one.
+  
+  **`utils/packs/` is parameterised, restoring its diff with `sohl-thalorna`.**
+  `ids.mjs` gains `compendiumUuid()` / `pageUuid()` and owns the type → pack
+  mapping, which now holds pack names rather than whole addresses;
+  `buildWikilinkIndex` computes each note's UUID once and `convertWikilinks` looks
+  it up. `content-package.mjs` names `CONTENT_PACKAGE` and `FOUNDRY_PACKAGE_ID`
+  separately — they are equal here only by coincidence, and conflating them is what
+  made every `sohl-thalorna` link address this system (#1498). Emitted pack output
+  is byte-identical, verified by hash against the previous build.
+  
+  **The pack build resolves cross-package links too.** It vendors the other
+  package's manifest, merges its canonically keyed entries into the wikilink index
+  — one map, one lookup, no precedence rule — and resolves a foreign address to
+  the UUID the manifest states, anchors included. 43 links now address
+  `Compendium.sohl-thalorna.*`.
+  
+  With every linkable package either built here or vendored, a _qualified_ address
+  that resolves nowhere can only be a typo, so it now fails the note rather than
+  degrading silently.
+  
+  **An unresolved link keeps its text and is marked.** It renders as
+  `<span class="sohl-unresolved-link">`, styled in
+  `scss/components/_unresolved-link.scss` — bold, dotted underline, and a colour
+  chosen per theme with `light-dark()`, since Foundry drives its themes through
+  `color-scheme`. Both values are contrast-checked rather than eyeballed:
+  `#B3261E` reaches 5.5–6.5:1 on light backgrounds, `#FF8A80` 6.8–8.3:1 on dark.
+  The text is escaped, so content cannot inject markup.
+  
+  **The contract is documented.** `kb/dev-docs/reference/link-manifest.md` is the
+  page another repository codes against: the format field by field, how canonical
+  keys parse, why an item and its documentation are two entries, what `$lead` is,
+  and the six rules a consuming build must follow — including that an entry
+  legitimately has no `uuid`, that `path` is resolved against the consumer's own
+  base, and that `doc<type>` must never be admitted as a real type.
+- 99c015a: Compile the packs of the **configured** content package, and fail a build that compiles nothing (#1502).
+  
+  Every pack compiler decided whether a note belonged to this build by comparing
+  its `package:` frontmatter against the string literal `"sohl"` rather than
+  `CONTENT_PACKAGE`. A repository that vendors `utils/packs/` and sets its own
+  content package therefore rejected every note, compiled zero documents, and
+  exited 0 — the very thing `content-package.mjs` exists to prevent, and what made
+  the shared tree undiffable between packages.
+  
+  **Every pass now reads the configured package.** `items`, `actors`, `journals`
+  and `macros` import `CONTENT_PACKAGE` and filter on it; `scenes` already did.
+  
+  **Empty output fails the build.** The existing guard caught an empty content
+  _tree_; it could not see a full tree that compiled to nothing. Each compiler now
+  reports a `compiledCount`, and a pass that writes zero entries from a non-empty
+  tree fails the pack build instead of shipping a blank compendium. A pack that
+  legitimately ships nothing in some consuming package declares `mayBeEmpty: true`
+  in `PACK_CONFIGS`, so the guard stays meaningful everywhere else.
+- 95735f3: **Build: the Foundry package id is now checked against the shipped manifest.**
+  `FOUNDRY_PACKAGE_ID` in `utils/packs/content-package.mjs` documented a guard
+  named `assertPackageIdMatchesManifest` that had never been written — the
+  identifier appeared nowhere else in the repository. Every compendium UUID the
+  pack compilers emit takes its first segment from that constant, so it could drift
+  from the `id` the manifest declares and quietly ship a whole pack of documents
+  addressing a package this repository does not ship: links that look resolvable
+  and fail at runtime.
+  
+  - New `utils/packs/package-manifest.mjs` holds the guard, split so the rule
+    itself is testable: `assertPackageIdMatchesManifest(configuredId, manifestId)`
+    is a pure string comparison, and `readManifestPackageId()` is the thin caller
+    that feeds it from disk. The module has no import-time side effects.
+  - It resolves whichever manifest template the repository ships —
+    `system.template.json` here, `module.template.json` in a module repository —
+    and treats the absence of both as an error, since a pack build with no package
+    manifest has nothing to verify its UUIDs against.
+  - `generatePacksJson()` calls it before generating any entry, so the check runs
+    wherever the pack library is driven from, and the pack CLI now reports a build
+    guard's message and exits non-zero instead of raising an unhandled rejection.
+  - The comment in `content-package.mjs` now describes the code that exists.
+  
+  (Closes #1503.)
+- 24fa1d6: **One registry decides which content types compile into Items.** The pack build
+  kept two hand-maintained lists — the `ITEM_TYPES` whitelist in
+  `utils/packs/item-docs.mjs` and the `BUILDERS` table in `utils/packs/items.mjs`
+  — and they had drifted: `trait` was whitelisted with no builder behind it, so a
+  `type: trait` note passed the gate and then died on `BUILDERS[type] is not a
+  function`, swallowed as a per-file compile error naming no cause.
+  
+  - `ITEM_BUILDERS` in the new leaf module `utils/packs/item-builders.mjs` is now
+    the single declaration, pairing each item type with the builder producing its
+    `system` block. `ITEM_TYPES` is derived from its keys, so a type cannot be
+    advertised as compilable without a builder to compile it, and `DOC_ENTRY_TYPES`
+    keeps deriving from `ITEM_TYPES` as one set.
+  - `itemBuilder(type)` names the type it cannot build, in place of the anonymous
+    `is not a function`.
+  - The `sohl:` frontmatter readers moved to a leaf `utils/packs/frontmatter.mjs`
+    (re-exported from `helpers.mjs`, so every import path is unchanged) — the
+    registry builds on them without reaching `helpers.mjs`, which imports wikilinks
+    and through them `item-docs.mjs` itself.
+  - `trait` — an item type _retired in #651_, absent from `documentTypes.Item` and
+    reported by world migration as unrecognized — is no longer advertised anywhere:
+    its stale default artwork in `src/utils/default-item-art.mjs` is gone too, and
+    that map is now held in exact step with the registry by the unit suite.
+  
+  (Closes #1504.)
+- c416548: **Content: a code block is verbatim, so a wikilink inside one stays as written.**
+  Wikilink conversion had no idea where code was, so a `[[…]]` in a code sample was
+  rewritten as a link. Whether it triggered depended on the surrounding literal's
+  shape — `grid[[0]]` was rewritten while `[[1,2],[3,4]]` survived, the inner `]`
+  being one the pattern could not cross — so the corruption looked arbitrary. With
+  the Macro compiler it became load-bearing: a macro's `{#script}` fence renders
+  into its JournalEntry documentation, so the _documented_ copy of a shipped macro
+  was corrupted while the executable copy stayed correct.
+  
+  A shared scanner (`utils/code-fences.mjs`) now reports where code lives, and the
+  three rewriters consult it: the pack compilers' `convertWikilinks`, the
+  knowledgebase's `resolveKbWikilinks`, and the `lint:content-links` scan — which
+  had likewise been reporting links that only existed inside a code sample.
+  
+  Covered: fenced blocks (backtick and tilde, any fence length, info string
+  included, closed by end-of-document if never closed), four-space and tab indented
+  blocks, and inline code spans. An indented block is measured against the
+  enclosing list item's content column, so a list continuation stays prose. The
+  fence syntax itself is now stated once and shared with the `dataview` table
+  expander, which already read fences correctly.
+  
+  Compiled output is byte-identical for today's content on both surfaces — no link
+  that used to resolve stopped resolving.
+  
+  (Closes #1505.)
+- cacf95f: Add npm workspaces and scaffold `@heroiclands/content-build` (#1506).
+  
+  `packages/sohl-types` was published by hand from a sibling directory: the root
+  `package.json` had no `workspaces` key, so the package was never linked into the
+  repository that produces it. #407 planned workspaces and that half was never
+  implemented. Adding a second package is the moment to fix it — with workspaces
+  this repository consumes its own toolchain **by path**, so a compiler change is
+  usable here without a release, and only external repositories wait on a version.
+  
+  **The new package.** `packages/content-build` is `@heroiclands/content-build`,
+  the shared toolchain that will compile a HeroicLands content tree into Foundry
+  compendium packs. It ships the internal split the epic mandates — `engine/` for
+  the package-agnostic machinery (walk, frontmatter, tables, wikilinks, ids,
+  folders, link manifest, `BasePackCompiler`, the generic document compilers) and
+  `sohl/` for the SoHL data-model knowledge (`ITEM_TYPES`, `BUILDERS`, the items
+  and actors compilers, default art), so that an adventure module never receives
+  `buildWeaponGear`. **No compiler code moves yet**: both barrels are real and
+  empty, and the `content-build` command implements only `--help` and
+  `--version`, refusing anything else rather than pretending to have built
+  something.
+  
+  **The configuration contract.** `defineConfig` is the whole of the per-repository
+  configuration: the content package, the Foundry package, the package kind
+  (`systems` or `modules`), the pack list, the asset list, and three independent
+  publishing switches — `site`, `manifests.publish`, `manifests.consume`. It
+  validates, defaults, and deeply freezes a copy, throwing a `TypeError` that names
+  the offending field, so a malformed config fails at load rather than as an empty
+  pack much later. The three switches are independent because every combination is
+  real: `kethira` publishes neither a site nor a manifest yet still consumes them.
+  
+  **The trailing `"."` in `workspaces` is deliberate.** npm does not need it, but
+  Changesets discovers packages through the same globs and excludes the root
+  package in workspace mode — without it, every pending changeset fails with
+  _"Found changeset … for package sohl which is not in the workspace"_ and the
+  release workflow stops before it releases anything. Listing the root keeps `sohl`
+  a package Changesets can version.
+  
+  **Release path.** `release.yml` gains a publish step alongside the existing
+  `@heroiclands/sohl-types` one, using npm Trusted Publishing (OIDC, no
+  `NPM_TOKEN`), idempotent against an already-published version and
+  `continue-on-error` for the same reason as its sibling. The package's `prepack`
+  regenerates its `.d.mts` declarations from its own JSDoc.
+- 2f6fd2d: **devops: the pack compiler is a library again, with the CLI on top of it.**
+  `utils/packs/build-compendiums.mjs` did four things at module scope — created
+  `build/tmp/packs/` in the caller's working directory, eagerly read
+  `assets/templates/system.template.json` (and threw when absent), reconfigured
+  the shared `loglevel` singleton, and parsed `process.argv` — so importing it
+  from anywhere ran a CLI instead of loading a module. A module repository, which
+  ships `module.json` rather than a system template, could not import it at all.
+  
+  - `utils/packs/compendiums.mjs` is the library: `compilePacks`, `unpackPacks`,
+    and `cleanPacks` take every path, pack list, and selector as an argument, and
+    the module has no import-time side effects.
+  - `utils/packs/bin/build-compendiums.mjs` is the CLI, and owns all four: argv,
+    logging, directory creation, and the process exit code. `compilePacks` now
+    throws when pack JSON generation reports errors; the CLI reports the message
+    and sets the same failing exit code, so the #1502 guard is unchanged from
+    outside.
+  - `build:compiledb` and `build:unpackdb` point at the CLI's new path. Pack
+    output is byte-identical.
+  
+  (Closes #1507.)
+- b6f6d57: _Extract `BasePackCompiler` from the pack compilers (#1509)._
+  
+  The walk → filter by package and type → expand tables → convert wikilinks →
+  build the entry → write JSON → count errors loop was written out once per pack
+  pass — five times by the time this landed. It now lives once, in
+  `utils/packs/base-compiler.mjs`, and the items, journals, actors, macros and
+  scenes passes subclass it.
+  
+  **What a pass now states.** `selects(fm)` (which notes it claims) and
+  `buildEntry(fm, markdown)` (one note → one document) are required; `prepare`,
+  `skipNote`, `compileNote`, `onCompiled`, `finish` and the two report hooks cover
+  the rest. Two static switches complete it: `requiresId` (a claimed note with no
+  `id` is fatal, or merely skipped) and `convertsWikilinks` (whether the body
+  reaching `buildEntry` is converted or exactly as authored — the macros pass
+  needs the latter, because its `command` is executable source).
+  
+  **Why it matters.** A consumer needing a Foundry document type this toolchain
+  does not ship now writes a subclass and registers it, rather than copying a pass
+  and editing it. `utils/packs/map-notes.mjs` is deliberately not a subclass: it
+  never walks the tree, and staying a pure translator is what keeps it
+  unit-testable.
+  
+  Compiled pack output is byte-identical.
+- 4d83368: **The pack pipeline no longer reaches into `src/`.** Three plain-ESM modules
+  were shared between the build scripts and the runtime by a relative path that
+  climbed out of `utils/` — an arrangement that resolves to garbage the moment the
+  pipeline is installed as `@heroiclands/content-build` and runs from
+  `node_modules`. They now live inside that package, and the runtime imports them
+  back out of it.
+  
+  - `src/utils/default-item-art.mjs` →
+    `@heroiclands/content-build/sohl/default-item-art`. Read by the items compiler
+    and by `SohlItem.getDefaultArtwork`.
+  - `src/entity/event/region-events.mjs` →
+    `@heroiclands/content-build/engine/region-events`. Read by the map-note
+    compiler and by `region-triggers.ts`. Engine-side rather than SoHL-side,
+    because any content module that authors a scene region needs the vocabulary.
+  - The affiliation standings the pack build validated an authored `relation` map
+    against were **restated by hand** in `utils/packs/frontmatter.mjs`; they are
+    now read from `@heroiclands/content-build/sohl/affiliation-standings`, held
+    identical to the runtime's `AFFILIATION_STANDING` by a test.
+  
+  _Moving these, rather than injecting them through configuration, is the point._
+  A one-line injection would have severed the import just as well and re-opened
+  #932 — the drift where the builder had a default and the runtime did not. Each
+  module is deliberately plain ESM so the bare-`node` build scripts and the
+  bundled TypeScript runtime can read the **same** file; keeping one copy is the
+  whole guarantee. Each is reachable as its own package entry point rather than
+  through a barrel, so the client bundle never pulls a filesystem-reading compiler
+  in to reach a frozen map.
+  
+  The package's `exports` grew the three leaf entry points, plus
+  `@heroiclands/content-build/config` so a consumer can name the configuration
+  contract's types from JSDoc.
+  
+  A new test fails the build if any module under `utils/packs/` imports out of
+  `src/` again.
+  
+  (Closes #1510.)
+- 20496b3: **devops: the pack-pipeline tests now live with the toolchain they exercise.**
+  Twenty-six test files moved out of `tests/` and into
+  `packages/content-build/tests/`, so `@heroiclands/content-build` is verifiable on
+  its own rather than only in situ. Imports and paths were adjusted; no test was
+  rewritten.
+  
+  **Two vitest projects.** `vitest.config.ts` declares `system` (`tests/**`, with
+  `tests/setup.ts` and the `@src` aliases) and `content-build`, the latter by
+  referencing `packages/content-build/vitest.config.ts` — the same file
+  `npm test -w @heroiclands/content-build` loads, so a single root `npm run test`
+  still gates everything and the two entry points cannot run different suites. The
+  package's harness installs no Foundry globals and offers no alias onto a
+  consuming repository's source; a new guard fails the build if a test in that
+  suite reaches for either.
+  
+  **What deliberately did not move.** `src-import-severance.test.ts` asserts facts
+  about _this repository_ — that its `utils/packs/` imports nothing from `src/`,
+  and that the runtime and the build package still agree on default item art,
+  affiliation standings, and the description-pointer rule. It moved to
+  `tests/build/` instead, taking with it the one `item-docs` case that reads the
+  runtime's own `descriptionLinkTarget`. `content-aliases.test.ts` covers a
+  repository content lint with no pack-pipeline consumer, and stays.
+  
+  **New coverage** for the surface #1508 made configurable, asserted from a foreign
+  layout in a throwaway tree: a consumer that relocates its content and manifest
+  directories is honoured and the content walk reads the moved tree; the `_stats`
+  identity is stamped from that consumer's configuration; the core version follows
+  the manifest's `compatibility.minimum` with configuration untouched, proving
+  config supplies a _path_ and never a captured value; and every path resolves
+  identically whatever directory the build was launched from.
+  
+  Pack output is byte-identical.
+  
+  (Closes #1511.)
+- 2121965: **The pack pipeline now lives in `@heroiclands/content-build`, and this
+  repository consumes it by workspace path.** `utils/packs/` is gone (#1512).
+  
+  The extraction the epic set up (#1506–#1511) had produced a package with real
+  barrels, a real configuration contract and the whole pack test suite — but the
+  implementation was still the repository's own `utils/packs/` tree, which is the
+  copy every downstream module was vendoring in the first place. There is now one
+  copy.
+  
+  **What moved where.** The package's two halves are the split #1501 specified:
+  
+  | Half      | Holds                                                                                                                                                                                                                                                        |
+  | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+  | `engine/` | The content walk, frontmatter, tables, code fences, wikilinks, ids, folders, the link manifest and the web-address rule, `BasePackCompiler`, the generic Foundry document compilers (journals, macros, scenes), the pack generator, and compile/unpack/clean |
+  | `sohl/`   | The item-type registry and its builders, the items and actors compilers, the default-art map, and the affiliation standings                                                                                                                                  |
+  
+  `@heroiclands/content-build/engine` exports nothing from `sohl/`, so an
+  adventure module that compiles journals, macros and scenes never receives
+  `buildWeaponGear`. Each module is also its own entry point
+  (`.../engine/journals`, `.../sohl/items`), so a build that needs one thing does
+  not load the pipeline.
+  
+  **One doc-carrying-type set, still.** `DOC_ENTRY_TYPES` — every type whose prose
+  compiles into a JournalEntry of its own — is the set the journals compiler and
+  the link-manifest emitter both read, and holding two of them is how a manifest
+  comes to assert documentation nothing compiled. The _concept_ is now the
+  engine's; the _membership_ is the consumer's, supplied as `itemBuilders` in
+  `content-build.config.mjs` and composed exactly once inside `defineConfig`.
+  Every reader takes it from there.
+  
+  **Configuration is located by walking up from the toolchain, not from the
+  working directory.** `engine/pack-config.mjs` finds the consuming repository's
+  `content-build.config.mjs` by climbing out of its own directory, which lands on
+  the repository root from `packages/` and from `node_modules/` alike and does not
+  depend on where the build was launched. A config file therefore imports
+  `defineConfig` from `@heroiclands/content-build/config` — the leaf contract
+  module — never from the package root barrel, which would close a cycle around
+  its own evaluation.
+  
+  **Unchanged on purpose.** The Scene/Level integrity guard still reads each
+  compiled pack back **off disk** after `compilePack` — it defends the write path,
+  which is where `foundryvtt-cli` has lost Levels before (#1530/#1538), and a
+  source-side schema check would look tidier while protecting nothing.
+  `generatePacksJson` still runs the package-id guard first and folds the
+  empty-pass guard in last.
+  
+  Emitted pack output is byte-identical to the pre-extraction build: all 2828
+  files under `build/packs-json/` hash-match the #1501 baseline.
+- 5436ed8: Compile `type: macro` content notes into a shipped **Macros** compendium (#1514).
+  
+  Routing for macro notes was half-wired — the type mapped to a `macros` pack,
+  `macro-folders.yaml` existed, and `Automated_Attack.md` was authored — but no
+  compiler produced the pack and `system.template.json` declared only `items`,
+  `journals`, and `actors`. The macro that ships with the system existed only as a
+  markdown file nobody compiled.
+  
+  **A macro note yields two documents.** Its frontmatter becomes a **Macro** in the
+  new `macros` pack; its body becomes a **JournalEntry** in the journals pack,
+  addressed `docmacro/<shortcode>` — the same one-note-two-documents shape an item
+  and its description already use. Every page compiles into the journal, the
+  script's page included: nothing is withheld from the documentation.
+  
+  **The command comes from the raw markdown.** It is the first _language-tagged_
+  JavaScript fence on the page whose heading carries `{#script}`, taken verbatim,
+  before tables are expanded and wikilinks converted. The two copies diverge on
+  purpose — the journal's is prose _about_ the script, the macro's must be exactly
+  what the author typed. Prose around the fence and any later fence are ignored by
+  the macro and still render in the journal, so a note may document its macro with
+  examples that are plainly not the macro.
+  
+  **Both halves of that are build errors, not warnings.** A note with no
+  `{#script}` page, or a `{#script}` page whose only fence is untagged, fails the
+  build: an untagged fence is a code sample whose language nobody stated, and a
+  macro with no command is a macro-bar button that does nothing.
+  
+  **`sohl.macroType` states the Foundry macro type**, defaulting to `script` — the
+  note's own `type:` stays `macro`, which is what routes it. Foundry's schema
+  initialises a Macro's type to `CHAT`, so the compiler always states `script`
+  explicitly. `chat` is **rejected** rather than half-implemented: a chat macro's
+  command is chat text rather than source, so none of the fence rules describe it.
+  `sohl.macroScope` is validated against Foundry's own scopes.
+  
+  **The doc-carrying type set is single-sourced.** `DOC_ENTRY_TYPES` in
+  `utils/packs/item-docs.mjs` — every item type, plus `macro` — is now the one set
+  read by the journals compiler, the wikilink resolver, the link manifest emitter,
+  the knowledgebase build, and the content-link guard. Held apart, they drift into
+  a manifest asserting documentation nothing compiled. The manifest accordingly
+  gains a `docmacro` entry per macro note, with its `anchors`.
+  
+  **`docmacro` stays synthesized.** It is formed by prefix and is never a real
+  type, so a `doc<type>` key arriving in a _foreign_ manifest is not admitted to
+  the known-type set — admitting it would make the virtual reading stop firing and
+  kill every `[[docmacro-…]]`. That exclusion no longer depends on manifest
+  iteration order.
+  
+  **This does not compile data into code.** A Macro's `command` is authored source
+  shipped as content and executed by Foundry's own macro runner under the existing
+  permission model — the mechanism the security model already blesses. Nothing is
+  evaluated, compiled, or revived.
+  
+  `Automated_Attack.md` migrates to the new form, and the convention is documented
+  in `kb/dev-docs/reference/macro-notes.md`, including the known divergence where a
+  script containing `[[…]]` misrenders in the journal while the executable copy
+  stays correct (#1505).
+- 71b853b: Let a pack-only package publish a link manifest, by making `path` optional (#1516).
+  
+  The manifest made `path` **required** and `uuid` optional, so the format assumed
+  every publishing package has a website. But a Foundry `@UUID` link resolves inside
+  Foundry and owes the web nothing, so a module that ships compendiums and no site
+  has an address for every document it publishes and no way to state it. The
+  asymmetry was unintended: the header already carries `foundryPackage` as _"absent
+  when the emitting build compiles no packs"_, and a pack-only publisher is that
+  same case with the axes swapped.
+  
+  **Manifest version 5 — `path` is optional.** `name` is now the only required
+  entry field, because it is the only one that is not an address. A note may have a
+  web address, a Foundry address, or both, and the entry states the ones it has.
+  
+  **Whether a package publishes pages is a package-level fact.** `buildManifest`
+  takes it from whether a base is passed; with none, no entry carries a `path`.
+  Stating it once is what stops a web-publishing package from half-emitting, where
+  the notes that quietly lost a `path` would degrade to unlinked prose in every
+  consumer with nothing erroring anywhere. Consumers still tolerate a mixed file
+  rather than rejecting it, so no future publishing profile has to relax that.
+  
+  **Consumers degrade instead of guessing.** The knowledgebase build renders an
+  address with no page as the entry's `name`, unlinked, and does not fail — the
+  address resolved, so it is not a typo, and it is not the author's fault the target
+  has no web presence. Previously such an entry emitted `[Name](undefined)`: a link
+  that renders and goes nowhere, which is the silent dead link the manifest exists
+  to prevent. The pack build is unaffected, resolving through `uuid` and never
+  reading `path`. A pack-only package also needs no `PACKAGE_BASE` entry, since a
+  base exists only to resolve a `path` — but any entry that carries one brings the
+  requirement straight back.
+  
+  **A consumer now declares the set of versions it can read.** A version exists to
+  stop a file whose values _read differently_ from being resolved anyway, and that
+  is all it may gate. Versions 1–4 each changed a reading, so each dropped its
+  predecessors; v5 only permits an absent `path`, so every v4 value still means what
+  it meant and is read as-is. Refusing it would have made a purely relaxing change a
+  flag day — every package re-emitting on the same afternoon or every build breaking
+  — which was the cost that made deciding this urgent while only two packages
+  publish. The unsafe direction still hard-fails: a consumer meeting a version above
+  its set rejects the file, because it cannot know what the newer shape permits.
+  
+  **`kethira` is unchanged, and for a reason worth separating.** It stays uncitable
+  because nothing may depend on it — a licensing constraint, not a format one — and
+  a manifest edge pointing into it is exactly such a dependency. Another module in
+  the same technical shape may now publish one.
+- 26b2a12: Surface Credits & Attributions as an in-app Journal Entry, reachable from two places (#1517).
+  
+  Until now the system's credits and third-party attributions shipped only as files
+  on disk — `assets/icons/game-icons/ATTRIBUTION.md`, `assets/icons/brand/NOTICE.md`,
+  `LICENSE.md`, and a list in `README.md`. Nobody running the game ever saw them.
+  Foundry does not help: Module Management renders a package's authors and URL but
+  never its licence, and shows nothing at all for the system. The bundled Game-Icons
+  artwork is CC BY 3.0, which asks for attribution conveyed in a manner reasonable to
+  the medium; a markdown file inside the system folder arguably is not that.
+  
+  **Two entry points, one journal.** A **Credits** entry now sits in the branded SoHL
+  block of the Settings sidebar, alongside Main Site / Knowledgebase / API Docs /
+  Issues / Discord, and a **Credits & Attributions** row sits at the top of the "Song
+  of Heroic Lands" tab in Game Settings. Both open the same compendium JournalEntry.
+  
+  **The sidebar entry is a button, not an anchor.** Its five neighbours open a browser
+  tab; this one opens a sheet in the client, so it is a `<button type="button">` for
+  semantics and keyboard behaviour, styled to be indistinguishable from the anchors
+  beside it under both of Foundry's interface themes. The render context entry shape
+  widened from `{ label, url }` to `{ label, url }` _or_ `{ label, action }`, and the
+  existing "drop an entry whose value is empty" rule carries over unchanged — a build
+  that failed to stamp the UUID renders no entry rather than a dead control.
+  
+  **The page is ordinary content.** The credits note is a standard `type: doc` note
+  (`shortcode: credits`), so it compiles into the journals pack like any other note
+  and publishes to the knowledgebase, addressed `doc-credits`. It carries the
+  Game-Icons contributor
+  credits and the CC BY 3.0 §4(a) modification disclosure, the dual-licence summary,
+  the trademark reservation, and the statement of independence from Kelestia
+  Productions.
+  
+  **The UUID is stamped, not hardcoded.** `utils/build-system-json.mjs` resolves the
+  credits note from the content tree and writes
+  `flags.sohl.creditsUuid` into `system.json`, so the note's frontmatter `id` stays
+  the single source of truth. A missing or ambiguous note fails the build rather than
+  shipping a silently empty flag.
+  
+  **Modules get the same button from one call.** `registerCreditsMenu(packageId)` is
+  exported as `sohl.apps.foundry.registerCreditsMenu`; a module declares
+  `flags.sohl.creditsUuid` in its own `module.json`, ships its own credits journal,
+  and calls it once during `init`. Foundry constructs a settings menu's `type` with
+  **no arguments**, so the UUID cannot be passed at construction — hence a factory
+  that closes over it and returns an app whose `render` opens the journal instead of
+  displaying a window. Registration order is load-bearing: menus render in
+  `game.settings.menus` insertion order, so the credits call comes first in
+  `registerSystemSettings`. The menu is deliberately **not** `restricted` — credits
+  exist to be read, and GM-only would hide them from every player in the world.
+  
+  Recorded in `kb/dev-docs/contributing/module-development.md` as the module recipe.
+- 494613c: Make the credits page the single source for attribution, and correct what was published (#1518).
+  
+  Attribution was spread across five files that drifted independently. `README.md`
+  carried a hand-maintained list of ~180 per-icon credits and the font notices;
+  `assets/icons/game-icons/ATTRIBUTION.md` carried the Game-Icons table; the credits
+  page added in #1517 pointed back at the README for the icon credits, which pointed
+  nowhere useful. Two of the README's own licence links had been dead for some time:
+  `./assets/LICENSE.CC-BY-SA-4.0` and `./LICENSE.GPLv3` do not exist.
+  
+  **The credits page is now canonical**, and the duplicates point at it rather than
+  restating it — so there is nothing left to keep in sync and no generator to write.
+  
+  **The per-icon Noun Project credits moved** into the credits page, all 178 of them.
+  They were the only record of who made those icons, so this is a move, not a
+  deletion; the README would otherwise have pointed at a page that pointed back at
+  the README.
+  
+  **Fonts are attributed for the first time.** The four families the system renders
+  with — Cinzel, Cormorant Garamond, IBM Plex Mono and Signika — shipped with **no
+  attribution anywhere**, despite the SIL Open Font License requiring the notice be
+  retained. Every notice is taken from the `name` table embedded in the shipped
+  `.woff2` itself, rather than from memory or a secondary source.
+  
+  **The three Hârnic-script fonts are removed** — Harn Lakise, Harn Runic, and
+  Lankorian Blackhand — along with every claim made about them.
+  
+  Checking each notice against the `name` table embedded in the shipped `.woff2`
+  showed the recorded attribution could not be relied on. The README credited the
+  Lakise and Runic fonts to N. Robin Crossby, but neither file mentions him — both
+  carry "by Amir El Habashy 1995" — which left the CC BY-NC-SA 3.0 AU licence the
+  README also stated resting on the same disproved line. Lankorian Blackhand was
+  likewise recorded as CC BY-NC-SA 3.0 AU while its file states the SIL Open Font
+  License, a materially different grant.
+  
+  Rather than publish attribution whose provenance could not be established, the
+  fonts go: three `.woff2` files and the three `@font-face` declarations that
+  defined them. All three were **never applied** — no token, component, template,
+  or manifest referenced any of the families — so nothing renders differently.
+  
+  The four typefaces the system actually uses are unaffected and now attributed for
+  the first time.
+  
+  **`ATTRIBUTION.md` keeps its table.** It ships inside `assets/icons/`, so it
+  travels beside the artwork it describes and remains the record that satisfies
+  CC BY 3.0 for anyone receiving the files; it gains a pointer to the credits page
+  rather than losing anything. `LICENSE.md` and the verbatim licence texts are
+  untouched.
+  
+  Pointers out of the shipped tree are knowledgebase URLs, never repo-relative
+  paths: `assets/content/` is not copied into the built system, which is how the
+  README's two links came to be dead in the first place.
+- a765692: Stop crediting Signika as a shipped typeface, and name what Foundry supplies (#1522).
+  
+  SoHL no longer bundles Signika — it relies on the copy Foundry loads — so a
+  "ships the following typefaces" table listing it is no longer true. The row is
+  removed.
+  
+  In its place the credits page names the two faces the interface uses but does not
+  distribute, as Foundry's to license: **Signika**, its default interface font,
+  which SoHL names in its own sans stack, and **Font Awesome**, which draws every
+  icon glyph. The page is more honest for saying so — both are visible on every
+  screen, and a reader looking for them would otherwise find nothing at all.
+- a765692: Own SoHL's font stack instead of inheriting Foundry's by accident (#1523, #1522).
+  
+  Foundry assigns fonts to CSS variables and applies them with **unscoped element
+  selectors** — `body { --font-h1: "Modesto Condensed" }` plus a bare
+  `h1 { font-family: var(--font-h1) }`. Because `body` is the scope, those values
+  inherit into every application window, SoHL's included, and any heading the system
+  does not explicitly style renders in a face it neither ships nor chose.
+  
+  **Measured, not assumed.** Walking every heading in a live client across a Being
+  sheet and four Item sheets: of **172 headings, 8 rendered in Modesto Condensed** —
+  the skill sheet's combat-technique names. The other 141 non-serif headings only
+  looked right because core's default happens to be Signika, the same family SoHL's
+  sans token names. Correct by coincidence, not by decision.
+  
+  `scss/base/_foundry-vars.scss` — the block that already remaps core's `--color-*`
+  variables onto SoHL tokens, scoped to `.sohl` so only our surfaces are affected —
+  now remaps the font slots too: `--font-primary`, `--font-h1` through `--font-h6`,
+  and `--font-serif`.
+  
+  **This owns the stack without restyling it.** The heading slots are mapped to the
+  **sans** token, matching what they already resolved to, so the same 172 headings
+  now report **0** in a non-SoHL font while Cinzel (4) and Cormorant Garamond (19)
+  counts are unchanged — the SoHL rules that make those choices win on specificity
+  and are untouched. Only the 8 leaking headings moved. Which headings take the
+  Manuscript serif remains a design decision for the sheet redesign (§2.2: serif for
+  wordmark, section legends and attribute names; sans for chrome and body).
+  
+  **The bundled Signika is dropped** — 5 `.woff2` files and 5 `@font-face`
+  declarations, ~188 KB. Foundry bundles Signika as its default UI font and loads
+  all five weights (300/400/500/600/700) through `CONFIG.fontDefinitions`, so the
+  family resolves without our copy. Relying on core is a deliberate judgement rather
+  than an oversight: dropping Signika would break every system that names it, so it
+  could only land in a major release, loudly announced, leaving time to adapt or
+  reintroduce it. `_typography.scss` records that where `$font-sans` is defined.
+  
+  Verified rather than assumed: with our copy removed, the same 172 headings still
+  report **0** in a non-SoHL font and the identical distribution (149 Signika,
+  19 Cormorant Garamond, 4 Cinzel). Every weight resolves from core's copy —
+  `document.fonts.load("700 12px Signika")` matches two faces and both load, and a
+  700 sample measures 171.0px against 167.6px at 400 and 186.8px in the generic
+  bold fallback, so real Signika bold renders rather than a synthesized substitute.
+- e2ada51: Author Foundry Scenes as markdown map notes (#1525).
+  
+  Every other shipped document type — Item, Actor, JournalEntry — is authored as a
+  markdown note in `assets/content/` and compiled to a pack. Scenes were the gap,
+  and the packages that need them most (an adventure module, `thalorna`) had no way
+  to ship one. Three new note types close it: `battlemap` (tactical), `localmap`
+  (~1 km) and `regionalmap` (large scale), compiling through one compiler that
+  differs only in derived defaults.
+  
+  **A map note carries an essence, not a data model.** The note states the image,
+  the size, the pixels per grid square, and the features a human would point at —
+  `walls.shell`, `lights.hearth`, `regions.smoke-bay`. Everything else about the
+  Scene is derived: the canvas profile, the embedded `Level`, and every region
+  field nobody should have to think about.
+  
+  **The canvas profile is emitted explicitly**, per type, because it has to be:
+  `grid.type`, `grid.distance` and `grid.units` all declare
+  `initial: () => game.system.grid.*`, and there is no `game` at build time. An
+  unrecognised `type:` fails the build rather than quietly taking Foundry's own
+  defaults.
+  
+  | `type:`       | grid     | distance | units | vision  | fog          | padding |
+  | ------------- | -------- | -------- | ----- | ------- | ------------ | ------- |
+  | `battlemap`   | square   | 5        | `ft`  | `true`  | `INDIVIDUAL` | 0.25    |
+  | `localmap`    | square   | 10       | `m`   | `false` | `DISABLED`   | 0.1     |
+  | `regionalmap` | gridless | 5        | `km`  | `false` | `DISABLED`   | 0       |
+  
+  **Two unit conventions, told apart by the key.** Geometry is **pixels** —
+  Foundry's native storage, and the only thing that can express a traced map's
+  walls, 97.8% of which do not sit on grid intersections. Map pins are **grid
+  squares**, commonly half-integers, because that is how a human reads a position
+  off a map. `position:` and every coordinate list are pixels; `at:` is grid
+  squares. Both directions are linted against the note's own `dimensions` and
+  `pxPerGrid`, because the mistake is invisible in Foundry: a grid-valued wall
+  lands in a tiny clump at the top-left and a pixel-valued pin lands off the map.
+  
+  **Walls say what they stop.** `WALL_MOVEMENT_TYPES.NONE` means movement does
+  _not_ collide — passable — so Foundry's own vocabulary reads backwards. A note
+  writes `blocks: [movement, sight]` and `limits: [sight]` instead; anything
+  unnamed is passable, and `movement` in `limits:` is an error, because movement
+  has no LIMITED value.
+  
+  **The `Level` is synthesised and inline.** Exactly one per scene, from `image:` /
+  `overlay:`, under Foundry's own `defaultLevel0000`, compiling to
+  `!scenes.levels!<sceneId>.<levelId>` and surviving an `extractPack` round-trip
+  intact. It cannot be left out: the client-side `_preCreate` net that would create
+  one does not run for offline pack compilation.
+  
+  **Regions carry their behaviours, including the SoHL `trigger` bridge.** The
+  curated event list is shared verbatim with the runtime, so an event this build
+  accepts is exactly one the bridge forwards. `color` is hashed from the region
+  key rather than left to Foundry's `Color.fromHSV([Math.random(), …])`, which
+  would make every build differ from the last; `levels` is emitted only for a
+  restricted region, which needs exactly one or its constraint silently never
+  computes.
+  
+  **Cross-references are addresses, never UUIDs.** A stair says
+  `to: {map: wayrestloft, region: stair-head}` and the builder resolves it —
+  possible before either scene is compiled because every embedded id derives from
+  the scene id and the authored key. `applyActiveEffect` addresses an effect the
+  same way.
+  
+  **`executeScript` is not representable.** Its `source` is a `JavaScriptField`,
+  so a note carrying one would compile data into code. There is no escape hatch and
+  no setting that re-enables it. `executeMacro` is deferred until Adventure-bundled
+  macros land.
+  
+  **Two packs, for two jobs.** `scenes` holds every map's Scene — what a wikilink
+  addresses and what a GM browses. `adventures` holds one `Adventure` per _place_
+  (the notes sharing a `place:`), bundling those scenes with the journals their
+  prose compiled into. A map with `locations:` must be imported that way:
+  `Adventure#importContent` creates with `keepId: true`, and a pin's `entryId` /
+  `pageId`, a `teleportToken` destination and a `toggleBehavior` target are all
+  id-based. Re-importing updates the documents already present rather than
+  duplicating them.
+  
+  **The build refuses what Foundry accepts silently** — a region event outside the
+  curated set (naming the excluded ones, since `tokenMoveWithin` is the plausible
+  mistake), a behaviour type or field off the allow-list, a region with no shapes,
+  a two-point "polygon" that passes the schema's floor of four numbers, and
+  `restrict:` without a level. Each error names the authored key.
+  
+  **The supported Foundry floor rises to 14.359**, and compiled pack documents now
+  stamp that floor instead of a literal `"14"`.
+  
+  This is the fix for a defect map notes merely exposed (#1533). `_stats.coreVersion`
+  is what Foundry gates its migration shims on, and `"14"` sorts _below_ every v14
+  build — so every document this system has ever shipped was permanently eligible
+  for every v14 migration. `Scene`'s `migrateLevels` is an unconditional
+  `levels = [synthesised from the pre-v14 flat fields]` that never checks whether
+  the record already has a Level, so an authored map loaded out of its pack with
+  the Level replaced and the map image gone. Silently: the pack on disk was
+  correct, the extract round-tripped, and every build check passed. Items, actors
+  and journals were equally eligible; scenes are simply where a shim destroyed
+  something visible.
+  
+  The stamp is now derived from the manifest's own `compatibility.minimum`, in one
+  place, because it is only _honest_ — and only safe — while the manifest refuses
+  to load on a core old enough to need those shims. Two literals would rot apart,
+  and the failure mode is invisible.
+  
+  **The e2e container's Foundry build is pinned by the repository too**, so a fresh
+  checkout reproduces the suite without local configuration. (#1539 settles _which_
+  build that is: the floor, with a periodic sweep against the newest release.)
+  
+  Ships with a worked fixture — two floors of one shelter, plus a regional map —
+  and `kb/dev-docs/reference/map-notes.md` documenting the schema. The Cypress
+  suite now drives a region by **moving a token into it**: containment is geometry,
+  not rendering, so it resolves with no canvas, and `region-triggers.cy.js` no
+  longer needs to call `_handleRegionEvent` by hand.
+- d2244a0: Stop the ledger's numeric columns and group headers from reading as subordinate to their own contents (#1526).
+  
+  Three settings inverted the visual hierarchy on every ledger-based tab.
+  
+  **Numeric cells were the smallest and lightest thing in the row.** `ledger__cell`
+  carried `font-size: 0.92rem` and no weight, so it inherited 400 while the row
+  label beside it (`ledger__name`) is Signika at 500 and full size. The data the row
+  exists to convey read as less important than its label. Cells are now `0.96rem`
+  at weight **500**, matching the label. The size step was never an optical
+  correction — IBM Plex Mono's x-height (516/1000) is close to the sans it sits
+  against, so nothing needed compensating.
+  
+  **A rollable cell jumped 300 weight units past its neighbours.**
+  `ledger__cell--rollable` was 700 against an inherited 400, so an IMPACT value read
+  as bold beside a plain ATK in the same row. Now **600** — a step up from the
+  cells around it rather than a jump.
+  
+  **A subtype header was smaller than the rows it headed.**
+  `section-legend--subtype` set its name to `0.92rem`, below the 1rem rows beneath
+  it, so a weapon group ("Broadsword") or skill group got lost. The rule's own
+  comment says it should sit "above the paper rows"; the value contradicted it. Now
+  `1.06rem` at weight 700 — Cinzel is inscriptional caps and reads optically small,
+  so it needs to clear the rows by more than a hair. This is the shared SubType
+  header used by 7 templates, so every grouped list gains the same correction.
+  
+  **The held-item dropdowns did not match their own row.** A `<select>` inherits
+  neither `font-family` nor `font-size` from its context — browsers apply a UA
+  default of roughly 13.3px — so the weapon name read visibly smaller than the
+  "Right Arm" label beside it. `held-item-select` now states both explicitly, and
+  fills its 14rem ledger column rather than a fixed 150px, since the larger text
+  needs the room and a full-width control cannot truncate.
+  
+  **The heading annotation was mono for no reason.** `section-legend__meta` — the
+  "7 skill(s)" beside a group name — was mono with `tabular-nums`, on the assumption
+  it held numbers. Four of its six uses are pure prose ("read-only", a movement
+  unit, a shared-gear note), and the two that do carry a figure are inline counts.
+  Mono earns its place in this system by aligning digits into columns; a count
+  inside a heading aligns with nothing, so the face change bought no legibility and
+  simply read as a different kind of text mid-line. It is now sans at 0.8rem,
+  keeping the muted colour that marks it as subordinate.
+  
+  Not addressed here: IBM Plex Mono's dotted zero reads oddly beside Signika. The
+  shipped subset exposes only `ccmp, dnom, frac, numr` and a single `zero` glyph —
+  no stylistic sets, no plain-zero alternate — so `font-feature-settings` has
+  nothing to switch to. That needs a re-subset or a different face.
+- 5465f0a: Make the skill drag handle work — skills reorder within their group (#1528).
+  
+  Every skill row on the Being sheet's Skills tab rendered a grip handle, complete
+  with a hover treatment, and dragging one did nothing. The affordance advertised an
+  interaction the sheet did not provide, so it read as broken rather than absent.
+  
+  Nothing was wired to those rows: `BeingSheet` registered drag selectors for
+  `.gear-list .item` and `.body-structure [draggable]` only, and the rows carried no
+  `draggable` attribute, so Foundry's `DragDrop` never bound and the browser never
+  started a drag.
+  
+  **A drag never re-parents.** A skill's group is its `subType`, so a cross-group
+  drop clamps to the near edge of the skill's own group rather than moving it:
+  
+  | Drop lands in…                    | Result                                    |
+  | --------------------------------- | ----------------------------------------- |
+  | a group **below** the skill's own | sorted to the **bottom** of its own group |
+  | a group **above** the skill's own | sorted to the **top** of its own group    |
+  | the skill's **own** group         | ordinary reorder at the drop position     |
+  
+  Because every drop resolves to a defined position, the interaction cannot fail or
+  bounce — no drop target needs disabling and no rejection state exists, which is
+  why the drop selector is the whole tab rather than one group's ledger.
+  
+  The rule lives in `resolveSkillReorder`, a pure Foundry-free helper in
+  `src/apps/logic/`, so it is exercised in Node rather than only through the DOM.
+  Writing it first surfaced a real trap: dropping a skill **onto itself** is not the
+  same as dropping it having missed every row. The latter means "the end"; collapsing
+  the two would have shunted a self-dropped skill to the bottom of its group.
+  
+  **Skills now render in `sort` order.** `groupBySubType` was called without a
+  comparator, so groups rendered in raw collection order — which meant the `sort`
+  values a drag writes had no visible effect at all. Skills are now sorted stably by
+  `sort` with a name fallback, the same treatment the attribute score boxes already
+  get. Existing characters are unaffected: the sort is stable, so skills whose `sort`
+  values tie keep their present order.
+  
+  A dragged group is renumbered whole rather than one row nudged, so `sort` values
+  stay evenly spaced instead of converging.
+- 18e6eee: **e2e: a restricted Region no longer throws out of a PIXI ticker headless.** A
+  Region with `restriction.enabled` makes core flag its scene's shape constraints
+  and defer the pass to a ticker callback, which picks a designated User with a
+  predicate reading `canvas.scene.id`. Headless no scene is ever viewed, so
+  `canvas.scene` is `null`, the callback throws `reading 'id'`, and whichever spec
+  was running fails for reasons unrelated to it. Nothing in the system's code is on
+  that stack — the defect is Foundry's, and core fixed it in 14.367 by reading
+  `this.id` instead; the workaround stays because the suite's committed default
+  pins `compatibility.minimum` (14.359), which still carries it.
+  
+  `cy.login()` now installs `guardHeadlessRegionShapeConstraints`, which makes both
+  the public flag and its internal per-Region entry point inert whenever
+  `canvas.scene` is nullish — the behaviour the flag should have had anyway, since
+  shape constraints are perception state for a _viewed_ scene. That replaces the
+  `getDesignatedUser`-qualified `uncaught:exception` allowlist entry, which is
+  deleted: `reading 'id'` is far too generic a message to leave allowlisted, and a
+  source-level guard cannot mask a real null dereference in system code. Covered by
+  a `map-notes.cy.js` case that flags the fixture's restricted region and asserts
+  no shape-constraint pass is attempted.
+  
+  (Closes #1535.)
+- 9eaa650: **`sohl.worldHost()` can create its singleton again.** The reserved shortcode was
+  `_sohlworld`, which the shape rule added in #1397 refuses — a shortcode is
+  strictly alphanumeric, and nothing exempts a key the system writes itself. So the
+  host actor was created through the same `(type, shortcode)` guard as any
+  document, refused as malformed, and vetoed: `sohl.worldHost()` returned
+  `undefined` for a GM, world-scoped scheduling had no document to hang off, and
+  `sohl.addScriptAction(host, …)` failed on the missing document with
+  `Cannot read properties of undefined (reading 'system')`.
+  
+  - The reserved code is now **`sohlworld`**, dropping the underscore rather than
+    exempting it. This is also exactly what the 0.9.0 repair migration (#1397)
+    produces from a host a v0.8 world already created, so an upgraded world keeps
+    the one host it has instead of growing a second — no new migration.
+  - `attachScriptAction` now names an absent document
+    (``addScriptAction: `doc` must be a document carrying system data.``) instead of
+    dereferencing it, since `sohl.worldHost()` legitimately yields `undefined` for a
+    user who cannot see the host and callers pass its result straight in.
+  - A unit test now asserts the system's own reserved keys satisfy the shape rule
+    and that the migration's repair of a legacy `_sohlworld` lands on the code
+    `worldHost()` looks up, so this class of defect cannot come back silently.
+  
+  (Closes #1536.)
+- 9055d6b: **The pack build now fails if a shipped Scene has lost its embedded `Level`.**
+  A v14 Scene keeps its map image on a `Level`, and a compiled pack stores the two
+  under separate LevelDB keys — the Scene holding `levels` as an array of ids, each
+  `Level` in the `scenes.levels` sublevel. Nothing in Foundry ties them together on
+  read: a missing `Level` record only warns, the collection then reads as empty,
+  and the next world launch persists `levels: []` and leaves `initialLevel`
+  dangling. The map image is gone for good, and the only symptom is a blank
+  battlemap.
+  
+  `build:compiledb` now reads each pack back off disk after writing it and refuses
+  to ship one that violates the invariant, naming the scene. It checks the compiled
+  bytes rather than the JSON they came from, because the gap it closes is the
+  _write_ path — the emitter is already unit-tested, whereas the compendium CLI has
+  previously mishandled Scene Levels. An `Adventure` carries its scenes inline,
+  levels and all, so that second shape is checked too.
+  
+  **On the original report.** #1538 was filed as a Foundry 14.361+ migration
+  defect that emptied shipped Scenes. It is not one: a well-formed pack survives a
+  14.367 world launch and a full 135-spec suite with every `Level` and
+  `background.src` intact, and the server-side Scene/Level migration code is
+  byte-identical between 14.364 (which has a green suite on record) and 14.367.
+  The reported state — `levels: []`, no sublevel records, `initialLevel` dangling —
+  reproduces exactly, warning wording and all, when the `scenes.levels` records are
+  already absent before Foundry reads them, and it reproduces on **14.359** as
+  readily as on 14.367. So the core version was never the variable; the missing
+  records were, and nothing anywhere asserted they were present. Now the build
+  does.
+  
+  (Closes #1538.)
+- 31d8cdd: **The e2e suite now runs on the oldest Foundry the system claims to support.**
+  The test container was pinned to 14.367 while `compatibility.minimum` declared
+  14.359, so nothing exercised the floor: a regression that broke the declared
+  minimum while working on the newer build would have passed the suite in silence,
+  and the compatibility claim was unfalsified by anything the project ran.
+  
+  - **Default track — the floor.** `DEFAULT_STAGE_VERSIONS` in
+    the container harness now pins the `test` stage to **14.359**, matching
+    `compatibility.minimum`. Raising it is henceforth a decision to raise the
+    supported floor, taken together with `compatibility.minimum` in
+    `assets/templates/system.template.json` — not a test-configuration tweak.
+  - **Sweep track — the newest release.** `npm run e2e:sweep -- <build>` runs the
+    full suite against any build, roughly weekly and before shipping, so breakage
+    from a new Foundry release is caught by the suite rather than by a user. It
+    takes the build as an argument and has **no default**: "the newest release" is
+    not a constant the repository can hold without rotting, and a sweep's product
+    is a citable result, which requires naming the build. It uses `e2e:full`
+    because changing build requires a reseed — Foundry refuses to auto-launch a
+    world stamped by a different one.
+  - **`.env.local` still wins.** `FOUNDRYVTT_TEST_VERSION` overrides the committed
+    default for any run, unchanged.
+  - **`compatibility.verified` is now evidence, not aspiration.** It declared
+    14.367 — a build the suite had never completed on. It now names the newest
+    build the full suite has actually passed.
+  - **`cy.login()` spans the supported range.** Foundry renamed the `/join` POST
+    body field `userid` → `userId` in 14.367, so the harness's login read as
+    `undefined` there and every spec failed its `before` hook with a 401
+    `JOIN.ErrorUserDoesNotExist`. It now sends both keys — each build destructures
+    the one it wants — which is a precondition for a policy that logs in on both an
+    old floor and a new release.
+  
+  (Closes #1539.)
+  
+  (Closes #1537.)
+- 9e19594: **Compiled pack documents stamp the version that built them (#1548)**
+  
+  Every compiled compendium document carried `_stats.systemVersion: "0.6.0"`, a
+  hand-maintained literal the system had shipped past many releases ago. A
+  document that under-reports its version is eligible for world migrations it does
+  not need — the same defect a stale `_stats.coreVersion` had before it began
+  following the manifest's `compatibility.minimum` (#1533).
+  
+  `content-build.config.mjs` now reads the version from `package.json`, the file
+  Changesets bumps and `build:system` stamps into the shipped manifest, so the
+  stamp follows the release instead of being transcribed. It stays a
+  per-repository value rather than moving onto the shared toolchain: a module
+  repository shipping SoHL content stamps the version of the _system_ its content
+  targets, not its own package version.
+  
+  This rewrites the `_stats` block of every document in every pack.
+- ac5146e: **A scene deleted mid-draw no longer fails an unrelated e2e spec (#1550)**
+  
+  Foundry 14.367 opened `updateRegionShapeConstraints` with a throw unless
+  `this.persisted`, but left callers that cannot honour it. The canvas calls the
+  `Scene` copy as the last step of its private draw, after a long run of awaits.
+  The Cypress suite deletes the scenes it creates in `afterEach`, so a draw begun
+  on a tagged scene routinely finished after that scene had left `game.scenes`.
+  The throw then escaped as an unhandled rejection and failed whichever spec
+  happened to be running, with no SoHL frame anywhere on the stack.
+  
+  `cy.login()` now installs `guardHeadlessRegionShapeConstraints`, which skips the
+  call when the document reports `persisted === false` — recomputing region shape
+  constraints for a document nobody can update has no work to do, which is what
+  the caller assumed. The test is strict `=== false`, so a build without that
+  getter runs core untouched and the pinned 14.359 floor is unaffected. Both
+  `Scene` and `Level` are patched: `Level` has its own copy of the method (new in
+  14.367) and throws from it before delegating to the scene, so the callers that
+  address a level directly — the levels a moved token affects, and the equivalent
+  light and wall updates — would otherwise still throw.
+  
+  A new spec, `scene-nonpersisted.cy.js`, pins this down rather than leaving it to
+  the race that exposed it: the original failure is timing-dependent, surfaces only
+  under the load of a full suite, and lands on a bystander spec rather than the one
+  that caused it. The spec deletes a scene and invokes the same entry points the
+  draw path does, requiring each one the build defines to be inert.
+  
+  A source-level guard rather than an `uncaught:exception` allowlist entry: that
+  message is core's generic one for updating _any_ deleted document, so
+  allowlisting it — even qualified by a stack frame — could mask a real bug writing
+  to a document the system had already destroyed. Skipping one unreachable call can
+  mask nothing.
+  
+  Test harness only; no shipped system behaviour changes.
+- ebc1c3b: **`@heroiclands/content-build` now declares the packages it imports, so it works
+  outside this workspace.** The package shipped with no `dependencies` block at
+  all (#1557).
+  
+  Inside this repository that was invisible. The package is a workspace, npm
+  hoists the root's `devDependencies` into the workspace root's `node_modules/`,
+  and every import resolved. Installed from npm by another repository nothing
+  hoists, and `content-build package compile` died on its first import.
+  
+  **What is now declared.** The eight packages the shipped code imports at
+  runtime — `@foundryvtt/foundryvtt-cli`, `classic-level`, `loglevel`,
+  `loglevel-plugin-prefix`, `markdown-it`, `unidecode`, `yaml` and `yargs` — plus
+  `vitest` as a devDependency, which the package's own suite had likewise been
+  borrowing from the root. Two of them, `markdown-it` and `yargs`, were not root
+  `devDependencies` either: they resolved only because something else happened to
+  pull them in as a transitive dependency, so the build rested on another
+  package's dependency list.
+  
+  `package-lock.json` is regenerated in the same change — that is why the fix did
+  not travel with #1512, since a stale lockfile makes `npm ci` refuse to install.
+  No resolved version moved; the entries the package now owns simply stopped being
+  marked `dev`.
+  
+  **A guard, so the manifest cannot drift again.**
+  `tests/dependencies-are-declared.test.ts` reads the package's `files` field,
+  walks every module it actually ships, and asserts that each bare specifier is a
+  Node builtin, the package addressing itself, or a declared dependency — with the
+  reverse checks too: nothing shipped may import a `devDependency`, and no
+  declared dependency may go unimported. It is the counterpart to
+  `suite-is-self-contained.test.ts`, which guards the same "passes in situ, fails
+  when installed" failure from the test side.
+  
+  **`content-build --version` now reports its own version.** `yargs` defaults to
+  the _nearest_ `package.json` walking up from the working directory, which in a
+  consuming repository is the consumer's manifest — so the command reported the
+  consumer's version rather than the toolchain's. It now reads the version from
+  the package's own manifest.
+  
+  Verified by packing the package with `npm pack` and installing the tarball into
+  a scratch directory outside the repository: `content-build --version`,
+  `content-build --help`, and `import("@heroiclands/content-build/engine")` all
+  succeed there, exercising every declared dependency.
+- f256bcd: **A consumer's `itemBuilders` table is now the table the Item compiler
+  dispatches through** (#1563).
+  
+  `defineConfig` accepts an `itemBuilders` registry and derives the accepted item
+  types from its keys, but `sohl/items.mjs` called `itemBuilder(type)` against the
+  **module-level** table in `sohl/item-builders.mjs`. A consuming repository
+  therefore received the type whitelist it configured and the builders it did not:
+  its notes passed the type gate and then compiled with SoHL's builders, or failed
+  outright for a type SoHL has none for. The configuration was accepted,
+  validated, and half-honoured.
+  
+  **The fix.** `engine/item-registry.mjs` resolves both halves from the one frozen
+  configuration — `ITEM_TYPES` (the key set, re-exported by `item-docs.mjs` as
+  before) and `itemBuilder(type)` — and the Item compiler reads both from there.
+  The whitelist and the builder table are the same object, which is #1504's
+  guarantee stated where it can no longer be bypassed. `sohl/item-builders.mjs`
+  keeps only `ITEM_BUILDERS`, the data this repository hands to configuration; its
+  shadow `itemBuilder` lookup is gone, so there is one dispatch path.
+  
+  The registry stays a **leaf**: the config file imports it, so reading the
+  resolved configuration from there would close a cycle around the config's own
+  evaluation. The table travels into configuration, and only modules no config
+  file imports read it back out.
+  
+  _No output change._ SoHL configures exactly the table the package ships, so the
+  compiled packs are byte-identical to the #1501 baseline — this is the seam a
+  second consumer needs, latent for this repository.
+- dfb7d23: **Several compendium packs of one document type, with notes routed between them** (#1566)
+  
+  The pack pipeline ran one compile pass per document type and routed every note of
+  that type into that pass's pack, so a repository could ship exactly one `Item`
+  pack. Editorial grouping of same-type documents into separate compendiums is
+  ordinary Foundry practice, and it is not cosmetic: a compendium UUID carries its
+  pack name (`Compendium.<package>.<pack>.Item.<id>`), so collapsing several packs
+  into one invalidates every reference an existing world holds.
+  
+  **Declaring them.** A consumer's `content-build.config.mjs` may now list more
+  than one pack of a `type`, and mark one of them `default: true`:
+  
+  | Field     | Meaning                                                                                                       |
+  | --------- | ------------------------------------------------------------------------------------------------------------- |
+  | `type`    | Which **compiler** fills the pack.                                                                            |
+  | `default` | The pack of this type that receives notes declaring none. At most one per type; not permitted on a companion. |
+  
+  **Routing them.** A note names its pack with an optional top-level `pack:`
+  frontmatter field. Silence means the default, and a type with exactly one pack
+  is its default implicitly — so every existing configuration, and every note in
+  it, is unchanged. A `pack:` naming no configured pack, a pack of another
+  document type, or a companion **fails the build**, naming the note and what it
+  asked for; it never falls through to the default. A note's declaration addresses
+  its own document, so prose that compiles into a JournalEntry of its own still
+  lands in the default JournalEntry pack.
+  
+  Every emitted `@UUID` now carries the pack a note actually landed in, and the
+  actors pass resolves each being's predefined items against **every** Item pack
+  rather than the first one it finds.
+- cb24099: Content authoring now has a documentation home: a **Content Creator** section
+  under the developer documentation, holding everything needed to author a note
+  in `assets/content/` without reading the compiler (#1570).
+  
+  **New pages** — _The Authoring Workflow_ (where content lives, the frontmatter
+  every note carries whatever its type, and how a note becomes a compendium
+  document), _Item Note Frontmatter_ (the generated per-type field reference for
+  all 13 item types), _Actor Notes_ (authoring a `being`, and the
+  `(type, shortcode)` address space its embedded items resolve through), and
+  _Asset Conventions_ (where art lives, how `img:` resolves to a shipped path,
+  image and SVG standards, and default item art).
+  
+  **Gathered, not duplicated** — _Map Notes_, _Authoring a Macro Content Note_,
+  _Linking Between Content Notes_ and _Generated Content Tables_ move here from
+  `reference/`, which is where they were filed among combat pipelines and runtime
+  contracts with nothing signalling that a content author was their audience.
+  _Shortcode Integrity_ deliberately stays in `reference/` — it is a runtime
+  identity contract rather than an authoring guide — and is linked prominently
+  instead.
+  
+  **The per-type reference is generated, not written.** Items are the
+  overwhelming majority of what this repository compiles, so a hand-written table
+  across thirteen types would be wrong within a release with nothing to catch it.
+  `@heroiclands/content-build` 0.8.0 makes each item builder declare the
+  frontmatter it consumes — and generates the builder _from_ that declaration, so
+  the two cannot drift — and `npm run docs:item-fields` renders the page from it.
+  `npm run lint:item-fields` fails the build on a stale copy, matching the
+  `docs:catalog` / `lint:type-catalog` contract.
+  
+  **Two guards got less fragile.** `check-docs-index` read its section list from
+  a literal array, so a _new_ section was invisible to it rather than covered by
+  it — precisely the silent orphaning that guard exists to prevent; it now reads
+  the sections off disk. And a nested section landing took its title from the
+  section-wide table, which would have titled every one of them "Developer
+  Documentation".
+- ec871b0: **The API documentation builds again.** `npm run docs` failed, taking the CI
+  **Build API documentation** step — and therefore every open pull request — down
+  with it, regardless of what the pull request changed.
+  
+  The implementation signature behind the `getItemLogic` overloads carried
+  `@inheritDoc` _and_ its own `@param`/`@returns` block. `@inheritDoc` copies the
+  whole inherited comment, block tags included, so the hand-written `@returns` on
+  the next line was discarded — TypeDoc reported that as "Content in the
+  `@returns` block will be overwritten", and `treatWarningsAsErrors` in
+  `typedoc-html.json` turned the warning into a non-zero exit.
+  
+  The warning was accurate: one of the two comments was dead text. The local prose
+  is the more specific of the pair — it documents the merged
+  `(idOrShortcode, type?)` signature rather than the id-only overload above it — so
+  it stays, and the `@inheritDoc` that was silently discarding it is gone. The
+  escalation setting is untouched: the point of `treatWarningsAsErrors` is to catch
+  exactly this, and suppressing it would have hidden the same defect everywhere else
+  it occurs.
+  
+  (Closes #1605.)
+- b922625: **The knowledgebase's API links resolve again.** `kb/data/api-symbols.json` maps
+  each qualified symbol name to its API page URL so the knowledgebase can resolve
+  `{@link sohl.*}` references without running TypeDoc. It was being emptied on
+  every documentation build, and the copy in the repository had drifted.
+  
+  TypeDoc 0.28 moved URL ownership off the reflection and onto a router:
+  `reflection.url` is no longer populated. The symbol-map plugin still read that
+  property, so every symbol failed its `if (refl.url)` guard, the walk completed
+  without recording anything, and a well-formed empty map was written — logged as
+  "wrote 0 entries" at info level, with a zero exit code. Since `npm run docs` is a
+  pre-commit gate, following it and committing blanked the file; the deploy job
+  published the empty map for the same reason.
+  
+  URLs now come from `app.renderer.router` (`hasUrl` / `getFullUrl`), which is the
+  supported way to ask for a page address in 0.28 and restores all 5405 entries.
+  
+  Two consequences worth naming. The regenerated map **corrects 875 URLs**: nothing
+  had successfully rebuilt it since the 0.28 upgrade, so those entries still pointed
+  at pre-0.28 disambiguated filenames (`…SohlContextMenu-1.html`) that the renderer
+  no longer emits — links into the API site that could not land. And the plugin now
+  **throws** if it resolves no symbols, or if the renderer exposes no router, rather
+  than overwriting the committed file with `{}`; a silent success that produced
+  nothing is what let this run undetected.
+  
+  (Closes #1610.)
+- 3d7d55b: **`npm run build:icon-legend` no longer breaks the page it generates.** The
+  generator and the file it owns had diverged, and the page's own header says _"do
+  not edit by hand"_ — so the divergence could only ever be resolved by the
+  generator overwriting work it knew nothing about. Running it would have taken
+  live links down with it.
+  
+  Four things had drifted, and all four are fixed in the generator rather than in
+  the page:
+  
+  - **The page's own address was missing from its frontmatter.** It is now derived
+    from the same `type` and `shortcode` constants the generator writes into the
+    frontmatter, so the three cannot come apart.
+  - **`slug: "icon-legend"` was emitted.** Authored slugs are retired (#1278); a
+    note's URL is its `type-shortcode` address, no other content note carries the
+    key, and nothing reads it. The generator no longer writes it.
+  - **The "See also" links used the older `[[doc/shortcode]]` slash form.** They
+    are hyphen-qualified now, as every other note in the tree is.
+  - **The prose was hard-wrapped.** Content notes are authored unwrapped and
+    Prettier's `proseWrap` is `preserve`, so every run reflowed four paragraphs
+    that nothing else in `assets/content/` wraps.
+  
+  The committed page needed no edit at all: with the generator corrected,
+  regenerating it is a byte-for-byte no-op.
+  
+  **`lint:icon-legend` now keeps it that way.** `build-icon-legend.mjs --check`
+  renders the page and compares it to the tree, failing with the first differing
+  line — the same shape as `lint:expr-scopes` and `lint:type-catalog`. The drift
+  this closes was visible only because someone happened to run the generator.
+  
+  (Closes #1620.)
+- 9848d64: **Prettier compliance is now enforced, not honoured.** `npm run format:check`
+  ran in no workflow and was in neither `npm run lint` nor `npm run build:noci`, so
+  nothing checked it — and 32 committed files had drifted out of it.
+  
+  `lint:format` (`prettier --check .`) now runs **first** in the `lint` chain, and
+  therefore in every build and every CI run. The 32 files are reformatted in a
+  separate, behaviour-free commit so the whitespace is reviewable apart from the
+  gate.
+  
+  All of the drift was one formatting rule moving: Prettier's layout for union
+  types, which collapses a union that no longer needs wrapping onto one line. That
+  is worth knowing because it will recur — `prettier` is declared as `^3.9.6`, so
+  the installed formatter travels with the lockfile, and a minor that changes a
+  layout rule invalidates files nobody edited. The gate turns that from silent
+  accumulation into a one-line build failure, and the contributing guide now says
+  to answer it with a reformat-only commit rather than folding it into unrelated
+  work.
+  
+  The gate depends on #1632: until the generated `kb/` trees were excluded,
+  `prettier --check .` failed with a `SyntaxError` on Hugo's minified HTML for
+  anyone who had built the site, so this could not have landed reliably before it.
+  
+  (Closes #1621.)
+- b289842: **Two lint gates for the checks Prettier structurally cannot make.** Prettier
+  formats ~96% of the hand-written text in this repository and formatting is all it
+  does — it will happily reformat a stylesheet whose class name has drifted out of
+  the documented convention, or a page whose heading levels skip a rung. `npm run
+  lint:styles` and `npm run lint:markdown` now cover that gap, and both are part of
+  `npm run lint`.
+  
+  **`lint:styles` — stylelint over `scss/`.** The reason it matters is naming, not
+  tidiness: `kb/dev-docs/concepts/css-architecture.md` publishes the `--sohl-*`
+  custom properties as an extension surface module authors compile against, and
+  fixes SoHL's class names to BEM. Neither had a guard, so a rename was an API break
+  with nothing to catch it.
+  
+  - `selector-class-pattern` enforces BEM `block__element--modifier`, with the
+    Foundry-owned classes SoHL selects on admitted as the plain kebab-case blocks
+    they are.
+  - `custom-property-pattern` enforces lowercase kebab-case everywhere, tightened to
+    the `--sohl-*` namespace inside `scss/abstracts/` where the tokens are declared.
+    It is looser outside that folder on purpose: the rule inspects `var()`
+    references as well as declarations, and SoHL legitimately reads Foundry-core
+    properties and its own template-set layout hooks.
+  - The rest of `stylelint-config-standard-scss` — invalid and duplicate
+    declarations, unknown properties and units, dead selectors — stays on.
+  
+  _Know its limit:_ the tokens are emitted by interpolation
+  (`--sohl-color-#{$name}`), which stylelint skips as non-standard syntax, so
+  renaming a key in a token map still renames a public property unguarded.
+  
+  **`lint:markdown` — markdownlint over every git-tracked `.md` file.** Nine rules,
+  named individually: heading hierarchy (`MD001`), duplicate sibling anchors
+  (`MD024`, `siblings_only`), broken table rows (`MD056`), and five link-correctness
+  rules. `MD018` is deliberately absent — it reads a line starting `#1405) …` as a
+  malformed heading, and this repository writes bare issue numbers constantly; so is
+  `MD051`, already covered across files by `lint:doc-links`.
+  
+  **Both rule sets are deliberately narrow, and each config file carries the reason
+  per rule.** stylelint's and markdownlint's defaults fire ~170 and ~74,000 times
+  respectively on this tree, almost entirely on blank-line placement, value notation,
+  line length, and list indentation — a second formatter's taste applied to bytes
+  Prettier already owns, and satisfying it would mean exactly the cosmetic refactor
+  this repository forbids. The test for adding a rule to either is whether it can
+  report that something is _wrong_.
+  
+  Four real findings fell out and are fixed: three skipped heading levels
+  (`Effect_Targeting`, `event-queue`, `build-and-deployment`) and a bare email
+  address in the brand `NOTICE`. Three deliberate exceptions are annotated where
+  they live rather than switched off globally — `clip` in the visually-hidden mixin,
+  the hand-written `-webkit-appearance` on the checkbox reset, and ProseMirror's own
+  `.ProseMirror` class. No compiled CSS changed.
+  
+  (Closes #1622.)
+- 543aacc: **Type definitions now describe the Foundry version the system actually
+  targets.** `fvtt-types` was pinned to a December 2025 commit resolving to
+  13.346.0 — Foundry **v13** types — while the system declares v14 as its minimum
+  and runs its suite against v14 builds. Types that describe a different major are
+  worse than none: code type-checks cleanly and can still be wrong against the
+  runtime it ships on, with the compiler reporting success.
+  
+  The pin moves to 14.366.0. Nothing about the shipped bundle changes —
+  `fvtt-types` ships only declarations, and the bundler strips types without
+  checking them — so the effect is confined to what the compiler can catch.
+  
+  **Scheduling gained a real guard.** v14 types `Document#uuid` as `string | null`,
+  because an unpersisted document has no address yet, and the schedule mutators
+  required a non-null `uuid`. That is the right requirement — a schedule _is_
+  addressed by uuid: the event queue arms, finds, and unschedules entries by it —
+  so rather than widening the contract or casting at the call sites, the entry
+  points now accept the document as Foundry hands it over and narrow once, failing
+  loudly when the uuid is absent. An unaddressable schedule can no longer be
+  written: previously nothing checked the invariant, it was merely assumed by a
+  type.
+  
+  (Progresses #1625.)
+- 9848d64: **`format:check` no longer reports on generated files.** Prettier's
+  `--ignore-path` defaults to `.gitignore` and `.prettierignore` **at the
+  repository root**, and never reads a nested `.gitignore`. So the three trees
+  `kb/.gitignore` ignores — `content/` (assembled by `build:kb-content`),
+  `public/` (Hugo's output), and `resources/_gen/` (its resource cache) — were
+  invisible to git and fully visible to Prettier.
+  
+  The result was that `npm run format:check` reported on what had been **built**
+  rather than on what had been **written**, on an unchanged working tree: clean
+  before a knowledgebase build, 735 warnings after `build:kb-content`, and — after
+  `build:kb` — not a report at all but a hard `SyntaxError` on Hugo's minified
+  HTML, which aborts the run and masks every real finding behind it.
+  
+  All three are now restated in `.prettierignore`, where they take effect. A new
+  build test walks every nested `.gitignore` Prettier can reach and fails if a tree
+  ignored there is not excluded here too, so a fourth cannot repeat this.
+  
+  (Closes #1632.)
+- f73d5f0: **One content type for actors: `character` and `creature` are now `being`.** Both
+  already compiled to a Foundry `being` actor and nothing in the toolchain branched
+  on which name a note declared — but the type is also a wikilink qualifier and a
+  published knowledgebase URL segment, so the split meant two addresses for one
+  kind of thing and an author had to know which one a target picked.
+  
+  All 95 actor notes in this repository move: 91 in `Bestiary/Animal/` and 4 in
+  `Characters/`. The compiled actors pack is unchanged apart from the type — same
+  95 documents, same ids.
+  
+  **Published URLs.** A page's address carries its type, so all 95 move from
+  `creature-…` and `character-…` to `being-…`, and the two knowledgebase sections
+  merge into one.
+  
+  Which of the two a note used to declare is the one thing the retype erases, so
+  the distinction is carried by `sohl.kbcat` instead. The 91 bestiary notes
+  already had one; the four under `Characters/` gained theirs here.
+  
+  **Beings still show their profile sidebar.** The shared Hugo theme chose between
+  a character and a creature sidebar by branching on the retired type, so without
+  a matching change the panel would have vanished from every page while the build
+  stayed green. The two are now one presence-driven partial
+  (HeroicLands/heroiclands-hugo-theme#17).
+  
+  Requires `@heroiclands/content-build` 0.4.0, which retires the two names and
+  reports a note or link left on either rather than quietly routing it to the items
+  pack (HeroicLands/content-build#5).
+  
+  (Closes #1635.)
+- f73d5f0: **The build scripts read `@heroiclands/content-build`'s configuration through its
+  accessors.** The package used to resolve its configuration at module scope, which
+  is why no module could be imported — and the CLI could not report its own version
+  — without a consumer config present. Fixing that turned five constant exports
+  into functions, because an ES module's `export const` is snapshotted when the
+  module evaluates and four of the five are strings or Sets.
+  
+  This repository still imported the old names, so moving the pin past that release
+  failed at the first import with `does not provide an export named
+  'CONTENT_PACKAGE'` — before the build did anything at all.
+  
+  `build-system-json`, `build-link-manifest` and `build-kb-content` now call
+  `contentPackage()`, `foundryPackageId()` and `packRouter()`, each resolved once
+  at the top of the script: these are build entry points, which always have a
+  config, so there is nothing to defer. The three developer-doc pages that named
+  the old symbols name the accessors instead.
+  
+  (Closes #1636.)
+- 4513ae9: **`SuccessTestResult` publishes with its class description again.** The API site
+  listed the class every d100 roll-under test resolves into with nothing but its
+  members — no prose saying what it is, when it is produced, or how it evaluates.
+  
+  The description was never deleted. `VALUE_DIAMOND_SCALE` and
+  `toValueDiamondMarks` were introduced between the comment and the
+  `export class` line it documents, and a doc comment separated from its
+  declaration by another documented declaration attaches to neither — TypeDoc drops
+  it, and `jsdoc/require-jsdoc` reported the class as undocumented. The two Value
+  Diamond exports now sit above that comment instead of inside the gap, which
+  restores adjacency without rewriting a word of the prose.
+  
+  The two module-private helpers in `description-link.ts` (`withoutTags`, `tidy`)
+  also gained the `@param`/`@returns` their existing summaries were missing. With
+  those, `npm run lint:eslint` is clean — the five warnings it had been emitting on
+  `main` are gone.
+  
+  (Closes #1649.)
+- 1ff6bb2: **Make `npm run changeset:check` actually check for a changeset**
+  
+  Fixes [#1654](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues/1654):
+  the script ran `changeset check`, which is not a Changesets command and never has
+  been — every invocation exited 1 with `Invalid command check was provided`, while
+  two developer docs told contributors to run it.
+  
+  - The script is now `changeset status --since=main`, which exits non-zero when the
+    branch changes something but adds no changeset — the behaviour the docs claimed.
+  - `--since` is what makes it a check: a bare `changeset status` counts the
+    changesets already on `main` and passes regardless of what the branch did.
+  - Documented in _Writing Changesets_ that the repository is a single package, so
+    the check cannot distinguish a `chore/*` branch from a `feat/*` one and will ask
+    for a changeset on any change.
+- 3fdca88: **e2e: the #1535 map-notes case now tests the state it names.** It opened by
+  requiring `canvas.scene` to be `null` — "no scene is viewed headless" — one line
+  after importing an Adventure, and failed on every build and every world. The
+  premise was wrong, not the timing: the seeded test world ships an **active**
+  default scene (`package-build e2e seed`, #451), which the client views at
+  load, so `canvas.scene` is a live Scene throughout a run. Headless suppresses
+  _rendering_; it does not leave the canvas without a scene.
+  
+  Because that assertion failed first, nothing downstream of it ran, and the case
+  never reached the guard it was written for — with a scene viewed, the #1535
+  clause of `guardHeadlessRegionShapeConstraints` does not engage at all. The case
+  now presents the state instead of assuming it: it shadows `canvas.scene` for the
+  duration of the flag (the handle `scene-nonpersisted.cy.js` already uses for the
+  sibling #1550 defect), and asserts both directions — with a scene viewed core's
+  pass runs, with none viewed it is inert. Removing the guard's clause reproduces
+  the original `reading 'id'` crash in this case, which the previous version could
+  not do.
+  
+  The guard itself is unchanged and stays: `canvas.scene` is `null` before the
+  first draw completes and in any run whose active scene is absent or unviewed. Its
+  rationale, the sibling spec's, and the testing gotchas are corrected where they
+  stated that no scene is ever viewed.
+  
+  (Closes #1661.)
+- 3849336: Mark an unresolved wikilink on the knowledgebase, as the pack build already does
+  in Foundry (#1665).
+  
+  A link whose target no package publishes now renders as
+  `<span class="sohl-unresolved-link" title="Unresolved link: …">` on the website
+  too, keeping the author's text so the sentence still reads. Previously it
+  degraded to bare prose, indistinguishable from the words around it — and since
+  every authored address carries a label, a dead link and a working one rendered
+  identically, with the missing href the only difference.
+  
+  A **resolved** address whose package publishes no pages is deliberately left
+  unmarked: the address is real, there is simply no page to link to.
+  
+  **Also fixes two silent corruptions this exposed.** The knowledgebase build's
+  code-protection helper carried its own idea of what counts as code, and it was
+  weaker than the pack build's in two ways — a single-backtick span could run
+  across paragraphs, so one odd backtick mispaired every span after it, and only
+  three-backtick fences were recognised. Both mangled `content-links.md`, the page
+  whose subject _is_ the link syntax: its `[[Grukar-ahk]]` example had been losing
+  its brackets, and the ` ```` `-fenced example leaked. The helper now shares
+  `codeRegions` with the pack compilers, so the two builds cannot disagree about
+  what is verbatim, and it moves to `utils/kb-protect-code.mjs` so the rule can be
+  tested at all.
+- 03956c5: **Bundled icons that stated their colour in a `style` attribute now theme in
+  dark mode.** The build injects a `prefers-color-scheme` fill swap into every
+  icon under `assets/icons`, and deliberately declines any file whose shapes carry
+  an inline `style="…fill:…"` — an inline style beats the injected rule, and a
+  half-recoloured icon is worse than an untouched one. Forty-five icons were
+  authored that way and shipped black on the dark compendium and directory
+  windows, whose `<img>` thumbnails SoHL's `.sohl`-scoped CSS cannot reach.
+  
+  The guard is right, so the fix is in the source files: each of those icons now
+  states its colour as a `fill` attribute, the shape `game-icons/**` already had.
+  The rendered artwork is unchanged — a `fill` attribute and a `fill:` declaration
+  name the same colour, verified pair-by-pair against the previous files — and the
+  sources stay pristine black-on-transparent for the knowledgebase and website.
+  
+  **Five default item and actor arts were among them**, so those types showed a
+  black icon before anyone picked another: `skill` (`other/head-gear.svg`, the
+  default for 73 notes), `mystery` (`other/sparkles.svg`), `mysticalability`
+  (`other/hand-sparkles.svg`), `attribute` (`other/user-gear.svg`), and
+  `affiliation` with `cohort` (`other/people-group.svg`). The issue named four,
+  one of which — `affliction` — has since moved to a Game-Icons default that
+  already themed.
+  
+  **The guard now keys on the `fill` property rather than the substring.** It
+  matched `\bfill\b` anywhere in a style attribute, which also catches
+  `fill-rule`, `fill-opacity` and `paint-order: fill` — none of which set a
+  colour. Those are exactly what a converted file retains, so without this the
+  rewritten icons would have kept being skipped.
+  
+  **`tests/build/icon-theming.test.ts` is the standing gate.** It walks every
+  bundled `.svg`, fails on any the injection declines, and separately requires
+  every `ITEM_METADATA` / `ACTOR_METADATA` default art to theme — so a newly added
+  icon carrying inline fills fails there instead of shipping un-themed. It carries
+  one allowlist entry, `other/mantle.svg`, which is drawn entirely in strokes and
+  cannot be themed by a fill swap at all; stroke theming is #1687.
+  
+  (Closes #1677.)
+- 467bb36: **Fixed: the release job could not package a build.** `npm run build:pack-release`
+  failed at _import_, before writing a byte — `archiver` 8 is pure ESM and exports
+  classes rather than a default factory. The release workflow runs that script and
+  uploads the archive Foundry installs from, so no release could be cut; nothing
+  else imports it, so every other build, lint and deploy path passed while it was
+  broken (#1683).
+  
+  Two further defects in the same step are fixed with it. The packaging returned
+  once the archive had finished _appending_ entries rather than once its bytes had
+  reached disk, so a fast-enough run hid a truncated archive; and a recoverable
+  archiver warning was ignored, yielding an archive that was not the tree that had
+  been asked for, silently. Both now fail loudly.
+  
+  Staging a package — copying its assets, clearing the build tree, and archiving it
+  — also moves into the shared `@heroiclands/package-build` toolchain, so a listed
+  asset path that does not exist now fails the build instead of shipping a package
+  that quietly lacks its localization or its templates.
+- cce868a: **Knowledgebase being pages carry their info-block data again.** The derivation
+  that flattens a being's `sohl.items[]` into the shapes the theme's sidebar reads
+  — a `skills` map, grouped `gear`, `corpus`, `spells`/`talents` — was still gated
+  on the `character` and `creature` types retired by #1580, so it had matched
+  nothing since the merge. All 95 being pages published with the raw authored
+  block and none of the derived fields, and nothing failed or logged while they
+  did.
+- 4d4a952: **The two localization guards move to `@heroiclands/package-build`.**
+  `utils/check-lang-coverage.mjs` (596 lines) and `utils/check-lang-hardcoded.mjs`
+  (165 lines) were this repository's copies of rules every HeroicLands package
+  needs. They are deleted; `lint:lang-coverage` and `lint:lang-hardcoded` now run
+  `package-build lang coverage` and `package-build lang hardcoded`, so all three
+  localization checks come from one place and both satellites — which ship `lang/`
+  files and had no guard at all — can run the same ones.
+  
+  **What stays this repository's.** `defineType(prefix, def, labelKeys?)`
+  (`src/utils/constants.ts`) mints one localization key per member of an enum by a
+  rule of its own, and decides whether those labels are _required_ by whether the
+  bundle's `labels`/`choices` is consumed. No shared guard can know that, so it is
+  contributed through `utils/lang-references.mjs`, named in
+  `packageBuild.lang.references` and covered by
+  `tests/build/lang-references.test.ts`. The `RETAINED` and `ALLOWED` lists move
+  into `packageBuild.lang.retained` and `packageBuild.lang.allow`, each entry
+  keeping the prose reason it carried.
+  
+  **The verdict is unchanged, and was measured rather than assumed.** Both guards
+  were run over `lang/en.json` before and after: 1,791 keys declared, 0 missing, 0
+  unreferenced, 103 templates localized and compiling. Run without the contributor
+  the shared coverage rule reports 34 missing keys — every one a `defineType`
+  prefix — which is the measure of how much of the deleted script was genuinely
+  SoHL's; with `retained` emptied it reports 33 unreferenced, exactly the set that
+  list covers. The generated-key sets match exactly (163 keys, identical), all 24
+  `LOCALIZATION_PREFIXES` entries are read by the shared scan, and no key the old
+  guard vouched for is dropped: the 33 references it recorded and the shared one
+  does not are all namespace heads, none of them a declared key.
+  
+  **Two things the shared rules do better.** `(concat "SOHL.X." value)` — a
+  literal ending on a dot — is read as the key shape `SOHL.X.*`, which the local
+  guard recognised only in the template-literal spelling; the
+  `SOHL.ContextMenu.SortGroup.` retained entry existed solely to silence those
+  four false positives and is therefore **not** carried over. And an attribute
+  literal is reported once rather than twice, since `data-title="…"` no longer
+  also matches as `title="…"`.
+  
+  **One deliberate behaviour change.** An unreferenced key is now a **warning**,
+  not a build failure — no scan sees every way a key is reached, and a guard that
+  fails a build over one teaches everybody to switch it off. Missing keys still
+  fail. The advisory half prints the first twenty and states the total;
+  `npx package-build lang coverage --unused` lists them all.
+  
+  `--absent` (which listed the `defineType` bundles whose labels are a byproduct)
+  has no shared equivalent and is gone; it reported nothing that affected a
+  verdict.
+  
+  (Closes #1709.)
+- d1125ba: **No content note declares `package:` any more.** All 1,606 notes under
+  `assets/content/` and the 33 knowledgebase notes under `kb/dev-docs/` carried
+  `package: sohl` — the same value every time, because this repository authors
+  exactly one package's content. A note's package is now derived from the
+  `contentPackage` this repository configures in `package-build.config.yaml`, so
+  restating it per note is redundant (#1745).
+  
+  **The dependency bump ships with the sweep rather than after it.** On
+  `@heroiclands/package-build` 3.2.0 and earlier the field was a _selector_ —
+  `engine/base-compiler.mjs` skipped any note whose `fm.package` did not equal the
+  configured package, and an absent value never matches — so stripping it would
+  have filtered out every note in the tree and still exited 0. 3.3.0 (step 1 of
+  HeroicLands/package-build#56) derives the package instead, and reports a note
+  that names a _different_ one as a named error rather than a silent skip. The
+  sweep is correct only on `^3.3.0`.
+  
+  The compiled packs are unchanged: `build/packs-json` is byte-identical stripped
+  against restored on 3.3.0, all 3,126 documents.
+  
+  **Documentation.** `content-creator/item-frontmatter.md` is regenerated (the
+  generator stopped emitting `package:` in 3.3.0), and the pages that taught the
+  field in prose now say the package is the repository's configured
+  `contentPackage` rather than something a note declares —
+  `content-creator/authoring-workflow.md`, `README.md`, `actor-notes.md`,
+  `macro-notes.md`, `map-notes.md`, `asset-conventions.md`,
+  `how-to/build-and-deployment.md`, and `reference/link-manifest.md`.
+- 67faa52: **Nine mystical-ability notes no longer author the retired `assocMysteryCode`
+  field.** `MysticalAbilityDataModel` has not declared it since #973 removed it as
+  dead plumbing, so Foundry discarded the key when the compendium item was
+  constructed — silently, with nothing at compile or load time to tell an author
+  that what they wrote had no effect.
+  
+  The value was `""` in all nine notes (_Alchemy_, _Talent_, _Astrology_, _Fate_,
+  _Runecraft_, _Tarotry_, _Spirit_, _Summoning_, _Trance_), so no association is
+  lost by dropping the key.
+  
+  `assocMysteryCode` was **not** renamed to `assocAffiliationCode`, despite the two
+  looking alike. #973 deleted the mystery link because nothing read it; #1012 later
+  added the affiliation link as a separate concept — the faction whose standing
+  confers the ability, not the mystery it draws on. A note that wanted to express
+  an affiliation would have to say so deliberately, and none of these does.
+  
+  The pack builder still emits a default `assocMysteryCode` of its own, which is
+  tracked and fixed separately as HeroicLands/package-build#35; the compiled packs
+  are therefore unchanged by this alone.
+- dd8c99d: **Knowledgebase breadcrumbs and the `package` table column render again.**
+  `@heroiclands/package-build` moves from 3.3.0 to 3.4.0 (#1751).
+  
+  Stripping the authored `package:` frontmatter (#1745) left the site build with
+  nothing to emit: 3.3.0 _derives_ a note's package but does not write it into the
+  page it emits, so all 1,606 generated pages went out without one. The theme
+  resolves both the breadcrumb's middle crumb and the content tables' `Package`
+  column through that value, so both fell back to nothing — the crumb degraded to a
+  bare, unlinked type slug and the column rendered empty. HeroicLands/package-build#65
+  writes the derived package into each emitted page.
+  
+  Rendered, for `kb/mysticalability/spirit/`:
+  
+  |        | Middle crumb                                                          |
+  | ------ | --------------------------------------------------------------------- |
+  | Before | `<li>mysticalability</li>`                                            |
+  | After  | `<li><a href=/sohl/kb/mysticalability/>SoHL Mysticalability</a></li>` |
+  
+  and the `Package` cell of the `containergear` table goes from `<td></td>` to
+  `<td>sohl</td>`.
+  
+  **Compiled mystical abilities lose `assocMysteryCode`.** The builder stopped
+  emitting the field (HeroicLands/package-build#63) — this is the pack-side half of
+  #1746, which removed it from the nine notes that authored it and recorded that the
+  builder's own default was still being emitted. `MysticalAbilityDataModel` has not
+  declared it since #973, so Foundry was discarding the key on construction and no
+  behaviour changes; the compiled JSON now simply stops carrying it. 104 occurrences
+  across 9 mystical-ability items and 94 actors are the _only_ change to
+  `build/packs-json` — the other 3,022 documents are byte-identical, and document
+  counts are unchanged (1,379 items, 1,511 journals, 95 actors, 1 macro, 3 scenes,
+  1 adventure).
+  
+  `content-creator/item-frontmatter.md` is regenerated accordingly, dropping the
+  `assocMysteryCode` row from the mystical-ability field table.
+- d2de45a: **`site.packages` no longer names a package it cannot select.** The knowledgebase
+  build was configured as `packages: [sohl, thalorna]`, described by a comment
+  saying a `thalorna` note filed in this tree renders beside the `sohl` ones. That
+  stopped being possible: a note's package used to come from its `package:`
+  frontmatter, and that field is retired — swept out of all 1,639 notes by #1745,
+  and a hard build error since `@heroiclands/package-build@5.0.0`. Every note here
+  is now `sohl` by construction, so `thalorna` in that list selected nothing and
+  nothing could make it select anything.
+  
+  The key is **removed** rather than reduced to `[sohl]`. An absent
+  `site.packages` already resolves to `[contentPackage]`, so the two spellings are
+  the same configuration and the shorter one cannot fall out of step with the
+  package this repository compiles. Its comment now records why it is absent.
+  
+  The `contentPackage` comment above it, which still called the value "the
+  distribution unit a note declares in its `package:` frontmatter", is corrected
+  the same way — it described the same retired selector.
+  
+  Configuration and comments only: the knowledgebase emits a byte-identical page
+  set before and after (1,606 content + 46 tree + 17 landing pages).
+  
+  (Closes #1753.)
+- c80bbab: **The retired `package:` and `draft:` frontmatter fields are now build errors.**
+  `@heroiclands/package-build` moves from 3.4.0 to 4.0.0 (#1754).
+  
+  The major carries two retirements, both of capabilities this repository had
+  already stopped using. A note declaring `package:` is now rejected outright
+  (HeroicLands/package-build#56) — the field was stripped from every note in #1745,
+  because a note's package is the repository's configured `contentPackage` and the
+  derivation rule owns it. The `draft:` capability is removed entirely and the field
+  rejected (HeroicLands/package-build#69); it used to drop a note from the compiled
+  packs, the link manifest and the site with nothing reporting the exclusion, so
+  every wikilink into a drafted note read as a link to a note that does not exist —
+  and, as #1745 found, any pack-compile error inside one was hidden too. A note that
+  is unfinished is tagged `#draft` instead, which the build ignores and a
+  `FROM #draft` query still finds.
+  
+  **Nothing this repository emits changes.** All 1,606 notes were already swept of
+  both fields, so 4.0.0 only closes the door behind them. `build/packs-json` is
+  byte-identical across the bump — all 3,126 files, with document counts unchanged
+  (1,379 items, 1,511 journals, 95 actors, 1 macro, 3 scenes, 1 adventure) — as are
+  the link manifest (2,989 entries) and the generated knowledgebase (1,606 content
+  pages + 46 tree pages + 17 landings, unchanged as a page set and byte-for-byte).
+  No generated-and-committed file moves, so this is a lockfile-and-manifest change
+  only.
+  
+  What the bump buys is that the sweep can no longer regress silently: reintroducing
+  either field now fails both `content-build lint` and the pack compile with a
+  located, compiler-parseable error naming the file, line and column.
+- c01df06: **`publish.site` is a publishing mode rather than a boolean.**
+  `@heroiclands/package-build` moves from 4.0.0 to 5.0.0 (#1756).
+  
+  The major reframes how much of a package reaches the web
+  (HeroicLands/package-build#55). The floor is no longer "nothing": every package
+  publishes a front page at `/<contentPackage>/`, and the mode says what stands
+  beneath it — `homepage` publishes that page and nothing else, `content`
+  publishes it plus every page the content tree compiles to. This repository
+  publishes the whole knowledgebase, so `publish.site: true` becomes
+  `publish.site: content`.
+  
+  Both booleans are _refused_ at config load rather than mapped onto the nearest
+  mode, naming the mode to write, so the bump and the respelling are one change:
+  until the value is respelled every `package-build` and `content-build`
+  invocation fails. That refusal is the point — `false` used to read as _this
+  package has no web presence_, which now describes no package at all, and a
+  value silently reinterpreted reads to its author as though it still means what
+  it said.
+  
+  `homepage` mode additionally _fences the content surfaces off_: the tree is
+  never walked for pages, and `site.sections`, `site.trees`, `site.landing` and
+  `site.backfillSections` emit nothing however they are declared. That is a
+  licensing property asserted by the code path rather than by an empty
+  configuration, and it is what the fan-licensed packages ship under. It does not
+  apply here.
+  
+  **Nothing this repository emits changes.** `publish.address`,
+  `publish.manifests` and the whole `site:` block are untouched, so every address
+  is the one it was. Verified across the bump: `build/packs-json` is
+  byte-identical (all 3,126 files), the link manifest still carries 2,989 entries
+  from 1,606 addressable notes, the generated knowledgebase is byte-identical
+  (1,606 content pages + 46 tree pages + 17 landings), and the rendered site is
+  byte-identical too (1,705 pages). This is a lockfile-and-configuration change
+  only.
+  
+  The major's other half — a `type: homepage` note that compiles to a page rather
+  than to a compendium document (HeroicLands/package-build#51) — is an authoring
+  capability, not a migration. No such note is authored here yet, so the build
+  reports `0 homepage(s)` and the page at `/sohl/` is the one it was.
+- 56c0631: **`/sohl/` is authored content rendered by the shared landing layout, not a
+  hand-built page with a stylesheet of its own.** `kb/layouts/index.html` carried
+  185 lines of markup and a 71-line inline `<style>` block declaring `.install`,
+  `.install-note`, `.install-url`, `.doors`, `.door`, `.lead`, `.lead-centred` and
+  `.section-heading`. That was a per-page stylesheet living in a package
+  repository: it took no part in the theme's palette tokens, so it could not follow
+  a light scheme with the rest of the site, and it was the thing the next package
+  would copy. The layout that removes the need for it now exists, so the whole file
+  is deleted.
+  
+  The page is now `assets/content/homepage.md` — a `type: homepage` note whose
+  `landing:` front matter carries the lead, the install block, the three doors and
+  the closing line — rendered by `@heroiclands/hugo-theme`'s
+  `layouts/partials/landing.html`. The theme moves to `^0.2.0`, the release that
+  ships that layout and the landing classes; the pin has to be widened by hand,
+  since on `0.x` a caret range never crosses a minor.
+  
+  **What the reader gets is the same page.** The site was built three times — at
+  0.1.2, at 0.2.0 with nothing else changed, and with the port — so the minor bump
+  and the port could be told apart. The bare bump changes **no rendered page at
+  all**: its only effect on the whole 1,705-page site is `css/style.css`, purely
+  additive at 163 lines added and none removed. The port then changes exactly one
+  file, the root `index.html`. The install URL, the required Foundry version, the
+  three doors and every link out are all still there, and every one of the fifteen
+  rules in the deleted `<style>` block is present verbatim in the shared
+  stylesheet.
+  
+  Four differences are real and deliberate:
+  
+  - **Two dead links are fixed.** _What it ships with_ pointed at `kb/creature/`
+    and `kb/character/`, which have 404'd since those types merged into `being`
+    (#1580). They are one working link to `kb/being/`.
+  - Because a card's links are one per row, that door's combined rows —
+    "Weapons, armour, and gear", "Afflictions and trauma" — are now a row each.
+    Every destination they reached is still reached.
+  - Prose is markdown now, so apostrophes are curled.
+  - The page supplies its own `description`, so `<meta name="description">` is the
+    landing's standfirst rather than the site-wide default.
+  
+  Nothing under `/sohl/kb/` or `/sohl/api/` moves; the knowledgebase tree is
+  byte-identical, and `build/packs-json` is byte-identical with and without the new
+  note, since a `type: homepage` note compiles to a page and to no compendium
+  document.
+- 9b141a4: **The knowledgebase Beings section renders a catalog table again.**
+  `/sohl/kb/being/` fell back to Hugo's default list layout — 95 beings as a plain
+  list of links — because `kb/layouts/kb/` still held a `list.html` for each of the
+  two types #1580 merged, `character` and `creature`, and none for `being`. Nothing
+  routes to a retired type, so both were dead files while the section that replaced
+  them had no layout at all.
+  
+  `kb/layouts/kb/being/list.html` now groups beings by `sohl.kbcat` — Archetypes,
+  NPCs, then Animals — through the same `kbcat-groups.html` partial every other
+  multi-category section uses, and the two retired layouts are deleted.
+  
+  Neither retired layout could simply be renamed. One was a flat table with
+  character-only columns; the other grouped by source subfolder, which for the
+  merged type would have re-created the very character/creature split #1580
+  removed. Both also rendered a _fixed_ nine-attribute block, which a being does not
+  have: an animal carries Scent where a person carries Dexterity, and only people
+  carry the social attributes. So the attribute columns are now derived — their
+  order from the `attribute` pages' own `sort`, their membership from what each
+  group's beings actually populate — and Occupation and Class appear only for a
+  group whose beings carry a `social` block. Adding an attribute, or a being that
+  uses one nothing else does, needs no further change here.
+  
+  _Layouts only._ No content, schema, or compiled pack changes; the knowledgebase
+  build renders exactly one page differently.
+  
+  (Closes #1762.)
+- a3d5c7b: **The `/sohl/` deployment is no longer indexable at its `pkg` origin address.**
+  A Cloudflare Pages project answers at three families of host-assigned address
+  besides its canonical path, and the `_headers` this repository generates covered
+  only two: `<project>.pages.dev` and `<deployment>.<project>.pages.dev`. The
+  third, `sohl.pkg.heroiclands.org`, is the custom domain the project carries so
+  `heroiclands-site`'s router has an origin to fetch — the newest of the three,
+  and the only one a reader is plausibly handed. `utils/build-site.mjs` now emits a
+  rule for it as well.
+  
+  Measured at the edge before the change: `https://sohl-kb.pages.dev/sohl/`
+  answered with `X-Robots-Tag: noindex`, while the _same deployment_ —
+  byte-identical body — answered 200 with no such header at
+  `https://sohl.pkg.heroiclands.org/sohl/`.
+  
+  **The canonical site stays indexable, by two independent guards.** The rule is
+  `https://:package.pkg.heroiclands.org/*`, and Cloudflare's `:name` placeholders
+  match exactly one label, so the pattern requires four labels and a literal `pkg`
+  — the three-label `www.heroiclands.org` cannot match it under any binding. On top
+  of that, the router strips `X-Robots-Tag` when it proxies (`canonicalHeaders` in
+  `heroiclands-site`, `worker/src/router.js`), which its suite asserts both as a
+  pure function and end to end through the handler.
+  
+  **This repository keeps its own deploy workflow, and that is now a recorded
+  decision** rather than an omission. Migrating to the shared reusable workflow in
+  `HeroicLands/.github` would not have delivered this fix: that workflow writes its
+  `_headers` payload only when the build produced none, and this build always
+  produces one. Migrating would also change what is published, because the shared
+  workflow runs a single npm script and today's `build:site` builds the API
+  documentation from the working tree rather than from the newest release tag
+  (#1452). The reasoning is written into `.github/workflows/deploy-sohl.yml`.
+  
+  `tests/build/site-noindex.test.ts` now models Cloudflare's single-label
+  placeholder semantics, so "every host-assigned address is covered" and "the
+  canonical host cannot match" are assertions rather than claims.
+- 7290991: Point the knowledgebase landing's Actors card at the Beings catalog.
+  
+  **The fault**
+  
+  `/sohl/kb/` offered two cards under **Actors**, _Characters_ and _Creatures_,
+  and both 404'd. #1580 merged those two content types into one `being` type, so
+  `/sohl/kb/character/` and `/sohl/kb/creature/` have not been built since — while
+  `/sohl/kb/being/`, the 95-page catalog they were meant to reach, had no route
+  from the landing at all. They were the only failing in-site links on the page.
+  
+  **The fix**
+  
+  The two cards become one, _Beings_, linking to `kb/being/` and keeping the
+  banner the section itself declares. The **Actors** group, the **Gear** group and
+  every other card are untouched: across the whole 1,704-page site exactly one
+  built file changes, and on it the only differences are the removed card and the
+  one that replaces it.
+  
+  This is the same pair of dead links #1760 repaired on `/sohl/`, which left
+  `/sohl/kb/` explicitly out of scope; the identical fault was still live one
+  level down.
+  
+  **Why it is still hand-written**
+  
+  The card list mirrors which content types exist, so an authored list goes stale
+  the moment the tree gains or retires one — which is exactly what happened here.
+  #1758 tracks deriving the cards from the sections instead, and is blocked on the
+  shared theme and build package (heroiclands-hugo-theme#41,
+  package-build#91). Until those land, this file is where a content type is added
+  to or removed from the landing.
+- 0f0477a: **Compiled gear items no longer carry `isEquipped`.**
+  `@heroiclands/package-build` moves from 5.0.0 to 6.0.0 (#1767).
+  
+  The pack builder emitted `system.isEquipped: false` on every gear item
+  (HeroicLands/package-build#68), and no SoHL data model has declared that field
+  since #662 made worn/equipped armour-only and gave `ArmorGearDataModel` its own
+  `isWorn` — shipped in **0.8.0**. Foundry discards an undeclared key when the
+  document is constructed, so no released version has ever read it. The compiled
+  documents change; nothing observable does.
+  
+  **What moved, measured key-ordered across the bump.** Exactly **1,019 keys
+  removed from 1,012 of the 3,126 compiled documents** — 1,010 items (465
+  `miscgear`, 331 `armorgear`, 114 `containergear`, 82 `weapongear`, 18
+  `projectilegear`) plus 9 more embedded in two gear-carrying actors. Every
+  removed value was `false`; no key was added, no value changed, no document was
+  added or removed, and the order of every surviving key is unchanged in every
+  document. A consumer diffing packs after upgrading sees that removal and nothing
+  else. The field was never authorable — the declaration carried no `name`, so no
+  note could set it — so there is no line to delete anywhere in the content tree.
+  
+  **The pack list's order stops being load-bearing**
+  (HeroicLands/package-build#73). The dependency is still real — the actors pass
+  resolves each being's embedded items against the items pass's _output_ — but the
+  build now derives the schedule from what each pass declares it reads instead of
+  trusting the declared order. This repository's list already compiles in the
+  order it is written, so nothing moves; the comments in
+  `package-build.config.yaml` and in the content-creator and build docs that said
+  the order decides it are corrected, along with the superseded single-pack error
+  message they quoted.
+  
+  **Two new checks, both clean here.** `packageBuild.manifest.packFolders` is now
+  compared against the packs the package actually ships, and a folder naming a
+  pack that does not exist is an error that stops the manifest write
+  (HeroicLands/package-build#81) — the one declared manifest key that names a
+  derived value. All six packs are named by the one folder, the companion
+  `adventures` pack included, so the generated `system.json` is byte-identical.
+  The package homepage's own links are now checked too
+  (HeroicLands/package-build#54), and `assets/content/homepage.md` resolves clean.
+  
+  **One licence is reversed, and it does not bite here**
+  (HeroicLands/package-build#75). The `sohlKb` TypeDoc symbol map now resolves
+  against the repository root and a configured-but-unreadable map fails the build,
+  where it used to be swallowed and every `{@link}` published as a code span at
+  exit 0. This repository commits `kb/data/api-symbols.json`, so the pass reports
+  `resolved 5411 API symbols` and the generated knowledgebase is byte-identical —
+  1,606 content pages, 46 tree pages, 17 landings and the homepage, with all 299
+  `/sohl/api/` anchors exactly as before. The link manifest is unchanged at 2,989
+  entries from 1,606 addressable notes.
+- 48e7d87: Move the Create-dialog archetype marker from `flags.sohl.docArchetype` into the
+  schema as `system.archetype`, and give it a sheet control (#1780).
+  
+  **Why** — an archetype is a populated document the Create dialog offers to clone
+  from (#604), and marking one was a flag. Foundry ships no flag editor, so the
+  only way to mark a document in-app was to export it, hand-edit the JSON and
+  re-import — for a feature whose whole purpose is to spare people that kind of
+  workaround.
+  
+  **The field** — `archetype: new NumberField({ nullable: true, integer: true,
+  initial: null })`, declared once on the shared base (`defineSohlDataSchema`), so
+  it reaches every Actor, Item and Combatant subtype and appears in the published
+  `schema.json`.
+  
+  **The tri-state is unchanged**, only its address: a **number** marks the document
+  as an archetype _at that priority_, and `null` means it is not one. `0` is a real
+  priority — SoHL's own archetypes ship at it — so readers test
+  `typeof v === "number"`, never truthiness. Discovery filters for a number, and
+  `null` fails that exactly as an absent flag did; instantiating from an archetype
+  (the Create dialog seed, drop-to-embed) now writes `system.archetype = null`
+  rather than deleting a flag, while Import and Duplicate still preserve it.
+  
+  **The sheet control** — every Actor and Item sheet header now carries a GM-only
+  **Archetype Priority** field bound to `system.archetype`; a blank box is `null`.
+  The Being sheet renders its identity as text, so the control lives in the
+  header's identity dialog beside Name and Shortcode.
+  
+  **Nothing to migrate.** The flag was created at build time from markdown
+  frontmatter, never authored in a world and never committed to a pack, so there is
+  no `migrateData` and no transitional release reading both spellings. The authored
+  frontmatter is unchanged; only the emission target moves, which is
+  HeroicLands/package-build#126 — that must land, and be adopted here, before the
+  next release, or the shipped compendium archetypes will not be discovered.
+- 228a6dd: **Developer docs describe the addressing the build actually performs** (#1806)
+  
+  `kb/dev-docs/` still described page URLs as derived from `name.full` through a
+  `contentSlug`, guarded by a `findSlugCollisions` uniqueness check, with a
+  `kb/data/legacy-slugs.json` redirect table behind them — and wikilinks as resolving
+  against an alias namespace each note fed from a top-level `aliases:` field. None of
+  that machinery exists.
+  
+  - _A URL is stable._ The pages said the opposite: _"A URL is presentation, and it is
+    not kept stable. A rename changes the page's address."_ A page's URL **is** its
+    address, `/<package>/<type>-<shortcode>/`, built from identity — so it survives
+    every rename, and there is nothing to redirect from.
+  - _`slugify` is re-pointed, not deleted._ Its transliteration rules still hold — `þ`→`th`,
+    `æ`→`ae`, apostrophes elided rather than made separators, a fraction keeping its digits
+    together — for **heading anchors** and **pack filenames**, which is what it now serves.
+  - _Every wikilink is qualified._ The bare `[[Text]]` form and the alias index are gone,
+    and a note authors no top-level `aliases:` — the build refuses one. The nested
+    `name.aliases` is documented as reserved and unread. `lint:addresses` is described by
+    the three rules it actually enforces.
+  - _Content is edited here._ Passages phrased around an Obsidian vault and an export into
+    `assets/content/` are stated as the direct authoring they now are.
+  - _Build tooling._ Seven `utils/` scripts listed in the build reference no longer exist.
+- 51879f8: **Publish every knowledgebase content page at the address the link manifest advertises (#1812).**
+  
+  `site.base` was absent, which meant `/<contentPackage>/`, and the site emitter
+  writes that value into each page's Hugo `url:` front matter. Hugo reads `url` as
+  site-root-relative, and this site's root already _is_ `/sohl/` — `kb/hugo.toml`
+  sets `baseURL` to `https://www.heroiclands.org/sohl/` and `publishDir` to
+  `../build/site/sohl`, which the deployment serves at `/sohl/`. The prefix was
+  therefore written twice, and all 1,606 content pages plus the package homepage
+  published at `/sohl/sohl/<address>/` while every link addressing them said
+  `/sohl/<address>/`.
+  
+  Setting `site.base: "/"` leaves the prefix to Hugo alone. Every content page,
+  the homepage, `sitemap.xml`, the section-landing listings and every inbound
+  cross-package link now resolve; the 2,988 entries the published link manifest
+  carries all name a page that exists.
+  
+  Section landings, the mount, and the `dev-docs` tree were never affected and are
+  unchanged — they take their address from their path rather than from front
+  matter.
+- 825b05a: **The Bestiary's animal table lists its 91 beings again.** All eight of the
+  Bestiary's category tables selected on `type = "creature"`, a content type retired
+  when `character` and `creature` were merged into a single `being` (#1580). No note
+  has carried it since, so every table published as a header row and a rule with
+  nothing beneath — on the knowledgebase page and in the compiled journal alike.
+  
+  The eight queries now select `type = "being"`. The animal table fills with its 91
+  entries; the remaining seven categories — construct, dreadspawn, elemental, goblin,
+  helspawn, mythic and spirit — stay empty because no note has been written for them
+  yet, and will populate as that content lands.
+  
+  Closes #1814.
+- 3db76cc: **Write same-package knowledgebase links at the address they are served from (#1816).**
+  
+  Every wikilink rendered into a page body pointed one path segment too shallow —
+  `href=/doc-arlshck/` for a page served at `/sohl/doc-arlshck/` — so 3,902 links
+  across 1,321 distinct targets 404'd. Links into the `dev-docs` tree were dead the
+  same way. Section landings, the `dev-docs` pages themselves and every
+  cross-package inbound link were unaffected, so the site's own navigation worked
+  while the prose was dead end to end.
+  
+  The emitter wrote `site.base` into two quantities that need opposite framings:
+  Hugo's `url:` front matter, which Hugo already resolves under `baseURL`
+  (`.../sohl/`), and the `href`s and manifest base, which are site-absolute and
+  must carry the prefix themselves. No single value was right for both — absent
+  (`/sohl/`) published every page at `/sohl/sohl/<address>/` (#1812), and the
+  `site.base: "/"` stopgap bought the addresses back at the cost of the body links.
+  
+  `@heroiclands/package-build` 15.0.0 stops writing `base` into `url:`
+  (package-build#217, #219), so the default is right for both halves; taking it and
+  deleting the stopgap is one change. All 1,705 rendered pages keep their address,
+  all 2,988 link-manifest entries still name a page that exists, and no
+  `/sohl/sohl/` directory is produced. The 46 site-absolute links still unresolved
+  in this tree are the ones it does not build — 43 into `/thalorna/` and three into
+  `/sohl/api/`, which `site:assemble` supplies.
+  
+  Its other two majors are inert here. `resolveImg` now distinguishes an unset art
+  path from a deliberately blank one (package-build#218, #221) — no note in
+  `assets/content/` writes `img: ""` or `portrait: ""`. And a note's own `title` no
+  longer fills an `affiliation` item's `system.title` (package-build#218, #222) —
+  this tree authors no `type: affiliation` note; the only trace is the regenerated
+  item-field reference, which now says so under the affiliation table.
+- 6c22a20: **Developer docs describe the sections, landings and drafts the build actually
+  has** (#1820)
+  
+  #1806 scrubbed the retired addressing machinery but deliberately stopped short of
+  the section and README-landing material, because the installed
+  `@heroiclands/package-build` still routed pages through a section and honoured
+  both landing rules. It does not at 15.0.0, so those passages are corrected here.
+  
+  - _The manifest contract no longer hands out a refused key._ Its configuration
+    example carried `landing: readme # a README.md addresses its section`, which is
+    now refused by name — a reader copying it got a failed build. It is gone, and
+    the derivation is stated as it is: a `path` is the note's address,
+    `<type>-<shortcode>/`, a pure function of its frontmatter. `prefix` says where
+    the tree mounts _inside_ the package and does not reach an address, so the
+    format example's `"kb/affliction/aconite/"` is the emitted
+    `"affliction-aconite/"`. A note with no address is one declaring no `type` or
+    no `shortcode`, not "a `doc` with no `category`".
+  - _An unresolved link._ The manifest page said a bare alias does not fail the
+    build because it "may be ordinary prose". Every link is an address now; how a
+    link is _written_ is simply a separate finding from where it points, because
+    the corrections differ.
+  - _Drafts._ `draft:` was listed as a frontmatter field that "withholds the note
+    from everything". The field is refused; a note that is unfinished carries the
+    `draft` **tag**, which the build ignores and which marks a link into it. The
+    compile order beside it named `draft:` as a step and put the retired-type check
+    first — it is the retired **fields** that come first, all four of them, and
+    they are checked before any pass claims the note.
+  - _An example that would not compile._ The macro-note frontmatter carried an
+    `aliases:` block; the field is refused, so the example is now a note a reader
+    can paste.
+  - _`lint:addresses`._ It was described as failing on "a note missing its address
+    alias". There is no address alias, and the reachability walk beside it no
+    longer falls back to a type-scoped one.
+- 44f5feb: Add siege engines and their ammunition
+  ([#1240](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues/1240)).
+  
+  The system points at siege weapons as the answer to armour no hand weapon can
+  beat — a dragon's hide turns the best poleaxe in the pack on every roll — and
+  there were none. Ninety weapons across bows, crossbows, melee, shields, slings
+  and thrown, and not one engine.
+  
+  Four engines, each a missile weapon whose projectile supplies the die, exactly
+  as a crossbow and its bolt do:
+  
+  | Engine    | Crew | Impact  | Base Range | Max (BR×4) | Span |
+  | --------- | ---: | ------- | ---------: | ---------: | ---: |
+  | Springald |    2 | `+14` P |     120 ft |     480 ft |   60 |
+  | Ballista  |    4 | `+22` P |     200 ft |     800 ft |   90 |
+  | Onager    |    6 | `+30` B |     175 ft |     700 ft |  120 |
+  | Trebuchet |   12 | `+45` B |     250 ft |    1000 ft |  240 |
+  
+  With two projectiles to feed them: the **Ballista Bolt** (`d6+6` piercing, AR 6,
+  bleeds) for the two bolt-throwers, and the **Siege Stone** (`d6+10` blunt) for
+  the two stone-throwers. Bolt-throwers are aimed and use Archery; stone-throwers
+  lob and use Sling, a trebuchet being a sling in every sense that matters.
+  
+  **Direct or Volley falls out of the range rules rather than a per-weapon flag.**
+  An attack is the shortest multiple of Base Range that reaches the target, so a
+  shot inside BR flies flat and everything past it arcs: Volley 2, Volley 3 at
+  −20, Volley 4 at −40, each against a fifteen-foot area rather than opposed by
+  the target's Dodge. Each engine's Base Range is set at a quarter of its real
+  maximum, which leaves a ballista shooting flat inside 200 feet and arcing past
+  it, and a trebuchet — whose useful range begins well beyond its 250 — lobbing
+  every shot it ever takes. That is what makes an engine nearly useless against a
+  moving creature and merely difficult against a wall: a wall does not leave the
+  area between ranging shots.
+  
+  Against an Old Dragon the impact ladder is the one the fiction wants — a
+  poleaxe does nothing, a ballista bolt scratches, a trebuchet stone wounds
+  seriously:
+  
+  | Shot                       | Effective impact | Wound |
+  | -------------------------- | ---------------- | ----- |
+  | Poleaxe (best hand weapon) | 0                | none  |
+  | Springald bolt             | 0–3              | none  |
+  | Ballista bolt              | 6–11             | M1    |
+  | Onager stone               | 13–18            | M1    |
+  | Trebuchet stone            | 28–33            | S2    |
+  
+  It also shows the ceiling in [#1242](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues/1242):
+  even a trebuchet cannot do better than a serious wound to a dragon, on any roll,
+  because a Grievous one needs an effective 82 and a kill 109. The engines are
+  statted for what they are rather than inflated to compensate.
+- e07c4a6: **The knowledgebase's being info-block derivation comes from the shared
+  toolchain now.** `@heroiclands/content-build` 0.16.0 exports it, so the 113-line
+  copy in `utils/build-kb-content.mjs` is gone along with its `GEAR_TYPE_TO_KEY`
+  table.
+  
+  The gate goes with it. Whether a note is a being is `isBeing`'s answer rather
+  than this file's, which is the actual fix for #1696: the derivation was never
+  wrong, but each repository wrote out its own idea of what a being _is_, and this
+  one still said `character`/`creature` months after #1580 retired them.
+  
+  Nothing published changes — the whole `kb/content/` tree is byte-identical
+  across all 1,520 files.
+- fff74d9: **The bundle-loading check runs from the command line.** `package-build` 0.4.0
+  gives it a command, so `utils/check-bundle-globals.mjs` is gone and
+  `lint:bundle-globals` is `package-build bundle check`.
+  
+  It was the last capability either toolchain exposed only as a library function,
+  which meant a consumer wanting it had to write the script the command line
+  exists to remove: read the manifest, read the bundle, call the function, decide
+  how to print findings, choose an exit code.
+  
+  The one thing the check cannot derive is stated: Vite emits `sohl.js`, not the
+  `<packageId>.mjs` the toolchain assumes, so `packageBuild.bundle.entry` says so.
+  It is deliberately not read out of the generated manifest — a value taken from
+  there would agree with itself by construction, and the check's whole question is
+  whether the manifest declares that file the way Foundry needs it.
+  
+  Also moves to `@heroiclands/content-build` 1.2.0, whose command line now rejects
+  what it used to accept and ignore: a bare command, an unknown command, a missing
+  action, an unknown option. Every invocation this repository makes already named
+  its action, so nothing here changes shape.
+- bd9c60a: Adopt package-build 7.0.0.
+  
+  `stats.systemId` was removed from this repository's configuration because
+  7.0.0 derives it (HeroicLands/package-build#48) — but the pin was still
+  `^6.1.0`, where the key is merely _optional_. Under 6 the deletion resolves
+  to `systemId: null` beside a real `systemVersion`: a version stamped with no
+  id, silently, which is the "plausible lie" the upstream change exists to
+  prevent.
+  
+  ```text
+  under ^6.1.0, systemId deleted: { "systemId": null, "systemVersion": "0.8.2" }
+  ```
+  
+  Bumping the pin closes the window. Verified: every pack stamps exactly the
+  `systemId` and `systemVersion` it stamped before the deletion.
+- 37af8d1: **Five build wrapper scripts are gone, replaced by `@heroiclands/package-build`'s
+  command line.** They contained no logic — only the boilerplate a code file needs
+  in order to state a literal, and every value in them is now configuration:
+  
+  | Was                                 | Is                             |
+  | ----------------------------------- | ------------------------------ |
+  | `node utils/clean.mjs`              | `package-build clean`          |
+  | `node utils/copy-assets.mjs`        | `package-build assets`         |
+  | `node utils/check-lang.mjs`         | `package-build lang check`     |
+  | `node utils/pack-release.mjs`       | `package-build release`        |
+  | `node utils/push-stage.mjs <stage>` | `package-build deploy <stage>` |
+  
+  Every script name is unchanged, so `npm run build:assets`, `npm run lint:lang`,
+  `npm run push:qa` and the rest behave exactly as before — including the
+  release workflow, which invokes `build:pack-release` by name.
+  
+  `utils/push-stage.mjs` had hard-coded `packageKind: "systems"` and
+  `packageId: "sohl"` beside a configuration that already declared both; the CLI
+  reads them from where they were already written. The asset table, the
+  localization glob and the guidance printed after a lang failure all move into
+  `packageBuild:` in `content-build.config.yaml`.
+  
+  The one genuine piece of code stays here: `utils/svg-theme.mjs` now exports the
+  `transform` hook the CLI calls, so every staged SVG is still recolored to follow
+  the Foundry theme.
+  
+  Nothing shipped changes. Staging the assets both ways produces 4,703
+  byte-identical files.
+- 368a1da: Publish the schema with `package-build schema`, and write out the field names it
+  could not read.
+  
+  `utils/build-schema-artifact.mjs` is deleted. The extractor now lives in
+  `@heroiclands/package-build`, where the artifact format and
+  `SCHEMA_ARTIFACT_VERSION` are already defined — a producer hardcoding the
+  consumer's constant is drift waiting to happen, and HM3 needed the same reader,
+  so the second copy was about to exist.
+  
+  **The published schema was missing fields, and the check was blaming content for
+  it.** Two separate reasons, both fixed:
+  
+  - **The shared base schema was dropped whole.** `SohlItemDataModel` spreads
+    `...defineSohlDataSchema()`, imported from `SohlDataModel.ts`, and the old
+    reader resolved spread functions only within the file doing the spreading. It
+    found nothing and contributed nothing, silently. Every Item and Actor subtype
+    lost `shortcode`, `actionDefs`, `lastRun` and `scheduledActions` — so content
+    authoring `system.shortcode`, which this system _requires_ to be unique per
+    `(type, shortcode)` on an actor, was reported as emitting a field no DataModel
+    declares.
+  - **Fourteen temporal fields had no readable names.** `phaseFields(name)` and
+    `durationFields(name)` built their keys from a template literal, so
+    `onsetDate` and its thirteen siblings existed only after the argument was
+    applied — not in the source, and not in any schema read from it. Both
+    generators are gone and their six call sites in `AfflictionDataModel` and
+    `TraumaDataModel` spell the names out, calling the same field helpers as
+    before. The saving was three lines per phase; the cost was a schema that could
+    not describe a third of what `affliction` and `trauma` store.
+  
+  `schema.json` therefore grows by 114 lines. Nothing about the data models
+  changes — the same fields, the same definitions, the same defaults — only which
+  of them the published schema can name.
+  
+  `tests/item/temporal-fields.test.ts` moves with them: it asserted the
+  generators' key naming, and now asserts the published schema, which is both the
+  thing that regressed and a stronger claim, since other repositories read it.
+  
+  **Bump**
+  
+  _Minor._ A more complete published schema and an internal refactor. No change to
+  stored data, emitted documents, or the manifest. Requires
+  `@heroiclands/package-build` 9.0.0, whose reader follows an imported spread.
+- 245f8a9: **The knowledgebase's wikilink address index comes from the shared toolchain
+  now.** `@heroiclands/content-build` 0.17.0 exports `buildSiteIndex` and
+  `wikiContext`, so 124 lines go from `utils/build-kb-content.mjs`: the key
+  spaces, the foreign-manifest merge and its short-form rule, and the per-page
+  resolver context.
+  
+  What stays is how a page gets its address in the first place — the URL scheme
+  and the developer-docs pass — which is genuinely this site's rather than
+  shared.
+  
+  The rules now have tests, which they never had here: they were inline
+  statements calling `process.exit`, so there was nothing to call.
+  
+  Nothing published changes — the whole `kb/content/` tree is byte-identical
+  across all 1,520 files.
+- dba1908: Declare all eleven affiliation subtypes the content format declares, and derive
+  the picker partition from them (#1788).
+  
+  `AFFILIATION_SUBTYPE` held four values — `arcane`, `divine`, `spirit`, `social` —
+  where the content format declares eleven for the same field. They were never
+  variants of one taxonomy: `social` was a residue bucket meaning _not magical_, so
+  a guild, a bank, a noble house and a legion all carried it and it distinguished
+  none of them.
+  
+  **This is a defect rather than a difference**, because the format maps a note's
+  `subType` **straight onto** `system.subType`. Eight of the eleven were not valid
+  choices here, and the field is `required` with no `initial` — so a note authored
+  to the format compiled a document this system could not construct. The check that
+  verifies every `system.*` target the format names _exists_ cannot see that the
+  _values_ disagree, so it passed and failed at construction instead.
+  
+  **The four-value partition is not replaced by anything.** It was a picker filter
+  wearing a taxonomy's name, and the eleven values carry the distinction it drew
+  without needing a second vocabulary beside them: a mystical ability that must
+  associate with a faith tradition can say `faithtradition`. The four labels
+  `SOHL.Affiliation.SubType.arcane`, `.divine`, `.spirit` and `.social` are removed
+  with the values they labelled, since nothing produces those keys any more.
+  
+  **A world on the old values migrates without intervention.** `arcane`, `divine`
+  and `spirit` become `arcanetradition`, `faithtradition` and `spirittradition` —
+  each named the tradition the new value names. `social` **cannot be resolved from
+  the stored value alone**, so it lands on `fellowship`, the one value defined by
+  the absence of the others' markers, and the migration's description says so: a GM
+  re-picking eight ways is work only a human can do. The stamping step that defaults
+  an unrecognized value now skips the four legacy ones, so the two steps cannot
+  clobber one another whichever runs first.
+  
+  The corpus is entirely in the satellite repositories — this one authors no
+  affiliation notes at all.
+- e210e12: **Shortcodes are strictly alphanumeric, and a violation now fails the build** (#1397)
+  
+  `shortcode` is the system's identity key and half of the `type-shortcode` address that
+  content wikilinks parse — a parse that needs the separating hyphen to be the only one
+  in the string. Nothing enforced that shape: `slugifyShortcode` only applied it to keys
+  the system _derived_ from a name, so an authored value passed through untouched, and
+  three of 1599 content notes had one that did not fit.
+  
+  - _The three keys are renamed_ — `trauma:self-pro` → `selfpro`, `trauma:self-suf` →
+    `selfsuf`, `weapongear:B&CFl` → `BCFl`. Nothing referenced them as identifiers.
+  - _`npm run lint:packs` fails_ on any authored shortcode that is not `^[A-Za-z0-9]+$`,
+    alongside the uniqueness check it already ran.
+  - _The create/update guard refuses one too_, so the rule holds for world documents and
+    not only for compiled content. The Create dialog's live check disables **Create**
+    while the field is malformed, and a collision and a malformed key now give different
+    messages, because they have different fixes.
+  - _An existing world is repaired by a 0.9.0 migration_ that strips the offending
+    characters while keeping case — the same repair that produced the three names above,
+    so a world copy and its renamed compendium origin remain the same entity.
+  
+  Case is untouched: hundreds of authored codes are mixed-case, they collide with
+  nothing, and tightening that would be a separate decision.
+  
+  Migration steps also **chain** now: each sees the document as the previous steps left
+  it. Every migrator returns a whole `system` object built from what it was handed, so
+  handing all of them the untouched source made two steps touching one document mutually
+  exclusive — the later payload silently dropped the earlier one's edit.
+  
+  Closes #1397.
+- 3c76c28: Correct every armour article's covered locations against the Armour & Clothing Articles
+  table, and add a guard so the class cannot recur.
+  
+  **How it was verified.** The table's price column is a checksum for coverage: an article
+  costs its covered fraction of the body times the material's base rate, with one-sided
+  coverage at half because it is half the material. Cloth Cap 4 = 0.04 × 100, Coat 64 =
+  0.64, Robe 79 = 0.79, and so on across all nine materials. That makes each article's
+  correct coverage an arithmetic fact rather than a reading of the grid.
+  
+  Checked that way, 29 material/article combinations were wrong, affecting 65 articles.
+  All now match: **200 of 200** verified against the checksum.
+  
+  The recurring faults were a Sleeved Tunic missing its forearms, Breeches and Leggings
+  wrongly including the pelvis, an over-covered Surcoat, a Hauberk and Sleeved Byrnie short
+  of the mark, and — throughout gambeson — a missing neck, which the table gives every
+  gambeson article.
+  
+  **Two coverage bugs fixed with them.** The Gambeson Shirt and Coat listed torso locations
+  in both the flexible and the rigid list, so those locations were counted twice and the
+  protection applied twice; the Coat also had its thighs marked rigid. All five Ring
+  articles recorded their coverage as flexible, though ring mail is rigid like the other
+  metal armours.
+  
+  **A guard.** A content spec now fixes three rules: the two lists never overlap; rigidity
+  follows the material, with gambeson alone mixed — rigid over the torso, flexible on the
+  arms and neck; and every article the table prices matches the checksum. Note that the
+  plain grade of leather is **rawhide**, with "Leather" a better grade at twice the price,
+  so the checksum is applied against rawhide.
+  
+  **Ring becomes a real material.** The source table has no ring mail at all, so its five
+  articles had nothing to price against. Ring is now defined against mail — a tenth cheaper
+  and a fifth heavier, giving a base rate of 1350 and a base weight of 54 — and all five
+  articles are priced from it.
+  
+  **The articles SoHL adds beyond the table** are brought onto the same footing. Each
+  material has grade multipliers that its table-priced articles establish exactly: homespun
+  at 0.30 of the plain rate, linen 0.50, serge 0.60, russet 1.20, worsted 2.41, velvet 3.51,
+  silk 9.00; rawhide 1.00, leather 2.00, beaver and sealskin 3.00, ermine 6.00. Applying
+  those to the 84 added articles that were priced independently puts every article in the
+  tree on one rule: coverage × the material rate × the grade.
+  
+  Straw is priced as cloth at a quarter, which the table does not cover.
+  
+  **Encumbrance and perception** are reconciled with the table's ENC column. Fourteen arm
+  pieces carried 1.67 — five thirds — standing in for the rule that three or more arm
+  articles cost ENC 5 between them. That is only correct at exactly three: one piece charged
+  1.67 and five charged 8.35. Those are now 0, which is what an arm piece costs on its own.
+  
+  Worn armour contributes no weight, so its ENC value is its entire cost — an arm piece worn
+  alone is genuinely free, which is what the rule says. That makes applying the threshold
+  the whole of the mechanic rather than a refinement of it, and it is tracked separately.
+  
+  Perception penalties already matched throughout, including the great helm's −10.
+  
+  Part of #1336. Cloaks are corrected separately; the encumbrance column remains open there.
+- 3c76c28: Correct eight armour prices and weights against the Armour & Clothing Articles table,
+  and add the two plain helms that were missing.
+  
+  Cloth Gauntlets were priced at 20d against the table's 5d, and the base leather Gauntlets
+  at 30d against 20d. The base leather Shoes were 35d / 1.5 lb against 28d / 1.1. Both
+  breastplates were a tenth of a pound light.
+  
+  The Mail Vest and the Mail Sleeved Byrnie carried the **Scale** article's figures — 240d
+  / 13.2 and 400d / 22.0, which are exactly Scale's numbers — instead of their own 360d /
+  10.8 and 600d / 18.0. Every other Mail and Scale row is correct, so it was an isolated
+  copy rather than a systematic swap.
+  
+  **Kûrbúl Helm** (20d / 3.0) and **Plate Helm** (80d / 3.0) did not exist; the tree had
+  only the 3/4-Helm and, for plate, the Great Helm. Both are plain skullcaps covering the
+  crown alone, and neither carries the perception penalty a fuller helm does.
+  
+  Verified by transcribing the table's price and weight columns and comparing all 92 rows,
+  81 of which already matched.
+  
+  Part of #1336 — the price and weight criteria only. The location grid, the
+  encumbrance column and the Ring question remain open there.
+- 1b49c77: Describe attributes, birthsigns and mystical abilities well enough to read
+  ([#1294](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues/1294)).
+  
+  The skill notes were rewritten separately; this finishes the other three kinds
+  of content note the rules link into. A reader following a link out of the rules
+  into a birthsign or a mystical ability previously arrived at two sentences of
+  flavour and no mechanism at all — and the generated attribute table rendered an
+  empty column for all sixteen rows.
+  
+  **Attributes.** All sixteen now carry a one-line `description`, so the attribute
+  table in the Attributes introduction renders what each attribute measures
+  instead of sixteen em dashes. The note bodies, which were already substantial,
+  are untouched.
+  
+  **Mystical Abilities.** All nine notes now say what the ability covers, how it
+  is invoked, and what bears on the test — mean 55 words to 314, with the two
+  empty notes (_Fate_ and _Spirit_) written from nothing. Each names where its
+  Effective Mastery Level comes from, since that is the one thing the three
+  governing forms differ on: _Alchemy_ from the ability or its governing skill,
+  _Talent_ from itself, and _Spirit_, _Summoning_ and _Trance_ from the Spirit
+  Power they are performed through. The four divinatory notes state what a
+  success level actually buys — the quality of the reading, with a Critical
+  Failure delivering a false answer the diviner believes. The standing limits
+  (nothing under Aural Shock, no Mystical Ability test may be fated) are stated on
+  every one.
+  
+  **Birthsigns.** All twenty-four now state their own numbers. The modifiers a
+  sign confers lived only in its Active Effects, which a reader never sees, so
+  each note carries a six-row table of what the sign does to every element of the
+  Astrokýklos, and a sentence naming what its natives come readiest and hardest
+  to. The `description` on each — previously one of two boilerplate sentences
+  repeated twelve times each — now names the sign's emblem and its extremes, which
+  is what the new wheel table on the Birthsign page renders.
+  
+  **The Birthsign rules page** gains the element scheme the signs are built on:
+  which skills each of the six elements claims, the range and step of the
+  modifiers, the twelve principal signs and their emblems, how a cusp relates to
+  its neighbours, and a generated table of all twenty-four.
+  
+  **A test keeps the tables honest.** `tests/content/birthsign-effects.test.ts`
+  already held the sign matrix as an executable specification; it now also parses
+  each note's authored table and fails if a stated modifier drifts from the
+  Active Effect that applies it.
+- 8af1c4c: Band every armour, clothing and weapon price: up to the next pence below 20d, up to the
+  next multiple of 5 pence at or above it.
+  
+  202 items move — 164 of 312 armour articles, and 38 of 82 weapons. Prices were carrying derived precision that read
+  as false exactness — a cloak at 34.5d, a coat at 94.6d — because they came from
+  `coverage × material rate`, which lands off-integer for most articles and every
+  non-plain grade.
+  
+  Price is authorial: an initial value may be derived that way, but the figure a
+  player sees is a design decision. Nothing depends on the derived precision any
+  more, since the coverage checksum that used to assert it has been retired in
+  favour of weight (#1716).
+  
+  Prices rise slightly as a result — 3.8% on average for both groups, at most
+  19.6% where an item sat just above the 20d threshold.
+  
+  **Ammunition is deliberately excluded.** A `projectilegear` arrow costs 0.125d —
+  eight for a penny — so rounding up to the next whole pence would octuple it,
+  which is a balance change rather than a tidy-up.
+- da33427: Put Basic Folk on the baseline the injury model is calibrated to
+  ([#1249](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues/1249)).
+  
+  `BASE_INJURY_THRESHOLDS` says the master table is "calibrated for a baseline
+  human body (STR ≈ 11)", and the body-scale rule divides by 11 for the same
+  reason — but Basic Folk, the actor that exists to _be_ that baseline, carried
+  every attribute at 10. Its body scale only read 1.0 because `bodyScaleBase` was
+  hard-coded to 1 rather than derived like every creature's.
+  
+  Every attribute is now 11, so a body scale of 1.0 falls out of `STR ÷ 11`
+  instead of being asserted. Its twenty-seven embedded skills derive their Skill
+  Base from the attributes and move with it, and body weight — a
+  `(9 × str) + 50` expression — goes from 140 to 149 lb, which brings it into
+  agreement with the 68 kg its own descriptive traits already claimed.
+- 7183353: Seed body scale on a compressive curve so most creatures sit near human
+  ([#1246](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues/1246)).
+  
+  `bodyScaleBase` was seeded linearly from Strength, which spread the bestiary
+  from 0.18 to 5.45 and put most of that range in the tails. Capping at 3 stopped
+  the top being unwoundable, but it did so by clipping: the largest dragon, the
+  elephants, the stone giants and the ice bear all landed on exactly 3.0 and
+  became indistinguishable, so a bull elephant was precisely as hard to wound as
+  the largest dragon alive.
+  
+  The rule is now `((species STR) / 11) ^ 0.65`. Across the 225 creatures re-seeded
+  it gives a mean of **1.31** with two standard deviations covering roughly 0.3 to
+  2.3, and a scale of 3 sits at about +3 sd — reached by the largest dragon at
+  3.01 and by nothing else. Strength 11 still maps to exactly 1.0, so the baseline
+  is unmoved.
+  
+  It also un-clips the top, which is the point: where the cap flattened six
+  creatures onto 3.0, the curve spreads them — 3.01, 2.88, 2.85, 2.68, 2.61 — and
+  `MAX_BODY_SCALE` stops acting as a clamp at all, the dragon _landing_ on the
+  ceiling rather than being cut down to it. It stays as a rail for an
+  Active-Effect enlarge.
+  
+  The low end barely moves: a wolf goes 0.91 to 0.94, a lion 1.09 to 1.06. The
+  compression is felt where it should be.
+  
+  `bodyScaleBase` remains authored rather than computed, so a creature can still
+  be given a scale out of line with its Strength deliberately; the curve is what
+  an ordinary one is seeded from. The specification checks every creature against
+  it, and the Cave and Forest Goblins — previously exempt — now derive theirs like
+  everything else.
+- a9ee34d: Add Canvas and Waxed Canvas as armour detail materials, and fill nine gaps in the
+  existing fabric and fur columns.
+  
+  Canvas is the heavy hemp plain-weave that makes sails, tents and working clothes, and
+  waxed canvas is that cloth driven through with wax and oil until it turns water. Neither
+  existed in the tree, which carried Buckram — glue-stiffened cloth — as its only stiff
+  coarse weave. Buckram is a poor stand-in: its size dissolves when wet, so it is the one
+  fabric that fails at exactly what a canvas cloak is for.
+  
+  **Canvas and Waxed Canvas**, eleven articles:
+  
+  | Article               | Code        | Weight | Value | Durability |
+  | --------------------- | ----------- | -----: | ----: | ---------: |
+  | Canvas Cloak          | `CvCloak`   |    2.1 |    31 |         11 |
+  | Canvas Cowl           | `CvCowl`    |    0.4 |     5 |         11 |
+  | Canvas Leggings       | `CvLeg`     |    2.3 |    32 |         11 |
+  | Canvas Robe           | `CvRobe`    |    5.0 |    71 |         11 |
+  | Canvas Surcoat        | `CvScoat`   |    3.4 |    49 |         11 |
+  | Canvas Tunic          | `CvTunic`   |    2.9 |    41 |         11 |
+  | Canvas Vest           | `CvVest`    |    1.5 |    22 |         11 |
+  | Waxed Canvas Cloak    | `WxCvCloak` |    2.6 |    45 |         12 |
+  | Waxed Canvas Cowl     | `WxCvCowl`  |    0.5 |     8 |         12 |
+  | Waxed Canvas Leggings | `WxCvLeg`   |    2.7 |    47 |         12 |
+  | Waxed Canvas Tunic    | `WxCvTunic` |    3.5 |    59 |         12 |
+  
+  **Gaps filled in existing columns**, eight articles. The Trousers row had only four
+  entries against ten materials that carry Breeches; Ermine had no body garment at all
+  above a Shirt:
+  
+  | Article          | Code     | Weight | Value | Durability |
+  | ---------------- | -------- | -----: | ----: | ---------: |
+  | Quilted Trousers | `QTrsr`  |    7.0 |   156 |         11 |
+  | Rawhide Trousers | `RhTrsr` |    6.0 |   156 |         11 |
+  | Leather Trousers | `LtTrsr` |    4.0 |   312 |          9 |
+  | Beaver Trousers  | `BvTrsr` |    4.8 |   468 |          9 |
+  | Ermine Tunic     | `ETunic` |    4.3 |  1080 |          7 |
+  | Ermine Robe      | `ERobe`  |    7.4 |  1896 |          7 |
+  | Beaver Robe      | `BvRobe` |    9.6 |   948 |          9 |
+  | Cloth Hood       | `CHood`  |    0.3 |     6 |         10 |
+  
+  **Cloth Hood introduces a Hood article**, covering `skullloc` and `neckloc`. That is what
+  the tree already says a hood is: `Worsted Hooded Cloak` is a Cloak whose coverage is the
+  plain `Worsted Cloak` plus those two locations and nothing else, at +0.2 lb and +15d.
+  Converted to Cloth, that delta is 0.26 lb / 6.25d — which is Cloth Cowl's 0.3 / 6, the
+  same geometry from the other direction.
+  
+  **These figures are interpolated, not transcribed.** Canvas does not appear in the Armour
+  & Clothing Articles table, and neither do the eight filled cells, so unlike the rest of
+  the armour tree these numbers were derived from the entries already in it. Weight and
+  value factor cleanly as _piece base_ × _material multiplier_ — exactly so within the metal
+  family, and within 10% across 95% of the tree. Canvas is the Buckram column at ×1.25
+  weight and ×0.90 value, Waxed Canvas at ×1.50 and ×1.305; Ermine runs ×24 the value of
+  Cloth and Beaver ×12, both confirmed independently against Cowl, Mantle, Shirt and Tunic.
+  `origValue` carries the exact derived figure where the shop price is rounded.
+  
+  Durability carries the real difference for the new materials: 11 for canvas, above
+  Buckram's 10, and 12 for waxed canvas, since waxing is a preservative before it is
+  anything else. Nothing else sat at 12, which leaves it between the layered fabrics and the
+  metals.
+  
+  **Protection is left at the tree's existing values**, which are `4/8/5/5` on every article
+  regardless of material. Once those carry real per-material figures, waxed canvas should
+  take a _fire penalty_ rather than any bonus — wax and oil impregnation is flammable, and
+  that is the only aspect where waxing changes what the material does.
+  
+  Noted while deriving, and _not_ addressed here: ten cells in the hide family carry
+  Rawhide's exact weight and value — `Vest` and `Cap` under Leather, Beaver, Ermine and
+  Sealskin, plus Leather `Bracers` and `Long Vest`. The `value` field has been corrected on
+  all ten but `origValue` and `weight` still hold Rawhide's figures, which leaves an Ermine
+  Vest heavier than an Ermine Shirt. It is the same shape of fault as the Mail/Scale copy
+  already fixed, and wants the table rather than a derivation.
+  
+  Also adds two silk containers — **Belt pouch, silk, sm** (`bpchsmslk`, 1.5 capacity, 432d,
+  0.3 lb) and **Belt pouch, silk, med** (`bpchmdslk`, 3 capacity, 864d, 0.6 lb), both
+  durability 1. Both are scaled by capacity from `Purse, silk`, the only silk container in
+  the tree, which is 288d / 0.2 lb at capacity 1.
+  
+  _That anchor is worth a second opinion._ The Containers tree has no coherent price model
+  to derive from — `Bag, lg, canvas` and `Sack, canvas, 20 lb` are both canvas at capacity
+  20 and are priced 8d and 60d — and `Purse, silk` sits two orders of magnitude above the
+  leather belt pouches it most resembles (2d, 4d, 8d). Anchoring on the silk purse keeps the
+  silk items consistent with each other; anchoring on the leather pouch line and applying the
+  armour tree's silk premium (Silk ÷ Leather is ×1.125 by value) would instead give 2d and
+  5d. The first was chosen because material consistency is the principle used everywhere else
+  here, but the two readings differ by roughly 200×, and only the table settles it.
+  
+  No code change: `detailMaterial` is a free-form content field with no enum, registry or
+  localization key behind it.
+- 2ba5c29: Cap `bodyScale` at 3, so the largest creatures are hard to wound rather than
+  impossible to wound
+  ([#1242](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues/1242)).
+  
+  Impact grows with Strength at about `STR ÷ 2`, while an unbounded body scale
+  grew the injury thresholds at `20 × STR ÷ 11` — roughly `STR × 1.8`, some 3.6
+  times faster. Past a scale of about 3 the thresholds outran every impact the
+  system can produce, and a creature stopped being merely tough:
+  
+  - an Old Dragon at its raw 5.45 needed an effective **109** for a Grievous
+    injury and **137** to be killed, where the largest impact in the game is its
+    own 33-point bite — so two dragons could not kill each other;
+  - a Lithogiant could not mark one, and neither could a trebuchet;
+  - the **printed** elephant, at 5.09, was equally unwoundable.
+  
+  `bodyScale` is now clamped to `[MIN_BODY_SCALE, MAX_BODY_SCALE]` — 0.01 to 3 —
+  including any Active-Effect delta, so an enlarge cannot lift a being past the
+  ceiling. A capped body has thresholds `[3, 15, 30, 45, 60]`, which keeps the top
+  of the range hard but reachable:
+  
+  | Shot                       | Before | After |
+  | -------------------------- | ------ | ----- |
+  | Poleaxe (best hand weapon) | none   | none  |
+  | Ballista bolt              | M1     | M1    |
+  | Onager stone               | M1     | M1–S2 |
+  | Trebuchet stone            | S2     | S2–S3 |
+  
+  **Natural armour, not body scale, is what makes a dragon proof against swords.**
+  A hand weapon maxes at 15 impact and still cannot pass a dragon's 28-point hide
+  whatever the thresholds say; what changes is that a siege engine or a spell that
+  does get through now wounds in proportion.
+- 3620ea5: Changed: cast metals take a quarter longer at the bench.
+  
+  With the metal reduced to a rounding error in a base-metal piece, copper and
+  bronze articles came out at the same price — the work being identical and the
+  half-penny of metal lost in the pennies of labour. That is wrong for a reason the
+  rule was not capturing: bronze must be founded. It is moulded, melted, cast and
+  then finished, where copper is raised and chased cold at the bench.
+  
+  Bronze, brass and pewter therefore take a quarter longer. A bronze ring is 8d
+  against a copper one at 6d, an amulet 15d against 12d, a necklace 31d against 24d.
+  Gold, silver and copper are unaffected, being worked rather than cast.
+  
+  The quarter is not arbitrary: the hand-set prices these articles carried before
+  the metals moved ran bronze at 1.17 to 1.33 times copper, and this puts them at
+  1.25 to 1.33.
+- 3620ea5: Changed: cast work takes a quarter longer, in every craft.
+  
+  The rule that founded articles cost more time than worked ones was written into
+  Jewelcraft, where it was needed to keep a bronze ring dearer than a copper one.
+  But it is not a jeweller's rule. A bronze buckle, a pewter flagon and a brass
+  cauldron are all founded — melted, poured into a mould and finished — and all cost
+  the founder more time than the same article raised and hammered from sheet.
+  
+  It now sits in the common crafting routine alongside the other time modifiers, so
+  every trade carries it whether or not its own entry mentions it, the way fast
+  crafting and critical failure already work. Bronze, brass and pewter are cast;
+  copper, silver, gold and iron are raised, drawn and hammered.
+  
+  Jewelcraft now points at the common rule rather than restating it.
+- 77ad955: **Reclassify the phobia compendium items as Fear traumas (#1229)**
+  
+  All 78 phobia items shipped as Trauma `subType: psycond` with `category: impulse` —
+  a value from the `quirk`/`impulse`/`disorder` scale, which is the wrong scale for a
+  phobia. They are now `subType: fear`, shipping in the baseline `category: none` state
+  with `levelBase: 0`, so a phobia can express the fear states that actually drive its
+  behavior (`none` / `brave` / `steady` / `afraid` / `terrified` / `catatonic`).
+  
+  **Folder tree**
+  
+  The items compendium gains a **Fear** folder under **Trauma**, and the existing
+  **Phobias** folder now sits beneath it rather than under **Psychological**:
+  
+  | before                           | after                       |
+  | -------------------------------- | --------------------------- |
+  | Trauma → Psychological → Phobias | Trauma → **Fear** → Phobias |
+  
+  _Acrophobia_ was additionally filed under **Quirks** rather than **Phobias**; it now
+  sits with the other 77.
+  
+  **Upgrading**
+  
+  Existing worlds are unaffected — phobia items already dragged onto an actor keep
+  whatever subtype and category they were created with. The reclassification applies to
+  the compendium content, so re-import a phobia to pick up the new values.
+- 3620ea5: Fixed: the coins did not weigh what their metal was worth.
+  
+  A pence is a silver coin and a Gold Crown is a gold one, so each should be worth
+  the metal in it. Neither was, once the metals moved. The pence now weighs 0.0025
+  lb, which is 0.04 oz of silver at 25d the ounce — exactly its face value of 1d.
+  The Gold Crown is one ounce of gold at 300d the ounce, so it is worth 300d and a
+  crown is exactly 300 pence.
+- eff20b1: Write the Combat chapter of the rules (#1292)
+  
+  `Melee_Attacks`, `Missile_Attacks` and `Unarmed_Combat` were one-word stubs, so
+  the most rules-intensive part of the game could not be learned from the rules at
+  all. All three are now written, the chapter introduction is expanded into a
+  spine, and a new **Attack Resolution** page carries the contest the three share.
+  
+  **Attack Resolution** _(new)_ — the attack/defence exchange as an Opposed Test:
+  the attack test and what modifies it; the four defences (Block, Counterstrike,
+  Dodge, Ignore) and what each tests; who lands a blow and by what margin; Tactical
+  Advantages and the four kinds; mishaps and weapon breakage; aiming by Zone Number
+  and zone die; impact, aspect and protection; and the handoff into Trauma —
+  injury, shock, and Morale, with the combat triggers for a Morale Test named.
+  
+  **Melee Attacks** — reach and the engagement zone; grip and required body parts;
+  the four defences at contact; the Strength Impact Modifier; manoeuvres and the
+  Strength Trial; and how posture, impairment, fatigue and shock bear on the roll.
+  
+  **Missile Attacks** — the missile sequence; Archery, Throwing and Sling, and the
+  crossbow's untrained rule; the three range bands (point blank, direct, volley)
+  with their zone dice and impact; aiming at distance; which defences a missile
+  admits, and deliberate evasion; why launchers take no Strength bonus; and misfire.
+  
+  **Unarmed Combat** — combat techniques as strike modes; the folk roster with
+  impact, zone die and reach; why four of them describe anatomy and four describe a
+  rule; the Strength Trial behind Grab, Press and Trip; Limb Block; and the
+  attacker-armour and off-side rules.
+  
+  **Strike Modes** — two missile properties were described wrongly and are
+  corrected against the weapon data: **Draw** is the pull the weapon demands, not a
+  reload time, and **Volley multiplier** is how far past base range a lobbed shot
+  reaches, not a rate of fire. Its headings are also anchored, so its later
+  sections page separately instead of being absorbed into the preceding one.
+  
+  Written system-free, from the implementation but restated as table rules. Where
+  the two disagreed the rules were followed and the divergence filed separately.
+- e757b76: **This repository declares its build in `content-build.config.yaml`.** The
+  `.mjs` config it replaces contained no logic — only the boilerplate a code file
+  needs in order to state a literal, and every consuming repository reproduced the
+  same three pieces of it. content-build 0.14.0 derives them instead:
+  
+  | Field                 | Derived from                                                    |
+  | --------------------- | --------------------------------------------------------------- |
+  | `rootDir`             | the directory the config file sits in — authoring it now throws |
+  | `stats.systemVersion` | `version` in the adjacent `package.json`                        |
+  | `itemBuilders`        | the name `sohl`, resolved to the shipped registry               |
+  
+  The third is what removed the last import: the configuration **names** the
+  item-builder registry rather than importing it, because data cannot carry
+  functions. A consumer whose registry is its own code still writes
+  `content-build.config.mjs`; both forms end at the same `defineConfig` and are
+  validated identically.
+  
+  Nothing shipped changes. The compiled packs are byte-for-byte identical across
+  all 2,828 documents, verified by compiling both ways and diffing.
+- a9ee34d: Calibrate every container price against an external medieval costs reference. 48 of 66
+  articles move; weights and capacities are untouched.
+  
+  The container tree had no coherent price model. Two canvas articles of identical capacity
+  were priced 8d and 60d; `Pouch, buckram` was 30d against a leather belt pouch at 4d while
+  its own description called it "a fraction of the price"; and `Purse, silk` sat two orders
+  of magnitude above every other pouch. Cost-per-pound within the tree could not resolve it,
+  because the tree disagreed with itself.
+  
+  **The scale was fixed from outside.** SoHL's armour prices and those in Phillip McGregor's
+  _Orbis Mundi 2: The Marketplace_ turn out to share a denier — that book prices a Mail
+  Shirt/Cuirass at 480–1200d against this system's Mail Shirt at 495d, and ¾ Mail at
+  960–1920d against Mail Hauberk at 960d. Armour is therefore a fixed point common to both,
+  and the reference's everyday-goods ranges can be read directly against ours.
+  
+  This is a **calibration, not a transcription**. The item list, sizes, capacities and
+  weights remain this system's own; only `value` moved, each into the band its nearest
+  documented analogue occupies.
+  
+  **The error ran in both directions, which is why no single rate could have found it.**
+  Soft carried goods were far too dear:
+  
+  | Article             | was |  now | analogue                                            |
+  | ------------------- | --: | ---: | --------------------------------------------------- |
+  | Sack, canvas, 20 lb |  60 | 0.75 | canvas sack, 20 lb capacity                         |
+  | Sack, canvas, 50 lb | 120 |  1.5 | canvas sack, scaled                                 |
+  | Pouch, buckram      |  30 |  0.5 | canvas purse                                        |
+  | Bag, 15 lb, leather |  48 |    2 | leather sack, small–medium                          |
+  | Arrow bag           | 216 |    6 | bolt/quarrel case                                   |
+  | Waterskin, 2qt.     |  24 |    2 | waterskin, larger size                              |
+  | Purse, silk         | 288 |   24 | fine leather purse × the armour tree's silk premium |
+  | Backpack            |  30 |    8 | leather backpack, medium                            |
+  | Paper case, leather |  60 |   12 | above a large leather satchel                       |
+  
+  While rigid strongboxes, chests and blown glass were too cheap:
+  
+  | Article               | was | now | analogue                                               |
+  | --------------------- | --: | --: | ------------------------------------------------------ |
+  | Trunk, wooden         |  12 |  90 | wooden chest, 40 lb                                    |
+  | Lockbox, large        |  24 | 150 | between a wooden coffer and a small iron-bound lockbox |
+  | Lockbox, small        |  12 |  72 | wooden coffer, 5 lb                                    |
+  | Chest, wooden         |  18 |  54 | wooden chest, 20 lb                                    |
+  | Cauldron, Iron        |  30 |  72 | small cauldron, scaled to 30 lb                        |
+  | Bottle, glass, medium |  10 |  30 | medium glass bottle                                    |
+  | Bottle, glass, small  |   6 |  12 | small glass bottle                                     |
+  
+  The leather belt pouches were right all along at 2d and 4d, and are unchanged; the large
+  one moves 8 → 6 to sit inside the fine-leather-purse band. Ceramic was already sound and
+  barely moves. Eighteen articles are unchanged.
+  
+  Two descriptions asserted price relationships the data contradicted, and now agree with it:
+  `Pouch, buckram` really is a fraction of a leather pouch's price, and `Arrow bag` is
+  cheaper than either quiver.
+  
+  Deliberately out of scope: weights. Three faults were found and left for a separate pass —
+  `Flask, Metal` weighs 0, `Jar, ointment, tiny` weighs more than the small and medium jars
+  above it, and the three glass vials share one weight-independent price.
+- a9ee34d: Add 48 containers, filling the gaps the price calibration exposed. The tree carried 66
+  articles against a reference list roughly twice that size, and the holes were not random —
+  whole tiers were missing rather than odd items.
+  
+  **Soft carried goods (25).** There was no satchel at all, one backpack, and one leather
+  bag standing in for a size range:
+  
+  | Line                                                 | Sizes       | Range   |
+  | ---------------------------------------------------- | ----------- | ------- |
+  | Satchel, canvas / leather / waxed canvas             | sm, med, lg | 1–6d    |
+  | Sack, leather / waxed canvas                         | sm, med, lg | 1–4½d   |
+  | Backpack, canvas / waxed canvas / wicker             | 25 lb       | ½–4d    |
+  | Canteen, metal / pottery / wood                      | 2 pt        | 0.4–2½d |
+  | Carry frame, Pole, Wrappings (leather, waxed canvas) | —           | ¼–1d    |
+  
+  The wicker backpack at ½d is the cheapest carrying gear in the system, and the load-carrying
+  pole at ¼d the cheapest thing that carries anything at all — both were absent, which left
+  nothing between "no container" and a 3d canvas bag.
+  
+  **Rigid storage (11).** One chest and two light lockboxes became a full ladder — wicker
+  chests at 4½/9/18d, joined wooden chests at 30/90d flanking the existing one, wooden and
+  leather-faced coffers at 72d and 45d, iron-bound lockboxes at 150d and 300d, a leather and
+  wood travelling trunk at 18d, and an iron **paychest** at 960d holding 100 lb, which is now
+  the most valuable container in the tree.
+  
+  **Alchemical glassware (12).** The system had none, despite its mystical side: alembics in
+  copper and glass (42–180d), aludels in earthenware and glass, sealed single- and double-dose
+  ampoules, plain beakers, and thin-walled crucibles.
+  
+  Capacities are the **general goods** figure throughout, not the reduced coin-and-bullion
+  capacity the reference also quotes — a wooden coffer takes 12 lb of goods where it would
+  take 10 lb of bullion. `maxCapacity` carries only one number, so the bullion figure is not
+  represented; a container used as a strongbox is worth handling by fiat.
+  
+  The reference's _oilcloth_ is written here as **waxed canvas**, the material this system
+  gained in the same release, rather than introducing a second name for one cloth.
+  
+  Prices come from the same calibration described in the container repricing changeset — the
+  armour tree fixes the denier against the external reference, and each new article was placed
+  in the band its documented analogue occupies. Weights and durabilities follow the
+  conventions already in the tree.
+- 3256cd2: Resolve content cross-references into real Foundry links
+  ([#1273](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues/1273)).
+  
+  Cross-references between compendium documents did not work. They were authored as
+  relative file paths, which mean nothing to Foundry, so every link between a rules
+  page, a skill, a creature and a gear item resolved to nothing once compiled. Links
+  to a _section_ were broken twice over: the heading anchor was used as the journal
+  page's id, and a slug like `shock-state-index` is not a legal Foundry id at all.
+  
+  Links are now authored by identity rather than by path, and compiled into Foundry
+  UUID links:
+  
+  | Authored                                     | Compiled to                                        |
+  | -------------------------------------------- | -------------------------------------------------- |
+  | `[[Skills/climb\|Climbing]]`                 | `@UUID[Compendium.sohl.items.Item.<id>]{Climbing}` |
+  | `[[Rules/shock#shock-state-index\|the ...]]` | a link to that **page** of the entry               |
+  
+  **What this means for a reader.** Every cross-reference in the rules, the user
+  guide, the bestiary and the item descriptions is now a working link, and a link to
+  a named section lands on that section rather than the top of the document. A
+  section is compiled as its own journal page, so it appears in the entry's page
+  list and can be linked to and navigated directly.
+  
+  **For an author.** A link names a document by its content directory and shortcode
+  (`[[TLD/shortcode|Text]]`). Because no path is encoded, moving or renaming a note
+  no longer breaks anything that points at it. A heading becomes linkable by ending
+  it with `{#section-slug}`. Standard markdown link syntax remains correct for
+  external URLs. A link with no target is reported by the build and left as visible
+  text instead of being emitted silently.
+  
+  Every content document now carries a shortcode, so anything can be linked to;
+  shortcodes are unique within their top-level directory.
+- 77b896f: Add the 42 articles that the craft catalogs price but the compendium did not contain,
+  so a character can actually own what a crafter is told they can make.
+  
+  **What is new.** Ceramics gains its own ware — amphora, jug, pot, urn, vase, lidded box
+  and bottle, plus ceramic bowl, plate, beads and icon, which previously existed only in
+  copper, pewter or glass. Woodworking gains barrels, a trunk, chest and box, the furniture
+  of an ordinary household (bed, bench, chair, table, ladder), and the haulage pieces
+  (wheel, wheelbarrow, ox yoke). Metalcraft gains the wagon axle, ploughshare, scythe and
+  spade; Glassworking, lenses and an hourglass; Perfumery, three grades of perfume, three
+  oils and soap; Textilecraft, a silk purse and a wool carpet; Hideworking, a leather bag;
+  and Fletching, the lever and windlass crossbow spanners.
+  
+  **Types.** Anything that holds something is `containergear` with `maxCapacity` set in
+  pounds of contents, following the existing convention of roughly two pounds per quart;
+  everything else is `miscgear`.
+  
+  **A new Furniture folder** joins the Misc_Gear tree, since a bed or a table fits none of
+  the existing categories. Its colour was chosen by the documented palette method rather
+  than by eye — white-text contrast 6.33:1 against a 4.5:1 floor, and a minimum OKLab
+  distance of 0.188 from its siblings against a 0.12 floor.
+  
+  **Where the numbers come from.** Ceramics, Glassworking, Woodworking and Perfumery
+  catalogs list a sale price, which is used directly. Metalcraft, Textilecraft, Hideworking
+  and Fletching list only material cost and labour, so value is derived at six times
+  material cost — the one multiplier the rules state, given under Lockcraft. Weights for
+  those articles are estimated from their real-world equivalents.
+  
+  Deliberately excluded, and left as hand-authored catalog rows: wagons and carts, which
+  belong with the vehicle concept rather than gear; brick, tile and window glass, which are
+  priced per unit area rather than per object; and the fletching bundles, which map onto
+  the existing per-head-type projectiles.
+  
+  Closes #1327.
+- ed06510: Point three craft cross-references at Weaponcraft's rules rather than its sheet
+  ([#1366](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues/1366)).
+  
+  Textilecraft sends the reader to the armour-making routine; Metalcraft and
+  Woodworking send them to the weaponmaking routine. All three linked
+  `[[skill/wpnc]]`, which addresses the Weaponcraft **item** — following one opened
+  a sheet of numbers instead of the rules the sentence was pointing at.
+  
+  Each now uses `[[docskill/wpnc#crafting]]`, the address for that item's
+  documentation, landing on the Crafting page that actually carries those routines.
+  
+  The anchored form was written this way first, then backed out, because it
+  compiled to a UUID under the items pack and dead-ended — the defect since fixed.
+- c59c36a: Move the crafting routine out of the craft skills and into a Crafting chapter
+  ([#1342](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues/1342)).
+  
+  The rules for making a thing — workshop, expense, the result ladder, masterwork
+  rolls, repair — were written out in full inside **Weaponcraft** and
+  **Fletching**, sketched in **Lockcraft**, and delegated to in a sentence by the
+  other twelve. A reader of Ceramics had no way to reach them.
+  
+  **A new Crafting chapter** states the routine once, in seven pages: the
+  _Workshop_ and its star rating, _Expense_, the _Test_, the _Result_ ladder,
+  _Masterwork_ rolls, _Fast Crafting_, and _Repair_. It sits in the rules between
+  _Gear_ — the catalogue of what gets made — and _Combat_.
+  
+  **Fast crafting is now discoverable from any craft.** Trading a Value Diamond
+  for a 10% cut in crafting time, to a maximum of 30%, is stated in the source as
+  applying to every craft whether or not a trade mentions it. It appeared in two
+  entries. It is now its own page, and the chapter says plainly that it applies
+  whether or not a trade repeats it.
+  
+  **Weaponcraft no longer states its result ladder twice.** It carried one ladder
+  for weapons and a second for armour, differing only in whether a flaw costs
+  Weapon Quality and impact or Armour Quality and Armour Value. The ladder is
+  stated once in the chapter; Weaponcraft keeps only the two flaw readings.
+  
+  **Twelve craft skills gain a `Crafting` page.** Each craft note now opens with
+  what the trade _is_ and puts its making rules under a `# Crafting` heading —
+  which compiles to a second page on that item's item doc, so an item's
+  description stays the flavour and the rules sit beside it. Each links to the
+  shared chapter and keeps only its own deltas: its test, how its expense is
+  reckoned, what a flaw costs in its units, its masterwork cap, and its
+  catalogue.
+  
+  Ceramics, Drawing, Glassworking, Hideworking, Jewelcraft, Lockcraft, Masonry,
+  Metalcraft, Textilecraft, Weaponcraft, Woodworking and Fletching are affected.
+  Milling, Musician, Singing and Timbercraft are not — they measure output,
+  performance and felling rather than making an article, and follow no crafting
+  routine.
+  
+  No rule changed and nothing was dropped; every line removed from a skill is
+  either stated in the chapter or kept on the skill as its own particular.
+- 44f5feb: Give every animal its six creature skills, and the Grukar an anatomy and a
+  natural weapon
+  ([#1240](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues/1240)).
+  
+  **Animals.** The 114 animals outside the printed Abilities tables now carry
+  Awareness, Stealth, Spirit (a Mystical Ability), Initiative, Dodge and Shock
+  alongside their natural weapons — the same six the printed animals take from
+  the AWARE / STEALTH / SPIRIT / INITIATIVE / DODGE / SHOCK columns. An animal
+  has no Skill Base, so each is a flat `masteryLevelBase`.
+  
+  Values are extrapolated from the 31 printed animals, on the same attribute
+  pair the system's own skill uses — Awareness `5 × (PER+WIL)/2`, Spirit
+  `3 × (AUR+WIL)/2`, Dodge `4 × (AGL+PER)/2`, Initiative `4 × (WIL+REA)/2`,
+  Stealth `5 × (AGL+WIL)/2`, Shock `2.5 × (STR+END)/2`. Mean error against those
+  31 rows is under one point for Awareness and Spirit and under five for Dodge
+  and Initiative; Shock is the loosest, being visibly hand-tuned in the printed
+  rows. Where a file already carried one of the six, its authored value is kept.
+  
+  **Grukar.** All four shipped a human anatomy with no natural armour and no
+  attack at all. Grukar-Uk and Grukar-Sha now take a compact six-zone anatomy —
+  head and arms sharing zone numbers 1–2, torso 3–4, legs 5–6 — with
+  per-location natural armour; Grukar-Hai and Grukar-Ahk keep the human plan
+  they are built on. All four keep their own authored ability scores
+  and gain a Punch combat technique, which unlike a beast's natural weapon can
+  be used to block, and the same six creature skills.
+- 16b04d5: **Cross-package links resolve through a published manifest** (#1446)
+  
+  A note addressing another package — `Rules/Bestiary.md` links six Thalorna
+  creatures — had no way to resolve, because nothing in `[[type-shortcode]]`
+  separates a legitimate cross-package reference from a typo. Both degraded to
+  plain text, and the dead-address guard had to stay off or correct content would
+  have failed the build.
+  
+  - _Each package publishes a manifest._ The knowledgebase build emits
+    `build/manifests/<package>.json`, mapping every addressable note's
+    `type/shortcode` to the `{ url, name }` a link needs. Another package vendors
+    it into `assets/manifests/` and resolves into it — including types this build
+    has never seen, which are seeded so the address is recognised at all.
+  - _The guard returns when it becomes correct._ While any package in
+    `LINK_PACKAGES` is neither built here nor vendored, an unresolved address is
+    still tolerated and the build says so. When the last manifest lands the check
+    turns itself on: an address resolving in no package fails. Derived from the
+    data, not a flag, so it cannot be forgotten.
+  - _`FOREIGN_ADDRESS_ALLOWLIST` is superseded._ `check-content-links` consults
+    manifests first and stops honouring the list once they are complete, reporting
+    every entry as stale to remove.
+  - _`kethira` is excluded by design._ It publishes no pages and must stay
+    withdrawable, so it neither emits a manifest nor is a citable target.
+- 96a4c67: **Where cross-repository work is tracked, and what "done" means for it** (#1400)
+  
+  The project spans several repositories, but the issue standard described only this
+  one, so a growing share of tracked work had no documented home, label, or
+  completion rule.
+  
+  - _Which repository an issue belongs in._ A new
+    [Issue Reporting §9](https://www.heroiclands.org/sohl/kb/dev-docs/how-to/issue-reporting/)
+    names the repositories the project spans and what each one tracks, so an issue
+    has a documented home.
+  - _A delivery-target label_ makes the surface an issue lands on visible at a glance.
+  - _Closing keywords do not cross repositories._ `Closes …#123` from another repository
+    records a reference and leaves the issue **open**. Such issues are closed by hand,
+    citing the delivering commit — previously an easy way to strand an issue silently.
+  - _The Definition of Done is split._ The changeset, `npm run build`, `npm run docs`
+    and `npm run format:check` gates are marked as specific to this repository; a
+    shorter list applies to work delivered anywhere.
+- 7b72dca: Fix two broken references surfaced by auditing what the knowledgebase links.
+  
+  **Navigation** — the brand nav's _Song of Heroic Lands_ entry pointed at
+  `/projects/sohl/`, which has never been a published address; the page is
+  `/projects/song-of-heroic-lands/`, derived from its name. The entry returned a
+  genuine 404 in production, and since every site renders the same nav, it did so
+  from the knowledgebase too. The near-miss `/projects/sohl.md/` is a real legacy
+  address and keeps its redirect — it is simply not what the nav should advertise.
+  (#1475)
+  
+  **Mystical Abilities collection** — the `sohl` package's collection note opened
+  its _Arcane Incantation_ section with a link to a `thalorna` document, which the
+  `sohl` content tree cannot resolve. It emitted an unresolved-wikilink warning on
+  every pack build and made a `sohl` page depend on another package. The `sohl`
+  package ships no arcane incantations, so the section now carries the same
+  package-scoped query every other section on that page uses.
+- e1bb9c0: Stop authoring `stats.systemId`; it is derived.
+  
+  package-build 7.0.0 refuses `stats.systemId` and `stats.systemVersion`:
+  authoring a derived value is an error rather than an override, because a
+  transcribed copy is free to drift from what it copied — which is how
+  `stats.systemVersion` came to sit at `0.6.0` for four releases
+  (HeroicLands/package-build#48).
+  
+  Here a system package is its own system, so `sohl` is derived from `foundryPackage`, so deleting the line changes nothing:
+  
+  ```diff
+   stats:
+  -    systemId: sohl
+       lastModifiedBy: …
+  ```
+  
+  **Verified.** Every pack in this package stamps exactly the `systemId` and
+  `systemVersion` it stamped before — resolved with the configuration loader
+  and compared pack by pack.
+- 6f3e68d: An item description that is only a link now points at what it links to.
+  
+  Write a description consisting of nothing but a `@UUID` link and the item is saying
+  "my description lives there". **Display Description** follows the pointer and shows the
+  target — a journal page, or another item's description — instead of showing the reader a
+  link they would have to click.
+  
+  **Markup does not count.** A link wrapped in a paragraph, a heading, bold text, or trailed
+  by empty paragraphs and line breaks is still just a link. What matters is whether anything
+  a reader would actually see remains once the markup is stripped.
+  
+  **Anything else is ordinary prose.** A description that opens with a link and continues
+  with a sentence is left exactly as written, because a GM's own words are never discarded
+  in favour of a target's. Someone who wants the target's text inline embeds it deliberately.
+  
+  Nothing is taken away: the description remains a free HTML field, the Description tab
+  works as it always has, and the convention applies only when an author chooses to write a
+  link and nothing else. A pointer whose target will not resolve falls back to the link,
+  which renders as a broken content link — visibly wrong rather than silently blank.
+  
+  This is what lets an item stop carrying its own copy of prose that belongs to the
+  compendium. See #1348 for the scale of that: 7.59 MB of description across the actors
+  pack, containing 74 distinct texts.
+  
+  Part of #1348.
+- a89c23a: Show a pointer description's target on the item sheet's Description tab
+  ([#1357](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues/1357)).
+  
+  A description that is only a link is a **pointer** — the item's description
+  lives at the target. Output Description to Chat has followed one since
+  [#1356](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues/1356),
+  but the Description tab did not: opening such an item showed a bare link in an
+  editor, so the description was two clicks away and the tab looked empty of
+  content.
+  
+  The tab now shows what the link points at, read-only, with a **pencil** in the
+  upper right that reveals the editor holding the link — so the description can
+  still be re-aimed or replaced with prose, and the reader never meets the
+  machinery. The icon becomes an open book to switch back, and closing the sheet
+  returns to reading. An ordinary description is unchanged: the editor, directly,
+  with no toggle.
+  
+  A pointer whose target will not resolve shows the broken link rather than an
+  empty tab, matching how the chat card degrades, and links inside the shown text
+  stay live so a reader can still open the page itself.
+  
+  **Presentation only** — nothing about what counts as a pointer changed. The
+  convention is now documented end to end (write, read, edit, post) on the **Base
+  Item** page of the user guide, which it was not before.
+- f49b196: Check the developer docs' links, and repoint the twenty-five that were broken
+  ([#1364](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues/1364)).
+  
+  `kb/dev-docs/` links by relative path — the tree is read in the repository and on
+  GitHub as much as on the knowledgebase, and a path is what those renderers
+  follow. Nothing validated those paths: `check-content-links` scans
+  `assets/content` only, so the whole developer tree was unchecked.
+  
+  It had rotted accordingly. The `docs/` → `kb/dev-docs/` move left every
+  repo-root-relative link one directory too high, and nobody noticed because the
+  symptom was invisible in both places it mattered: on the knowledgebase the link
+  became `…/blob/main/kb/src/…`, a GitHub 404, and in the repository it simply
+  pointed at nothing. Twenty-two links were off by that one level. Two more named
+  `templates/effects/`, a directory that is `templates/effect/`, and one pointed at
+  `assets/content/Corpora/Human_Folk.md`, a note removed when the Corpus concept
+  was retired — now the Basic Folk character that carries the body structure
+  today.
+  
+  `npm run lint:doc-links` (in `npm run lint`) now fails on a relative link whose
+  target does not exist, and on an `#anchor` no heading in the target declares. It
+  matches GitHub's slug rules, including the details that trip a naive
+  implementation: runs of whitespace are not collapsed, so dropping an `&` leaves
+  `player--gm-rules-external` with two hyphens, and a code span inside a heading is
+  part of the text the anchor derives from.
+  
+  Wikilinks remain unavailable in the developer tree, deliberately: they resolve by
+  `(type, shortcode)` from a note's frontmatter, which these pages do not have, and
+  they would not render in the repository or on GitHub. The reference page on
+  [linking between content notes](https://www.heroiclands.org/sohl/kb/dev-docs/reference/content-links/)
+  now says so explicitly, and names this check as what keeps a path honest.
+- c408bad: **The 13 checks import the diagnostics contract directly.**
+  `utils/lint-diagnostics.mjs` is gone.
+  
+  It was a re-export barrel: six lines of code re-exporting
+  `@heroiclands/content-build`'s diagnostics and one alias. Ten of its thirteen
+  consumers imported a single symbol from it, so it saved nothing — one import
+  line either way — while costing a reader an indirection and, worse, a rename:
+  `reportDiagnostic` was `emitDiagnostic` wearing a different name, so grepping
+  this repository for the real one found nothing. Three of the six re-exports had
+  no caller at all.
+  
+  Every call site now names what it actually uses — `emitDiagnostic` and
+  `positionOfLiteral` — from the package that defines them.
+  
+  `tests/build/lint-diagnostics.test.ts` goes with it: it tested content-build's
+  `formatDiagnostic`, `emitDiagnostic` and `locateInText` through the barrel, and
+  content-build tests the first two itself. The third no longer exists anywhere.
+- d1aaf14: Let armour record which side of a covered location it actually protects.
+  
+  **The gap.** Coverage was directionless, so a cloak — which hangs down the back and
+  protects the torso and legs from behind only — read as full torso and leg protection,
+  identical to a garment that wraps all the way round. A breastplate is the mirror case.
+  
+  **The model.** `system.locations.facing` lists the covered locations an article protects
+  from one side alone, as `{ location, side }` with side `front` or `back`. An absent entry
+  means "protected from any direction", so every all-round article ships an empty list and
+  nothing needs migrating.
+  
+  Directional coverage is genuinely the exception, so it is modelled as an exception list
+  rather than a qualifier on all 309 armour articles. The thirteen cloaks now cover the
+  shoulders all round, and the thorax, abdomen, pelvis, thighs, knees and calves to the
+  rear — locations most of them were not recording at all, which is why a cloak read as
+  barely more than a mantle. The two breastplates mark their torso as front-facing;
+  cuirasses are all-round rigid and are left alone.
+  
+  **One-sided articles cost half.** A breastplate is literally the front half of a cuirass,
+  and the table prices it that way — 60d / 4.6 lb against the cuirass's 120d / 9.1. Cloaks
+  were priced as though their rear coverage were full, so all thirteen are rescaled by the
+  same factor, which keeps every material's relative pricing intact: the base cloth cloak
+  moves from 66d / 3.3 lb to 34.5d / 1.7, matching coverage of 0.345 against the cloth base
+  price of 100.
+  
+  **Data now; resolution when outnumbering lands.** The rules never ask which way a
+  combatant is pointing. They settle one-sided armour by circumstance, and the two cases
+  are not mirrors: rear-facing armour is ignored against one aware foe who can keep to your
+  front, and applies 50% of the time against several (d10 versus TN 5), while front-facing
+  armour is ignored when you are caught unaware from behind, and applies 70% of the time
+  against several (d10 versus TN 7). Both need the opponent count, awareness and a die
+  rather than an angle — so the clause becomes mechanizable as soon as the outnumbered rule
+  supplies the first, and this field is its input, marking which Armour Value is subject to
+  it at all. A hauberk wraps and is never ignored; a cloak's rear protection is exactly what
+  an aware opponent steps around.
+  
+  What stays out of scope is deriving the angle itself from token rotation. The rules
+  deliberately abstract that away, and computing it would have the system make a ruling
+  they left open.
+  
+  `armorFacingFor()` answers which side a layer protects, and a content spec fixes which
+  articles are one-sided so that adding another — a backplate, say — is a deliberate act.
+  
+  Closes #1331.
+- 670644d: **The item-frontmatter page is generated by a command.** `content-build` 1.3.0
+  renders the whole page rather than only its tables, so
+  `utils/build-item-fields-doc.mjs` is gone: `docs:item-fields` is
+  `content-build docs item-fields`, and `lint:item-fields` is the same with
+  `--check`.
+  
+  What the script held that the command could not was the page's framing — its
+  title, where it is filed, and the "See also" line and orientation a reader gets
+  before the tables. That is now `docs.itemFields` in
+  `content-build.config.yaml`.
+  
+  The regenerated page changes in three ways, all intended: the generated-by line
+  names the command; the worked example's fence says `markdown` rather than
+  `yaml`, which is what the block actually is; and the blank line after each
+  example's frontmatter is back, having been silently stripped by Prettier
+  formatting those blocks as YAML.
+- 54900f0: Style a link into a draft note, so the marking the content build emits is
+  visible (#1795).
+  
+  `@heroiclands/package-build` wraps a wikilink whose target carries the `draft`
+  tag in `<span class="sohl-draft-link" title="Draft — not yet written">…</span>`
+  (HeroicLands/package-build#183), leaving the `@UUID` inside live. The system
+  shipped no rule for that class, so in a compiled journal a link into an unwritten
+  note read exactly like a link into a finished one.
+  
+  `scss/components/_draft-link.scss` supplies it, beside `_unresolved-link.scss`
+  and following its conventions: unscoped, because compiled prose renders in
+  journal sheets, chat cards and tooltips rather than only under a `.sohl` frame;
+  `light-dark()`, because Foundry drives its themes through `color-scheme`; and an
+  overridable `--sohl-draft-link-color`.
+  
+  **Deliberately unlike the unresolved marking**, because the two say different
+  things — an unresolved link's target does not exist, a draft link's exists and
+  is unwritten. So this keeps the link's normal weight and marks it in amber with a
+  dashed underline, against the unresolved marker's bold red and dotted one. Both
+  colours are contrast-checked at 4.5:1 or better against the plausible sheet
+  backgrounds of their own mode.
+- 09780bb: Remove the `<type>-<shortcode>` self-alias from every note — 1,603 of them.
+  
+  Each note carried its own canonical address in its `aliases:` list, so
+  `affliction-hemotxn` appeared both as the note's address and as a name for it.
+  They have never been what makes the address work in either build.
+  
+  **Dead weight, verified rather than assumed.** Both resolvers reach
+  `[[affliction-hemotxn]]` through `readQualifier` → `type/shortcode`, not through
+  the alias table. Resolving the same link with the alias present and absent gives
+  the same answer in each:
+  
+  ```text
+  content-links   WITH alias => dead: []      WITHOUT alias => dead: []
+  web-wikilinks   typeAlias PRESENT => [Hemotoxin](/affliction/hemotoxin/)
+                  typeAlias ABSENT  => [Hemotoxin](/affliction/hemotoxin/)
+  ```
+  
+  **Removed by exact equality, never by pattern.** The test is
+  `alias.toLowerCase() === `${type}-${shortcode}`.toLowerCase()`. A rule phrased as
+  "drop any alias containing a hyphen" would have destroyed real names, and this
+  tree has plenty: `Absent-Minded`, `Kûrbúl ¾-Helm`, `Plate 3/4-Helm`,
+  `Lockbox, iron-bound, large`. Every entry that was not the note's own address was
+  left exactly as authored — including every hyphenated one, and including notes
+  that carried both forms:
+  
+  ```diff
+   aliases:
+     - Absent-Minded
+  -  - trauma-absntmd
+  ```
+  
+  **A minimal diff, textually.** The sweep edits the frontmatter _text_ rather than
+  reparsing and reserialising it. An earlier pass through `matter.stringify`
+  touched 3,407 lines it had no business touching — unquoting `description:`,
+  reordering keys — which is noise that hides the real change and risks altering
+  values. The final diff is 1,936 deletions and 333 insertions: 1,603 alias lines,
+  plus 333 `aliases:` keys rewritten to `aliases: []` where the removal emptied the
+  block, because a bare `aliases:` parses as null rather than as an empty list.
+  
+  Every file was checked against an invariant before being written: the body must
+  be byte-identical, and the parsed frontmatter must match apart from the removed
+  alias. That check caught two defects during development — a dropped `---`
+  delimiter, and a `name.aliases:` that was _already_ null being rewritten to `[]`.
+  
+  **Nothing moves.** `content-build links` and `content-build lint` produce
+  identical output before and after:
+  
+  ```text
+  1607 notes: every anchor link lands and every qualified address resolves
+  (21 cross-package reference(s) via manifest), no wikilink in frontmatter,
+  every homepage address resolvable.
+  ```
+  
+  **Why now.** A note that lists its own address among its names makes an address
+  and a name collide on the same note, which is exactly the ambiguity a
+  single-hit resolution rule has to be able to report. Clearing them is a
+  prerequisite to retiring the field, and it is worth doing on its own merits
+  regardless.
+- 44f5feb: Give the remaining 114 animals a body structure and natural weapons, so every
+  creature in the animals pack can now be hit and can now attack
+  ([#1240](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues/1240)).
+  
+  Before this, all but a handful shipped with an **empty** `system.body.structure`
+  — which reads as _incorporeal_ — so `getRandomLocation` could not resolve a hit
+  on a wolverine, a giant spider or an elephant bird, and none of them had an
+  attack to make.
+  
+  **Fifteen body plans.** Each mirrors the shape of a printed hit-location table
+  where one exists and extrapolates the same construction where none does:
+  `ungulate`, `carnivore`, `smallQuadruped`, `anthropoid`, `smallAvian`,
+  `largeAvian`, `biped`, `drake`, `serpentine`, `proboscidean`, `arachnid`,
+  `insect`, `aquatic`, `chelonian`, `cephalopod`. Zone weights scale with the
+  creature's size band; part and location weights are the plan's own. Apes and
+  monkeys use the **human** plan unchanged — the same six parts and thirty-two
+  hit locations a Being carries — over a zone run scaled to their size, so a
+  monkey's zone numbers run 1–6 where a person's run 1–15.
+  
+  **Natural weapons.** One Combat Technique per attack the creature's own Dossier
+  describes — a wolverine's raking claws and bone-crushing bite, a scorpion's
+  pincer and sting, an octopus's tentacle grapple.
+  
+  **Derived numbers.** Reach, zone die, attack value, impact and natural armour
+  are extrapolated from the printed animals rather than invented freely: impact
+  tracks Strength (`d6` bite = `STR ÷ 2 − 5`, fitted to the printed bites; a claw
+  is one lower on a `d8`; a constrictor's grab equals its Strength), attack tracks
+  Agility off a `40 + 2 × AGL` baseline shifted per body plan, the zone die scales
+  with how many zone numbers the body spans, and natural armour follows the same
+  Strength ladder the printed rows sit on, shifted by a per-creature hide value.
+  Each creature's `bodyScaleBase` is seeded from its own Strength.
+  
+  The specification in `tests/content/animal-abilities.test.ts` now also asserts
+  the invariants that hold for **every** animal, printed or derived: contiguous
+  gap-free zone numbers, no orphaned parts or locations, no part without a hit
+  location, uniform natural armour, a Strength-derived body scale, and at least
+  one usable combat technique whose impairing role the body actually has.
+- a3d921d: Fill the twelve rules documents that were one-word stubs
+  ([#1293](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues/1293)).
+  
+  Nine Divination pages, _Coma_, _Physical Condition_ and _Aural Shock_ each held
+  the single word "TBD" — every one of them linked from a parent introduction, so a
+  reader following the corpus landed on nothing. An empty page reads as a defect.
+  
+  **Divination is now a chapter rather than a list of titles.** Its introduction
+  carries what all the arts share: a divination is invoked as a Success Test, and
+  the success level buys the _quality of the reading_ — a Critical Failure being a
+  false reading the diviner has no inkling is false, a Marginal Failure silence, a
+  Marginal Success a true but partial answer, a Critical Success a clear one. The
+  answer itself is always the gamemaster's; the roll settles only that the
+  character learned something, and how well. Asking the same question of the same
+  art again returns the first answer, so a false reading is corrected by events
+  rather than by rolling again.
+  
+  The seven arts are then written to be told apart in play — each with its medium,
+  what it requires, how long it takes, and what it can actually answer:
+  
+  | Art          | Reads                                                   |
+  | ------------ | ------------------------------------------------------- |
+  | Astrology    | Influences over months and years; the shape of a life   |
+  | Augury       | Whether an imminent undertaking is favoured             |
+  | Cartomancy   | The human situation around a person                     |
+  | Haruspicy    | Conditions — sickness, poisoning, blight, corruption    |
+  | Rune Casting | One narrow question, tersely                            |
+  | Scrying      | What a distant place, person, or thing is actually like |
+  | Tasseomancy  | The drinker's own near future, health, and concerns     |
+  
+  **Fate** keeps its page in the chapter, explaining why it is counted a divination
+  at all — the only one performed on oneself, and the only one that changes what it
+  reads — and hands the mechanics to _Fate Points_ rather than restating them. The
+  _Fate Test_ stub is removed: the Resolution chapter owns that term, and a second
+  account of the same roll is what this work exists to avoid.
+  
+  **Coma and Aural Shock get the accounts that were filed elsewhere.** Both already
+  had substantive text under an anchor on another page, which meant each rendered
+  twice — once as a real page under its owner and once as a stub bearing its name.
+  _Coma_ moves out of _Shock_ and _Aural Shock_ out of _Psychological Condition_,
+  each to the page a reader looks for it on, with the former hosts linking across.
+  Neither text is duplicated.
+  
+  **Aural Shock is also stated in full for the first time.** Its effect is total,
+  not a penalty: every Mystical Ability is unusable, every Mystery is unavailable —
+  Boons and Boosts stop granting what they grant, and the rest keep their values
+  but cannot be reached — the Aura attribute cannot be rolled, and every
+  Aura-based skill is unusable with it. The Mysteries and Mystical Abilities
+  introductions now say so too.
+  
+  **Physical Condition** is written from scratch as the bodily counterpart of a
+  psychological condition: a lasting state of the body that is not a wound, graded
+  _trait_ → _impediment_ → _debility_, arriving by birth, by permanent impairment
+  left behind by a healed wound, by privation, or by restraint. It runs no course
+  test and no recovery test — it ends when its cause does, or not at all — and
+  _Immobilized_ is stated on its own, since a pinned limb keeps its grip where an
+  unusable one does not.
+- e947411: Fail the build when a vendored link manifest cannot be addressed (#1664)
+  
+  A cross-package `[[type-shortcode]]` is resolved through a key this build
+  derives, and the manifest is written with a key the _publishing_ build derives.
+  When those shapes drift apart the lookup cannot match on any input — and because
+  an unresolved wikilink falls through to its own display text, every page still
+  reads correctly and nothing reports a thing.
+  
+  **What changed**
+  
+  - `unaddressableForeignPackages` reports any foreign package that contributes
+    manifest entries of which _none_ yields a readable canonical key, and both
+    `build-kb-content` and `check-content-links` now fail on it. Partial drift is
+    deliberately not reported: it resolves something, and the rest surfaces as an
+    ordinary dead address pointed at the note that cites it.
+  - The finding is reported through `lint-diagnostics` as
+    `file:line:column: error: message`, locating the offending key in the manifest
+    itself, so the diagnostic names the file at fault rather than the notes that
+    cite it. The position is dropped rather than guessed when the key cannot be
+    located.
+  - Removed the dead slash-splitting type seeding left behind in
+    `check-content-links` when keys became canonical; foreign types are seeded
+    from the manifest entries themselves.
+  
+  A manifest that publishes no entries is not a finding — a pack-only package
+  publishes no addressable pages by design, and one being brought up publishes
+  nothing yet.
+- 44f5feb: Give the Cave and Forest Goblins the same body structure as Grukar-Uk — the
+  six-zone anatomy, with head and arms sharing zone numbers 1–2, the torso
+  3–4 and the legs 5–6, and its per-location natural armour. Both previously
+  carried the human plan's fifteen zone numbers and bare skin. Nothing else on
+  either goblin changes.
+- 3620ea5: Changed: the Gold Crown is a coin, not a bullion slug.
+  
+  It weighed an ounce — 28.35 g, eight florins, more than three English nobles.
+  Nothing in the medieval record is close. The florin was 3.5 g and the coins that
+  copied it across three centuries, the ducat, the forint, the gulden, all held to
+  that same standard.
+  
+  The crown now weighs 0.0077 lb, about 3.5 g, and like the pence it is alloyed
+  rather than pure — a coin of fine gold wears away in the purse. At roughly the
+  sterling standard it carries about 34d of gold and passes for 35d, the mint
+  keeping the difference.
+  
+  A crown is thirty-five pence.
+- 868968a: Added: a common and a noble grooming kit.
+  
+  There was one Grooming Kit at 20d, which is neither what a labourer carries nor
+  what a great house keeps.
+  
+  The common kit is 12d and half a pound: a whittled boxwood comb, a boar-bristle
+  brush, plain soap and a linen handkerchief, rolled in cloth. No mirror and no
+  razor — a man who needs shaving goes to the barber on market day.
+  
+  The noble kit is 240d and two pounds: a carved ivory comb, a silver-backed
+  hand-mirror, a silver-mounted razor, silver tweezers, fine perfume and a square of
+  fine linen, in a velvet-lined case closing on a silver hasp. It is not a
+  travelling kit so much as a possession, and a servant carries it.
+  
+  Both are costed from their contents, and the existing 20d kit now sits between
+  them as the middling sort.
+- b23c944: Bring Grukar-Hai Strength down from 21 to 16
+  ([#1247](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues/1247)).
+  
+  Human Strength is rolled on `3d6`, so it runs 3 to 18 — **18 is the strongest a
+  human can possibly be**. At 21, on a frame the entry puts at 5.5 to 6.5 feet,
+  every Grukar-Hai was stronger than any human who has ever lived, at the same
+  height. They were also far out of step with their own kin (Ahk 13, Uk 12, Sha 6).
+  
+  At 16 a typical Grukar-Hai is stronger than 95% of humans and still the
+  strongest of the Grukar by a clear margin, and the species tops out at 19 on its
+  roll formula — just past peak human, which is the right shape for a warrior
+  species.
+  
+  Strength cascades, so all of it moves: body scale 1.91 → 1.45, the Punch
+  technique `d6+3` → `d6+0`, Shock 50 → 43, and the roll formula to `1d6+13`.
+  
+  Grukar-Uk drops 12 → 11 and Grukar-Sha rises 6 → 9. Sha at 6 was frailer than a
+  child; at 9 it is still the weakest of the four without being feeble. Body scale
+  follows to 1.0 and 0.82, and Sha's Punch goes `d6-5` → `d6-3`.
+  
+  Both also had their six creature skills carried over wholesale from another
+  species' stat block rather than derived from their own attributes, which left
+  them describing a creature neither of them is. All six now follow the same fits
+  the animals use. Uk, whose Perception, Aura and Will are 7, 5 and 6, drops
+  sharply — Awareness 55 → 35, Initiative 50 → 24, Dodge 50 → 28, Shock 55 → 30.
+  Sha, the clever and frail one at Perception 16 and Reasoning 17, gains where it
+  should and loses where it should: Awareness 55 → 75, Stealth 40 → 65, Dodge
+  50 → 56, Shock 55 → 20.
+- 44f5feb: Give the Helthraals and the Nightwights the human body plan
+  ([#1240](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues/1240)).
+  
+  Both already carried the human parts and hit locations, but **every zone weight
+  was 0** — a zone of weight 0 claims no zone numbers, so each had a
+  `maxZoneNumber` of 0 and no blow could resolve a hit location on either of
+  them. They now take Basic Folk's structure, zone numbers 1–15, and a body scale
+  derived from their own Strength rather than a flat 1.0. Their items are left
+  alone.
+  
+  Both move out of the specification's no-anatomy allowlist and are now checked
+  like every other creature.
+- 3620ea5: Fixed: Hide, Exotic had no weight.
+  
+  It carried a value of 120d and a weight of 0, so it could be bought but never
+  weighed, encumbered nothing, and could not be priced by the ounce the way the rest
+  of the hides can. It now weighs 22 lb, the same as a cowhide, being a whole skin
+  of comparable size — which puts it at about a third of a penny the ounce against
+  the cowhide's fifteenth, as an exotic skin should be.
+- 3620ea5: Changed: the hides say what you are buying.
+  
+  Their neighbour spells out "Leather, Tanned, per sq yard", but a hide said nothing
+  about its unit, so there was no way to tell from the entry whether the price was
+  for a skin, a pound or a yard of it. Each now ends "Price is for one whole skin."
+  
+  Whole skins are the right unit, and the weights say so: they run from a tenth of a
+  pound for ermine to twenty-two for a cowhide, which is the size of the animal
+  rather than the thickness of its hide. That is also how the trade ran — the tanner
+  buys skins whole from the butcher and sells leather by the yard, which is the split
+  already in the compendium between the hides and the tanned leather.
+- 3620ea5: Fixed: three hides were worth nothing.
+  
+  Hide, Cow, Hide, Elk and Hide, Kip all carried a value of 0d, so a cowhide — the
+  commonest trade good in any tannery — was free.
+  
+  Orbis Mundi prices a green hide to be worked at 3d and a finished one at 6d to
+  24d, "or more depending on how common source animals are locally". The rest of
+  the hides already sit in that band: deer at 6d, horse 10d, ox 12d, calf and
+  reindeer 16d, seal and otter 24d, with beaver at 30d and ermine at 45d above it as
+  furs. The three that were free now join it — cow at 24d as the largest, elk at 10d
+  between deer and ox, and kip at 8d below calf.
+  
+  The armour material ratios are deliberately not used here. They price made-up
+  armour by the square yard, not whole raw skins, which is why they read ermine at
+  about 3d the ounce where the pelt is 45d: a different thing measured a different
+  way. Beaver agreeing with them exactly is a coincidence.
+- 19fca92: Hoist the pack pipeline's hardcoded constants and paths into configuration (#1508)
+  
+  Everything the compendium build knew about _this_ repository's layout is now
+  declared in one file at the repository root, `content-build.config.mjs`,
+  validated by `defineConfig` from the shared `@heroiclands/content-build` package.
+  Nothing under `utils/packs/` spells a path, a package name, or a pack list of its
+  own.
+  
+  **What became configuration**
+  
+  | Was                                                                                                       | Now                                                                                                         |
+  | --------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+  | `SOURCE_PACKS` and `PACK_CONFIGS` — two lists that had to agree                                           | one `packs` list; the compile order is derived from it as `packDirectories`                                 |
+  | six working-directory-relative paths across three modules                                                 | `paths`, each resolved against an absolute `rootDir`                                                        |
+  | `path.resolve(dest, "..", "items")` — an unwritten sibling-directory contract                             | the actors compiler is handed `itemsSourceDir`, named from the configured Item pack                         |
+  | `systems/sohl/assets/…` inside `resolveImg`                                                               | a derived `assetRoot` of `<packageKind>/<foundryPackage>/assets`, so a module emits `modules/<id>/assets/…` |
+  | `systemId` / `lastModifiedBy` written into `buildStats`, and `"0.6.0"` passed by four separate call sites | one `stats` block                                                                                           |
+  | a directory named `Templates` skipped inside the generic tree walker                                      | `skipDirectories`, an Obsidian convention a consumer declares                                               |
+  
+  **Two blockers to extraction, closed**
+  
+  _The manifest is located once._ `supportedCoreVersion` resolved
+  `system.template.json` by a path relative to its own module — correct while the
+  toolchain is vendored, and pointing inside `node_modules/` the moment it is
+  installed. It and the package-id guard added in #1503 now resolve the same
+  configured directory through one function, which also accepts a module
+  repository's `module.template.json`. The read still throws rather than falling
+  back: a wrong `coreVersion` stamped into every shipped pack is worse than a
+  failed build.
+  
+  _The core version stays derived._ Configuration supplies **where the manifest
+  is**, never the version itself. `compatibility.minimum` moves with test
+  evidence, and a captured copy would silently stop following it — the shape of
+  defect #1533 was. Moving the floor in the manifest still moves the stamp in
+  every compiled pack with no config change.
+  
+  `compilePacks` / `unpackPacks` / `cleanPacks` and `generatePacksJson` also take
+  an optional `config`, defaulting to this repository's, so a caller can compile
+  another package's tree without the working directory deciding anything. #1547's
+  guard-order test is re-expressed against that seam: it induces package-id drift
+  by handing the library a config rooted at its sandbox, because a drifted
+  manifest merely sitting in the working directory is now — correctly — ignored.
+  Its assertions are unchanged, and it was re-confirmed to fail on the
+  "nothing was written" check when the guard is moved to the end.
+  
+  Pack output is byte-identical to the pre-change build. `_stats.systemVersion`
+  keeps its stale `0.6.0` on purpose; correcting it rewrites every document and is
+  tracked separately in #1548.
+- 868968a: Added: horn as a material, distinct from bone and from ivory.
+  
+  The Jewelcraft table priced "Bone or horn" on one line, but no horn material
+  existed — only bone for carving. Horn is now its own entry at 0.5d the pound,
+  twice bone, and the table carries Bone at 1d the ounce and Horn at 2d separately.
+  
+  Horn here is cattle horn and the antler of deer and elk: common, worked daily by
+  combmakers and hafters, and unlike bone it can be softened in hot water and
+  pressed flat. It is not ivory, which comes from far off and costs eight times as
+  much.
+  
+  Orbis Mundi does not price bone against horn, but it does price horn at twice wood
+  twice over — book covers at "Wood, ½-¾d; Horn, 1-1½d" and ink horns at "Wood, 1-2d;
+  Horn, 2-3d" — so a doubling for horn is the shape the source already uses.
+- 6ebc6ef: Address an item's documentation with a `doc<type>` wikilink
+  ([#1362](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues/1362)).
+  
+  Since an item's prose began compiling to its own JournalEntry, an item and its
+  documentation have been **two documents in two packs** with only one address
+  between them. A section link to an item note therefore compiled to a
+  `JournalEntryPage` id under the _items_ pack — a page id on a document that
+  cannot hold pages — and dead-ended. Nothing reported it: the anchor was really
+  declared in the target note, so the link checker passed it.
+  
+  **Every item type gains a virtual `doc<type>` counterpart.**
+  
+  | Wikilink                     | Addresses                                |
+  | ---------------------------- | ---------------------------------------- |
+  | `[[skill/wpnc]]`             | the Skill **Item**                       |
+  | `[[docskill/wpnc]]`          | that skill's **JournalEntry**            |
+  | `[[docskill/wpnc#crafting]]` | the `{#crafting}` **page** of that entry |
+  
+  The qualifier is formed by prefix and never enumerated, so a type added tomorrow
+  is addressable the day it is authored. A real content type of the same name
+  always wins.
+  
+  **An anchor on an Item, an Actor or a Macro is now a no-op.** A link to a
+  JournalEntry opens the journal, at its first page or at the page an anchor
+  names; a link to an Item or an Actor opens that document's _sheet_, not its
+  documentation, and a sheet has no sections to address. The anchor is therefore
+  dropped rather than turned into a page id the document can never hold.
+  
+  **The knowledgebase reads the same link differently, by design.** There an item
+  note renders as one page which _is_ its documentation, so `doc<type>` and
+  `<type>` are aliases for the same URL and the anchor stays an ordinary in-page
+  anchor. One authored link, correct in both builds.
+  
+  `makeId` moved to its own leaf module, `utils/packs/ids.mjs`, and is re-exported
+  from `helpers.mjs` for the passes that already reached it there. Link resolution
+  needs to derive an item doc's entry id, and `helpers.mjs` imports the link
+  resolver; a leaf with no local imports can be depended on from either side. The
+  derivation is unchanged — `itemDocEntryId("j33FxOHddwk3WYnE")` still yields
+  `b314163233099f73`, so no compiled id moves.
+- a55766b: _Item descriptions now live in the journals compendium, once._
+  
+  An item note's prose compiles into that item's **item doc** — a JournalEntry in
+  the journals pack, in the same folder and under the same name as the item — and
+  the item's description becomes nothing but a link to it. The runtime already
+  treats a description that is only a link as a pointer and shows what it points
+  at, so **Display Description** posts the prose exactly as before.
+  
+  **What this fixes.** Every actor carrying an item carried its own copy of that
+  item's description: 7.59 MB across the actors pack, of which only 133 KB was
+  distinct text — a duplication factor of 58. Fixing a typo in one item
+  description left 57 stale copies on a single character. The prose now exists in
+  one place, and every copy of it is a link to that place.
+  
+  |                                             | Before  | After  |
+  | ------------------------------------------- | ------- | ------ |
+  | Embedded description across the actors pack | 7.59 MB | 391 KB |
+  | Actors pack                                 | 8.3 MB  | 2.8 MB |
+  | Items pack                                  | 1.4 MB  | 520 KB |
+  | Journals pack                               | 688 KB  | 1.7 MB |
+  
+  **Nothing about actors changed.** The actors pass still embeds each item
+  wholesale; what it embeds is now a link. Nor did the authoring change: content is
+  still one Markdown file per item, and its body is still the description — only
+  where the build puts it has changed.
+  
+  An item note's body splits into pages on its H1 headings, as a journal note's
+  does, and the description points at the first. A note with no headings — which is
+  every shipped item today — is a single page named after the item. An item with no
+  prose gets no entry and an empty description rather than a pointer to nothing.
+  
+  Closes #1348.
+- 368a1da: Retire five item-frontmatter fields that never reached a saved document.
+  
+  Adopting `@heroiclands/package-build` 9.0.0 crosses its 8.0.0, which stopped
+  emitting five `system` fields no SoHL DataModel declares. Foundry discarded every
+  one of them at construction, on every compiled document, silently:
+  
+  | type             | retired field                                            |
+  | ---------------- | -------------------------------------------------------- |
+  | `affliction`     | `isTreated`                                              |
+  | `trauma`         | `isTreated`, `isBleeding`                                |
+  | `projectilegear` | `impactBase.overrideDice`, `impactBase.overrideModifier` |
+  
+  **Two were never storable.** `isTreated` and `isBleeding` are _derived_ on the
+  logic classes — `AfflictionLogic.isTreated` is `treatmentDate != null`, and
+  `TraumaLogic.isBleeding` is `bloodLossAdvanceDurationBase != null`. Nothing
+  replaces them: an untreated affliction is one whose `treatmentDate` is unset,
+  which is already its initial value.
+  
+  **The projectile overrides are removed rather than added to the DataModels**,
+  because nothing wants them: no DataModel declares them, no logic class reads
+  them, no localization key names them. A launcher-versus-ammunition override may
+  be worth having, but it would have to be designed in the system first.
+  
+  `kb/dev-docs/content-creator/item-frontmatter.md` is regenerated accordingly. No
+  note in this repository authored any of the five, so no content changes — but a
+  note that does is now an unknown-key error rather than a value quietly dropped.
+  
+  **Bump**
+  
+  _Minor._ Three of the five were part of the authored frontmatter vocabulary. No
+  change to stored data, emitted documents, or the manifest.
+- 3620ea5: Changed: Jewelcraft now prices the jeweller's work, not just his metal.
+  
+  The rule read a piece as the weight of its base form times the price per ounce of
+  its material, and nothing else. That works while the metal is precious and worth
+  more than the labour, and collapses as soon as it is not: a copper chain is the
+  same work as a silver one, but the rule made it worth half a penny.
+  
+  A piece is now worth its metal plus **6d for every day at the bench**, reckoned at
+  a day to the ounce and never less than a day.
+  
+  Six pence a day is what a premium trade already earns here. Weaponcraft gives
+  materials and hours for each weapon, so its labour can be read off directly
+  against the finished prices: a broadsword is 12d of stock and 240 hours against a
+  sale of 160d, which at the ten-hour day the crafting rules set is 6.2d a day.
+  Across thirteen weapons the rate runs 4.75d to 7.67d, median 6.17d. Ceramics and
+  Glassworking net about half that once their materials are taken out, which is the
+  difference between a potter and a goldsmith.
+  
+  The base-metal articles come back to roughly where they were before the metals
+  moved: a copper amulet at 12d against the 12d it carried, a copper ring at 6d
+  against 6d. The gold and silver pieces are dominated by their metal, as they
+  should be, and barely notice the new term.
+  
+  The Expense note is reconciled with it: the entry gave a flat 3d6 days, which no
+  longer squares with a day to the ounce.
+- 3620ea5: Added: tanned leather and linen cloth to the Jewelcraft material table.
+  
+  Neither could be priced by the rule before, though both turn up in jewellery
+  constantly — a thong, a cord, a backing, a lining.
+  
+  Both come from the armour material ratios, where cloth is the index. Linen is
+  given there as 6 oz and 4d the square yard, so ⅔d the ounce. Leather is twice
+  cloth's value at four fifths its weight, and since linen's 50%/25% fixes cloth
+  itself at 8d and 24 oz the square yard, leather is 16d and 19.2 oz — ⅚d the ounce.
+  
+  That derivation checks out against the compendium: the same ratios put beaver at
+  1¼d the ounce, and the Hide, Beaver entry is 30d for a pound and a half, which is
+  1¼d the ounce exactly.
+- 3620ea5: Added: silk and silk cord to the Jewelcraft material table.
+  
+  Silk is 6d the ounce, from the armour material ratios: nine times cloth's value at
+  half its weight, and cloth is 8d and 24 oz the square yard, so silk is 72d and 12
+  oz — 6d the ounce.
+  
+  Silk cord is 25d, and is not the same thing. Cordage is spun and braided rather
+  than woven, and is priced by length, so it costs several times the cloth by
+  weight; the compendium already sells silk rope at 32d the foot for a ½" line
+  weighing 0.08 lb, which is 25d the ounce. A jeweller stringing beads or hanging a
+  pendant buys the cord, not the cloth, and a cord weighs almost nothing — a few
+  hundredths of an ounce — so it adds pennies to a piece rather than shillings.
+- 3620ea5: Added: wood to the Jewelcraft material table.
+  
+  The table listed bone or horn but no wood, so a wooden piece could not be priced
+  by the rule at all.
+  
+  Wood is ¼d the ounce. That is well above the timber a woodworker buys — the
+  Woodworking entry reckons 1d per 30 lb — because a jeweller is not buying
+  building stock but small, selected, seasoned pieces chosen for grain and colour,
+  and well below the 1d an ounce that bone or horn fetch.
+- 868968a: Added: brooches, anklets and circlets, and every jewellery shape in bone, horn and
+  ivory.
+  
+  The folder carried four shapes in five materials. A character could not buy a
+  brooch to pin a cloak, an anklet, or a circlet, and nothing at all could be had in
+  bone, horn or ivory though all three sit in the material table.
+  
+  Thirty-three articles are added: brooch, anklet and circlet in bronze, copper,
+  gold and silver, and all seven shapes in bone, horn and ivory. Every one is priced
+  by the Jewelcraft rule rather than by hand — its metal by weight, plus 6d for each
+  day at the bench, a day to the ounce, and a quarter longer again for cast bronze.
+  
+  A bone ring is 6d and a gold necklace 1224d, which is the range the rule gives when
+  the material runs from a penny the ounce to three hundred.
+- 5a0e1b0: Add rings, earrings, amulets and necklaces in five materials — twenty finished
+  pieces of jewelry.
+  
+  The Jewelry folder carried **materials** and nothing made from them: gold, silver,
+  copper/bronze and two dozen cut stones, all priced by the ounce. A character could buy
+  the metal but not the ring. These twenty articles fill that gap across four forms and
+  five materials, priced from the material notes already in the tree (gold 1200d/oz,
+  silver 60d/oz, copper and bronze 1d/oz, wood negligible) plus the jeweller's labour,
+  which dominates the cost of the base-metal pieces and disappears into the metal on the
+  gold ones.
+  
+  Earrings are priced and weighed as a **pair**; the rest are single articles. Durability
+  tracks the metal rather than the form — gold is soft and takes 2, silver and copper 3,
+  bronze 4, wood 2.
+  
+  | Article          | Code             | Weight | Value | Durability |
+  | ---------------- | ---------------- | -----: | ----: | ---------: |
+  | Ring, gold       | `ringgold`       |   0.03 |   600 |          2 |
+  | Ring, silver     | `ringsilver`     |   0.03 |    40 |          3 |
+  | Ring, bronze     | `ringbronze`     |   0.03 |     8 |          4 |
+  | Ring, copper     | `ringcopper`     |   0.03 |     6 |          3 |
+  | Ring, wood       | `ringwood`       |   0.02 |     2 |          2 |
+  | Earrings, gold   | `earringsgold`   |   0.02 |   400 |          2 |
+  | Earrings, silver | `earringssilver` |   0.02 |    30 |          3 |
+  | Earrings, bronze | `earringsbronze` |   0.02 |     5 |          4 |
+  | Earrings, copper | `earringscopper` |   0.02 |     4 |          3 |
+  | Earrings, wood   | `earringswood`   |   0.01 |     2 |          2 |
+  | Amulet, gold     | `amuletgold`     |   0.10 |  2000 |          2 |
+  | Amulet, silver   | `amuletsilver`   |   0.10 |   120 |          3 |
+  | Amulet, bronze   | `amuletbronze`   |   0.10 |    14 |          4 |
+  | Amulet, copper   | `amuletcopper`   |   0.10 |    12 |          3 |
+  | Amulet, wood     | `amuletwood`     |   0.06 |     4 |          2 |
+  | Necklace, gold   | `necklacegold`   |   0.25 |  5000 |          2 |
+  | Necklace, silver | `necklacesilver` |   0.25 |   300 |          3 |
+  | Necklace, bronze | `necklacebronze` |   0.25 |    35 |          4 |
+  | Necklace, copper | `necklacecopper` |   0.25 |    30 |          3 |
+  | Necklace, wood   | `necklacewood`   |   0.15 |     8 |          2 |
+  
+  All twenty are `miscgear`, crafted with **Jewelcraft** (secondary Metalcraft, or
+  Woodcraft for the wooden pieces), and sit in the existing Jewelry folder.
+- c5dd887: **The knowledgebase landings stop dumping the corpus under the reading path** (#1322)
+  
+  `/rules/` ended with a heading reading _All Rules pages_ and a flat list of **59**
+  pages — most of the corpus, piled underneath the carefully ordered chapter list it
+  was supposed to complement. `/user-guide/` did the same with 14. Both read as though
+  the curated reading order above them were incomplete.
+  
+  The list is a gap-filler, added so that authoring a landing body could never silently
+  orphan a page. It stayed; only its idea of "reached" was wrong.
+  
+  - _Reachability is now transitive._ Both corpora are hierarchies — the rules landing
+    links ten chapter introductions and each of those links its own pages, up to four
+    hops deep (root → Trauma → Body → Injury → Bleeding). Testing only what the landing
+    linked **directly** counted every page below the first hop as a leftover. A page now
+    counts as reached when the body links it, or when any page already reached links it:
+    the same rule `utils/check-content-links.mjs` enforces for these corpora.
+  - _A link with a fragment counts._ The match demanded a closing quote immediately
+    after the URL, so the rules landing's own link to the Characters chapter
+    (`…/characters-introduction/#body-structure`) did not register and that chapter read
+    as unlinked. Every `RelPermalink` ends in a slash, so dropping the closing quote
+    cannot bleed into a sibling.
+  - _The heading says what the list is._ What survives a transitive walk is genuinely
+    unreachable by reading, so the heading is now **Orphaned Pages** rather than a claim
+    to be the section's full contents. Both curated landings now show none of it.
+  - _A curated landing no longer says "Nothing here yet."_ That is the right answer for
+    an empty auto-listed section and the wrong one for a landing whose hierarchy covers
+    everything — `/dev-docs/` had been printing it under a complete index.
+  
+  Verified by building the whole site before and after: exactly three pages differ —
+  `/rules/`, `/user-guide/`, and `/dev-docs/` — and every other page is byte-identical.
+  A page nothing links to still surfaces under _Orphaned Pages_.
+  
+  Closes #1322
+- 3d81073: **Label syncing is an Action, not a script this repository carries.**
+  `utils/sync-labels.mjs` is gone; `labels-sync.yml` calls
+  `HeroicLands/.github/actions/labels` instead.
+  
+  Every HeroicLands repository carried its own copy of that script — 95%
+  identical, and drifted in all three. Labels are neither a content tree nor a
+  Foundry package, so neither build toolchain was the right home; what the code is
+  is CI, so that is where it lives now.
+  
+  `utils/check-labels.mjs` keeps only the half no other repository could run:
+  that `.github/labels.yml` and §3 of `issue-reporting.md` agree. Validating the
+  registry itself — names, colours, duplicates, GitHub's 100-character
+  description limit — moved into the action with the sync.
+  
+  The workflow now also runs on a pull request touching the registry, reporting
+  what a sync _would_ change without writing. The set is closed, so a label
+  dropped from the file is deleted from every issue carrying it; that is worth
+  seeing in review.
+- 3620ea5: Fixed: tanned leather had no weight.
+  
+  Sold by the square yard, it carried a price but weighed nothing, so a bundle of it
+  encumbered no one. A square yard now weighs 1.2 lb — 19.2 ounces, which is the
+  figure the armour material ratios give for leather at four fifths the weight of
+  cloth. That also makes the entry agree with itself: 20d over 19.2 oz is 1.04d the
+  ounce, which is what the Jewelcraft material table charges for it.
+- ac50965: Model limb immobilization separately from the ability to hold items
+  ([#1269](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues/1269)).
+  
+  A body part had one notion of being out of action, so anything that pinned a limb
+  would also have disarmed it. That would make a constricting hold a disarm, and
+  leave a Grab that takes what the hand is holding with nothing to take.
+  
+  Being **immobilized** and being able to **hold** are now separate. `BodyPart`
+  carries one settable switch and two derivations, all Logic-only and rebuilt each
+  preparation cycle:
+  
+  | Source                            | Sets          | Follows                                      |
+  | --------------------------------- | ------------- | -------------------------------------------- |
+  | **Immobilized** trauma            | `immobilized` | nothing — **the grip is retained**           |
+  | Grievous injury                   | `isUnusable`  | `immobilized`, and the loss of `canHoldItem` |
+  | `permanentlyUnusable` (persisted) | `isUnusable`  | the same, permanently                        |
+  
+  ```
+  isUnusable  = permanentlyUnusable || <set during the lifecycle>
+  immobilized = isUnusable || <set during the lifecycle>
+  canHoldItem = canHoldItemBase && !isUnusable
+  ```
+  
+  So `isUnusable` is the single switch for "this limb is out of action", and
+  `immobilized` is the weaker state a hold produces on its own. A grievous injury
+  sets one property and the rest follows; `BeingLogic.finalize` does that once the
+  traumas have settled their levels.
+  
+  **A new Immobilized condition** — a `physcond` / `impediment` Trauma (shortcode
+  `immob`) — pins the limb owning the location it names, for as long as it exists.
+  It is an inspectable document on the character sheet, and deleting it frees the
+  limb on the next preparation cycle with nothing to unwind. A wrestler's grip and a
+  binding spell impart the identical condition, so a per-limb magical effect needs no
+  part-addressable Active Effect (which Foundry could not give it — body parts are
+  entities inside the Being, not documents).
+  
+  **A grievous wound now drops what the limb was holding.** The rules promised it
+  and no code did it. The write happens once, at the injury event, rather than as a
+  lifecycle side effect — so re-preparation never re-drops, and an item the player
+  picks back up stays put.
+  
+  **`BodyPart.canHoldItem` is now derived**, and every existing reader (the held-item
+  dropdowns, `limbsHolding` behind strike-mode gating) sees the effective answer. The
+  persisted capability is unchanged and still readable as `canHoldItemBase`.
+  
+  Restricting which defences a Grab may be met with — a pinned limb answerable only
+  by Ignore — needs an `allowedDefenses` capability that does not exist yet, and a
+  Grab to use it; it lands with
+  [#1266](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues/1266).
+- cbf19c6: **Linter findings now name a file, line and column, in a parseable form** (#1668)
+  
+  Every finding a `utils/check-*.mjs` linter emits is a single line in the form
+  every C-family compiler, `tsc` and ESLint already use, so an editor's error
+  matcher or a CI annotator resolves it with no knowledge of this repository:
+  
+  ```text
+  assets/content/Rules/Attributes.md:28:13: error: dead address [[doc-nosuchthing]] — no document has that identity
+  ```
+  
+  Before, a linter's output could not be acted on directly. Some findings named a
+  file and no line — `check-content-links` reported `  <file>: [[link]]`, so two
+  identical dead links in one note were indistinguishable and each had to be
+  hunted for. Others carried a line in an indented, ad-hoc layout no error matcher
+  reads. No two scripts agreed on a shape, so improving one improved only that
+  one.
+  
+  Sixteen scripts now report through one formatter, `utils/lint-diagnostics.mjs`,
+  under two rules: the path starts the line, and a field is dropped rather than
+  guessed — nothing defaults to `1:1`. Where a finding is about a literal the
+  linter matched, its position is recovered by search, with an occurrence count so
+  repeats land on their own columns. Where a finding is a property of the whole
+  file, the file alone is the locator.
+  
+  Exit codes and what each linter fails on are unchanged.
+- 29c31d8: **An unusable link manifest is now reported by file, not by package name**
+  (#1673)
+  
+  `check-content-links` reported a stale or unreadable cross-package manifest as
+  `  thalorna: manifest version 1, expected one of 4, 5` — naming the package,
+  while the comment above that code said the report existed so the failure would
+  point "at the file at fault". It now does:
+  
+  ```text
+  assets/manifests/thalorna.json: error: unusable link manifest: manifest version 1, expected one of 4, 5
+  ```
+  
+  This was the one finding in the lint chain still emitted as prose after #1668.
+  The path needed no new information — `loadForeignManifests` derives each package
+  name from the filename — so the manifests directory is now stated once and
+  shared by the load and the report, which keeps the two from disagreeing about
+  where it looked.
+  
+  Exit code and failure condition are unchanged.
+- 7ad8b55: **`system.json` is generated from `content-build.config.yaml`. The hand-authored
+  template is retired.**
+  
+  `assets/templates/system.template.json` was the last build input still written
+  as JSON by hand — and it declared facts this repository already declared: the
+  pack list twice in two formats, the package id twice, the Foundry range where
+  the config could only point at it. `package-build manifest` builds the whole
+  file now, and the generated `system.json` is byte-identical to the one shipped
+  before, all 24 keys and key order included.
+  
+  `utils/build-system-json.mjs` (143 lines) is replaced by
+  `utils/manifest-flags.mjs`, which computes only what cannot be written down: the
+  credits journal's `@UUID`, which exists only once the content tree has been
+  walked.
+  
+  Each pack now carries the `label` Foundry shows it under — the manifest used to
+  restate every pack's name and type beside one.
+  
+  The package-id drift guard and its test go with the template: the id is derived
+  from `package.json` `name` and declared once, so there is nothing left to
+  corroborate.
+- 8cb1b00: **Link-manifest addresses are recorded relative to their package** (#1465)
+  
+  A manifest entry gave a site-absolute path, so it asserted not just where a page
+  sits in its package but where that package is served. Every inbound cross-package
+  link then depended on the citing site agreeing with that mount point — and the day
+  a package moved, each of them failed the way the manifest exists to prevent: the
+  address resolves, an `href` is emitted, and only the reader finds the 404.
+  
+  - _An entry says `path`, not `url`._ It records the address inside the package
+    (`creature/grukar-ahk/`) and nothing about the package's own location.
+  - _The consumer holds the mount point._ `PACKAGE_BASE` in `utils/kb-manifest.mjs`
+    is one line per package, prefixed at resolve time. Repointing a package at
+    another path or another origin is that single string, not 1,473 rewritten
+    entries — and an absolute-origin base yields working absolute links.
+  - _The format version is bumped to 2 and the older shape is rejected._ The two are
+    indistinguishable to a consumer that just prefixes — a v1 `url` would become
+    `/thalorna/thalorna/…` — so a stale vendored manifest has to be an error rather
+    than a wrong link.
+  - _Both repositories emit and consume the new shape_, and the vendored
+    `thalorna` manifest is refreshed. Rendered links are unchanged for the current
+    single-origin layout.
+- ddf73be: **One marker for each kind of emphasis.** `lint:markdown` now enables MD049 and
+  MD050: `_emphasis_` and `**strong**`.
+  
+  Both are already satisfied everywhere — 1,663 files, zero findings — because
+  Prettier normalises to exactly this pair. That is why they are worth stating:
+  the convention held as a side effect of the formatter's default, so it would
+  have lapsed silently if that default changed or a path joined
+  `.prettierignore`.
+- 44f5feb: Build the twelve Mythic creatures from their bestiary entries
+  ([#1240](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues/1240)).
+  
+  All twelve shipped with an **empty** `system.body.structure` — which reads as
+  incorporeal, so no blow could resolve a hit location on them — no natural
+  weapons, and no skills.
+  
+  **The six dragons** take the Young, Mature and Old Dragon tables; fire and ice
+  share a stat block at each age. Each gains the printed attributes, weight,
+  ground and flying Move, the AWARE / INITIATIVE / SHOCK / SPIRIT / DODGE values,
+  and a seven-zone anatomy in the order the table prints it — head, forelegs, one
+  wing, torso, the other wing, hind legs, tail — with per-location natural
+  armour that runs from 10 on a young dragon's wing to 30 on an old one's flank.
+  Zone runs reach 25, 50 and 100 by age. Bite, Claw and Tail are melee combat
+  techniques; the Breath is a **missile** strike mode carrying the printed cone
+  range (40, 60 and 80 feet), with its declining impact bands recorded on the
+  strike mode.
+  
+  **Six more Mythic creatures** take their own entries: the Wýrè (Wyvern), Yélgri
+  (Harpy), Unicorn, Warg, Gryphon and Hirénu (Hippogriff). Each gets the body
+  plan its table prints — the wyvern's two-legged winged frame, the harpy's
+  winged biped with arms, the unicorn's ungulate anatomy with its horn as a hit
+  location, the warg's quadruped, and the two chimaeras' eagle forequarters over
+  equine or leonine hindquarters — plus per-location armour and one combat
+  technique per natural weapon.
+  
+  Press is a maneuver rather than a natural weapon and is not modelled, and the
+  harpy's javelin and stick are ordinary gear rather than techniques. Talents
+  with no corresponding skill (Immersion, Sensing, Telepathy) are left out.
+  
+  Ice dragons use the `fire` impact aspect for their breath, that being the only
+  elemental aspect the impact model defines.
+- 5dc028f: **Álverrik Tárvallor's age now agrees with his birthdate** ([#1237](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues/1237))
+  
+  His frontmatter carried `age: 34` against `birthday: 690/6/11`, which the current date of 720/1/1 makes 30. The age and the dossier prose are both corrected to 30.
+- 4094ed5: Restore the cross-references that the `type-shortcode` wikilink separator left behind (#1398).
+  
+  **Cross-type links resolve again on the knowledgebase.** The hyphen form was read
+  only by the pack compilers. The knowledgebase reached it by accident, through a
+  lookup that worked only when the link's source and target shared a type. Every
+  _cross-type_ link therefore lost its href and published as plain text: 152 of
+  them, including every reference from a Mystical Ability to the rules it is tested
+  under. The label still read correctly, so the prose looked intact.
+  
+  **The link checker sees them too.** `lint:content-links` resolved a target the same
+  narrow way, so a cross-type `[[type-shortcode#anchor]]` resolved to nothing and its
+  anchor went unchecked — silently, since an unresolvable target is treated as an
+  external reference. It now reads the qualifier with the pack compilers' own
+  `readQualifier`, so the check cannot drift from what the builds do.
+  
+  _Not addressed here:_ an unresolved `type-shortcode` still degrades to plain text
+  without failing the build, because the same form addresses content in packages this
+  build does not publish. That needs the single-source tree (#1385) to become
+  decidable, and is closed by #1414.
+- 37e88af: Moves to `@heroiclands/package-build` 0.5.0, which deleted its `text.mjs` —
+  a second implementation of the line-and-column arithmetic
+  `@heroiclands/content-build` already owns. Nothing here imported it after the
+  diagnostics barrel went, so this is the version bump alone.
+- 3620ea5: Changed: a penny is alloyed silver, not fine, and weighs 1.5 g accordingly.
+  
+  Pinning the coin at exactly one penny's worth of fine silver made it 1.13 g, which
+  is a quarter lighter than the medieval penny it is modelled on and thinner than
+  the flans that survive. Real coin was never fine metal: it was struck from an
+  alloy, and the mint took a charge for striking it.
+  
+  The pence now weighs 0.0033 lb, about 1.5 g, and its description says what it is —
+  alloyed silver, "sterling" where a crown keeps its standard and baser where it
+  does not, worth a penny because the crown says so rather than because of the metal
+  in it.
+- 7908b49: **The twelve Astrokýklos cusp birthsigns now ship as content** ([#1235](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues/1235))
+  
+  The wheel has twenty-four signs, not twelve: between each pair of consecutive principal signs lies a **cusp**. A character born on a threshold now has a sign to attach.
+  
+  Each cusp is a droppable Mystery (`other`) built exactly like a principal sign — one Active Effect per non-zero element, adjusting the Effective Mastery Level of that element's skills:
+  
+  | Cusp             | earth | metal | fire | air | spirit | water |
+  | ---------------- | ----- | ----- | ---- | --- | ------ | ----- |
+  | Arnos-Bourax     | +15   | +10   | 0    | -10 | -5     | +5    |
+  | Bourax-Diplos    | +10   | +15   | +5   | -5  | -10    | 0     |
+  | Diplos-Chelyx    | +5    | +15   | +10  | 0   | -10    | -5    |
+  | Chelyx-Thyron    | 0     | +10   | +15  | +5  | -5     | -10   |
+  | Thyron-Korith    | -5    | +5    | +15  | +10 | 0      | -10   |
+  | Korith-Stathmos  | -10   | 0     | +10  | +15 | +5     | -5    |
+  | Stathmos-Kentros | -10   | -5    | +5   | +15 | +10    | 0     |
+  | Kentros-Belos    | -5    | -10   | 0    | +10 | +15    | +5    |
+  | Belos-Tragyx     | 0     | -10   | -5   | +5  | +15    | +10   |
+  | Tragyx-Nalos     | +5    | -5    | -10  | 0   | +10    | +15   |
+  | Nalos-Opsar      | +10   | 0     | -10  | -5  | +5     | +15   |
+  | Opsar-Arnos      | +15   | +5    | -5   | -10 | 0      | +10   |
+  
+  `tests/content/birthsign-effects.test.ts` now asserts all twenty-four rows against the authored content, so a cusp that drifts from the matrix — or whose `test` expression stops parsing — fails there rather than silently applying nothing in play.
+- f65ec6c: **Birthsigns now encode the Astrokýklos element matrix** ([#1233](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues/1233))
+  
+  Each of the twelve birthsigns carries one Active Effect per **element**, where an element is a set of skill subtypes together with that element's own skill shortcodes:
+  
+  | Element | `subType`                   | `shortcode`           |
+  | ------- | --------------------------- | --------------------- |
+  | earth   | `nature`                    | `earth`, `physera`    |
+  | metal   | `script`, `craft`           | `metal`, `sideros`    |
+  | fire    | `combattechnique`, `combat` | `fire`, `pyrethos`    |
+  | air     | `physical`                  | `air`, `zepharis`     |
+  | spirit  | `mystical`, `lore`          | `spirit`, `pneumenos` |
+  | water   | `language`, `social`        | `water`, `hydalis`    |
+  
+  Previously only Arnos was on this shape, and three of its six `test` expressions had an unterminated string literal — so those effects threw at construction and silently never applied. The other eleven signs emitted one effect per _subtype_ with no shortcode arm and modifier values unrelated to the matrix.
+  
+  All twelve signs now match their matrix row, and `tests/content/birthsign-effects.test.ts` asserts the content directly: every `test` parses under the `effect.itemTest` scope, and each effect targets exactly its element's subtypes and shortcodes at the modifier the matrix specifies.
+- 28c06cb: Record which skill produces every item, and make every craft catalog row name a real
+  one.
+  
+  **The problem.** Nothing in the data said what makes an item — that lived only in which
+  catalog table a row happened to sit in. A generated table selects on frontmatter, so
+  "everything Weaponcraft makes" was inexpressible: a broadsword, a wood axe and a
+  quarterstaff are all weapon gear with nothing to tell them apart.
+  
+  **Every gear item now declares its producer** and the Secondary Modifier skills that go
+  with the test. Coverage is total across all 847, because everything is produced by
+  someone — crafted, grown, brewed, milled, mined, hunted, or simply gathered, with
+  Survival as the floor. Armour is assigned by material and weapons by the Weaponcraft
+  marks; bows and crossbows go to Fletching rather than Weaponcraft, and slings to
+  Hideworking. Crops go to Agriculture, herds to Animalcraft, catch to Fishing, flour and
+  bread to Milling, drink to Brewing, ores and gems to Mineralogy, cut stones to
+  Jewelcraft, inks and dyes to Herblore.
+  
+  **Thirteen more articles** join the compendium — the ones an earlier pass counted as
+  present because the only item of that name was the wrong material. A woodworker's
+  catalog was resolving to a copper cup, a canvas sack to a bag of salt, a tool hammer to
+  a war hammer. Adds the wooden cup, bucket and cages, the cabinet, canvas sacks, arrow
+  bag, buckram pouch, tarpaulin, horse blanket, plain hammer, and the padded cloak.
+  
+  **All 160 catalog rows now resolve** to exactly one item. Three tables are split out
+  instead, because their rows are not possessions: a Vehicles table in Woodworking for the
+  wagon and cart, a building-materials table in Ceramics for brick and tile, and a glazing
+  table in Glassworking for window glass — the last two priced by the piece or the square
+  foot, where the quantity is a unit of measure. Fletching's projectile bundles expand onto
+  the real projectile items, noting that cost and time are per dozen.
+  
+  Closes #1329.
+- 5fdd5b7: Publish this system's `system` field sets as `schema.json`, so a content build
+  can check what it emits against what a document will actually receive
+  (HeroicLands/package-build#60).
+  
+  Foundry discards an unknown `system` key when a document is constructed, and
+  says nothing: the value is absent at load while the build that wrote it
+  reported success. `mysticalability` emitted `assocMysteryCode` for a whole
+  release that way. Both directions of the mismatch were found by
+  set-subtracting compiled documents' `system` keys against `defineSchema()` **by
+  hand**, which is how the next one would have had to be found too.
+  
+  A content build cannot do that comparison itself: `defineSchema()` lives here,
+  in TypeScript, behind Foundry's field classes. So the field sets are published
+  as data — the shape the link manifest already uses for addresses, rather than a
+  build reaching into a sibling checkout.
+  
+  **Read from the source, not from a running Foundry.** A DataModel's schema is
+  only introspectable inside Foundry, so `utils/build-schema-artifact.mjs` reads
+  the TypeScript AST, as `lang-references.mjs` and `build-type-catalog.mjs`
+  already do. Four shapes it has to follow, none of them regex-able:
+  
+  - **The registry, not a directory walk.** `ITEM_DM_DEF` and `ACTOR_DM_DEF` are
+    the canonical subtype → DataModel maps. Globbing `*DataModel.ts` would publish
+    schemas for classes nothing registers, and miss one whose filename differs.
+  - **`defineSchema()` delegates.** Every model here is
+    `static override defineSchema() { return defineXDataSchema(); }`.
+  - **Schemas inherit by spread**, which is how `notes` and `docHtml` reach every
+    subtype. Recorded as `inherited`, apart from the subtype's `own`.
+  - **`SchemaField` nests.** `charges` is recorded with `charges.value` and
+    `charges.max` beneath it.
+  
+  **Imports resolve through `tsconfig.json`'s aliases**, read rather than
+  restated: every DataModel is imported as `@src/…`, so a resolver that knew only
+  relative specifiers found none of them.
+  
+  **It found five live defects on its first run.** Fields these builders emit that
+  no DataModel defines, discarded at load on every compiled document:
+  
+  | type             | emitted, undeclared                                      |
+  | ---------------- | -------------------------------------------------------- |
+  | `affliction`     | `isTreated`                                              |
+  | `trauma`         | `isTreated`, `isBleeding`                                |
+  | `projectilegear` | `impactBase.overrideDice`, `impactBase.overrideModifier` |
+  
+  `isTreated` and `isBleeding` exist only as **derived getters on the Logic
+  classes** — `AfflictionLogic.isTreated` is a `get` — never as schema fields. So
+  the builder writes a constant Foundry throws away while the real value is
+  computed from `treatmentDate`, which the schema _does_ declare and the builder
+  does _not_ emit. Both directions of the same defect, on the same field.
+  
+  Those are not fixed here. This change publishes the evidence; correcting the
+  builders is package-build's, and now has something pointing at it.
+  
+  **Generated and gated.** `npm run schema` writes it, `npm run lint:schema` fails
+  when the committed copy disagrees with what `src/` would produce, and the check
+  joins the `lint` chain beside `lint:item-fields`. Output goes through
+  `formatGenerated`, so `lint:format` and `lint:schema` cannot each demand what
+  the other forbids — which they did on the first attempt.
+  
+  **Versioned by the tag it is committed under.** The artifact records the
+  `package.json` version it was generated from, and being committed means a
+  consumer reads the copy at the tag it pins rather than whatever `main` holds
+  today. That distinction is the whole of the kethira case: `affiliation.subType`
+  _is_ defined on `main` and simply unreleased, so a check against `main` passes
+  while the field still evaporates for every user.
+  
+  Also reformats `.changeset/adopt-package-build-7.md`, which the shared
+  formatter rejected while the local one accepted it.
+- 5dc028f: **Taburi's shortcode now matches its name** ([#1238](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues/1238))
+  
+  The Taburi shipped as `Tabri`, which matched neither its name nor its slug. It is now `Taburi`, keeping the CamelCase form the other weapon shortcodes use. Nothing referenced the old value, so the rename is self-contained.
+- 3620ea5: Fixed: raw metal cost as much per pound as the finished goods made from them.
+  
+  Copper was priced at 32d per pound. Finished riveted mail in this system runs a
+  very steady 33.2-33.3d per pound — Mail Shirt 495d over 14.9 lb, and the same
+  figure for the Byrnie, Longshirt, Habergeon, Hauberk and Leggings. So a pound of
+  raw ingot cost what a pound of finished mail cost, which leaves nothing for the
+  smith on an item that is almost entirely smith-work.
+  
+  The scale also disagreed with itself. Container prices were calibrated against
+  Phillip McGregor's _Orbis Mundi 2: The Marketplace_ on the grounds that this
+  system and that book share a denier. Measured the same way, gold and silver
+  already agreed with that reference within a few percent, while the base metals
+  sat some fifteen to seventeen times above it — which put silver at 12.5 times
+  copper where the reference implies nearer 180.
+  
+  Gold and mithral are unchanged, and silver stays at 400d, which is exactly 12:1
+  against gold and squarely inside the reference's 8-14:1 band. The base metals
+  move down onto that same scale: brass 4, tin and steel 3.5, pewter 3, bronze
+  2.5, copper 2, iron 1.75. A mail shirt now carries roughly 26d of iron against
+  495d finished — about five percent material and the rest labour, which is what
+  mail is.
+  
+  Six metals are new. Copper and bronze were a single combined entry despite being
+  different metals at different prices, and there was no iron, steel or tin at all;
+  Khazárian steel joins them at 20d, several times common steel. The combined
+  Copper/Bronze entry stays as a generic at 2.25 so nothing referencing it breaks.
+  
+  Every metal is now priced per pound, so the list can be read as one ladder —
+  pewter and mithral were still per ounce.
+  
+  Also fixed: brass was described as "an alloy of copper and tin" in both its
+  description and its body text. That is bronze. Brass is copper and zinc.
+- 031d48d: **The README pitch describes SoHL, not HârnMaster** (#1307)
+  
+  The opening pitch was the original launch copy, written when SoHL was framed as a
+  HârnMaster implementation. It paid its one superlative to HârnMaster ("one of the
+  most immersive and realistic fantasy role-playing systems ever created"), stated
+  that SoHL "captures the essence of _HârnMaster_'s mechanics" — reading as an
+  assertion of derivation — and made "HârnMaster Compatibility" the first listed
+  feature. It has been replaced with copy that leads on what SoHL is and what a
+  player gets from it.
+  
+  - _The differentiators are now named._ Classless, level-less character building; the
+    Arcane, Divine, and Spirit traditions and the Mystery-versus-Mystical-Ability
+    distinction; Fate; and skill improvement through use. The previous list
+    ("Seamless Integration", "Deep Customization", "Visual Enhancements") described
+    no system in particular.
+  - _Compatibility is one option among several._ HârnMaster now sits alongside the
+    open-source Thalorna setting and homegrown worlds, rather than defining the system.
+  - _A false content claim is gone._ The pitch advertised "integrated maps"; SoHL ships
+    `actors`, `items`, and `journals` compendia, and no scenes.
+  - _The Forge Installs badge resolves again._ It queried package id `hm`, left over
+    from the rename, which returns a null package; it now queries `sohl`.
+  - _Non-affiliation is stated._ The Trademarks section carried SoHL's own marks but no
+    statement regarding Kelestia Productions Ltd. It now records that SoHL is an
+    original work, not a derivative of or supplement to any third-party game, and is
+    unendorsed by and unaffiliated with Kelestia Productions Ltd.
+  
+  The scoped-beta system-status section has been removed from the README.
+- 368a1da: Reformat at 100 columns.
+  
+  `@heroiclands/package-build` 9.0.0 raises the shared `printWidth` from 80 to
+  100, and this repository is where the evidence for that came from: at 80,
+  Prettier could not honour the limit on **1,399 lines** of this source — long
+  string literals, `@src/…` specifiers, generic signatures — so those lines ran
+  over anyway _and_ their surroundings were broken up to no purpose. At 100 that
+  falls to 75.
+  
+  The measured effect here matches: **590 files, 10,344 lines shorter**.
+  
+  Nothing about the system changes. No emitted document, no manifest, no stored
+  data, no behaviour — `tsc --noEmit` is clean, `lint:schema` still agrees with
+  the source, and all 4,867 tests pass. This reaches users not at all; it is
+  hygiene, and it is in this release only because a formatting change is cheapest
+  when it rides along with a version bump that was happening anyway.
+  
+  **Bump**
+  
+  _Patch._ Whitespace.
+- 868968a: Added: holy symbols in brass, iron and gold, a stone icon, and a consistent naming
+  for the icon series.
+  
+  Holy symbols existed in silver and wood only. Brass at 15d, iron at 12d and gold at
+  492d fill the range between them, priced by the Jewelcraft rule — which is nearly
+  all bench time for the base metals, since the token is an ounce and a half of a
+  metal worth a farthing.
+  
+  The three icons were named three different ways: "Icon, religions, large" (a typo),
+  "Icon, religious, small", and "Icon, ceramic, 4 in", none of them saying material
+  and size the same way. They are now Icon, religious, wood, lg / wood, sm /
+  ceramic, sm, with shortcodes to match, and a stone icon joins them at 6d — dearer
+  than the clay sort and half again the weight, but it will not shatter when a pack
+  is dropped.
+  
+  Nothing referenced the old shortcodes outside the generated pages, which rebuild.
+- 5a0e1b0: Add wooden and silver holy symbols to the Religious folder.
+  
+  The Religious folder held three painted icons — objects for a shrine or a niche by a
+  door — and nothing a character wears or carries to declare a god. The holy symbol is
+  the commonest religious article on Hârn and the tree had none.
+  
+  The two entries are deliberately the two ends of the range: the temple-gate token that
+  most of the faithful own, and the jeweller's piece that marks someone who speaks for
+  the temple.
+  
+  | Article             | Code            | Weight | Value | Durability |
+  | ------------------- | --------------- | -----: | ----: | ---------: |
+  | Holy Symbol, wood   | `holysymwood`   |    0.1 |     4 |          3 |
+  | Holy Symbol, silver | `holysymsilver` |    0.1 |   150 |          3 |
+  
+  The silver piece is priced from the Silver material note already in the tree — an ounce
+  and a half at 60d/oz, plus the chasing. Craft skills are Woodcraft and Jewelcraft
+  respectively.
+- 3620ea5: Fixed: jewelry articles were priced off the old material scale.
+  
+  Jewelcraft prices a piece as the weight of its base form times the price per
+  ounce of its material. That rule reads against the material entries, and those
+  moved, so the articles and the table the rule depends on both had to follow.
+  
+  Gold and silver articles come down to what the rule gives: a gold necklace from
+  5000d to 1200d, a silver amulet from 120d to 40d. The material table in the
+  Jewelcraft entry is updated with them — it still listed gold at 1200d the ounce
+  and silver at 60d.
+  
+  The base-metal articles are a different case, and the rule cannot price them.
+  Applied literally it makes a copper necklace worth half a penny, because the
+  rule is proportional to material value alone and carries no term for the
+  jeweller's labour. That was always true — under the old prices the rule gave a
+  bronze necklace 4d against the 35d it shipped at — but cheap base metal makes it
+  impossible to ignore. The figures here are what the rule yields; they want a
+  labour term before they are playable.
+- 690f3fb: **The cross-package address allowlist is gone** (#1446)
+  
+  `FOREIGN_ADDRESS_ALLOWLIST` named six addresses that resolved to real notes in a
+  package this repository did not publish. It existed because nothing in the
+  syntax separated such a reference from a typo, so the deliberate ones had to be
+  listed by hand and everything else failed.
+  
+  The link manifest answers that question with the target package's own build
+  output, and with `assets/manifests/thalorna.json` vendored every one of the six
+  now resolves through it — `check-content-links` reported all six as unused on
+  every run. The constant, the code that consulted it, and the stale-entry warning
+  are removed, and the content-links reference documents the manifest instead.
+- 44f5feb: Reweigh the mineral and giant creatures, and bring the three stone giants down
+  to a size the setting can hold
+  ([#1240](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues/1240)).
+  
+  Every creature made of stone, iron, clay, crystal, ice or lava was priced as
+  though it were made of meat. The Mountain Troll's own text says it "weighs as
+  much as a small cottage" and the data said 500 lb — half a horse. Eight
+  Elementals carried no weight at all.
+  
+  Weights are now computed from each creature's described dimensions and the
+  density of what it is actually made of. A humanoid of height H occupies
+  `2.9 × (H/6)³` cubic feet — a six-foot, 180-pound person at water density —
+  times a bulk factor for a frame heavier than human proportions; a quadruped is
+  anchored on a seven-foot, 400-pound feline. Densities: wrought iron 480,
+  stone and crystal 165, lava 175, fired clay 120, wet mud 105, ice 57, flesh 64.
+  
+  **Three giants were also too large for the setting.** A Lithogiant at forty to
+  sixty feet dwarfed the Old Dragon, which should be among the biggest and
+  fiercest things in the world. The Boulderback is now fifteen feet of fitted
+  boulders, the Stonebeast twenty feet of blocky stone (read as length, which is
+  what a quadruped's measurement means), and the Lithogiant twenty-five to thirty
+  feet.
+  
+  The Terrakith Sentinel keeps its 1000 lb: eight feet of clay at 120 lb/ft³ is
+  almost exactly that, so it was right all along. The Ironjaw keeps its 250 lb —
+  it is a wolf wearing metal, not a wolf made of it.
+  
+  Body weight is descriptive; encumbrance keys off carried gear, so none of these
+  figures change how a creature behaves in play.
+- 7e68661: Fix `npm run build:sohl-types`, and gate it so it cannot break unnoticed again ([#1613](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues/1613)).
+  
+  **The build failure**
+  
+  `tsconfig.sohl-types.json` set `stripInternal`, which deletes every
+  `@internal`-marked declaration from the emitted `.d.ts` but keeps the
+  `import type { … }` statements the _retained_ public declarations make of them.
+  `rollup-plugin-dts` then died on the first dangling reference. The flag was also
+  wrong for this package on its own terms: `@internal` marks the Foundry document
+  layer as absent from the API _docs_, but `SohlActor`, `SohlItem`, `SohlScene`,
+  `SohlTokenDocument`, and `SohlActiveEffect` are genuinely part of the published
+  type surface — `logic.document` is one of them, and the `sohl` global's namespace
+  tree exposes them outright. Curating the surface is the generation entry file's
+  job, not that flag's. Removed it.
+  
+  Four Foundry config applications then emitted `typeof X.__#N@#onSubmit` — the
+  synthesized name TypeScript falls back to when an inferred type references a
+  `#private` member, which no downstream `.d.ts` consumer can parse. Their
+  `DEFAULT_OPTIONS.form.handler` is now annotated so nothing has to spell it.
+  
+  **The published package**
+  
+  `index.d.ts` imported `@codemirror/autocomplete` without the package declaring
+  it, so it resolved only from inside this repository. It is now a declared peer
+  dependency, and the rollup `external` set is derived from `peerDependencies` so
+  the two cannot drift.
+  
+  **The gate**
+  
+  `build:noci` now runs `check:sohl-types`, which regenerates the bundle,
+  type-checks it as a consumer would, and runs a new `utils/check-sohl-types.mjs`
+  validating that every bare import is a declared peer, that no unparseable private
+  name survives, and that every re-exported name is actually declared. The release
+  workflow's publish step stays `continue-on-error` — Foundry installs from the
+  Release's `system.zip` — but it is no longer the only thing that would notice.
+  
+  Also removed the release workflow's `@heroiclands/content-build` publish step: the
+  package moved to its own repository, so the step `cd`-ed into a directory that no
+  longer exists and `continue-on-error` swallowed it — the same invisible-failure
+  shape.
+- 6bd7604: Rules documents describe the game, not the VTT that implements it
+  ([#1291](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues/1291)).
+  
+  Nine rules documents explained a mechanic by describing the interface that
+  presents it. `Bleeding.md` told the reader that "the system first presents a
+  request … a dialog announcing that the character is bleeding, with an **Accept**
+  button", and that "the physician sees a card in the chat log". `Afflictions.md`
+  declared its outcome in two named authored fields and appealed to "everything the
+  system automates". A reader who is not sitting in front of Foundry could not use
+  them, and a reader who is would be misled the moment the interface changes.
+  
+  **The rules are the specification the VTT implements, and now read as though no
+  VTT exists.** Every mechanic that was described as an interface is restated as
+  what happens at the table, and nothing was lost in the move — the automation
+  prose it replaced is already documented, in more detail, in the User Guide:
+  
+  | Was described in the rules as…                     | Restated as                                                                 | Already in the User Guide                |
+  | -------------------------------------------------- | --------------------------------------------------------------------------- | ---------------------------------------- |
+  | A dialog with an **Accept** button before bleeding | The chance to staunch comes first, and lapses at the end of the round       | _Trauma_ → Request/Accept Blood Stoppage |
+  | A card in the chat log requesting stoppage         | A stoppage test names one injury and applies to that injury alone           | _Trauma_ → Accept Blood Stoppage         |
+  | "As with everything the system automates…"         | Exposure and contraction are different; the roll is the exposed character's | _Being_ → Contagion Check / Test         |
+  | Two authored fields and a Safe Expression          | An affliction ends in **Death** or **Cured**, and may leave a trauma        | _Affliction_ → The Outcome               |
+  | The shock state as a set of Active Effects         | A creature is in exactly one shock state; a change replaces it              | _Being_ → Status indicators              |
+  | Anatomy stored as three flat lists on the actor    | Anatomy is intrinsic to what a creature _is_                                | _Being_ → Body-part grid                 |
+  
+  Two smaller repairs came with it: `Bleeding.md` opened by linking the word
+  "Injury" to the User Guide rather than to the Injury rules, and the birthsign
+  pages described the signs as "droppable items in the compendium".
+  
+  **`npm run lint:rules-vtt`** (new, and part of `npm run lint`) keeps it that way,
+  failing the build on a click, button, dialog, chat log, or "the system" anywhere
+  under `assets/content/Rules/`. The User Guide is deliberately exempt: that is
+  where automation behaviour belongs.
+- 3721709: **The rules open with a reading order, and close with a glossary** (#1295)
+  
+  The rules root note was an index of ten sections in no particular order: it said what
+  existed, not what to read first, and nothing stated the scope of the rules or the
+  boundary between them and the tabletop that runs them. It is now the front matter of a
+  book.
+  
+  - _A reading path._ The ten chapters are presented in the order they should be read,
+    each with a sentence on what it covers and why it sits where it does — Resolution
+    first, because every later chapter is written on the terms it defines, then
+    Attributes, Skills, Affiliations, Characters, Gear, Combat, Trauma, Esoterica and the
+    Bestiary.
+  - _Scope, stated._ What the rules cover, and the two things deliberately absent: setting
+    material, which belongs to a world and none is assumed, and the finer procedures of a
+    long campaign.
+  - _The rules/VTT boundary, stated._ These pages describe the game as it happens at a
+    table. How the Foundry implementation is operated belongs to the User Guide, and
+    where the two ever differ, **the rules are what the game is** and the implementation
+    is what needs fixing.
+  
+  **A Glossary** (`Rules/Glossary.md`) indexes every term the rules define — 120 entries,
+  alphabetical — each pointing at the single passage that settles it. It is an index of
+  links, not a second set of definitions, so a term can never drift from its definition:
+  a reader who meets _Index_, _Value Diamonds_ or _Tactical Advantage_ mid-chapter now has
+  somewhere to look it up.
+  
+  **Every rules document is reachable from the root.** `Bestiary/Helspawn.md` had no
+  inbound link — it compiled and published, but could not be arrived at by reading — and
+  the Bestiary introduction now links it the way it already links Grukar.
+  
+  **The walk is committed as a lint.** `npm run lint:content-links` (part of
+  `npm run lint`) resolves links exactly as the two content builds do, with generated
+  tables expanded first — and fails on either of two defects that both builds pass
+  silently:
+  
+  | Defect                                        | Why it survives the build                                                                                                       |
+  | --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+  | A `#anchor` link that no heading declares     | The journal compiler derives a page id by hashing `"<noteId>-<anchorSlug>"`; it never checks that a heading declaring it exists |
+  | A `Rules/` document unreachable from the root | An unlinked note still compiles and still publishes; it is simply unreachable by reading                                        |
+  
+  The walk stops **at** the glossary rather than through it: an index links to nearly
+  every page, so following it would make the reachability check vacuous.
+  
+  The anchor check found exactly the pair already reported — two links in _Item:
+  Weapongear_ pointing at `doc/skldesc#combat-techniques`, an anchor _Skill Descriptions_
+  never declared. Both now point at `doc/unrmdcmb#combat-techniques`, where Combat
+  Techniques are in fact defined.
+  
+  Closes #1295.
+  Closes #1297.
+- a769c69: Give the rules a Resolution chapter that defines the terms the rest of them use
+  ([#1290](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues/1290)).
+  
+  The mechanics that resolve every uncertain action — the d100 test, success
+  levels, opposed tests, Success Value, Secondary Mastery, Fate — were filed under
+  **Skills**, though attributes, mystical abilities, combat and trauma all test the
+  same way. A reader wanting to know how a test works had to know to look inside
+  the Skills chapter first, and once there found the terms used but not defined:
+  "Mastery Level" appeared in eleven documents and was formally defined in none of
+  them.
+  
+  **A new Resolution chapter**, read before Characters, now owns them. The five
+  existing documents move into it unchanged in shortcode — so every inbound link
+  keeps working — and are joined by a chapter introduction and a new **Mastery
+  Level** page:
+  
+  | Page                | Defines                                                                                                                  |
+  | ------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+  | Mastery Level       | `mastery-level`, `skill-base`, `attribute-mastery-level`, `index`, `effective-mastery-level`, `assistance`, `competence` |
+  | Success Tests       | `success-test`, `success-level`, `extended-levels`, `basic-test`                                                         |
+  | Opposed Tests       | `opposed-test`, `victory-stars`, `ties`, `tiebreaks`                                                                     |
+  | Success Value Tests | `success-value-test`, `success-value`, `value-diamonds`                                                                  |
+  | Secondary Mastery   | `secondary-mastery`, `secondary-modifier`, `secondary-roll`                                                              |
+  | Fate                | `fate`, `fate-exclusions`, `fate-test`, `fate-mastery-level`                                                             |
+  
+  Each definition sits on a heading carrying an explicit `{#anchor}`, which the
+  page model turns into its own addressable journal page, and documents across the
+  corpus now link their first use of a term to it.
+  
+  **Skill Base is written down for the first time.** It was named in three
+  documents and defined in none. One attribute gives its own value; two give their
+  average, rounded up when the first is the greater and down otherwise; three or
+  more round to nearest. The first attribute a skill names is the primary one, so
+  the order matters. A Skill Base sets where a skill opens and caps it at SB × 7
+  thereafter.
+  
+  **Fate leaves Mysteries for Resolution.** It acts on any test at all, so it
+  belongs with the rules for testing rather than with the Mystery that holds the
+  points; the Mysteries introduction points across to it. Its duplicated opening
+  paragraph and its self-referential `[[Fate]]` link — which resolved to the
+  Divination stub — are gone.
+  
+  The Skills chapter keeps what is peculiar to skills and hands testing to
+  Resolution; the rules root lists Resolution first.
+- 374f640: Give every rules section an introduction, and reorganize the rules documents
+  ([#1286](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues/1286)).
+  
+  Each rules section now opens with an `_Introduction`, replacing the hub documents
+  named after their own section (`README`, `Esoterica`, `Skills`, `Trauma`,
+  `Arcane`, `Divine`, `Spirit`). Those hubs competed with their section's real
+  content for both the reader's attention and for wikilink targets — `[[Skills]]`
+  could reasonably have meant either the overview or the skills rules themselves.
+  
+  **New sections**
+  
+  Gear (weapons, armour and clothing, containers, miscellaneous equipment),
+  Characters, Combat, Attributes and Affiliations, each with a journal folder where
+  it needed one. The Bestiary becomes a section of its own, holding the descriptive
+  creature notes; `Creatures/` is left to the statted creature notes alone.
+  
+  **Affiliations**
+  
+  Described rather than tabulated, since SoHL ships no affiliations of its own —
+  religions, schools, convocations, guilds and syndicates are setting material. The
+  introduction covers what an affiliation records, how it differs from a skill, and
+  what standing means for guilds, religions, arcane convocations, criminal
+  syndicates and orders. It also states what the level does mechanically: it is the
+  system's capability credential, holding religious rank and arcane grade rather
+  than a skill doing so.
+  
+  **Divine Intervention**
+  
+  Documented as the one occasion a deity acts directly rather than through an
+  agent. Deliberately not a Mystical Ability: nothing is performed and nothing
+  rolled. Grace is the prerequisite, and the gamemaster decides both whether an
+  intervention occurs and what it costs in Grace. Its deniability is a requirement
+  rather than a matter of taste — the event must read as certain proof to the
+  faithful and as coincidence to everyone else.
+  
+  **Content categories**
+  
+  Creature notes carry a `sohl.kbcat` naming their group, so the Bestiary tables
+  build themselves from frontmatter. Folk is split into `grukar` and `goblin`,
+  which were being listed together under a heading that described neither.
+  
+  **Fixes**
+  
+  Nineteen wikilinks that addressed removed documents, or addressed surviving ones
+  by the wrong shortcode, now resolve. The gear tables addressed `name` — a mapping
+  of `full` and `aliases` — where they meant `name.full`, so every table in the four
+  gear documents failed to build; four weapon tables also searched `miscgear` for
+  categories that live on `weapongear`.
+- 4a3537b: Repair a malformed shortcode by spelling its letters, not deleting them —
+  `Tabûri` now repairs to `Taburi` rather than `Tabri` (#1748).
+  
+  `sanitizeShortcode` removed every non-alphanumeric character, accented letters
+  included, so a repair ate the letter instead of folding it: `Kûrbúl` became
+  `Krbl` and `Æthelred` lost its first letter entirely. It now carries the value
+  into ASCII with `toAsciiLetters` — the same fold `slugifyShortcode` already uses
+  — before dropping anything.
+  
+  **Why this is not cosmetic.** `(type, shortcode)` is a _logical identity_, not
+  just a lookup key: it is what makes a world document recognizable as the same
+  entity as the compendium document it was imported from, and what archetype
+  shadowing, cohort membership, expression references, and `fvttFindItemByShortcode`
+  all resolve through. `Tabri` and `Taburi` name two different entities, so a
+  repaired document silently stopped matching its origin, with nothing recording
+  what the key had been.
+  
+  **Where it was reachable.** Both call sites take input a user can supply — the
+  0.9.0 world migration that repairs legacy keys, and the create/update guard on
+  its `shortcodeDedupe` path. Inside that guard the old behaviour was also
+  self-inconsistent: an accented _shortcode_ was stripped while an accented _name_
+  falling through to the `slugifyShortcode` branch was folded, so the same input
+  came out spelled two different ways depending on the branch it took.
+  
+  **Nothing else changes.** Folding is a no-op on an ASCII key, so the documented
+  punctuation repairs are untouched (`B&CFl` → `BCFl`, `self-pro` → `selfpro`), and
+  what the fold cannot carry into a letter or digit is still dropped
+  (`Kûrbúl ¾-Helm` → `KurbulHelm`). The output still always matches the shape rule.
+  No shipped content is affected: all 1,606 content notes already carry an
+  alphanumeric shortcode, and none of the 25 whose name holds a non-ASCII letter
+  uses the strip residue of that name as its key.
+- b20b5dd: **`assets/content/` is this repository's own source** (#1445)
+  
+  The tree was a generated, committed mirror of the HeroicLands vault: an edit made
+  here was reverted by the next export without a word, and the vault was the only
+  place content could be fixed. With the vault being retired (#1385), that
+  relationship inverts — the tree is source, and this repository owns it.
+  
+  - _A final export, then the mirror is gone._ The committed tree had drifted badly:
+    91 notes created, 1351 updated, 91 retired, 4 unchanged. The 91/91 pair is a
+    single directory rename in the vault — `Creatures/` → `Bestiary/`, every
+    basename matching — so nothing was lost, but the repository had been serving a
+    stale copy.
+  - _The collection landings arrive._ Eleven `type: doc, category: collection` notes
+    lived only in the vault's `Types/SoHL/` and were never exported, because the
+    export mirrors `SoHL/` alone. They are the only place a section's description
+    and its `doc-<section>` address exist, so they come across rather than being
+    lost with the vault.
+  - _The export is deleted, not maintained._ `utils/export-vault-content.mjs`,
+    `utils/vault-export.mjs`, and the `content:export` / `content:check` scripts are
+    removed, along with every error hint telling a contributor to re-export.
+  - _Markdown indents at 2._ Prettier's global `tabWidth: 4` reindented the YAML
+    frontmatter of 1441 of 1442 notes away from the form they were authored in —
+    the only difference between the two copies. A `**/*.md` override at 2 makes the
+    tree byte-identical to its source and matches the other repositories holding
+    this content, so a note can move between them unchanged. Prose is untouched
+    either way: `proseWrap` defaults to `preserve`, so Prettier never rewraps a
+    paragraph.
+- 433143a: Give every skill a description that states how the skill actually works
+  ([#1294](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues/1294)).
+  
+  Each skill note carried one paragraph of flavor prose and nothing else. A reader
+  could learn that Climbing exists and that cliffs are dangerous, but not what
+  Success Value a sheer face demands, how far a minute of climbing carries them,
+  or what a Critical Failure costs. Sixty-five skills across nine groups are now
+  described in terms of what they do.
+  
+  **Success Value tables.** Every skill whose result is read as a Success Value
+  now carries its table, with the grade attached to each value:
+  
+  | Skill       | What the Success Value grades                                       |
+  | ----------- | ------------------------------------------------------------------- |
+  | Climbing    | The face the climber can hold, from a 20° slope to a holdless sheer |
+  | Swimming    | Feet covered per minute, after wind force and distance from shore   |
+  | Fishing     | Food-days taken per four hours, against a conditions Target Number  |
+  | Cookery     | The meal, from inedible to pleasing — and its effect on persuasion  |
+  | Weaponcraft | Flawed, base, or masterwork arms and armour                         |
+  | Fletching   | The same, for bows, crossbows and projectiles                       |
+  | Engineering | A design that helps, hinders, or does neither, for the builder      |
+  | Animalcraft | What six months of training is worth to the animal                  |
+  | Script      | Legibility written, and comprehension read                          |
+  | Masonry     | The multipliers a Construction Roll applies to time and cost        |
+  | Acrobatics  | Distance moved along a beam, and the audience's opinion             |
+  | Mathematics | The most complex problem the character can actually solve           |
+  
+  **Terminology follows the rules as they now stand.** The source material grades
+  a superior result in "stars"; these read as **Value Diamonds** throughout,
+  matching the Success Value Tests rules page, and success levels are written
+  CF / MF / MS / CS. Mishaps are Stumble and Fumble **Tests**, fatigue is
+  named by kind, and money is pence.
+  
+  **Behavior that was previously undocumented anywhere.** A crossbow may be shot
+  at three times Archery Skill Base by someone with no Archery at all; Acrobatics
+  Index doubled bonuses Block and Dodge; Legerdemain Index doubled bonuses
+  Throwing; evading missiles costs the attacker five times the evader's Effective
+  Dodge Index; treating an animal is Physician at −10, offset by Animalcraft;
+  foreign knowledge costs −10 to −60 by distance, for Folklore, Heraldry, Law and
+  Mercantilism alike.
+  
+  **Craft economics.** Ceramics, Glassworking, Woodworking, Metalcraft,
+  Textilecraft, Hideworking, Jewelcraft, Lockcraft, Weaponcraft, Fletching,
+  Timbercraft, Brewing, Perfumery, Masonry and Shipwright carry their cost, time
+  and price tables, together with the workshop-quality and Masterwork Success
+  ladders the two crafting routines share.
+  
+  **The opposed `d6 + STR` roll is now named a Strength Trial**, in the three
+  Combat Techniques that call for one — Grab, Press and Trip. Those three
+  otherwise keep their existing text, as do the other five techniques: they
+  already describe their own mechanics and have no counterpart in the source
+  material.
+- f3a6431: **Fixed: a suggested `shortcode` could lose the first letter of a name.**
+  `slugifyShortcode` deleted every non-ASCII character instead of transliterating
+  it, so the create dialog offered `thelred` for _Æthelred_, `ornhall` for _Þorn
+  Hall_ and `strae` for _Straße_. Accented letters fared no better — _Kûrbúl Helm_
+  became `krblhelm`. Names are now carried into ASCII by spelling each letter out
+  (`æ`→`ae`, `þ`→`th`, `œ`→`oe`, `ß`→`ss`, and every accented letter to its base).
+  
+  **Suggested shortcodes are now shorter and more conventional.** A name's words
+  are replaced with their customary abbreviations — ranks, offices, materials and
+  units, matched as whole words — and if the result still runs past ten
+  characters, vowels are removed one at a time from the end until it fits. A
+  word's opening vowels are never removed, so _Aeldred_ reduces to `aeldrd` and
+  never to `ldrd`.
+  
+  Removing one vowel per pass, rather than all of them at once, is what keeps a
+  name only slightly too long from being stripped bare: _Arrow, Broadhead_ becomes
+  `arrowbrdhd` rather than `arrwbrdhd`. Ten characters is a
+  guideline rather than a limit: nothing is truncated, and the suggestion remains
+  a default the author may replace.
+  
+  This affects only the value offered when a document is created. Existing
+  shortcodes are saved world data and are untouched.
+- 44f5feb: Give the Spirit, Elemental and Dreadspawn creatures a body, natural weapons and
+  creature skills
+  ([#1240](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues/1240)).
+  
+  All sixty-eight shipped with an **empty** `system.body.structure` — read as
+  incorporeal, so no blow could resolve a hit location — no attacks, and no
+  skills. There is no printed table for any of them, so each is built from its
+  own Presentation and Attack Methods, on the rules fitted to the printed
+  animals.
+  
+  **Three new body plans** join the fifteen already shipped, for creatures no
+  animal anatomy fits: `amorphous` (Core · Mass · Tendrils) for oozes, mires and
+  mud golems; `wraith` (Core · Shroud) for a spirit with a shape but barely a
+  body, following the Umbáth precedent of a short zone run; and `plant`
+  (Crown · Stem · Tendrils) for the ambulant growths. The `anthropoid`,
+  `arachnid`, `insect` and `smallQuadruped` plans gain larger size bands so a
+  stone giant, a scorpion the size of a wagon and a ten-foot beetle can use them.
+  
+  **Ranged natural weapons.** Four new weapon kinds emit a **missile** strike
+  mode with a range rather than a zone die: `breath` (a cone, impact
+  `STR ÷ 3 − 1`, which reproduces the printed Young Dragon's `d4+11` exactly),
+  `spray` (acid, venom, shards), `hurl` (a thrown rock) and `bolt` (lightning and
+  light). Range scales with size, fitted to the dragons' 40 / 60 / 80 feet.
+  
+  **Spirits carry no natural armour.** A shade has no hide; what protects it is
+  being hard to see and hard to hit, which lives in its Stealth and Dodge. Their
+  incorporeality — that only enchanted weapons touch them — is prose, not armour.
+  
+  Eighteen missing attribute scores were supplied across ten creatures that
+  shipped without a Strength or an Agility, which nothing downstream can derive
+  around.
+  
+  The content specification now covers **every** creature, not just the animals:
+  contiguous gap-free zone numbers, no orphaned parts or locations, no part
+  without a hit location, unique location shortcodes, a Strength-derived body
+  scale, and at least one usable technique whose impairing role its body has.
+  Creature files that still have no anatomy — three Constructs, two Helspawn, and
+  four family-overview entries carrying no `sohl` block at all — are named in an
+  explicit allowlist so the remaining gap stays visible and cannot grow.
+- 44f5feb: Re-rate the Strength of the mineral and giant creatures
+  ([#1240](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues/1240)).
+  
+  Each was priced for a body of the wrong size. A Lithogiant, twenty-five to
+  thirty feet of stone, carried Strength 19 — weaker than a donkey. A Swampgolem
+  of fourteen feet had 16, an Embermaw 13. A Mirrorling of solid metal had 11.
+  
+  Scores are placed by comparison against the printed animals — cat 3, wolf 10,
+  lion 12, boar 14, stag 18, donkey 24, cave bear 28, destrier 30, bovine 32,
+  elephant 56 — with the Old Dragon's 60 left as a ceiling nothing reaches. The
+  Lithogiant tops the set at 55, below both the elephant and the dragon; the
+  Stonebeast takes 50, the Frostmaw 48, the two eighteen-and-fifteen-foot giants 42. The Cave Troll comes **down** from 33 to 28, having out-ranked the larger
+  Forest Troll.
+  
+  Strength is not just a number: it seeds body scale, every natural weapon's
+  impact modifier and the Shock skill, and all three are recomputed with it —
+  a Lithogiant's crushing blow goes from `d6+4` to `d6+22`, its body scale from
+  1.73 to 5.0.
+  
+  **Natural armour deliberately does not move.** It describes what the creature
+  is made of, and re-rating its strength does not thicken its hide; letting the
+  armour ladder follow would have given a flesh troll better protection than a
+  rhinoceros.
+  
+  The Old Dragon remains the apex on every axis: Strength 60 against 55, body
+  scale 5.45 against 5.0, natural armour 28 against 11, a `d8+25` bite against a
+  `d6+24` thrown rock, and a hundred zone numbers against forty-five.
+- 396e6fd: _Strength now affects how hard you hit_ (#1253).
+  
+  A combatant's Strength had no bearing on damage anywhere in the system: two
+  wielders differing only in Strength dealt identical impact with the same weapon,
+  and the `noStrMod` trait that exists to suppress the modifier was read nowhere.
+  
+  **The Strength Impact Modifier** is now folded into every melee blow and every
+  thrown weapon. It is **computed rather than looked up**, so it extends without
+  bound in both directions — the printed table stops at Strength 25, while the
+  system carries creatures from insects to colossi:
+  
+  | Strength | Modifier                                          |
+  | -------- | ------------------------------------------------- |
+  | ≥ 5      | `⌊(STR − 10) / 2⌋` — +1 per two points, unbounded |
+  | ≤ 4      | `2 × STR − 12` — the steeper low tail             |
+  
+  Both segments reproduce every printed row exactly and meet cleanly at the seam.
+  
+  **Bows, crossbows and slings get no benefit** — the force is in the launcher,
+  not the arm. A thrown weapon does, reduced by 1, and anything flagged
+  `noStrMod` is excluded outright.
+  
+  **Off-hand** use reduces the modifier by a further 1, and stacks with thrown. A
+  grip counts as off-hand only when every limb holding the weapon is on the
+  non-dominant side, so a two-handed grip never is.
+  
+  **Dominance** is now a first-class property of a being, read from its Left
+  Dominance and Right Dominance characteristics: either one alone sets that side
+  as dominant, while carrying both or neither leaves the being ambidextrous with
+  no off hand at all. This is the single answer wherever a favored side matters,
+  not just for impact. A body part's own side is derived from its shortcode and
+  the presence of its mirror twin, so a central part correctly belongs to neither
+  side.
+  
+  Each contribution lands as a named delta — `StrImp`, `OffHnd`, `Thrwn` — so the
+  impact breakdown shows the derivation instead of burying it in the total. The
+  modifier is applied during the finalize phase, so a weapon's sheet and its
+  attack card agree.
+  
+  Also moves Photophobia from a Fear trauma to a physical condition.
+- 3620ea5: Changed: the cloth index is 10d the square yard, and woven straw joins the
+  textiles.
+  
+  The armour material ratios are reckoned against plain woollen cloth, and the
+  stated retail prices fix that index at 10d and 24 oz the square yard: buckram sits
+  at 100% of it on both counts and is stated at 10d and 24 oz, serge at 60%/50% is
+  stated at 6d and 12 oz, russet at 120%/50% at 12d, worsted at 240% at 24d. Two
+  entries had been derived instead from linen, which is the one cloth whose stated
+  price does not fit its ratio — 4d where 50% of the index is 5d.
+  
+  So tanned leather goes from 16d to 20d the square yard, being twice the index at
+  four fifths the weight, and reads 1.04d the ounce in the Jewelcraft table rather
+  than ⅚d. Silk there goes from 6d to 7.5d the ounce for the same reason.
+  
+  Straw is added as a textile in its own right. It is not fodder: plaited straw
+  braid stitched into sheet is the material of every field hat and of light summer
+  wear, and at 30%/25% of the index it is 3d and 6 oz the square yard. It comes in
+  no standard bolt, the plait being made by the fathom and worked up as needed.
+- 3620ea5: Added: the textile materials, and the Dye folder becomes Textile.
+  
+  The folder held eight dyes and nothing to dye, so cloth could not be bought at
+  all. It is now Misc_Gear/Textile — same folder id, so nothing that pointed at it
+  breaks — and carries the nine cloths as well.
+  
+  Each is priced and weighed by the square yard, with its standard bolt noted in the
+  description, since cloth is bought by the cloth rather than the yard: serge 6d and
+  12 oz the square yard, 288d for a broadcloth; russet 12d; buckram 10d and a heavy
+  24 oz; linen 4d at 6 oz; homespun 2.67d, sold at the manor as a smaller 1.5 by 12
+  yard cloth for 48d; worsted 24d at 16 oz, its cloth 36 square yards rather than 48
+  because fulling shrinks it; velvet 35d; and silk 90d.
+  
+  Plain woollen cloth is 10d and 24 oz the square yard, which is the index the
+  armour material ratios are reckoned against — buckram sits at 100% of it on both
+  counts, and serge and russet at half its weight.
+- 44f5feb: Rebuild the thirty animals covered by the **Domesticated Animal Abilities** and
+  **Wild Animal Abilities** tables so the shipped compendium matches them
+  ([#1240](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues/1240)).
+  
+  **Corrected numbers**
+  
+  The hunting dog carried the guard dog's scores verbatim; the ratter, both dogs
+  and the ram carried the wrong weight; the cat, ratter and ram carried the wrong
+  Move. `Cat`, `Ratter` and `Ram` had a Dexterity the tables do not define and no
+  Scent, which they do. Every `attrRollFormula` now derives from its score
+  (`1d6 + score − 3` at 10 and above, `1d4 + score − 2` below).
+  
+  **Body scale**
+  
+  All thirty shipped `bodyScaleBase: 1.0`, so a dagger wounded a destrier exactly
+  as it wounded a human. Each is now seeded from its own Strength — 0.18 for a
+  crow, 5.09 for an elephant — and injury levels read size-correct.
+  
+  **Anatomy**
+  
+  Each animal's body structure now reproduces the zone-number runs of its
+  assigned hit-location table (A–M), including the five wild tables (F–M) that
+  had no representation at all. The cat and the ratter previously had **no** body
+  structure, so no blow against them could resolve a location. Foreleg locations
+  on the dogs no longer hang off the head part. Every part carries the body
+  `roles` that drive impairment and the fumble/stumble mishaps.
+  
+  **Natural weapons**
+  
+  Every animal now carries one Combat Technique per weapons-table row — kick,
+  bite, claw, gore, tusk, talon, beak, grab — with its reach, zone die, attack
+  value and impact, plus the Melee-table Dodge and Shock values. Previously only
+  the bovine had an attack, and it was authored as a non-existent item type. A
+  natural weapon cannot block, matching the `·` the DEF column prints.
+  
+  **Negative natural armour**
+  
+  `BodyLocation.protectionBase` is no longer floored at zero, so a hide softer
+  than bare human skin (a crow's is `−6` blunt / `−8` piercing) raises the
+  effective impact instead of being clamped away. Armour reduction still bottoms
+  out at the location's own floor, so it can strip a hauberk to nothing but
+  cannot make an already-vulnerable hide worse. Existing bodies are unaffected —
+  the constraint only widened.
+  
+  The two reference tables now also ship as an executable specification
+  (`tests/content/animal-abilities.test.ts`), so an animal that drifts from its
+  printed row fails the build.
+- cc5bd24: Restore the missing _Jar, glass, 1 pt._ container item, and make a missing document
+  id fail the pack build instead of silently dropping the document.
+  
+  **The defect.** `Jar, glass, 1 pt.` carried an empty `id:` in its frontmatter, so the
+  items compiler skipped it. The item never reached the compendium while its knowledge-base
+  page and content still built normally, leaving no visible sign anything was wrong — the
+  build stayed green and reported success. The container pack shipped 43 items where it
+  should have had 44.
+  
+  **The fix.** The jar is given a document id and now compiles. A missing `id` on an item
+  or an actor is now a build error naming the offending file, rather than a warning
+  followed by a silent skip. This matches the folder-id check, which already threw; items
+  and actors were the inconsistent cases.
+  
+  A content file that cannot become a document is an authoring mistake, and the build
+  should say so at the point it happens rather than produce a quietly incomplete pack.
+  
+  Closes #1325.
+- b1755a2: **Generated content tables — Dataview `TABLE` queries** (#1275, #1410)
+  
+  A content note can now declare a catalog table by query instead of authoring its rows
+  by hand, in a fenced `dataview` block:
+  
+  ```text
+  TABLE WITHOUT ID
+    link(file.path, name.full) AS "Name",
+    sohl.weight AS "Weight",
+    sohl.protection.blunt AS "B"
+  WHERE type = "armorgear" and sohl.material = "Cloth"
+  SORT name.full ASC
+  ```
+  
+  The build fills in the rows from the matching notes' frontmatter, in both content
+  builds — the Foundry compendium packs (with `@UUID` links) and the knowledgebase
+  (with site links) — so one authored query yields the same table in both.
+  
+  - _Columns_ are any expression, optionally named with `AS "Header"`. Numeric columns
+    right-align, absent values render as an em dash, and `link(file.path, …)` links a
+    cell to the row's own note.
+  - _Fields_ are any frontmatter property, however nested (`sohl.protection.blunt`,
+    `sohl["subType"]`), plus `file.path` / `file.folder` / `file.name` / `file.link` /
+    `file.tags`, and `this` for the note the query is written on.
+  - _`WHERE`_ combines `and` / `or` / `not` and parentheses over `=`, `!=`, ordering
+    comparisons, and bare-field presence, with `contains` / `icontains` / `econtains`,
+    `startswith`, `lower`, `default`, `regexmatch` and more. `FROM` scopes to a folder or
+    a tag; `SORT` takes several keys with per-key direction; `LIMIT` caps the rows.
+  - A malformed query, an unsupported clause (`LIST`, `GROUP BY`, `FLATTEN`), an unknown
+    function, or a column resolving to an object fails the build naming the problem. A
+    query matching nothing renders as an empty table.
+  
+  See _Generated Content Tables_ in the developer documentation.
+- dbdc202: **The TODO/FIXME check is an Action, not a script this repository carries.**
+  `utils/check-todos.mjs` is gone, and with it `npm run lint:todos`;
+  `build.yml` calls `HeroicLands/.github/actions/todos` instead.
+  
+  The rule was never this repository's. A marker committed is a note to nobody in
+  any repository — it duplicates the issue that should carry the work, drifts out
+  of sync with it, and inside published JSDoc leaks onto the API site as
+  documentation prose. Ninety-four lines of the script said so; two said `src`
+  and `.ts`. Those two are inputs now, so `sohl-thalorna` and
+  `sohl-kethira-basic` can run the same check over their own JavaScript.
+  
+  Everything the implementation was careful about survives, because each part is
+  the difference between a finding you act on and one you argue with: string
+  contents are blanked before matching, only the comment portion of a line is
+  examined, and the column is the marker's own so an editor opens on the word.
+  
+  Two consequences worth knowing. The check now runs on the pull request rather
+  than inside `npm run lint`, so a marker is caught in CI and no longer by a
+  local `npm run build` — in exchange it runs on a bare checkout, before the
+  install, and fails in seconds instead of after one. And the default extensions
+  cover the three `.mjs` files under `src/` that the old `.ts` filter never
+  looked at, including `entity/expr/expression-scopes.mjs`.
+- 0bce6ab: Add the eight unarmed combat techniques, and arm everyone who fights with their
+  hands
+  ([#1228](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues/1228)).
+  
+  No character carried the techniques every person has. A pregen could pick up a
+  sword, but had no way to punch, kick, grab or trip with one.
+  
+  Eight new `combattechnique` skills under
+  `assets/content/Skills/Combat_Techniques/`, one per row of the unarmed table.
+  They are keyed `bflkbite`, `bflkgrab`, `bflkheadbutt`, `bflkkick`,
+  `bflklmbblk`, `bflkpress`, `bflkpunch` and `bflktrip` — the prefix marking them
+  as the folk techniques, since a person's bite is not a bear's and the plain
+  names belong to creature techniques:
+  
+  | Technique  | LNG |  ZD | Impact  | Notes                   |
+  | ---------- | --: | --: | ------- | ----------------------- |
+  | Bite       |   0 |  d2 | `d4+0P` | Impact TA 3             |
+  | Grab       |   1 |  d4 | —       | Strength roll           |
+  | Headbutt   |   0 |  d4 | `d6-2B` |                         |
+  | Kick       |   2 |  d4 | `d6-2B` | Low aim                 |
+  | Limb Block |   1 |   — | —       | The one unarmed defence |
+  | Press      |   1 |   — | —       | Strength roll           |
+  | Punch      |   1 |  d4 | `d6-3B` | Impact TA 2             |
+  | Trip       |   2 |   — | —       | Strength roll           |
+  
+  All are resolved by the **Melee** test, so each strike mode names `melee` as its
+  governing skill rather than opening a mastery level of its own. Each carries
+  Limb Block excepted, they counterstrike but cannot block — blocking bare-handed
+  is Limb Block's whole job, and it never attacks. Each is impaired by the body
+  role that wields it, so a wounded arm degrades a punch and a wounded leg a kick.
+  
+  The Grab, Press and Trip manoeuvres resolve by an opposed `d6 + STR` roll after
+  the Melee test, with their margin tables written into each entry.
+  
+  They are carried by all four pregenerated characters, both goblins, all four
+  Grukar and both Helspawn. The Grukar previously had a bespoke Punch whose impact
+  was baked from their own Strength; that is replaced by the shared one, since the
+  table gives every person the same fist and expects Strength to reach impact by
+  its own route.
+- cae4ad9: **The User Guide opens with a reading order, and nothing in it is orphaned** (#1320)
+  
+  The User Guide root announced itself as "an index to the instructions on how to use this
+  system" and then linked two things: the Quickstart and the rules. There was no reading
+  order, no chapter structure, and no list of the forty pages the guide actually contains.
+  Everything below the root was reachable only by chance, through whatever cross-links two
+  pages happened to share — and six pages were reachable by no path at all.
+  
+  - _A reading path._ The root now lays out ten chapters in the order a new group meets
+    them, each with a sentence on what it covers: install and first roll, setting up a
+    world, reading a sheet, the four kinds of actor, the item types, making tests, scenes
+    and tokens, combat, harm, and the supernatural — with customization last, for GMs who
+    want to go past what the sheets offer. A closing "where to look something up" answers
+    the four questions people arrive with.
+  - _Scope, stated._ The guide describes the implementation — sheets, buttons, dialogs,
+    chat cards, settings. The game itself is the rules, and **where the two ever differ,
+    the rules are what the game is**. Read a rules page for what a procedure means; read
+    the guide for where the button is.
+  
+  **Two section introductions** now stand over the subdirectories that group related
+  pages. _Actors_ opens with a table for choosing between Being, Cohort, Structure and
+  Vehicle, then says what distinguishes each and what all four share. _Items_ groups the
+  fourteen item types by what they are for — what a character _is_, the supernatural, and
+  gear — and sends the reader to Base Item first, since that page already carries
+  everything the types have in common.
+  
+  **Every page now leads somewhere.** _Actions_ and _Mystical Powers_ previously contained
+  no outbound links at all; a reader who landed on either had no way onward. Twenty-two
+  pages gained a **See also** section and fourteen more gained links back to their section
+  introduction and to the index. _Icon Legend_ had no `shortcode:`, so nothing in the
+  corpus could link to it even in principle — its generator now emits one, and a See also.
+  
+  **The guard.** `npm run lint:content-links` walked the rules only, so a User-Guide orphan
+  was invisible to CI. The walk is now declared over a list of corpora and runs the same
+  check on both roots: all 72 rules documents and all 43 user-guide documents are
+  reachable, and a new page that nothing links to fails the build.
+  
+  Closes #1320
+- 3ccd5a2: Rename Success Stars to Value Diamonds, and the result table to `resultDescTable`
+  ([#1283](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues/1283)).
+  
+  The quality grade of a Success Value test is now **Value Diamonds**. It was
+  "Success Stars", which collided with **Victory Stars** — an unrelated quantity.
+  The two measure different things: Victory Stars is the unbounded difference
+  between two positions on the success-level ladder, while Value Diamonds is a
+  bounded 0–5 grade on the Success Value scale. Neither is a measure of _success_
+  in the other's sense, and sharing the word "Star" invited exactly the confusion
+  the Victory Star naming was introduced to remove.
+  
+  **What changed**
+  
+  | Was                | Now               | What it is                                    |
+  | ------------------ | ----------------- | --------------------------------------------- |
+  | `successStars`     | `valueDiamonds`   | The 0–5 quality grade of a Success Value test |
+  | `successStarTable` | `resultDescTable` | The generic result-description table          |
+  
+  The table rename fixes a second, quieter problem: `successStarTable` never held
+  star data. It is the `LimitedDescription[]` that fate, keep-control, afflictions
+  and plain Success Value tests all ride on, supplying a label, a description and a
+  numeric result — and that number only means "diamonds" for one of those
+  consumers. The developer documentation already called the mechanism
+  "result-description tables"; the code now agrees.
+  
+  **Compatibility**
+  
+  The old names are removed outright — there are no aliases. No DataModel field
+  changed (the generated type catalog is untouched), so no world migration is
+  needed and persisted actor/item data is unaffected. Localization keys are
+  unchanged; only their values were reworded, so no key was renamed or retired.
+  
+  The one thing that does not survive is a **chat card posted before this
+  release**. The serialized test result rides inside the card's `data-scope`, so
+  pressing a button on an older card reconstructs a result with no description
+  table: its Result row reads empty and its grade reads zero. Nothing is corrupted
+  and nothing is applied silently — a treatment card's Course Bonus, for instance,
+  is still confirmed in a dialog before it takes effect. Re-run the test to get a
+  current card.
+  
+  **Display**
+  
+  The grade is now drawn as **diamond icons** rather than a bare number. Because
+  the scale has a fixed ceiling of five, the card draws all five and fills the
+  earned ones, so the row reads as a rating; a contest margin is unbounded, so
+  Victory Stars still draws only the stars actually earned. The count remains
+  available to screen readers via `aria-label`.
+  
+  Victory Stars are otherwise untouched.
+- b36fcd6: **The white coiled-dragon mark is actually white** (#1311)
+  
+  `assets/icons/brand/sohl-dragon-white.svg` shipped filled `#000000` — byte-identical
+  to the black original apart from a stripped comment — so the variant intended for dark
+  grounds rendered as a black shape on them. Both paths are now `#FFFFFF`.
+  
+  - _The trademark notice is restored._ The file had lost the comment recording that the
+    coiled-dragon service mark is All Rights Reserved and is **not** covered by
+    CC-BY-SA-4.0 or GPL-3.0. Since `assets/` is CC-BY-SA-4.0 by default and this mark is
+    carved out of it, that notice is the only record of the exclusion inside the file
+    itself. It was regenerated from the black original rather than retyped, so the
+    wording matches exactly.
+  - _Geometry is untouched._ Both path definitions and the `viewBox` are unchanged from
+    `sohl-dragon.svg`; only the two fill values differ.
+- be04273: **Wikilinks address a note by `type/shortcode`** (#1281)
+  
+  A qualified wikilink named the target's top-level content **directory**
+  (`[[Rules/shock]]`); it now names its **type** (`[[doc/shock]]`) — the same
+  `(type, shortcode)` identity the rest of the system uses, and one already guaranteed
+  unique tree-wide by `npm run lint:packs`. All 240 authored links were rewritten.
+  
+  - _A note can be refiled without breaking its inbound links._ Shortcodes are unique per
+    type, not per directory, so the directory never contributed to the address.
+  - _Routing is derived, not enumerated._ A target's pack comes from its type (`doc` →
+    journals, `macro` → macros, `character`/`creature` → actors, everything else →
+    items) instead of a hand-maintained directory table. A directory missing from that
+    table is what made all 43 container-gear notes unlinkable (#1276); that class of bug
+    cannot recur.
+  - _Unqualified links were rewritten._ 47 links that named a target by prose rather
+    than by address are now written in full as `[[type/shortcode|Text]]`.
+  - A qualifier that names no content type is now reported as `unknown-type` (was
+    `unmapped-tld`).
+  
+  Every resolved link was verified unchanged: 843 `@UUID` references across the compiled
+  packs, byte-identical before and after — apart from four deliberate corrections.
+  
+  Auditing the tree turned up five notes squatting on names they do not own, silently
+  capturing every link meant for the real page. Those names are removed and the
+  affected links now reach their proper targets:
+  
+  | Note                              | Names removed                                                  |
+  | --------------------------------- | -------------------------------------------------------------- |
+  | _Item: Skill_ (user guide)        | `Combat Technique`, `Combat Techniques`                        |
+  | _Gear_ (rules)                    | `Weapons`, `Armor`, `Projectiles`, `Containers`, `Concoctions` |
+  | _Shock_ (rules)                   | `Coma`                                                         |
+  | _Psychological Condition_ (rules) | `Aural Shock`                                                  |
+  | _Infected_ (trauma)               | `Infection`                                                    |
+  
+  A name variant a note genuinely owns is untouched — _Skills_ → `Skill`,
+  _Afflictions_ → `Affliction`, _The Pall_ → `Pall`.
+  
+  Closes #1276.
+- 3620ea5: Changed: the wooden ornaments are woodwork, and tanned leather is dearer.
+  
+  A wooden ring is turned, not set, and the Jewelcraft rule priced it as though a
+  goldsmith had made it — six pence of bench time where the woodworker who actually
+  makes it earns about three. The four wooden articles move to Misc_Gear/Natural
+  under the Woodworking routine, and are listed in its own table so the routine
+  covers them. Their prices are unchanged: at ten hours per 3d they already imply a
+  half to two and a half days' work, which is right for a turned ornament.
+  
+  Tanned leather goes from 12d to 16d the square yard. The armour material ratios
+  put leather at twice cloth's value and four fifths its weight, which is 16d and
+  19.2 oz — five sixths of a penny the ounce, matching the Jewelcraft table. The
+  same ratios put beaver at 1¼d the ounce and the Hide, Beaver entry agrees exactly,
+  so the ratios are the better authority here.
+- 3c76c28: Give armour two properties it was faking, and delete 311 Active Effects.
+  
+  **Perception was an effect; it is now a number.** Every armour article carried an embedded
+  Active Effect to apply its perception penalty — 311 of them, of which **302 applied zero**.
+  Each also carried a predicate string, repeated 311 times, naming which skills count as
+  perception-based:
+  
+      (doc.type==='skill' && doc.logic.hasAttr('per'))||(doc.type==='attribute' && ...)
+  
+  That is a fixed rule about the system living in data, so changing it meant rewriting every
+  article. `perceptionPenaltyBase` replaces the lot: one number on the article, the rule
+  expressed once in code, and the 311 effects gone.
+  
+  The **worst** worn penalty now applies rather than their sum — a great helm subsumes what a
+  mail cowl does to sight and hearing rather than compounding it. Summing was never a
+  decision; it was what independent effects happened to do. This matches how impaired body
+  parts penalize a test, where the worst of the role and limb penalties applies.
+  
+  **Encumbrance groups.** An article's ENC applied whenever it was worn, but the small rigid
+  arm pieces do not work that way: a spaulder costs nothing alone, and wearing three or more
+  costs 5 between them. That threshold had been encoded as 1.67 per piece so a sum would
+  reach 5 — right at exactly three, and wrong everywhere else, charging a lone spaulder a
+  third and a full harness half as much again.
+  
+  `encumbranceGroup` marks those thirteen articles instead. An article carries an encumbrance
+  value or belongs to a group, never both, and the threshold is charged once to the set.
+  Since worn armour contributes no weight, this is the whole of what an arm harness costs.
+  
+  **Both are documented and visible.** The Gear rules gain an _Arm Harness_ rule under
+  Armor Encumbrance and a precise _Sensory Penalties_ rule stating that the worst worn
+  penalty applies rather than the sum; the generated armour tables gain Harness and
+  Perception columns, so a reader sees that a spaulder costs nothing alone but belongs to a
+  set; and both fields are editable on the armour sheet, with the encumbrance value disabled
+  for an article that belongs to a group.
+  
+  Closes #1339.
+
 ## 0.8.2
 
 ### Patch Changes
