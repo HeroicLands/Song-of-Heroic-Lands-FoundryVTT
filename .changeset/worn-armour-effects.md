@@ -1,5 +1,5 @@
 ---
-"sohl": minor
+"sohl": patch
 ---
 
 Give armour two properties it was faking, and delete 311 Active Effects.

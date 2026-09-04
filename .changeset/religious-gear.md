@@ -1,5 +1,5 @@
 ---
-"sohl": minor
+"sohl": patch
 ---
 
 Added: holy symbols in brass, iron and gold, a stone icon, and a consistent naming

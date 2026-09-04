@@ -1,5 +1,5 @@
 ---
-"sohl": minor
+"sohl": patch
 ---
 
 Build the twelve Mythic creatures from their bestiary entries

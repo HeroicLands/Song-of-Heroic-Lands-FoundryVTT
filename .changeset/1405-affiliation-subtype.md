@@ -1,5 +1,5 @@
 ---
-"sohl": minor
+"sohl": patch
 ---
 
 **An Affiliation now records what kind of organization it is.**

@@ -1,5 +1,5 @@
 ---
-"sohl": minor
+"sohl": patch
 ---
 
 Surface Credits & Attributions as an in-app Journal Entry, reachable from two places (#1517).

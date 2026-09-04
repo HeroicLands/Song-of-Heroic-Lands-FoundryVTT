@@ -1,5 +1,5 @@
 ---
-"sohl": minor
+"sohl": patch
 ---
 
 Added: brooches, anklets and circlets, and every jewellery shape in bone, horn and

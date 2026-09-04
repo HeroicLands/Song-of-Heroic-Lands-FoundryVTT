@@ -1,5 +1,5 @@
 ---
-"sohl": minor
+"sohl": patch
 ---
 
 Compile `type: macro` content notes into a shipped **Macros** compendium (#1514).

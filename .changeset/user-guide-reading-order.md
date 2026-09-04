@@ -1,5 +1,5 @@
 ---
-"sohl": minor
+"sohl": patch
 ---
 
 **The User Guide opens with a reading order, and nothing in it is orphaned** (#1320)

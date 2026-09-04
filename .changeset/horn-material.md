@@ -1,5 +1,5 @@
 ---
-"sohl": minor
+"sohl": patch
 ---
 
 Added: horn as a material, distinct from bone and from ivory.

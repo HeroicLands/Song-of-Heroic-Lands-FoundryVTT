@@ -1,5 +1,5 @@
 ---
-"sohl": minor
+"sohl": patch
 ---
 
 Add 48 containers, filling the gaps the price calibration exposed. The tree carried 66

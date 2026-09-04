@@ -1,5 +1,5 @@
 ---
-"sohl": minor
+"sohl": patch
 ---
 
 Seed body scale on a compressive curve so most creatures sit near human

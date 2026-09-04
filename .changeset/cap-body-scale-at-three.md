@@ -1,5 +1,5 @@
 ---
-"sohl": minor
+"sohl": patch
 ---
 
 Cap `bodyScale` at 3, so the largest creatures are hard to wound rather than

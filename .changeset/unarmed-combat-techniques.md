@@ -1,5 +1,5 @@
 ---
-"sohl": minor
+"sohl": patch
 ---
 
 Add the eight unarmed combat techniques, and arm everyone who fights with their

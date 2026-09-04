@@ -1,5 +1,5 @@
 ---
-"sohl": minor
+"sohl": patch
 ---
 
 Rename Success Stars to Value Diamonds, and the result table to `resultDescTable`

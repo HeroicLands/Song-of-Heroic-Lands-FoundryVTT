@@ -1,5 +1,5 @@
 ---
-"sohl": minor
+"sohl": patch
 ---
 
 Describe attributes, birthsigns and mystical abilities well enough to read

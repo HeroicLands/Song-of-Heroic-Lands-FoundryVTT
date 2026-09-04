@@ -1,5 +1,5 @@
 ---
-"sohl": minor
+"sohl": patch
 ---
 
 Author Foundry Scenes as markdown map notes (#1525).

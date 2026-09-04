@@ -1,5 +1,5 @@
 ---
-"sohl": minor
+"sohl": patch
 ---
 
 Add wooden and silver holy symbols to the Religious folder.

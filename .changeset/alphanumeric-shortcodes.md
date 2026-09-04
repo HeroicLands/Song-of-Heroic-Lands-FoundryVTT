@@ -1,5 +1,5 @@
 ---
-"sohl": minor
+"sohl": patch
 ---
 
 **Shortcodes are strictly alphanumeric, and a violation now fails the build** (#1397)

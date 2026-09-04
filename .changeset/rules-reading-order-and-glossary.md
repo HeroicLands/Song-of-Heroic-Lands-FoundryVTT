@@ -1,5 +1,5 @@
 ---
-"sohl": minor
+"sohl": patch
 ---
 
 **The rules open with a reading order, and close with a glossary** (#1295)

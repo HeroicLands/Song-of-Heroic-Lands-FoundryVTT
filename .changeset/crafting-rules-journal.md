@@ -1,5 +1,5 @@
 ---
-"sohl": minor
+"sohl": patch
 ---
 
 Move the crafting routine out of the craft skills and into a Crafting chapter

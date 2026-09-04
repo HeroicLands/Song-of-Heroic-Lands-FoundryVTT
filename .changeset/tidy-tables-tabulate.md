@@ -1,5 +1,5 @@
 ---
-"sohl": minor
+"sohl": patch
 ---
 
 **Generated content tables — Dataview `TABLE` queries** (#1275, #1410)

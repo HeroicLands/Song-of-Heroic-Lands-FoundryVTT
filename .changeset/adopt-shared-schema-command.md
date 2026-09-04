@@ -1,5 +1,5 @@
 ---
-"sohl": minor
+"sohl": patch
 ---
 
 Publish the schema with `package-build schema`, and write out the field names it

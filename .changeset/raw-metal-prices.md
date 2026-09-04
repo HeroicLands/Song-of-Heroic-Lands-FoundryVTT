@@ -1,5 +1,5 @@
 ---
-"sohl": minor
+"sohl": patch
 ---
 
 Fixed: raw metal cost as much per pound as the finished goods made from them.

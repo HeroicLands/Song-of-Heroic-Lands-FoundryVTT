@@ -1,5 +1,5 @@
 ---
-"sohl": minor
+"sohl": patch
 ---
 
 _Strength now affects how hard you hit_ (#1253).

@@ -1,5 +1,5 @@
 ---
-"sohl": minor
+"sohl": patch
 ---
 
 Retire five item-frontmatter fields that never reached a saved document.

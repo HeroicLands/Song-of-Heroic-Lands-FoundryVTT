@@ -1,5 +1,5 @@
 ---
-"sohl": minor
+"sohl": patch
 ---
 
 Give the remaining 114 animals a body structure and natural weapons, so every

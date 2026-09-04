@@ -1,5 +1,5 @@
 ---
-"sohl": minor
+"sohl": patch
 ---
 
 Give every animal its six creature skills, and the Grukar an anatomy and a

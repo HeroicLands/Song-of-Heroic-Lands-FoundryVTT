@@ -1,5 +1,5 @@
 ---
-"sohl": minor
+"sohl": patch
 ---
 
 Give every rules section an introduction, and reorganize the rules documents

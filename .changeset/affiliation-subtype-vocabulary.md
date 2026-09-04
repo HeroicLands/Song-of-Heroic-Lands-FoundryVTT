@@ -1,5 +1,5 @@
 ---
-"sohl": minor
+"sohl": patch
 ---
 
 Declare all eleven affiliation subtypes the content format declares, and derive

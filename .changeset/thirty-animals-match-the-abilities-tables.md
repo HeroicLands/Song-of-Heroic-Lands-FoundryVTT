@@ -1,5 +1,5 @@
 ---
-"sohl": minor
+"sohl": patch
 ---
 
 Rebuild the thirty animals covered by the **Domesticated Animal Abilities** and

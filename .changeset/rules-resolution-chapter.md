@@ -1,5 +1,5 @@
 ---
-"sohl": minor
+"sohl": patch
 ---
 
 Give the rules a Resolution chapter that defines the terms the rest of them use
