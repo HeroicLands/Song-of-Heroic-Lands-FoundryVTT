@@ -1,0 +1,8 @@
+{{- /*
+  Maps — one content type whose `subType` (battlemap / localmap / regionalmap)
+  decides the derived canvas, so the section is the type and the listing is
+  flat.
+*/ -}}
+{{ define "main" }}
+{{ partial "kb-section-catalog.html" (dict "page" . "type" "map") }}
+{{ end }}

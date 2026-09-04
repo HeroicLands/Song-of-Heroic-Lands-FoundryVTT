@@ -443,7 +443,14 @@ site:
     # (#1745, package-build#56), so every note in this tree is `sohl` by
     # construction: naming a second package selects nothing, and nothing can
     # make it select anything (#1753).
-    backfillSections: true
+    #
+    # `backfillSections` is deliberately absent (it defaults to false). It gave a
+    # bare `_index.md` to any directory under the mount that `sections` below did
+    # not declare — and with pages emitted flat (package-build#204) no page
+    # creates a directory, so it can never fire again. The one landing it used to
+    # produce here was `macro`, which is why that section is now declared like
+    # every other. `sections` is the whole of the section list, and there is no
+    # second, implicit way for a landing to appear.
     landing: { title: Knowledgebase, type: knowledgebase }
     # This repository's own body rewrites: `{@link}` against the TypeDoc symbol
     # map, and repo-relative links in the developer docs. Named rather than
@@ -489,6 +496,12 @@ site:
         rules: { title: Rules, banner: banners/rules.webp }
         user-guide: { title: User Guide, banner: banners/user-guide.webp }
         reference: { title: Reference }
+        # Macro notes. Declared rather than backfilled: this landing existed only
+        # because `backfillSections` invented it from the directory the macro
+        # pages sat in, and flat emission leaves no such directory — so without
+        # this line `/sohl/kb/macro/` becomes a 404 for a URL that answers today
+        # and is in the sitemap.
+        macro: { title: Macros }
         # One per item type, each introduced by a `doc-<type>` note filed under
         # `reference` above. Declared even where the type ships no content note
         # yet (`concoctiongear`, `mystery`): `writeSectionLandings` creates the
