@@ -1,0 +1,8 @@
+{{- /*
+  User Guide — the player- and GM-facing chapter set. One of the three
+  `type: doc` genres, told apart by `subType`; its front page is an ordinary
+  note inside it (`doc-userguide`) rather than this landing.
+*/ -}}
+{{ define "main" }}
+{{ partial "kb-section-catalog.html" (dict "page" . "type" "doc" "subType" "user-guide") }}
+{{ end }}

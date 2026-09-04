@@ -1,0 +1,8 @@
+{{- /*
+  Reference — the credits and the ten type introductions. A doc GENRE, not a
+  content type, so it is selected by `subType` off `type: doc` like the other
+  two; nothing carries `type: reference`.
+*/ -}}
+{{ define "main" }}
+{{ partial "kb-section-catalog.html" (dict "page" . "type" "doc" "subType" "reference") }}
+{{ end }}
