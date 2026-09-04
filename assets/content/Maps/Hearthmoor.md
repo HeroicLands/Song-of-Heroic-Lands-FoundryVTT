@@ -11,7 +11,7 @@ subType: regionalmap
 sohl:
   kbcat: map
   folder: Vh8pLwCzEnUyQ2Sd
-  image: systems/sohl/assets/ui/parchment.jpg
+  img: systems/sohl/assets/ui/parchment.jpg
   dimensions: [512, 512]
   pxPerGrid: 64
 

@@ -15,7 +15,7 @@ sohl:
   # stair regions can address each other.
   place: wayfarersrest
   placeName: Wayfarer's Rest
-  image: systems/sohl/assets/ui/parchment.jpg
+  img: systems/sohl/assets/ui/parchment.jpg
   dimensions: [512, 512]
   pxPerGrid: 64
 

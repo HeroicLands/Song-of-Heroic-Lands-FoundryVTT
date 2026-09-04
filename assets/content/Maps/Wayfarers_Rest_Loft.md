@@ -13,7 +13,7 @@ sohl:
   folder: Pw3nJvVsGuMdRb1K
   place: wayfarersrest
   placeName: Wayfarer's Rest
-  image: systems/sohl/assets/ui/parchment.jpg
+  img: systems/sohl/assets/ui/parchment.jpg
   dimensions: [512, 512]
   pxPerGrid: 64
 
