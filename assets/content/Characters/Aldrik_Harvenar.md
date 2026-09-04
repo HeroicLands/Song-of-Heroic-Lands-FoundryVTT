@@ -535,7 +535,6 @@ sohl:
     - { shortcode: shok, type: skill, system: { masteryLevelBase: 46 } }
     - { shortcode: swim, type: skill, system: { masteryLevelBase: 30 } }
     - { shortcode: spirit, type: skill, initSkillMult: 3 }
-    - { shortcode: swim, type: skill, initSkillMult: 1 }
     - { shortcode: thtcs, type: skill, initSkillMult: 1 }
     - { shortcode: thro, type: skill, initSkillMult: 2 }
     - { shortcode: bflkbite, type: skill, initSkillMult: 2 }
