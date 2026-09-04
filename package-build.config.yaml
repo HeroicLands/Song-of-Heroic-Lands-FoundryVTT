@@ -434,23 +434,6 @@ publish:
 # so the two cannot disagree about where a page is.
 site:
     out: kb/content
-    # The value written into each page's Hugo `url:` front matter. Hugo reads
-    # that as **site-root-relative**, and this Hugo site's root already *is*
-    # `/sohl/` — `kb/hugo.toml` sets `baseURL = "…/sohl/"` and `publishDir =
-    # "../build/site/sohl"`, and the deployment serves that directory at
-    # `/sohl/`. So the package prefix may be written on exactly one side, and
-    # Hugo already writes it: leaving `base` absent means `/<contentPackage>/`,
-    # which published every content page at `/sohl/sohl/<address>/` (#1812).
-    #
-    # A stopgap, not the resting state. The emitter uses one value for two
-    # things that need opposite framings — Hugo's `url:`, which is relative to
-    # the site root, and the `href`s it writes into page bodies, which are
-    # site-absolute — so no value here is right for both. `/` buys the correct
-    # half: every page, the homepage, `sitemap.xml`, the section-landing
-    # listings and every cross-package inbound link resolve. Same-package body
-    # links stay dead, exactly as they already are. When package-build stops
-    # writing `base` into `url:`, drop this line and the default is right again.
-    base: "/"
     # `packages:` is absent deliberately, and absent means `[contentPackage]` —
     # exactly the pages this repository compiles. It used to name `thalorna`
     # alongside `sohl`, from when a note declared its own package and a foreign
