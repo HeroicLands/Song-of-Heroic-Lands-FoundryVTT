@@ -84,8 +84,8 @@ sequence; `run-p` runs them in parallel.
 | `build:unpackdb`  | Extract a compiled LevelDB pack back to per-entry JSON under `build/tmp/packs/`.                                                       |
 
 The authoritative content is the in-repo Markdown under `assets/content/`; the
-JSON is a disposable `build/` intermediate. There is no vault step — `build:compiledb`
-reads the Markdown directly.
+JSON is a disposable `build/` intermediate. `build:compiledb` reads the Markdown
+directly — nothing stands between the note you edit and the pack that ships.
 
 #### Scene ↔ Level integrity
 
@@ -396,11 +396,8 @@ The build compiles that tree directly: `build:compiledb` generates each pack's
 per-entry JSON into a disposable `build/packs-json/<pack>/` intermediate and
 compiles the LevelDB packs from it, so the JSON is **never committed**.
 
-`assets/content/` was formerly a generated mirror of the HeroicLands vault, and an
-edit made here was reverted by the next export without a word. **That is no longer
-true (#1445).** The tree is this repository's source, it is edited here, and the
-export — `utils/export-vault-content.mjs`, `utils/vault-export.mjs`, and the
-`content:export` / `content:check` scripts — has been removed.
+`assets/content/` is this repository's source and is edited here directly (#1445).
+No export feeds it and nothing regenerates it, so a fix belongs in the note.
 
 **Building needs nothing but this repository**: `npm run build`, or
 `npm run build:compiledb` for packs only.
@@ -424,7 +421,7 @@ Items, actors, and journal entries are Markdown files with YAML frontmatter
 (a `type:`, a stable `id:`, and folder/embedding metadata; the content package is
 not authored per note — it is the `contentPackage` declared once in
 `package-build.config.yaml`, `sohl` here),
-authored in the vault and exported anywhere under `assets/content/`.
+authored anywhere under `assets/content/`.
 **Classification is frontmatter-driven, not directory-driven:** a file joins a
 pack because of its `type` (item kinds →
 the items pack **and**, for its prose, the journals pack; `type: doc` → journals;
@@ -647,7 +644,7 @@ What it declares:
 | `rootDir`                                           | The repository the paths below are resolved against. Absolute (`import.meta.dirname`), so the build reads the same files whatever directory it was launched from.                   |
 | `contentPackage` / `foundryPackage` / `packageKind` | Which notes are compiled, which Foundry package ships them, and whether that package is a `systems/` or a `modules/` install.                                                       |
 | `stats`                                             | The identity stamped into every compiled document's `_stats` — `systemId`, `systemVersion` (read from `package.json`, not transcribed), `lastModifiedBy`.                           |
-| `skipDirectories`                                   | Directory names the content walk ignores (`Templates/`, Obsidian's templater scaffolding — a convention of this vault, not of a content tree).                                      |
+| `skipDirectories`                                   | Directory names the content walk ignores (`Templates/`, authoring scaffolding — a convention of this tree, not of the note format).                                                 |
 | `paths`                                             | The content root, the manifest-template directory, the vendored link manifests, and the three build outputs. Each defaults to the conventional layout and is relative to `rootDir`. |
 | `packs`                                             | The one pack list: name, Foundry document type, folder-hierarchy file, `companions`, `mayBeEmpty`.                                                                                  |
 
@@ -1150,14 +1147,17 @@ deploy, not a build failure. `kb/hugo.toml` declaring the param is the guard,
 not the template.
 
 **Links inside the generated Markdown carry the prefix from the builder, not
-from Hugo.** Hugo prefixes what it emits itself (permalinks, assets, aliases),
-but the wikilinks and cross-references written into `kb/content/` are ordinary
-site paths that nothing rewrites afterwards. They are composed from
-`site.base` (defaulting to `/<contentPackage>/`), `publish.address.prefix` and
-`site.passOptions.apiBase` in `package-build.config.yaml`, which is where a
-relocation is edited. One consequence worth remembering: a Hugo `alias` is
-publishDir-relative and does **not** get the baseURL path added, so
-An authored Obsidian `aliases` is stripped on the way into the frontmatter: in Hugo the key means URL redirects, not names.
+from Hugo.** Hugo prefixes what it emits itself (permalinks, assets), but the
+wikilinks and cross-references written into `kb/content/` are ordinary site paths
+that nothing rewrites afterwards. They are composed from `site.base` (defaulting
+to `/<contentPackage>/`), `publish.address.prefix` and `site.passOptions.apiBase`
+in `package-build.config.yaml`, which is where a relocation is edited.
+
+**Each page states its own `url`.** A page's address is `(type, shortcode)` and
+not the path its file sits at, so the builder writes the address into the
+frontmatter rather than letting Hugo derive one from the directory. The build
+emits no Hugo `aliases`, and therefore no redirects: an address is stable across
+a rename, so there is nothing to redirect from.
 
 ## 9. The build utility scripts
 
@@ -1168,24 +1168,17 @@ here as a `devDependency` from the registry — the same way every other consume
 resolves it (#1589). Each script carries a header comment describing its purpose
 and how to invoke it — read the file itself for the authoritative detail. In brief:
 
-| Script                              | Purpose                                                                                                                                    |
-| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| `manifest-flags.mjs`                | The `flags(config)` hook `package-build manifest` calls: the credits journal's `@UUID`, which only exists once the content tree is walked. |
-| `svg-theme.mjs`                     | The `transform` hook `package-build assets` calls: recolor each staged SVG so icons follow the Foundry theme.                              |
-| `build-icon-font.mjs`               | Build the icon font from SVGs.                                                                                                             |
-| `build-type-catalog.mjs`            | Generate `docs/reference/type-catalog.md` from the kind enums.                                                                             |
-| `docs-coverage.mjs`                 | Report doc-comment coverage.                                                                                                               |
-| `clean.mjs`                         | Remove build output (`--distclean` for a deeper clean).                                                                                    |
-| `build-site.mjs`                    | Assemble the deployable `/sohl/` tree: mount the API docs, refuse a partial build, and refuse a link to a retired hostname.                |
-| `retired-hosts.mjs`                 | The withdrawn hostnames and what replaced each — shared by the content-link check and the deploy gate.                                     |
-| `release.mjs`                       | Legacy local release path; authenticate with `gh auth login` (CI normally cuts releases).                                                  |
-| `packs/compendiums.mjs`             | Library: `compilePacks` / `unpackPacks` / `cleanPacks` over the Foundry CLI. No import-time side effects.                                  |
-| `packs/bin/build-compendiums.mjs`   | The pack CLI: argv, logging, directory creation, and exit codes for the library above.                                                     |
-| `packs/export.mjs`                  | Vault → `_source/` export orchestrator.                                                                                                    |
-| `packs/{items,journals,actors}.mjs` | Per-pack vault compilers.                                                                                                                  |
-| `packs/helpers.mjs`                 | Shared pack helpers (frontmatter, `_key`, folders).                                                                                        |
-| `packs/clean-sources.mjs`           | Remove generated `_source/` trees.                                                                                                         |
-| `typedoc-plugin-*.mjs`              | TypeDoc plugins (source categories, nested nav, Foundry links, data-field schema).                                                         |
+| Script                   | Purpose                                                                                                                                    |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| `manifest-flags.mjs`     | The `flags(config)` hook `package-build manifest` calls: the credits journal's `@UUID`, which only exists once the content tree is walked. |
+| `svg-theme.mjs`          | The `transform` hook `package-build assets` calls: recolor each staged SVG so icons follow the Foundry theme.                              |
+| `build-icon-font.mjs`    | Build the icon font from SVGs.                                                                                                             |
+| `build-type-catalog.mjs` | Generate `kb/dev-docs/reference/type-catalog.md` from the kind enums.                                                                      |
+| `docs-coverage.mjs`      | Report doc-comment coverage.                                                                                                               |
+| `build-site.mjs`         | Assemble the deployable `/sohl/` tree: mount the API docs, refuse a partial build, and refuse a link to a retired hostname.                |
+| `retired-hosts.mjs`      | The withdrawn hostnames and what replaced each — shared by the content-link check and the deploy gate.                                     |
+| `release.mjs`            | Legacy local release path; authenticate with `gh auth login` (CI normally cuts releases).                                                  |
+| `typedoc-plugin-*.mjs`   | TypeDoc plugins (source categories, nested nav, Foundry links, data-field schema).                                                         |
 
 ## See also
 
