@@ -8,8 +8,8 @@ Authoring such a table by hand duplicates that data and guarantees drift: the it
 weight changes, the table does not, and nothing in the build notices.
 
 A content body therefore declares **what it wants tabulated** and the build fills in
-the rows. The declaration is an ordinary [Obsidian
-Dataview](https://blacksmithgu.github.io/obsidian-dataview/) `TABLE` query, in a
+the rows. The declaration is a
+[Dataview](https://blacksmithgu.github.io/obsidian-dataview/) `TABLE` query, in a
 fenced `dataview` block:
 
 ````text
@@ -23,11 +23,10 @@ SORT name.full ASC
 ```
 ````
 
-Content is authored in **`assets/content/`**, which is opened as an Obsidian vault so
-the Dataview plugin renders that block live. The build renders the same query against
-the same frontmatter, so one authored query yields the same table in three places: in
-Obsidian while writing, in the Foundry compendium packs, and on the knowledgebase.
-What the author sees is what ships.
+The build renders that query against the frontmatter of the notes it selects, so one
+authored query yields the same table in both places it ships: the Foundry compendium
+packs and the knowledgebase. The query is the single statement of what the table
+holds — there is no second copy to fall out of date.
 
 Both content builds run the same expander (`@heroiclands/package-build/engine/content-tables`).
 
@@ -149,9 +148,9 @@ an unknown function — is a **build error**, and the block is left in the body 
 so the failure is visible in the output as well as on the console. In the pack build
 the note fails to compile; in the knowledgebase build the run exits non-zero.
 
-A query that matches **no** note is _not_ an error: it renders as an empty table
-(headers only), which is exactly what the author already sees in Obsidian. A category
-with no content written yet is a normal state of the corpus, not a broken build.
+A query that matches **no** note is _not_ an error: it renders as an empty table,
+headers only. A category with no content written yet is a normal state of the corpus,
+not a broken build.
 
 ## Where it runs
 
