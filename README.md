@@ -61,7 +61,7 @@ _Song of Heroic Lands_ is built on the work of many others. The credits are
 maintained in one place, and published where the people playing the game can
 actually read them:
 
-**[Credits & Attributions](https://www.heroiclands.org/sohl/kb/credits/)**
+**[Credits & Attributions](https://www.heroiclands.org/sohl/doc-credits/)**
 
 In Foundry, the same page is the **Credits** link in the Game Settings sidebar,
 or the **View Credits** button on the system's settings tab.

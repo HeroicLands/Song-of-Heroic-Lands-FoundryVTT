@@ -1,11 +1,11 @@
 ---
 id: YX8E9Qy0Ysm66VsH
 type: doc
-subType: affliction
+subType: reference
 name:
   full: Afflictions
   aliases: []
-shortcode: aflictions
+shortcode: affliction
 description: "Diseases, curses, poisons, and other ailments."
 ---
 

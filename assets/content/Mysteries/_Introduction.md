@@ -1,11 +1,11 @@
 ---
 id: PK3S3tmvGF9iEbWW
 type: doc
-subType: mystery
+subType: reference
 name:
   full: Mysteries
   aliases: []
-shortcode: mysteries
+shortcode: mystery
 description: Esoteric knowledge and hidden lore.
 ---
 

@@ -1,11 +1,11 @@
 ---
 id: RtMkTCGjBNTXWJCB
 type: doc
-subType: containergear
+subType: reference
 name:
   full: Containers
   aliases: []
-shortcode: containers
+shortcode: containergear
 description: "Sacks, packs, pouches, and other carriers."
 ---
 

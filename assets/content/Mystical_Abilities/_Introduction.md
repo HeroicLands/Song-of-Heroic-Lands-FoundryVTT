@@ -1,11 +1,11 @@
 ---
 id: tQE57KhK7HYcEVDw
 type: doc
-subType: mysticalability
+subType: reference
 name:
   full: Mystical Abilities
   aliases: []
-shortcode: mystclblts
+shortcode: mysticalability
 description: Magical and supernatural powers.
 ---
 

@@ -455,17 +455,25 @@ site:
         blob: https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/blob/main/
     trees:
         - { from: kb/dev-docs, section: dev-docs }
-    # Landing title + hero for a section with **no README of its own**, so a
-    # landing matches the home-page card that links to it rather than Hugo's
-    # auto-humanised directory name. Actor subtypes are listed so their landing
-    # exists, titled, before any content of that type ships.
+    # Landing title + hero for a section, so a landing matches the home-page
+    # card that links to it rather than Hugo's auto-humanised directory name
+    # (which spells `weapongear` "Weapongears" and `rules` "Ruleses").
     #
-    # Only a section without a README belongs here. `writeSectionLandings`
-    # writes an empty-bodied `_index.md` for every entry, and it runs *after*
-    # `renderPages` — so an entry naming a section whose README is its landing
-    # silently overwrites that README's prose and tables with a blank page. A
-    # section that has a README states its title and hero in `readmeSections`
-    # below, which is merged onto the rendered page rather than replacing it.
+    # **Every content section is declared here now** (package-build#204). A
+    # section used to be able to take its landing from a `README.md`, and the
+    # page that introduced a type *was* that landing — so the introduction, the
+    # section's identity and its URL were one document. They are three separate
+    # things: the introduction is now an ordinary note addressed `doc-<type>`,
+    # the section is a Hugo directory, and its landing is the empty-bodied
+    # listing page written from the entry below. Nothing is lost from the
+    # reader's side: the section still answers at `/sohl/kb/<section>/`,
+    # titled, with its hero, listing its members.
+    #
+    # `writeSectionLandings` writes an `_index.md` for every entry and runs
+    # *after* `renderPages`, so an entry must not name a section that a note
+    # lands at — it would overwrite that page. No content note lands at a
+    # section any more, so that hazard is gone; it survives only for `trees`,
+    # whose README landings are declared in `readmeSections` below.
     sections:
         being: { title: Beings, banner: banners/creature.webp }
         trauma: { title: Trauma, banner: banners/trauma.webp }
@@ -474,16 +482,17 @@ site:
         # banner: the heroes are CDN assets and there is none for maps yet, so
         # this landing renders without one.
         map: { title: Maps }
-    # Landing title + hero for every section whose index comes from a README —
-    # the doc sections, and each item section whose `README.md` now carries the
-    # introduction and the generated tables that used to live in a collection
-    # note. What the section says about itself wins over what its README happens
-    # to carry, so the landing matches the card that links to it.
-    readmeSections:
-        dev-docs: { title: Developer Documentation, banner: banners/dev-docs.webp }
-        user-guide: { title: User Guide, banner: banners/user-guide.webp }
+        # The doc genres. `rules` and `user-guide` each hold a chapter set
+        # whose front page is now an ordinary note inside them
+        # (`doc-rulesintro`, `doc-userguide`) rather than their landing;
+        # `reference` holds the credits and the ten type introductions.
         rules: { title: Rules, banner: banners/rules.webp }
-        credits: { title: Credits & Attributions }
+        user-guide: { title: User Guide, banner: banners/user-guide.webp }
+        reference: { title: Reference }
+        # One per item type, each introduced by a `doc-<type>` note filed under
+        # `reference` above. Declared even where the type ships no content note
+        # yet (`concoctiongear`, `mystery`): `writeSectionLandings` creates the
+        # directory, so the landing exists — empty — before the first one does.
         weapongear: { title: Weapons, banner: banners/weapons.webp }
         armorgear: { title: Armor/Clothing, banner: banners/armor-clothing.webp }
         projectilegear: { title: Projectiles, banner: banners/projectiles.webp }
@@ -492,9 +501,14 @@ site:
         affliction: { title: Afflictions, banner: banners/affliction.webp }
         mysticalability: { title: Mystical Abilities, banner: banners/mystical-abilities.webp }
         skill: { title: Skills/Attributes, banner: banners/skills-attributes.webp }
-        # No banner: the heroes are CDN assets and neither section has one. Both
-        # types are declared by the item registry and neither ships a content
-        # note yet, so each landing publishes its introduction above tables that
-        # stay empty until the first one does.
+        # No banner: the heroes are CDN assets and neither section has one.
         concoctiongear: { title: Concoctions }
         mystery: { title: Mysteries }
+    # Landing title + hero for a **tree** whose index comes from a `README.md`.
+    # A `trees` entry mounts a repository directory into the knowledgebase
+    # rather than compiling content notes, and it still lands on its README — so
+    # the developer documentation is the one entry left here. What the section
+    # says about itself wins over what its README happens to carry, so the
+    # landing matches the card that links to it.
+    readmeSections:
+        dev-docs: { title: Developer Documentation, banner: banners/dev-docs.webp }

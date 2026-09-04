@@ -1,11 +1,11 @@
 ---
 id: AVuARfyd5TjmGqUh
 type: doc
-subType: skill
+subType: reference
 name:
   full: Skills
   aliases: []
-shortcode: skills2
+shortcode: skill
 description: Learned abilities and proficiencies.
 ---
 

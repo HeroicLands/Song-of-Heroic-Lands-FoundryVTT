@@ -1,11 +1,11 @@
 ---
 id: gw0PK5jHBTEdEEQR
 type: doc
-subType: miscgear
+subType: reference
 name:
   full: Miscellaneous Gear
   aliases: []
-shortcode: miscelnsgr
+shortcode: miscgear
 description: Everyday equipment and sundry goods.
 ---
 
