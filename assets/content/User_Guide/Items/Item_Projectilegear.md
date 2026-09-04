@@ -1,7 +1,7 @@
 ---
 id: vsv4MPXDQcskQEl9
 type: doc
-subType: user-guide
+subType: userguide
 name:
   full: "Projectile"
 shortcode: projectilegearug

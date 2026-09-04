@@ -1,7 +1,7 @@
 ---
 id: rF2XSEFWmBoOwkks
 type: doc
-subType: user-guide
+subType: userguide
 name:
   full: "Container"
 shortcode: containergearug

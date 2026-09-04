@@ -1,7 +1,7 @@
 ---
 id: iQzDh13KVsOrpbqc
 type: doc
-subType: user-guide
+subType: userguide
 name:
   full: "Actions"
 shortcode: actionsug

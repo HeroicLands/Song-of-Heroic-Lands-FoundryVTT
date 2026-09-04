@@ -1,7 +1,7 @@
 ---
 id: yGlzMjLsBc8dCO6J
 type: doc
-subType: user-guide
+subType: userguide
 name:
   full: "Being"
 shortcode: beingug

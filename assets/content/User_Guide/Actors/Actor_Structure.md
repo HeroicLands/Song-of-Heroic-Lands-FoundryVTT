@@ -1,7 +1,7 @@
 ---
 id: STezcXhJMlmYv9XT
 type: doc
-subType: user-guide
+subType: userguide
 name:
   full: "Structure"
 shortcode: structureug

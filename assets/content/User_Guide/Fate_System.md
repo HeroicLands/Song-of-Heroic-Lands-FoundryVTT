@@ -1,7 +1,7 @@
 ---
 id: kRs6ef5NELRdB2Ui
 type: doc
-subType: user-guide
+subType: userguide
 name:
   full: "The Fate System"
 shortcode: thftsystug

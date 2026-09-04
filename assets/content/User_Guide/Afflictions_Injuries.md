@@ -1,7 +1,7 @@
 ---
 id: jzsvrPQas8ak9Ti0
 type: doc
-subType: user-guide
+subType: userguide
 name:
   full: "Afflictions and Injuries"
 shortcode: afflinjug

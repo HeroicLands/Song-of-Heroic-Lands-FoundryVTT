@@ -24,11 +24,14 @@
     type     (string) Frontmatter `type` to select on.
     subType  (string) Optional frontmatter `subType`, for a section that is one
                       genre of a shared type. The three doc genres (`rules`,
-                      `user-guide`, `reference`) are all `type: doc`, so `type`
+                      `userguide`, `reference`) are all `type: doc`, so `type`
                       alone cannot tell them apart — and the developer-doc tree
                       is `type: doc` carrying no `subType` at all, so selecting
                       on `type` alone would sweep its 46 pages into whichever
-                      genre asked first.
+                      genre asked first. Pass the subType, not the section name:
+                      a subType is an address segment and so carries no hyphen
+                      (package-build#207), while the section it lands under may
+                      (`/sohl/kb/user-guide/` ← `subType: userguide`).
 
   Rows render through the theme's `catalog-rows.html`, so a member reads
   "Name (shortcode)" with its description beneath — the same rows

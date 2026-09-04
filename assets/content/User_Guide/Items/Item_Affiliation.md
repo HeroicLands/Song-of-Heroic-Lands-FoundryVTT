@@ -1,7 +1,7 @@
 ---
 id: hJGjCXud883VX96W
 type: doc
-subType: user-guide
+subType: userguide
 name:
   full: "Affiliation"
 shortcode: affltnug

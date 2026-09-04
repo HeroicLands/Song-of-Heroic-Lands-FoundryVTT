@@ -1,7 +1,7 @@
 ---
 id: ORi4BIBMecFVaG4I
 type: doc
-subType: user-guide
+subType: userguide
 name:
   full: "Combatant"
 shortcode: cmbtntug

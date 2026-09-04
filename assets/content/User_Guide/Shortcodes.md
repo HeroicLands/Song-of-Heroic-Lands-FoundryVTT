@@ -1,7 +1,7 @@
 ---
 id: b44b338b7c4477fb
 type: doc
-subType: user-guide
+subType: userguide
 name:
   full: "Shortcodes"
 shortcode: shortcodesug
