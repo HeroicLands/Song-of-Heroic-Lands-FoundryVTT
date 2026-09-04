@@ -1,7 +1,7 @@
 ---
 id: eg6jbFFPRgbKj2a2
 type: doc
-subType: user-guide
+subType: userguide
 name:
   full: Mystical Powers
 shortcode: mystclpwug

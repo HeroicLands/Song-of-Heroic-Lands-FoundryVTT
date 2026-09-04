@@ -2,7 +2,12 @@
   User Guide — the player- and GM-facing chapter set. One of the three
   `type: doc` genres, told apart by `subType`; its front page is an ordinary
   note inside it (`doc-userguide`) rather than this landing.
+
+  The two spellings below are deliberate, and are different things. This file's
+  directory is the **section** — the published URL `/sohl/kb/user-guide/`, which
+  keeps its hyphen. The `subType` it selects on is an **address segment**, and a
+  segment is `^[A-Za-z0-9]+$` (package-build#207), so it is `userguide`.
 */ -}}
 {{ define "main" }}
-{{ partial "kb-section-catalog.html" (dict "page" . "type" "doc" "subType" "user-guide") }}
+{{ partial "kb-section-catalog.html" (dict "page" . "type" "doc" "subType" "userguide") }}
 {{ end }}

@@ -1,7 +1,7 @@
 ---
 id: tFoBD6DazC0n9cxw
 type: doc
-subType: user-guide
+subType: userguide
 name:
   full: "Attribute"
 shortcode: attributeug

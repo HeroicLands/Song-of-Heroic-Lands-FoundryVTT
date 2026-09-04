@@ -1,7 +1,7 @@
 ---
 id: DXyazxuH0KLFWj4l
 type: doc
-subType: user-guide
+subType: userguide
 name:
   full: Base Item
 shortcode: baseitemug

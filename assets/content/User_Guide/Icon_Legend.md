@@ -1,7 +1,7 @@
 ---
 id: GU59i07VkICWsT2l
 type: doc
-subType: user-guide
+subType: userguide
 name:
   full: "Icon Legend"
 shortcode: iconlgndug

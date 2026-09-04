@@ -1,7 +1,7 @@
 ---
 id: nV3Nq6xe3fUcJJzd
 type: doc
-subType: user-guide
+subType: userguide
 name:
   full: "Concoction"
 shortcode: concoctiongearug

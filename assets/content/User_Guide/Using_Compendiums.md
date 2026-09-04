@@ -1,7 +1,7 @@
 ---
 id: 0VrqqfwFEbVXxb3e
 type: doc
-subType: user-guide
+subType: userguide
 name:
   full: "Using Compendiums"
 shortcode: usingpacksug

@@ -1,7 +1,7 @@
 ---
 id: UzvfN3dVTI3CCC2V
 type: doc
-subType: user-guide
+subType: userguide
 name:
   full: "Vehicle"
 shortcode: vehicleug

@@ -1,7 +1,7 @@
 ---
 id: qB7c6j4tnrijhQ3P
 type: doc
-subType: user-guide
+subType: userguide
 name:
   full: "Working with Gear and Equipment"
 shortcode: gearandequipug

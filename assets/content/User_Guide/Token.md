@@ -1,7 +1,7 @@
 ---
 id: cuzEYQJCbBO4RFDq
 type: doc
-subType: user-guide
+subType: userguide
 name:
   full: "Token"
 shortcode: tokenug

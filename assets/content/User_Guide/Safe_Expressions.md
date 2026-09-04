@@ -1,7 +1,7 @@
 ---
 id: JvKYOVjZcqyqQHgj
 type: doc
-subType: user-guide
+subType: userguide
 name:
   full: "Safe Expressions"
 shortcode: sfexprssug

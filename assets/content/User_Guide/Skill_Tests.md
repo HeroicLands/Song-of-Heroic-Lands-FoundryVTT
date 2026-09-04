@@ -1,7 +1,7 @@
 ---
 id: 8l2J6Pczsy0YpT0P
 type: doc
-subType: user-guide
+subType: userguide
 name:
   full: "Skill Tests and Opposed Tests"
 shortcode: sklltestug

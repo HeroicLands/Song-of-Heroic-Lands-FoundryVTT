@@ -1,7 +1,7 @@
 ---
 id: DplPGYa4Gv1DkL0H
 type: doc
-subType: user-guide
+subType: userguide
 name:
   full: "Understanding Sheets"
 shortcode: undrstndsheetug

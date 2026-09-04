@@ -1,7 +1,7 @@
 ---
 id: 6fJTkfpqjc4srAqd
 type: doc
-subType: user-guide
+subType: userguide
 name:
   full: "Mystery"
 shortcode: mysteryug

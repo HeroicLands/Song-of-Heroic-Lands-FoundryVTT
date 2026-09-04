@@ -1,7 +1,7 @@
 ---
 id: 9ULGczXC3UwIpgzI
 type: doc
-subType: user-guide
+subType: userguide
 name:
   full: Song of Heroic Lands User Guide
   aliases: []

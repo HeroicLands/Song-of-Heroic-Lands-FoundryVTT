@@ -1,7 +1,7 @@
 ---
 id: YApc5TRsPXe62WOA
 type: doc
-subType: user-guide
+subType: userguide
 name:
   full: "System Settings"
 shortcode: syssetngug

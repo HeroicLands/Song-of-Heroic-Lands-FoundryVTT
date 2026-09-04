@@ -1,7 +1,7 @@
 ---
 id: MoyrkIfKbklVs8Pn
 type: doc
-subType: user-guide
+subType: userguide
 name:
   full: "Affliction"
 shortcode: afflctnug

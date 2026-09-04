@@ -1,7 +1,7 @@
 ---
 id: p5xXqvicKqdw49rA
 type: doc
-subType: user-guide
+subType: userguide
 name:
   full: "Gear"
 shortcode: gearug
