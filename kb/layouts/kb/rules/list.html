@@ -1,8 +1,0 @@
-{{- /*
-  Rules — the rules chapter set. One of the three `type: doc` genres, told apart
-  by `subType`; its front page is an ordinary note inside it (`doc-rulesintro`)
-  rather than this landing.
-*/ -}}
-{{ define "main" }}
-{{ partial "kb-section-catalog.html" (dict "page" . "type" "doc" "subType" "rules") }}
-{{ end }}

@@ -1,8 +1,0 @@
-{{- /*
-  Concoctions. The type ships no content note yet, so this landing renders its
-  empty state — but it renders it because the QUERY is empty, not because the
-  listing cannot see its members. The day the first note lands, it appears.
-*/ -}}
-{{ define "main" }}
-{{ partial "kb-section-catalog.html" (dict "page" . "type" "concoctiongear") }}
-{{ end }}
