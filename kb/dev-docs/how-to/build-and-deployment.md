@@ -113,27 +113,27 @@ and is unit-tested directly.
 
 ### Tests, lint, format
 
-| Script                    | What it does                                                                                                                                                                                                                                            |
-| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `test`                    | Run the vitest suite once.                                                                                                                                                                                                                              |
-| `test:watch` / `test:ui`  | Watch mode / the vitest UI.                                                                                                                                                                                                                             |
-| `test:coverage`           | Run with coverage.                                                                                                                                                                                                                                      |
-| `test:purity`             | The Foundry-free purity check (`vitest.purity.config.ts`).                                                                                                                                                                                              |
-| `e2e:full`                | _(on demand)_ The Cypress integration suite against a licensed Foundry container — not part of CI. See [Testing](testing.md).                                                                                                                           |
-| `lint` / `lint:fix`       | ESLint over `src/` (with `--fix`).                                                                                                                                                                                                                      |
-| `lint:docs-index`         | Fail if a `docs/` page is missing from its section nav or the README.                                                                                                                                                                                   |
-| `lint:addresses`          | Fail on a malformed `shortcode`, a duplicate `(type, shortcode)`, or a note missing its address alias (`assets/content/`). Runs `content-build lint`, so the rules are the toolchain's. See [Shortcode Integrity](../reference/shortcode-integrity.md). |
-| `lint:rules-vtt`          | Fail if a rules document under `assets/content/Rules/` describes the VTT — clicks, buttons, dialogs, the chat log, or "the system". See [Authoring content notes](#authoring-content-notes).                                                            |
-| `lint:content-links`      | Fail on a `#anchor` link in `assets/content/` that no heading declares, or a `Rules/**` document unreachable from the rules root. See [Authoring content notes](#authoring-content-notes).                                                              |
-| `lint:doc-links`          | Fail on a relative link in `kb/dev-docs/` whose target does not exist, or an `#anchor` no heading declares. The developer tree links by path, so moving a page breaks every link into it; this is what says so.                                         |
-| `lint:styles`             | stylelint over `scss/`. Enforces the BEM class convention and the `--sohl-*` token namespace, plus invalid declarations, unknown properties, and dead selectors. See [What the two linters check](#what-the-two-linters-check).                         |
-| `lint:markdown`           | markdownlint over every git-tracked `.md` file. A deliberately narrow structural set — heading hierarchy, duplicate sibling anchors, broken table rows, links that do not link. See [What the two linters check](#what-the-two-linters-check).          |
-| `lint:icon-legend`        | Fail if `assets/content/User_Guide/Icon_Legend.md` differs from what `build:icon-legend` would write — the page is generated, so a hand-edit to it is lost on the next run (#1620).                                                                     |
-| `lint:expr-scopes`        | Fail if the generated expression-scope table in [Expressions and Scripts](../concepts/expressions.md) is out of date with `src/entity/expr/expression-scopes.mjs`. Regenerate with `npm run docs:expr-scopes`.                                          |
-| `lint:dts`                | Validate the generated public type surface.                                                                                                                                                                                                             |
-| `lint:bundle-globals`     | Fail if `system.json` loads `sohl.js` as a classic script while the bundle declares names at global scope. Needs a built stage — runs after `build:code`, not inside `lint`.                                                                            |
-| `lint:format`             | Prettier `--check` over the repo — the same check as `format:check`, wired into the `lint` chain so drift fails the build (#1621).                                                                                                                      |
-| `format` / `format:check` | Prettier write / check the whole repo.                                                                                                                                                                                                                  |
+| Script                    | What it does                                                                                                                                                                                                                                   |
+| ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `test`                    | Run the vitest suite once.                                                                                                                                                                                                                     |
+| `test:watch` / `test:ui`  | Watch mode / the vitest UI.                                                                                                                                                                                                                    |
+| `test:coverage`           | Run with coverage.                                                                                                                                                                                                                             |
+| `test:purity`             | The Foundry-free purity check (`vitest.purity.config.ts`).                                                                                                                                                                                     |
+| `e2e:full`                | _(on demand)_ The Cypress integration suite against a licensed Foundry container — not part of CI. See [Testing](testing.md).                                                                                                                  |
+| `lint` / `lint:fix`       | ESLint over `src/` (with `--fix`).                                                                                                                                                                                                             |
+| `lint:docs-index`         | Fail if a `docs/` page is missing from its section nav or the README.                                                                                                                                                                          |
+| `lint:addresses`          | Fail on a malformed `shortcode` or a duplicate `(type, shortcode)` in `assets/content/`. Runs `content-build lint`, so the rules are the toolchain's. See [Shortcode Integrity](../reference/shortcode-integrity.md).                          |
+| `lint:rules-vtt`          | Fail if a rules document under `assets/content/Rules/` describes the VTT — clicks, buttons, dialogs, the chat log, or "the system". See [Authoring content notes](#authoring-content-notes).                                                   |
+| `lint:content-links`      | Fail on a `#anchor` link in `assets/content/` that no heading declares, or a `Rules/**` document unreachable from the rules root. See [Authoring content notes](#authoring-content-notes).                                                     |
+| `lint:doc-links`          | Fail on a relative link in `kb/dev-docs/` whose target does not exist, or an `#anchor` no heading declares. The developer tree links by path, so moving a page breaks every link into it; this is what says so.                                |
+| `lint:styles`             | stylelint over `scss/`. Enforces the BEM class convention and the `--sohl-*` token namespace, plus invalid declarations, unknown properties, and dead selectors. See [What the two linters check](#what-the-two-linters-check).                |
+| `lint:markdown`           | markdownlint over every git-tracked `.md` file. A deliberately narrow structural set — heading hierarchy, duplicate sibling anchors, broken table rows, links that do not link. See [What the two linters check](#what-the-two-linters-check). |
+| `lint:icon-legend`        | Fail if `assets/content/User_Guide/Icon_Legend.md` differs from what `build:icon-legend` would write — the page is generated, so a hand-edit to it is lost on the next run (#1620).                                                            |
+| `lint:expr-scopes`        | Fail if the generated expression-scope table in [Expressions and Scripts](../concepts/expressions.md) is out of date with `src/entity/expr/expression-scopes.mjs`. Regenerate with `npm run docs:expr-scopes`.                                 |
+| `lint:dts`                | Validate the generated public type surface.                                                                                                                                                                                                    |
+| `lint:bundle-globals`     | Fail if `system.json` loads `sohl.js` as a classic script while the bundle declares names at global scope. Needs a built stage — runs after `build:code`, not inside `lint`.                                                                   |
+| `lint:format`             | Prettier `--check` over the repo — the same check as `format:check`, wired into the `lint` chain so drift fails the build (#1621).                                                                                                             |
+| `format` / `format:check` | Prettier write / check the whole repo.                                                                                                                                                                                                         |
 
 #### How a linter reports a finding
 
@@ -494,11 +494,10 @@ both content builds silently, so `npm run lint:content-links` (also part of
 - **A rules document unreachable from `Rules/_Introduction.md`.** An
   unlinked note still compiles and still publishes; it is simply impossible to
   arrive at by reading. Link each one from the chapter that owns it. The walk
-  resolves links exactly as the builds do — `type/shortcode` first, then a
-  type-scoped alias — and expands fenced `dataview` tables first, so a generated
-  row link counts. It stops **at** the glossary rather than walking through it:
-  an index links to nearly everything, and following it would make the check
-  vacuous.
+  resolves links exactly as the builds do, and expands fenced `dataview` tables
+  first, so a generated row link counts. It stops **at** the glossary rather than
+  walking through it: an index links to nearly everything, and following it would
+  make the check vacuous.
 
 `build:compiledb` runs the pack CLI, the `content-build` binary the installed
 package puts on the path. The CLI owns every side effect — argv parsing, `loglevel` configuration, creating
