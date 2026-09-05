@@ -41,7 +41,7 @@
         "build:local": "npm i && npm run build:noci",
         "build:noci": "run-s lint build:types check:sohl-types build:prepare test:coverage test:purity build:code lint:bundle-globals",
         "build:prepare": "run-p build:css build:db build:system",
-        "build:db": "run-s build:assets build:compiledb build:link-manifest build:content-index",
+        "build:db": "run-s build:content-index build:assets build:compiledb build:link-manifest",
         "build:types": "tsc -p tsconfig.json",
         "build:system": "package-build manifest",
         "build:css": "sass --load-path=scss scss/sohl.scss build/stage/css/sohl.css",
