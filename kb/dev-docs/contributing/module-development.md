@@ -6,6 +6,7 @@ name:
 id: KiLEkudeFGD7QBBE
 slug: module-development
 type: doc
+subType: howto
 category: dev-docs
 folder: null
 ---

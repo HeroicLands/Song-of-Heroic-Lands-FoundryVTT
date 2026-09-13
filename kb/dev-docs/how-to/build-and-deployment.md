@@ -6,6 +6,7 @@ name:
 id: 2lkG02SkmKisa2xK
 slug: build-and-deployment
 type: doc
+subType: howto
 category: dev-docs
 folder: null
 ---

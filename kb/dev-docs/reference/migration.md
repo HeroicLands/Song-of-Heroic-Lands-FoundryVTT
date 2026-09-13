@@ -10,6 +10,7 @@ name:
 id: mZ8qP2rLxK4vN7bd
 slug: migration
 type: doc
+subType: reference
 category: dev-docs
 folder: null
 tags:

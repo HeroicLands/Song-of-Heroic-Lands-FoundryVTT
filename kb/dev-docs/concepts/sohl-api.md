@@ -6,6 +6,7 @@ name:
 id: h9qmvhqoH4JbCL1q
 slug: sohl-api
 type: doc
+subType: concept
 category: dev-docs
 folder: null
 ---

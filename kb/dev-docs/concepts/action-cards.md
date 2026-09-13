@@ -6,6 +6,7 @@ name:
 id: mk4wWsr1y3vaHHRP
 slug: action-cards
 type: doc
+subType: concept
 category: dev-docs
 folder: null
 ---
