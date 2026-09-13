@@ -6,6 +6,7 @@ name:
 id: yPExBMoJ8a1t8Foi
 slug: css-architecture
 type: doc
+subType: concept
 category: dev-docs
 folder: null
 ---

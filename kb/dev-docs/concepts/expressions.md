@@ -6,6 +6,7 @@ name:
 id: WBg5LHbc23Vceh6u
 slug: expressions
 type: doc
+subType: concept
 category: dev-docs
 folder: null
 ---

@@ -6,6 +6,7 @@ name:
 id: 6cEVx2MHCyKiYW3C
 slug: modifier-model
 type: doc
+subType: reference
 category: dev-docs
 folder: null
 ---

@@ -6,6 +6,7 @@ name:
 id: N9XBbIadREP4tBDs
 slug: testing
 type: doc
+subType: howto
 category: dev-docs
 folder: null
 ---

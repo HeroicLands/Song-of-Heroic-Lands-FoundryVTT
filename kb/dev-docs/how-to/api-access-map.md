@@ -6,6 +6,7 @@ name:
 id: tRjRH3x7Z3Mqu2hB
 slug: api-access-map
 type: doc
+subType: howto
 category: dev-docs
 folder: null
 ---
