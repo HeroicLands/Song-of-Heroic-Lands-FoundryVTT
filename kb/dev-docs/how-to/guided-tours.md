@@ -6,7 +6,6 @@ name:
 id: itInwUAn0CjjS0t2
 slug: guided-tours
 type: doc
-subType: howto
 category: dev-docs
 folder: null
 ---

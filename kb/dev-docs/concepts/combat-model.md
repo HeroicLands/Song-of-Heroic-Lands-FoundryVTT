@@ -6,7 +6,6 @@ name:
 id: iESB3wp9JuxLYmqp
 slug: combat-model
 type: doc
-subType: concept
 category: dev-docs
 folder: null
 ---

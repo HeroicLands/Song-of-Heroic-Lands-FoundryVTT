@@ -12,7 +12,6 @@ name:
 id: PrmiTB7yTz9BJodj
 slug: body-structure
 type: doc
-subType: reference
 category: dev-docs
 folder: null
 tags:

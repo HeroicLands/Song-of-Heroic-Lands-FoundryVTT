@@ -6,7 +6,6 @@ name:
 id: NuF7KlTBhlcriBxf
 slug: architecture
 type: doc
-subType: concept
 category: dev-docs
 folder: null
 ---
