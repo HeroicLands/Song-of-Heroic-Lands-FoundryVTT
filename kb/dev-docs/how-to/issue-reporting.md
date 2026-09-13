@@ -6,7 +6,6 @@ name:
 id: ZLeoKpUIOg1HUFZV
 slug: issue-reporting
 type: doc
-subType: howto
 category: dev-docs
 folder: null
 ---

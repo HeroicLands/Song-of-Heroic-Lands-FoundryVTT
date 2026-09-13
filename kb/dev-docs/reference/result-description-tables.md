@@ -6,7 +6,6 @@ name:
 id: DkH5D79VOKoo875S
 slug: result-description-tables
 type: doc
-subType: reference
 category: dev-docs
 folder: null
 ---

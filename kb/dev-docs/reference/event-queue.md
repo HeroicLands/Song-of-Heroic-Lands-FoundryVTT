@@ -11,7 +11,6 @@ name:
 id: kFYL7iKZrOXIhF1j
 slug: event-queue
 type: doc
-subType: reference
 category: dev-docs
 folder: null
 tags:
