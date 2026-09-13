@@ -35,6 +35,7 @@
     },
     "scripts": {
         "prepare": "git config core.hooksPath node_modules/@heroiclands/package-build/githooks || true",
+        "ci": "node node_modules/@heroiclands/package-build/ci/ci-docker.mjs",
         "clean": "package-build clean",
         "distclean": "package-build clean --distclean",
         "build": "npm ci && npm run build:noci",

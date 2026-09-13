@@ -42,11 +42,8 @@ jobs:
             - name: Install dependencies
               run: npm ci
 
-            - name: Type-check project declaration files (skipLibCheck off)
-              run: npm run lint:dts
-
-            - name: Run tests with coverage
-              run: npm run test:coverage
+            - name: Build system
+              run: npm run build:noci
 
             - name: Upload coverage reports
               if: always()
@@ -54,9 +51,6 @@ jobs:
               with:
                   name: coverage-report
                   path: coverage/
-
-            - name: Build system
-              run: npm run build
 
             - name: Build API documentation
               run: npm run docs:prepare && npm run docs:html
