@@ -101,7 +101,7 @@
         "e2e:sweep": "package-build e2e sweep",
         "format": "content-build format --write",
         "format:check": "content-build format",
-        "lint": "run-s lint:format lint:lang lint:lang-coverage lint:lang-hardcoded lint:docs-index lint:doc-links lint:markdown lint:ns-barrels lint:type-catalog lint:item-fields lint:schema lint:expr-scopes lint:labels lint:addresses lint:icon-legend lint:rules-vtt lint:content-links lint:reachability lint:e2e-red lint:eslint lint:styles lint:dts",
+        "lint": "run-p --aggregate-output -c --max-parallel ${LINT_MAX_PARALLEL:-8} lint:format lint:lang lint:lang-coverage lint:lang-hardcoded lint:docs-index lint:doc-links lint:markdown lint:ns-barrels lint:type-catalog lint:item-fields lint:schema lint:expr-scopes lint:labels lint:addresses lint:icon-legend lint:rules-vtt lint:content-links lint:reachability lint:e2e-red lint:eslint lint:styles lint:dts",
         "lint:format": "content-build format",
         "lint:eslint": "eslint src/",
         "lint:fix": "eslint src/ --fix",
