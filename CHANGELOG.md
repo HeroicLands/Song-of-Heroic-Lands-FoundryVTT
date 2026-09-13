@@ -1,5 +1,55 @@
 # sohl
 
+## 0.8.6
+
+### Patch Changes
+
+- 6002038: **Content tables are now written in SQL.**
+  
+  All 106 tables across 14 notes move from Dataview's query language to **SQL, run
+  by DuckDB over the content index** — the language the toolchain is standardising
+  on. Nothing about how a table is authored changes: it is still a fenced block in
+  the note, answered at build time, rendered into the compendium journal and the
+  knowledgebase page.
+  
+  Of the 106, 68 emit byte-identical markdown. What a reader sees change:
+  
+  | Table                          | Before                                             | After                                |
+  | ------------------------------ | -------------------------------------------------- | ------------------------------------ |
+  | The weapon catalog             | sorted by name — the `weaponType` key read nothing | grouped by weapon type, then by name |
+  | Eight of the _Gear_ catalogs   | rows in note-path order                            | rows in index order                  |
+  | The 29 deliberately-empty ones | a bare header row and a rule                       | nothing until content is written     |
+  
+  The rest sort exactly as before: a table ordered by a name asks for
+  `COLLATE NOCASE`, which is what keeps _Horn, Hunting_ beside _Horn, fanfare_
+  rather than before it, as the retiring language did by default.
+  
+  **The authoring guide is rewritten.** `Generated Content Tables` in the developer
+  knowledgebase now documents SQL — what `FROM notes` holds, the `_ref` and
+  `_section` aliases that decide which column links and where a section breaks, the
+  `:allow-empty` and `:section-level` fence arguments, and what happens when a query
+  names a field no note carries: an error, where the old language rendered a column
+  of em-dashes.
+- 1f3d125: **A shortcode is now lowercase.** The identity key every item and actor carries
+  must match `^[a-z0-9]+$` — it was previously allowed a capital.
+  
+  Case was never carrying a distinction. The address and the document id built
+  from a shortcode were already lowercased, so `Clb` and `clb` published one
+  address, one id and one URL while the key itself counted as two — a difference
+  you could only see by looking twice, and one nothing reported. Requiring
+  lowercase makes the key equal the thing derived from it.
+  
+  **Nothing in the shipped content changes**, because it is already lowercase
+  throughout. A world carried forward from 0.8 has its stored keys folded for it:
+  the repair that already rewrote a key holding a hyphen or an ampersand now folds
+  a capital too, so `Clb` becomes `clb`. That is a respelling of the same entity,
+  not a change of identity, so a world copy keeps pointing at the compendium
+  document it came from.
+  
+  A shortcode typed with a capital is refused rather than silently rewritten, the
+  same way punctuation always was. Where a key is being repaired instead of
+  refused — an import, or a duplicate — it is folded.
+
 ## 0.8.5
 
 ### Patch Changes
