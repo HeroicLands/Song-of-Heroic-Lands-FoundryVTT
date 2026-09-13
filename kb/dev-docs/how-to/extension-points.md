@@ -6,6 +6,7 @@ name:
 id: scDyKKrrUFPyaMYF
 slug: extension-points
 type: doc
+subType: howto
 category: dev-docs
 folder: null
 ---

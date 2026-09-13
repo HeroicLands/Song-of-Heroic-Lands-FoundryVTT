@@ -6,6 +6,7 @@ name:
 id: zbZL9MPvAYWgZMD3
 slug: getting-started
 type: doc
+subType: howto
 category: dev-docs
 folder: null
 ---

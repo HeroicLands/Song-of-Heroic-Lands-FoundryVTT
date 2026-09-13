@@ -6,6 +6,7 @@ name:
 id: 3FnZNhXbtsrG5O2O
 slug: calendar
 type: doc
+subType: reference
 category: dev-docs
 folder: null
 ---

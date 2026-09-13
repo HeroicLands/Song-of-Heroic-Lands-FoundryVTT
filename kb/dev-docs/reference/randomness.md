@@ -11,6 +11,7 @@ name:
 id: Cf4jBTS0hXERYCaT
 slug: randomness
 type: doc
+subType: reference
 category: dev-docs
 folder: null
 tags:

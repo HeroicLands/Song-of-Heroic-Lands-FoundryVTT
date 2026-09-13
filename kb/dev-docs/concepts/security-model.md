@@ -6,6 +6,7 @@ name:
 id: 7mShMNnp3lYzSMpL
 slug: security-model
 type: doc
+subType: concept
 category: dev-docs
 folder: null
 ---

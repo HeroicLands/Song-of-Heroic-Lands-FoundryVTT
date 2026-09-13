@@ -6,6 +6,7 @@ name:
 id: TTyUIc3DZWDLHDcp
 slug: readme
 type: doc
+subType: reference
 category: dev-docs
 folder: null
 ---
