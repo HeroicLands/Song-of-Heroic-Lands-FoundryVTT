@@ -113,6 +113,10 @@ icons:
         style: solid
         icon: clone
         label: clone
+    close:
+        style: solid
+        icon: xmark
+        label: close
     cohort:
         style: solid
         icon: people-group
@@ -121,6 +125,10 @@ icons:
         family: game-icons
         icon: broadsword
         label: combat
+    compass:
+        style: solid
+        icon: compass
+        label: guided tour
     concoction:
         style: solid
         icon: bottle-droplet
@@ -206,6 +214,10 @@ icons:
         family: game-icons
         icon: screaming
         label: fear test
+    flask:
+        style: solid
+        icon: flask
+        label: under construction
     fumble-test:
         style: solid
         icon: arrow-down
@@ -214,6 +226,10 @@ icons:
         style: solid
         icon: briefcase
         label: gear
+    gem:
+        style: solid
+        icon: gem
+        label: value gem
     healing-test:
         style: solid
         icon: heart-pulse
@@ -246,6 +262,11 @@ icons:
         style: solid
         icon: person-swimming
         label: make default medium
+    menu:
+        style: solid
+        icon: ellipsis-vertical
+        fixedWidth: true
+        label: actions menu
     misc-gear:
         family: game-icons
         icon: stockpiles
@@ -270,6 +291,10 @@ icons:
         style: solid
         icon: hand-sparkles
         label: mystical ability
+    not-applicable:
+        style: solid
+        icon: xmark
+        label: not applicable
     not-the-default-medium:
         style: regular
         icon: circle
@@ -370,6 +395,10 @@ icons:
         style: solid
         icon: people-arrows
         label: resume opposed test
+    run:
+        style: solid
+        icon: play
+        label: run this action
     set-onset:
         style: solid
         icon: hourglass-start
@@ -378,6 +407,10 @@ icons:
         style: solid
         icon: skull
         label: set resolution
+    shield:
+        style: solid
+        icon: shield-halved
+        label: armour
     shock-coma-course-test:
         family: game-icons
         icon: heart-beats
@@ -398,6 +431,10 @@ icons:
         family: game-icons
         icon: skills
         label: skills
+    star:
+        style: solid
+        icon: star
+        label: star
     start-tour:
         style: solid
         icon: play
