@@ -439,6 +439,11 @@ publish:
 # so the two cannot disagree about where a page is.
 site:
     out: kb/content
+    # The root a package-owned image's web address is joined onto:
+    # `<assets>/<package>/<suffix>`. Without it a page naming such an image is
+    # an error, because the website is the one surface whose address cannot be
+    # derived from the repository itself.
+    assets: https://cdn.heroiclands.org
     # `packages:` is absent deliberately, and absent means `[contentPackage]` —
     # exactly the pages this repository compiles. It used to name `thalorna`
     # alongside `sohl`, from when a note declared its own package and a foreign
