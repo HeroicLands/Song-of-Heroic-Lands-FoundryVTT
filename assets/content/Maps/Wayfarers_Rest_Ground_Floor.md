@@ -63,7 +63,7 @@ sohl:
     eaves:
       position: [256, 64]
       radius: 20
-      path: sohl-none-audio-swoosh1
+      audio: sohl-none-audio-swoosh1
       volume: 0.3
 
   regions:

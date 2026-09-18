@@ -82,3 +82,4 @@ assets/content/.obsidian/
 # Generated content-build declarations, emitted from the package's JSDoc at
 # pack time (`npm run build:content-build-types`). Sources are the `.mjs`.
 /packages/content-build/types/
+*.el
