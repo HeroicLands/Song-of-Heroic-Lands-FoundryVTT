@@ -2,6 +2,6 @@ attribution: Kier Heyl
 source: https://game-icons.net
 license: CC-BY-3.0
 notes: >-
-  From game-icons.net - https://game-icons.net. SoHL injects a theme-aware
-  prefers-color-scheme dark fill rule into each SVG at build time via
-  utils/svg-theme.mjs; the original artwork is otherwise unchanged.
+    From game-icons.net - https://game-icons.net. SoHL injects a theme-aware
+    prefers-color-scheme dark fill rule into each SVG at build time via
+    utils/svg-theme.mjs; the original artwork is otherwise unchanged.
