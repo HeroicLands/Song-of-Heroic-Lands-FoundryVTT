@@ -186,11 +186,11 @@ export function buildCharacterCreationTour(): SohlTour {
                 ARCHETYPE_SHORTCODE.basicFolk,
         },
         {
-            // 4 — Free: Facade tab — portrait + public description.
+            // 4 — Free: Facade tab — the public description.
             id: "facade",
             title: "SOHL.Tour.CharCreation.facade.title",
             content: "SOHL.Tour.CharCreation.facade.content",
-            selector: ".facade__image",
+            selector: ".facade__editor",
             resolveDocument: being,
             nav: { tab: "facade", group: "primary" },
         },

@@ -33,7 +33,7 @@ A Being can hold many types of items:
 
 The Being sheet is organized into several tabs:
 
-- **Facade** — portrait and description
+- **Facade** — the public description
 - **Profile** — attributes and affiliations
 - **Skills** — all skills grouped by category
 - **Gear** — carried and worn equipment, with encumbrance tracking

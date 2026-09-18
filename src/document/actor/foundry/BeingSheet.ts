@@ -1206,7 +1206,7 @@ html, body { margin: 0; padding: 0; background: #fff; }
             printedOn: new Date().toLocaleDateString(),
             actorName: this.document.name,
             shortcode: system.shortcode ?? "",
-            actorImg: (system.portrait as string) || this.document.img,
+            actorImg: this.document.img,
             healthLine,
             statusSummary,
             injurySummary,
@@ -1695,26 +1695,6 @@ html, body { margin: 0; padding: 0; background: #fff; }
         _options: RenderOptions,
     ): Promise<RenderContext> {
         return context;
-    }
-
-    /**
-     * Prepare context for the Facade tab: the bio image (`system.portrait`) and
-     * the rich-text physical-appearance description (`system.appearance`).
-     *
-     * @param context - The render context to augment.
-     * @param _options - The render options (unused).
-     * @returns The augmented render context.
-     */
-    protected override async _prepareFacadeContext(
-        context: RenderContext,
-        _options: RenderOptions,
-    ): Promise<RenderContext> {
-        // Appearance is edited by a <prose-mirror> element (see facade.hbs),
-        // which enriches its own content — no pre-enriched `appearanceHTML`.
-        const system = this.document.system as any;
-        return Object.assign(context, {
-            portrait: system.portrait,
-        });
     }
 
     /**

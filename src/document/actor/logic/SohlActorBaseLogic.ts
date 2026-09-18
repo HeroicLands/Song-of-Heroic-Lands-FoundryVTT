@@ -29,7 +29,7 @@ import {
     type ItemKind,
     type MovementMedium,
 } from "@src/utils/constants";
-import { toFilePath, type FilePath, type HTMLString } from "@src/utils/helpers";
+import { toFilePath, type HTMLString } from "@src/utils/helpers";
 import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import type { SohlAction } from "@src/entity/action/SohlAction";
 import { SohlTriggerContext } from "@src/entity/event/event-trigger";
@@ -104,8 +104,6 @@ export interface SohlActorData<
     dossier: HTMLString;
     /** Rich-text physical-appearance description. */
     appearance: HTMLString;
-    /** Path to the actor's portrait image. */
-    portrait: FilePath;
     /**
      * Overall health as a token-bar-shaped `{ value, max }` (both `0…100`,
      * `max` always 100). Derived every preparation and written back here by the

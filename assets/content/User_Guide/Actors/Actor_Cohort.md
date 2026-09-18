@@ -44,7 +44,7 @@ So a Cohort never acts as one. If you want ten soldiers to attack together, ten 
 
 The Cohort sheet has these tabs:
 
-- **Facade** — group portrait and description
+- **Facade** — the group's public description
 - **Profile** — the private dossier, movement rates, and attributes
 - **Members** — the individuals that belong to this cohort
 - **Shared Gear** — what the members have shared with the group

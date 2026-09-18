@@ -48,7 +48,7 @@ A Vehicle is a container and a conveyance, not a creature:
 
 The Vehicle sheet has these tabs:
 
-- **Facade** — image and description
+- **Facade** — the public description
 - **Profile** — movement rates, the private dossier, and attributes
 - **Gear** — cargo, equipment, and stores
 - **Actions** — available actions

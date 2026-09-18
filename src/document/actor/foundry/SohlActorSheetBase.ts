@@ -432,7 +432,7 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
     }
 
     /**
-     * Build the `header` part's render context: the actor's name, portrait,
+     * Build the `header` part's render context: the actor's name, profile art,
      * localized type label, and the archetype-marker control's binding, which
      * every actor header template binds. Subclasses override to
      * add their own header content (a being's health bar, status pills, and
@@ -469,9 +469,10 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
     }
 
     /**
-     * Build the `facade` part's render context: the bio image
-     * (`system.portrait`) and the actor's name. The rich-text appearance field is
-     * edited by a `<prose-mirror>` element, which enriches its own content.
+     * Build the `facade` part's render context: the actor's name. The
+     * rich-text appearance field the tab edits is bound by a `<prose-mirror>`
+     * element, which reads `system.appearance` off the base context and
+     * enriches its own content.
      * @param context - The in-progress render context.
      * @param options - Sheet render options.
      * @returns The facade part context.
@@ -482,7 +483,6 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
     ): Promise<foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>> {
         return Object.assign(context, {
             actorName: this.document.name,
-            portrait: (this.document.system as any).portrait,
         });
     }
 

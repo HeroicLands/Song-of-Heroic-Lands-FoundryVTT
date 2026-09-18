@@ -44,7 +44,7 @@ A Structure is scenery with an inventory, not a combatant:
 
 The Structure sheet has these tabs:
 
-- **Facade** — image and description
+- **Facade** — the public description
 - **Profile** — the private dossier, movement rates, and attributes
 - **Gear** — stored contents and equipment
 - **Actions** — available actions

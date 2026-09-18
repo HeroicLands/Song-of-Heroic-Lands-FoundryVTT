@@ -12,12 +12,11 @@
  */
 
 /**
- * Being Facade tab: the initial/summary tab shows an editable bio
- * image bound to `system.portrait` and a rich-text description editor bound to
- * `system.appearance` (the "physical appearance" field). Both must bind to real
- * datamodel fields — not at `system.bioImage` /
- * `system.description`, which do not exist, so the image was blank and the
- * editor always empty.
+ * Being Facade tab: the initial/summary tab is the rich-text description
+ * editor bound to `system.appearance` (the "physical appearance" field) and
+ * nothing else. It must bind the real datamodel field, and it must carry no
+ * image of its own — a being's portrait is the lead image opening that very
+ * prose, so the editor already shows it.
  */
 import { toRealm } from "../support/resolve";
 
@@ -25,32 +24,21 @@ describe("Being Facade tab", () => {
     before(() => cy.login().then(() => cy.cleanupWorld()));
     afterEach(() => cy.cleanupWorld());
 
-    it("binds the bio image to system.portrait", () => {
+    it("shows the appearance editor alone — no image of its own", () => {
         cy.importActor().then((actor) => {
-            cy.foundry((win) =>
-                win.game.actors
-                    .get(actor.id)
-                    .update(
-                        toRealm(win, {
-                            "system.portrait": "icons/svg/mystery-man.svg",
-                        }),
-                    )
-                    .then(() => null),
-            );
             cy.openSheet(actor);
             cy.switchTab("facade", "primary");
-            cy.get('section.tab[data-tab="facade"] img.facade__image')
-                .should("have.attr", "data-edit", "system.portrait")
-                .and("have.attr", "src", "icons/svg/mystery-man.svg");
+            cy.get('section.tab[data-tab="facade"] .facade__editor').should("exist");
+            cy.get('section.tab[data-tab="facade"] img').should("not.exist");
         });
     });
 
     it("is hidden when another tab is active", () => {
         // Regression: the Facade tab declared `display` on its own `.tab`
-        // element, overriding Foundry's inactive-tab hiding, so its portrait
-        // and appearance editor leaked onto every tab. Switching away must now
-        // collapse the Facade section (display:none) like any other inactive
-        // tab. Assert through the actor's own sheet element — a document-level
+        // element, overriding Foundry's inactive-tab hiding, so its appearance
+        // editor leaked onto every tab. Switching away must now collapse the
+        // Facade section (display:none) like any other inactive tab. Assert
+        // through the actor's own sheet element — a document-level
         // `cy.get` can match a leftover facade section from a prior test's
         // sheet (testIsolation is off), which reads as still-active.
         cy.importActor().then((actor) => {

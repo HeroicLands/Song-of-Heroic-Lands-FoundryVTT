@@ -14,14 +14,13 @@
 import type { SohlActor } from "./SohlActor";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { SohlItemLogic } from "@src/document/item/logic/SohlItemBaseLogic";
-import type { FilePath, HTMLString } from "@src/utils/helpers";
+import type { HTMLString } from "@src/utils/helpers";
 import { SohlDataModel, defineSohlDataSchema } from "@src/core/foundry/SohlDataModel";
 import type { SohlActorLogic, SohlActorData } from "@src/document/actor/logic/SohlActorBaseLogic";
 import type { MovementProfile } from "@src/document/actor/logic/movement";
 import { MOVEMENT_MEDIUM, MovementMediumChoices, type MovementMedium } from "@src/utils/constants";
 const {
     HTMLField,
-    FilePathField,
     SchemaField,
     NumberField,
     StringField,
@@ -31,26 +30,12 @@ const {
 } = foundry.data.fields;
 
 /**
- * The art a being falls back to when it names none of its own.
- *
- * Foundry offers CONST.DEFAULT_TOKEN, a core mystery-man silhouette that says
- * nothing about the setting. This is the same idea in SoHL art, and it is a
- * head rather than a full figure because the places it shows are small: the
- * directory listing and the upper left of the sheet.
- */
-const DEFAULT_BEING_ART = "systems/sohl/assets/icons/other/defaultcharhead.webp";
-
-/**
- * Builds the base actor data schema (portrait, appearance, dossier).
+ * Builds the base actor data schema (appearance, dossier).
  * @returns The base actor data schema.
  */
 function defineSohlActorDataSchema(): foundry.data.fields.DataSchema {
     return {
         ...defineSohlDataSchema(),
-        portrait: new FilePathField({
-            categories: ["IMAGE"],
-            initial: DEFAULT_BEING_ART,
-        }),
         appearance: new HTMLField(),
         dossier: new HTMLField(),
         /**
@@ -111,8 +96,8 @@ type SohlActorDataSchema = ReturnType<typeof defineSohlActorDataSchema>;
 
 /**
  * Base persisted data model for all actor types — defines the common schema
- * (portrait, appearance, dossier) and label helpers. Concrete actor data models
- * extend this with their type-specific fields.
+ * (appearance, dossier) and label helpers. Concrete actor data models extend
+ * this with their type-specific fields.
  *
  * @typeParam TSchema - The Foundry data schema for this model.
  * @typeParam TLogic - The actor logic type this data drives.
@@ -129,8 +114,6 @@ export abstract class SohlActorDataModel<
     dossier!: HTMLString;
     /** Rich-text physical-appearance description. */
     appearance!: HTMLString;
-    /** Path to the actor's portrait image. */
-    portrait!: FilePath;
     /**
      * Token-bar health `{ value, max }` — derived each preparation by the
      * actor's logic and never persisted (see {@link SohlActorDataModel._preUpdate}).
@@ -233,7 +216,7 @@ export abstract class SohlActorDataModel<
     }
 
     /**
-     * Define the common actor data schema (portrait, appearance, dossier).
+     * Define the common actor data schema (appearance, dossier).
      * @returns The base actor data schema.
      */
     static override defineSchema(): foundry.data.fields.DataSchema {

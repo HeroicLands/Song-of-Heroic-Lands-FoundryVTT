@@ -39,21 +39,28 @@ mechanical.
 
 A being carries the frontmatter every note carries — `name.full`, `type`,
 `shortcode`, `folder`, and the required `sohl.archetype` — all
-described in [The Authoring Workflow](authoring-workflow.md). Two art fields are
+described in [The Authoring Workflow](authoring-workflow.md). One art field is
 specific to actors:
 
-| Field      | Becomes                                           | Default                      |
-| ---------- | ------------------------------------------------- | ---------------------------- |
-| `img`      | the actor's image, and its prototype token's art  | the generic person icon      |
-| `portrait` | `system.portrait`, the sheet's character portrait | the same generic person icon |
+| Field | Becomes                                          | Default                 |
+| ----- | ------------------------------------------------ | ----------------------- |
+| `img` | the actor's image, and its prototype token's art | the generic person icon |
 
-Both resolve through the rules in [Asset Conventions](asset-conventions.md).
+It resolves through the rules in [Asset Conventions](asset-conventions.md).
+
+**A picture of the being is not a field.** A portrait is a picture of the
+subject, so it is written in the prose that describes the subject — the **lead
+image**, an ordinary embedded image opening the `{#appearance}` section. Nothing
+about that embed is special; what is strict is the convention that it comes
+first, so every being note reads the same way.
 
 **The body prose is two documents, not one.** A being's markdown body is read
 for two anchored sections, and only those:
 
 ```markdown
 # Appearance {#appearance}
+
+![[aldric|Aldric of Kaldor]]{float: top-left}
 
 Weathered, and taller than most.
 
