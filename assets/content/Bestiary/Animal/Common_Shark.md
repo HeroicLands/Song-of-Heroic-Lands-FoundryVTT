@@ -10,7 +10,6 @@ shortcode: cmmnshrk
 type: being
 data:
   icon: sharkjaws
-  portrait: cmmnshrk
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -298,6 +297,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[cmmnshrk|Common Shark]]{float: top-left}
 
 # Appearance {#appearance}
 

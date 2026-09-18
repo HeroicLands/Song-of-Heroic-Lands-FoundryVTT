@@ -12,7 +12,6 @@ shortcode: saluki
 type: being
 data:
   icon: hound
-  portrait: saluki
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -276,6 +275,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[saluki|Saluki]]{float: top-left}
 
 # Appearance {#appearance}
 

@@ -10,7 +10,6 @@ shortcode: cat
 type: being
 data:
   icon: cat
-  portrait: cat
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -311,6 +310,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[cat|Cat]]{float: top-left}
 
 # Appearance {#appearance}
 

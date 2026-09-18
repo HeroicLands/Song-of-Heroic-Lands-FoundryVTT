@@ -11,7 +11,6 @@ shortcode: jackal
 type: being
 data:
   icon: hound
-  portrait: jackal
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -275,6 +274,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[jackal|Jackal]]{float: top-left}
 
 # Appearance {#appearance}
 

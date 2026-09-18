@@ -10,7 +10,6 @@ shortcode: sbrtthct
 type: being
 data:
   icon: lion
-  portrait: sbrtthct
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -314,6 +313,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[sbrtthct|Sabertooth Cat]]{float: top-left}
 
 # Appearance {#appearance}
 

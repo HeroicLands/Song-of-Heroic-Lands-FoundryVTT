@@ -10,7 +10,6 @@ shortcode: cavebear
 type: being
 data:
   icon: bearhead
-  portrait: cavebear
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -315,6 +314,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[cavebear|Cave Bear]]{float: top-left}
 
 # Appearance {#appearance}
 

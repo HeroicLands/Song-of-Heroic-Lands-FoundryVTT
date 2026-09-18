@@ -11,7 +11,6 @@ shortcode: baboon
 type: being
 data:
   icon: monkey
-  portrait: baboon
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -573,6 +572,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[baboon|Baboon]]{float: top-left}
 
 # Appearance {#appearance}
 

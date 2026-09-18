@@ -10,7 +10,6 @@ shortcode: kmddrgn
 type: being
 data:
   icon: gecko
-  portrait: kmddrgn
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -312,6 +311,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[kmddrgn|Komodo Dragon]]{float: top-left}
 
 # Appearance {#appearance}
 

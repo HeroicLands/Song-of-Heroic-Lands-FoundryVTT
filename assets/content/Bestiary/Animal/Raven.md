@@ -10,7 +10,6 @@ shortcode: raven
 type: being
 data:
   icon: raven
-  portrait: raven
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -307,6 +306,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[raven|Raven]]{float: top-left}
 
 # Appearance {#appearance}
 

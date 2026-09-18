@@ -10,7 +10,6 @@ shortcode: direwolf
 type: being
 data:
   icon: wolfhead
-  portrait: direwolf
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -277,6 +276,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[direwolf|Dire Wolf]]{float: top-left}
 
 # Appearance {#appearance}
 

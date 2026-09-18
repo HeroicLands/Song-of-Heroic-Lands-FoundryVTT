@@ -10,7 +10,6 @@ shortcode: grtwhtsh
 type: being
 data:
   icon: sharkjaws
-  portrait: grtwhtsh
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -262,6 +261,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[grtwhtsh|Great White Shark]]{float: top-left}
 
 # Appearance {#appearance}
 

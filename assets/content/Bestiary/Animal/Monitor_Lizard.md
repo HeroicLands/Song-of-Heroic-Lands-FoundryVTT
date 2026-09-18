@@ -10,7 +10,6 @@ shortcode: mntrlzrd
 type: being
 data:
   icon: gecko
-  portrait: mntrlzrd
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -311,6 +310,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[mntrlzrd|Monitor Lizard]]{float: top-left}
 
 # Appearance {#appearance}
 

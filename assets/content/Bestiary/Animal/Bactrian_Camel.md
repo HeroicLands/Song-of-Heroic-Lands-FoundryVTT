@@ -10,7 +10,6 @@ shortcode: bctrncml
 type: being
 data:
   icon: camelhead
-  portrait: bctrncml
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -325,6 +324,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[bctrncml|Bactrian Camel]]{float: top-left}
 
 # Appearance {#appearance}
 

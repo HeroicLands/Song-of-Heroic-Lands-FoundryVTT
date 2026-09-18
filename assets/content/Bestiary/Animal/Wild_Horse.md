@@ -11,7 +11,6 @@ shortcode: wldhrs
 type: being
 data:
   icon: horsehead
-  portrait: wldhrs
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -326,6 +325,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[wldhrs|Wild Horse]]{float: top-left}
 
 # Appearance {#appearance}
 

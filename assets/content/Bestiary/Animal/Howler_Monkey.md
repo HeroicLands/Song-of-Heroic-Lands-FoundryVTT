@@ -11,7 +11,6 @@ shortcode: hwlrmnky
 type: being
 data:
   icon: monkey
-  portrait: hwlrmnky
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -537,6 +536,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[hwlrmnky|Howler Monkey]]{float: top-left}
 
 # Appearance {#appearance}
 

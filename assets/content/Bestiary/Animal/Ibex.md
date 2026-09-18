@@ -11,7 +11,6 @@ shortcode: ibex
 type: being
 data:
   icon: goat
-  portrait: ibex
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -326,6 +325,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[ibex|Ibex]]{float: top-left}
 
 # Appearance {#appearance}
 

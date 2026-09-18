@@ -10,7 +10,6 @@ shortcode: stag
 type: being
 data:
   icon: staghead
-  portrait: stag
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -290,6 +289,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[stag|Stag]]{float: top-left}
 
 # Appearance {#appearance}
 

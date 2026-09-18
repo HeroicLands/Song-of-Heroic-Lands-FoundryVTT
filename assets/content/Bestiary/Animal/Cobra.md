@@ -11,7 +11,6 @@ shortcode: cobra
 type: being
 data:
   icon: snake
-  portrait: cobra
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -198,6 +197,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[cobra|Cobra]]{float: top-left}
 
 # Appearance {#appearance}
 

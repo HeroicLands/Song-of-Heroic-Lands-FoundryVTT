@@ -10,7 +10,6 @@ shortcode: rckpythn
 type: being
 data:
   icon: snake
-  portrait: rckpythn
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -233,6 +232,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[rckpythn|Rock Python]]{float: top-left}
 
 # Appearance {#appearance}
 

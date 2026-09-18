@@ -10,7 +10,6 @@ shortcode: greatelk
 type: being
 data:
   icon: staghead
-  portrait: greatelk
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -325,6 +324,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[greatelk|Great Elk]]{float: top-left}
 
 # Appearance {#appearance}
 

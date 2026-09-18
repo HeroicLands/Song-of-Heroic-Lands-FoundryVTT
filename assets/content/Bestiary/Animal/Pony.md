@@ -10,7 +10,6 @@ shortcode: pony
 type: being
 data:
   icon: horsehead
-  portrait: pony
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -325,6 +324,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[pony|Pony]]{float: top-left}
 
 # Appearance {#appearance}
 

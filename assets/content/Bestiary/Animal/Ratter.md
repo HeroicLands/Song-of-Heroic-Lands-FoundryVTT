@@ -10,7 +10,6 @@ shortcode: ratter
 type: being
 data:
   icon: hound
-  portrait: ratter
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -275,6 +274,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[ratter|Ratter]]{float: top-left}
 
 # Appearance {#appearance}
 

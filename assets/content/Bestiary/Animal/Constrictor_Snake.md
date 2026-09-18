@@ -10,7 +10,6 @@ shortcode: cnstrctr
 type: being
 data:
   icon: snake
-  portrait: cnstrctr
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -236,6 +235,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[cnstrctr|Constrictor Snake]]{float: top-left}
 
 # Appearance {#appearance}
 

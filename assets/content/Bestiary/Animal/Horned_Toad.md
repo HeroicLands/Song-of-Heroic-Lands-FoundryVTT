@@ -10,7 +10,6 @@ shortcode: hrndtd
 type: being
 data:
   icon: hornedreptile
-  portrait: hrndtd
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -311,6 +310,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[hrndtd|Horned Toad]]{float: top-left}
 
 # Appearance {#appearance}
 

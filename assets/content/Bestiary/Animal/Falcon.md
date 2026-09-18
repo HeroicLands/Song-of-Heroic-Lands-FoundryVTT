@@ -10,7 +10,6 @@ shortcode: falcon
 type: being
 data:
   icon: falconmoon
-  portrait: falcon
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -307,6 +306,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[falcon|Falcon]]{float: top-left}
 
 # Appearance {#appearance}
 

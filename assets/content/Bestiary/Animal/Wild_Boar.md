@@ -10,7 +10,6 @@ shortcode: wildboar
 type: being
 data:
   icon: boar
-  portrait: wildboar
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -325,6 +324,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[wildboar|Wild Boar]]{float: top-left}
 
 # Appearance {#appearance}
 

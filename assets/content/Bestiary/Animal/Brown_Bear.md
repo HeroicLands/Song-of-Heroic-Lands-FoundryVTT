@@ -10,7 +10,6 @@ shortcode: brwnbr
 type: being
 data:
   icon: bearhead
-  portrait: brwnbr
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -315,6 +314,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[brwnbr|Brown Bear]]{float: top-left}
 
 # Appearance {#appearance}
 

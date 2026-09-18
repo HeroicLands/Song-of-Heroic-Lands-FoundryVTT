@@ -10,7 +10,6 @@ shortcode: bovine
 type: being
 data:
   icon: cow
-  portrait: bovine
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -288,6 +287,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[bovine|Bovine]]{float: top-left}
 
 # Appearance {#appearance}
 

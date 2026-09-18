@@ -10,7 +10,6 @@ shortcode: gorilla
 type: being
 data:
   icon: gorilla
-  portrait: gorilla
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -572,6 +571,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[gorilla|Gorilla]]{float: top-left}
 
 # Appearance {#appearance}
 

@@ -10,7 +10,6 @@ shortcode: eagle
 type: being
 data:
   icon: eaglehead
-  portrait: eagle
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -313,6 +312,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[eagle|Eagle]]{float: top-left}
 
 # Appearance {#appearance}
 

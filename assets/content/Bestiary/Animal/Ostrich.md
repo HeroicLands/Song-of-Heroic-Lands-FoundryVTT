@@ -11,7 +11,6 @@ shortcode: ostrich
 type: being
 data:
   icon: cassowaryhead
-  portrait: ostrich
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -298,6 +297,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[ostrich|Ostrich]]{float: top-left}
 
 # Appearance {#appearance}
 

@@ -10,7 +10,6 @@ shortcode: hyena
 type: being
 data:
   icon: pawprint
-  portrait: hyena
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -277,6 +276,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[hyena|Hyena]]{float: top-left}
 
 # Appearance {#appearance}
 

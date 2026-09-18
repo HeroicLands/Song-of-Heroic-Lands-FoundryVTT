@@ -10,7 +10,6 @@ shortcode: graywolf
 type: being
 data:
   icon: wolfhead
-  portrait: graywolf
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -276,6 +275,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[graywolf|Gray Wolf]]{float: top-left}
 
 # Appearance {#appearance}
 

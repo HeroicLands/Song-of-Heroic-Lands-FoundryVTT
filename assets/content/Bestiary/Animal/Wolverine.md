@@ -10,7 +10,6 @@ shortcode: wlvrn
 type: being
 data:
   icon: badger
-  portrait: wlvrn
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -311,6 +310,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[wlvrn|Wolverine]]{float: top-left}
 
 # Appearance {#appearance}
 

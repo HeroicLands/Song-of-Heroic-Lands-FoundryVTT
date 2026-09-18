@@ -10,7 +10,6 @@ shortcode: wllyrhn
 type: being
 data:
   icon: rhinoceroshorn
-  portrait: wllyrhn
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -325,6 +324,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[wllyrhn|Woolly Rhino]]{float: top-left}
 
 # Appearance {#appearance}
 

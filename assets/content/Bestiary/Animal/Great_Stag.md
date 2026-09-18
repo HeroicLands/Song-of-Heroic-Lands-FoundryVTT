@@ -10,7 +10,6 @@ shortcode: grtstg
 type: being
 data:
   icon: staghead
-  portrait: grtstg
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -325,6 +324,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[grtstg|Great Stag]]{float: top-left}
 
 # Appearance {#appearance}
 

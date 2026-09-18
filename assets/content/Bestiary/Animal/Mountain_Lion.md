@@ -10,7 +10,6 @@ shortcode: mntnln
 type: being
 data:
   icon: lion
-  portrait: mntnln
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -314,6 +313,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[mntnln|Mountain Lion]]{float: top-left}
 
 # Appearance {#appearance}
 

@@ -10,7 +10,6 @@ shortcode: chmpnz
 type: being
 data:
   icon: monkey
-  portrait: chmpnz
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -572,6 +571,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[chmpnz|Chimpanzee]]{float: top-left}
 
 # Appearance {#appearance}
 

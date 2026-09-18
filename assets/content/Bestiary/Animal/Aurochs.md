@@ -10,7 +10,6 @@ shortcode: aurochs
 type: being
 data:
   icon: bull
-  portrait: aurochs
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -325,6 +324,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[aurochs|Aurochs]]{float: top-left}
 
 # Appearance {#appearance}
 

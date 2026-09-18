@@ -11,7 +11,6 @@ shortcode: yak
 type: being
 data:
   icon: bison
-  portrait: yak
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -326,6 +325,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[yak|Yak]]{float: top-left}
 
 # Appearance {#appearance}
 

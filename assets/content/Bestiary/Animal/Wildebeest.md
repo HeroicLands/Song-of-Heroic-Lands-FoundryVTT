@@ -12,7 +12,6 @@ shortcode: wldbst
 type: being
 data:
   icon: pawprint
-  portrait: wldbst
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -327,6 +326,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[wldbst|Wildebeest]]{float: top-left}
 
 # Appearance {#appearance}
 

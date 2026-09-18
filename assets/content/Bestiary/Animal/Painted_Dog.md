@@ -12,7 +12,6 @@ shortcode: pntddg
 type: being
 data:
   icon: hound
-  portrait: pntddg
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -279,6 +278,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[pntddg|Painted Dog]]{float: top-left}
 
 # Appearance {#appearance}
 

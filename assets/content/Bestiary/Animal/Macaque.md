@@ -12,7 +12,6 @@ shortcode: macaque
 type: being
 data:
   icon: monkey
-  portrait: macaque
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -538,6 +537,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[macaque|Macaque]]{float: top-left}
 
 # Appearance {#appearance}
 

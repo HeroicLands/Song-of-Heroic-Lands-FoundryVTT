@@ -12,7 +12,6 @@ shortcode: quetzal
 type: being
 data:
   icon: pawprint
-  portrait: quetzal
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -273,6 +272,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[quetzal|Quetzal]]{float: top-left}
 
 # Appearance {#appearance}
 

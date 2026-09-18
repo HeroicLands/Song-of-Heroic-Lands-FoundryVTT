@@ -10,7 +10,6 @@ shortcode: destrier
 type: being
 data:
   icon: horsehead
-  portrait: destrier
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -325,6 +324,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[destrier|Destrier]]{float: top-left}
 
 # Appearance {#appearance}
 

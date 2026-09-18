@@ -10,7 +10,6 @@ shortcode: hntngdg
 type: being
 data:
   icon: hound
-  portrait: hntngdg
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -276,6 +275,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[hntngdg|Hunting Dog]]{float: top-left}
 
 # Appearance {#appearance}
 

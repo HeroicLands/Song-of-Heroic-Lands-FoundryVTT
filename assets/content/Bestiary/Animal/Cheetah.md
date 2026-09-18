@@ -11,7 +11,6 @@ shortcode: cheetah
 type: being
 data:
   icon: lion
-  portrait: cheetah
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -315,6 +314,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[cheetah|Cheetah]]{float: top-left}
 
 # Appearance {#appearance}
 

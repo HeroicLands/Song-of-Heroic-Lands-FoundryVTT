@@ -11,7 +11,6 @@ shortcode: onager
 type: being
 data:
   icon: donkey
-  portrait: onager
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -326,6 +325,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[onager|Onager]]{float: top-left}
 
 # Appearance {#appearance}
 

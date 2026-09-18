@@ -10,7 +10,6 @@ shortcode: ramanml
 type: being
 data:
   icon: sheep
-  portrait: ramanml
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -325,6 +324,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[ramanml|Ram]]{float: top-left}
 
 # Appearance {#appearance}
 

@@ -11,7 +11,6 @@ shortcode: walrus
 type: being
 data:
   icon: pawprint
-  portrait: walrus
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -269,6 +268,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[walrus|Walrus]]{float: top-left}
 
 # Appearance {#appearance}
 

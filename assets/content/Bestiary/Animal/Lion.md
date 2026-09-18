@@ -10,7 +10,6 @@ shortcode: lion
 type: being
 data:
   icon: lion
-  portrait: lion
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -315,6 +314,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[lion|Lion]]{float: top-left}
 
 # Appearance {#appearance}
 

@@ -10,7 +10,6 @@ shortcode: donkey
 type: being
 data:
   icon: donkey
-  portrait: donkey
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -325,6 +324,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[donkey|Donkey]]{float: top-left}
 
 # Appearance {#appearance}
 

@@ -10,7 +10,6 @@ shortcode: guarddog
 type: being
 data:
   icon: hound
-  portrait: guarddog
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -276,6 +275,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[guarddog|Guard Dog]]{float: top-left}
 
 # Appearance {#appearance}
 

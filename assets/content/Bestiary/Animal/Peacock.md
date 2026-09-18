@@ -12,7 +12,6 @@ shortcode: peacock
 type: being
 data:
   icon: pawprint
-  portrait: peacock
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -309,6 +308,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[peacock|Peacock]]{float: top-left}
 
 # Appearance {#appearance}
 

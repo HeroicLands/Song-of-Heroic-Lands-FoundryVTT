@@ -10,7 +10,6 @@ shortcode: hnybdgr
 type: being
 data:
   icon: badger
-  portrait: hnybdgr
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -311,6 +310,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[hnybdgr|Honey Badger]]{float: top-left}
 
 # Appearance {#appearance}
 

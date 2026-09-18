@@ -11,7 +11,6 @@ shortcode: giraffe
 type: being
 data:
   icon: pawprint
-  portrait: giraffe
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -325,6 +324,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[giraffe|Giraffe]]{float: top-left}
 
 # Appearance {#appearance}
 

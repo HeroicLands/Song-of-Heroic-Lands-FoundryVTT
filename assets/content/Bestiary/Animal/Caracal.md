@@ -11,7 +11,6 @@ shortcode: caracal
 type: being
 data:
   icon: lynxhead
-  portrait: caracal
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -315,6 +314,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[caracal|Caracal]]{float: top-left}
 
 # Appearance {#appearance}
 

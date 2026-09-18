@@ -10,7 +10,6 @@ shortcode: scklclwt
 type: being
 data:
   icon: dinosaurrex
-  portrait: scklclwt
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -299,6 +298,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[scklclwt|Sickleclaw Troodon]]{float: top-left}
 
 # Appearance {#appearance}
 

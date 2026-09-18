@@ -10,7 +10,6 @@ shortcode: crow
 type: being
 data:
   icon: crowdive
-  portrait: crow
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -307,6 +306,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[crow|Crow]]{float: top-left}
 
 # Appearance {#appearance}
 

@@ -10,7 +10,6 @@ shortcode: stppln
 type: being
 data:
   icon: lion
-  portrait: stppln
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -314,6 +313,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[stppln|Steppe Lion]]{float: top-left}
 
 # Appearance {#appearance}
 

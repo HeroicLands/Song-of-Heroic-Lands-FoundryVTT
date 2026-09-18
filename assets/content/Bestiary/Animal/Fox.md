@@ -10,7 +10,6 @@ shortcode: fox
 type: being
 data:
   icon: fox
-  portrait: fox
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -311,6 +310,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[fox|Fox]]{float: top-left}
 
 # Appearance {#appearance}
 

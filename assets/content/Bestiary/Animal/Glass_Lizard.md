@@ -10,7 +10,6 @@ shortcode: glsslzrd
 type: being
 data:
   icon: gecko
-  portrait: glsslzrd
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -311,6 +310,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[glsslzrd|Glass Lizard]]{float: top-left}
 
 # Appearance {#appearance}
 

@@ -12,7 +12,6 @@ shortcode: orca
 type: being
 data:
   icon: spermwhale
-  portrait: orca
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -300,6 +299,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[orca|Orca]]{float: top-left}
 
 # Appearance {#appearance}
 

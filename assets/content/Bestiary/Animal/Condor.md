@@ -11,7 +11,6 @@ shortcode: condor
 type: being
 data:
   icon: vulture
-  portrait: condor
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -314,6 +313,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[condor|Condor]]{float: top-left}
 
 # Appearance {#appearance}
 

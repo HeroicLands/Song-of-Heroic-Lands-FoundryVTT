@@ -10,7 +10,6 @@ shortcode: drmdrycm
 type: being
 data:
   icon: camelhead
-  portrait: drmdrycm
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -325,6 +324,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[drmdrycm|Dromedary Camel]]{float: top-left}
 
 # Appearance {#appearance}
 

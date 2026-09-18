@@ -10,7 +10,6 @@ shortcode: snwlprd
 type: being
 data:
   icon: feline
-  portrait: snwlprd
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -314,6 +313,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[snwlprd|Snow Leopard]]{float: top-left}
 
 # Appearance {#appearance}
 

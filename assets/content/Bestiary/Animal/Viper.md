@@ -10,7 +10,6 @@ shortcode: viper
 type: being
 data:
   icon: snake
-  portrait: viper
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -197,6 +196,8 @@ sohl:
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
 ---
+
+![[viper|Viper]]{float: top-left}
 
 # Appearance {#appearance}
 
