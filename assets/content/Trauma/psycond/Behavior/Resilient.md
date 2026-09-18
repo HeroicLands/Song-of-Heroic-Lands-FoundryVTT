@@ -3,7 +3,7 @@ tags: []
 name:
   full: Resilient
   aliases: []
-img: icons/game-icons/lorc/battle-gear.svg
+img: icons/game-icons/lorc/battlegear.svg
 shortcode: rslnt
 type: trauma
 data:

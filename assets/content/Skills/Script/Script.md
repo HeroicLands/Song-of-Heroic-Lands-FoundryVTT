@@ -4,7 +4,7 @@ name:
   full: Script
   aliases: []
 description: "Reading, writing, and interpreting text in specific writing systems."
-img: icons/game-icons/lorc/scroll-unfurled.svg
+img: icons/game-icons/lorc/scrollunfurled.svg
 shortcode: script
 type: skill
 data:

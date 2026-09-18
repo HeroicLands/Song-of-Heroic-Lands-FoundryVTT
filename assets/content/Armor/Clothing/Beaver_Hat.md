@@ -4,7 +4,7 @@ name:
   full: Beaver Hat
   aliases: []
 description: "Beaver fur hat combining warmth and opulent comfort for winter months."
-img: icons/game-icons/lorc/pointy-hat.svg
+img: icons/game-icons/lorc/pointyhat.svg
 shortcode: bvhat
 type: armorgear
 data:

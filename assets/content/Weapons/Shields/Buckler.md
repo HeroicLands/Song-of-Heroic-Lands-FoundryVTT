@@ -4,7 +4,7 @@ name:
   full: Buckler
   aliases: []
 description: "Small light shield for rapid parries; duelist's off-hand ward."
-img: icons/game-icons/willdabeast/round-shield.svg
+img: icons/game-icons/willdabeast/roundshield.svg
 shortcode: bklr
 type: weapongear
 data:

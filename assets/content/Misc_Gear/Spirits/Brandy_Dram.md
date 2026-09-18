@@ -5,7 +5,7 @@ name:
   full: "Brandy, Dram"
   aliases: []
 description: "Clear fiery distilled spirit; warms chest on winter roads, steadies trembling hands."
-img: icons/game-icons/lorc/brandy-bottle.svg
+img: icons/game-icons/lorc/brandybottle.svg
 shortcode: brdydrm
 type: miscgear
 data:

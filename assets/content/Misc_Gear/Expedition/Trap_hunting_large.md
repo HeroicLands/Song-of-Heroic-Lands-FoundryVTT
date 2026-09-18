@@ -5,7 +5,7 @@ name:
   full: "Trap, hunting, large"
   aliases: []
 description: "Heavy iron jaw-trap for deer and boar; set along game trails."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: traphuntin
 type: miscgear
 data:

@@ -5,7 +5,7 @@ name:
   full: Coin Balance
   aliases: []
 description: "Bronze hand-scale with shallow pans; merchants detect shaved or debased coins."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: coinbalanc
 type: miscgear
 data:

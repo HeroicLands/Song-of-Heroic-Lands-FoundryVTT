@@ -5,7 +5,7 @@ name:
   full: "Icon, religious, ceramic, sm"
   aliases: []
 description: "Small fired-clay devotional figure for a household shrine or a traveller's pack."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: iconcrmcsm
 type: miscgear
 data:

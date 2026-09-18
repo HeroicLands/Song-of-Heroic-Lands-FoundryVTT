@@ -4,7 +4,7 @@ name:
   full: Cnidarian Toxin
   aliases: []
 description: "Jellyfish nematocyst toxin; excruciating pain and welts; cardiotoxic in severe cases."
-img: icons/game-icons/lorc/poison-bottle.svg
+img: icons/game-icons/lorc/poisonbottle.svg
 shortcode: cndntxn
 type: affliction
 data:

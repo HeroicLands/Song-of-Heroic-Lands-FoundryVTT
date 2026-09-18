@@ -4,7 +4,7 @@ name:
   full: "Bucket, wooden, 3 gallon"
   aliases: []
 description: "Coopered wooden bucket with an iron bail (3 gallons)."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: bucketwood3
 type: containergear
 data:

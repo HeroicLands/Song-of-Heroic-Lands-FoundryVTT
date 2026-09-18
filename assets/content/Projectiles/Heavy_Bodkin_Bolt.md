@@ -9,7 +9,7 @@ data:
   templatePriority: 0
 subType: bolt
 shortcode: blthbod
-img: icons/game-icons/lorc/broadhead-arrow.svg
+img: icons/game-icons/lorc/broadheadarrow.svg
 easyname: Heavy Bodkin
 sohl:
   craft:

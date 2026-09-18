@@ -4,7 +4,7 @@ name:
   full: Trebuchet
   aliases: []
 description: "Counterweight stone-thrower; the heaviest engine there is, and the only one that breaks a curtain wall."
-img: icons/game-icons/lorc/stone-sphere.svg
+img: icons/game-icons/lorc/stonesphere.svg
 shortcode: trebch
 type: weapongear
 data:

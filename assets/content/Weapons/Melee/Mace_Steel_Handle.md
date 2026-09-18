@@ -4,7 +4,7 @@ name:
   full: Mace, Steel Handle
   aliases: []
 description: "Flanged iron head on steel haft; armored knight's shock-weapon."
-img: icons/game-icons/delapouite/flanged-mace.svg
+img: icons/game-icons/delapouite/flangedmace.svg
 shortcode: stlmce
 type: weapongear
 data:

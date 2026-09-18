@@ -3,7 +3,7 @@ tags: []
 name:
   full: Heat Intolerance
   aliases: []
-img: icons/game-icons/lorc/battle-gear.svg
+img: icons/game-icons/lorc/battlegear.svg
 shortcode: htntlrnc
 type: trauma
 data:

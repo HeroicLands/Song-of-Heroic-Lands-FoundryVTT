@@ -3,7 +3,7 @@ tags: []
 name:
   full: Sociable
   aliases: []
-img: icons/game-icons/lorc/battle-gear.svg
+img: icons/game-icons/lorc/battlegear.svg
 shortcode: sociable
 type: trauma
 data:

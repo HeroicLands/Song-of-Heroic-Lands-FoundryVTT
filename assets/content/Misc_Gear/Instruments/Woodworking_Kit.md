@@ -5,7 +5,7 @@ name:
   full: Woodworking Kit
   aliases: []
 description: "Soft leather roll with whittling blades, gouges, chisels, file, mallet; carvers."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: woodwrkkit
 type: miscgear
 data:

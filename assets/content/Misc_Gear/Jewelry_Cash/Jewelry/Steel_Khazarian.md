@@ -5,7 +5,7 @@ name:
   full: Steel, Khazárian
   aliases: []
 description: "Crucible steel of Khazárian make; far dearer than common steel, and far better."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: stlkhzr
 type: miscgear
 data:

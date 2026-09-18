@@ -5,7 +5,7 @@ name:
   full: "Plate, ceramic"
   aliases: []
 description: "Glazed earthenware plate, eight inches across."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: platecer
 type: miscgear
 data:

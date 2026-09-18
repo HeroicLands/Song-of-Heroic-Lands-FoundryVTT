@@ -5,7 +5,7 @@ name:
   full: "Oil, Cooking"
   aliases: []
 description: "Golden neutral vegetable oil for frying and lighting, gallons at markets."
-img: icons/game-icons/caro-asercion/round-potion.svg
+img: icons/game-icons/caro-asercion/roundpotion.svg
 shortcode: oilcook
 type: miscgear
 data:

@@ -5,7 +5,7 @@ name:
   full: "Circlet, gold"
   aliases: []
 description: "A plain band for the brow, worn by those with rank enough to show it and not enough for a coronet, in gold."
-img: icons/game-icons/lorc/gem-pendant.svg
+img: icons/game-icons/lorc/gempendant.svg
 shortcode: circletgold
 type: miscgear
 data:

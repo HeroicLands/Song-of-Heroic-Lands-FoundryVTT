@@ -5,7 +5,7 @@ name:
   full: Oatmeal
   aliases: []
 description: "Coarse porridge filling bellies cheaply, stores dry indefinitely for soldiers."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: oatmeal
 type: miscgear
 data:

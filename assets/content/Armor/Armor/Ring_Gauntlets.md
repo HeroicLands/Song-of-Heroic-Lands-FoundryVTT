@@ -4,7 +4,7 @@ name:
   full: Ring Gauntlets
   aliases: []
 description: "Leather gloves with ring-reinforced back and fingers."
-img: icons/game-icons/lorc/mailed-fist.svg
+img: icons/game-icons/lorc/mailedfist.svg
 shortcode: rmtn
 type: armorgear
 data:

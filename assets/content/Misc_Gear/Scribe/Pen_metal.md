@@ -5,7 +5,7 @@ name:
   full: "Pen, metal"
   aliases: []
 description: "Steel nib in bone or wood handle; steady line, favored by professionals."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: penmetal
 type: miscgear
 data:

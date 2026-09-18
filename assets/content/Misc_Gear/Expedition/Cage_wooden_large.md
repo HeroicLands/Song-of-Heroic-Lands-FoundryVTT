@@ -5,7 +5,7 @@ name:
   full: "Cage, wooden, large"
   aliases: []
 description: "Large slatted wooden cage for livestock or hounds (roughly 27 cubic feet)."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: cagewoodlg
 type: miscgear
 data:

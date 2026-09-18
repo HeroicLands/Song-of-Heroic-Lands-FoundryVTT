@@ -5,7 +5,7 @@ name:
   full: "Agate, cut"
   aliases: []
 description: "Banded stone faceted by the lapidary; modest gem for rings and pendants."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: agatecut
 type: miscgear
 data:

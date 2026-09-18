@@ -5,7 +5,7 @@ name:
   full: Hogshead Ale
   aliases: []
 description: "Fifty gallons pale ale; garrison staple; drains in weeks of daily supply."
-img: icons/game-icons/lorc/beer-stein.svg
+img: icons/game-icons/lorc/beerstein.svg
 shortcode: alehgsh
 type: miscgear
 data:

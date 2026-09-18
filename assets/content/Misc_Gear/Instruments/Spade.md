@@ -5,7 +5,7 @@ name:
   full: "Spade"
   aliases: []
 description: "Iron-shod digging spade for earth, peat, and drainage work."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: spade
 type: miscgear
 data:

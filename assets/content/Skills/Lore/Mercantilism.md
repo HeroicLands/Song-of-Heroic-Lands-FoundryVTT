@@ -4,7 +4,7 @@ name:
   full: Mercantilism
   aliases: []
 description: "Trade, commerce, appraisal, negotiation, and understanding market principles."
-img: icons/game-icons/badges/coins.svg
+img: icons/game-icons/badges/coinsbdg.svg
 shortcode: mrcn
 type: skill
 data:

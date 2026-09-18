@@ -4,7 +4,7 @@ name:
   full: Serge Vest
   aliases: []
 description: "Twilled serge vest; practical, durable garment for various activities."
-img: icons/game-icons/lorc/leather-vest.svg
+img: icons/game-icons/lorc/leathervest.svg
 shortcode: sgvest
 type: armorgear
 data:

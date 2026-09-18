@@ -5,7 +5,7 @@ name:
   full: "Plate, tin"
   aliases: []
 description: "Thin stamped tin plate for military camps and common inns; cheap."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: platetin
 type: miscgear
 data:

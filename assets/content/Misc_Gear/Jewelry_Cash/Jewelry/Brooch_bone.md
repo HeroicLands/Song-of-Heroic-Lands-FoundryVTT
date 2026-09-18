@@ -5,7 +5,7 @@ name:
   full: "Brooch, bone"
   aliases: []
 description: "A pin and catch worked into a plate, worn to fasten a cloak at the shoulder, in carved bone."
-img: icons/game-icons/lorc/gem-pendant.svg
+img: icons/game-icons/lorc/gempendant.svg
 shortcode: broochbone
 type: miscgear
 data:

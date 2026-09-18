@@ -4,7 +4,7 @@ name:
   full: Russet Hat
   aliases: []
 description: "Reddish-brown wool hat; hardy and practical."
-img: icons/game-icons/lorc/pointy-hat.svg
+img: icons/game-icons/lorc/pointyhat.svg
 shortcode: rhat
 type: armorgear
 data:

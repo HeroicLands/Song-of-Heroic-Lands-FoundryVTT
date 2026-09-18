@@ -5,7 +5,7 @@ name:
   full: Ham
   aliases: []
 description: "Salt-cured smoked hog hind leg; sliced thin or diced, keeps months."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: ham
 type: miscgear
 data:

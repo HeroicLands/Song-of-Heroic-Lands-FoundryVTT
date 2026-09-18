@@ -5,7 +5,7 @@ name:
   aliases:
     - Kick
 description: "A boot driven out — the longest reach a person has without a weapon."
-img: icons/game-icons/lorc/foot-trip.svg
+img: icons/game-icons/lorc/foottrip.svg
 shortcode: bflkkick
 type: skill
 data:

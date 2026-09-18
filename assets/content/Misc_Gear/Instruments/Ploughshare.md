@@ -5,7 +5,7 @@ name:
   full: "Ploughshare"
   aliases: []
 description: "Iron cutting share for a plough; the costliest iron on most farms."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: ploughshare
 type: miscgear
 data:

@@ -3,7 +3,7 @@ tags: []
 name:
   full: Blindness
   aliases: []
-img: icons/game-icons/lorc/battle-gear.svg
+img: icons/game-icons/lorc/battlegear.svg
 shortcode: blndnss
 type: trauma
 data:

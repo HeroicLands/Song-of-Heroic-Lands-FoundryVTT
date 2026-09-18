@@ -4,7 +4,7 @@ name:
   full: Metalcraft
   aliases: []
 description: "Smelting, forging, and finishing metal into tools, armor, and components."
-img: icons/game-icons/lorc/metal-bar.svg
+img: icons/game-icons/lorc/metalbar.svg
 shortcode: mtlc
 type: skill
 data:

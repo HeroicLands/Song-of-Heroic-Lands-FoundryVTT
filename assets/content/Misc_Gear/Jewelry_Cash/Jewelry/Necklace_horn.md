@@ -5,7 +5,7 @@ name:
   full: "Necklace, horn"
   aliases: []
 description: "A chain or strung band worn at the throat, in carved horn."
-img: icons/game-icons/lorc/gem-pendant.svg
+img: icons/game-icons/lorc/gempendant.svg
 shortcode: necklacehorn
 type: miscgear
 data:

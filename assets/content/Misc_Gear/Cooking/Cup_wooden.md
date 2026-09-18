@@ -5,7 +5,7 @@ name:
   full: "Cup, wooden"
   aliases: []
 description: "Turned wooden cup; the everyday drinking vessel."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: cupwood
 type: miscgear
 data:

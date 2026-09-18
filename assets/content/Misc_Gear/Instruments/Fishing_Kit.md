@@ -5,7 +5,7 @@ name:
   full: Fishing Kit
   aliases: []
 description: "Cloth pouch with hooks, sinker, horsehair line, bone needle for riverside hunting."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: fishgkit
 type: miscgear
 data:

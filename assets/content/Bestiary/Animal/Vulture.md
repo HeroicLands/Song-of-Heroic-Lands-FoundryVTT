@@ -7,7 +7,7 @@ name:
   aliases: []
 description: "A massive soaring desert scavenger with a nine-foot wingspan, riding thermals for hours to feast wherever death visits the steppe."
 img: icons/game-icons/lorc/vulture.svg
-portrait: images/being/vulture-portrait.webp
+portrait: images/being/vulture.webp
 shortcode: vulture
 type: being
 data:

@@ -5,7 +5,7 @@ name:
   full: "Candles, Tallow"
   aliases: []
 description: "Rendered mutton-beef fat candles; smoky, acrid, cheap; light of soldiers and poor."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: candlestal
 type: miscgear
 data:

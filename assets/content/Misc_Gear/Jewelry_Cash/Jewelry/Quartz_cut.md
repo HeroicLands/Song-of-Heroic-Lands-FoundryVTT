@@ -5,7 +5,7 @@ name:
   full: "Quartz, cut"
   aliases: []
 description: "Clear crystalline gem; affordable and common; catches light creating bright glimmer."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: quartzcut
 type: miscgear
 data:

@@ -5,8 +5,8 @@ name:
   full: Common Shark
   aliases: []
 description: "A sleek oceanic predator honed for efficient killing, cruising warm and temperate seas and tracking prey through acute senses."
-img: icons/game-icons/lorc/shark-jaws.svg
-portrait: images/being/cmmnshrk-portrait.webp
+img: icons/game-icons/lorc/sharkjaws.svg
+portrait: images/being/cmmnshrk.webp
 shortcode: cmmnshrk
 type: being
 data:

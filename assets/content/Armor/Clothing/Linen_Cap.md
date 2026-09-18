@@ -4,7 +4,7 @@ name:
   full: Linen Cap
   aliases: []
 description: "Light breathable head covering protecting from sun in warmer weather."
-img: icons/game-icons/delapouite/billed-cap.svg
+img: icons/game-icons/delapouite/billedcap.svg
 shortcode: lcap
 type: armorgear
 data:

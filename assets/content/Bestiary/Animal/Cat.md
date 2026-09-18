@@ -6,7 +6,7 @@ name:
   aliases: []
 description: "A small solitary predator living between wild and tame, hunting vermin with lethal efficiency while tolerating the humans it shares hearths with."
 img: icons/game-icons/lorc/cat.svg
-portrait: images/being/cat-portrait.webp
+portrait: images/being/cat.webp
 shortcode: cat
 type: being
 data:

@@ -6,7 +6,7 @@ name:
   aliases: []
 description: "A sturdy donkey-horse hybrid combining a donkey's compact toughness with a horse's muscular agility, a hardy pack and draft animal of surefooted temperament."
 img: icons/game-icons/skoll/donkey.svg
-portrait: images/being/mule-portrait.webp
+portrait: images/being/mule.webp
 shortcode: mule
 type: being
 data:

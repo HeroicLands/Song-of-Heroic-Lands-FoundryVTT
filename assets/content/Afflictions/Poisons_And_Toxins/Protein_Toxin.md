@@ -4,7 +4,7 @@ name:
   full: Protein Toxin
   aliases: []
 description: "Marine spine venom; intense pain and tissue necrosis; cardiovascular distress."
-img: icons/game-icons/lorc/poison-bottle.svg
+img: icons/game-icons/lorc/poisonbottle.svg
 shortcode: prottxn
 type: affliction
 data:

@@ -5,7 +5,7 @@ name:
   full: Torch
   aliases: []
 description: "Pitch-wrapped oakwood torch; bright, hot flame; common guard light, expendable."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: torch
 type: miscgear
 data:

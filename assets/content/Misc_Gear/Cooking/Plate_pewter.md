@@ -5,7 +5,7 @@ name:
   full: "Plate, pewter"
   aliases: []
 description: "Flat pewter plate for daily household or tavern meals and service."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: platepewte
 type: miscgear
 data:

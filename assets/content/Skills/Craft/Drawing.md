@@ -4,7 +4,7 @@ name:
   full: Drawing
   aliases: []
 description: "Painting, sketching, fresco work; creating artistic and technical designs."
-img: icons/game-icons/badges/pencil.svg
+img: icons/game-icons/badges/pencilbdg.svg
 shortcode: draw
 type: skill
 data:

@@ -3,7 +3,7 @@ tags: []
 name:
   full: Impaired Hearing
   aliases: []
-img: icons/game-icons/lorc/battle-gear.svg
+img: icons/game-icons/lorc/battlegear.svg
 shortcode: impaired
 type: trauma
 data:

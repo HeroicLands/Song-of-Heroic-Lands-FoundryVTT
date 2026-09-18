@@ -6,7 +6,7 @@ name:
   aliases: []
 description: "A small, sure-footed equine prized for endurance and long life, hauling loads through rough terrain that would defeat a horse."
 img: icons/game-icons/skoll/donkey.svg
-portrait: images/being/donkey-portrait.webp
+portrait: images/being/donkey.webp
 shortcode: donkey
 type: being
 data:

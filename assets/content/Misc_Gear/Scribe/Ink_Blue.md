@@ -5,7 +5,7 @@ name:
   full: "Ink, Blue"
   aliases: []
 description: "Indigo or woad-derived; marks official margins and decorative chapter headings."
-img: icons/game-icons/lorc/ink-swirl.svg
+img: icons/game-icons/lorc/inkswirl.svg
 shortcode: inkblu
 type: miscgear
 data:

@@ -5,7 +5,7 @@ name:
   full: Spurs
   aliases: []
 description: "Iron or bronze rowels on heel straps; urges horse; marks cavalry rank."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: spurs
 type: miscgear
 data:

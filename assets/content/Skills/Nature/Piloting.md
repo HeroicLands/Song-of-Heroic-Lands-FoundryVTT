@@ -4,7 +4,7 @@ name:
   full: Piloting
   aliases: []
 description: "Navigating watercraft through coastal waters, harbors, and dangerous passages."
-img: icons/game-icons/delapouite/ship-wheel.svg
+img: icons/game-icons/delapouite/shipwheel.svg
 shortcode: pilt
 type: skill
 data:

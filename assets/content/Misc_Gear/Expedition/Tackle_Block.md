@@ -5,7 +5,7 @@ name:
   full: Tackle Block
   aliases: []
 description: "Single-wheel pulley; multiplies mechanical advantage for hauling cargo safely."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: tacklebloc
 type: miscgear
 data:

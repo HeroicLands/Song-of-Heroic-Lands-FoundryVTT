@@ -4,7 +4,7 @@ name:
   full: Ermine Cap
   aliases: []
 description: "Soft white ermine fur cap signifying nobility and great wealth."
-img: icons/game-icons/delapouite/billed-cap.svg
+img: icons/game-icons/delapouite/billedcap.svg
 shortcode: ecap
 type: armorgear
 data:

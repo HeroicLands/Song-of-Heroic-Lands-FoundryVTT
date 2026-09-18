@@ -4,7 +4,7 @@ name:
   full: "Pot, ceramic, 2 quart"
   aliases: []
 description: "Round earthenware cooking pot that sits in the embers (2 quarts)."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: potcer2qt
 type: containergear
 data:

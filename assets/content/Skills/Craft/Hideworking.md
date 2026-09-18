@@ -4,7 +4,7 @@ name:
   full: Hideworking
   aliases: []
 description: "Tanning furs and hides into leather goods; producing armor and equipment."
-img: icons/game-icons/delapouite/animal-hide.svg
+img: icons/game-icons/delapouite/animalhide.svg
 shortcode: hide
 type: skill
 data:

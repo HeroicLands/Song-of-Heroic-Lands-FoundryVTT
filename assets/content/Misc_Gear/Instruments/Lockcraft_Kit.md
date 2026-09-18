@@ -5,7 +5,7 @@ name:
   full: Lockcraft Kit
   aliases: []
 description: "Leather case with picks, files, hammer, key blanks; locksmith's tools."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: lkcrftkt
 type: miscgear
 data:

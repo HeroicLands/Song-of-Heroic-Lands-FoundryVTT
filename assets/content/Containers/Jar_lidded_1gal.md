@@ -4,7 +4,7 @@ name:
   full: "Jar, lidded, 1 gallon"
   aliases: []
 description: "Stoneware jar with fitted lid for dried goods and seasonal preserves (1 gallon)."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: jarliddedl
 type: containergear
 data:

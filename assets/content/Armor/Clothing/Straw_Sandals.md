@@ -4,7 +4,7 @@ name:
   full: Straw Sandals
   aliases: []
 description: "Light breathable straw sandals; minimal protection, maximum airflow."
-img: icons/game-icons/delapouite/flip-flops.svg
+img: icons/game-icons/delapouite/flipflops.svg
 shortcode: stshoes
 type: armorgear
 data:

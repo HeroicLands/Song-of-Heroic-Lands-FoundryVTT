@@ -4,7 +4,7 @@ name:
   full: Mandrake
   aliases: []
 description: "Tropane alkaloid; hallucinations and confusion; large doses cause respiratory failure."
-img: icons/game-icons/lorc/poison-bottle.svg
+img: icons/game-icons/lorc/poisonbottle.svg
 shortcode: mandrk
 type: affliction
 data:

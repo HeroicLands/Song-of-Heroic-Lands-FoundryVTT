@@ -5,7 +5,7 @@ name:
   full: Carrots
   aliases: []
 description: "Orange root vegetables; sweet cooked, dried for long-simmering pots."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: carrots
 type: miscgear
 data:

@@ -4,7 +4,7 @@ name:
   full: "Jar, ointment, small"
   aliases: []
 description: "Small ceramic ointment jar for salves and medicinal paste samples."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: jarointmen3
 type: containergear
 data:

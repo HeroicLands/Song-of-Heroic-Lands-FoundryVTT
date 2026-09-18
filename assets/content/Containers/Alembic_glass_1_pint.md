@@ -4,7 +4,7 @@ name:
   full: "Alembic, glass, 1 pint"
   aliases: []
 description: "Small glass still-head for fine distillation."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: alembgl1p
 type: containergear
 data:

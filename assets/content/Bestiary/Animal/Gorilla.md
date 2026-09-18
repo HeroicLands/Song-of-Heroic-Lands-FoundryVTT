@@ -6,7 +6,7 @@ name:
   aliases: []
 description: "A massive, intelligent forest primate living in silverback-led troops, peaceful until provoked, when its defending alpha becomes a nightmare of muscle."
 img: icons/game-icons/delapouite/gorilla.svg
-portrait: images/being/gorilla-portrait.webp
+portrait: images/being/gorilla.webp
 shortcode: gorilla
 type: being
 data:

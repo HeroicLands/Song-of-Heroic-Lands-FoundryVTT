@@ -5,7 +5,7 @@ name:
   full: String
   aliases: []
 description: "Twisted twine bundled for bundling firewood and lashing bedrolls closed."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: string
 type: miscgear
 data:

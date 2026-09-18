@@ -5,7 +5,7 @@ name:
   full: Silver
   aliases: []
 description: "Precious metal in ingots or coins; does not tarnish; accepts engraving."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: silver
 type: miscgear
 data:

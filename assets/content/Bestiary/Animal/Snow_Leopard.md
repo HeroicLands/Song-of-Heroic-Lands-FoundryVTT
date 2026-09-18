@@ -6,7 +6,7 @@ name:
   aliases: []
 description: "A solitary, thick-coated mountain predator and peerless climber, hunting goats and sheep in high peaks where no rivals compete."
 img: icons/game-icons/delapouite/feline.svg
-portrait: images/being/snwlprd-portrait.webp
+portrait: images/being/snwlprd.webp
 shortcode: snwlprd
 type: being
 data:

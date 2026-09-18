@@ -6,7 +6,7 @@ name:
   aliases: []
 description: "A highly intelligent, solitary rainforest ape and peaceful herbivore of the distant jungle canopy, turning violent only to defend itself or its young."
 img: icons/game-icons/lorc/monkey.svg
-portrait: images/being/orngtn-portrait.webp
+portrait: images/being/orngtn.webp
 shortcode: orngtn
 type: being
 data:

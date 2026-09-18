@@ -4,7 +4,7 @@ name:
   full: Melee
   aliases: []
 description: "Close combat with hand-held weapons; positioning, technique, and tactical awareness."
-img: icons/game-icons/lorc/crossed-swords.svg
+img: icons/game-icons/lorc/crossedswords.svg
 shortcode: melee
 type: skill
 data:

@@ -4,7 +4,7 @@ name:
   full: Dancing
   aliases: []
 description: "Performing formal and folk dances; elevating social gatherings with grace."
-img: icons/game-icons/delapouite/ballerina-shoes.svg
+img: icons/game-icons/delapouite/ballerinashoes.svg
 shortcode: dnce
 type: skill
 data:

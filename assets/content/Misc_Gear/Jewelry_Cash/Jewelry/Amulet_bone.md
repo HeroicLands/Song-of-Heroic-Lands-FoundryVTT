@@ -5,7 +5,7 @@ name:
   full: "Amulet, bone"
   aliases: []
 description: "A charm hung at the neck on a cord or chain, in carved bone."
-img: icons/game-icons/lorc/gem-pendant.svg
+img: icons/game-icons/lorc/gempendant.svg
 shortcode: amuletbone
 type: miscgear
 data:

@@ -6,8 +6,8 @@ name:
   full: Oryx
   aliases: []
 description: "A large, powerful desert antelope surviving the most barren arid wastes where no other large herbivore can endure."
-img: icons/game-icons/lorc/paw-print.svg
-portrait: images/being/oryx-portrait.webp
+img: icons/game-icons/lorc/pawprint.svg
+portrait: images/being/oryx.webp
 shortcode: oryx
 type: being
 data:

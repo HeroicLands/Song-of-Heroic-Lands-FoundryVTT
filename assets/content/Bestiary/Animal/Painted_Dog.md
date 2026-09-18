@@ -8,7 +8,7 @@ name:
     - Savanna Wild Dog
 description: "A lean, endurance-built savannah canid that hunts in coordinated packs of ten to thirty with unmatched efficiency across the open plains."
 img: icons/game-icons/lorc/hound.svg
-portrait: images/being/pntddg-portrait.webp
+portrait: images/being/pntddg.webp
 shortcode: pntddg
 type: being
 data:

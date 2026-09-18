@@ -5,7 +5,7 @@ name:
   full: "Ring, gold"
   aliases: []
 description: "Half an ounce of soft gold, sized to a finger; a purse that cannot be cut away."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: ringgold
 type: miscgear
 data:

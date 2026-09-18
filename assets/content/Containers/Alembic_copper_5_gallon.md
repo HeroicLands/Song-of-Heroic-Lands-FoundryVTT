@@ -4,7 +4,7 @@ name:
   full: "Alembic, copper, 5 gallon"
   aliases: []
 description: "Copper still-head for distillation, five gallons."
-img: icons/game-icons/delapouite/cooking-pot.svg
+img: icons/game-icons/delapouite/cookingpot.svg
 shortcode: alembcu5g
 type: containergear
 data:

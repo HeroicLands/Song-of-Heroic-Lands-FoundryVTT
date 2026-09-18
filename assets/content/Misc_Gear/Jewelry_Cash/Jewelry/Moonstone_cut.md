@@ -5,7 +5,7 @@ name:
   full: "Moonstone, cut"
   aliases: []
 description: "Pale feldspar gem glowing from within; rings and pendants for lunar-marked."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: moonstonec
 type: miscgear
 data:

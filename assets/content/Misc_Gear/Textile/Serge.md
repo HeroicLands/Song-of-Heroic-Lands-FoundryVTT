@@ -5,7 +5,7 @@ name:
   full: "Serge, per sq yard"
   aliases: []
 description: "Cheap unfulled wool, coarse thread, rural work; brown and grey only."
-img: icons/game-icons/lorc/rolled-cloth.svg
+img: icons/game-icons/delapouite/rolledcloth.svg
 shortcode: serge
 type: miscgear
 data:

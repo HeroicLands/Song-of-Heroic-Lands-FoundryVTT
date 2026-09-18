@@ -6,7 +6,7 @@ name:
   aliases: []
 description: "The largest living lizard, a heavily muscled nine-to-ten-foot reptile whose broad-jawed, coarse-scaled body makes it a formidable ambush hunter."
 img: icons/game-icons/lorc/gecko.svg
-portrait: images/being/kmddrgn-portrait.webp
+portrait: images/being/kmddrgn.webp
 shortcode: kmddrgn
 type: being
 data:

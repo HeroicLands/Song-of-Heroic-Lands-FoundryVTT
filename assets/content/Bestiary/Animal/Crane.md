@@ -7,8 +7,8 @@ name:
   aliases:
     - Celestial Crane
 description: "A tall, elegant wading bird of temperate wetlands, so revered in imperial culture that harming one carries legal punishment."
-img: icons/game-icons/lorc/paw-print.svg
-portrait: images/being/crane-portrait.webp
+img: icons/game-icons/lorc/pawprint.svg
+portrait: images/being/crane.webp
 shortcode: crane
 type: being
 data:

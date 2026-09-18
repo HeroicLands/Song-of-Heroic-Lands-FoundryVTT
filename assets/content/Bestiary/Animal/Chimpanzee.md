@@ -6,7 +6,7 @@ name:
   aliases: []
 description: "A fiercely intelligent primate capable of calculated, grudge-driven violence, remembering faces and grievances with a cunning that outmatches most predators."
 img: icons/game-icons/lorc/monkey.svg
-portrait: images/being/chmpnz-portrait.webp
+portrait: images/being/chmpnz.webp
 shortcode: chmpnz
 type: being
 data:

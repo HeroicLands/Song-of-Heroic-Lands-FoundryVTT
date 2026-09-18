@@ -4,7 +4,7 @@ name:
   full: "Bag, 15 lb, leather"
   aliases: []
 description: "Leather shoulder bag with a buckled flap (15 lb capacity)."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: bagleather15
 type: containergear
 data:

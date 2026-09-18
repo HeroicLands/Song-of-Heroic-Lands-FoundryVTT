@@ -4,7 +4,7 @@ name:
   full: Animalcraft
   aliases: []
 description: "Domesticating, breeding, caring for animals; training and veterinary expertise."
-img: icons/game-icons/badges/paw.svg
+img: icons/game-icons/badges/pawbdg.svg
 shortcode: anmcft
 type: skill
 data:

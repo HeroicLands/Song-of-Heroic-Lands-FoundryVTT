@@ -3,7 +3,7 @@ tags: []
 name:
   full: Photosensitivity
   aliases: []
-img: icons/game-icons/lorc/battle-gear.svg
+img: icons/game-icons/lorc/battlegear.svg
 shortcode: photosen
 type: trauma
 data:

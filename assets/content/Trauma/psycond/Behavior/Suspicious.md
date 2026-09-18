@@ -3,7 +3,7 @@ tags: []
 name:
   full: Suspicious
   aliases: []
-img: icons/game-icons/lorc/battle-gear.svg
+img: icons/game-icons/lorc/battlegear.svg
 shortcode: sspcs
 type: trauma
 data:

@@ -4,7 +4,7 @@ name:
   full: Scale Hauberk
   aliases: []
 description: "Full-sleeved scale coat; comprehensive scale-armor coverage."
-img: icons/game-icons/lorc/scale-mail.svg
+img: icons/game-icons/lorc/scalemail.svg
 shortcode: shaub
 type: armorgear
 data:

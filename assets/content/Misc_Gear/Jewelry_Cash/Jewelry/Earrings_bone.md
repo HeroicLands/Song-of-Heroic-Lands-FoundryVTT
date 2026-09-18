@@ -5,7 +5,7 @@ name:
   full: "Earrings, bone"
   aliases: []
 description: "A matched pair, hooked or hung, in carved bone."
-img: icons/game-icons/lorc/gem-pendant.svg
+img: icons/game-icons/lorc/gempendant.svg
 shortcode: earringsbone
 type: miscgear
 data:

@@ -3,7 +3,7 @@ tags: []
 name:
   full: Spontaneous
   aliases: []
-img: icons/game-icons/lorc/battle-gear.svg
+img: icons/game-icons/lorc/battlegear.svg
 shortcode: spntns
 type: trauma
 data:

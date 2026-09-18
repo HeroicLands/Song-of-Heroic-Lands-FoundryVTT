@@ -5,7 +5,7 @@ name:
   full: "Perfume, cheap"
   aliases: []
 description: "Coarse scent of common herbs in weak spirit; fades within the hour."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: perfumecheap
 type: miscgear
 data:

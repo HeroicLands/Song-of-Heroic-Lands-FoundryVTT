@@ -4,7 +4,7 @@ name:
   full: "Vase, ceramic"
   aliases: []
 description: "Decorative footed earthenware vase for cut flowers or branches."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: vasecer
 type: containergear
 data:

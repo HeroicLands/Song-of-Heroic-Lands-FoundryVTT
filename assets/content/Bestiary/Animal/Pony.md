@@ -5,8 +5,8 @@ name:
   full: Pony
   aliases: []
 description: "A stocky, strong equine under fourteen hands, bred for endurance and labor as a draft animal and reliable mount for smaller riders and dwarves."
-img: icons/game-icons/delapouite/horse-head.svg
-portrait: images/being/pony-portrait.webp
+img: icons/game-icons/delapouite/horsehead.svg
+portrait: images/being/pony.webp
 shortcode: pony
 type: being
 data:

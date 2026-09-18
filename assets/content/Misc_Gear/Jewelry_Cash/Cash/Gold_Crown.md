@@ -5,7 +5,7 @@ name:
   full: Gold Crown
   aliases: []
 description: "Royal-sealed coin of alloyed gold; the great coin of merchants, nobles and the crown."
-img: icons/game-icons/badges/coins.svg
+img: icons/game-icons/badges/coinsbdg.svg
 shortcode: gldcrwn
 type: miscgear
 data:

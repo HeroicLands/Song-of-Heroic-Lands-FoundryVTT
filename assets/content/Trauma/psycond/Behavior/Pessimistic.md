@@ -3,7 +3,7 @@ tags: []
 name:
   full: Pessimistic
   aliases: []
-img: icons/game-icons/lorc/battle-gear.svg
+img: icons/game-icons/lorc/battlegear.svg
 shortcode: pssmstc
 type: trauma
 data:

@@ -10,7 +10,7 @@ name:
 packFolder: archetypes
 shortcode: basicfolk
 img: icons/game-icons/delapouite/person.svg
-portrait: images/being/basicfolk-portrait.webp
+portrait: null
 type: being
 data:
   templatePriority: 1

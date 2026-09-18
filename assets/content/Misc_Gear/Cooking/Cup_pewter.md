@@ -5,7 +5,7 @@ name:
   full: "Cup, pewter"
   aliases: []
 description: "Cast pewter cup for ale-houses and tavern daily use and casual damage."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: cuppewter
 type: miscgear
 data:

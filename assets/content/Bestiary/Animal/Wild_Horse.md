@@ -6,8 +6,8 @@ name:
   full: Wild Horse
   aliases: []
 description: "A stocky, powerful equine ancestor of domestic breeds, roaming the open steppe in bands with heavy bone and tireless endurance."
-img: icons/game-icons/delapouite/horse-head.svg
-portrait: images/being/wldhrs-portrait.webp
+img: icons/game-icons/delapouite/horsehead.svg
+portrait: images/being/wldhrs.webp
 shortcode: wldhrs
 type: being
 data:

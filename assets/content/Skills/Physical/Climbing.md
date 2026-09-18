@@ -4,7 +4,7 @@ name:
   full: Climbing
   aliases: []
 description: "Scaling cliffs, walls, trees using handholds, ropes, body technique."
-img: icons/game-icons/caro-asercion/mountain-climbing.svg
+img: icons/game-icons/caro-asercion/mountainclimbing.svg
 shortcode: clmb
 type: skill
 data:

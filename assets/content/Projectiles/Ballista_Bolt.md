@@ -9,7 +9,7 @@ data:
   templatePriority: 0
 subType: bolt
 shortcode: bltsge
-img: icons/game-icons/lorc/barbed-spear.svg
+img: icons/game-icons/lorc/barbedspear.svg
 easyname: Ballista
 sohl:
   craft:

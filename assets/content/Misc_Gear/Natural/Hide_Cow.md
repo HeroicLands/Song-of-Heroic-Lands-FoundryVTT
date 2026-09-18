@@ -5,7 +5,7 @@ name:
   full: "Hide, Cow"
   aliases: []
 description: "Dairy cow hide; tannery workhorse; russet leather for jerkins and breeches. Price is for one whole skin."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: hidecow
 type: miscgear
 data:

@@ -6,7 +6,7 @@ name:
   aliases: []
 description: "A muscular ambush-hunting feline that fells prey far larger than itself through precision and raw power across grasslands and scrublands."
 img: icons/game-icons/lorc/lion.svg
-portrait: images/being/sbrtthct-portrait.webp
+portrait: images/being/sbrtthct.webp
 shortcode: sbrtthct
 type: being
 data:

@@ -3,7 +3,7 @@ tags: []
 name:
   full: Codependent
   aliases: []
-img: icons/game-icons/lorc/battle-gear.svg
+img: icons/game-icons/lorc/battlegear.svg
 shortcode: cdpndnt
 type: trauma
 data:

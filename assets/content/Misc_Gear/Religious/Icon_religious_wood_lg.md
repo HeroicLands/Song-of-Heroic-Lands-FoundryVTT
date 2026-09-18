@@ -5,7 +5,7 @@ name:
   full: "Icon, religious, wood, lg"
   aliases: []
 description: "Hand-painted oak or pine panel depicting saint or patron god in tempera."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: iconwdlg
 type: miscgear
 data:

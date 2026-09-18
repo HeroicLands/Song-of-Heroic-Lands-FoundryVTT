@@ -4,7 +4,7 @@ name:
   full: Throwing Axe
   aliases: []
 description: "Balanced head tumbling end-over-end to break skirmish formation."
-img: icons/game-icons/lorc/battle-axe.svg
+img: icons/game-icons/lorc/battleaxe.svg
 shortcode: shkn
 type: weapongear
 data:

@@ -5,7 +5,7 @@ name:
   full: "Saddle, War"
   aliases: []
 description: "Steel-reinforced wood, high pommel, cantle; braces rider in lance-work, combat impacts."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: saddlewar
 type: miscgear
 data:

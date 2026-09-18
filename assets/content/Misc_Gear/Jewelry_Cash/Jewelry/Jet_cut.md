@@ -5,7 +5,7 @@ name:
   full: "Jet, cut"
   aliases: []
 description: "Black fossilized-wood gem; silver or gold setting; favored for mourning jewelry."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: jetcut
 type: miscgear
 data:

@@ -6,8 +6,8 @@ name:
   full: Hippopotamus
   aliases: []
 description: "A three-to-four-ton river herbivore of tropical marshes, more lethal and aggressive than any crocodile despite its herbivorous diet."
-img: icons/game-icons/lorc/paw-print.svg
-portrait: images/being/hppptms-portrait.webp
+img: icons/game-icons/lorc/pawprint.svg
+portrait: images/being/hppptms.webp
 shortcode: hppptms
 type: being
 data:

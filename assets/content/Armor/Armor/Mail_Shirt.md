@@ -4,7 +4,7 @@ name:
   full: Mail Shirt
   aliases: []
 description: "Metal ring torso and upper arm protection with excellent defense."
-img: icons/game-icons/lorc/mail-shirt.svg
+img: icons/game-icons/lorc/mailshirt.svg
 shortcode: mshirt
 type: armorgear
 data:

@@ -5,7 +5,7 @@ name:
   full: Chisel
   aliases: []
 description: "Steel blade beveled for stone and wood, driven by hammer."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: chisel
 type: miscgear
 data:

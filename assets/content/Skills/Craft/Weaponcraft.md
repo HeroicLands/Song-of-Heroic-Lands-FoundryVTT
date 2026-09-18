@@ -4,7 +4,7 @@ name:
   full: Weaponcraft
   aliases: []
 description: "Forging swords, axes, and weapons with superior balance and performance."
-img: icons/game-icons/lorc/sword-smithing.svg
+img: icons/game-icons/lorc/swordsmithing.svg
 shortcode: wpnc
 type: skill
 data:

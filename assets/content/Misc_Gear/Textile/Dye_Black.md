@@ -5,7 +5,7 @@ name:
   full: "Dye, Black"
   aliases: []
 description: "Logwood or iron-tannate powder for deep, fast-set black cloth dye."
-img: icons/game-icons/caro-asercion/round-potion.svg
+img: icons/game-icons/caro-asercion/roundpotion.svg
 shortcode: dyeblk
 type: miscgear
 data:

@@ -4,7 +4,7 @@ name:
   full: "Barrel, 10 gallon"
   aliases: []
 description: "Coopered oak barrel bound with iron hoops (10 gallons)."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: barrel10gal
 type: containergear
 data:

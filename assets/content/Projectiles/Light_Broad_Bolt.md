@@ -9,7 +9,7 @@ data:
   templatePriority: 0
 subType: bolt
 shortcode: bltlbrd
-img: icons/game-icons/lorc/broadhead-arrow.svg
+img: icons/game-icons/lorc/broadheadarrow.svg
 easyname: Light Broad
 sohl:
   craft:

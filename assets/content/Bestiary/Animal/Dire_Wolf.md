@@ -5,8 +5,8 @@ name:
   full: Dire Wolf
   aliases: []
 description: "An enormous pack-hunting canine of deep wilderness, twice the size of a gray wolf yet retaining its cousins' tactical intelligence."
-img: icons/game-icons/lorc/wolf-head.svg
-portrait: images/being/direwolf-portrait.webp
+img: icons/game-icons/lorc/wolfhead.svg
+portrait: images/being/direwolf.webp
 shortcode: direwolf
 type: being
 data:

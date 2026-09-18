@@ -3,7 +3,7 @@ tags: []
 name:
   full: Adventurous
   aliases: []
-img: icons/game-icons/lorc/battle-gear.svg
+img: icons/game-icons/lorc/battlegear.svg
 shortcode: advs
 type: trauma
 data:

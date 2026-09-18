@@ -4,7 +4,7 @@ name:
   full: Rawhide Long Vest
   aliases: []
 description: "Extended hide vest; tough torso protection without sleeves."
-img: icons/game-icons/delapouite/leather-armor.svg
+img: icons/game-icons/delapouite/leatherarmor.svg
 shortcode: rhlngvst
 type: armorgear
 data:

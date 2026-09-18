@@ -4,7 +4,7 @@ name:
   full: "Crucible, medium"
   aliases: []
 description: "Moderate thin-walled ceramic crucible."
-img: icons/game-icons/delapouite/cooking-pot.svg
+img: icons/game-icons/delapouite/cookingpot.svg
 shortcode: cruciblemd
 type: containergear
 data:

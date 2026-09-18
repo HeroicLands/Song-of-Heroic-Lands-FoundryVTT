@@ -5,7 +5,7 @@ name:
   full: Cup Good Wine
   aliases: []
 description: "Oak-aged fine wine; fuller-bodied, less sour; marks deals and occasions."
-img: icons/game-icons/lorc/jeweled-chalice.svg
+img: icons/game-icons/lorc/jeweledchalice.svg
 shortcode: gwinecup
 type: miscgear
 data:

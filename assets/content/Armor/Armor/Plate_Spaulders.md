@@ -4,7 +4,7 @@ name:
   full: Plate Spaulders
   aliases: []
 description: "Broad steel shoulder-plates; guards vulnerable arm-sockets."
-img: icons/game-icons/lorc/dorsal-scales.svg
+img: icons/game-icons/lorc/dorsalscales.svg
 shortcode: plspld
 type: armorgear
 data:

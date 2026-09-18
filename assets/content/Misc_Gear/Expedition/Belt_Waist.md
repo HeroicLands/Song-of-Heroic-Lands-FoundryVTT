@@ -5,7 +5,7 @@ name:
   full: "Belt, Waist"
   aliases: []
 description: "Leather waist belt with buckle; universal for suspending pouches, tools, and weapons."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: beltwaist
 type: miscgear
 data:

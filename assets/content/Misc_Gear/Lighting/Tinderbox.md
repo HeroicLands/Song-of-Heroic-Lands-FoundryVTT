@@ -5,7 +5,7 @@ name:
   full: Tinderbox
   aliases: []
 description: "Iron box with charred linen, steel striker, flint; kindles fire anywhere."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: tndrbx
 type: miscgear
 data:

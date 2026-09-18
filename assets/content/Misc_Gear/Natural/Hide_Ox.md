@@ -5,7 +5,7 @@ name:
   full: "Hide, Ox"
   aliases: []
 description: "Prime even-grained oxhide; strong stock for saddles, breeches, shoe uppers. Price is for one whole skin."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: hideox
 type: miscgear
 data:

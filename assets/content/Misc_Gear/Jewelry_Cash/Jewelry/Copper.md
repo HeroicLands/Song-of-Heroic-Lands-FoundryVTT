@@ -5,7 +5,7 @@ name:
   full: Copper
   aliases: []
 description: "Pure copper in ingots or sheets; soft, corrosion-resistant, the base of every alloy."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: copper
 type: miscgear
 data:

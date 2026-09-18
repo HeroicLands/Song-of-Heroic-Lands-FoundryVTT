@@ -5,7 +5,7 @@ name:
   full: "Bowl, copper"
   aliases: []
 description: "Tinned copper bowl; conducts heat evenly and suits kitchen and table use."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: bowlcopper
 type: miscgear
 data:

@@ -5,7 +5,7 @@ name:
   full: Pipe weed
   aliases: []
 description: "Dried tobacco leaf for smoking; eases fatigue and steadies nerves."
-img: icons/game-icons/delapouite/herbs-bundle.svg
+img: icons/game-icons/delapouite/herbsbundle.svg
 shortcode: pipewd
 type: miscgear
 data:

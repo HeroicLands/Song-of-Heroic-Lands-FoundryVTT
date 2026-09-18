@@ -4,7 +4,7 @@ name:
   full: Hatchet
   aliases: []
 description: "Light tool-blade for kindling and ambush; road's most common sidearm."
-img: icons/game-icons/lorc/battle-axe.svg
+img: icons/game-icons/lorc/battleaxe.svg
 shortcode: hcht
 type: weapongear
 data:

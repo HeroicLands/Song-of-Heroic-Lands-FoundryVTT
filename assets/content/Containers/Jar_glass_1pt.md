@@ -4,7 +4,7 @@ name:
   full: "Jar, glass, 1 pt."
   aliases: []
 description: "Hand-blown glass vessel with cork stopper; stores oils and inks safely (1 pint)."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: jarglass1pt
 type: containergear
 data:

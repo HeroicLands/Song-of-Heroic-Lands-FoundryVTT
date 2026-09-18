@@ -5,7 +5,7 @@ name:
   full: "Rope, ¼” silk, per ft (225 lb cap.)"
   aliases: []
 description: "Light silk rope; strong, rot-resistant, preferred by wealthy climbers."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: rope14silk
 type: miscgear
 data:

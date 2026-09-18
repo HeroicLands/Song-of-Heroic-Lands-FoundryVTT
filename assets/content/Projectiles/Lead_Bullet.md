@@ -9,7 +9,7 @@ data:
   templatePriority: 0
 subType: bullet
 shortcode: lbul
-img: icons/game-icons/delapouite/stone-pile.svg
+img: icons/game-icons/delapouite/stonepile.svg
 easyname: Lead Bullet
 sohl:
   craft:

@@ -4,7 +4,7 @@ name:
   full: Scale Byrnie
   aliases: []
 description: "Fabric-backed overlapping metal scales; flexible torso defense."
-img: icons/game-icons/lorc/scale-mail.svg
+img: icons/game-icons/lorc/scalemail.svg
 shortcode: sbyrn
 type: armorgear
 data:

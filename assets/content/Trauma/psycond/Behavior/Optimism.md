@@ -3,7 +3,7 @@ tags: []
 name:
   full: Optimism
   aliases: []
-img: icons/game-icons/lorc/battle-gear.svg
+img: icons/game-icons/lorc/battlegear.svg
 shortcode: optimism
 type: trauma
 data:

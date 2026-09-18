@@ -5,7 +5,7 @@ name:
   full: Pilot's Instruments
   aliases: []
 description: "Brass-bound case with compass, astrolabe, cross-staff, dividers, rule, charts; navigators."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: pilotinstr
 type: miscgear
 data:

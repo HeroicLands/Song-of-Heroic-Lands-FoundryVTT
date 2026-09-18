@@ -4,7 +4,7 @@ name:
   full: Roundshield
   aliases: []
 description: "Oak circular shield with iron-domed boss; common soldier's line-wall reliable."
-img: icons/game-icons/willdabeast/round-shield.svg
+img: icons/game-icons/willdabeast/roundshield.svg
 shortcode: rndsh
 type: weapongear
 data:

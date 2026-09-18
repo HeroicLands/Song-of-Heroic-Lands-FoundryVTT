@@ -5,7 +5,7 @@ name:
   full: Horsemeat
   aliases: []
 description: "Lean meat from spent beasts; tougher, stewed or smoked for pallability."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: horsemeat
 type: miscgear
 data:

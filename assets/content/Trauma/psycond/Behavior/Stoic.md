@@ -3,7 +3,7 @@ tags: []
 name:
   full: Stoic
   aliases: []
-img: icons/game-icons/lorc/battle-gear.svg
+img: icons/game-icons/lorc/battlegear.svg
 shortcode: stoic
 type: trauma
 data:

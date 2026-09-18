@@ -4,7 +4,7 @@ name:
   full: Wayfarer's Rest, Loft
   aliases: []
 description: "The sleeping loft above the common room, reached by one stair."
-img: sohl/assets/ui/parchment.jpg
+img: systems/sohl/assets/ui/parchment.jpg
 shortcode: wayrestloft
 type: map
 packFolder: battlemaps

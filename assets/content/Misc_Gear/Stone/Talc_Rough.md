@@ -5,7 +5,7 @@ name:
   full: "Talc, Rough"
   aliases: []
 description: "Soft slippery stone chunks; reduces friction, absorbs moisture; fullers, tanners, metalworkers."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: talcrough
 type: miscgear
 data:

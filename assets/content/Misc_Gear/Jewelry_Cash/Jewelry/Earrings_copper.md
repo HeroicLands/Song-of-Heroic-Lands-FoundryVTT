@@ -5,7 +5,7 @@ name:
   full: "Earrings, copper"
   aliases: []
 description: "Cheap copper wire hoops; a child's first pair, easily replaced when lost."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: earringscopper
 type: miscgear
 data:

@@ -5,7 +5,7 @@ name:
   full: "Cage, iron, small"
   aliases: []
 description: "Small iron cage for birds and small animals; lashable to saddle."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: cageironsm
 type: miscgear
 data:

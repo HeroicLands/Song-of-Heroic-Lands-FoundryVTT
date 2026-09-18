@@ -5,7 +5,7 @@ name:
   aliases:
     - Headbutt
 description: "The forehead driven into a face, from too close for anything else to work."
-img: icons/game-icons/lorc/wrecking-ball.svg
+img: icons/game-icons/lorc/wreckingball.svg
 shortcode: bflkheadbutt
 type: skill
 data:

@@ -6,8 +6,8 @@ name:
   full: Caracal
   aliases: []
 description: "A powerfully built desert hunting cat of the arid steppe, prowling rocky scrubland and thorn thickets for prey it ambushes with explosive leaps."
-img: icons/game-icons/delapouite/lynx-head.svg
-portrait: images/being/caracal-portrait.webp
+img: icons/game-icons/delapouite/lynxhead.svg
+portrait: images/being/caracal.webp
 shortcode: caracal
 type: being
 data:

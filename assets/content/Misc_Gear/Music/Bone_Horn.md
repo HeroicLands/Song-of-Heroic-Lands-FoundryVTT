@@ -5,7 +5,7 @@ name:
   full: Bone/Horn
   aliases: []
 description: "Hollow bone-horn pipe stoppered with cork; reedy piercing voice carries across moorland."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: bonehorn
 type: miscgear
 data:

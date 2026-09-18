@@ -4,7 +4,7 @@ name:
   full: "Bucket, copper"
   aliases: []
 description: "Tinned-copper bucket for heating and cooking without iron."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: bucketcopp
 type: containergear
 data:

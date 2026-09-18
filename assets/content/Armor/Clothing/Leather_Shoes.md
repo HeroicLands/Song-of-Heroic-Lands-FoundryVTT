@@ -4,7 +4,7 @@ name:
   full: Leather Shoes
   aliases: []
 description: "Comfortable lightweight leather foot covering for everyday wear or light adventuring."
-img: icons/game-icons/lorc/leather-boot.svg
+img: icons/game-icons/lorc/leatherboot.svg
 shortcode: ltshoe
 type: armorgear
 data:

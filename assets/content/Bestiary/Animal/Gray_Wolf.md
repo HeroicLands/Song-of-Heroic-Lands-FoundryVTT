@@ -5,8 +5,8 @@ name:
   full: Gray Wolf
   aliases: []
 description: "A highly social pack predator of temperate and cold wilds, using numbers and tactical cunning to bring down prey far larger than itself."
-img: icons/game-icons/lorc/wolf-head.svg
-portrait: images/being/graywolf-portrait.webp
+img: icons/game-icons/lorc/wolfhead.svg
+portrait: images/being/graywolf.webp
 shortcode: graywolf
 type: being
 data:

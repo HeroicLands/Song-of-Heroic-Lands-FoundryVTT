@@ -5,7 +5,7 @@ name:
   full: "Beads, copper"
   aliases: []
 description: "Cast copper beads; common trade items and clothing decorations for many cultures."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: beadscoppe
 type: miscgear
 data:

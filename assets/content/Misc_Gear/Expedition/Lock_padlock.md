@@ -5,7 +5,7 @@ name:
   full: "Lock, padlock"
   aliases: []
 description: "Small iron padlock with U-shackle for securing cargo and tent flaps."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: lockpadloc2
 type: miscgear
 data:

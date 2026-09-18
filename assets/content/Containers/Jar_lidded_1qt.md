@@ -4,7 +4,7 @@ name:
   full: "Jar, lidded, 1 quart"
   aliases: []
 description: "Stoneware jar for household storage of honey, jam, oil, or salt (1 quart)."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: jarliddedm
 type: containergear
 data:

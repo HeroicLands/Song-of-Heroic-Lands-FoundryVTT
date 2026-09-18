@@ -4,7 +4,7 @@ name:
   full: Cloth Vest
   aliases: []
 description: "Simple cloth vest offering comfort and warmth for casual wear."
-img: icons/game-icons/lorc/leather-vest.svg
+img: icons/game-icons/lorc/leathervest.svg
 shortcode: cvest
 type: armorgear
 data:

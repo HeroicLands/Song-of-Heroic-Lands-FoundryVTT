@@ -4,7 +4,7 @@ name:
   full: Linen Vest
   aliases: []
 description: "Light breathable sleeveless garment perfect for warm weather activities."
-img: icons/game-icons/lorc/leather-vest.svg
+img: icons/game-icons/lorc/leathervest.svg
 shortcode: lvest
 type: armorgear
 data:

@@ -7,7 +7,7 @@ name:
   aliases: []
 description: "A massive soaring vulture with a ten-foot wingspan, sacred to highland faith, spotting carrion from staggering altitudes above the western peaks."
 img: icons/game-icons/lorc/vulture.svg
-portrait: images/being/condor-portrait.webp
+portrait: images/being/condor.webp
 shortcode: condor
 type: being
 data:

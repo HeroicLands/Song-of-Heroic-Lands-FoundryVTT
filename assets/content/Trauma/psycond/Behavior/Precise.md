@@ -3,7 +3,7 @@ tags: []
 name:
   full: Precise
   aliases: []
-img: icons/game-icons/lorc/battle-gear.svg
+img: icons/game-icons/lorc/battlegear.svg
 shortcode: precise
 type: trauma
 data:

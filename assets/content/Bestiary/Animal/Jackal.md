@@ -7,7 +7,7 @@ name:
   aliases: []
 description: "A small, adaptable canid of the river lowlands that hunts and scavenges along riverbanks, village middens, and necropolis complexes among the dead."
 img: icons/game-icons/lorc/hound.svg
-portrait: images/being/jackal-portrait.webp
+portrait: images/being/jackal.webp
 shortcode: jackal
 type: being
 data:

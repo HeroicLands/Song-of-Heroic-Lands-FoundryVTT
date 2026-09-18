@@ -3,7 +3,7 @@ tags: []
 name:
   full: Energetic
   aliases: []
-img: icons/game-icons/lorc/battle-gear.svg
+img: icons/game-icons/lorc/battlegear.svg
 shortcode: enrgtc
 type: trauma
 data:

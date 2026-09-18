@@ -5,7 +5,7 @@ name:
   full: Ocarina Flute
   aliases: []
 description: "Egg-shaped clay-wood vessel with holes; soft mournful voice; shepherd's instrument."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: ocarinaflu
 type: miscgear
 data:

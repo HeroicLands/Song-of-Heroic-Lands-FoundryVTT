@@ -4,7 +4,7 @@ name:
   full: "Aludel, glass"
   aliases: []
 description: "Glass sublimation vessel, pear-shaped."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: aludelgl
 type: containergear
 data:

@@ -5,7 +5,7 @@ name:
   full: "Anklet, silver"
   aliases: []
 description: "A band worn at the ankle, closed or hinged, and often hung with small charms, in silver."
-img: icons/game-icons/lorc/gem-pendant.svg
+img: icons/game-icons/lorc/gempendant.svg
 shortcode: ankletsilver
 type: miscgear
 data:

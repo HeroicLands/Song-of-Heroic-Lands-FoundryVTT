@@ -5,7 +5,7 @@ name:
   full: "Amulet, wood"
   aliases: []
 description: "Carved wooden charm on a thong; often cut by the wearer or a household elder."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: amuletwood
 type: miscgear
 data:

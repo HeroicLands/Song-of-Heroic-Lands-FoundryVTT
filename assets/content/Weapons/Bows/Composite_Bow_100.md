@@ -4,7 +4,7 @@ name:
   full: Composite Bow 100
   aliases: []
 description: "Horn-and-sinew composite at one-hundred pound draw; cavalry archer standard."
-img: icons/game-icons/lorc/pocket-bow.svg
+img: icons/game-icons/lorc/pocketbow.svg
 shortcode: cbw100
 type: weapongear
 data:

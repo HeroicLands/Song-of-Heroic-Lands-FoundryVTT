@@ -5,7 +5,7 @@ name:
   full: "Bench"
   aliases: []
 description: "Long backless wooden seat for a table, hall, or workshop."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: bench
 type: miscgear
 data:

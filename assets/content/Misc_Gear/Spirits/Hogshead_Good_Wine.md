@@ -5,7 +5,7 @@ name:
   full: Hogshead Good Wine
   aliases: []
 description: "Fine oak-aged wine in barrel; noble cellar treasure, aged years before tapping."
-img: icons/game-icons/delapouite/wine-bottle.svg
+img: icons/game-icons/delapouite/winebottle.svg
 shortcode: gwinehgsh
 type: miscgear
 data:

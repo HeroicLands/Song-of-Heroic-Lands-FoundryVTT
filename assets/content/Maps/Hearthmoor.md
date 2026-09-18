@@ -4,7 +4,7 @@ name:
   full: Hearthmoor
   aliases: []
 description: "The open moor the road crosses, a day's walk end to end."
-img: sohl/assets/ui/parchment.jpg
+img: systems/sohl/assets/ui/parchment.jpg
 shortcode: hearthmoor
 type: map
 packFolder: regionalmaps

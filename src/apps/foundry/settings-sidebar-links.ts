@@ -71,7 +71,7 @@ export const SETTINGS_LINKS_MARKER = "data-sohl-links";
  * Trademarks & Service Marks section of LICENSE.md (and
  * assets/icons/brand/NOTICE.md). Do not relicense or repurpose it.
  */
-export const SOHL_EMBLEM_PATH = "systems/sohl/assets/icons/brand/sohl-dragon.svg";
+export const SOHL_EMBLEM_PATH = "systems/sohl/assets/icons/brand/sohldragon.svg";
 
 /**
  * The inline entries, in display order, each paired with its `lang/en.json`

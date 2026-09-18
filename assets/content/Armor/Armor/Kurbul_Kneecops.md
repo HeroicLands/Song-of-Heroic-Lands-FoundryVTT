@@ -4,7 +4,7 @@ name:
   full: Kûrbúl Kneecops
   aliases: []
 description: "Treated leather knee guards with intricate patterns and decorative appeal."
-img: icons/game-icons/delapouite/knee-pad.svg
+img: icons/game-icons/delapouite/kneepad.svg
 shortcode: kknee
 type: armorgear
 data:

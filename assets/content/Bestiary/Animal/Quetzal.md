@@ -7,8 +7,8 @@ name:
   aliases:
     - Sacred Quetzal
 description: "A small, brilliantly iridescent jungle trogon whose trailing green tail feathers are prized above gold across the highland civilizations."
-img: icons/game-icons/lorc/paw-print.svg
-portrait: images/being/quetzal-portrait.webp
+img: icons/game-icons/lorc/pawprint.svg
+portrait: images/being/quetzal.webp
 shortcode: quetzal
 type: being
 data:

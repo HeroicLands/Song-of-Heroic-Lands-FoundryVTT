@@ -4,7 +4,7 @@ name:
   full: Composite Bow 120
   aliases: []
 description: "One-hundred-twenty pound horse-bow; only veteran cavalry can draw."
-img: icons/game-icons/lorc/pocket-bow.svg
+img: icons/game-icons/lorc/pocketbow.svg
 shortcode: cbw120
 type: weapongear
 data:

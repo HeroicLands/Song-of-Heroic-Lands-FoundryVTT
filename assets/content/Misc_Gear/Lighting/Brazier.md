@@ -5,7 +5,7 @@ name:
   full: Brazier
   aliases: []
 description: "Cast-iron or bronze basin on tripod; holds coals for warmth and light."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: brazier
 type: miscgear
 data:

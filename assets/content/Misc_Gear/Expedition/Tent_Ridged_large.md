@@ -5,7 +5,7 @@ name:
   full: "Tent, Ridged, large"
   aliases: []
 description: "Ridge-pole tent for two or three; pitched roof sheds water well."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: tentridged
 type: miscgear
 data:

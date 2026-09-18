@@ -4,7 +4,7 @@ name:
   full: "Jar, ointment, large"
   aliases: []
 description: "Wide-mouthed ceramic vessel for apothecaries storing balms and salves."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: jarointmen
 type: containergear
 data:

@@ -4,7 +4,7 @@ name:
   full: Jumping
   aliases: []
 description: "Leaping horizontally and vertically; reaching above normal reach."
-img: icons/game-icons/delapouite/jump-across.svg
+img: icons/game-icons/delapouite/jumpacross.svg
 shortcode: jump
 type: skill
 data:

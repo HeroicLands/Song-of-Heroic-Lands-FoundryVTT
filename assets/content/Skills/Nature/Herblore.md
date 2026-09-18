@@ -4,7 +4,7 @@ name:
   full: Herblore
   aliases: []
 description: "Identifying, gathering, preparing plants for medicinal, culinary, mystical use."
-img: icons/game-icons/delapouite/herbs-bundle.svg
+img: icons/game-icons/delapouite/herbsbundle.svg
 shortcode: herb
 type: skill
 data:

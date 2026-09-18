@@ -7,7 +7,7 @@ name:
   aliases: []
 description: "A lightly built sprinting cat of the arid grasslands, built for blistering speed to run down gazelle across open gravel plains."
 img: icons/game-icons/lorc/lion.svg
-portrait: images/being/cheetah-portrait.webp
+portrait: images/being/cheetah.webp
 shortcode: cheetah
 type: being
 data:

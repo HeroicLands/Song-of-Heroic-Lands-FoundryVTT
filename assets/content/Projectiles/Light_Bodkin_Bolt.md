@@ -9,7 +9,7 @@ data:
   templatePriority: 0
 subType: bolt
 shortcode: bltlbod
-img: icons/game-icons/lorc/broadhead-arrow.svg
+img: icons/game-icons/lorc/broadheadarrow.svg
 easyname: Light Bodkin
 sohl:
   craft:

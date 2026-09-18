@@ -5,7 +5,7 @@ name:
   full: "Ale, Pint"
   aliases: []
 description: "Pale ale in cup or horn; staple wage for laborers and soldiers."
-img: icons/game-icons/lorc/beer-stein.svg
+img: icons/game-icons/lorc/beerstein.svg
 shortcode: alept
 type: miscgear
 data:

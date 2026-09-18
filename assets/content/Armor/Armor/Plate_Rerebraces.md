@@ -4,7 +4,7 @@ name:
   full: Plate Rerebraces
   aliases: []
 description: "Steel upper-arm guards; covers triceps and rear shoulder."
-img: icons/game-icons/lorc/dorsal-scales.svg
+img: icons/game-icons/lorc/dorsalscales.svg
 shortcode: plrebr
 type: armorgear
 data:

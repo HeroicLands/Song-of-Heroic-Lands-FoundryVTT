@@ -3,7 +3,7 @@ tags: []
 name:
   full: Passive-Aggressive
   aliases: []
-img: icons/game-icons/lorc/battle-gear.svg
+img: icons/game-icons/lorc/battlegear.svg
 shortcode: passivea
 type: trauma
 data:

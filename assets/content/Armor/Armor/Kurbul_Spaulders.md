@@ -4,7 +4,7 @@ name:
   full: Kûrbúl Spaulders
   aliases: []
 description: "Treated leather shoulder guards combining functionality with elaborate decorative patterns."
-img: icons/game-icons/lorc/dorsal-scales.svg
+img: icons/game-icons/lorc/dorsalscales.svg
 shortcode: kspld
 type: armorgear
 data:

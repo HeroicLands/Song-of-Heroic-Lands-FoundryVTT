@@ -5,7 +5,7 @@ name:
   full: "Salt, bag"
   aliases: []
 description: "Coarse sea-salt crystals, preserves meat and fish, seasons cooking daily."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: saltbag
 type: miscgear
 data:

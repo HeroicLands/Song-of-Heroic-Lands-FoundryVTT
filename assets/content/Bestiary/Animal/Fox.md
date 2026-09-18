@@ -6,7 +6,7 @@ name:
   aliases: []
 description: "A small, cunning solitary carnivore of forests and settlement margins, notorious for raiding coops and outwitting traps and hounds."
 img: icons/game-icons/caro-asercion/fox.svg
-portrait: images/being/fox-portrait.webp
+portrait: images/being/fox.webp
 shortcode: fox
 type: being
 data:

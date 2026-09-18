@@ -5,7 +5,7 @@ name:
   full: "Milk, sheep"
   aliases: []
 description: "Silky dairy yielding fine cheese treasured in southern markets and temples."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: milksheep
 type: miscgear
 data:

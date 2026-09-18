@@ -4,7 +4,7 @@ name:
   full: Worsted Cap
   aliases: []
 description: "Tightly-spun wool cap; durable, versatile head covering."
-img: icons/game-icons/delapouite/billed-cap.svg
+img: icons/game-icons/delapouite/billedcap.svg
 shortcode: wcap
 type: armorgear
 data:

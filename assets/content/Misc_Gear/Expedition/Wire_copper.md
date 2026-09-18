@@ -5,7 +5,7 @@ name:
   full: "Wire, copper"
   aliases: []
 description: "Flexible copper wire; does not rust, works for snares and armor binding."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: wirecopper
 type: miscgear
 data:

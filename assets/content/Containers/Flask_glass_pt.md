@@ -4,7 +4,7 @@ name:
   full: "Flask, glass, 1 pint"
   aliases: []
 description: "Small glass flask for carrying wine, ink, or drafts."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: flskgls1p
 type: containergear
 data:

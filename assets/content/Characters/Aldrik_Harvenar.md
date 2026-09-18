@@ -11,7 +11,7 @@ name:
 packFolder: pregens
 shortcode: aldrikharvenar
 img: icons/game-icons/delapouite/person.svg
-portrait: images/being/aldrikharvenar-portrait.webp
+portrait: null
 type: being
 data:
   templatePriority: null

@@ -4,7 +4,7 @@ name:
   full: "Lantern, metal"
   aliases: []
 description: "Tinned copper lantern with horn panels; protects flame from wind and rain."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: lanternmet
 type: containergear
 data:

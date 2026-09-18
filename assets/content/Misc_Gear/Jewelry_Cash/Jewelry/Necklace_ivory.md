@@ -5,7 +5,7 @@ name:
   full: "Necklace, ivory"
   aliases: []
 description: "A chain or strung band worn at the throat, in carved ivory."
-img: icons/game-icons/lorc/gem-pendant.svg
+img: icons/game-icons/lorc/gempendant.svg
 shortcode: necklaceivory
 type: miscgear
 data:

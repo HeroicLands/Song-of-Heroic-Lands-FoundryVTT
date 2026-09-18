@@ -3,7 +3,7 @@ tags: []
 name:
   full: Impaired Smell
   aliases: []
-img: icons/game-icons/lorc/battle-gear.svg
+img: icons/game-icons/lorc/battlegear.svg
 shortcode: impaire2
 type: trauma
 data:

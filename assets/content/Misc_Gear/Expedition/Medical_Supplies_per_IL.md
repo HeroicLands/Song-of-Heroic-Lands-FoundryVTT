@@ -5,7 +5,7 @@ name:
   full: "Medical Supplies, per IL"
   aliases: []
 description: "Bandages, splints, sutures, poultices, salves; one unit treats one injury level."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: medsupil
 type: miscgear
 data:

@@ -5,7 +5,7 @@ name:
   full: "Brooch, copper"
   aliases: []
 description: "A pin and catch worked into a plate, worn to fasten a cloak at the shoulder, in raised copper."
-img: icons/game-icons/lorc/gem-pendant.svg
+img: icons/game-icons/lorc/gempendant.svg
 shortcode: broochcopper
 type: miscgear
 data:

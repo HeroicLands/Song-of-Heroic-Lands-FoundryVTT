@@ -4,7 +4,7 @@ name:
   full: Heraldry
   aliases: []
 description: "Interpreting coats of arms, crests, badges; revealing lineage and history."
-img: icons/game-icons/badges/shield.svg
+img: icons/game-icons/badges/shieldbdg.svg
 shortcode: hrld
 type: skill
 data:

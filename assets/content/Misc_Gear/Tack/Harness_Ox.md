@@ -5,7 +5,7 @@ name:
   full: "Harness, Ox"
   aliases: []
 description: "Stout leather bands, rope, iron; yoke-fitted; moves stone, timber, heavy laden carts."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: harnessox
 type: miscgear
 data:

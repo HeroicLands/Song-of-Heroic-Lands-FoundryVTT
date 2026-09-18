@@ -5,7 +5,7 @@ name:
   full: Map
   aliases: []
 description: "Territory sketch on linen or parchment; guarded treasure for merchants, captains."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: map
 type: miscgear
 data:

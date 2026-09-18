@@ -7,7 +7,7 @@ name:
   aliases: []
 description: "A powerfully built wild goat of the desert cliffs, the supreme climbing specialist scaling sheer rock faces and canyon escarpments with ease."
 img: icons/game-icons/skoll/goat.svg
-portrait: images/being/ibex-portrait.webp
+portrait: images/being/ibex.webp
 shortcode: ibex
 type: being
 data:

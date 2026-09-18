@@ -7,7 +7,7 @@ name:
   aliases: []
 description: "A large, heavily built canopy folivore of tropical forests, living in troops and producing the loudest vocalization of any land animal."
 img: icons/game-icons/lorc/monkey.svg
-portrait: images/being/hwlrmnky-portrait.webp
+portrait: images/being/hwlrmnky.webp
 shortcode: hwlrmnky
 type: being
 data:

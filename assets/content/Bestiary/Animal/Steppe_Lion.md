@@ -6,7 +6,7 @@ name:
   aliases: []
 description: "A massive solitary ambush predator of open steppes, holding and fiercely defending enormous territories against all intruders."
 img: icons/game-icons/lorc/lion.svg
-portrait: images/being/stppln-portrait.webp
+portrait: images/being/stppln.webp
 shortcode: stppln
 type: being
 data:

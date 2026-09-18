@@ -5,7 +5,7 @@ name:
   full: "Russet, per sq yard"
   aliases: []
 description: "Unfulled cloth of finer thread and better wool; town work, good colours."
-img: icons/game-icons/lorc/rolled-cloth.svg
+img: icons/game-icons/delapouite/rolledcloth.svg
 shortcode: russet
 type: miscgear
 data:

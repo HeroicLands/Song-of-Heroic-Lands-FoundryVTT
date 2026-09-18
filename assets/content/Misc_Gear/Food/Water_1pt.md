@@ -5,7 +5,7 @@ name:
   full: "Water, 1pt."
   aliases: []
 description: "Fresh-drawn well water, sustains traveler for light day, precious rationed."
-img: icons/game-icons/caro-asercion/round-potion.svg
+img: icons/game-icons/caro-asercion/roundpotion.svg
 shortcode: wtr1pt
 type: miscgear
 data:

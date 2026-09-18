@@ -5,8 +5,8 @@ name:
   full: Charger
   aliases: []
 description: "A powerful warhorse bred and trained for battle, conditioned to endure noise, blood, and violence while carrying an armored rider into the fray."
-img: icons/game-icons/delapouite/horse-head.svg
-portrait: images/being/charger-portrait.webp
+img: icons/game-icons/delapouite/horsehead.svg
+portrait: images/being/charger.webp
 shortcode: charger
 type: being
 data:

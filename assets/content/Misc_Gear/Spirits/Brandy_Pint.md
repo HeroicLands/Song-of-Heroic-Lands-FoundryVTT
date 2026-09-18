@@ -5,7 +5,7 @@ name:
   full: "Brandy, Pint"
   aliases: []
 description: "Clear fiery bottle; noble digestif or soldier's wound-cleaner; costs a laborer's wages."
-img: icons/game-icons/lorc/brandy-bottle.svg
+img: icons/game-icons/lorc/brandybottle.svg
 shortcode: brdypt
 type: miscgear
 data:

@@ -9,7 +9,7 @@ data:
   templatePriority: 0
 subType: bullet
 shortcode: stnsge
-img: icons/game-icons/lorc/stone-block.svg
+img: icons/game-icons/lorc/stoneblock.svg
 easyname: Siege Stone
 sohl:
   craft:

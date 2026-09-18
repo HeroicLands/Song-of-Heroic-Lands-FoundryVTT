@@ -4,7 +4,7 @@ name:
   full: Tarotry
   aliases: []
 description: "Laying cards in a spread and reading the human situation they describe."
-img: icons/game-icons/faithtoken/card-random.svg
+img: icons/game-icons/faithtoken/cardrandom.svg
 shortcode: tarot
 type: mysticalability
 data:

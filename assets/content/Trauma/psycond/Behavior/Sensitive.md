@@ -3,7 +3,7 @@ tags: []
 name:
   full: Sensitive
   aliases: []
-img: icons/game-icons/lorc/battle-gear.svg
+img: icons/game-icons/lorc/battlegear.svg
 shortcode: snstv
 type: trauma
 data:

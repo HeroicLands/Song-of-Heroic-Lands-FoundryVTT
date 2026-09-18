@@ -5,7 +5,7 @@ name:
   full: "Salt, rock"
   aliases: []
 description: "Mined rock salt, pure and dense, grinds fine, stores indefinitely."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: saltrock
 type: miscgear
 data:

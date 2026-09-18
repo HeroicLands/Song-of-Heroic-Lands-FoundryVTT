@@ -27,7 +27,7 @@ shortcode: root
 title: Song of Heroic Lands
 description: A classless, skill-based fantasy system for Foundry Virtual Tabletop —
   HârnMaster-compatible, and built to keep the books while you make the calls.
-banner: brand/sohl-banner.webp
+banner: brand/sohlbnr.webp
 
 landing:
   lead: >-

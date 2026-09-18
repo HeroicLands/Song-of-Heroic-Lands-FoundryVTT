@@ -5,7 +5,7 @@ name:
   full: "Scythe"
   aliases: []
 description: "Long curved blade on a bent haft for mowing hay and standing grain."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: scythe
 type: miscgear
 data:

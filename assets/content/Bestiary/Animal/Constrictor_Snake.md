@@ -6,7 +6,7 @@ name:
   aliases: []
 description: "A huge non-venomous snake of tropical regions that kills through patient, crushing coils, subduing prey far larger than its own head."
 img: icons/game-icons/lorc/snake.svg
-portrait: images/being/cnstrctr-portrait.webp
+portrait: images/being/cnstrctr.webp
 shortcode: cnstrctr
 type: being
 data:

@@ -3,7 +3,7 @@ tags: []
 name:
   full: Silliness
   aliases: []
-img: icons/game-icons/lorc/battle-gear.svg
+img: icons/game-icons/lorc/battlegear.svg
 shortcode: sllnss
 type: trauma
 data:

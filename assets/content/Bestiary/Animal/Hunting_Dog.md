@@ -6,7 +6,7 @@ name:
   aliases: []
 description: "A medium-sized, powerfully built canine bred to track and bring down prey, combining lean endurance with intelligence honed by generations of training."
 img: icons/game-icons/lorc/hound.svg
-portrait: images/being/hntngdg-portrait.webp
+portrait: images/being/hntngdg.webp
 shortcode: hntngdg
 type: being
 data:

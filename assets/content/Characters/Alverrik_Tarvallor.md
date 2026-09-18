@@ -11,7 +11,7 @@ name:
 packFolder: pregens
 shortcode: alverriktarvall
 img: icons/game-icons/delapouite/person.svg
-portrait: images/being/alverriktarvall-portrait.webp
+portrait: null
 type: being
 data:
   templatePriority: null

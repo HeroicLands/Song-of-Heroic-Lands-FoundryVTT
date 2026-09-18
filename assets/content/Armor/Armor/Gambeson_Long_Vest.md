@@ -4,7 +4,7 @@ name:
   full: Gambeson Long Vest
   aliases: []
 description: "Padded vest worn under armor or alone, offering protection."
-img: icons/game-icons/lorc/leather-vest.svg
+img: icons/game-icons/lorc/leathervest.svg
 shortcode: glngvest
 type: armorgear
 data:

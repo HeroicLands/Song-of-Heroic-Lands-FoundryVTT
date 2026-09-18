@@ -5,7 +5,7 @@ name:
   full: "Ink, Red"
   aliases: []
 description: "Vermilion or madder-root; reserved for titles, rubrication, illuminated capitals."
-img: icons/game-icons/lorc/ink-swirl.svg
+img: icons/game-icons/lorc/inkswirl.svg
 shortcode: inkred
 type: miscgear
 data:

@@ -4,7 +4,7 @@ name:
   full: Velvet Vest
   aliases: []
 description: "Soft plush velvet vest; symbol of opulence for formal occasions."
-img: icons/game-icons/lorc/leather-vest.svg
+img: icons/game-icons/lorc/leathervest.svg
 shortcode: vvest
 type: armorgear
 data:

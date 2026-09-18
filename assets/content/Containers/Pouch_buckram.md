@@ -4,7 +4,7 @@ name:
   full: "Pouch, buckram"
   aliases: []
 description: "Stiffened cloth belt pouch; the cheap alternative to leather."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: pouchbuckram
 type: containergear
 data:

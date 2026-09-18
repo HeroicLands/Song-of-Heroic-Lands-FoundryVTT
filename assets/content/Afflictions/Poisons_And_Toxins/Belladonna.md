@@ -4,7 +4,7 @@ name:
   full: Belladonna
   aliases: []
 description: "Tropane alkaloids; visual disturbances and delirium; often ingested secretly."
-img: icons/game-icons/lorc/poison-bottle.svg
+img: icons/game-icons/lorc/poisonbottle.svg
 shortcode: bldna
 type: affliction
 data:

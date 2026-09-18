@@ -5,7 +5,7 @@ name:
   full: "Linen, per sq yard"
   aliases: []
 description: "Light flax cloth, somewhat coarse, cheap colours; the common shift and shirt cloth."
-img: icons/game-icons/lorc/rolled-cloth.svg
+img: icons/game-icons/delapouite/rolledcloth.svg
 shortcode: linen
 type: miscgear
 data:

@@ -5,7 +5,7 @@ name:
   full: Iron
   aliases: []
 description: "Bloomery iron in bars; the commonest working metal, cheap and endlessly reforged."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: iron
 type: miscgear
 data:

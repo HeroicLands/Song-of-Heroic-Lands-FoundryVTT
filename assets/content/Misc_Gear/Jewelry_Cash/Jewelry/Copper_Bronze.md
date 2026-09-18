@@ -5,7 +5,7 @@ name:
   full: Copper/Bronze
   aliases: []
 description: "Melted, cast ingots or sheets; resists weathering, worked into vessels and ornaments."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: copperbron
 type: miscgear
 data:

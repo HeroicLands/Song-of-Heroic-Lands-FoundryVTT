@@ -4,7 +4,7 @@ name:
   full: Mail Hauberk
   aliases: []
 description: "Long metal ring shirt providing substantial protection for mounted and foot soldiers."
-img: icons/game-icons/willdabeast/chain-mail.svg
+img: icons/game-icons/willdabeast/chainmail.svg
 shortcode: mhbk
 type: armorgear
 data:

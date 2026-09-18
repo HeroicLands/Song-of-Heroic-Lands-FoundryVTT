@@ -5,7 +5,7 @@ name:
   full: "Yoke, ox"
   aliases: []
 description: "Shaped wooden beam coupling a pair of oxen to a plough or cart."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: yokeox
 type: miscgear
 data:

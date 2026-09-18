@@ -5,7 +5,7 @@ name:
   full: "Beans, crate"
   aliases: []
 description: "Dried beans in bushel crate; reliable protein, keep for years dry."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: beanscrate
 type: miscgear
 data:

@@ -5,7 +5,7 @@ name:
   full: "Wine, 1 pt."
   aliases: []
 description: "Tart thin grape wine in bottle; preferable to ale; merchant-class drink."
-img: icons/game-icons/delapouite/wine-bottle.svg
+img: icons/game-icons/delapouite/winebottle.svg
 shortcode: winept
 type: miscgear
 data:

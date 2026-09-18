@@ -6,7 +6,7 @@ name:
   aliases: []
 description: "A small, wiry hunting dog bred for relentless efficiency against rodents, guarding farms, mills, and grain stores throughout settled lands."
 img: icons/game-icons/lorc/hound.svg
-portrait: images/being/ratter-portrait.webp
+portrait: images/being/ratter.webp
 shortcode: ratter
 type: being
 data:

@@ -3,7 +3,7 @@ tags: []
 name:
   full: Thoughtful
   aliases: []
-img: icons/game-icons/lorc/battle-gear.svg
+img: icons/game-icons/lorc/battlegear.svg
 shortcode: thghtfl
 type: trauma
 data:

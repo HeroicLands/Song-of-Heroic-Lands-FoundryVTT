@@ -5,7 +5,7 @@ name:
   full: "Hide, Calf"
   aliases: []
 description: "Young bovine hide, soft and thin; fine leather for gloves, saddle linings. Price is for one whole skin."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: hidecalf
 type: miscgear
 data:

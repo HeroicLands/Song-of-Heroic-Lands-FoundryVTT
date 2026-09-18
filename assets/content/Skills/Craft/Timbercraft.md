@@ -4,7 +4,7 @@ name:
   full: Timbercraft
   aliases: []
 description: "Forest knowledge for selecting timber and managing woodland for sustainable yield."
-img: icons/game-icons/delapouite/wood-pile.svg
+img: icons/game-icons/delapouite/woodpile.svg
 shortcode: timb
 type: skill
 data:

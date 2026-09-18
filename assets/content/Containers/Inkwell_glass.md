@@ -4,7 +4,7 @@ name:
   full: "Inkwell, glass"
   aliases: []
 description: "Fine blown glass inkwell for wealthy scholar or scribe."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: inkwellgla
 type: containergear
 data:

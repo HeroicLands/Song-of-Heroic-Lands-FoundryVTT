@@ -4,7 +4,7 @@ name:
   full: Kûrbúl ¾-Helm
   aliases: []
 description: "Treated leather helm with reinforced ridges and embossing for protection and style."
-img: icons/game-icons/lorc/crested-helmet.svg
+img: icons/game-icons/lorc/crestedhelmet.svg
 shortcode: k34hlm
 type: armorgear
 data:

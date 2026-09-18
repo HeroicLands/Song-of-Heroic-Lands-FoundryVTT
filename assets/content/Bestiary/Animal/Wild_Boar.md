@@ -6,7 +6,7 @@ name:
   aliases: []
 description: "A heavily muscled, stocky ungulate of temperate forests, ferociously territorial and dangerous when cornered or defending its ground."
 img: icons/game-icons/caro-asercion/boar.svg
-portrait: images/being/wildboar-portrait.webp
+portrait: images/being/wildboar.webp
 shortcode: wildboar
 type: being
 data:

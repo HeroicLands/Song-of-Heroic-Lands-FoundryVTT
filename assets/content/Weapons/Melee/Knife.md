@@ -4,7 +4,7 @@ name:
   full: Knife
   aliases: []
 description: "Single-edged blade for camp work and brawl alike."
-img: icons/game-icons/lorc/plain-dagger.svg
+img: icons/game-icons/lorc/plaindagger.svg
 shortcode: kni
 type: weapongear
 data:

@@ -5,7 +5,7 @@ name:
   full: Cheese
   aliases: []
 description: "Aged or fresh curd rounds; soft or hard, keeps weeks traveling safely."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: cheese
 type: miscgear
 data:

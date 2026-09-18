@@ -5,7 +5,7 @@ name:
   full: Cabbage
   aliases: []
 description: "Dense pale head; sweet fresh, soured pickled for winter larder."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: cabbage
 type: miscgear
 data:

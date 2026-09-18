@@ -9,7 +9,7 @@ data:
   templatePriority: 0
 subType: arrow
 shortcode: arwhbrd
-img: icons/game-icons/lorc/broadhead-arrow.svg
+img: icons/game-icons/lorc/broadheadarrow.svg
 easyname: Heavy Broad
 sohl:
   craft:

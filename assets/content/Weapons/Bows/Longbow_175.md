@@ -4,7 +4,7 @@ name:
   full: Longbow 175
   aliases: []
 description: "Hundred-seventy-five pound champion's warbow; childhood-trained terror of cavalry."
-img: icons/game-icons/lorc/pocket-bow.svg
+img: icons/game-icons/lorc/pocketbow.svg
 shortcode: lbw175
 type: weapongear
 data:

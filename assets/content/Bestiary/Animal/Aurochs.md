@@ -6,7 +6,7 @@ name:
   aliases: []
 description: "A massive, ill-tempered wild bovine of prehistoric power that roams grasslands and sparse forests in loose, dangerous herds."
 img: icons/game-icons/lorc/bull.svg
-portrait: images/being/aurochs-portrait.webp
+portrait: images/being/aurochs.webp
 shortcode: aurochs
 type: being
 data:

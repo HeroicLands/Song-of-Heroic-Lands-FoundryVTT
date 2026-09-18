@@ -4,7 +4,7 @@ name:
   full: Masonry
   aliases: []
 description: "Quarrying, cutting, and laying stone for walls, buildings, and fortifications."
-img: icons/game-icons/delapouite/brick-wall.svg
+img: icons/game-icons/delapouite/brickwall.svg
 shortcode: masn
 type: skill
 data:

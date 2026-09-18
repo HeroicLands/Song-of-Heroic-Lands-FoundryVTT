@@ -4,7 +4,7 @@ name:
   full: Longbow 50
   aliases: []
 description: "Fifty-pound short bow for small-game and practice."
-img: icons/game-icons/lorc/pocket-bow.svg
+img: icons/game-icons/lorc/pocketbow.svg
 shortcode: lbw50
 type: weapongear
 data:

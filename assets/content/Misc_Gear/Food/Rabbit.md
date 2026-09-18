@@ -5,7 +5,7 @@ name:
   full: Rabbit
   aliases: []
 description: "Lean pale meat cooks quickly, jerked for campaigns, fur for furriers."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: rabbit
 type: miscgear
 data:

@@ -3,7 +3,7 @@ tags: []
 name:
   full: Limb Weakness
   aliases: []
-img: icons/game-icons/lorc/battle-gear.svg
+img: icons/game-icons/lorc/battlegear.svg
 shortcode: lmbwknss
 type: trauma
 data:

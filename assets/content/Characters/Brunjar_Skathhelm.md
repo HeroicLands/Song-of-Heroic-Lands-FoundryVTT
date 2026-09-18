@@ -12,7 +12,7 @@ name:
 packFolder: pregens
 shortcode: brunjarskathhel
 img: icons/game-icons/delapouite/person.svg
-portrait: images/being/brunjarskathhel-portrait.webp
+portrait: null
 type: being
 data:
   templatePriority: null

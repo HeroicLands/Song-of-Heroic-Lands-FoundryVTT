@@ -5,7 +5,7 @@ name:
   full: "Goblet, pewter"
   aliases: []
 description: "Stemmed pewter goblet for merchants and minor lords' formal tables."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: gobletpewt
 type: miscgear
 data:

@@ -5,8 +5,8 @@ name:
   full: Eagle
   aliases: []
 description: "A solitary apex raptor of high ridges and passes, patrolling vast territory to snatch small mammals and fish with sudden violence."
-img: icons/game-icons/delapouite/eagle-head.svg
-portrait: images/being/eagle-portrait.webp
+img: icons/game-icons/delapouite/eaglehead.svg
+portrait: images/being/eagle.webp
 shortcode: eagle
 type: being
 data:

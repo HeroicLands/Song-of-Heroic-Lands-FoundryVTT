@@ -5,7 +5,7 @@ name:
   full: Barley
   aliases: []
 description: "Hardy grain, ground into meal or boiled for broth and bread."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: barley
 type: miscgear
 data:

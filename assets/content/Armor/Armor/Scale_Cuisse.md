@@ -4,7 +4,7 @@ name:
   full: Scale Cuisse
   aliases: []
 description: "Fabric-backed metal scales covering thighs; flexible leg armor."
-img: icons/game-icons/lorc/scale-mail.svg
+img: icons/game-icons/lorc/scalemail.svg
 shortcode: scui
 type: armorgear
 data:

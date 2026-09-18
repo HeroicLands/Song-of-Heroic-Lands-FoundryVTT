@@ -5,7 +5,7 @@ name:
   full: "Flour, Barley"
   aliases: []
 description: "Earthy pale flour; bakes flatbreads and thickens pottage when wheat scarce."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: flourbarle
 type: miscgear
 data:

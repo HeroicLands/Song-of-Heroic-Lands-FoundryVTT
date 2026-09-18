@@ -4,7 +4,7 @@ name:
   full: "Sack, canvas, 50 lb"
   aliases: []
 description: "Heavy canvas sack sized for a porter's load (50 lb)."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: sackcanvas50
 type: containergear
 data:

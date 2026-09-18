@@ -5,7 +5,7 @@ name:
   full: Vetches
   aliases: []
 description: "Small legume seeds, peasant porridge when simmered, enriches exhausted soil."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: vetches
 type: miscgear
 data:

@@ -5,7 +5,7 @@ name:
   full: Oatcakes
   aliases: []
 description: "Thin griddle rounds, traveler's bread keeping months bundled and dry."
-img: icons/game-icons/lorc/swap-bag.svg
+img: icons/game-icons/lorc/swapbag.svg
 shortcode: oatcakes
 type: miscgear
 data:
