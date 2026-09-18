@@ -93,7 +93,7 @@ sohl:
           teleportToken:
             to: { map: wayrestloft, region: stair-head }
 data:
-  icon: sohl-none-image-parchment
+  bgImage: sohl-none-image-parchment
 ---
 
 A shelter of the commonest kind: a single room with a hearth at one end, a
