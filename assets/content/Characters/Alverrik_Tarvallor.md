@@ -1,5 +1,6 @@
 ---
-tags: []
+tags:
+  - character
 name:
   full: Álverrik Tárvallor
   title: ""
@@ -29,10 +30,10 @@ data:
     extra_features:
       - a scar on the left shoulder
 social:
-  occupation: Caravan Guard
-  station: soldiery
-  class: freeman
-  society: Tarvénan
+  occupation: null
+  station: null
+  class: null
+  society: null
 gear:
   weapons:
     - Heavy mace

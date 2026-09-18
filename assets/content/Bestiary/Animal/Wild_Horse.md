@@ -1,6 +1,7 @@
 ---
 tags:
   - animal
+  - creature
   - image-needed
 name:
   full: Wild Horse

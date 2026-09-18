@@ -1,5 +1,6 @@
 ---
-tags: []
+tags:
+  - character
 name:
   full: Basic Folk
   title: ""
@@ -27,10 +28,10 @@ data:
     complexion: fair
     extra_features: []
 social:
-  occupation: ""
-  station: ""
-  class: ""
-  society: ""
+  occupation: null
+  station: null
+  class: null
+  society: null
 sohl:
   kbcat: archetype
   items:

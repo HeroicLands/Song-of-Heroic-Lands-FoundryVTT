@@ -1,6 +1,6 @@
 ---
 tags:
-  - todo-warrior
+  - character
 name:
   full: Áldrik Hárvenar
   title: ""
@@ -29,10 +29,10 @@ data:
     extra_features:
       - missing tooth
 social:
-  occupation: Man-at-Arms
-  station: soldiery
-  class: freeman
-  society: Provenzal
+  occupation: null
+  station: null
+  class: null
+  society: null
 gear:
   weapons:
     - BrdSwd:1
