@@ -5,10 +5,10 @@ name:
   full: "Spinel, cut"
   aliases: []
 description: "Hard gemstone in red-pink-purple; brilliant and durable; often confused with ruby."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: spinelcut
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

@@ -4,10 +4,10 @@ name:
   full: Agriculture
   aliases: []
 description: "Cultivating crops, tending orchards, assessing land and harvest value."
-img: icons/game-icons/lorc/wheat.svg
 shortcode: agri
 type: skill
 data:
+  icon: wheat
   templatePriority: 0
 subType: nature
 sohl:

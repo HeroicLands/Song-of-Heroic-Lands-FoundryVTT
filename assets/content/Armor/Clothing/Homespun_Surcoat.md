@@ -4,10 +4,10 @@ name:
   full: Homespun Surcoat
   aliases: []
 description: "Simple homemade surcoat providing coverage and practical wear."
-img: icons/game-icons/lucasms/shirt.svg
 shortcode: hsscoat
 type: armorgear
 data:
+  icon: shirt
   templatePriority: 0
 sohl:
   craft:

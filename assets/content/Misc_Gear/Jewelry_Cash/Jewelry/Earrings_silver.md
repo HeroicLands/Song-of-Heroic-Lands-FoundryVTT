@@ -5,10 +5,10 @@ name:
   full: "Earrings, silver"
   aliases: []
 description: "A pair of silver hoops or drops; the ordinary festival gift among townsfolk."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: earringssilver
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

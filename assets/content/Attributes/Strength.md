@@ -4,10 +4,10 @@ name:
   full: Strength
   aliases: []
 description: "The power of muscle and bone brought to bear by physical exertion."
-img: icons/game-icons/delapouite/biceps.svg
 shortcode: str
 type: attribute
 data:
+  icon: biceps
   templatePriority: 0
 sohl:
   system:

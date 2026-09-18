@@ -4,10 +4,10 @@ name:
   full: "Belt pouch, leather, sm"
   aliases: []
 description: "Small leather belt pouch barely larger than a fist."
-img: icons/game-icons/lorc/knapsack.svg
 shortcode: beltpouchl3
 type: containergear
 data:
+  icon: knapsack
   templatePriority: 0
 sohl:
   craft:

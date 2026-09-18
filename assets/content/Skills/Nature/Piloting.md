@@ -4,10 +4,10 @@ name:
   full: Piloting
   aliases: []
 description: "Navigating watercraft through coastal waters, harbors, and dangerous passages."
-img: icons/game-icons/delapouite/ship-wheel.svg
 shortcode: pilt
 type: skill
 data:
+  icon: shipwheel
   templatePriority: 0
 subType: nature
 sohl:

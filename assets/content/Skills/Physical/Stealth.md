@@ -4,10 +4,10 @@ name:
   full: Stealth
   aliases: []
 description: "Moving unseen through shadows, cover, and ambient noise for avoidance."
-img: icons/game-icons/lorc/hidden.svg
 shortcode: stlth
 type: skill
 data:
+  icon: hidden
   templatePriority: 0
 subType: physical
 sohl:

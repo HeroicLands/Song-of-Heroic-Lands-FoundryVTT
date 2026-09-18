@@ -4,10 +4,10 @@ name:
   full: Beaver Mittens
   aliases: []
 description: "Beaver fur mittens offering comfort and warmth for cold climates."
-img: icons/game-icons/delapouite/gloves.svg
 shortcode: bvmitt
 type: armorgear
 data:
+  icon: gloves
   templatePriority: 0
 sohl:
   craft:

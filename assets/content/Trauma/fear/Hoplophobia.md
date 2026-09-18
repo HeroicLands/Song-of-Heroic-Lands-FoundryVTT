@@ -3,10 +3,10 @@ tags: []
 name:
   full: Hoplophobia
   aliases: []
-img: icons/game-icons/cathelineau/dread.svg
 shortcode: hoplophb
 type: trauma
 data:
+  icon: dread
   templatePriority: 0
 subType: fear
 sohl:

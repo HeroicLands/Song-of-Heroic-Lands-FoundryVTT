@@ -4,10 +4,10 @@ name:
   full: Ring Vest
   aliases: []
 description: "Sleeveless ring-reinforced leather vest; light-duty torso armor."
-img: icons/game-icons/lorc/leather-vest.svg
 shortcode: rnvest
 type: armorgear
 data:
+  icon: leathervest
   templatePriority: 0
 sohl:
   craft:

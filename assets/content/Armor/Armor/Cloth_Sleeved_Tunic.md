@@ -4,10 +4,10 @@ name:
   full: Cloth Sleeved Tunic
   aliases: []
 description: "Simple cloth tunic offering comfort and everyday coverage."
-img: icons/game-icons/lucasms/shirt.svg
 shortcode: cstnc
 type: armorgear
 data:
+  icon: shirt
   templatePriority: 0
 sohl:
   craft:

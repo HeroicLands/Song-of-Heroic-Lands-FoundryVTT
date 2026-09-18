@@ -5,10 +5,10 @@ name:
   full: Chime
   aliases: []
 description: "Bronze tubes on frame, struck with mallet; marks prayer hours in temples."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: chime
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

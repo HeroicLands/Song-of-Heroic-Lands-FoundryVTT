@@ -5,10 +5,10 @@ name:
   full: Lard
   aliases: []
 description: "Rendered hog fat for cooking and food preservation, a kitchen staple."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: lard
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

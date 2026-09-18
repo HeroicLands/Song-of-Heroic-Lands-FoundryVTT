@@ -1,15 +1,16 @@
 ---
 tags:
   - animal
+  - creature
 name:
   full: Lion
   aliases: []
 description: "A massive tawny carnivore second only to the tiger among great cats, the maned males weighing up to five hundred pounds of social pride-hunting power."
-img: icons/game-icons/lorc/lion.svg
-portrait: images/being/lion-portrait.webp
 shortcode: lion
 type: being
 data:
+  icon: lion
+  portrait: lion
   templatePriority: 0
 sohl:
   kbcat: animal

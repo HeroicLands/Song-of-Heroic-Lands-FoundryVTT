@@ -4,10 +4,10 @@ name:
   full: Bastard Sword
   aliases: []
 description: "Versatile straight blade for one or two hands; knight's choice."
-img: icons/game-icons/lorc/broadsword.svg
 shortcode: bstdswd
 type: weapongear
 data:
+  icon: broadsword
   templatePriority: 0
 sohl:
   craft:

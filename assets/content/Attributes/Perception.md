@@ -4,10 +4,10 @@ name:
   full: Perception
   aliases: []
 description: "Acuity of the senses taken together: eye, ear, and nose."
-img: icons/game-icons/lorc/awareness.svg
 shortcode: per
 type: attribute
 data:
+  icon: awareness
   templatePriority: 0
 sohl:
   system:

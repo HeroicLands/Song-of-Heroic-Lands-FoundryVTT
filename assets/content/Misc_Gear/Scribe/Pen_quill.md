@@ -5,10 +5,10 @@ name:
   full: "Pen, quill"
   aliases: []
 description: "Goose or swan feather; soft flowing strokes, dulls quickly, needs frequent resharpening."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: penquill
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

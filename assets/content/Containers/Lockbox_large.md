@@ -4,10 +4,10 @@ name:
   full: "Lockbox, large"
   aliases: []
 description: "Iron-banded hardwood chest with wardlock; merchant's vault for valuables."
-img: icons/game-icons/delapouite/chest.svg
 shortcode: lockboxlar
 type: containergear
 data:
+  icon: chest
   templatePriority: 0
 sohl:
   craft:

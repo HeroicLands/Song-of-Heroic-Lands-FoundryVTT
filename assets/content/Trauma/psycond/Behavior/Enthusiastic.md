@@ -3,10 +3,10 @@ tags: []
 name:
   full: Enthusiastic
   aliases: []
-img: icons/game-icons/lorc/battle-gear.svg
 shortcode: enthsstc
 type: trauma
 data:
+  icon: battlegear
   templatePriority: 0
 subType: psycond
 sohl:

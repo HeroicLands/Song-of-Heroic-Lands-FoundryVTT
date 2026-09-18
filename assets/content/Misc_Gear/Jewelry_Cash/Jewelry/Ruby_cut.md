@@ -5,10 +5,10 @@ name:
   full: "Ruby, cut"
   aliases: []
 description: "Rarest gem; deep crimson corundum glowing like fire; marks power and wealth."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: rubycut
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

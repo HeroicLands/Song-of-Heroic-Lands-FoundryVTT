@@ -6,10 +6,10 @@ name:
 description: "Ash or birch shaft, goose-feather fletching; workaday deer or skirmish arrow."
 type: projectilegear
 data:
+  icon: broadheadarrow
   templatePriority: 0
 subType: arrow
 shortcode: arwstd
-img: icons/game-icons/lorc/broadhead-arrow.svg
 easyname: Standard
 sohl:
   craft:

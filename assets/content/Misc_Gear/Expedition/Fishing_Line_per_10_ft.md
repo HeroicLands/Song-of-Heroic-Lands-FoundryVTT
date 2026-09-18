@@ -5,10 +5,10 @@ name:
   full: "Fishing Line, per 10 ft."
   aliases: []
 description: "Waxed linen or gut-spun cord; fine enough for wary fish and sturdy."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: fishinglin
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

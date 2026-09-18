@@ -3,10 +3,10 @@ tags: []
 name:
   full: Eosophobia
   aliases: []
-img: icons/game-icons/cathelineau/dread.svg
 shortcode: eosophb
 type: trauma
 data:
+  icon: dread
   templatePriority: 0
 subType: fear
 sohl:

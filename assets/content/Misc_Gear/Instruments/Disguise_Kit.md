@@ -5,10 +5,10 @@ name:
   full: Disguise Kit
   aliases: []
 description: "Cloth-wrapped case with pigments, wax, false hair, padding, voice-pipe, mirror; used with the Theatrics skill to alter one's appearance."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: disgkit
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

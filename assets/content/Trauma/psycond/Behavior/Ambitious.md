@@ -3,10 +3,10 @@ tags: []
 name:
   full: Ambitious
   aliases: []
-img: icons/game-icons/lorc/battle-gear.svg
 shortcode: ambx
 type: trauma
 data:
+  icon: battlegear
   templatePriority: 0
 subType: psycond
 sohl:

@@ -3,10 +3,10 @@ tags: []
 name:
   full: Sociophobia
   aliases: []
-img: icons/game-icons/cathelineau/dread.svg
 shortcode: sociophb
 type: trauma
 data:
+  icon: dread
   templatePriority: 0
 subType: fear
 sohl:

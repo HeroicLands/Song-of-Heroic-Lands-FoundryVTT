@@ -3,10 +3,10 @@ tags: []
 name:
   full: Irresponsible
   aliases: []
-img: icons/game-icons/lorc/battle-gear.svg
 shortcode: irrespon
 type: trauma
 data:
+  icon: battlegear
   templatePriority: 0
 subType: psycond
 sohl:

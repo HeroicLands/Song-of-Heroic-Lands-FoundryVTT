@@ -4,10 +4,10 @@ name:
   full: Glassworking
   aliases: []
 description: "Shaping molten glass into bottles, goblets, vials, windows, lenses."
-img: icons/game-icons/lorc/round-bottom-flask.svg
 shortcode: glas
 type: skill
 data:
+  icon: roundbottomflask
   templatePriority: 0
 subType: craft
 sohl:

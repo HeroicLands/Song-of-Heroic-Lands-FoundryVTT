@@ -4,10 +4,10 @@ name:
   full: Homespun Leggings
   aliases: []
 description: "Simple homemade leggings offering coverage and warmth."
-img: icons/game-icons/lorc/trousers.svg
 shortcode: hsleg
 type: armorgear
 data:
+  icon: trousers
   templatePriority: 0
 sohl:
   craft:

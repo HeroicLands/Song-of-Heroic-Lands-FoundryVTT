@@ -4,10 +4,10 @@ name:
   full: Quilted Mantle
   aliases: []
 description: "Layered shoulder-wrap; insulates without restriction."
-img: icons/game-icons/delapouite/cape.svg
 shortcode: qmntl
 type: armorgear
 data:
+  icon: cape
   templatePriority: 0
 sohl:
   craft:

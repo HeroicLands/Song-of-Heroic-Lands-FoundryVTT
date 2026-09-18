@@ -4,10 +4,10 @@ name:
   full: Survival
   aliases: []
 description: "Enduring wilderness through shelter, water, foraging, and hazard navigation."
-img: icons/game-icons/lorc/campfire.svg
 shortcode: srvl
 type: skill
 data:
+  icon: campfire
   templatePriority: 0
 subType: nature
 sohl:

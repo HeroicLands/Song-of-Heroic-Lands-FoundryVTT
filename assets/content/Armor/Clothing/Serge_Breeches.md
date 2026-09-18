@@ -4,10 +4,10 @@ name:
   full: Serge Breeches
   aliases: []
 description: "Durable twilled serge breeches for everyday wear and reliable attire."
-img: icons/game-icons/lorc/trousers.svg
 shortcode: sgbrch
 type: armorgear
 data:
+  icon: trousers
   templatePriority: 0
 sohl:
   craft:

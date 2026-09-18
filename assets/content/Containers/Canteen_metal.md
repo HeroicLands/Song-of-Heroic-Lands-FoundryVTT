@@ -4,10 +4,10 @@ name:
   full: "Canteen, metal"
   aliases: []
 description: "Metal drinking canteen with a stopper."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: cantmetal
 type: containergear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

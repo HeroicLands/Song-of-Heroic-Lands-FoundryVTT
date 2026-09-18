@@ -4,10 +4,10 @@ name:
   full: Linen Shirt
   aliases: []
 description: "Light breathable torso covering for warm weather and everyday activity."
-img: icons/game-icons/lucasms/shirt.svg
 shortcode: lshirt
 type: armorgear
 data:
+  icon: shirt
   templatePriority: 0
 sohl:
   craft:

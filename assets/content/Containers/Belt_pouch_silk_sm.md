@@ -4,10 +4,10 @@ name:
   full: "Belt pouch, silk, sm"
   aliases: []
 description: "Small silk belt pouch; display rather than security."
-img: icons/game-icons/lorc/knapsack.svg
 shortcode: bpchsmslk
 type: containergear
 data:
+  icon: knapsack
   templatePriority: 0
 sohl:
   craft:

@@ -4,10 +4,10 @@ name:
   full: Leather Hat
   aliases: []
 description: "Rugged leather head covering providing basic weather protection with adventurer charm."
-img: icons/game-icons/lorc/pointy-hat.svg
 shortcode: lthat
 type: armorgear
 data:
+  icon: pointyhat
   templatePriority: 0
 sohl:
   craft:

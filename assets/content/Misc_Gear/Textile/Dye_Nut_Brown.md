@@ -5,10 +5,10 @@ name:
   full: "Dye, Nut Brown"
   aliases: []
 description: "Walnut hulls and iron salts; warm earthy brown for everyday working garments."
-img: icons/game-icons/caro-asercion/round-potion.svg
 shortcode: dyenut
 type: miscgear
 data:
+  icon: roundpotion
   templatePriority: 0
 sohl:
   craft:

@@ -5,10 +5,10 @@ name:
   full: "Scales & Weights"
   aliases: []
 description: "Brass balance with calibrated weights; merchants weigh goods and settle accounts fairly."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: scalesweig
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

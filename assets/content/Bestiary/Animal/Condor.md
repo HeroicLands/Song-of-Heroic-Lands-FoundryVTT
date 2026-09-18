@@ -1,16 +1,17 @@
 ---
 tags:
   - animal
+  - creature
   - image-needed
 name:
   full: Condor
   aliases: []
 description: "A massive soaring vulture with a ten-foot wingspan, sacred to highland faith, spotting carrion from staggering altitudes above the western peaks."
-img: icons/game-icons/lorc/vulture.svg
-portrait: images/being/condor-portrait.webp
 shortcode: condor
 type: being
 data:
+  icon: vulture
+  portrait: condor
   templatePriority: 0
 sohl:
   kbcat: animal

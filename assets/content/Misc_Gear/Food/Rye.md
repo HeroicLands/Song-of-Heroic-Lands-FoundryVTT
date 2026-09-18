@@ -5,10 +5,10 @@ name:
   full: Rye
   aliases: []
 description: "Hardy grain thriving in poor soil, grinds to dark bread flour."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: rye
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

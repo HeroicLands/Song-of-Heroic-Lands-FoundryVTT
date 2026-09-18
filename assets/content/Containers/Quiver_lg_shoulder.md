@@ -4,10 +4,10 @@ name:
   full: "Quiver, lg (shoulder)"
   aliases: []
 description: "Leather-wrapped wooden tube worn across back; keeps arrows accessible for archery."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: quiverlgsh
 type: containergear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

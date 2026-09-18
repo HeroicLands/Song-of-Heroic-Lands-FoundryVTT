@@ -6,10 +6,10 @@ name:
 description: "Dressed round shot for an engine; a stone the weight of a man."
 type: projectilegear
 data:
+  icon: stoneblock
   templatePriority: 0
 subType: bullet
 shortcode: stnsge
-img: icons/game-icons/lorc/stone-block.svg
 easyname: Siege Stone
 sohl:
   craft:

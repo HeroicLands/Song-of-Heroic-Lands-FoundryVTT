@@ -1,6 +1,6 @@
 ---
 tags:
-  - todo-warrior
+  - character
 name:
   full: Áldrik Hárvenar
   title: ""
@@ -10,10 +10,10 @@ name:
   aliases: []
 packFolder: pregens
 shortcode: aldrikharvenar
-img: icons/game-icons/delapouite/person.svg
-portrait: images/being/aldrikharvenar-portrait.webp
 type: being
 data:
+  icon: person
+  portrait: null
   templatePriority: null
   gender: male
   age: 34
@@ -29,10 +29,10 @@ data:
     extra_features:
       - missing tooth
 social:
-  occupation: Man-at-Arms
-  station: soldiery
-  class: freeman
-  society: Provenzal
+  occupation: null
+  station: null
+  class: null
+  society: null
 gear:
   weapons:
     - BrdSwd:1

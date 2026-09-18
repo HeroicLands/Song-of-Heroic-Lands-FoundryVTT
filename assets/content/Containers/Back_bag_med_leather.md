@@ -4,10 +4,10 @@ name:
   full: "Back bag, med, leather"
   aliases: []
 description: "Moderate leather shoulder pouch for daily personal belongings."
-img: icons/game-icons/lorc/knapsack.svg
 shortcode: backbagmed
 type: containergear
 data:
+  icon: knapsack
   templatePriority: 0
 sohl:
   craft:

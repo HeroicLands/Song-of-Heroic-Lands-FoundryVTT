@@ -4,10 +4,10 @@ name:
   full: Worsted Vest
   aliases: []
 description: "Tightly-spun wool vest; durable, practical protective garment."
-img: icons/game-icons/lorc/leather-vest.svg
 shortcode: wvest
 type: armorgear
 data:
+  icon: leathervest
   templatePriority: 0
 sohl:
   craft:

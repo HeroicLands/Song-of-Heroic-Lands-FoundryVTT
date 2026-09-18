@@ -4,10 +4,10 @@ name:
   full: Ermine Hat
   aliases: []
 description: "White ermine fur hat signifying high status and elite prestige."
-img: icons/game-icons/lorc/pointy-hat.svg
 shortcode: ehat
 type: armorgear
 data:
+  icon: pointyhat
   templatePriority: 0
 sohl:
   craft:

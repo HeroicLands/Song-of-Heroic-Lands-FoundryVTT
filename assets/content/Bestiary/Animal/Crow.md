@@ -1,15 +1,16 @@
 ---
 tags:
   - animal
+  - creature
 name:
   full: Crow
   aliases: []
 description: "A clever, adaptable passerine thriving alongside humans, showing curiosity, problem-solving, and a memory that lends each bird real personality."
-img: icons/game-icons/lorc/crow-dive.svg
-portrait: images/being/crow-portrait.webp
 shortcode: crow
 type: being
 data:
+  icon: crowdive
+  portrait: crow
   templatePriority: 0
 sohl:
   kbcat: animal

@@ -4,10 +4,10 @@ name:
   full: Aural Shock
   aliases: []
 description: "Long-term weakness from spiritual aura damage."
-img: icons/game-icons/lorc/sleepy.svg
 shortcode: auralshk
 type: trauma
 data:
+  icon: sleepy
   templatePriority: 0
 subType: fatigue
 sohl:

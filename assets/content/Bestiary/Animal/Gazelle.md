@@ -1,16 +1,17 @@
 ---
 tags:
   - animal
+  - creature
   - image-needed
 name:
   full: Gazelle
   aliases: []
 description: "A small, extraordinarily fast antelope of the deep desert, grazing gravel plains and scrublands in herds that flee predators at blistering speed."
-img: icons/game-icons/lorc/paw-print.svg
-portrait: images/being/gazelle-portrait.webp
 shortcode: gazelle
 type: being
 data:
+  icon: pawprint
+  portrait: gazelle
   templatePriority: 0
 sohl:
   kbcat: animal

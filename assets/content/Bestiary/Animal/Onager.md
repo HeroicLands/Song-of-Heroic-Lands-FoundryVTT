@@ -1,16 +1,17 @@
 ---
 tags:
   - animal
+  - creature
   - image-needed
 name:
   full: Onager
   aliases: []
 description: "A wild ass of the arid steppe, a medium equine of legendary speed, endurance, and ferocity ranging across gravel plains and salt flats."
-img: icons/game-icons/skoll/donkey.svg
-portrait: images/being/onager-portrait.webp
 shortcode: onager
 type: being
 data:
+  icon: donkey
+  portrait: onager
   templatePriority: 0
 sohl:
   kbcat: animal

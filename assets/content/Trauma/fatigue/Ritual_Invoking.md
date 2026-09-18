@@ -4,10 +4,10 @@ name:
   full: Ritual Invoking
   aliases: []
 description: "Acute windedness from channeling power through ritual invocation."
-img: icons/game-icons/lorc/sleepy.svg
 shortcode: invk
 type: trauma
 data:
+  icon: sleepy
   templatePriority: 0
 subType: fatigue
 sohl:

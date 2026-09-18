@@ -4,10 +4,10 @@ name:
   full: Silk Apron
   aliases: []
 description: "Soft silk apron for formal settings; luxurious but delicate."
-img: icons/game-icons/delapouite/cook.svg
 shortcode: slkapn
 type: armorgear
 data:
+  icon: cook
   templatePriority: 0
 sohl:
   craft:

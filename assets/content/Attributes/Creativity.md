@@ -4,10 +4,10 @@ name:
   full: Creativity
   aliases: []
 description: "Imagination: seeing new connections and forging original solutions."
-img: icons/game-icons/lorc/light-bulb.svg
 shortcode: cre
 type: attribute
 data:
+  icon: lightbulb
   templatePriority: 0
 sohl:
   system:

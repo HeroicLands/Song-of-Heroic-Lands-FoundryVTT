@@ -5,10 +5,10 @@ name:
   full: "Amulet, gold"
   aliases: []
 description: "Heavy gold pendant worn at the throat; a charm and a fortune together."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: amuletgold
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

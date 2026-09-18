@@ -4,10 +4,10 @@ name:
   full: Slingshot
   aliases: []
 description: "Y-framed pouch-cord; concealed, silent, favored by hunters and footpads."
-img: icons/game-icons/delapouite/slingshot.svg
 shortcode: slngsht
 type: weapongear
 data:
+  icon: slingshot
   templatePriority: 0
 sohl:
   craft:

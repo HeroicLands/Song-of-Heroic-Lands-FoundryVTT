@@ -4,10 +4,10 @@ name:
   full: Canvas Cowl
   aliases: []
 description: "Coarse canvas cowl giving hard-wearing head and shoulder cover."
-img: icons/game-icons/lorc/hood.svg
 shortcode: cvcowl
 type: armorgear
 data:
+  icon: hood
   templatePriority: 0
 sohl:
   craft:

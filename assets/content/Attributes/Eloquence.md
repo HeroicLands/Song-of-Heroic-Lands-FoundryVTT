@@ -4,10 +4,10 @@ name:
   full: Eloquence
   aliases: []
 description: "The power of chosen words to convince, inspire, teach, or deceive."
-img: icons/game-icons/delapouite/megaphone.svg
 shortcode: elo
 type: attribute
 data:
+  icon: megaphone
   templatePriority: 0
 sohl:
   system:

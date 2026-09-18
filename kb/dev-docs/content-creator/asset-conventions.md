@@ -77,7 +77,7 @@ untouched, and an empty value yields `""`.
 | `icons/other/sword.svg`                | `systems/sohl/assets/icons/other/sword.svg`                |
 | `images/being/basicfolk-portrait.webp` | `systems/sohl/assets/images/being/basicfolk-portrait.webp` |
 | `systems/sohl/assets/ui/parchment.jpg` | unchanged                                                  |
-| `icons/svg/dice-target.svg`            | rerooted — **and this is a trap**, see below               |
+| `icons/game-icons/delapouite/dicetarget.svg`            | rerooted — **and this is a trap**, see below               |
 | _(omitted)_                            | `""`, then the compiler's own default                      |
 
 This is translation only. The per-type default for an empty result belongs to
@@ -114,12 +114,12 @@ shipped manifest.
 | ------------------- | ------------------------------------------------------- | ------------------------------------------------------------ |
 | `sohl/items.mjs`    | item `img`                                              | `itemArt(type)` — see [Default art](#default-art)            |
 | `sohl/actors.mjs`   | actor `img`, prototype token texture, `system.portrait` | `systems/sohl/assets/icons/game-icons/delapouite/person.svg` |
-| `engine/macros.mjs` | macro `img`                                             | `icons/svg/dice-target.svg`                                  |
+| `engine/macros.mjs` | macro `img`                                             | `icons/game-icons/delapouite/dicetarget.svg`                                  |
 
 The macro default is worth a second look: it is a **core Foundry** path, and it
 is stated as the default _after_ translation precisely so `resolveImg` never
 sees it and never reroots it. Written as a note's `img:` instead, that same
-string would compile to `systems/sohl/assets/icons/svg/dice-target.svg` and
+string would compile to `systems/sohl/assets/icons/game-icons/delapouite/dicetarget.svg` and
 resolve nowhere. **If you mean a core Foundry icon, you cannot say so with an
 `icons/` path** — reach for one of SoHL's bundled icons instead.
 
@@ -165,17 +165,17 @@ every entry is a fully-rooted, bundled SVG:
 
 | Item type         | Default art                                                 |
 | ----------------- | ----------------------------------------------------------- |
-| `affiliation`     | `systems/sohl/assets/icons/noun/shield.svg`                 |
+| `affiliation`     | `systems/sohl/assets/icons/noun/shieldnn.svg`                 |
 | `affliction`      | `systems/sohl/assets/icons/other/sick.svg`                  |
 | `armorgear`       | `systems/sohl/assets/icons/game-icons/lorc/breastplate.svg` |
-| `attribute`       | `systems/sohl/assets/icons/other/charm.svg`                 |
+| `attribute`       | `systems/sohl/assets/icons/game-icons/lorc/charm.svg`       |
 | `concoctiongear`  | `systems/sohl/assets/icons/game-icons/badges/flask.svg`     |
 | `containergear`   | `systems/sohl/assets/icons/other/sack.svg`                  |
-| `miscgear`        | `systems/sohl/assets/icons/other/question-mark.svg`         |
-| `mystery`         | `systems/sohl/assets/icons/other/sparkles.svg`              |
-| `mysticalability` | `systems/sohl/assets/icons/other/hand-sparkles.svg`         |
+| `miscgear`        | `systems/sohl/assets/icons/other/questionmark.svg`         |
+| `mystery`         | `systems/sohl/assets/icons/game-icons/delapouite/sparkles.svg`       |
+| `mysticalability` | `systems/sohl/assets/icons/other/handsparkles.svg`         |
 | `projectilegear`  | `systems/sohl/assets/icons/noun/arrow.svg`                  |
-| `skill`           | `systems/sohl/assets/icons/other/head-gear.svg`             |
+| `skill`           | `systems/sohl/assets/icons/other/headgear.svg`             |
 | `trauma`          | `systems/sohl/assets/icons/other/injury.svg`                |
 | `weapongear`      | `systems/sohl/assets/icons/other/sword.svg`                 |
 

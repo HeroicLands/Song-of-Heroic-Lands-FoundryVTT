@@ -4,10 +4,10 @@ name:
   full: Buckram Skirt
   aliases: []
 description: "Stiff buckram skirt offering durability and dependable rigid structure."
-img: icons/game-icons/delapouite/skirt.svg
 shortcode: bskirt
 type: armorgear
 data:
+  icon: skirt
   templatePriority: 0
 sohl:
   craft:

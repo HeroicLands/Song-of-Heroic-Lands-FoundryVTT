@@ -4,10 +4,10 @@ name:
   full: Basket, large
   aliases: []
 description: "Woven wicker or willow basket for produce or storage."
-img: icons/game-icons/delapouite/basket.svg
 shortcode: bktlrg
 type: containergear
 data:
+  icon: basket
   templatePriority: 0
 sohl:
   craft:

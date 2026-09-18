@@ -1,15 +1,16 @@
 ---
 tags:
   - animal
+  - creature
 name:
   full: Boar
   aliases: []
 description: "A compact, aggressive tusked ungulate of forests and scrublands, quick to charge with muscle and violence when its territory is crossed."
-img: icons/game-icons/caro-asercion/boar.svg
-portrait: images/being/boar-portrait.webp
 shortcode: boar
 type: being
 data:
+  icon: boar
+  portrait: boar
   templatePriority: 0
 sohl:
   kbcat: animal

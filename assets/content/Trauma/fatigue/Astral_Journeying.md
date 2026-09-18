@@ -4,10 +4,10 @@ name:
   full: Astral Journeying
   aliases:
 description: "Sustained weariness from astral travel, paid on reembodiment."
-img: icons/game-icons/lorc/sleepy.svg
 shortcode: astjourn
 type: trauma
 data:
+  icon: sleepy
   templatePriority: 0
 subType: fatigue
 sohl:

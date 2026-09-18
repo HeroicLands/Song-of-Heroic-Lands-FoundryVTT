@@ -4,10 +4,10 @@ name:
   full: Quilted Vest
   aliases: []
 description: "Sleeveless padded vest; core warmth without arm-weight."
-img: icons/game-icons/lorc/leather-vest.svg
 shortcode: qvest
 type: armorgear
 data:
+  icon: leathervest
   templatePriority: 0
 sohl:
   craft:

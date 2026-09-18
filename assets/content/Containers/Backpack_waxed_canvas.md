@@ -4,10 +4,10 @@ name:
   full: "Backpack, waxed canvas"
   aliases: []
 description: "Frameless waxed canvas pack; sheds rain."
-img: icons/game-icons/lorc/knapsack.svg
 shortcode: backpkwc
 type: containergear
 data:
+  icon: knapsack
   templatePriority: 0
 sohl:
   craft:

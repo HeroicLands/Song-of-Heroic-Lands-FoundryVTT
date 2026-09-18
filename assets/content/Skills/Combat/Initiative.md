@@ -4,10 +4,10 @@ name:
   full: Initiative
   aliases: []
 description: "Battlefield experience and tactical awareness; acting first in combat."
-img: icons/game-icons/lorc/sprint.svg
 shortcode: init
 type: skill
 data:
+  icon: sprint
   templatePriority: 0
 subType: combat
 sohl:

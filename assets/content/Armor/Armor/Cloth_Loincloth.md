@@ -4,10 +4,10 @@ name:
   full: Cloth Loincloth
   aliases: []
 description: "Soft cloth loincloth offering basic coverage and casual comfort."
-img: icons/game-icons/delapouite/loincloth.svg
 shortcode: cloin
 type: armorgear
 data:
+  icon: loincloth
   templatePriority: 0
 sohl:
   craft:

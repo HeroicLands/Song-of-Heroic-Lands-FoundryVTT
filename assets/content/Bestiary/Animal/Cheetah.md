@@ -1,16 +1,17 @@
 ---
 tags:
   - animal
+  - creature
   - image-needed
 name:
   full: Cheetah
   aliases: []
 description: "A lightly built sprinting cat of the arid grasslands, built for blistering speed to run down gazelle across open gravel plains."
-img: icons/game-icons/lorc/lion.svg
-portrait: images/being/cheetah-portrait.webp
 shortcode: cheetah
 type: being
 data:
+  icon: lion
+  portrait: cheetah
   templatePriority: 0
 sohl:
   kbcat: animal

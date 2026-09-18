@@ -4,10 +4,10 @@ name:
   full: Buckram Tunic
   aliases: []
 description: "Stiff buckram tunic offering durability and reliable rigid protection."
-img: icons/game-icons/lucasms/shirt.svg
 shortcode: btunic
 type: armorgear
 data:
+  icon: shirt
   templatePriority: 0
 sohl:
   craft:

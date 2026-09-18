@@ -4,10 +4,10 @@ name:
   full: Ermine Cloak
   aliases: []
 description: "White ermine cloak; status symbol of nobility and high prestige."
-img: icons/game-icons/lucasms/cloak.svg
 shortcode: ecloak
 type: armorgear
 data:
+  icon: cloak
   templatePriority: 0
 sohl:
   craft:

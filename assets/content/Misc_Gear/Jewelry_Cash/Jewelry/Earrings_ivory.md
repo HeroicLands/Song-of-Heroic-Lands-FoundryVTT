@@ -5,10 +5,10 @@ name:
   full: "Earrings, ivory"
   aliases: []
 description: "A matched pair, hooked or hung, in carved ivory."
-img: icons/game-icons/lorc/gem-pendant.svg
 shortcode: earringsivory
 type: miscgear
 data:
+  icon: gempendant
   templatePriority: 0
 sohl:
   craft:

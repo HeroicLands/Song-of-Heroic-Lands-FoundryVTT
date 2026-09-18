@@ -4,10 +4,10 @@ name:
   full: Shock
   aliases: []
 description: "Physiological resilience to absorb violent blows without incapacitation."
-img: icons/game-icons/lorc/lightning-arc.svg
 shortcode: shok
 type: skill
 data:
+  icon: lightningarc
   templatePriority: 0
 subType: combat
 sohl:

@@ -5,10 +5,10 @@ name:
   full: "Dice, pack of 6"
   aliases: []
 description: "Six bone or wooden dice; used in taverns and camps for gaming."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: dicepackof
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

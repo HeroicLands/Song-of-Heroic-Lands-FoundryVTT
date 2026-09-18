@@ -5,10 +5,10 @@ name:
   full: Swan
   aliases: []
 description: "Dark gamey waterfowl meat, reserved for noble tables, substantial yield."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: swan
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

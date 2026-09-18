@@ -4,10 +4,10 @@ name:
   full: Runecraft
   aliases: []
 description: "Casting inscribed lots and reading a terse answer from how they fall."
-img: icons/game-icons/lorc/rune-stone.svg
 shortcode: runecft
 type: mysticalability
 data:
+  icon: runestone
   templatePriority: 0
 subType: divination
 sohl:

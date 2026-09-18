@@ -4,10 +4,10 @@ name:
   full: Velvet Trousers
   aliases: []
 description: "Soft plush velvet trousers; luxurious garment for high-status formal events."
-img: icons/game-icons/lorc/trousers.svg
 shortcode: vtrsr
 type: armorgear
 data:
+  icon: trousers
   templatePriority: 0
 sohl:
   craft:

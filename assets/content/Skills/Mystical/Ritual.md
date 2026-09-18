@@ -4,10 +4,10 @@ name:
   full: Ritual
   aliases: []
 description: "Conducting ceremonies, rites, and worship services for one's faith."
-img: icons/game-icons/delapouite/circle.svg
 shortcode: ritual
 type: skill
 data:
+  icon: circle
   templatePriority: 0
 subType: mystical
 sohl:

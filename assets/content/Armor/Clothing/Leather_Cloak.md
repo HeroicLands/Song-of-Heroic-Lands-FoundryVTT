@@ -4,10 +4,10 @@ name:
   full: Leather Cloak
   aliases: []
 description: "Rugged leather outer garment protecting against wind and light rain."
-img: icons/game-icons/lucasms/cloak.svg
 shortcode: ltcloak
 type: armorgear
 data:
+  icon: cloak
   templatePriority: 0
 sohl:
   craft:

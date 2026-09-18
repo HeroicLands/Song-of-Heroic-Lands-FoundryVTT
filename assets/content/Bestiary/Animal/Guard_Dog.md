@@ -1,15 +1,16 @@
 ---
 tags:
   - animal
+  - creature
 name:
   full: Guard Dog
   aliases: []
 description: "A large, disciplined canine bred for protection, obeying its handler's commands while defending settlements and charges with the aggression of a trained predator."
-img: icons/game-icons/lorc/hound.svg
-portrait: images/being/guarddog-portrait.webp
 shortcode: guarddog
 type: being
 data:
+  icon: hound
+  portrait: guarddog
   templatePriority: 0
 sohl:
   kbcat: animal

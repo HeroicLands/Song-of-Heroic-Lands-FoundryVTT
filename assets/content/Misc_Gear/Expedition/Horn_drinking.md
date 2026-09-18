@@ -5,10 +5,10 @@ name:
   full: "Horn, drinking"
   aliases: []
 description: "Polished steer horn with wooden or horn base; durable for soldiers."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: horndrinki
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

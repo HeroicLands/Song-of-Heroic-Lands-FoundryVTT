@@ -4,10 +4,10 @@ name:
   full: "Satchel, leather, sm"
   aliases: []
 description: "Small leather shoulder bag with a buckled flap."
-img: icons/game-icons/lorc/knapsack.svg
 shortcode: satchltsm
 type: containergear
 data:
+  icon: knapsack
   templatePriority: 0
 sohl:
   craft:

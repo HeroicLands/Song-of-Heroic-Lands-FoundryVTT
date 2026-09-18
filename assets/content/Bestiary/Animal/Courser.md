@@ -1,15 +1,16 @@
 ---
 tags:
   - animal
+  - creature
 name:
   full: Courser
   aliases: []
 description: "A light, swift horse bred for speed and stamina, the nervous, quick-reacting mount favored by scouts, messengers, and light cavalry."
-img: icons/game-icons/delapouite/horse-head.svg
-portrait: images/being/courser-portrait.webp
 shortcode: courser
 type: being
 data:
+  icon: horsehead
+  portrait: courser
   templatePriority: 0
 sohl:
   kbcat: animal

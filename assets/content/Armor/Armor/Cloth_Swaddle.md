@@ -4,10 +4,10 @@ name:
   full: Cloth Swaddle
   aliases: []
 description: "Soft cloth infant swaddle offering comfort and basic warmth."
-img: icons/game-icons/lorc/trousers.svg
 shortcode: cswd
 type: armorgear
 data:
+  icon: trousers
   templatePriority: 0
 sohl:
   craft:

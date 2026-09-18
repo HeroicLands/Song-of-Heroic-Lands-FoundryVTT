@@ -1,15 +1,16 @@
 ---
 tags:
   - animal
+  - creature
 name:
   full: Stag
   aliases: []
 description: "A mature forest-dwelling male cervid with large branching antlers, turning dangerously aggressive toward intruders during the rutting season."
-img: icons/game-icons/lorc/stag-head.svg
-portrait: images/being/stag-portrait.webp
 shortcode: stag
 type: being
 data:
+  icon: staghead
+  portrait: stag
   templatePriority: 0
 sohl:
   kbcat: animal

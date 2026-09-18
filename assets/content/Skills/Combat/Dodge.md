@@ -4,10 +4,10 @@ name:
   full: Dodge
   aliases: []
 description: "Evading attacks by shifting body; instinctive defense in combat."
-img: icons/game-icons/felbrigg/dodge.svg
 shortcode: dge
 type: skill
 data:
+  icon: dodge
   templatePriority: 0
 subType: combat
 sohl:

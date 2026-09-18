@@ -4,10 +4,10 @@ name:
   full: Waxed Canvas Leggings
   aliases: []
 description: "Waxed canvas leg-wear shedding wet on foul-weather journeys."
-img: icons/game-icons/lorc/trousers.svg
 shortcode: wxcvleg
 type: armorgear
 data:
+  icon: trousers
   templatePriority: 0
 sohl:
   craft:

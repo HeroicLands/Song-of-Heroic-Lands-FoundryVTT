@@ -4,10 +4,10 @@ name:
   full: Sealskin Cloak
   aliases: []
 description: "Waterproof seal-fur cloak; harsh-weather outer garment for seafarers."
-img: icons/game-icons/lucasms/cloak.svg
 shortcode: slscloak
 type: armorgear
 data:
+  icon: cloak
   templatePriority: 0
 sohl:
   craft:

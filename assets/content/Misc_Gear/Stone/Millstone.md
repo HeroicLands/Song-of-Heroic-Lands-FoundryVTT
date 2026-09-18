@@ -5,10 +5,10 @@ name:
   full: Millstone
   aliases: []
 description: "Large granite or basalt disc with dressed furrows; grinds grain for decades."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: millstone
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

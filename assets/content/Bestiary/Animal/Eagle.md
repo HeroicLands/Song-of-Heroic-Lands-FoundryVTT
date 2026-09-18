@@ -1,15 +1,16 @@
 ---
 tags:
   - animal
+  - creature
 name:
   full: Eagle
   aliases: []
 description: "A solitary apex raptor of high ridges and passes, patrolling vast territory to snatch small mammals and fish with sudden violence."
-img: icons/game-icons/delapouite/eagle-head.svg
-portrait: images/being/eagle-portrait.webp
 shortcode: eagle
 type: being
 data:
+  icon: eaglehead
+  portrait: eagle
   templatePriority: 0
 sohl:
   kbcat: animal

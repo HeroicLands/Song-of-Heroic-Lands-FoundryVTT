@@ -4,10 +4,10 @@ name:
   full: Pall
   aliases: []
 description: "The weight of death and chaos an undead thing presses on the living world."
-img: icons/game-icons/lorc/triple-skulls.svg
 shortcode: pal
 type: attribute
 data:
+  icon: tripleskulls
   templatePriority: 0
 sohl:
   system:

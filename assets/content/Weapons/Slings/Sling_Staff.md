@@ -4,10 +4,10 @@ name:
   full: Sling Staff
   aliases: []
 description: "Pole-mounted sling multiplying range and power for peasant levy."
-img: icons/game-icons/delapouite/sling.svg
 shortcode: slngstf
 type: weapongear
 data:
+  icon: sling
   templatePriority: 0
 sohl:
   craft:

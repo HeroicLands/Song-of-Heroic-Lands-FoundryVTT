@@ -4,10 +4,10 @@ name:
   full: Worsted Cloak
   aliases: []
 description: "Tightly-spun wool cloak; durable, practical garment for weather."
-img: icons/game-icons/lucasms/cloak.svg
 shortcode: wclk
 type: armorgear
 data:
+  icon: cloak
   templatePriority: 0
 sohl:
   craft:

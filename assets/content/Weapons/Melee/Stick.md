@@ -4,10 +4,10 @@ name:
   full: Stick
   aliases: []
 description: "Plain ashwood walking-staff pressed into service by travelers in scuffle."
-img: icons/game-icons/badges/club.svg
 shortcode: stk
 type: weapongear
 data:
+  icon: club
   templatePriority: 0
 sohl:
   craft:

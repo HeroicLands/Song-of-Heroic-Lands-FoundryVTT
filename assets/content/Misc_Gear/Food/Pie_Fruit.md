@@ -5,10 +5,10 @@ name:
   full: "Pie, Fruit"
   aliases: []
 description: "Hand-sized pastry with sweet apple or berry filling from baker."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: piefruit
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

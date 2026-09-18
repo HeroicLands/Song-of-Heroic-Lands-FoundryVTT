@@ -4,10 +4,10 @@ name:
   full: Springald
   aliases: []
 description: "Light torsion bolt-thrower; two-crew wall-top engine for picking men off a rampart."
-img: icons/game-icons/lorc/spear-hook.svg
 shortcode: sprngld
 type: weapongear
 data:
+  icon: spearhook
   templatePriority: 0
 sohl:
   craft:

@@ -1,16 +1,17 @@
 ---
 tags:
   - animal
+  - creature
   - image-needed
 name:
   full: Howler Monkey
   aliases: []
 description: "A large, heavily built canopy folivore of tropical forests, living in troops and producing the loudest vocalization of any land animal."
-img: icons/game-icons/lorc/monkey.svg
-portrait: images/being/hwlrmnky-portrait.webp
 shortcode: hwlrmnky
 type: being
 data:
+  icon: monkey
+  portrait: hwlrmnky
   templatePriority: 0
 sohl:
   kbcat: animal

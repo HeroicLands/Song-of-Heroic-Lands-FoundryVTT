@@ -3,10 +3,10 @@ tags: []
 name:
   full: Barophobia
   aliases: []
-img: icons/game-icons/cathelineau/dread.svg
 shortcode: barophb
 type: trauma
 data:
+  icon: dread
   templatePriority: 0
 subType: fear
 sohl:

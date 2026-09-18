@@ -5,10 +5,10 @@ name:
   full: "Spit and Stand, iron"
   aliases: []
 description: "Iron roasting spit on adjustable stand for campfire or hearth cooking."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: spitandsta
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

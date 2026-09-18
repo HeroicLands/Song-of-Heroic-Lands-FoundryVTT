@@ -1,15 +1,16 @@
 ---
 tags:
   - animal
+  - creature
 name:
   full: Black Bear
   aliases: []
 description: "A strong, surprisingly intelligent forest predator and scavenger of temperate woods that usually avoids humans but turns dangerous when provoked."
-img: icons/game-icons/delapouite/bear-head.svg
-portrait: images/being/blckbr-portrait.webp
 shortcode: blckbr
 type: being
 data:
+  icon: bearhead
+  portrait: blckbr
   templatePriority: 0
 sohl:
   kbcat: animal

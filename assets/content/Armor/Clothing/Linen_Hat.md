@@ -4,10 +4,10 @@ name:
   full: Linen Hat
   aliases: []
 description: "Light breathable head covering for warm climates with sun protection."
-img: icons/game-icons/lorc/pointy-hat.svg
 shortcode: lhat
 type: armorgear
 data:
+  icon: pointyhat
   templatePriority: 0
 sohl:
   craft:

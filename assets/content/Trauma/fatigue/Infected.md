@@ -4,10 +4,10 @@ name:
   full: Infected
   aliases: []
 description: "Long-term weakness from septic injury or contaminated wound."
-img: icons/game-icons/lorc/sleepy.svg
 shortcode: infect
 type: trauma
 data:
+  icon: sleepy
   templatePriority: 0
 subType: fatigue
 sohl:

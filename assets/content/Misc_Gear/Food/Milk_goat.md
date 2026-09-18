@@ -5,10 +5,10 @@ name:
   full: "Milk, goat"
   aliases: []
 description: "Tangy dairy curdles quickly into sharp cheese, richer than sheep's."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: milkgoat
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

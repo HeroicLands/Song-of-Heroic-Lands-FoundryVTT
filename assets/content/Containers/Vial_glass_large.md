@@ -4,10 +4,10 @@ name:
   full: "Vial, glass, large"
   aliases: []
 description: "Narrow-necked glass vial for alchemists storing potent liquids and tinctures."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: vialglassl
 type: containergear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

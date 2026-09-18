@@ -5,10 +5,10 @@ name:
   full: "Cloth, per sq yard"
   aliases: []
 description: "Standard woollen broadcloth, the common measure against which other cloth is priced."
-img: icons/game-icons/lorc/rolled-cloth.svg
 shortcode: cloth
 type: miscgear
 data:
+  icon: rolledcloth
   templatePriority: 0
 sohl:
   craft:

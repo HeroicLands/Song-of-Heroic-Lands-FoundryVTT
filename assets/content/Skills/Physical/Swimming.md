@@ -4,10 +4,10 @@ name:
   full: Swimming
   aliases: []
 description: "Moving through water across rivers, during shipwrecks, or beneath surfaces."
-img: icons/game-icons/delapouite/swimfins.svg
 shortcode: swim
 type: skill
 data:
+  icon: swimfins
   templatePriority: 0
 subType: physical
 sohl:

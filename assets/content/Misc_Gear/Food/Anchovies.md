@@ -5,10 +5,10 @@ name:
   full: Anchovies
   aliases: []
 description: "Salt-packed small fish; intense savory depth, travels well in sealed jars."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: anchovies
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

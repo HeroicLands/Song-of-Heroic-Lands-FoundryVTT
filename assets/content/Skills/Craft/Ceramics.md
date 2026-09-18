@@ -4,10 +4,10 @@ name:
   full: Ceramics
   aliases: []
 description: "Shaping clay into durable pots, bowls, tiles, bricks, and sculpture."
-img: icons/game-icons/delapouite/amphora.svg
 shortcode: cmcs
 type: skill
 data:
+  icon: amphora
   templatePriority: 0
 subType: craft
 sohl:

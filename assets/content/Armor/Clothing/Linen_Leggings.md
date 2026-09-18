@@ -4,10 +4,10 @@ name:
   full: Linen Leggings
   aliases: []
 description: "Light breathable leg coverings for warm climates and outdoor activities."
-img: icons/game-icons/lorc/trousers.svg
 shortcode: lleg
 type: armorgear
 data:
+  icon: trousers
   templatePriority: 0
 sohl:
   craft:

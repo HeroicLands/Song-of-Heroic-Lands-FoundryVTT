@@ -3,10 +3,10 @@ tags: []
 name:
   full: Sicariophobia
   aliases: []
-img: icons/game-icons/cathelineau/dread.svg
 shortcode: scrphb
 type: trauma
 data:
+  icon: dread
   templatePriority: 0
 subType: fear
 sohl:

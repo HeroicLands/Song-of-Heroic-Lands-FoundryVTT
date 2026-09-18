@@ -5,10 +5,10 @@ name:
   full: Chicken
   aliases: []
 description: "Dressed poultry; delicate white meat, spoils quickly unless preserved promptly."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: chicken
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

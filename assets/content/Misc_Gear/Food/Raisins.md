@@ -5,10 +5,10 @@ name:
   full: Raisins
   aliases: []
 description: "Dried grapes, chewy and portable, quick energy for soldiers and travelers."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: raisins
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

@@ -5,10 +5,10 @@ name:
   full: "Beer, Pint"
   aliases: []
 description: "Weak cheap small-beer; laborer's drink; safe, ever-present in garrisons."
-img: icons/game-icons/lorc/beer-stein.svg
 shortcode: beerpt
 type: miscgear
 data:
+  icon: beerstein
   templatePriority: 0
 sohl:
   craft:

@@ -5,10 +5,10 @@ name:
   full: "Rope, 3” hemp, per ft (8,000 lb cap.)"
   aliases: []
 description: "Massive cable for anchoring vessels and hoisting siege equipment."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: rope3hempp
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

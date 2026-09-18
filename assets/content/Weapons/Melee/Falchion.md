@@ -4,10 +4,10 @@ name:
   full: Falchion
   aliases: []
 description: "Single-edged curved blade favors overhead chop; sailor and soldier's steel."
-img: icons/game-icons/lorc/broadsword.svg
 shortcode: falcn
 type: weapongear
 data:
+  icon: broadsword
   templatePriority: 0
 sohl:
   craft:

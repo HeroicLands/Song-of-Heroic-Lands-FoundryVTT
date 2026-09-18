@@ -5,10 +5,10 @@ name:
   full: Scones
   aliases: []
 description: "Wheat flour rounds lightly sweetened, bakery luxury keeping several days."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: scones
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

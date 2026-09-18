@@ -1,15 +1,16 @@
 ---
 tags:
   - animal
+  - creature
 name:
   full: Palfrey
   aliases: []
 description: "A refined, smooth-gaited riding horse bred by nobility for comfort over long distances, favored by ladies, couriers, and wealthy merchants."
-img: icons/game-icons/delapouite/horse-head.svg
-portrait: images/being/palfrey-portrait.webp
 shortcode: palfrey
 type: being
 data:
+  icon: horsehead
+  portrait: palfrey
   templatePriority: 0
 sohl:
   kbcat: animal

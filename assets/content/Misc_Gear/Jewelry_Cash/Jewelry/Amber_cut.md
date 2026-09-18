@@ -5,10 +5,10 @@ name:
   full: "Amber, cut"
   aliases: []
 description: "Translucent golden gem faceted by lapidary; glows warmly for modest jewelry."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: ambercut
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

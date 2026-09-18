@@ -4,10 +4,10 @@ name:
   full: Archery
   aliases: []
 description: "Striking distant targets with bows and crossbows; reading windage and elevation."
-img: icons/game-icons/lorc/pocket-bow.svg
 shortcode: archery
 type: skill
 data:
+  icon: pocketbow
   templatePriority: 0
 subType: combat
 sohl:

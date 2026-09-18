@@ -4,10 +4,10 @@ name:
   full: Silk Cloak
   aliases: []
 description: "Luxurious silk cloak for high-status occasions and formal events."
-img: icons/game-icons/lucasms/cloak.svg
 shortcode: slkclk
 type: armorgear
 data:
+  icon: cloak
   templatePriority: 0
 sohl:
   craft:

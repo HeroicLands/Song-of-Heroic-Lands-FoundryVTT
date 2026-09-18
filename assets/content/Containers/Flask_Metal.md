@@ -4,10 +4,10 @@ name:
   full: "Flask, Metal"
   aliases: []
 description: "Hammered tinned copper flask for carrying liquids at belt."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: flaskmetal
 type: containergear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

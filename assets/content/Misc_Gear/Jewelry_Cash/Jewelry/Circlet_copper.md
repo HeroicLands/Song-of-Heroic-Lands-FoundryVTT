@@ -5,10 +5,10 @@ name:
   full: "Circlet, copper"
   aliases: []
 description: "A plain band for the brow, worn by those with rank enough to show it and not enough for a coronet, in raised copper."
-img: icons/game-icons/lorc/gem-pendant.svg
 shortcode: circletcopper
 type: miscgear
 data:
+  icon: gempendant
   templatePriority: 0
 sohl:
   craft:

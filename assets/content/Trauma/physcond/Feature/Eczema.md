@@ -3,10 +3,10 @@ tags: []
 name:
   full: Eczema
   aliases: []
-img: icons/game-icons/lorc/battle-gear.svg
 shortcode: eczema
 type: trauma
 data:
+  icon: battlegear
   templatePriority: 0
 subType: physcond
 sohl:

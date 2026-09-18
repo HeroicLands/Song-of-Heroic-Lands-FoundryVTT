@@ -5,10 +5,10 @@ name:
   full: Pigeon
   aliases: []
 description: "Mild tender meat from trapped cotes, small carcass rich with fat."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: pigeon
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

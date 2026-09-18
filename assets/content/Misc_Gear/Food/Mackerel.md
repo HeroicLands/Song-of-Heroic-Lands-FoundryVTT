@@ -5,10 +5,10 @@ name:
   full: Mackerel
   aliases: []
 description: "Oily fish gutted fresh or salt-packed; substantial meal, keeps indefinitely."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: mackerel
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

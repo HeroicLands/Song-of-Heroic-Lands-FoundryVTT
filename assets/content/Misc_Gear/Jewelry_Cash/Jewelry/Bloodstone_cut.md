@@ -5,10 +5,10 @@ name:
   full: "Bloodstone, cut"
   aliases: []
 description: "Deep green stone streaked with red; favored for signet rings of soldiers."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: bloodstone
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

@@ -5,10 +5,10 @@ name:
   full: "Anklet, gold"
   aliases: []
 description: "A band worn at the ankle, closed or hinged, and often hung with small charms, in gold."
-img: icons/game-icons/lorc/gem-pendant.svg
 shortcode: ankletgold
 type: miscgear
 data:
+  icon: gempendant
   templatePriority: 0
 sohl:
   craft:

@@ -3,10 +3,10 @@ tags: []
 name:
   full: Shortness of Breath
   aliases: []
-img: icons/game-icons/lorc/battle-gear.svg
 shortcode: shrtbrth
 type: trauma
 data:
+  icon: battlegear
   templatePriority: 0
 subType: physcond
 sohl:

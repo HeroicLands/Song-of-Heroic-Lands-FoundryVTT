@@ -4,10 +4,10 @@ name:
   full: Wooden Crossbow 80
   aliases: []
 description: "Light wooden-prod crossbow; hunter's arm for unarmoured targets."
-img: icons/game-icons/carl-olsen/crossbow.svg
 shortcode: wcxbw80
 type: weapongear
 data:
+  icon: crossbow
   templatePriority: 0
 sohl:
   craft:

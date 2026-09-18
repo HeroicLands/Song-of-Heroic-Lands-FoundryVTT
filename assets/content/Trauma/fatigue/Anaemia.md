@@ -4,10 +4,10 @@ name:
   full: Anaemia
   aliases: []
 description: "Long-term weakness from depleted blood reserves."
-img: icons/game-icons/lorc/sleepy.svg
 shortcode: anaemia
 type: trauma
 data:
+  icon: sleepy
   templatePriority: 0
 subType: fatigue
 sohl:

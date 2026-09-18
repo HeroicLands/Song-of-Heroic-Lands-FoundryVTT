@@ -4,10 +4,10 @@ name:
   full: River Blindness
   aliases: []
 description: "Filarial worm parasite; intense itching and skin rashes; eventual blindness."
-img: icons/game-icons/lorc/virus.svg
 shortcode: rivrblnd
 type: affliction
 data:
+  icon: virus
   templatePriority: 0
 subType: disease
 sohl:

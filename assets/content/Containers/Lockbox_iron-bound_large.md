@@ -4,10 +4,10 @@ name:
   full: "Lockbox, iron-bound, large"
   aliases: []
 description: "Large iron-bound strongbox with a key lock."
-img: icons/game-icons/delapouite/chest.svg
 shortcode: lockboxiblg
 type: containergear
 data:
+  icon: chest
   templatePriority: 0
 sohl:
   craft:

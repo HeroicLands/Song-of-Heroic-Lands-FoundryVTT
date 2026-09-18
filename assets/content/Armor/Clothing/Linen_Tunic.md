@@ -4,10 +4,10 @@ name:
   full: Linen Tunic
   aliases: []
 description: "Light breathable torso garment perfect for warm weather casual wear."
-img: icons/game-icons/lucasms/shirt.svg
 shortcode: ltunic
 type: armorgear
 data:
+  icon: shirt
   templatePriority: 0
 sohl:
   craft:

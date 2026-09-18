@@ -1,15 +1,16 @@
 ---
 tags:
   - animal
+  - creature
 name:
   full: Honey Badger
   aliases: []
 description: "A small but ferocious mustelid whose rubbery, twisting hide lets it bite attackers even when pinned, fighting far above its thirty-five pounds."
-img: icons/game-icons/caro-asercion/badger.svg
-portrait: images/being/hnybdgr-portrait.webp
 shortcode: hnybdgr
 type: being
 data:
+  icon: badger
+  portrait: hnybdgr
   templatePriority: 0
 sohl:
   kbcat: animal

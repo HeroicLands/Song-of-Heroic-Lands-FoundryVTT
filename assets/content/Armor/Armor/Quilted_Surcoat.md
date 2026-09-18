@@ -4,10 +4,10 @@ name:
   full: Quilted Surcoat
   aliases: []
 description: "Stitched outer garment; layered insulation over other dress."
-img: icons/game-icons/lucasms/shirt.svg
 shortcode: qscoat
 type: armorgear
 data:
+  icon: shirt
   templatePriority: 0
 sohl:
   craft:

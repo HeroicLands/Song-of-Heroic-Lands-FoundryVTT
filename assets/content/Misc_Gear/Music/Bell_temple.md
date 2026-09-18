@@ -5,10 +5,10 @@ name:
   full: "Bell, temple"
   aliases: []
 description: "Substantial bronze bell on frame; deep tone carries far beyond sanctuary."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: belltemple
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

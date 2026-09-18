@@ -4,10 +4,10 @@ name:
   full: Padded Tunic
   aliases: []
 description: "Cushioned garment providing warmth and protection for various activities."
-img: icons/game-icons/lucasms/shirt.svg
 shortcode: ptnc
 type: armorgear
 data:
+  icon: shirt
   templatePriority: 0
 sohl:
   craft:

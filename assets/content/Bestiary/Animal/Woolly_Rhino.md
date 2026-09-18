@@ -1,15 +1,16 @@
 ---
 tags:
   - animal
+  - creature
 name:
   full: Woolly Rhino
   aliases: []
 description: "A massive shaggy grazer of frozen tundra and cold steppe, peaceful yet fiercely territorial and devastating when defending its range."
-img: icons/game-icons/delapouite/rhinoceros-horn.svg
-portrait: images/being/wllyrhn-portrait.webp
 shortcode: wllyrhn
 type: being
 data:
+  icon: rhinoceroshorn
+  portrait: wllyrhn
   templatePriority: 0
 sohl:
   kbcat: animal

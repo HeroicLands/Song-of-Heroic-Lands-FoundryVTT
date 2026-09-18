@@ -4,10 +4,10 @@ name:
   full: Straw Skirt
   aliases: []
 description: "Lightweight breathable straw skirt; airy garment for hot climates."
-img: icons/game-icons/delapouite/skirt.svg
 shortcode: stskirt
 type: armorgear
 data:
+  icon: skirt
   templatePriority: 0
 sohl:
   craft:

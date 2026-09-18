@@ -5,10 +5,10 @@ name:
   full: Hand drill
   aliases: []
 description: "Spring-driven iron spindle with rocking crank; carpenters bore clean holes for rivets."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: handdrill
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

@@ -4,10 +4,10 @@ name:
   full: Padded Leggings
   aliases: []
 description: "Cushioned leg coverings providing warmth for armor wear."
-img: icons/game-icons/lorc/trousers.svg
 shortcode: pleg
 type: armorgear
 data:
+  icon: trousers
   templatePriority: 0
 sohl:
   craft:

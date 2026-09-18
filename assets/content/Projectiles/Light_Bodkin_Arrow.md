@@ -6,10 +6,10 @@ name:
 description: "Slender shaft, square-sectioned spike; splits light mail at distance; militia, skirmish use."
 type: projectilegear
 data:
+  icon: broadheadarrow
   templatePriority: 0
 subType: arrow
 shortcode: arwlbod
-img: icons/game-icons/lorc/broadhead-arrow.svg
 easyname: Light Bodkin
 sohl:
   craft:

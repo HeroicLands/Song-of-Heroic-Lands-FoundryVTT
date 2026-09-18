@@ -4,10 +4,10 @@ name:
   full: Buckram Hat
   aliases: []
 description: "Stiff buckram hat providing durability and reliable rigid headwear."
-img: icons/game-icons/lorc/pointy-hat.svg
 shortcode: bhat
 type: armorgear
 data:
+  icon: pointyhat
   templatePriority: 0
 sohl:
   craft:

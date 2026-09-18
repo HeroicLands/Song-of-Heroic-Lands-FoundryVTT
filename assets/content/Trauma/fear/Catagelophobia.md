@@ -3,10 +3,10 @@ tags: []
 name:
   full: Catagelophobia
   aliases: []
-img: icons/game-icons/cathelineau/dread.svg
 shortcode: ctglphb
 type: trauma
 data:
+  icon: dread
   templatePriority: 0
 subType: fear
 sohl:

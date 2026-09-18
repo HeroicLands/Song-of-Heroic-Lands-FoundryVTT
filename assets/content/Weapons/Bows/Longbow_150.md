@@ -4,10 +4,10 @@ name:
   full: Longbow 150
   aliases: []
 description: "Hundred-fifty pound border-garrison warbow; armor-penetrating distance-carrier."
-img: icons/game-icons/lorc/pocket-bow.svg
 shortcode: lbw150
 type: weapongear
 data:
+  icon: pocketbow
   templatePriority: 0
 sohl:
   craft:

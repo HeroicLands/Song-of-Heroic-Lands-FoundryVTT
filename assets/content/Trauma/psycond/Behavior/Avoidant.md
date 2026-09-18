@@ -3,10 +3,10 @@ tags: []
 name:
   full: Avoidant
   aliases: []
-img: icons/game-icons/lorc/battle-gear.svg
 shortcode: avoidant
 type: trauma
 data:
+  icon: battlegear
   templatePriority: 0
 subType: psycond
 sohl:

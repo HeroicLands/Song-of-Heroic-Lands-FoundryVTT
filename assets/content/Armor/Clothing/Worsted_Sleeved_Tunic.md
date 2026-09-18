@@ -4,10 +4,10 @@ name:
   full: Worsted Sleeved Tunic
   aliases: []
 description: "Tightly-spun wool sleeved tunic; durable, practical garment."
-img: icons/game-icons/lucasms/shirt.svg
 shortcode: wstnc
 type: armorgear
 data:
+  icon: shirt
   templatePriority: 0
 sohl:
   craft:

@@ -4,10 +4,10 @@ name:
   full: Buckram Coat
   aliases: []
 description: "Stiff buckram coat offering durable, reliable outer protection."
-img: icons/game-icons/lucasms/shirt.svg
 shortcode: bcoat
 type: armorgear
 data:
+  icon: shirt
   templatePriority: 0
 sohl:
   craft:

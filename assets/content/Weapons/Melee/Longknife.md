@@ -4,10 +4,10 @@ name:
   full: Longknife
   aliases: []
 description: "Extended single-edged blade for close-quarters reach; soldier's secondary weapon."
-img: icons/game-icons/lorc/broadsword.svg
 shortcode: lkni
 type: weapongear
 data:
+  icon: broadsword
   templatePriority: 0
 sohl:
   craft:

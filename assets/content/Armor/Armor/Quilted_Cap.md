@@ -4,10 +4,10 @@ name:
   full: Quilted Cap
   aliases: []
 description: "Layered-fabric head-cover; light insulation for mild cold."
-img: icons/game-icons/delapouite/billed-cap.svg
 shortcode: qcap
 type: armorgear
 data:
+  icon: billedcap
   templatePriority: 0
 sohl:
   craft:

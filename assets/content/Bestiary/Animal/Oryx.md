@@ -1,16 +1,17 @@
 ---
 tags:
   - animal
+  - creature
   - image-needed
 name:
   full: Oryx
   aliases: []
 description: "A large, powerful desert antelope surviving the most barren arid wastes where no other large herbivore can endure."
-img: icons/game-icons/lorc/paw-print.svg
-portrait: images/being/oryx-portrait.webp
 shortcode: oryx
 type: being
 data:
+  icon: pawprint
+  portrait: oryx
   templatePriority: 0
 sohl:
   kbcat: animal

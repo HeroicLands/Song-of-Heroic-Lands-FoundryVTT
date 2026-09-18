@@ -4,10 +4,10 @@ name:
   full: Homespun Robe
   aliases: []
 description: "Simple homemade robe providing comfort and warmth for everyday."
-img: icons/game-icons/lorc/robe.svg
 shortcode: hsrobe
 type: armorgear
 data:
+  icon: robe
   templatePriority: 0
 sohl:
   craft:

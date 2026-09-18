@@ -4,10 +4,10 @@ name:
   full: Bronchitis
   aliases: []
 description: "Wet cough, fever, chest pain; inflames airways for weeks."
-img: icons/game-icons/lorc/virus.svg
 shortcode: brnchts
 type: affliction
 data:
+  icon: virus
   templatePriority: 0
 subType: disease
 sohl:

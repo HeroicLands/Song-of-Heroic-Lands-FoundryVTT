@@ -4,10 +4,10 @@ name:
   full: Serge Skirt
   aliases: []
 description: "Twilled serge skirt; practical, durable garment for various activities."
-img: icons/game-icons/delapouite/skirt.svg
 shortcode: sgskirt
 type: armorgear
 data:
+  icon: skirt
   templatePriority: 0
 sohl:
   craft:

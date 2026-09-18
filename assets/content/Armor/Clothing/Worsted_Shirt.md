@@ -4,10 +4,10 @@ name:
   full: Worsted Shirt
   aliases: []
 description: "Tightly-spun wool shirt; durable, practical garment for activities."
-img: icons/game-icons/lucasms/shirt.svg
 shortcode: wshirt
 type: armorgear
 data:
+  icon: shirt
   templatePriority: 0
 sohl:
   craft:

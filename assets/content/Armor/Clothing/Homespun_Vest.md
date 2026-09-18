@@ -4,10 +4,10 @@ name:
   full: Homespun Vest
   aliases: []
 description: "Simple homemade vest offering comfort and practical warmth."
-img: icons/game-icons/lorc/leather-vest.svg
 shortcode: hsvest
 type: armorgear
 data:
+  icon: leathervest
   templatePriority: 0
 sohl:
   craft:

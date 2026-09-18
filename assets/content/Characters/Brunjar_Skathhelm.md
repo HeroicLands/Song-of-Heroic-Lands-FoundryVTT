@@ -1,8 +1,6 @@
 ---
 tags:
-  - blackpine-wolves
-  - brigand
-  - vrystwald
+  - character
 name:
   full: Brunjár Skathhelm
   title: ""
@@ -11,10 +9,10 @@ name:
   aliases: []
 packFolder: pregens
 shortcode: brunjarskathhel
-img: icons/game-icons/delapouite/person.svg
-portrait: images/being/brunjarskathhel-portrait.webp
 type: being
 data:
+  icon: person
+  portrait: null
   templatePriority: null
   gender: male
   age: 22
@@ -31,12 +29,10 @@ data:
       - boyish face that makes him look younger than his years
       - fidgets constantly
 social:
-  occupation: Brigand
-  station: underworld
-  class: unfree
-  society: Varokh
-  organizations:
-    - blackpine-wolves
+  occupation: null
+  station: null
+  class: null
+  society: null
 sohl:
   kbcat: npc
   items:

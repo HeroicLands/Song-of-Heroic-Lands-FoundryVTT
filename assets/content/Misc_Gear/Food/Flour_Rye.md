@@ -5,10 +5,10 @@ name:
   full: "Flour, Rye"
   aliases: []
 description: "Coarse dark flour; staple for peasant bread, cheaper than wheat flour."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: flourrye
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

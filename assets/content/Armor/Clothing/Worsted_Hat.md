@@ -4,10 +4,10 @@ name:
   full: Worsted Hat
   aliases: []
 description: "Tightly-spun wool hat; durable, stylish head covering."
-img: icons/game-icons/lorc/pointy-hat.svg
 shortcode: what
 type: armorgear
 data:
+  icon: pointyhat
   templatePriority: 0
 sohl:
   craft:

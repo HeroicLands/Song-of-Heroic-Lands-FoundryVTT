@@ -5,10 +5,10 @@ name:
   full: "Drum, bass"
   aliases: []
 description: "Large oak-ash cylinder with ox-hide heads; deep boom signals maneuvers and cadence."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: drumbass
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

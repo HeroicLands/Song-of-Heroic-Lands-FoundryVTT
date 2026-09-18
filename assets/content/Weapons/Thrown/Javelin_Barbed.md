@@ -4,10 +4,10 @@ name:
   full: Javelin, Barbed
   aliases: []
 description: "Barbed leaf-shaped throw-spear; wounds and disrupt before close-quarters."
-img: icons/game-icons/lorc/spears.svg
 shortcode: barjav
 type: weapongear
 data:
+  icon: spears
   templatePriority: 0
 sohl:
   craft:

@@ -4,10 +4,10 @@ name:
   full: Quilted Longshirt
   aliases: []
 description: "Long stitched tunic; warmth and light padding for cold seasons."
-img: icons/game-icons/lucasms/shirt.svg
 shortcode: qlgsht
 type: armorgear
 data:
+  icon: shirt
   templatePriority: 0
 sohl:
   craft:

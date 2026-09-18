@@ -4,10 +4,10 @@ name:
   full: Whip, Teamster
   aliases: []
 description: "Short cord lash stinging rather than cutting; driver's incidental combat tool."
-img: icons/game-icons/lorc/whip.svg
 shortcode: twhp
 type: weapongear
 data:
+  icon: whip
   templatePriority: 0
 sohl:
   craft:

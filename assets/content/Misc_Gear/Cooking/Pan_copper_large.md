@@ -5,10 +5,10 @@ name:
   full: "Pan, copper, large"
   aliases: []
 description: "Wide tinned copper pan with iron handle; fries and sautés multiple portions."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: pancopperl
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

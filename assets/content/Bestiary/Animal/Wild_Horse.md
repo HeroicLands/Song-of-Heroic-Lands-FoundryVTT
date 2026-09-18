@@ -1,16 +1,17 @@
 ---
 tags:
   - animal
+  - creature
   - image-needed
 name:
   full: Wild Horse
   aliases: []
 description: "A stocky, powerful equine ancestor of domestic breeds, roaming the open steppe in bands with heavy bone and tireless endurance."
-img: icons/game-icons/delapouite/horse-head.svg
-portrait: images/being/wldhrs-portrait.webp
 shortcode: wldhrs
 type: being
 data:
+  icon: horsehead
+  portrait: wldhrs
   templatePriority: 0
 sohl:
   kbcat: animal

@@ -5,10 +5,10 @@ name:
   full: "Ball, leather"
   aliases: []
 description: "Cloth-core leather sphere; suits children's games and camp recreation safely."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: ballleathe
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

@@ -4,10 +4,10 @@ name:
   full: Cloth Trousers
   aliases: []
 description: "Simple cloth trousers offering comfort and warmth for everyday wear."
-img: icons/game-icons/lorc/trousers.svg
 shortcode: ctrsr
 type: armorgear
 data:
+  icon: trousers
   templatePriority: 0
 sohl:
   craft:

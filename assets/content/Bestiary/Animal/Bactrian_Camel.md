@@ -1,15 +1,16 @@
 ---
 tags:
   - animal
+  - creature
 name:
   full: Bactrian Camel
   aliases: []
 description: "A hardy, two-humped pack animal of remarkable endurance, carrying merchants and soldiers across frozen passes and bitter deserts."
-img: icons/game-icons/delapouite/camel-head.svg
-portrait: images/being/bctrncml-portrait.webp
 shortcode: bctrncml
 type: being
 data:
+  icon: camelhead
+  portrait: bctrncml
   templatePriority: 0
 sohl:
   kbcat: animal

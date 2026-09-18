@@ -5,10 +5,10 @@ name:
   full: "Horn, bone, hunting"
   aliases: []
 description: "Deer-antler or boar-tusk tapered tube; shrill note; low-cost, portable for common huntsmen."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: hornbonehu
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

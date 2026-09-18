@@ -4,10 +4,10 @@ name:
   full: Beaver Shirt
   aliases: []
 description: "Beaver fur shirt combining function and status for cold regions."
-img: icons/game-icons/lucasms/shirt.svg
 shortcode: bvshirt
 type: armorgear
 data:
+  icon: shirt
   templatePriority: 0
 sohl:
   craft:

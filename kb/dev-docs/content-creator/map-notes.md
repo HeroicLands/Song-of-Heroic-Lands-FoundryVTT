@@ -95,13 +95,13 @@ sohl:
     strongbox:
       position: [352, 96]
       size: [64, 64]
-      image: systems/sohl/assets/icons/other/chest.svg
+      image: sohl-none-icon-chest
 
   sounds:
     eaves:
       position: [256, 64]
       radius: 20 # DISTANCE UNITS
-      path: systems/sohl/assets/audio/swoosh1.ogg
+      audio: sohl-none-audio-swoosh1
       volume: 0.3
 
   regions:

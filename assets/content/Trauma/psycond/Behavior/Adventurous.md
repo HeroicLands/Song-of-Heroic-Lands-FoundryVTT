@@ -3,10 +3,10 @@ tags: []
 name:
   full: Adventurous
   aliases: []
-img: icons/game-icons/lorc/battle-gear.svg
 shortcode: advs
 type: trauma
 data:
+  icon: battlegear
   templatePriority: 0
 subType: psycond
 sohl:

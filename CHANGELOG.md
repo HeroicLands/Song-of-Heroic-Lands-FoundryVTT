@@ -2555,7 +2555,7 @@
   
   **Five default item and actor arts were among them**, so those types showed a
   black icon before anyone picked another: `skill` (`other/head-gear.svg`, the
-  default for 73 notes), `mystery` (`other/sparkles.svg`), `mysticalability`
+  default for 73 notes), `mystery`, `mysticalability`
   (`other/hand-sparkles.svg`), `attribute` (`other/user-gear.svg`), and
   `affiliation` with `cohort` (`other/people-group.svg`). The issue named four,
   one of which — `affliction` — has since moved to a Game-Icons default that

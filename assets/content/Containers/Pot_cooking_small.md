@@ -4,10 +4,10 @@ name:
   full: "Pot, cooking, small"
   aliases: []
 description: "Compact iron cookpot for travelers or small household portions."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: potcooking2
 type: containergear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

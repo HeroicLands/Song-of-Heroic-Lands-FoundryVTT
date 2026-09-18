@@ -3,10 +3,10 @@ tags: []
 name:
   full: Sensitive
   aliases: []
-img: icons/game-icons/lorc/battle-gear.svg
 shortcode: snstv
 type: trauma
 data:
+  icon: battlegear
   templatePriority: 0
 subType: psycond
 sohl:

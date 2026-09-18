@@ -4,10 +4,10 @@ name:
   full: Worsted Tunic
   aliases: []
 description: "Tightly-spun wool tunic; durable, practical garment for activities."
-img: icons/game-icons/lucasms/shirt.svg
 shortcode: wtunic
 type: armorgear
 data:
+  icon: shirt
   templatePriority: 0
 sohl:
   craft:

@@ -5,10 +5,10 @@ name:
   full: "Homespun, per sq yard"
   aliases: []
 description: "Unregulated flax cloth of linen weight, woven at the manor and sold by the cloth."
-img: icons/game-icons/lorc/rolled-cloth.svg
 shortcode: homespun
 type: miscgear
 data:
+  icon: rolledcloth
   templatePriority: 0
 sohl:
   craft:

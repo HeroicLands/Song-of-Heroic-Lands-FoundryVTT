@@ -1,15 +1,16 @@
 ---
 tags:
   - animal
+  - creature
 name:
   full: Mountain Lion
   aliases: []
 description: "A lean, muscular solitary cat six to eight feet long, built for explosive speed and agility as it hunts across mountains and wilderness."
-img: icons/game-icons/lorc/lion.svg
-portrait: images/being/mntnln-portrait.webp
 shortcode: mntnln
 type: being
 data:
+  icon: lion
+  portrait: mntnln
   templatePriority: 0
 sohl:
   kbcat: animal

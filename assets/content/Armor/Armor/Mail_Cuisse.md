@@ -4,10 +4,10 @@ name:
   full: Mail Cuisse
   aliases: []
 description: "Metal ring thigh protection offering flexibility and defense for soldiers."
-img: icons/game-icons/willdabeast/chain-mail.svg
 shortcode: mcui
 type: armorgear
 data:
+  icon: chainmail
   templatePriority: 0
 sohl:
   craft:

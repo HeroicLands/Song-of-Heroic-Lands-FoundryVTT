@@ -5,10 +5,10 @@ name:
   full: "Bell, tiny"
   aliases: []
 description: "Delicate brass bell; high thin tone; amulet or chamber summons."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: belltiny
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

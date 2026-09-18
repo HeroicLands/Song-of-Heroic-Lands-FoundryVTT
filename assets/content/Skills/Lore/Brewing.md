@@ -4,10 +4,10 @@ name:
   full: Brewing
   aliases: []
 description: "Producing ales, wines, meads from ingredients; managing fermentation and aging."
-img: icons/game-icons/delapouite/barrel.svg
 shortcode: brew
 type: skill
 data:
+  icon: barrel
   templatePriority: 0
 subType: lore
 sohl:

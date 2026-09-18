@@ -3,10 +3,10 @@ tags: []
 name:
   full: Herpetophobia
   aliases: []
-img: icons/game-icons/cathelineau/dread.svg
 shortcode: hrptphb
 type: trauma
 data:
+  icon: dread
   templatePriority: 0
 subType: fear
 sohl:

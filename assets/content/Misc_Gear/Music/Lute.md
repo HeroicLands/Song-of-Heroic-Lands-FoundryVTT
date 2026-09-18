@@ -5,10 +5,10 @@ name:
   full: Lute
   aliases: []
 description: "Pear-shaped body, pegged neck, gut strings; warm voice for intricate music."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: lute
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

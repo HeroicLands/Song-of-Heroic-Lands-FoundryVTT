@@ -4,10 +4,10 @@ name:
   full: Plate Halfhelm
   aliases: []
 description: "Steel helm covering crown and sides; exposes face for visibility."
-img: icons/game-icons/lorc/barbute.svg
 shortcode: plhhelm
 type: armorgear
 data:
+  icon: barbute
   templatePriority: 0
 sohl:
   craft:

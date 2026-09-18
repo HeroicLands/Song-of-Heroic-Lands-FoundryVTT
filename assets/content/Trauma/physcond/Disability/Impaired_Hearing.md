@@ -3,10 +3,10 @@ tags: []
 name:
   full: Impaired Hearing
   aliases: []
-img: icons/game-icons/lorc/battle-gear.svg
 shortcode: impaired
 type: trauma
 data:
+  icon: battlegear
   templatePriority: 0
 subType: physcond
 sohl:

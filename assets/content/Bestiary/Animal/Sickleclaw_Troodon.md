@@ -1,15 +1,16 @@
 ---
 tags:
   - animal
+  - creature
 name:
   full: Sickleclaw Troodon
   aliases: []
 description: "A small bipedal predator that overwhelms prey through stealth, patience, and terror rather than brute strength, stalking forests and ruins."
-img: icons/game-icons/lorc/dinosaur-rex.svg
-portrait: images/being/scklclwt-portrait.webp
 shortcode: scklclwt
 type: being
 data:
+  icon: dinosaurrex
+  portrait: scklclwt
   templatePriority: 0
 sohl:
   kbcat: animal

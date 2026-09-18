@@ -4,10 +4,10 @@ name:
   full: Linen Surcoat
   aliases: []
 description: "Light breathable outer layer suitable for warm weather casual wear."
-img: icons/game-icons/lucasms/shirt.svg
 shortcode: lscoat
 type: armorgear
 data:
+  icon: shirt
   templatePriority: 0
 sohl:
   craft:

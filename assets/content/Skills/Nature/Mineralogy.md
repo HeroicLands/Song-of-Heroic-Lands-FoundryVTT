@@ -4,10 +4,10 @@ name:
   full: Mineralogy
   aliases: []
 description: "Identifying minerals, ores, and deposits for mining and building projects."
-img: icons/game-icons/delapouite/miner.svg
 shortcode: mnrl
 type: skill
 data:
+  icon: miner
   templatePriority: 0
 subType: nature
 sohl:

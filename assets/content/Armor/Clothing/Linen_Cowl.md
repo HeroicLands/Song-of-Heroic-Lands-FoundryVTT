@@ -4,10 +4,10 @@ name:
   full: Linen Cowl
   aliases: []
 description: "Breathable head and shoulder covering providing sun protection without overheating."
-img: icons/game-icons/lorc/hood.svg
 shortcode: lcowl
 type: armorgear
 data:
+  icon: hood
   templatePriority: 0
 sohl:
   craft:

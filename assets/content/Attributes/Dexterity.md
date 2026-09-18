@@ -4,10 +4,10 @@ name:
   full: Dexterity
   aliases: []
 description: "Hand-and-eye coordination, steadiness of grip, and precision of touch."
-img: icons/game-icons/lorc/juggler.svg
 shortcode: dex
 type: attribute
 data:
+  icon: juggler
   templatePriority: 0
 sohl:
   system:

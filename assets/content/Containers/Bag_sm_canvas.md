@@ -4,10 +4,10 @@ name:
   full: Bag, sm, canvas
   aliases: []
 description: "Small lightweight canvas pouch for grain or spices."
-img: icons/game-icons/lorc/knapsack.svg
 shortcode: bgsmcvs
 type: containergear
 data:
+  icon: knapsack
   templatePriority: 0
 sohl:
   craft:

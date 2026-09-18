@@ -5,10 +5,10 @@ name:
   full: "Oil, Lamp"
   aliases: []
 description: "Animal fat or oil in clay-bronze reservoir; steady flame with twisted-flax wick."
-img: icons/game-icons/caro-asercion/round-potion.svg
 shortcode: oillamp
 type: miscgear
 data:
+  icon: roundpotion
   templatePriority: 0
 sohl:
   craft:

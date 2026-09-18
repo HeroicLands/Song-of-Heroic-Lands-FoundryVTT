@@ -5,10 +5,10 @@ name:
   full: "Milk, cow"
   aliases: []
 description: "Fresh dairy, curdles into cheese and butter by afternoon daily."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: milkcow
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

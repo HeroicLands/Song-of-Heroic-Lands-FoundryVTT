@@ -5,10 +5,10 @@ name:
   full: Duck
   aliases: []
 description: "Dark rich meat with fat layer; roasted whole, fat renders for cooking."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: duck
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

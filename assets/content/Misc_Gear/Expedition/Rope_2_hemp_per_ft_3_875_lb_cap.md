@@ -5,10 +5,10 @@ name:
   full: "Rope, 2” hemp, per ft (3,875 lb cap.)"
   aliases: []
 description: "Heavy three-strand hemp cable for oxen hauling and ship mainmast rigging."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: rope2hempp
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

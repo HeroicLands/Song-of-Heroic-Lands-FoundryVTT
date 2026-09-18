@@ -5,10 +5,10 @@ name:
   full: "Stone, Rough"
   aliases: []
 description: "Unsquared fieldstone blocks; cheap practical; barn walls, boundary fences."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: stonerough
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

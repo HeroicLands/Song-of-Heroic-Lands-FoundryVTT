@@ -4,10 +4,10 @@ name:
   full: Malaria
   aliases: []
 description: "Plasmodium parasite via mosquito; cyclical fever and chills; often fatal untreated."
-img: icons/game-icons/lorc/virus.svg
 shortcode: malaria
 type: affliction
 data:
+  icon: virus
   templatePriority: 0
 subType: disease
 sohl:

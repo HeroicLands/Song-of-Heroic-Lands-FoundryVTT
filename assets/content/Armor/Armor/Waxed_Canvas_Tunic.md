@@ -4,10 +4,10 @@ name:
   full: Waxed Canvas Tunic
   aliases: []
 description: "Waxed canvas tunic proofed against rain and sea spray."
-img: icons/game-icons/lucasms/shirt.svg
 shortcode: wxcvtunic
 type: armorgear
 data:
+  icon: shirt
   templatePriority: 0
 sohl:
   craft:

@@ -5,10 +5,10 @@ name:
   full: Mutton
   aliases: []
 description: "Dark meat of aging sheep, stronger than lamb, suits hearty dishes."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: mutton
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

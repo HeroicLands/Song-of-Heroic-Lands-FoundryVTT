@@ -4,10 +4,10 @@ name:
   full: Guile
   aliases: []
 description: "Deliberate deception; distorting facts while appearing truthful oneself."
-img: icons/game-icons/lorc/imp.svg
 shortcode: guil
 type: skill
 data:
+  icon: imp
   templatePriority: 0
 subType: social
 sohl:

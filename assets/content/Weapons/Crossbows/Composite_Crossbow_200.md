@@ -4,10 +4,10 @@ name:
   full: Composite Crossbow 200
   aliases: []
 description: "Two-hundred pound horn-and-sinew crossbow; siege crew wall-assault weapon."
-img: icons/game-icons/carl-olsen/crossbow.svg
 shortcode: ccxbw200
 type: weapongear
 data:
+  icon: crossbow
   templatePriority: 0
 sohl:
   craft:

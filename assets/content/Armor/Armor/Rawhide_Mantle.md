@@ -4,10 +4,10 @@ name:
   full: Rawhide Mantle
   aliases: []
 description: "Heavy hide cloak; harsh-weather outer layer."
-img: icons/game-icons/delapouite/cape.svg
 shortcode: rhmntl
 type: armorgear
 data:
+  icon: cape
   templatePriority: 0
 sohl:
   craft:

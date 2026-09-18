@@ -4,10 +4,10 @@ name:
   full: Russet Leggings
   aliases: []
 description: "Reddish-brown wool leg-covers; warmth for the lower body."
-img: icons/game-icons/lorc/trousers.svg
 shortcode: rleg
 type: armorgear
 data:
+  icon: trousers
   templatePriority: 0
 sohl:
   craft:

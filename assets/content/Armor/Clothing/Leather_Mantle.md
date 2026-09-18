@@ -4,10 +4,10 @@ name:
   full: Leather Mantle
   aliases: []
 description: "Rugged leather outer garment protecting against elements for travelers."
-img: icons/game-icons/delapouite/cape.svg
 shortcode: ltmntl
 type: armorgear
 data:
+  icon: cape
   templatePriority: 0
 sohl:
   craft:

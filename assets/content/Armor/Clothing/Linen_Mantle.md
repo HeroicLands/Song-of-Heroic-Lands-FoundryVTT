@@ -4,10 +4,10 @@ name:
   full: Linen Mantle
   aliases: []
 description: "Breathable outer layer providing sun protection without causing overheating."
-img: icons/game-icons/delapouite/cape.svg
 shortcode: lmntl
 type: armorgear
 data:
+  icon: cape
   templatePriority: 0
 sohl:
   craft:

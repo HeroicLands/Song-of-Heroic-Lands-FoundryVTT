@@ -136,7 +136,6 @@ packageBuild:
     assets:
         - { from: assets/audio, to: assets/audio }
         - { from: assets/icons, to: assets/icons }
-        - { from: assets/silhouette, to: assets/silhouette }
         - { from: assets/fonts, to: assets/fonts }
         - { from: assets/ui, to: assets/ui }
         - { from: lang, to: lang }

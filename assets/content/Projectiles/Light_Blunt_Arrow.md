@@ -6,10 +6,10 @@ name:
 description: "Light shaft with wooden knob or leather pad; squirrel, hare, bird hunting."
 type: projectilegear
 data:
+  icon: broadheadarrow
   templatePriority: 0
 subType: arrow
 shortcode: arwlblt
-img: icons/game-icons/lorc/broadhead-arrow.svg
 easyname: Light Blunt
 sohl:
   craft:

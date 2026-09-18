@@ -4,10 +4,10 @@ name:
   full: Worsted Trousers
   aliases: []
 description: "Tightly-spun wool trousers; warm, durable leg wear."
-img: icons/game-icons/lorc/trousers.svg
 shortcode: wtrsr
 type: armorgear
 data:
+  icon: trousers
   templatePriority: 0
 sohl:
   craft:

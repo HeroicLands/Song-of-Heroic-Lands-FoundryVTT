@@ -4,10 +4,10 @@ name:
   full: Waxed Canvas Cowl
   aliases: []
 description: "Waxed canvas cowl keeping rain off head and shoulders."
-img: icons/game-icons/lorc/hood.svg
 shortcode: wxcvcowl
 type: armorgear
 data:
+  icon: hood
   templatePriority: 0
 sohl:
   craft:

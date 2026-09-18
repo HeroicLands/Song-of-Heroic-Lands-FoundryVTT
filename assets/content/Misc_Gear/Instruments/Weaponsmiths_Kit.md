@@ -5,10 +5,10 @@ name:
   full: Weaponsmith's Kit
   aliases: []
 description: "Oiled leather roll with files, polishing stones, peening hammer, hilt drifts, grip wrap; weapon finishing and maintenance."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: wpnsmkit
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

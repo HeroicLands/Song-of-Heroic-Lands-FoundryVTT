@@ -5,10 +5,10 @@ name:
   full: "Limestone, powdered"
   aliases: []
 description: "White caustic powder; mortar, whitewash, soil acidity; kept sealed, handled cautiously."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: limestonep
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

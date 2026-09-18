@@ -5,10 +5,10 @@ name:
   full: "Earrings, horn"
   aliases: []
 description: "A matched pair, hooked or hung, in carved horn."
-img: icons/game-icons/lorc/gem-pendant.svg
 shortcode: earringshorn
 type: miscgear
 data:
+  icon: gempendant
   templatePriority: 0
 sohl:
   craft:

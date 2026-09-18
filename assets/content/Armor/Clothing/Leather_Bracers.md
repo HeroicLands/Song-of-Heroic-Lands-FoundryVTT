@@ -4,10 +4,10 @@ name:
   full: Leather Bracers
   aliases: []
 description: "Lightweight leather arm guards allowing full flexibility and movement."
-img: icons/game-icons/delapouite/bracer.svg
 shortcode: ltbrcr
 type: armorgear
 data:
+  icon: bracer
   templatePriority: 0
 sohl:
   craft:

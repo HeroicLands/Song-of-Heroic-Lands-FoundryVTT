@@ -5,10 +5,10 @@ name:
   full: Salmon
   aliases: []
 description: "Rich orange-fleshed river fish, firm and oily, smoked or salted."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: salmon
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

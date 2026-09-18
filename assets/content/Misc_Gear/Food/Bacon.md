@@ -5,10 +5,10 @@ name:
   full: Bacon
   aliases: []
 description: "Salt-cured pork belly cold-smoked; keeps through summer, enriches bread or pottage."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: bacon
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

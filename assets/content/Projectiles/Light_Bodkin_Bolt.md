@@ -6,10 +6,10 @@ name:
 description: "Light narrow shaft, small square spike; pierces light mail, flat trajectory."
 type: projectilegear
 data:
+  icon: broadheadarrow
   templatePriority: 0
 subType: bolt
 shortcode: bltlbod
-img: icons/game-icons/lorc/broadhead-arrow.svg
 easyname: Light Bodkin
 sohl:
   craft:

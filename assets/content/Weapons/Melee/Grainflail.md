@@ -4,10 +4,10 @@ name:
   full: Grainflail
   aliases: []
 description: "Threshing-floor flail for rapid unpredictable arc; militia's accessible reach."
-img: icons/game-icons/delapouite/flail.svg
 shortcode: grnfl
 type: weapongear
 data:
+  icon: flail
   templatePriority: 0
 sohl:
   craft:

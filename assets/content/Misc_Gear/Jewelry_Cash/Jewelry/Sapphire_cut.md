@@ -5,10 +5,10 @@ name:
   full: "Sapphire, cut"
   aliases: []
 description: "Brilliant deep-blue corundum; reserved for the highest nobility and clergy."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: sapphirecu
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

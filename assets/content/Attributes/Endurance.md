@@ -4,10 +4,10 @@ name:
   full: Endurance
   aliases: []
 description: "Stamina and constitutional health: hardship borne without collapse."
-img: icons/game-icons/caro-asercion/mountain-climbing.svg
 shortcode: end
 type: attribute
 data:
+  icon: mountainclimbing
   templatePriority: 0
 sohl:
   system:

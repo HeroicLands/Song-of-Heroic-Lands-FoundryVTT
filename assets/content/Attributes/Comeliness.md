@@ -4,10 +4,10 @@ name:
   full: Comeliness
   aliases: []
 description: "How far a person's physical form pleases the eye."
-img: icons/game-icons/lorc/charm.svg
 shortcode: cml
 type: attribute
 data:
+  icon: charm
   templatePriority: 0
 sohl:
   system:

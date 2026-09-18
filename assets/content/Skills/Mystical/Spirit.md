@@ -4,10 +4,10 @@ name:
   full: Spirit
   aliases: []
 description: "Innate strength of soul, deepened by discipline; what the spirit world is met with."
-img: icons/game-icons/lorc/psychic-waves.svg
 shortcode: spirit
 type: skill
 data:
+  icon: psychicwaves
   templatePriority: 0
 subType: mystical
 sohl:

@@ -4,10 +4,10 @@ name:
   full: Cloth Gloves
   aliases: []
 description: "Simple cloth gloves offering comfort and protection for everyday tasks."
-img: icons/game-icons/delapouite/gloves.svg
 shortcode: cglv
 type: armorgear
 data:
+  icon: gloves
   templatePriority: 0
 sohl:
   craft:

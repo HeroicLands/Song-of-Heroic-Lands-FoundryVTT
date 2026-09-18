@@ -4,10 +4,10 @@ name:
   full: Sledgehammer
   aliases: []
 description: "Massive twin-faced forge-hammer for breaching timber, stone, and mail."
-img: icons/game-icons/lorc/claw-hammer.svg
 shortcode: slghmr
 type: weapongear
 data:
+  icon: clawhammer
   templatePriority: 0
 sohl:
   craft:

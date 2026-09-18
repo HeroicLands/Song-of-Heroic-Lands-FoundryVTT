@@ -4,10 +4,10 @@ name:
   full: Cloth Breeches
   aliases: []
 description: "Soft cloth breeches offering everyday comfort for all wearers."
-img: icons/game-icons/lorc/trousers.svg
 shortcode: cbrch
 type: armorgear
 data:
+  icon: trousers
   templatePriority: 0
 sohl:
   craft:

@@ -3,10 +3,10 @@ tags: []
 name:
   full: Gamophobia
   aliases: []
-img: icons/game-icons/cathelineau/dread.svg
 shortcode: gamophb
 type: trauma
 data:
+  icon: dread
   templatePriority: 0
 subType: fear
 sohl:

@@ -5,10 +5,10 @@ name:
   full: "Brooch, bronze"
   aliases: []
 description: "A pin and catch worked into a plate, worn to fasten a cloak at the shoulder, in cast bronze."
-img: icons/game-icons/lorc/gem-pendant.svg
 shortcode: broochbronze
 type: miscgear
 data:
+  icon: gempendant
   templatePriority: 0
 sohl:
   craft:

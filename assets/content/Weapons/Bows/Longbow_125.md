@@ -4,10 +4,10 @@ name:
   full: Longbow 125
   aliases: []
 description: "Hundred-twenty-five pound warbow; recognized veteran archer's plate-piercer."
-img: icons/game-icons/lorc/pocket-bow.svg
 shortcode: lbw125
 type: weapongear
 data:
+  icon: pocketbow
   templatePriority: 0
 sohl:
   craft:

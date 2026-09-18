@@ -5,10 +5,10 @@ name:
   full: "Book, Travelling"
   aliases: []
 description: "Wooden-bound parchment workbook; scribes, sages, herbalists carry afield."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: booktrvl
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

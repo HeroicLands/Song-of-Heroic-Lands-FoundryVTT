@@ -6,10 +6,10 @@ name:
 description: "Iron-headed shaft the length of a leg; loosed by engine, not by arm."
 type: projectilegear
 data:
+  icon: barbedspear
   templatePriority: 0
 subType: bolt
 shortcode: bltsge
-img: icons/game-icons/lorc/barbed-spear.svg
 easyname: Ballista
 sohl:
   craft:

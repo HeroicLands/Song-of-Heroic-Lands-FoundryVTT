@@ -4,10 +4,10 @@ name:
   full: Wood Axe
   aliases: []
 description: "Heavy felling tool; slow-swinging militia arm pressed into service."
-img: icons/game-icons/lorc/battle-axe.svg
 shortcode: waxe
 type: weapongear
 data:
+  icon: battleaxe
   templatePriority: 0
 sohl:
   craft:

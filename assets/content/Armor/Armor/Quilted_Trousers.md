@@ -4,10 +4,10 @@ name:
   full: Quilted Trousers
   aliases: []
 description: "Layered quilted leg covering; warmth and light padding."
-img: icons/game-icons/lorc/trousers.svg
 shortcode: qtrsr
 type: armorgear
 data:
+  icon: trousers
   templatePriority: 0
 sohl:
   craft:

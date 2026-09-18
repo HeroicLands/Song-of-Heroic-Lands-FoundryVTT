@@ -1,15 +1,16 @@
 ---
 tags:
   - animal
+  - creature
 name:
   full: Viper
   aliases: []
 description: "A venomous ambush serpent, gram-for-gram among the deadliest creatures, killing prey larger than itself with precise, potent strikes."
-img: icons/game-icons/lorc/snake.svg
-portrait: images/being/viper-portrait.webp
 shortcode: viper
 type: being
 data:
+  icon: snake
+  portrait: viper
   templatePriority: 0
 sohl:
   kbcat: animal

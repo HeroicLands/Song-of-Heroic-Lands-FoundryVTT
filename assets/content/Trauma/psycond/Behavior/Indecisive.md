@@ -3,10 +3,10 @@ tags: []
 name:
   full: Indecisive
   aliases: []
-img: icons/game-icons/lorc/battle-gear.svg
 shortcode: indcsv
 type: trauma
 data:
+  icon: battlegear
   templatePriority: 0
 subType: psycond
 sohl:

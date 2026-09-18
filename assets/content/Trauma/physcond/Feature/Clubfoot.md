@@ -3,10 +3,10 @@ tags: []
 name:
   full: Clubfoot
   aliases: []
-img: icons/game-icons/lorc/battle-gear.svg
 shortcode: clubfoot
 type: trauma
 data:
+  icon: battlegear
   templatePriority: 0
 subType: physcond
 sohl:

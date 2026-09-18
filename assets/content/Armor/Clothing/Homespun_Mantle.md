@@ -4,10 +4,10 @@ name:
   full: Homespun Mantle
   aliases: []
 description: "Simple homemade mantle providing weather protection for folk."
-img: icons/game-icons/delapouite/cape.svg
 shortcode: hsmntl
 type: armorgear
 data:
+  icon: cape
   templatePriority: 0
 sohl:
   craft:

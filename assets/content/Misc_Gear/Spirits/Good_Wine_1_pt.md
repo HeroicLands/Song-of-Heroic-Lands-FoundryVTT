@@ -5,10 +5,10 @@ name:
   full: "Good Wine, 1 pt."
   aliases: []
 description: "Oak-aged fine wine in bottle; body and sweetness beyond common vintage."
-img: icons/game-icons/delapouite/wine-bottle.svg
 shortcode: gwinept
 type: miscgear
 data:
+  icon: winebottle
   templatePriority: 0
 sohl:
   craft:

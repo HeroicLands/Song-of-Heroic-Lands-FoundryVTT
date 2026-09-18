@@ -4,10 +4,10 @@ name:
   full: "Bottle, glass, medium"
   aliases: []
 description: "Hand-blown glass bottle for apothecary use and merchants."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: bottleglas2
 type: containergear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

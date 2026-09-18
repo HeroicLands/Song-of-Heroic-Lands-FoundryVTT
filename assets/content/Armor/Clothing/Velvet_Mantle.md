@@ -4,10 +4,10 @@ name:
   full: Velvet Mantle
   aliases: []
 description: "Soft plush velvet mantle; opulent garment for nobility and grandeur."
-img: icons/game-icons/delapouite/cape.svg
 shortcode: vmntl
 type: armorgear
 data:
+  icon: cape
   templatePriority: 0
 sohl:
   craft:

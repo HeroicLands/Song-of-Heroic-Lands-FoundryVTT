@@ -6,10 +6,10 @@ name:
 description: "Heavy shaft, square-sectioned spike; splits mail, dents breastplate close up."
 type: projectilegear
 data:
+  icon: broadheadarrow
   templatePriority: 0
 subType: bolt
 shortcode: blthbod
-img: icons/game-icons/lorc/broadhead-arrow.svg
 easyname: Heavy Bodkin
 sohl:
   craft:

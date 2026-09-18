@@ -4,10 +4,10 @@ name:
   full: Rawhide Cap
   aliases: []
 description: "Thick hide cap; durable head-cover for tough work."
-img: icons/game-icons/delapouite/billed-cap.svg
 shortcode: rhcap
 type: armorgear
 data:
+  icon: billedcap
   templatePriority: 0
 sohl:
   craft:

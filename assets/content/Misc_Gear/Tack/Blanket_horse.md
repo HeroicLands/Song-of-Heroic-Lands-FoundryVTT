@@ -5,10 +5,10 @@ name:
   full: "Blanket, horse"
   aliases: []
 description: "Coarse woven blanket for a horse, under saddle or against the cold."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: blankethorse
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

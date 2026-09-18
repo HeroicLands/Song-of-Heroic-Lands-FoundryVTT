@@ -4,10 +4,10 @@ name:
   full: Serge Shirt
   aliases: []
 description: "Twilled serge shirt; practical, versatile garment for various activities."
-img: icons/game-icons/lucasms/shirt.svg
 shortcode: sgshirt
 type: armorgear
 data:
+  icon: shirt
   templatePriority: 0
 sohl:
   craft:

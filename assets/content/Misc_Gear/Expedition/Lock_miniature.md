@@ -5,10 +5,10 @@ name:
   full: "Lock, miniature"
   aliases: []
 description: "Finger-length iron lock for jewelry boxes and caskets; master locksmith's fine craft."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: lockminiat
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

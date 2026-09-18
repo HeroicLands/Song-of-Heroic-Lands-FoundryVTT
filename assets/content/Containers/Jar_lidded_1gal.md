@@ -4,10 +4,10 @@ name:
   full: "Jar, lidded, 1 gallon"
   aliases: []
 description: "Stoneware jar with fitted lid for dried goods and seasonal preserves (1 gallon)."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: jarliddedl
 type: containergear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

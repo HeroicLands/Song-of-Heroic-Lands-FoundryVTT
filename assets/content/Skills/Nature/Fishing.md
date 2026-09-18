@@ -4,10 +4,10 @@ name:
   full: Fishing
   aliases: []
 description: "Catching fish using hooks, nets, spears; adapting to local conditions."
-img: icons/game-icons/delapouite/fishing.svg
 shortcode: fish
 type: skill
 data:
+  icon: fishing
   templatePriority: 0
 subType: nature
 sohl:

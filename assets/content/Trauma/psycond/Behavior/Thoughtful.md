@@ -3,10 +3,10 @@ tags: []
 name:
   full: Thoughtful
   aliases: []
-img: icons/game-icons/lorc/battle-gear.svg
 shortcode: thghtfl
 type: trauma
 data:
+  icon: battlegear
   templatePriority: 0
 subType: psycond
 sohl:

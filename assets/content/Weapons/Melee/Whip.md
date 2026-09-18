@@ -4,10 +4,10 @@ name:
   full: Whip
   aliases: []
 description: "Leather lash reaching beyond guard; reaches, entangles, intimidates and wounds."
-img: icons/game-icons/lorc/whip.svg
 shortcode: whp
 type: weapongear
 data:
+  icon: whip
   templatePriority: 0
 sohl:
   craft:

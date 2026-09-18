@@ -5,10 +5,10 @@ name:
   full: Grimoire
   aliases: []
 description: "Leather-bound vellum tome for spells, catalogs, heraldry, scripture."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: grimoire
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

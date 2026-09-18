@@ -4,10 +4,10 @@ name:
   full: Mail Cowl
   aliases: []
 description: "Metal ring head and neck armor providing substantial combat protection."
-img: icons/game-icons/lorc/hood.svg
 shortcode: mcwl
 type: armorgear
 data:
+  icon: hood
   templatePriority: 0
 sohl:
   craft:

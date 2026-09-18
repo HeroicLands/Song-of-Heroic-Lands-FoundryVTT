@@ -4,10 +4,10 @@ name:
   full: Law
   aliases: []
 description: "Knowledge of legal codes, customs, judicial procedures, guild regulations."
-img: icons/game-icons/lorc/scales.svg
 shortcode: law
 type: skill
 data:
+  icon: scales
   templatePriority: 0
 subType: lore
 sohl:

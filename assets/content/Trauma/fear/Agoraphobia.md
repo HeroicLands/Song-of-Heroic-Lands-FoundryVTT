@@ -3,10 +3,10 @@ tags: []
 name:
   full: Agoraphobia
   aliases: []
-img: icons/game-icons/cathelineau/dread.svg
 shortcode: agorphb
 type: trauma
 data:
+  icon: dread
   templatePriority: 0
 subType: fear
 sohl:

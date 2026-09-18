@@ -4,10 +4,10 @@ name:
   full: Buckram Cap
   aliases: []
 description: "Stiff buckram cap holding shape well; durable and reliable headwear."
-img: icons/game-icons/delapouite/billed-cap.svg
 shortcode: bcap
 type: armorgear
 data:
+  icon: billedcap
   templatePriority: 0
 sohl:
   craft:

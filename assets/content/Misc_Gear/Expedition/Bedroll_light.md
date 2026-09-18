@@ -5,10 +5,10 @@ name:
   full: Bedroll, light
   aliases: []
 description: "Compact quilted linen bedroll with fleece; portable for mild seasons."
-img: icons/game-icons/delapouite/sleeping-bag.svg
 shortcode: litebdrl
 type: miscgear
 data:
+  icon: sleepingbag
   templatePriority: 0
 sohl:
   craft:

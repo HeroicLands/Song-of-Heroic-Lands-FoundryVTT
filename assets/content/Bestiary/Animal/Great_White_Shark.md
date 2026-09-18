@@ -1,15 +1,16 @@
 ---
 tags:
   - animal
+  - creature
 name:
   full: Great White Shark
   aliases: []
 description: "An apex ocean predator exceeding twenty feet and several tons, a solitary killing machine that patrols deep and shallow waters unchanged for millions of years."
-img: icons/game-icons/lorc/shark-jaws.svg
-portrait: images/being/grtwhtsh-portrait.webp
 shortcode: grtwhtsh
 type: being
 data:
+  icon: sharkjaws
+  portrait: grtwhtsh
   templatePriority: 0
 sohl:
   kbcat: animal

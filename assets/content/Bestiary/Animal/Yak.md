@@ -1,16 +1,17 @@
 ---
 tags:
   - animal
+  - creature
   - image-needed
 name:
   full: Yak
   aliases: []
 description: "A massive, cold-adapted highland bovine providing milk, transport, and survival to mountain peoples amid the harshest peaks."
-img: icons/game-icons/delapouite/bison.svg
-portrait: images/being/yak-portrait.webp
 shortcode: yak
 type: being
 data:
+  icon: bison
+  portrait: yak
   templatePriority: 0
 sohl:
   kbcat: animal

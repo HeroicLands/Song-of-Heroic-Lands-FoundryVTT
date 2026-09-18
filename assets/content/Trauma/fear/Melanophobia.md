@@ -3,10 +3,10 @@ tags: []
 name:
   full: Melanophobia
   aliases: []
-img: icons/game-icons/cathelineau/dread.svg
 shortcode: mlnphb
 type: trauma
 data:
+  icon: dread
   templatePriority: 0
 subType: fear
 sohl:

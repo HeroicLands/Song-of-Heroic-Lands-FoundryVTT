@@ -4,10 +4,10 @@ name:
   full: Pitchfork
   aliases: []
 description: "Farm prong-fork for thrusting and binding; levy's accessible polearm."
-img: icons/game-icons/delapouite/pitchfork.svg
 shortcode: pfrk
 type: weapongear
 data:
+  icon: pitchfork
   templatePriority: 0
 sohl:
   craft:

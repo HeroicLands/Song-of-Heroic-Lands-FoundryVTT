@@ -4,10 +4,10 @@ name:
   full: Buckram Swaddle
   aliases: []
 description: "Stiff buckram swaddle offering sturdy rigid infant wrapping."
-img: icons/game-icons/lorc/trousers.svg
 shortcode: bswd
 type: armorgear
 data:
+  icon: trousers
   templatePriority: 0
 sohl:
   craft:

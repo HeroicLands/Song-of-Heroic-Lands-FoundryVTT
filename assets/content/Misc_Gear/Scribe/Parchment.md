@@ -5,10 +5,10 @@ name:
   full: Parchment
   aliases: []
 description: "Sheepskin stretched, chalked, pumiced; durable centuries, preferred for records."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: parchment
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

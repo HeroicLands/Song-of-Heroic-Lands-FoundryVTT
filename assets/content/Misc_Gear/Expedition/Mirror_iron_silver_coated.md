@@ -5,10 +5,10 @@ name:
   full: "Mirror, iron, silver-coated"
   aliases: []
 description: "Iron mirror backed with silver; superior reflection for noble and field use."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: mirroriron
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

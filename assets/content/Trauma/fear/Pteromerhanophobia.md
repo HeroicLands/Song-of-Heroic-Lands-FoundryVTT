@@ -3,10 +3,10 @@ tags: []
 name:
   full: Pteromerhanophobia
   aliases: []
-img: icons/game-icons/cathelineau/dread.svg
 shortcode: pteromer
 type: trauma
 data:
+  icon: dread
   templatePriority: 0
 subType: fear
 sohl:

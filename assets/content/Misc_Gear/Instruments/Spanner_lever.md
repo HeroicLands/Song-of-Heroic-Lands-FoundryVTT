@@ -5,10 +5,10 @@ name:
   full: "Spanner, lever"
   aliases: []
 description: "Hinged iron lever for spanning a heavy crossbow; multiplies draw fivefold."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: spannerlever
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

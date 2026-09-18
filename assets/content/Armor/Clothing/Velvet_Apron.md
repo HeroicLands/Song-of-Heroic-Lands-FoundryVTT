@@ -4,10 +4,10 @@ name:
   full: Velvet Apron
   aliases: []
 description: "Plush velvet apron; opulent status symbol for formal settings."
-img: icons/game-icons/delapouite/cook.svg
 shortcode: vapn
 type: armorgear
 data:
+  icon: cook
   templatePriority: 0
 sohl:
   craft:

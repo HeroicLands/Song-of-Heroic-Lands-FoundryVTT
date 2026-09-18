@@ -3,10 +3,10 @@ tags: []
 name:
   full: Innovative
   aliases: []
-img: icons/game-icons/lorc/battle-gear.svg
 shortcode: innvtv
 type: trauma
 data:
+  icon: battlegear
   templatePriority: 0
 subType: psycond
 sohl:

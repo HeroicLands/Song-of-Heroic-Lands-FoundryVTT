@@ -5,10 +5,10 @@ name:
   full: "Necklace, bronze"
   aliases: []
 description: "Heavy bronze torc or chain; hard-wearing, and old among the tribal peoples."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: necklacebronze
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

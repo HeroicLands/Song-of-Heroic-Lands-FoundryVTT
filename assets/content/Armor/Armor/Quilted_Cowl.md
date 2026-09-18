@@ -4,10 +4,10 @@ name:
   full: Quilted Cowl
   aliases: []
 description: "Padded head-and-shoulder cover; light-duty warmth."
-img: icons/game-icons/lorc/hood.svg
 shortcode: qcwl
 type: armorgear
 data:
+  icon: hood
   templatePriority: 0
 sohl:
   craft:

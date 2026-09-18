@@ -5,10 +5,10 @@ name:
   full: "Amulet, bronze"
   aliases: []
 description: "Cast bronze charm-pendant; hard-wearing, and old ones are common heirlooms."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: amuletbronze
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

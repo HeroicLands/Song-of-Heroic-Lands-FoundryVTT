@@ -4,10 +4,10 @@ name:
   full: Club, Improvised
   aliases: []
 description: "Branch or timber wrenched to hand; widow-maker of necessity."
-img: icons/game-icons/badges/club.svg
 shortcode: clbimp
 type: weapongear
 data:
+  icon: club
   templatePriority: 0
 sohl:
   craft:

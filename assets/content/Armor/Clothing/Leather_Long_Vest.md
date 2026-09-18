@@ -4,10 +4,10 @@ name:
   full: Leather Long Vest
   aliases: []
 description: "Stylish leather outer layer providing minimal protection for everyday wear."
-img: icons/game-icons/delapouite/leather-armor.svg
 shortcode: ltlngvst
 type: armorgear
 data:
+  icon: leatherarmor
   templatePriority: 0
 sohl:
   craft:

@@ -4,10 +4,10 @@ name:
   full: Silk Coat
   aliases: []
 description: "Elegant silk coat; luxurious garment for formal events and occasions."
-img: icons/game-icons/lucasms/shirt.svg
 shortcode: slkcoat
 type: armorgear
 data:
+  icon: shirt
   templatePriority: 0
 sohl:
   craft:

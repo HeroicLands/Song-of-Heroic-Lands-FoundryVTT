@@ -4,10 +4,10 @@ name:
   full: Hemlock
   aliases: []
 description: "Toxic alkaloid plant; muscle paralysis progressing from extremities; respiratory failure."
-img: icons/game-icons/lorc/poison-bottle.svg
 shortcode: hemlock
 type: affliction
 data:
+  icon: poisonbottle
   templatePriority: 0
 subType: poisontoxin
 sohl:

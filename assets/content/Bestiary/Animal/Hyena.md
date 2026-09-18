@@ -1,15 +1,16 @@
 ---
 tags:
   - animal
+  - creature
 name:
   full: Hyena
   aliases: []
 description: "A muscular, endurance-built carnivore with a distinctive sloping back, weighing up to a hundred and sixty pounds and marked by a unique mottled coat."
-img: icons/game-icons/lorc/paw-print.svg
-portrait: images/being/hyena-portrait.webp
 shortcode: hyena
 type: being
 data:
+  icon: pawprint
+  portrait: hyena
   templatePriority: 0
 sohl:
   kbcat: animal

@@ -4,10 +4,10 @@ name:
   full: Musician
   aliases: []
 description: "Playing various instruments with technical facility and musical interpretation."
-img: icons/game-icons/delapouite/harp.svg
 shortcode: musc
 type: skill
 data:
+  icon: harp
   templatePriority: 0
 subType: craft
 sohl:

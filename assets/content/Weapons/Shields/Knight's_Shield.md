@@ -4,10 +4,10 @@ name:
   full: Knight's Shield
   aliases: []
 description: "Heater-shield painted with heraldic coat; nobleman's marked defense."
-img: icons/game-icons/badges/shield.svg
 shortcode: knsh
 type: weapongear
 data:
+  icon: shieldbdg
   templatePriority: 0
 sohl:
   craft:

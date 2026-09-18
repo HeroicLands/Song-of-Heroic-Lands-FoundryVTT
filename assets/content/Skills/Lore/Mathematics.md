@@ -4,10 +4,10 @@ name:
   full: Mathematics
   aliases: []
 description: "Numerical calculation, geometry, and reasoning for engineering and commerce."
-img: icons/game-icons/delapouite/abacus.svg
 shortcode: math
 type: skill
 data:
+  icon: abacus
   templatePriority: 0
 subType: lore
 sohl:

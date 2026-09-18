@@ -5,10 +5,10 @@ name:
   full: "Mead, Keg"
   aliases: []
 description: "Honey-fermented mead; poor lord's luxury; warmed in winter, poured at feasts."
-img: icons/game-icons/lorc/beer-stein.svg
 shortcode: mdkeg
 type: miscgear
 data:
+  icon: beerstein
   templatePriority: 0
 sohl:
   craft:

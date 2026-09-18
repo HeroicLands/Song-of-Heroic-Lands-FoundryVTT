@@ -4,10 +4,10 @@ name:
   full: Command
   aliases: []
 description: "Compelling obedience through authority, intimidation, and commanding presence."
-img: icons/game-icons/lorc/conversation.svg
 shortcode: cmd
 type: skill
 data:
+  icon: conversation
   templatePriority: 0
 subType: social
 sohl:

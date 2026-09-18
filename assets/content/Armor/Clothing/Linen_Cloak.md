@@ -4,10 +4,10 @@ name:
   full: Linen Cloak
   aliases: []
 description: "Breathable outer garment protecting from sun without causing overheating."
-img: icons/game-icons/lucasms/cloak.svg
 shortcode: lclk
 type: armorgear
 data:
+  icon: cloak
   templatePriority: 0
 sohl:
   craft:

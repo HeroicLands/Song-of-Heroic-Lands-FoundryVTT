@@ -5,10 +5,10 @@ name:
   full: "Plate, pewter"
   aliases: []
 description: "Flat pewter plate for daily household or tavern meals and service."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: platepewte
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

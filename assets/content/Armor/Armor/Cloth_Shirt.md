@@ -4,10 +4,10 @@ name:
   full: Cloth Shirt
   aliases: []
 description: "Simple cloth shirt offering basic comfort and everyday coverage."
-img: icons/game-icons/lucasms/shirt.svg
 shortcode: cshirt
 type: armorgear
 data:
+  icon: shirt
   templatePriority: 0
 sohl:
   craft:

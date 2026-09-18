@@ -5,10 +5,10 @@ name:
   full: "Tent, Military"
   aliases: []
 description: "Rectangular pavilion for squads or command posts; requires wagon to haul."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: tentmilita
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

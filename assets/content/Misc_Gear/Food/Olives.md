@@ -5,10 +5,10 @@ name:
   full: Olives
   aliases: []
 description: "Pickled brined relish, luxury trade good, keeps indefinitely under brine."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: olives
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

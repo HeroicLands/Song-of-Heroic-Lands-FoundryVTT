@@ -5,10 +5,10 @@ name:
   full: "Hide, Elk"
   aliases: []
 description: "Thick durable elk hide; heavy leather for armor backing and saddles. Price is for one whole skin."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: hideelk
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

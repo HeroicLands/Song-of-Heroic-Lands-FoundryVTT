@@ -3,10 +3,10 @@ tags: []
 name:
   full: Team-oriented
   aliases: []
-img: icons/game-icons/lorc/battle-gear.svg
 shortcode: tmrntd
 type: trauma
 data:
+  icon: battlegear
   templatePriority: 0
 subType: psycond
 sohl:

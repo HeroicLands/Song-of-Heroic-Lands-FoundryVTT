@@ -3,10 +3,10 @@ tags: []
 name:
   full: Muteness
   aliases: []
-img: icons/game-icons/lorc/battle-gear.svg
 shortcode: muteness
 type: trauma
 data:
+  icon: battlegear
   templatePriority: 0
 subType: physcond
 sohl:

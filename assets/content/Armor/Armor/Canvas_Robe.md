@@ -4,10 +4,10 @@ name:
   full: Canvas Robe
   aliases: []
 description: "Full-length canvas robe favouring durability over comfort."
-img: icons/game-icons/lorc/robe.svg
 shortcode: cvrobe
 type: armorgear
 data:
+  icon: robe
   templatePriority: 0
 sohl:
   craft:

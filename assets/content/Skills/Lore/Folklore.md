@@ -4,10 +4,10 @@ name:
   full: Folklore
   aliases: []
 description: "Knowledge of homeland culture, history, traditions, myth and social customs."
-img: icons/game-icons/delapouite/unicorn.svg
 shortcode: folklr
 type: skill
 data:
+  icon: unicorn
   templatePriority: 0
 subType: lore
 sohl:

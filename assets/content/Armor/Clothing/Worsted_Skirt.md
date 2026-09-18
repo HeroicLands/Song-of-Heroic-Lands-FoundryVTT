@@ -4,10 +4,10 @@ name:
   full: Worsted Skirt
   aliases: []
 description: "Tightly-spun wool skirt; durable, practical versatile garment."
-img: icons/game-icons/delapouite/skirt.svg
 shortcode: wskirt
 type: armorgear
 data:
+  icon: skirt
   templatePriority: 0
 sohl:
   craft:

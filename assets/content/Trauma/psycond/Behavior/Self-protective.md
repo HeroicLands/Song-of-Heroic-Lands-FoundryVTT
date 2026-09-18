@@ -3,10 +3,10 @@ tags: []
 name:
   full: Self-protective
   aliases: []
-img: icons/game-icons/lorc/battle-gear.svg
 shortcode: selfpro
 type: trauma
 data:
+  icon: battlegear
   templatePriority: 0
 subType: psycond
 sohl:

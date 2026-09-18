@@ -31,6 +31,16 @@ const {
 } = foundry.data.fields;
 
 /**
+ * The art a being falls back to when it names none of its own.
+ *
+ * Foundry offers CONST.DEFAULT_TOKEN, a core mystery-man silhouette that says
+ * nothing about the setting. This is the same idea in SoHL art, and it is a
+ * head rather than a full figure because the places it shows are small: the
+ * directory listing and the upper left of the sheet.
+ */
+const DEFAULT_BEING_ART = "systems/sohl/assets/icons/other/defaultcharhead.webp";
+
+/**
  * Builds the base actor data schema (portrait, appearance, dossier).
  * @returns The base actor data schema.
  */
@@ -39,7 +49,7 @@ function defineSohlActorDataSchema(): foundry.data.fields.DataSchema {
         ...defineSohlDataSchema(),
         portrait: new FilePathField({
             categories: ["IMAGE"],
-            initial: foundry.CONST.DEFAULT_TOKEN,
+            initial: DEFAULT_BEING_ART,
         }),
         appearance: new HTMLField(),
         dossier: new HTMLField(),

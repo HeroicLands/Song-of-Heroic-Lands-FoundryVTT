@@ -1,15 +1,16 @@
 ---
 tags:
   - animal
+  - creature
 name:
   full: Wild Boar
   aliases: []
 description: "A heavily muscled, stocky ungulate of temperate forests, ferociously territorial and dangerous when cornered or defending its ground."
-img: icons/game-icons/caro-asercion/boar.svg
-portrait: images/being/wildboar-portrait.webp
 shortcode: wildboar
 type: being
 data:
+  icon: boar
+  portrait: wildboar
   templatePriority: 0
 sohl:
   kbcat: animal

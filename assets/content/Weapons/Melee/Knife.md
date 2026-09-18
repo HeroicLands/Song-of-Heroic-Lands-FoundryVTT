@@ -4,10 +4,10 @@ name:
   full: Knife
   aliases: []
 description: "Single-edged blade for camp work and brawl alike."
-img: icons/game-icons/lorc/plain-dagger.svg
 shortcode: kni
 type: weapongear
 data:
+  icon: plaindagger
   templatePriority: 0
 sohl:
   craft:

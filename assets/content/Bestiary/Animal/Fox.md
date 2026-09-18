@@ -1,15 +1,16 @@
 ---
 tags:
   - animal
+  - creature
 name:
   full: Fox
   aliases: []
 description: "A small, cunning solitary carnivore of forests and settlement margins, notorious for raiding coops and outwitting traps and hounds."
-img: icons/game-icons/caro-asercion/fox.svg
-portrait: images/being/fox-portrait.webp
 shortcode: fox
 type: being
 data:
+  icon: fox
+  portrait: fox
   templatePriority: 0
 sohl:
   kbcat: animal

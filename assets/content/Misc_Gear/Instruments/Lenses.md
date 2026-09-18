@@ -5,10 +5,10 @@ name:
   full: "Lenses"
   aliases: []
 description: "Ground and polished glass lenses for magnification; costly and fragile."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: lenses
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

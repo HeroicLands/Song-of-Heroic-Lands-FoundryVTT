@@ -3,10 +3,10 @@ tags: []
 name:
   full: Focused
   aliases: []
-img: icons/game-icons/lorc/battle-gear.svg
 shortcode: focused
 type: trauma
 data:
+  icon: battlegear
   templatePriority: 0
 subType: psycond
 sohl:

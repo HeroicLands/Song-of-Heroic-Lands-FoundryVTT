@@ -4,10 +4,10 @@ name:
   full: Linen Dress
   aliases: []
 description: "Light breathable torso garment perfect for warm weather activities."
-img: icons/game-icons/skoll/dress.svg
 shortcode: ldress
 type: armorgear
 data:
+  icon: dress
   templatePriority: 0
 sohl:
   craft:

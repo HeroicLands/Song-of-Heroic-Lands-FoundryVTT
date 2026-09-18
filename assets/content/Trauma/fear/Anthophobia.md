@@ -3,10 +3,10 @@ tags: []
 name:
   full: Anthophobia
   aliases: []
-img: icons/game-icons/cathelineau/dread.svg
 shortcode: anthphb
 type: trauma
 data:
+  icon: dread
   templatePriority: 0
 subType: fear
 sohl:

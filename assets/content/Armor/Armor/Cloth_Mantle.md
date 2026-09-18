@@ -4,10 +4,10 @@ name:
   full: Cloth Mantle
   aliases: []
 description: "Simple cloth mantle offering comfort and warmth for everyday wear."
-img: icons/game-icons/delapouite/cape.svg
 shortcode: cmntl
 type: armorgear
 data:
+  icon: cape
   templatePriority: 0
 sohl:
   craft:

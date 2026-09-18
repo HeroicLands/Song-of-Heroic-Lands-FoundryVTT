@@ -4,10 +4,10 @@ name:
   full: "Sack, waxed canvas, sm"
   aliases: []
 description: "Small waxed canvas sack; keeps the wet out."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: sackwcsm
 type: containergear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

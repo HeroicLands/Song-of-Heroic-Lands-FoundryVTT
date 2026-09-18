@@ -1,5 +1,6 @@
 ---
-tags: []
+tags:
+  - character
 name:
   full: Basic Folk
   title: ""
@@ -9,10 +10,10 @@ name:
   home: ""
 packFolder: archetypes
 shortcode: basicfolk
-img: icons/game-icons/delapouite/person.svg
-portrait: images/being/basicfolk-portrait.webp
 type: being
 data:
+  icon: person
+  portrait: null
   templatePriority: 1
   gender: male
   age: 20
@@ -27,10 +28,10 @@ data:
     complexion: fair
     extra_features: []
 social:
-  occupation: ""
-  station: ""
-  class: ""
-  society: ""
+  occupation: null
+  station: null
+  class: null
+  society: null
 sohl:
   kbcat: archetype
   items:

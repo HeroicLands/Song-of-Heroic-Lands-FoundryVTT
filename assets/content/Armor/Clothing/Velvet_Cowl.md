@@ -4,10 +4,10 @@ name:
   full: Velvet Cowl
   aliases: []
 description: "Soft plush velvet cowl; elegant, luxury garment for formal occasions."
-img: icons/game-icons/lorc/hood.svg
 shortcode: vcowl
 type: armorgear
 data:
+  icon: hood
   templatePriority: 0
 sohl:
   craft:

@@ -1,15 +1,16 @@
 ---
 tags:
   - animal
+  - creature
 name:
   full: Charger
   aliases: []
 description: "A powerful warhorse bred and trained for battle, conditioned to endure noise, blood, and violence while carrying an armored rider into the fray."
-img: icons/game-icons/delapouite/horse-head.svg
-portrait: images/being/charger-portrait.webp
 shortcode: charger
 type: being
 data:
+  icon: horsehead
+  portrait: charger
   templatePriority: 0
 sohl:
   kbcat: animal

@@ -4,10 +4,10 @@ name:
   full: Battlesword
   aliases: []
 description: "Broad heavy blade for mounted sweeping cuts; pitched-field workhorse."
-img: icons/game-icons/lorc/broadsword.svg
 shortcode: batlswd
 type: weapongear
 data:
+  icon: broadsword
   templatePriority: 0
 sohl:
   craft:

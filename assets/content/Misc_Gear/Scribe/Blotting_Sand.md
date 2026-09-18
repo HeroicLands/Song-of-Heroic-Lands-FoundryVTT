@@ -6,10 +6,10 @@ name:
   aliases:
     - Drying Sand
 description: "Fine sand scattered over wet ink; absorbs moisture, prevents smudging."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: blotsand
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

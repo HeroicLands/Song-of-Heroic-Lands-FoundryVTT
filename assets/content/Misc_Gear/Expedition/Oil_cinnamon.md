@@ -5,10 +5,10 @@ name:
   full: "Oil, cinnamon"
   aliases: []
 description: "Distilled cinnamon oil; a costly perfumery base and a medicine."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: oilcinnamon
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

@@ -4,10 +4,10 @@ name:
   full: Melee Fighting
   aliases: []
 description: "Acute windedness from armed close combat."
-img: icons/game-icons/lorc/sleepy.svg
 shortcode: fight
 type: trauma
 data:
+  icon: sleepy
   templatePriority: 0
 subType: fatigue
 sohl:

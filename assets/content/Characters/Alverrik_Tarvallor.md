@@ -1,5 +1,6 @@
 ---
-tags: []
+tags:
+  - character
 name:
   full: Álverrik Tárvallor
   title: ""
@@ -10,10 +11,10 @@ name:
     - Roran Stonefist
 packFolder: pregens
 shortcode: alverriktarvall
-img: icons/game-icons/delapouite/person.svg
-portrait: images/being/alverriktarvall-portrait.webp
 type: being
 data:
+  icon: person
+  portrait: null
   templatePriority: null
   gender: male
   age: 30
@@ -29,10 +30,10 @@ data:
     extra_features:
       - a scar on the left shoulder
 social:
-  occupation: Caravan Guard
-  station: soldiery
-  class: freeman
-  society: Tarvénan
+  occupation: null
+  station: null
+  class: null
+  society: null
 gear:
   weapons:
     - Heavy mace

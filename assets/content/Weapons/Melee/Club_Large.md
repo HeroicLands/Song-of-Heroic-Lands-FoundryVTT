@@ -4,10 +4,10 @@ name:
   full: Club, Large
   aliases: []
 description: "Two-handed wooden bludgeon for shattering shields; giant's breach weapon."
-img: icons/game-icons/badges/club.svg
 shortcode: clblg
 type: weapongear
 data:
+  icon: club
   templatePriority: 0
 sohl:
   craft:

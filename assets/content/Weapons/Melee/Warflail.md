@@ -4,10 +4,10 @@ name:
   full: Warflail
   aliases: []
 description: "Spiked chain-joined heads bypassing guard; armor-defeating reach for professionals."
-img: icons/game-icons/delapouite/flail.svg
 shortcode: wfl
 type: weapongear
 data:
+  icon: flail
   templatePriority: 0
 sohl:
   craft:

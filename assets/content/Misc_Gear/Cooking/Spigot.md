@@ -5,10 +5,10 @@ name:
   full: Spigot
   aliases: []
 description: "Wooden or bronze spigot for controlling flow from barrel or large vessel."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: spigot
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

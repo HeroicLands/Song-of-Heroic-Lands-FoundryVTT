@@ -1,17 +1,18 @@
 ---
 tags:
   - animal
+  - creature
   - image-needed
 name:
   full: Macaque
   aliases:
     - Temple Monkey
 description: "A stocky, intelligent medium-sized monkey of the monsoon south thriving everywhere from temples to cities by stealing and extorting food from humans."
-img: icons/game-icons/lorc/monkey.svg
-portrait: images/being/macaque-portrait.webp
 shortcode: macaque
 type: being
 data:
+  icon: monkey
+  portrait: macaque
   templatePriority: 0
 sohl:
   kbcat: animal

@@ -4,10 +4,10 @@ name:
   full: Kite Shield
   aliases: []
 description: "Tall teardrop shield protects mounted leg; cavalry skirmisher's deep coverage."
-img: icons/game-icons/badges/shield.svg
 shortcode: kish
 type: weapongear
 data:
+  icon: shieldbdg
   templatePriority: 0
 sohl:
   craft:

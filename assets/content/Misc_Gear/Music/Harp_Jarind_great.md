@@ -5,10 +5,10 @@ name:
   full: "Harp, Jarind (great)"
   aliases: []
 description: "Master-crafted frame harp; thirty-plus strings; rich sonorous voice spanning three octaves."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: harpjarind
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

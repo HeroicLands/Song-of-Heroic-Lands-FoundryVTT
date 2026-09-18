@@ -4,10 +4,10 @@ name:
   full: Leather Longshirt
   aliases: []
 description: "Stylish leather long-sleeved garment with modest coverage for light adventuring."
-img: icons/game-icons/lucasms/shirt.svg
 shortcode: ltlgshrt
 type: armorgear
 data:
+  icon: shirt
   templatePriority: 0
 sohl:
   craft:

@@ -5,10 +5,10 @@ name:
   full: Flax
   aliases: []
 description: "Dried stalks; raw material of linen, seeds press for oil and meal."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: flax
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

@@ -4,10 +4,10 @@ name:
   full: Ermine Gloves
   aliases: []
 description: "Soft white ermine gloves; mark of high status and wealth."
-img: icons/game-icons/delapouite/gloves.svg
 shortcode: eglv
 type: armorgear
 data:
+  icon: gloves
   templatePriority: 0
 sohl:
   craft:

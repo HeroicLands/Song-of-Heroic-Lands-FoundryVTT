@@ -4,10 +4,10 @@ name:
   full: Trip
   aliases: []
 description: "Taking the legs out from under an opponent, and the fight with them."
-img: icons/game-icons/lorc/hobbling-mace.svg
 shortcode: trip
 type: skill
 data:
+  icon: trip
   templatePriority: 0
 subType: combattechnique
 sohl:

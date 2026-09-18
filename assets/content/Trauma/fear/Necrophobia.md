@@ -3,10 +3,10 @@ tags: []
 name:
   full: Necrophobia
   aliases: []
-img: icons/game-icons/cathelineau/dread.svg
 shortcode: necrophb
 type: trauma
 data:
+  icon: dread
   templatePriority: 0
 subType: fear
 sohl:

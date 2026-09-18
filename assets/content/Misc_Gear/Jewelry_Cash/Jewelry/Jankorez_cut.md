@@ -5,10 +5,10 @@ name:
   full: "Jankorez, cut"
   aliases: []
 description: "Rare pale blue-white gem; clarity rivals diamonds; royal use only."
-img: icons/game-icons/lorc/swap-bag.svg
 shortcode: jankorezcu
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:
