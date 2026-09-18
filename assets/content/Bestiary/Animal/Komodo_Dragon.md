@@ -10,7 +10,6 @@ shortcode: kmddrgn
 type: being
 data:
   icon: gecko
-  portrait: kmddrgn
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -314,6 +313,8 @@ sohl:
 ---
 
 # Appearance {#appearance}
+
+![[kmddrgn|Komodo Dragon]]{float: top-left}
 
 You notice the disturbance in the scrub first—a barely perceptible parting of the underbrush, accompanied by the smell of aged decay and something distinctly reptilian. Then the creature emerges, moving with deceptive slowness that masks coiled power: a massive lizard whose scales catch and scatter the light in dull bronze and gray. Its forked tongue flicks repeatedly, tasting your scent on the wind. When it turns toward you, its eyes are ancient and flat, and the malevolent intelligence behind them is unmistakable. Each claw-strike against stone rings like a death knell.
 

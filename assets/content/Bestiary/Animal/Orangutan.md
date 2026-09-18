@@ -10,7 +10,6 @@ shortcode: orngtn
 type: being
 data:
   icon: monkey
-  portrait: orngtn
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -574,6 +573,8 @@ sohl:
 ---
 
 # Appearance {#appearance}
+
+![[orngtn|Orangutan]]{float: top-left}
 
 The canopy ahead erupts with sound — the creak of straining wood and the rustle of leaves as something massive shifts weight between branches. A shape moves in the dappled shadow above, reddish-brown and impossibly long-armed, studying you with an intelligence that seems almost unsettling in an animal. You catch the rich, earthen smell of the forest mixed with something musky and alive. The creature reaches overhead, arm extending nearly twice the length of its heavy body, and settles onto a thicker branch with a confidence that suggests it has never feared a fall.
 

@@ -11,7 +11,6 @@ shortcode: vulture
 type: being
 data:
   icon: vulture
-  portrait: vulture
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -274,6 +273,8 @@ sohl:
 ---
 
 # Appearance {#appearance}
+
+![[vulture|Vulture]]{float: top-left}
 
 They circle so high they are barely more than specks — black crosses inscribed against a sky the color of bleached bone, turning in slow, patient spirals that tighten imperceptibly as the hours pass. You have been watching them since morning and they have been watching you longer. There are six of them now where there were two at dawn, drawn from miles in every direction by whatever signal passes between them — a tilt of wings, a shift in the spiral, some vocabulary of flight that communicates the presence of opportunity below. The nearest one descends close enough to reveal details: a wingspan wider than a man is tall, primary feathers spread like dark fingers against the thermals, and a head that is naked, wrinkled, and ugly — stripped of feathers to prevent the fouling that comes from reaching deep into carcasses. The eyes are surprisingly calm, almost gentle, set in that grotesque bald head with an expression that suggests infinite patience. It is in no hurry. It has learned that everything, eventually, lies still.
 

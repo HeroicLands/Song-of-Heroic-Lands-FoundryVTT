@@ -10,7 +10,6 @@ shortcode: mntrlzrd
 type: being
 data:
   icon: gecko
-  portrait: mntrlzrd
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -313,6 +312,8 @@ sohl:
 ---
 
 # Appearance {#appearance}
+
+![[mntrlzrd|Monitor Lizard]]{float: top-left}
 
 The lizard’s tail is what catches your attention first—a muscular, whip-like appendage that sweeps across the ground with ominous purpose. The body following it is lean and powerful, covered in scales that range from yellow-brown to dark gray depending on how the light hits them. Its head is small but purposeful, with a jaw line that suggests strength, and when it flicks its forked tongue in and out, the motion seems to taste your very fear. Its claws click against stone as it moves with fluid grace. The eyes—small, bright, and utterly focused—never leave you as it approaches.
 

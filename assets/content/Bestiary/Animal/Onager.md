@@ -11,7 +11,6 @@ shortcode: onager
 type: being
 data:
   icon: donkey
-  portrait: onager
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -328,6 +327,8 @@ sohl:
 ---
 
 # Appearance {#appearance}
+
+![[onager|Onager]]{float: top-left}
 
 It stands on the salt flat like something carved from the desert itself — pale sandy hide bleached nearly white by sun and dust, with a dark stripe running down the spine like a line drawn in charcoal. Smaller than a horse, leaner, with ears that are too long and a head that is too heavy for elegance. But there is nothing clumsy about the way it holds itself. The legs are fine-boned and taut with tendon, the body stripped to nothing but running muscle, and the eyes — dark, wide, and rimmed with pale lashes — watch you with an intelligence that is calculating rather than curious. You take one step forward and it is gone. Not fled, not bolted — simply gone, accelerating from stillness to a flat-out gallop so fast that your eye loses it against the shimmer of the horizon. Nothing that lives in the desert moves like that. By the time the dust settles, it is a speck.
 

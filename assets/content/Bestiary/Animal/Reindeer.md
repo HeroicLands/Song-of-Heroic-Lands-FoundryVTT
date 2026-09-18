@@ -12,7 +12,6 @@ shortcode: reindeer
 type: being
 data:
   icon: deer
-  portrait: reindeer
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -329,6 +328,8 @@ sohl:
 ---
 
 # Appearance {#appearance}
+
+![[reindeer|Reindeer]]{float: top-left}
 
 The herd appears on the horizon like a dark tide moving across the tundra — hundreds of shapes flowing together with a rhythm that makes the ground itself seem to migrate. As the nearest animals draw close, you see them clearly: sturdy, broad-chested creatures built low and wide for a climate that kills the tall and the lean. Both sexes carry antlers — the males' enormous and sweeping, the females' smaller but no less purposeful. The coats are dense and layered, pale gray-brown fading to white on the chest and belly, and the sound they make is extraordinary — a constant clicking from their ankles, thousands of tendons snapping over bone with every step, so that the herd produces a rhythmic, percussive music that carries across the empty landscape like the heartbeat of the north itself.
 

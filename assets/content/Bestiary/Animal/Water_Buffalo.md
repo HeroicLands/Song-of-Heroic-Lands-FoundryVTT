@@ -11,7 +11,6 @@ shortcode: wtrbffl
 type: being
 data:
   icon: buffalohead
-  portrait: wtrbffl
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -328,6 +327,8 @@ sohl:
 ---
 
 # Appearance {#appearance}
+
+![[wtrbffl|Water Buffalo]]{float: top-left}
 
 The mud stirs, and what you took for a low island of dark earth reveals itself as something alive. It rises from the shallows in stages — first the massive, curved horns, sweeping outward and back in a crescent that spans wider than a man's outstretched arms, tips worn to pale points. Then the head, broad and heavy, plastered with black mud, with dark eyes that regard you with an expression of absolute, bovine indifference that somehow carries more menace than any snarl. The body follows: an enormous barrel of dark gray-black hide, slick with river mud, muscle shifting beneath skin as thick as boiled leather. Water cascades from its flanks as it heaves itself onto the bank, and you realize the animal is far larger than you initially judged — nearly six feet at the shoulder, carrying a weight of muscle and bone that makes the ground tremble with each step. It shakes its head once, slowly, the great horns cutting arcs through the air, and then it resumes chewing, utterly unconcerned with your existence. The unconcern is not reassuring. An animal this large does not need to be concerned about anything.
 

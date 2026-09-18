@@ -11,7 +11,6 @@ shortcode: gazelle
 type: being
 data:
   icon: pawprint
-  portrait: gazelle
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -328,6 +327,8 @@ sohl:
 ---
 
 # Appearance {#appearance}
+
+![[gazelle|Gazelle]]{float: top-left}
 
 The desert shimmers and what you took for heat haze resolves into movement — a dozen slender shapes flowing across the gravel plain with a speed that makes your horse look rooted to the earth. They run not with the heavy drumming of cattle or the labored breathing of horses but in near silence, hooves barely touching the ground between strides, bodies stretched into long arcs of tawny muscle that seem to defy the weight of flesh and bone. The nearest one turns its head without breaking stride and you catch a flash of dark, liquid eyes set in a face of improbable delicacy — long lashes, curving horns like lyres, a muzzle as fine as carved ivory. Then they shift direction as one, a collective pivot executed without signal or hesitation, and within moments they are distant shapes again, dissolving into the heat shimmer from which they came.
 

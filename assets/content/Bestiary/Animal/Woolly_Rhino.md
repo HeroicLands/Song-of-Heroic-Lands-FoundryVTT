@@ -10,7 +10,6 @@ shortcode: wllyrhn
 type: being
 data:
   icon: rhinoceroshorn
-  portrait: wllyrhn
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -327,6 +326,8 @@ sohl:
 ---
 
 # Appearance {#appearance}
+
+![[wllyrhn|Woolly Rhino]]{float: top-left}
 
 Shaggy fur hangs in matted clumps, shifting as the massive creature moves with deceptive grace across difficult terrain. The horn is dark and rough, curving forward slightly, clearly scarred and aged from countless uses. Each exhalation produces mist in the cold air. The broad shoulders and sturdy build speak to a creature built for surviving frozen wastelands, a behemoth of patience and territorial resolve.
 

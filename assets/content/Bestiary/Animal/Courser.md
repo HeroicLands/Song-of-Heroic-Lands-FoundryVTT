@@ -10,7 +10,6 @@ shortcode: courser
 type: being
 data:
   icon: horsehead
-  portrait: courser
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -327,6 +326,8 @@ sohl:
 ---
 
 # Appearance {#appearance}
+
+![[courser|Courser]]{float: top-left}
 
 The animal carries itself with nervous energy barely constrained. Built on clean, fine-boned legs, the courser shifts its weight constantly, ears swiveling to track every sound. Its breathing is controlled but noticeably faster than a placid horse, and its muscles seem to ripple beneath thin skin every time it moves. When it accelerates, the transition is nearly instantaneous: one moment in a trot, the next in a driving gallop that covers ground with terrifying efficiency. The wind from its passage stirs your cloak, and you realize the speed is something you could never match on foot.
 

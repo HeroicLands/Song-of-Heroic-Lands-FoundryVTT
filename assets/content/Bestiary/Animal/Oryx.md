@@ -11,7 +11,6 @@ shortcode: oryx
 type: being
 data:
   icon: pawprint
-  portrait: oryx
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -328,6 +327,8 @@ sohl:
 ---
 
 # Appearance {#appearance}
+
+![[oryx|Oryx]]{float: top-left}
 
 It stands on the ridge of the dune like something placed there by a god who wanted to make a point about endurance. The body is heavy and pale — nearly white, bleached by the same sun that has killed everything else in this landscape — with dark markings on the face and legs that look almost painted, almost ceremonial. The horns are what hold you: long, straight, tapering to needle points, rising from the skull in parallel lines that from the side merge into a single dark lance against the sky. For one vertiginous moment you understand the unicorn stories. Then it turns its head and the two horns separate, each one three feet of ridged, lethal bone, and the animal regards you with dark eyes that hold no fear, no curiosity, and no intention of moving. It has survived in a place where everything else dies, and it knows this about itself. The confidence is absolute.
 

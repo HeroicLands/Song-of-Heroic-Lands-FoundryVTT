@@ -10,7 +10,6 @@ shortcode: stppln
 type: being
 data:
   icon: lion
-  portrait: stppln
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -316,6 +315,8 @@ sohl:
 ---
 
 # Appearance {#appearance}
+
+![[stppln|Steppe Lion]]{float: top-left}
 
 The golden color shifts with the creature's movement, and suddenly you realize what you're looking at is not mere terrain — it's a predator so perfectly matched to its environment that separation from background requires active thought. The mane is dark and full, framing a head that turns slowly to assess you with amber eyes that hold genuine intelligence and hunger. The body beneath is pure, coiled power, muscles moving beneath fur in patterns that suggest strength far beyond what appearance alone would indicate. As the creature shifts weight, you see the claws extend and retract in unconscious gesture, and you understand with sudden, terrible clarity that this is one of the apex predators of these lands.
 

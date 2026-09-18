@@ -10,7 +10,6 @@ shortcode: cat
 type: being
 data:
   icon: cat
-  portrait: cat
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -313,6 +312,8 @@ sohl:
 ---
 
 # Appearance {#appearance}
+
+![[cat|Cat]]{float: top-left}
 
 It watches you from the corner with eyes that catch and reflect light like polished amber or jade. The creature is compact and sinuous, muscles rippling beneath fur as it shifts position with liquid grace. Its whiskers twitch, sensory organs constantly scanning the environment. When it moves, there is almost no sound—just the faint pad of tiny feet on wood or stone, and the occasional whisper of claws extending and retracting. The tail, seemingly possessed of independent intelligence, curves and straightens in an endless conversation with the world around it.
 

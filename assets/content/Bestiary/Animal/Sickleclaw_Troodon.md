@@ -10,7 +10,6 @@ shortcode: scklclwt
 type: being
 data:
   icon: dinosaurrex
-  portrait: scklclwt
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -301,6 +300,8 @@ sohl:
 ---
 
 # Appearance {#appearance}
+
+![[scklclwt|Sickleclaw Troodon]]{float: top-left}
 
 The creature stands motionless, and your eyes nearly pass over it — a feathered shape small enough to dismiss before the reflective eyes snap toward you with predatory awareness. It's impossibly slender for a predator, standing barely taller than a human waist, yet there is nothing harmless in its bearing. The head tilts, and you see the mouth open, revealing a line of needle-sharp teeth designed for precision cuts rather than crushing. Then it moves, and the horror becomes clear — the slow, deliberate tap-tap-tap of a curved claw against stone echoing through the space, and you realize something terrible: the sound is meant for you. This creature does not hunt with speed or surprise, but with patience and psychological dissolution.
 

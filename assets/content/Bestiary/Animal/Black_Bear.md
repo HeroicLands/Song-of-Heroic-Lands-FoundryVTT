@@ -10,7 +10,6 @@ shortcode: blckbr
 type: being
 data:
   icon: bearhead
-  portrait: blckbr
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -317,6 +316,8 @@ sohl:
 ---
 
 # Appearance {#appearance}
+
+![[blckbr|Black Bear]]{float: top-left}
 
 The smell reaches you first—a sharp, musky odor mixed with the reek of overturned soil and crushed berries. The creature emerges from the tree line with deceptive grace, its glossy black coat catching dappled sunlight. Its head swings toward you, and you see small, intelligent eyes set above a blunt muzzle. The forest floor trembles with each heavy-footed step, and when the bear rises onto its hind legs, muscles ripple beneath its dense fur. The sound it makes—a low, rumbling huffing—vibrates in your chest.
 

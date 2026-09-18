@@ -10,7 +10,6 @@ shortcode: lion
 type: being
 data:
   icon: lion
-  portrait: lion
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -317,6 +316,8 @@ sohl:
 ---
 
 # Appearance {#appearance}
+
+![[lion|Lion]]{float: top-left}
 
 The moment you see it, you understand why it is called the king of beasts. The massive lion strides into view with utter confidence, its golden coat rippling with each powerful motion. The distinctive mane frames the head and neck like a crown of spun copper and amber, catching the light and making the animal appear even larger than it already is. Its muscles move beneath the fur like coiled rope, and its eyes—amber and intelligent—hold yours for a moment. A low rumble that you feel as much as hear emanates from its throat: a sound of absolute authority.
 

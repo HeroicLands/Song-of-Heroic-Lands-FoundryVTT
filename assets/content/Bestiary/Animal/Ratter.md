@@ -10,7 +10,6 @@ shortcode: ratter
 type: being
 data:
   icon: hound
-  portrait: ratter
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -277,6 +276,8 @@ sohl:
 ---
 
 # Appearance {#appearance}
+
+![[ratter|Ratter]]{float: top-left}
 
 The wiry frame of the dog is perpetual motion, almost vibrating with barely contained energy. Its nose works constantly, vacuuming scents from the ground in quick, efficient sweeps, its body language screaming intensity and focus. The short coat is weathered and practical, often stained with earth or whatever quarry it has recently pursued. Its eyes are bright and alert, darting constantly, noting everything. You can sense the coiled spring in its muscles — this is not a dog content to lie still, but rather a creature engineered for tireless pursuit and efficient violence against creatures smaller than itself.
 

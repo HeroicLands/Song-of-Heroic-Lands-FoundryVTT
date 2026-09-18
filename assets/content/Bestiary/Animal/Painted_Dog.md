@@ -12,7 +12,6 @@ shortcode: pntddg
 type: being
 data:
   icon: hound
-  portrait: pntddg
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -281,6 +280,8 @@ sohl:
 ---
 
 # Appearance {#appearance}
+
+![[pntddg|Painted Dog]]{float: top-left}
 
 You hear the whistling first — a high, birdlike chattering that comes from multiple directions simultaneously, moving through the bush with a coordination that no bird flock could achieve. Then you see them: lean, angular shapes trotting through the grass with a purposeful, ground-covering pace, their oversized ears rotating like signal dishes, their mottled coats making them flicker in and out of visibility against the dappled scrubland. They are dogs — but they are not dogs. They are something older and stranger, something that never learned the deference that domestication teaches, that looks at humans with the same calm, analytical attention it gives to a wildebeest or a warthog. You count five. Then eight. Then fourteen. They are not running yet. They are jogging, spread out in a loose formation, and the whistling calls that pass between them carry information you cannot decode — directions, coordinates, assignments. One of them glances at you, ears forward, and for a moment the mottled face with its dark muzzle and amber eyes holds your gaze with an intelligence that is not mammalian warmth but something colder: the dispassionate focus of a perfectly cooperating machine. Then it looks away and whistles to its packmates, and the formation adjusts, and you realize that you were assessed, categorized, and dismissed in the time it took you to take one breath.
 

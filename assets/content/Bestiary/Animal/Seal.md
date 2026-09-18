@@ -12,7 +12,6 @@ shortcode: seal
 type: being
 data:
   icon: pawprint
-  portrait: seal
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -236,6 +235,8 @@ sohl:
 ---
 
 # Appearance {#appearance}
+
+![[seal|Seal]]{float: top-left}
 
 The rocks are alive with them. Dozens of sleek, mottled bodies draped across the shoreline like discarded gray cloaks, their wet fur catching the pale northern light. The nearest one lifts its head and regards you with enormous dark eyes that hold an expression so human it is briefly unsettling — curious, wary, and faintly melancholic, as if it knows something about the world that you have not yet learned. The body is a streamlined torpedo of muscle and blubber, perfectly smooth, every line curved for speed through water. On land it moves with an ungainly, lurching shuffle, propelling itself with rippling contractions of its torso. But when the nearest animal slides into the water at your approach, the transformation is instantaneous — the awkward slug becomes a silver arrow, rolling and diving with fluid grace, its wake a brief ripple on dark water before it vanishes entirely.
 

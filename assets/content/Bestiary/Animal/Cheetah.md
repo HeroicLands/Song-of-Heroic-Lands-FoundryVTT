@@ -11,7 +11,6 @@ shortcode: cheetah
 type: being
 data:
   icon: lion
-  portrait: cheetah
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -317,6 +316,8 @@ sohl:
 ---
 
 # Appearance {#appearance}
+
+![[cheetah|Cheetah]]{float: top-left}
 
 You have never seen anything move like that. The gazelle had three hundred yards of open ground and the confidence of its own speed, and for three heartbeats it looked like enough. Then the spotted shape unfolded from the scrub at a speed that turned distance into a lie — a long, flat blur of gold and black that closed the gap with a mechanical inevitability that made the chase look less like pursuit and more like collision. The final moment was almost gentle: a flick of the forepaw, the gazelle's legs tangling, the tumble, and then the cat was on it, jaws locked on the throat, sides heaving like bellows, the entire muscular frame trembling with the exertion of a sprint that lasted twelve seconds and covered ground faster than a galloping horse. It lies there now in the dust, draped over its kill, too exhausted to eat. The coat is golden and spotted — not rosettes like a leopard but simple solid dots scattered across a frame that is all wrong for a cat. Too long in the leg. Too narrow in the chest. Too small in the head. Built like a running dog wearing a cat's skin, every line designed for a single, absolute purpose: to be the fastest thing alive.
 

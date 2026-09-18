@@ -10,7 +10,6 @@ shortcode: cnstrctr
 type: being
 data:
   icon: snake
-  portrait: cnstrctr
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -238,6 +237,8 @@ sohl:
 ---
 
 # Appearance {#appearance}
+
+![[cnstrctr|Constrictor Snake]]{float: top-left}
 
 The pile of coils barely registers as a threat until it moves. The snake is truly enormous—thick as a man's leg, scaled in patterns of dark brown and cream that make it nearly invisible against earth and vegetation. The head is disproportionately small, supported on a neck that seems impossibly slender compared to the vast bulk behind it. Its eyes—dark and deeply set—open as your shadow falls across it, and you see in that moment that this creature is not afraid. The jaw unhinges with a wet pop, wider than seems possible, revealing thin, backward-curving teeth and a pale pink interior. Then the movement begins: sinuous, purposeful, and utterly inexorable.
 

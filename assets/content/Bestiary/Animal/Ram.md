@@ -10,7 +10,6 @@ shortcode: ramanml
 type: being
 data:
   icon: sheep
-  portrait: ramanml
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -327,6 +326,8 @@ sohl:
 ---
 
 # Appearance {#appearance}
+
+![[ramanml|Ram]]{float: top-left}
 
 The animal stands solid and immovable, its head held low in unmistakable threat. The curved horns spiral outward and forward, thick as a man's fist at their base, their surfaces worn and scarred from countless impacts. You feel the ground shudder slightly as the creature's hooves dig in, and you catch the heavy musk of wool and animal aggression. Its breath emerges in forceful snorts, and its eyes lock on you with a singular, murderous intent. There is no negotiation in that gaze — only the promise of violence.
 

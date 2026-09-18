@@ -11,7 +11,6 @@ shortcode: hwlrmnky
 type: being
 data:
   icon: monkey
-  portrait: hwlrmnky
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -539,6 +538,8 @@ sohl:
 ---
 
 # Appearance {#appearance}
+
+![[hwlrmnky|Howler Monkey]]{float: top-left}
 
 The sound begins before dawn — a noise so deep and so vast that your first instinct is geological, as though the mountain itself is groaning. It builds in waves, a rolling, resonant roar that seems to come from everywhere at once, filling the jungle canopy with vibration you can feel in your teeth and your sternum. Then another voice joins, and another, and the separate calls merge into a wall of sound that carries for miles through the humid air, drowning out every other forest voice. You look up and see them: dark shapes sitting in the upper canopy, bearded and heavy, mouths open wide, the sound pouring from throats that seem impossibly large for animals weighing less than twenty pounds. The howler monkey's call is the loudest sound produced by any land animal, and hearing it for the first time — feeling it roll through the forest like distant thunder made personal — you understand why the jungle peoples associate these creatures with the voice of the gods and the scribes of the underworld. The monkey nearest you pauses its calling and turns to regard you with calm, amber eyes. The face is dark and intelligent, framed by a thick beard and an expression of settled, philosophical disdain. It has been watching you since before you noticed it. It will be watching you long after you have passed.
 

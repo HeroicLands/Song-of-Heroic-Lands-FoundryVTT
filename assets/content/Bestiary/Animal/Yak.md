@@ -11,7 +11,6 @@ shortcode: yak
 type: being
 data:
   icon: bison
-  portrait: yak
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -328,6 +327,8 @@ sohl:
 ---
 
 # Appearance {#appearance}
+
+![[yak|Yak]]{float: top-left}
 
 The trail narrows to nothing against the cliff face, and you are considering retreat when a dark shape rounds the switchback above you — a massive, shaggy creature moving with calm, flat-footed certainty along a ledge that would give a mountain goat pause. The animal is built like a fortress wrapped in hair. A skirt of coarse, dark brown fur hangs from its flanks almost to the ground, swaying with each step, while the humped shoulders rise above your head even as the beast picks its way along the precipice. The horns sweep outward and upward in smooth, dark curves, polished to a shine at the tips. Frost clings to the long hair around its muzzle and the vapor of its breathing forms thick clouds in the thin air. It regards you with the unshakeable patience of something that has lived its entire life at altitudes where you can barely draw breath, and it waits for you to move aside with the quiet assurance that it was here first and will be here long after you have gone.
 

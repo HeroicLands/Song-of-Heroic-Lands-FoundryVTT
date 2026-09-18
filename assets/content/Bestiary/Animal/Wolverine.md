@@ -10,7 +10,6 @@ shortcode: wlvrn
 type: being
 data:
   icon: badger
-  portrait: wlvrn
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -313,6 +312,8 @@ sohl:
 ---
 
 # Appearance {#appearance}
+
+![[wlvrn|Wolverine]]{float: top-left}
 
 The stocky form moves with deceptive grace despite its compact musculature, each step deliberate and predatory. The dark brown fur is dense and rippling with muscle, and the curved claws rake stone audibly as the creature sniffs the air. The short, wide snout twitches, processing information, while the small, bright eyes burn with focused intensity that seems almost unsettling in their clarity. When the creature growls, the sound reverberates with quiet menace that belies its modest size — this is something that knows itself formidable and fears nothing.
 

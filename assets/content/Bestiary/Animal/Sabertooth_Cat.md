@@ -10,7 +10,6 @@ shortcode: sbrtthct
 type: being
 data:
   icon: lion
-  portrait: sbrtthct
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -316,6 +315,8 @@ sohl:
 ---
 
 # Appearance {#appearance}
+
+![[sbrtthct|Sabertooth Cat]]{float: top-left}
 
 The shape emerges from tall grass like death materializing, its tawny hide rippling with predatory grace. The first thing you notice are the teeth — elongated, curved, dark, like ivory daggers that extend from the creature’s upper jaw and protrude below its lower jaw, ghastly and efficient. The body beneath is corded muscle covered in fur marked with faint rosettes that provide perfect camouflage in dappled shadow. The eyes are impossibly large and cold, golden and intelligent, tracking your position with the certainty of something that has killed thousands. As it growls, the sound reverberates through your chest, a promise of violence contained barely in a living throat.
 

@@ -12,7 +12,6 @@ shortcode: plrbr
 type: being
 data:
   icon: polarbear
-  portrait: plrbr
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -319,6 +318,8 @@ sohl:
 ---
 
 # Appearance {#appearance}
+
+![[plrbr|Polar Bear]]{float: top-left}
 
 The ice field is empty. You are certain of this. You scanned it not thirty seconds ago and there was nothing — nothing but white on white, pressure ridges and blown snow, and the gray sky pressing down. Then a shape stands up sixty paces away, and the world rearranges itself around the fact that the largest land predator of the far north has been watching you for some time. The fur is not white — not truly. It is pale yellow, cream, the color of old ivory, and against the snow it simply ceases to exist until the animal chooses to move. It is enormous. Taller than a brown bear, longer, leaner, built along lines that speak of distance and patience and a hunger that never fully abates. The head swings toward you on a neck longer than any bear's should be, and the black nose works the air with visible, deliberate attention. The eyes are dark and calm. There is no threat display. No warning. It has already decided what you are.
 

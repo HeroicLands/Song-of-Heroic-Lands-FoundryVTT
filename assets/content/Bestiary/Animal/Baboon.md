@@ -11,7 +11,6 @@ shortcode: baboon
 type: being
 data:
   icon: monkey
-  portrait: baboon
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -575,6 +574,8 @@ sohl:
 ---
 
 # Appearance {#appearance}
+
+![[baboon|Baboon]]{float: top-left}
 
 The noise reaches you before the sight — a cacophony of barking screams that echoes off the sandstone cliff face like the sounds of a small war. Then you see them: dozens of gray-brown shapes moving across the rocks with an unsettling combination of animal speed and almost-human deliberation. The nearest one turns to face you and the resemblance to something familiar and something alien collides in your gut. The face is long and doglike, framed by a heavy mane of coarse fur, but the eyes — small, deep-set, and amber — hold an intelligence that no dog ever possessed. It pulls its lips back from canine teeth as long as your thumb, the pink gums bright against the dark face, and produces a sound that is half bark and half scream. The others take up the call. There are very many of them, and they are watching you with an attention that feels disturbingly like assessment.
 

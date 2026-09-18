@@ -12,7 +12,6 @@ shortcode: brunjarskathhel
 type: being
 data:
   icon: person
-  portrait: null
   templatePriority: null
   gender: male
   age: 22

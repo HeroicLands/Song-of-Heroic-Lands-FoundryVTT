@@ -11,7 +11,6 @@ shortcode: jaguar
 type: being
 data:
   icon: feline
-  portrait: jaguar
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -317,6 +316,8 @@ sohl:
 ---
 
 # Appearance {#appearance}
+
+![[jaguar|Jaguar]]{float: top-left}
 
 The jungle is silent. Not the ambient silence of a forest at rest, but the held-breath silence of every living thing that knows what is nearby. You scan the undergrowth and see nothing — dappled shadow, the play of light through canopy, a confusion of leaf and vine. Then the shadows rearrange themselves and you see the eyes. Gold. Absolutely steady. Fixed on you with an intensity that makes the back of your neck go cold. The body materializes around those eyes — low, heavy, impossibly broad across the shoulders, covered in a coat of burnished gold marked with rosettes so dark they seem to absorb light. This is not the lean, nervous grace of the mountain lion. This is something heavier. Something built to crush. The jaw is enormous — wider and more powerful than any cat you have ever seen, set in a skull that looks like it was designed to break things open. When it shifts its weight, the muscles move beneath the spotted fur like tectonic plates, and you understand with sudden, visceral clarity why the jungle peoples named their warriors after this animal. It does not need to chase you. It was here before you arrived. It will be here after you leave. If it allows you to leave.
 

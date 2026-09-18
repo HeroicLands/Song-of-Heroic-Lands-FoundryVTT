@@ -10,7 +10,6 @@ shortcode: pony
 type: being
 data:
   icon: horsehead
-  portrait: pony
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -327,6 +326,8 @@ sohl:
 ---
 
 # Appearance {#appearance}
+
+![[pony|Pony]]{float: top-left}
 
 A compact, muscular frame stands before you, no taller than a man's chest, yet projecting an unmistakable solidity. The pony's coat is thick and weathered, its mane shaggy and seemingly never fully combed, and its stocky legs appear barely adequate to support the creature's substance. Yet there is a quality of independence to it — intelligence showing in dark eyes that assess you with a practicality you wouldn't expect from a mere working animal. The smell of hay and honest sweat clings to it, mixed with the scent of earth and thistles.
 

@@ -12,7 +12,6 @@ shortcode: peacock
 type: being
 data:
   icon: pawprint
-  portrait: peacock
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -311,6 +310,8 @@ sohl:
 ---
 
 # Appearance {#appearance}
+
+![[peacock|Peacock]]{float: top-left}
 
 The sound comes first — a cry so piercing and so strange that you stop mid-stride, unsure whether you have heard a bird, a woman screaming, or something from between the two. Then you see it, and every other thought leaves your head. The bird stands in a shaft of temple light, and it has opened its tail. The word "tail" is inadequate. What it has opened is a wall of color — a shimmering, iridescent fan six feet across, composed of hundreds of individual feathers, each one terminating in a pattern that your mind insists is an eye. The eyes stare. Blue, green, gold, ringed in bronze and black, they shift and shimmer as the bird trembles the fan, producing a rustling, rattling sound and a visual effect that is less like plumage and more like a living mosaic of precious stones catching the light. The body behind this display is absurdly small — a bird the size of a large chicken, with glossy blue-green plumage on the neck and breast and a small, crested head that wears an expression of complete self-satisfaction. It turns slowly, fanning, trembling, the eyes on the feathers rippling like the surface of disturbed water, and you understand why three religions consider this creature sacred.
 

@@ -10,7 +10,6 @@ shortcode: viper
 type: being
 data:
   icon: snake
-  portrait: viper
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -199,6 +198,8 @@ sohl:
 ---
 
 # Appearance {#appearance}
+
+![[viper|Viper]]{float: top-left}
 
 The pattern seems to shift before your eyes, colors that match stone or leaf rippling with the creature's slow coiling motion. The head is distinctly triangular and flattened, and the eyes that fix upon you are cold and calculating. You feel rather than see the creature's awareness sweeping across you, searching for weaknesses, measuring threat levels with the cold logic of a predator that has learned the mathematics of killing. The coil tightens, and you understand that you're looking at patient death — something willing to wait eternally for the moment of its strike.
 

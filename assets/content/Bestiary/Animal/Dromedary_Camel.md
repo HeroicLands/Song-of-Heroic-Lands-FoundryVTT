@@ -10,7 +10,6 @@ shortcode: drmdrycm
 type: being
 data:
   icon: camelhead
-  portrait: drmdrycm
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -327,6 +326,8 @@ sohl:
 ---
 
 # Appearance {#appearance}
+
+![[drmdrycm|Dromedary Camel]]{float: top-left}
 
 The creature regards you with mild disinterest as you approach, one eye open while the other remains nearly closed. Standing taller than a human's head on relatively slender legs, the dromedary carries its single hump like a monument to survival. The sandy coat, weathered and practical, blends so perfectly with surrounding dunes that distance makes the creature seem to materialize from the sand itself. Long eyelashes frame dark eyes, and the distinctive split upper lip twitches occasionally. When the wind shifts, you catch the smell: acrid, warm, faintly unpleasant—the smell of something that survives in a world where most things perish.
 

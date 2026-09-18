@@ -10,7 +10,6 @@ shortcode: snwlprd
 type: being
 data:
   icon: feline
-  portrait: snwlprd
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -316,6 +315,8 @@ sohl:
 ---
 
 # Appearance {#appearance}
+
+![[snwlprd|Snow Leopard]]{float: top-left}
 
 The snow itself seems to move, and for a moment you cannot distinguish the creature from the background until the eyes open — pale, blue-green, and regarding you with ancient predatory certainty. The color is nearly perfect camouflage: smoky-gray fur with darker rosette patterning that dissolves into the snowscape, making it seem as though the creature is merely a fold in the terrain. The build is deceptive — the legs are more powerful than their appearance suggests, and the long, bushy tail wraps around its body like an additional layer of insulation. There is no aggression in its bearing, only calm patience and the confidence of something that has hunted these mountains for generations.
 

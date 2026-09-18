@@ -12,7 +12,6 @@ shortcode: macaque
 type: being
 data:
   icon: monkey
-  portrait: macaque
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -540,6 +539,8 @@ sohl:
 ---
 
 # Appearance {#appearance}
+
+![[macaque|Macaque]]{float: top-left}
 
 The temple courtyard seems peaceful until you set down your pack. The first one appears on the wall above you — a stocky, gray-brown shape the size of a large cat, with a pink face, prominent brow ridges, and an expression of calculating assessment that you would normally associate with a merchant evaluating the contents of your wallet. It sits. It watches. You look away for three seconds, and when you look back there are six of them. One is already on your pack. Another is investigating the buckles of your saddlebag with fingers — actual fingers, with nails and knuckles and a thumb — that work the leather straps with a dexterity that suggests it has opened buckles before and expects to again. You shout. It looks at you. It does not run. It looks at you the way you would look at an unreasonable innkeeper — with irritation, not fear — and then it returns to the buckle. Behind you, the sound of your ration bag being opened confirms that the distraction has worked perfectly.
 

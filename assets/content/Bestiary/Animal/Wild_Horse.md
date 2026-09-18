@@ -11,7 +11,6 @@ shortcode: wldhrs
 type: being
 data:
   icon: horsehead
-  portrait: wldhrs
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -328,6 +327,8 @@ sohl:
 ---
 
 # Appearance {#appearance}
+
+![[wldhrs|Wild Horse]]{float: top-left}
 
 The herd appears on the ridge at sunset — twenty, thirty dark shapes silhouetted against a sky burning copper and vermillion. They stand motionless, the wind catching their short, bristling manes and tearing them sideways. They are not the sleek, refined creatures of stable and paddock. These are heavier, rougher, built from a different blueprint entirely — barrel-chested, thick-necked, with heads that are blunt and heavy-jawed rather than elegantly tapered. The stallion stands apart, a dun-colored block of muscle with a dark dorsal stripe running from mane to tail, and he watches you with an expression that contains no curiosity, no fear, and absolutely no deference. He has never worn a bridle. His ancestors never wore bridles. The domesticated horses in your camp shift nervously, ears pinned back, recognizing something in those wild cousins that their breeding has spent centuries trying to forget.
 

@@ -10,7 +10,6 @@ shortcode: glsslzrd
 type: being
 data:
   icon: gecko
-  portrait: glsslzrd
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -313,6 +312,8 @@ sohl:
 ---
 
 # Appearance {#appearance}
+
+![[glsslzrd|Glass Lizard]]{float: top-left}
 
 At first you think you're seeing a shimmer in the heat—a distortion in the air that makes you squint. Then it moves, and your eyes struggle to track it. The creature is impossibly long and slender, snake-like but distinctly scaled in a way that catches and fractures light into dazzling patterns. The coloration is metallic—golds, silvers, and subtle iridescence that changes based on the angle of the light. The head is sharp and triangular, and when it opens its mouth to hiss, you see rows of small, needle-like teeth. The forked tongue flicks out repeatedly, tasting the air, and there's an intelligence in the creature's eyes that you would not expect from something so alien. When it moves, it moves with shocking speed, almost faster than you can follow.
 

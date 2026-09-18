@@ -13,7 +13,6 @@ shortcode: basicfolk
 type: being
 data:
   icon: person
-  portrait: null
   templatePriority: 1
   gender: male
   age: 20

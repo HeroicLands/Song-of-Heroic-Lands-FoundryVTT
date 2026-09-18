@@ -11,7 +11,6 @@ shortcode: cobra
 type: being
 data:
   icon: snake
-  portrait: cobra
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -200,6 +199,8 @@ sohl:
 ---
 
 # Appearance {#appearance}
+
+![[cobra|Cobra]]{float: top-left}
 
 The basket lid rises and you see it before the handler speaks — a column of living muscle rising vertically from the coils below, spreading its hood into a broad, flattened disc of scaled flesh that frames the head like a dark halo. The scales are smooth and gleaming, deep black shading to gray-brown along the flanks, and the hood displays a pattern that your mind insists is a face — two dark eyespots staring from the distended skin with the fixed regard of something that has decided whether you are prey or threat and is merely waiting for you to act first. The head is small and elegant, almost delicate, tapering to a blunt snout with dark, unblinking eyes that track movement with mechanical precision. The forked tongue flickers — once, twice — tasting the air with a deliberation that suggests it is gathering more information about you than you would prefer. When it draws back into the striking coil, the movement is unhurried, a slow retraction of the raised body into a tighter S-curve that puts several feet of muscle behind the head like a drawn bowstring. The hiss, when it comes, is not loud but carries an unmistakable finality.
 

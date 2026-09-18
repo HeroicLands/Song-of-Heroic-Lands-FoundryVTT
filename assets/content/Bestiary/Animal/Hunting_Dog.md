@@ -10,7 +10,6 @@ shortcode: hntngdg
 type: being
 data:
   icon: hound
-  portrait: hntngdg
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -278,6 +277,8 @@ sohl:
 ---
 
 # Appearance {#appearance}
+
+![[hntngdg|Hunting Dog]]{float: top-left}
 
 The dog's nostrils flare as it catches your scent on the wind, and its entire body goes tense with focus. Every muscle defines itself beneath sleek fur, and its eyes—bright and intelligent—lock onto you with predatory interest. The warm, animal smell of it carries on the breeze, mingled with the scent of leather and old sweat from the hunters it serves. A low, rumbling sound builds in its chest, not yet a snarl, but a promise of violence.
 

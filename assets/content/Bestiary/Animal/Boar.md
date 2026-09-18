@@ -10,7 +10,6 @@ shortcode: boar
 type: being
 data:
   icon: boar
-  portrait: boar
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -316,6 +315,8 @@ sohl:
 ---
 
 # Appearance {#appearance}
+
+![[boar|Boar]]{float: top-left}
 
 The bristling shape erupts from the underbrush with a savage shriek that freezes your blood. Coarse, dark hair stands on end across its muscular shoulders and back, making it appear larger than it already is. Two curved tusks, yellowed and wickedly sharp, frame a snout that plows through the dirt in its rage. The reek of musk and churned earth fills the air, and you can see froth flecking the beast's jaws as it lowers its head and charges.
 

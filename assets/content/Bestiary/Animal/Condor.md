@@ -11,7 +11,6 @@ shortcode: condor
 type: being
 data:
   icon: vulture
-  portrait: condor
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -316,6 +315,8 @@ sohl:
 ---
 
 # Appearance {#appearance}
+
+![[condor|Condor]]{float: top-left}
 
 You notice the shadow first — a cruciform darkness sliding across the mountainside with impossible slowness, too large to be any bird you know, too steady to be a cloud. You look up, shielding your eyes against the highland sun, and the scale of the thing becomes apparent only by degrees. The wingspan is enormous — ten feet, perhaps more — held rigidly extended in a posture of absolute stillness as the bird rides a thermal updraft without a single wingbeat. The body between those vast wings seems almost incidental: compact, black-feathered, hunched forward in a posture that speaks of patience measured in geological time. The head is bare — wrinkled, dark red skin stretched over a skull that seems too small for the body it commands — and a ruff of white feathers circles the neck like a ceremonial collar. The bird tilts, banks, adjusts an invisible rudder, and sweeps across the face of the cliff with silent authority. The highland peoples say the condor carries the souls of the dead to the upper world. Watching it ride the wind above the peaks with that vast, unhurried stillness, you understand why they believe it. Nothing that moves with such certainty through the empty sky could be concerned with the affairs of the living.
 

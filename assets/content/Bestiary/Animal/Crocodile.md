@@ -10,7 +10,6 @@ shortcode: crcdl
 type: being
 data:
   icon: crocjaws
-  portrait: crcdl
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -322,6 +321,8 @@ sohl:
 ---
 
 # Appearance {#appearance}
+
+![[crcdl|Crocodile]]{float: top-left}
 
 The water moves wrong. What you thought was a floating log shifts, and suddenly features resolve into a reptilian head the size of a human torso. The jaw opens in a gape that should be impossible—the hinge working in a way that reveals interior more cavernous than any predator should possess. Rows of teeth, worn and dark with age, gleam as water drains back across them. The eye, a vertical slit in the side of the head, fixes directly on you with an intelligence that seems almost human—cold, assessing, ancient. The body beneath the water is colossal, a wedge of muscle and armored scale that displaces water with each movement. When it moves, the entire river seems to rearrange itself.
 

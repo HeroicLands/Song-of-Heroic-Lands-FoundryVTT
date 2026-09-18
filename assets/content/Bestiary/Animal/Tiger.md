@@ -11,7 +11,6 @@ shortcode: tiger
 type: being
 data:
   icon: tiger
-  portrait: tiger
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -317,6 +316,8 @@ sohl:
 ---
 
 # Appearance {#appearance}
+
+![[tiger|Tiger]]{float: top-left}
 
 The jungle goes silent. Not quiet — silent. The birds stop. The insects stop. The monkeys that have been screaming in the canopy for the last hour go mute as though someone has cut their throats. The silence is so sudden and so total that it has a physical quality, a pressure against the eardrums, and in that silence you understand with the ancient, wordless part of your brain that something is here that was not here a moment ago. You scan the undergrowth — the dappled light, the interlocking layers of green and gold, the vertical bars of bamboo and shadow — and you see nothing. Then you see it, and you realize you have been looking at it the entire time. The stripes. The impossible, vertical stripes that break the animal's outline into fragments of light and dark that the eye refuses to assemble into a single shape. It is enormous — longer than a man is tall, heavier than a horse, a block of muscle wrapped in orange and black that lies in the undergrowth ten paces away with the absolute stillness of something that has already decided. The eyes find you. They are amber, steady, and they hold none of the things you would prefer to see — no hesitation, no curiosity, no uncertainty. There is only the flat, calm assessment of a predator that has never in its life encountered anything it needed to fear.
 

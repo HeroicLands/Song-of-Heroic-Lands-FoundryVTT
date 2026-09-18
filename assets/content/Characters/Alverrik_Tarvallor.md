@@ -14,7 +14,6 @@ shortcode: alverriktarvall
 type: being
 data:
   icon: person
-  portrait: null
   templatePriority: null
   gender: male
   age: 30

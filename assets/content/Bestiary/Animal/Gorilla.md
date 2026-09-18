@@ -10,7 +10,6 @@ shortcode: gorilla
 type: being
 data:
   icon: gorilla
-  portrait: gorilla
   templatePriority: 0
 sohl:
   kbcat: animal
@@ -574,6 +573,8 @@ sohl:
 ---
 
 # Appearance {#appearance}
+
+![[gorilla|Gorilla]]{float: top-left}
 
 The sound comes first—a deep, reverberating roar that makes your bones vibrate. The gorilla steps into view, and your perspective on size recalibrates. The creature stands nearly eight feet tall, and the sheer density of muscle across its chest and arms is overwhelming. The dark hair is thick and coarse, and across the back and shoulders you see the distinctive silvering that marks an alpha male. The eyes are deeply set but expressive, burning with intelligence and protective fury. The arms are disproportionately massive, hanging partway down the legs. Then the gorilla beats its chest—a thunderous percussion that echoes across the landscape—and the display is so perfectly timed to the roar that you understand you are witnessing a creature asserting absolute dominion over its territory.
 
