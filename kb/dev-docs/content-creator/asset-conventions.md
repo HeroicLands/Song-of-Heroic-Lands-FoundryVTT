@@ -72,13 +72,13 @@ export function resolveImg(raw, config = loadPackConfig()) {
 already-package-rooted path, an absolute URL, a core Foundry path — is returned
 untouched, and an empty value yields `""`.
 
-| Authored `img:`                        | Compiles to                                                |
-| -------------------------------------- | ---------------------------------------------------------- |
-| `icons/other/sword.svg`                | `systems/sohl/assets/icons/other/sword.svg`                |
-| `images/being/basicfolk-portrait.webp` | `systems/sohl/assets/images/being/basicfolk-portrait.webp` |
-| `systems/sohl/assets/ui/parchment.jpg` | unchanged                                                  |
-| `icons/game-icons/delapouite/dicetarget.svg`            | rerooted — **and this is a trap**, see below               |
-| _(omitted)_                            | `""`, then the compiler's own default                      |
+| Authored `img:`                              | Compiles to                                                |
+| -------------------------------------------- | ---------------------------------------------------------- |
+| `icons/other/sword.svg`                      | `systems/sohl/assets/icons/other/sword.svg`                |
+| `images/being/basicfolk-portrait.webp`       | `systems/sohl/assets/images/being/basicfolk-portrait.webp` |
+| `systems/sohl/assets/ui/parchment.jpg`       | unchanged                                                  |
+| `icons/game-icons/delapouite/dicetarget.svg` | rerooted — **and this is a trap**, see below               |
+| _(omitted)_                                  | `""`, then the compiler's own default                      |
 
 This is translation only. The per-type default for an empty result belongs to
 each compiler, applied as `resolveImg(fm.img) || <default>` — items default
@@ -114,7 +114,7 @@ shipped manifest.
 | ------------------- | ------------------------------------------------------- | ------------------------------------------------------------ |
 | `sohl/items.mjs`    | item `img`                                              | `itemArt(type)` — see [Default art](#default-art)            |
 | `sohl/actors.mjs`   | actor `img`, prototype token texture, `system.portrait` | `systems/sohl/assets/icons/game-icons/delapouite/person.svg` |
-| `engine/macros.mjs` | macro `img`                                             | `icons/game-icons/delapouite/dicetarget.svg`                                  |
+| `engine/macros.mjs` | macro `img`                                             | `icons/game-icons/delapouite/dicetarget.svg`                 |
 
 The macro default is worth a second look: it is a **core Foundry** path, and it
 is stated as the default _after_ translation precisely so `resolveImg` never
@@ -163,21 +163,21 @@ An item note with no `img:` gets the art paired with its type. SoHL's own map is
 `DEFAULT_ITEM_ART` in `@heroiclands/package-build/sohl/default-item-art`, and
 every entry is a fully-rooted, bundled SVG:
 
-| Item type         | Default art                                                 |
-| ----------------- | ----------------------------------------------------------- |
-| `affiliation`     | `systems/sohl/assets/icons/noun/shieldnn.svg`                 |
-| `affliction`      | `systems/sohl/assets/icons/other/sick.svg`                  |
-| `armorgear`       | `systems/sohl/assets/icons/game-icons/lorc/breastplate.svg` |
-| `attribute`       | `systems/sohl/assets/icons/game-icons/lorc/charm.svg`       |
-| `concoctiongear`  | `systems/sohl/assets/icons/game-icons/badges/flask.svg`     |
-| `containergear`   | `systems/sohl/assets/icons/other/sack.svg`                  |
-| `miscgear`        | `systems/sohl/assets/icons/other/questionmark.svg`         |
-| `mystery`         | `systems/sohl/assets/icons/game-icons/delapouite/sparkles.svg`       |
-| `mysticalability` | `systems/sohl/assets/icons/other/handsparkles.svg`         |
-| `projectilegear`  | `systems/sohl/assets/icons/noun/arrow.svg`                  |
-| `skill`           | `systems/sohl/assets/icons/other/headgear.svg`             |
-| `trauma`          | `systems/sohl/assets/icons/other/injury.svg`                |
-| `weapongear`      | `systems/sohl/assets/icons/other/sword.svg`                 |
+| Item type         | Default art                                                    |
+| ----------------- | -------------------------------------------------------------- |
+| `affiliation`     | `systems/sohl/assets/icons/noun/shieldnn.svg`                  |
+| `affliction`      | `systems/sohl/assets/icons/other/sick.svg`                     |
+| `armorgear`       | `systems/sohl/assets/icons/game-icons/lorc/breastplate.svg`    |
+| `attribute`       | `systems/sohl/assets/icons/game-icons/lorc/charm.svg`          |
+| `concoctiongear`  | `systems/sohl/assets/icons/game-icons/badges/flask.svg`        |
+| `containergear`   | `systems/sohl/assets/icons/other/sack.svg`                     |
+| `miscgear`        | `systems/sohl/assets/icons/other/questionmark.svg`             |
+| `mystery`         | `systems/sohl/assets/icons/game-icons/delapouite/sparkles.svg` |
+| `mysticalability` | `systems/sohl/assets/icons/other/handsparkles.svg`             |
+| `projectilegear`  | `systems/sohl/assets/icons/noun/arrow.svg`                     |
+| `skill`           | `systems/sohl/assets/icons/other/headgear.svg`                 |
+| `trauma`          | `systems/sohl/assets/icons/other/injury.svg`                   |
+| `weapongear`      | `systems/sohl/assets/icons/other/sword.svg`                    |
 
 **Why there is a map at all.** Foundry's own `Item.DEFAULT_ICON` is the white
 `icons/svg/item-bag.svg` — invisible on the light Manuscript sheet, and not
