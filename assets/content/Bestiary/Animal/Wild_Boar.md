@@ -325,9 +325,9 @@ sohl:
         disabled: false
 ---
 
-![[wildboar|Wild Boar]]{float: top-left}
-
 # Appearance {#appearance}
+
+![[wildboar|Wild Boar]]{float: top-left}
 
 The dense, matted bristles catch the light as the creature stamps forward, revealing a musculature beneath the coat that belies the stocky frame. The tusks curve upward wickedly from the lower jaw, aged and stained, clearly weapons used repeatedly to gore earth and enemies alike. The elongated snout roots at the ground methodically, evidence of both foraging behavior and destructive power. The small eyes are bright with intelligence and aggression, and the growl that emerges speaks of relentless territoriality and absolute willingness to fight.
 

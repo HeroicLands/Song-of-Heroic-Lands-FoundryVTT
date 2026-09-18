@@ -349,9 +349,9 @@ sohl:
         disabled: false
 ---
 
-![[pterosau|Pterosaur]]{float: top-left}
-
 # Appearance {#appearance}
+
+![[pterosau|Pterosaur]]{float: top-left}
 
 The shadow passes overhead before you hear the sound — a high-pitched shriek that seems to come from nowhere and everywhere at once. Leathery wings block out the sun, impossibly vast, their silhouette revealing the strange, elongated frame of the creature. The wind of its passage buffets you, and you catch the reek of old fish and something more primal. Banking with predatory grace, it circles higher, and you see the sharp, tooth-filled snout turned downward, searching. Its cry comes again as it climbs, the sound of something utterly alien to warm-blooded lands.
 

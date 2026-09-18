@@ -315,9 +315,9 @@ sohl:
         disabled: false
 ---
 
-![[cavebear|Cave Bear]]{float: top-left}
-
 # Appearance {#appearance}
+
+![[cavebear|Cave Bear]]{float: top-left}
 
 The stench hits first: ancient earth and decay, the smell of something that has slept for centuries in airless darkness. Something shifts in the shadows ahead, and your eyes struggle to comprehend the sheer mass rising before you. Its coat, matted and streaked with cave dust and debris, seems to absorb light rather than reflect it. The sound of claws scraping against stone—each talon as long as a dagger—reverberates through the cavern with a grinding finality. When it breathes, the exhalation carries the warmth of a hibernating giant finally stirring, and the cave itself seems to tremble with the weight of its presence.
 

@@ -290,9 +290,9 @@ sohl:
         disabled: false
 ---
 
-![[stag|Stag]]{float: top-left}
-
 # Appearance {#appearance}
+
+![[stag|Stag]]{float: top-left}
 
 The forest parts to reveal a magnificent creature standing motionless, its form so perfectly balanced between grace and power that it seems more ideal than real. Antlers spread from its skull like the branches of a dark, winter-bare tree, each point worn smooth from years of combat and territorial marking. The coat is a rich reddish-brown that dissolves into forest shadow at the edges, making it seem less a separate creature than an extension of the woodland itself. The eyes are large and alert, and as it turns its head slightly, you see the absolute confidence of something that knows itself apex predator in this environment.
 

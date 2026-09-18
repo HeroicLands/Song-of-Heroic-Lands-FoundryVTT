@@ -276,9 +276,9 @@ sohl:
         disabled: false
 ---
 
-![[guarddog|Guard Dog]]{float: top-left}
-
 # Appearance {#appearance}
+
+![[guarddog|Guard Dog]]{float: top-left}
 
 The dog rises before you fully register its presence, muscles rippling beneath short, dense fur. It is large—easily comparable in weight to a full-grown man—with the build of a creature bred for power and endurance. The eyes are intelligent and focused, fixing on you with absolute certainty of purpose. The growl is not threatening display but simple fact: this creature knows exactly what you are, has assessed you as potential threat, and has decided how it will respond. When the teeth show, they are functional and sharp. The ears are forward, tracking your slightest movement, and the entire body is coiled tension—ready to move in any direction at the instant the command arrives.
 

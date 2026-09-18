@@ -327,9 +327,9 @@ sohl:
         disabled: false
 ---
 
-![[wldbst|Wildebeest]]{float: top-left}
-
 # Appearance {#appearance}
+
+![[wldbst|Wildebeest]]{float: top-left}
 
 You hear the migration before you see it. A low rumbling — not thunder, not drums, but the sound of a hundred thousand hooves on hard earth, a vibration that comes up through the soles of your boots and into your teeth. Then the dust. A wall of ochre haze rising along the southern horizon like smoke from a fire that stretches wider than your eye can measure. Then they come out of the dust, and the scale of what you are seeing breaks something in your ability to process numbers. The herd fills the plain from horizon to horizon. The animals are dark and shaggy and ungainly, a strange assemblage of parts — the forequarters heavy and humped, the hindquarters lean and sloping, the head broad and bearded, the horns curving outward like a pair of hooks. Individually, a wildebeest looks like something assembled from the leftover parts of better animals. But you are not looking at an individual. You are looking at what might be every wildebeest that has ever lived, a river of dark bodies flowing across the grassland with a momentum that has nothing to do with the will of any single animal and everything to do with a force as old and unstoppable as the seasons. They will be passing for three days.
 

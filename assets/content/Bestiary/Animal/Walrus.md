@@ -269,9 +269,9 @@ sohl:
         disabled: false
 ---
 
-![[walrus|Walrus]]{float: top-left}
-
 # Appearance {#appearance}
+
+![[walrus|Walrus]]{float: top-left}
 
 The smell arrives first — a wall of fish and musk and rancid blubber that makes your eyes stream. Then you see them: a dozen mountains of wrinkled, pinkish-brown flesh hauled out on the rocks, so densely packed that individual bodies blur into a single undulating mass of hide and tusk. The nearest bull raises its head and you understand immediately why the northern peoples call them sea-kings. The face is a grotesque masterpiece — small, bloodshot eyes buried in folds of bristled skin, a mustache of coarse whiskers as thick as quills, and two ivory tusks descending from the upper jaw like curved swords, each one as long as your forearm and stained yellow with age. The animal weighs more than a horse. It should be helpless on land. It is not. When it surges toward you, hauling its impossible bulk across the rocks with a lurching, explosive motion, the tusks sweep in an arc that would disembowel anything they caught, and the sound it makes — a deep, bellowing roar that echoes off the cliff face — carries the unmistakable authority of something that has never once been prey.
 

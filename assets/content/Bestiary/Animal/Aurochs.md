@@ -325,9 +325,9 @@ sohl:
         disabled: false
 ---
 
-![[aurochs|Aurochs]]{float: top-left}
-
 # Appearance {#appearance}
+
+![[aurochs|Aurochs]]{float: top-left}
 
 The ground trembles before you see it. A mountain of muscle and matted fur emerges from the grassland, shoulders heaving with each labored breath. The reek of musk and wet earth fills the air as the creature tilts its massive head, revealing horns the length of a man’s arm, sharp as spear points and darkened with use. Its pale underbelly stripe gleams against its coal-black hide, and the sound it makes—a low, rumbling snort—vibrates through your bones.
 

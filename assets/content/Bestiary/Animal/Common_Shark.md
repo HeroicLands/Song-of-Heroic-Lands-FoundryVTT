@@ -298,9 +298,9 @@ sohl:
         disabled: false
 ---
 
-![[cmmnshrk|Common Shark]]{float: top-left}
-
 # Appearance {#appearance}
+
+![[cmmnshrk|Common Shark]]{float: top-left}
 
 The water becomes heavier somehow, thicker, as if something large moves beneath. You catch sight of it first as a silhouette against lighter water above: a shape that is all muscle and hunger, streamlined for speed and designed for killing. The dorsal fin cuts the surface of the water, a dark wedge that never stops moving, circling, assessing. When it turns toward you, the angle of the sun catches rows of teeth—thousands of them, arranged in wheels of replacement within its jaw—and you see in that moment the absolute indifference of nature's most perfect predator.
 

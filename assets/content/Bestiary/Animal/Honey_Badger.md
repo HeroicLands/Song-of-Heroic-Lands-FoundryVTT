@@ -311,9 +311,9 @@ sohl:
         disabled: false
 ---
 
-![[hnybdgr|Honey Badger]]{float: top-left}
-
 # Appearance {#appearance}
+
+![[hnybdgr|Honey Badger]]{float: top-left}
 
 You catch movement in the underbrush—a low, powerful shape with contrasting white and black fur. The creature's musky scent reaches you first, rank and acrid. When it pauses to sniff the air, you notice the raw power coiled in its squat frame; muscles ripple beneath loose, thick skin. Its claws have torn the earth into furrows, and its eyes—small and dark but utterly focused—lock onto yours without hesitation or fear. The air around it crackles with hostile intent.
 

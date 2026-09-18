@@ -314,9 +314,9 @@ sohl:
         disabled: false
 ---
 
-![[mntnln|Mountain Lion]]{float: top-left}
-
 # Appearance {#appearance}
+
+![[mntnln|Mountain Lion]]{float: top-left}
 
 A sleek, tawny shadow flows across the terrain with liquid grace—a muscular body built for explosive speed and deadly precision. The mountain lion crouches low, its long tail held rigidly behind it for balance, muscles coiled and ready. Its piercing yellow eyes lock onto you with undeniable intelligence and predatory focus. When it moves, there is almost no sound, and you are struck with the terrible realization that it has been watching you for far longer than you have been watching it. The silence that surrounds it is the silence of a perfect hunter.
 

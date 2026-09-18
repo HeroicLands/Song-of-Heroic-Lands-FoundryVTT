@@ -307,9 +307,9 @@ sohl:
         disabled: false
 ---
 
-![[falcon|Falcon]]{float: top-left}
-
 # Appearance {#appearance}
+
+![[falcon|Falcon]]{float: top-left}
 
 Something streaks across the sky—so fast you almost miss it. A second glance catches only a compact silhouette, wings tucked close to a lean body that seems to bend the very air around its passage. Then comes the cry: a chittering shriek of terrible intensity that echoes off the stone around you. The falcon banks hard, and for an instant its eye locks with yours—golden, knowing, and filled with hunger. Your skin prickles with the terrible clarity that you have been seen and assessed by something far more lethal than it has any right to be.
 

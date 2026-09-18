@@ -300,9 +300,9 @@ sohl:
         disabled: false
 ---
 
-![[orca|Orca]]{float: top-left}
-
 # Appearance {#appearance}
+
+![[orca|Orca]]{float: top-left}
 
 The dorsal fin breaks the surface fifty paces off the starboard bow — black, curved, and taller than a man. The helmsman sees it and his hands go white on the tiller. Then a second fin surfaces to port. A third, behind. The water around the longship turns dark with shapes — enormous shapes, black above and white below, moving with a coordinated precision that is more military formation than animal behavior. They are not circling. They are positioning. The nearest animal rolls slightly, showing you an eye — a small, intelligent eye set in a patch of white above the jaw — and in that eye you see something that the sharks never showed you: comprehension. The shark is a machine. This thing is thinking. It is looking at your ship, at your crew, at the distance to the waterline, and it is making decisions. The pod surfaces together, exhaling in a collective blast of spray that sounds like a war horn, and the longship rocks in the wave they generate. The helmsman begins to pray. He has sailed these waters for twenty years, and he knows what northern sailors have always known: the sea has wolves too.
 

@@ -326,9 +326,9 @@ sohl:
         disabled: false
 ---
 
-![[tapir|Tapir]]{float: top-left}
-
 # Appearance {#appearance}
+
+![[tapir|Tapir]]{float: top-left}
 
 The undergrowth parts and something walks out of the jungle that your brain takes several seconds to classify. It is the size of a small pony, heavy-bodied and slung low to the ground, covered in short, dense fur of dark brown that is almost black. The head is the strangest part — elongated and oddly shaped, tapering to a short, flexible trunk or proboscis that writhes and probes the air like a fat, curious finger. The ears are round and edged with white, the eyes small and set deep in the skull, and the overall effect is of something assembled from parts that don't quite belong together — a pig's body, a horse's legs, an elephant's nose in miniature, and an expression of such mild, bewildered gentleness that you cannot help but feel sympathy for a creature so large and so obviously defenseless in a jungle full of jaguars. Then it turns and you see the hindquarters: solid, powerful, built with the same blunt engineering as a battering ram. The jungle peoples say the tapir was the first animal the gods made, before they learned to make predators, and that it remembers the time when the forest was safe. Watching it shuffle into the undergrowth with patient, unhurried steps, trunk probing ahead for the path of least resistance, you can almost believe it.
 

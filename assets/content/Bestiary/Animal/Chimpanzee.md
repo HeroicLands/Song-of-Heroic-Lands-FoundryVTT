@@ -572,9 +572,9 @@ sohl:
         disabled: false
 ---
 
-![[chmpnz|Chimpanzee]]{float: top-left}
-
 # Appearance {#appearance}
+
+![[chmpnz|Chimpanzee]]{float: top-left}
 
 The first sign is the sound—a series of rising pant-hoots that chill the blood, echoing through the canopy with primal intensity. Then the figure emerges: a powerful, dark-haired form swinging from branch to branch with acrobatic grace. As it descends closer, you see the musculature, the bare face and hands of startling intelligence, and then the lips peel back in a threat display that reveals massive canines. The creature lets out a full, aggressive screech that echoes through your chest. Its eyes—intelligent, calculating, and utterly devoid of compassion—fix directly on you.
 

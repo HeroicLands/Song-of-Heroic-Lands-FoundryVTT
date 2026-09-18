@@ -273,9 +273,9 @@ sohl:
         disabled: false
 ---
 
-![[quetzal|Quetzal]]{float: top-left}
-
 # Appearance {#appearance}
+
+![[quetzal|Quetzal]]{float: top-left}
 
 The jungle canopy is a cathedral of green, and the bird moves through it like a fragment of stained glass come to life. You hear the call first — a soft, fluting whistle that rises and falls like a question asked of the forest itself — and then a flash of color so vivid it seems impossible in a world of leaf and shadow. The breast is a red so deep it looks like arterial blood caught in light. The head and back are iridescent green — not merely green but a green that shifts to gold and turquoise and back again with every movement, as if the feathers are made of liquid metal rather than keratin. But the tail is what stops your breath. Two feathers, impossibly long — three feet of emerald ribbon streaming behind a bird no larger than a pigeon — ripple and undulate in the humid air as the quetzal moves from branch to branch, each landing a momentary sculpture of color against the dark canopy. The highland peoples say that when the gods needed to mark something as holy, they caught a piece of the sky and gave it feathers. Watching this bird, you understand why its plumage is worth more than gold, why killing one is punishable by death, and why the priest-kings wear its feathers as proof of divine authority.
 

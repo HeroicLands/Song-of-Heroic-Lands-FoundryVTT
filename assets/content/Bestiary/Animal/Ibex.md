@@ -326,9 +326,9 @@ sohl:
         disabled: false
 ---
 
-![[ibex|Ibex]]{float: top-left}
-
 # Appearance {#appearance}
+
+![[ibex|Ibex]]{float: top-left}
 
 You see it on the cliff face and your first thought is that it cannot possibly be standing where it is standing. The ledge — if it can be called a ledge — is no wider than your hand, angled at thirty degrees above a drop that would kill anything that fell from it. The ibex stands there as comfortably as you would stand on a road, one foreleg casually folded, chewing a mouthful of scrub torn from a crack in the rock. The horns are enormous — great sweeping curves of ridged bone that arc backward over the shoulders, seeming far too heavy for the narrow, agile body that carries them. It regards you from its impossible perch with the calm superiority of something that lives in a world with an extra dimension you cannot access. Then it turns and walks up the cliff face — up, on a surface that looks vertical from where you stand — hooves finding purchase on holds you cannot even see, and within moments it has disappeared over the rim into a landscape of rock and sky where you will never be able to follow.
 

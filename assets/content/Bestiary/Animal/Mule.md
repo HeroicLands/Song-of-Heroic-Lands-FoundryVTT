@@ -325,9 +325,9 @@ sohl:
         disabled: false
 ---
 
-![[mule|Mule]]{float: top-left}
-
 # Appearance {#appearance}
+
+![[mule|Mule]]{float: top-left}
 
 The mule stands with quiet dignity, its lean, muscular body built low and compact. Large ears rotate constantly, tracking sounds you cannot hear, and its intelligent dark eyes watch with the wariness of something that has learned not to trust easily. When it shifts its weight, you see the power coiled in its compact frame—not the showy strength of a horse, but something more pragmatic and enduring. A faint dust rises from its rough coat as it moves, and its very posture suggests an animal utterly practical and utterly unmoved by pretension or panic.
 

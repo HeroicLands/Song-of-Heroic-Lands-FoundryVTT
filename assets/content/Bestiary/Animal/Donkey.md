@@ -325,9 +325,9 @@ sohl:
         disabled: false
 ---
 
-![[donkey|Donkey]]{float: top-left}
-
 # Appearance {#appearance}
+
+![[donkey|Donkey]]{float: top-left}
 
 The small, sturdy animal stands with quiet patience, its oversized ears tracking movement with independent precision. The coat is rough and practical, gray or brown, unadorned by vanity. The short, strong legs end in sturdy hooves that have walked countless miles through terrain that would destroy lesser animals. When it turns its head toward you, the eyes are intelligent and patient—this is not a beast driven by fear or unreasoning aggression but by stoic pragmatism.
 

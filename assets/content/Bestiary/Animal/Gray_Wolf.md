@@ -276,9 +276,9 @@ sohl:
         disabled: false
 ---
 
-![[graywolf|Gray Wolf]]{float: top-left}
-
 # Appearance {#appearance}
+
+![[graywolf|Gray Wolf]]{float: top-left}
 
 The howl reaches you long before the wolf itself—a long, echoing call that speaks to something primal in your bones. When the creature emerges from the darkness, it moves like smoke given form, muscle and sinew rippling beneath a thick coat of gray and brown. The eyes catch firelight and reflect it back: amber and gold, burning with intelligence that is utterly unlike the predators you know. The nose works the air constantly, cataloging scents beyond your ability to perceive. When it growls, the sound vibrates in your chest, and the teeth—sharp and white—promise things your mind rejects even as your instincts scream warnings. But the worst part is the realization that you are seeing only one, and somewhere in the darkness around you, others are moving, flanking, waiting for the moment to strike together.
 

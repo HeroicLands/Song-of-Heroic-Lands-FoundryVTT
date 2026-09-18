@@ -262,9 +262,9 @@ sohl:
         disabled: false
 ---
 
-![[grtwhtsh|Great White Shark]]{float: top-left}
-
 # Appearance {#appearance}
+
+![[grtwhtsh|Great White Shark]]{float: top-left}
 
 The water around you grows cold. You see the shadow first—an enormous silhouette gliding beneath the surface with terrible grace. Then the shark itself rises: a creature of pure predatory design, gray above and white below, its body a hydrodynamic perfection built for nothing but hunting. The eyes are cold and reptilian, utterly without mercy or concern. When the shark opens its jaws, you see rows of serrated teeth sharp enough to shred armor, and the mouth is large enough to swallow a humanoid whole. The fin cuts the water, and you feel with bone-deep certainty that you are in the presence of something utterly beyond your capacity to resist.
 

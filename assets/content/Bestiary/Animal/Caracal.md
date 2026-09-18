@@ -315,9 +315,9 @@ sohl:
         disabled: false
 ---
 
-![[caracal|Caracal]]{float: top-left}
-
 # Appearance {#appearance}
+
+![[caracal|Caracal]]{float: top-left}
 
 A russet shape launches from the scrub with the explosive force of a released spring — straight up, five feet, six feet into the air, both forepaws striking simultaneously at something above it. A bird. There is a brief, violent intersection of fur and feathers at the apex of the leap, and then the cat drops back to earth with its prize clenched between its forepaws, landing with a grace that makes the kill look choreographed. It is smaller than you expected — the size of a large dog, lean and angular, with a coat the color of burned sand. The ears are what hold your attention: tall, narrow, tipped with long tufts of black hair that give the animal a sharp, almost heraldic silhouette. The eyes are gold, bright and fierce, and they find you across the scrub with a directness that suggests the cat has known you were there for some time and has been choosing to ignore you. It holds your gaze for a moment, then turns away with its kill, vanishing into the thorn scrub with a single fluid movement that leaves no trace of its passage.
 

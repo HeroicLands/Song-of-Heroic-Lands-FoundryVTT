@@ -277,9 +277,9 @@ sohl:
         disabled: false
 ---
 
-![[hyena|Hyena]]{float: top-left}
-
 # Appearance {#appearance}
+
+![[hyena|Hyena]]{float: top-left}
 
 Movement catches your eye on the savanna—a wiry, muscular shape with a distinctive sloping back, built higher at the shoulders than the rear. The creature's mottled coat of brown and black makes it almost invisible against the grassland, and its proportions seem somehow wrong, disturbingly asymmetrical. Then it laughs—a cackling, whooping sound that rises and falls like the wail of something unhinged. The laugh chills your blood. Its eyes are old and cruel, glinting with an intelligence born from hunger and cunning.
 

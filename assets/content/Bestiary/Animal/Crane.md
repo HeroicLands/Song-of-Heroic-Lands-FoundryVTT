@@ -309,9 +309,9 @@ sohl:
         disabled: false
 ---
 
-![[crane|Crane]]{float: top-left}
-
 # Appearance {#appearance}
+
+![[crane|Crane]]{float: top-left}
 
 The bird stands in the shallows of the imperial lake, motionless, and for a moment you mistake it for a statue — some artisan's offering placed at the water's edge. It is nearly as tall as a man, balanced on legs as thin and straight as calligraphy strokes, its body a study in restrained elegance: white plumage so clean it seems to generate its own light, a long neck curved in a line that no brush could improve upon, and a crown of bare crimson skin on the skull that burns like a coal against the white. Then the bird moves, and the illusion of stillness becomes an illusion of dance — each step placed with deliberate, measured grace, the neck extending and retracting in slow arcs, the entire body flowing through the shallow water as if choreographed to music only it can hear. When it calls, the sound is extraordinary — a clear, ringing trumpet that echoes across the water and seems to resonate in the chest, a sound of such piercing beauty that the courtiers on the far bank stop mid-conversation and turn to listen. The court peoples say the crane's call is the voice of heaven announcing that the cosmic order still holds. Standing here, watching the bird move through light and water, you find it difficult to disagree.
 

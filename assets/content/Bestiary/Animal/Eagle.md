@@ -313,9 +313,9 @@ sohl:
         disabled: false
 ---
 
-![[eagle|Eagle]]{float: top-left}
-
 # Appearance {#appearance}
+
+![[eagle|Eagle]]{float: top-left}
 
 The wind carries a shrill cry that makes your blood quicken. High above, a silhouette wheels through the clouds—wings stretched wide, banking and diving with predatory grace. Its shadow slides across the ground far below. As it drops lower, you catch the glint of sunlight off cruel curved talons and glimpse the intense, unblinking stare of a hunter that has already decided you are worth noting. The air itself seems to tremble with its presence.
 

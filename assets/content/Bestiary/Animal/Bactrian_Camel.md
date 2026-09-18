@@ -325,9 +325,9 @@ sohl:
         disabled: false
 ---
 
-![[bctrncml|Bactrian Camel]]{float: top-left}
-
 # Appearance {#appearance}
+
+![[bctrncml|Bactrian Camel]]{float: top-left}
 
 The creature regards you with weary, liquid eyes set high in a long, narrow face. Two broad humps rise above its shoulders like dunes made flesh, covered in shaggy wool the color of dried grass matted and stained with dust. The air around it carries a thick, rank smell—sweat and something acidic, bitter. Its breath steams faintly in the cold air, and when it shifts its weight, you can hear the creak of sinew and the grinding of joint against bone.
 

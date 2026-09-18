@@ -325,9 +325,9 @@ sohl:
         disabled: false
 ---
 
-![[greatelk|Great Elk]]{float: top-left}
-
 # Appearance {#appearance}
+
+![[greatelk|Great Elk]]{float: top-left}
 
 The earth trembles before you fully comprehend what approaches—a massive shape moving with deceptive grace through the forest. The elk stands nearly eight feet at the shoulder, a creature of overwhelming physical presence. The antlers are the true marvel: a crown of bone spanning twelve feet or more, branching like an ancient tree, each point sharp enough to pierce armor. The coat is rich tawny brown, lighter on the belly, and moves like silk over the powerful musculature beneath. The breath steams visibly in the cold air, and the eyes—large and dark—fix on you with an expression that combines calm intelligence with the capacity for terrible violence. The sound of the hooves on stone is heavy and authoritative, and the ground seems to reshape itself to accommodate the creature's passage.
 

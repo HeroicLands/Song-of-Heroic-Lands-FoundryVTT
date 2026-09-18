@@ -307,9 +307,9 @@ sohl:
         disabled: false
 ---
 
-![[crow|Crow]]{float: top-left}
-
 # Appearance {#appearance}
+
+![[crow|Crow]]{float: top-left}
 
 The bird cocks its head, assessing you with an eye that seems disturbingly intelligent. Glossy black feathers catch sunlight in iridescent flashes of purple and blue as it shifts its weight. The beak is sharp and capable, the eye itself dark and penetrating—not the empty gaze of animal instinct but something resembling calculation. It caws—a harsh, echoing sound that seems to carry far more meaning than simple birdsong should. Somewhere nearby, you hear the response: other crows, numerous, answering the call.
 

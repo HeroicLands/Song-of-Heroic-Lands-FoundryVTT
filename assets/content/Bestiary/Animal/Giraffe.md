@@ -325,9 +325,9 @@ sohl:
         disabled: false
 ---
 
-![[giraffe|Giraffe]]{float: top-left}
-
 # Appearance {#appearance}
+
+![[giraffe|Giraffe]]{float: top-left}
 
 You have been watching it for several minutes before your mind finishes the calculation. The thing at the tree line is not a tree. It is an animal, and it is the tallest living thing you have ever seen that was not rooted in the ground. The neck alone is longer than you are tall — a tapering column of patched hide that rises from a body the size of a large horse and ends in a small, aristocratic head that is browsing on leaves fifteen, sixteen, eighteen feet above the earth. The head turns, and two dark eyes regard you from a height that makes you feel like something viewed from a tower. The face is gentle and strange — long-lashed, heavy-lidded, with a mouth that works with the patient deliberation of a scholar turning pages, stripping leaves from branches with a tongue the color of dark slate that extends, curls, and grasps like a prehensile finger. The body is covered in a mosaic of dark brown patches separated by pale lines, a pattern so geometric and regular that it looks designed rather than grown. The legs are impossibly long, impossibly thin for what they support, and they end in hooves the size of dinner plates. It takes a step and the motion is slow, swaying, almost stately — both legs on the same side moving together in a rocking gait that looks precarious and is in fact perfectly controlled. It is the strangest and most beautiful thing you have seen on this continent, and it is looking at you with an expression of mild, elevated interest, like a noble acknowledging the existence of a peasant in the road below.
 

@@ -233,9 +233,9 @@ sohl:
         disabled: false
 ---
 
-![[rckpythn|Rock Python]]{float: top-left}
-
 # Appearance {#appearance}
+
+![[rckpythn|Rock Python]]{float: top-left}
 
 The ground beneath your feet seems to shift as something massive moves, creating ripples in dust and small stones. Before you can react, coils of muscular, patterned flesh rise from the shadows, each coil as thick as a human torso. The scales shimmer with patterns of brown and green that seem to shift and blur, making it difficult to parse the creature's true form. The head rises last, revealing an eye yellow and lidless, staring with the certainty of something that has waited centuries for prey to arrive. The air itself seems to tighten as the creature acknowledges you, and you understand with absolute clarity that escape may no longer be an option.
 

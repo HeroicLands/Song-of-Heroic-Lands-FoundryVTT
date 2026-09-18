@@ -315,9 +315,9 @@ sohl:
         disabled: false
 ---
 
-![[brwnbr|Brown Bear]]{float: top-left}
-
 # Appearance {#appearance}
+
+![[brwnbr|Brown Bear]]{float: top-left}
 
 The earth seems to hold its breath. A mountain of muscle and brown fur emerges from the treeline, each footfall deliberate and heavy. The creature's shoulders rise above your head even as it walks on all fours—a bulk so immense that the forest seems to shrink around it. Its smell precedes it fully: a reek of fish, overturned soil, and something wild and acrid that fills your nostrils and makes your eyes water. When the bear rises on its hind legs, it becomes something impossible—a wall of hair and sinew that blots out the sky. The sound it makes, a deep, chest-rattling roar, resonates through your bones and echoes across the valleys, a declaration that this is its world and you are merely permitted to exist within it.
 

@@ -277,9 +277,9 @@ sohl:
         disabled: false
 ---
 
-![[direwolf|Dire Wolf]]{float: top-left}
-
 # Appearance {#appearance}
+
+![[direwolf|Dire Wolf]]{float: top-left}
 
 You hear it first: a sound that carries for miles, a howl that raises the hair on your arms and freezes your breath in your throat. Then you see them emerging from shadow and forest edge—creatures that dwarf ordinary wolves. The lead animal stands as tall as a human’s waist, its frame a lean assemblage of coiled muscle and predatory grace. Storm-gray fur ripples over powerful limbs; yellow eyes gleam with an intelligence that seems almost human. The jaws open in a snarl that reveals teeth made for tearing, and the smell hits—wild, musk-laden, carrying the scent of blood and danger. When it moves, there is almost no sound: just the whisper of paws on earth and the distant, chilling song of the pack.
 

@@ -315,9 +315,9 @@ sohl:
         disabled: false
 ---
 
-![[leopard|Leopard]]{float: top-left}
-
 # Appearance {#appearance}
+
+![[leopard|Leopard]]{float: top-left}
 
 You do not see it. That is the point. You hear a sound — a scrape of claw on bark, the creak of a branch that should not creak — and you look up into the canopy and find death looking back at you. It lies along a limb with the boneless ease of something that has been waiting there for hours, perfectly still, perfectly patient. The coat is gold shading to amber, broken by rosettes of black that dissolve the outline of the animal into the dappled light until it is nearly invisible. The eyes are the only thing that moves — pale green or gold, fixed on you with the absolute concentration of a predator that has already decided. The body is compact and dense with muscle, smaller than a lion but built with a taut, coiled power that suggests every ounce serves a purpose. The tail hangs down, the tip twitching once. When it moves, it moves all at once — a liquid pour of spotted fur that is on the ground and then simply gone, vanished into the underbrush with a silence that makes you question whether you saw anything at all.
 

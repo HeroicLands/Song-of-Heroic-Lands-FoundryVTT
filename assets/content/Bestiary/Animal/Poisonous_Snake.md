@@ -198,9 +198,9 @@ sohl:
         disabled: false
 ---
 
-![[psnssnk|Poisonous Snake]]{float: top-left}
-
 # Appearance {#appearance}
+
+![[psnssnk|Poisonous Snake]]{float: top-left}
 
 Movement catches your eye — the subtle shift of coiled muscle beneath patterned scales, a ripple across sun-warmed stone. The snake lifts its head, and suddenly a forked tongue tastes the air, searching for your scent. Its unblinking eyes, vertical-pupiled and ancient-seeming, track your position with predatory focus. A faint hiss emerges, and you notice the slight widening of the neck — a warning display. The smell of musk and something sharp hangs in the air, and the temperature of the ground beneath the creature seems wrong somehow, as if its presence drains warmth.
 

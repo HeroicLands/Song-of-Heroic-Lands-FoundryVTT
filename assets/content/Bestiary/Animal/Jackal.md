@@ -275,9 +275,9 @@ sohl:
         disabled: false
 ---
 
-![[jackal|Jackal]]{float: top-left}
-
 # Appearance {#appearance}
+
+![[jackal|Jackal]]{float: top-left}
 
 A shape slips between the dunes at the edge of firelight — low-slung, tawny, moving with the practiced silence of something that has learned to survive by never being noticed until it chooses to be. The ears come first: tall, black-tipped, swiveling independently like a pair of sentries. Then the narrow face, sharp-muzzled and intelligent, with amber eyes that catch the light and throw it back as twin coins of gold. The body is lean to the point of emaciation, every rib visible beneath a coat of dusty gold and brown, but the leanness is deceptive — this is not starvation but economy, a creature stripped to nothing but sinew, speed, and hunger. It pauses, one paw lifted, nose working the air with rapid precision. Behind it, more shapes materialize from the darkness: three, five, seven — a loose constellation of identical silhouettes, each watching with the same patient, calculating stillness. They do not growl. They do not need to. They have been here longer than you, and they will be here long after you leave.
 

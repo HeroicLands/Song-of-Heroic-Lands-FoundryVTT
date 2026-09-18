@@ -325,9 +325,9 @@ sohl:
         disabled: false
 ---
 
-![[palfrey|Palfrey]]{float: top-left}
-
 # Appearance {#appearance}
+
+![[palfrey|Palfrey]]{float: top-left}
 
 The horse approaches with a measured, almost gliding stride, its motion so smooth it seems the rider barely rocks in the saddle. Dappled sunlight plays across its well-groomed coat, rich chestnut or gray depending on bloodline, rippling with each effortless step. Its head carries high, ears alert but relaxed, dark eyes showing intelligence and calm acceptance. There is nothing hurried or aggressive in its bearing — only a quiet competence that speaks of miles and hours of reliable travel.
 

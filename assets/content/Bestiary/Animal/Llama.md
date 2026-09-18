@@ -326,9 +326,9 @@ sohl:
         disabled: false
 ---
 
-![[llama|Llama]]{float: top-left}
-
 # Appearance {#appearance}
+
+![[llama|Llama]]{float: top-left}
 
 The caravan rounds the switchback above you, and you hear them before you see them — the soft, rhythmic clatter of small hooves on stone, the creak of pack frames, and a sound you cannot immediately identify: a low, musical humming, almost like distant singing. Then the first animal appears on the ledge and you see a creature of improbable elegance for a beast of burden. It is tall and slender, standing nearly six feet at the head, with a long, curved neck that gives it a haughty, aristocratic bearing. The coat is thick and luxuriant — waves of fine fiber in shades of brown, cream, and russet that ripple in the mountain wind. The face is extraordinary: a narrow, delicate head with enormous dark eyes fringed with lashes so long they seem theatrical, small pointed ears that swivel independently, and an expression of such serene superiority that you feel personally judged. The animal regards you for a long moment, then turns its head with studied indifference and continues along the trail with the calm, flat-footed certainty of something that has walked these mountains since before your civilization existed. Behind it come twenty more, each loaded with bundled goods, each moving with the same unhurried, aristocratic patience, and the humming sound resolves into their collective vocalization — a continuous, musical murmur that the highland herders say is the animal talking to itself about the quality of the trail.
 

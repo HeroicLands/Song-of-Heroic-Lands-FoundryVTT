@@ -368,9 +368,9 @@ sohl:
         disabled: false
 ---
 
-![[hppptms|Hippopotamus]]{float: top-left}
-
 # Appearance {#appearance}
+
+![[hppptms|Hippopotamus]]{float: top-left}
 
 The water erupts. What you took for a muddy boulder splits open into a mouth that should not exist on any living creature — a pink-and-gray cavern of glistening flesh lined with tusks the length of a man's forearm, each one curved and yellowed and clearly capable of shearing through wood, bone, and flesh without meaningful resistance. The jaw opens to an angle that seems to dislocate the skull, revealing the full horror of the gape: a maw wide enough to engulf a man's torso. The body that follows is a wall of gray-brown flesh, smooth and glistening, impossibly massive for how fast it moves. The eyes are small and set high on a head that seems designed by something that valued function over aesthetics — nostrils, eyes, and ears all positioned to sit above the waterline while the rest of the animal remains hidden. The sound it produces is not a roar but something worse: a bellow that resonates across the water like a war horn, deep enough to feel in your sternum, followed by a series of grunting laughs that carry a clear and unmistakable threat. The creature moves through the shallows with a surging, purposeful gait that belies its bulk. The water does not slow it. Nothing slows it.
 

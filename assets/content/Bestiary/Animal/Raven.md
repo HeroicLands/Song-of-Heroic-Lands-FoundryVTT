@@ -307,9 +307,9 @@ sohl:
         disabled: false
 ---
 
-![[raven|Raven]]{float: top-left}
-
 # Appearance {#appearance}
+
+![[raven|Raven]]{float: top-left}
 
 The bird tilts its head, watching you with an intensity that feels almost aware, almost calculating. Its feathers are an absolute black, light-devouring obsidian, yet they seem to shimmer with hints of deep purples and greens as the bird shifts. A sound emerges from its throat — not quite a caw, more a ragged croak that sounds disturbingly like a word, barely formed. The beak works methodically, clicking and clacking, and you realize the raven is examining you the way a scholar might examine an artifact, as if considering your value, your weakness, your utility. There is something in that gaze that speaks of intelligence that should not belong to a mere bird.
 

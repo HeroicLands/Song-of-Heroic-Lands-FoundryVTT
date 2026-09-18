@@ -288,9 +288,9 @@ sohl:
         disabled: false
 ---
 
-![[bovine|Bovine]]{float: top-left}
-
 # Appearance {#appearance}
+
+![[bovine|Bovine]]{float: top-left}
 
 The creature's massive form dominates the pasture—all solid muscle and weight pressing down on four columnar legs. Its coat gleams in the sunlight, smoothed by endless hours of grooming and weather. The head swings toward you slowly, and you catch the animal's scent on the wind: warm, earthy, tinged with the ammonia of straw bedding. Its breath huffs from flared nostrils as it regards you with eyes large and dark as storm clouds, intelligence and indifference mixing in that eternal bovine stare. When it shifts its weight, the ground seems to settle and adjust.
 

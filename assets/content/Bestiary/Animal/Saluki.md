@@ -276,9 +276,9 @@ sohl:
         disabled: false
 ---
 
-![[saluki|Saluki]]{float: top-left}
-
 # Appearance {#appearance}
+
+![[saluki|Saluki]]{float: top-left}
 
 The dog lies beside the fire like a piece of living calligraphy — all line and curve, drawn by a hand that valued elegance over utility. It is nothing like the blocky, thick-skulled working dogs of northern lands. This creature is made of air and tendon, so lean that every rib is visible beneath the short, silken coat, so long in the leg that it seems to have been stretched on a rack. The head is narrow and aristocratic, tapering to a fine muzzle with a slight convexity to the skull, and the ears are long, feathered, and folded close against the head like the pages of a closed book. The eyes are large, dark, and fathomlessly calm, regarding the world with an expression that manages to convey both complete awareness and supreme indifference. It does not look at you as a dog looks at a person. It looks at you the way a falcon looks at the ground — from a great and unbridgeable distance. Then something moves at the edge of the firelight and the transformation is instant: the languid curve becomes a coiled spring, the calm eyes narrow to fixed points, and every line of the body aligns toward the movement like a compass needle finding north. For one held breath it is absolutely still. Then it is gone — a pale blur accelerating into the darkness with a silence and speed that leaves you staring at the empty space where a dog used to be.
 

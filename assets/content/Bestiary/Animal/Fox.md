@@ -311,9 +311,9 @@ sohl:
         disabled: false
 ---
 
-![[fox|Fox]]{float: top-left}
-
 # Appearance {#appearance}
+
+![[fox|Fox]]{float: top-left}
 
 Movement catches your eye—a flicker of rust-colored fur and a dark flash of motion at the edge of the underbrush. Then it pauses, and you see it clearly: a slim, elegant animal no higher than your knee, ears pricked forward and absolutely still. Its bushy tail, tipped with white, curls around its haunches, and its eyes—sharp and amber-bright—meet yours for just a fraction of a second. In that look is pure calculation, a weighing and measuring of risk versus reward. Then, as if reaching an internal conclusion, the fox turns and melts back into the brush with barely a whisper of movement, leaving only the faint musk of its passage.
 

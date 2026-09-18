@@ -325,9 +325,9 @@ sohl:
         disabled: false
 ---
 
-![[grtstg|Great Stag]]{float: top-left}
-
 # Appearance {#appearance}
+
+![[grtstg|Great Stag]]{float: top-left}
 
 The forest seems to bow before it—a creature standing over six feet at the shoulder, carrying antlers that span nearly ten feet, spreading like the branches of an ancient oak rendered in bone. The coat is rich brown, lightening to a soft tan on the belly, with a distinctive white patch blazing across the chest like a mark of distinction. The stag moves with fluid grace that belies its size, each step careful and deliberate, and the antlers—heavy as they must be—are carried with perfect balance. The eyes are dark and soulful, large enough to reflect your image, and they hold an intelligence that is unmistakable. When the stag raises its head and fixes its gaze on you, you feel not hunted but weighed, evaluated, and found to be of interest.
 

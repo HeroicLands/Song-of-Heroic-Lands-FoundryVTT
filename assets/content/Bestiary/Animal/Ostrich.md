@@ -298,9 +298,9 @@ sohl:
         disabled: false
 ---
 
-![[ostrich|Ostrich]]{float: top-left}
-
 # Appearance {#appearance}
+
+![[ostrich|Ostrich]]{float: top-left}
 
 Your first thought is that someone has left a feathered tent in the middle of the plain. Then the tent stands up and you revise every assumption you have ever made about the size of birds. It is enormous — seven, eight feet tall, a towering column of body and neck topped by a small, flat head with eyes like polished stones. The body is a dark mass of plumage, black in the males, dusty brown in the females, but the tail and wing plumes are white, almost luminous against the desert landscape. The legs are what make you reconsider the situation — they are not bird legs as you understand the concept. They are pillars. Thick, scaled, muscular, ending in feet that carry two toes each, the inner one armed with a claw that looks less like a bird's talon and more like a short, heavy knife. It regards you with an expression of total vacancy — the small head, the blank eyes, the beak slightly open — and you almost laugh. Then it takes a step toward you and the ground shakes, and you remember that intelligence and lethality are not the same thing.
 

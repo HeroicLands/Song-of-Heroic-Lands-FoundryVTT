@@ -325,9 +325,9 @@ sohl:
         disabled: false
 ---
 
-![[destrier|Destrier]]{float: top-left}
-
 # Appearance {#appearance}
+
+![[destrier|Destrier]]{float: top-left}
 
 The ground shakes before you see the creature. What emerges is a mountain of controlled power: a horse of extraordinary size, nearly eighteen hands tall, built on a frame of pure muscular strength. The chest is as broad as a shield, the neck as thick as a tree, the legs like pillars of living iron. Beneath the weight of armor and rider, lesser horses would stumble; this creature bears them with the indifference of something engineered specifically for this burden. When it moves, the earth acknowledges its passage. When it rears, it becomes a statue of equine fury, twenty feet tall, muscles rippling beneath armor and hide. The sound it makes—a deep, resonant neigh—carries across battlefields and silences lesser threats through sheer presence.
 
