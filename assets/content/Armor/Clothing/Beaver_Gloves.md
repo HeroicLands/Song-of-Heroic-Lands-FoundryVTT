@@ -4,10 +4,10 @@ name:
   full: Beaver Gloves
   aliases: []
 description: "Beaver fur gloves delivering warmth and luxury for the cold-season wearer."
-img: icons/game-icons/delapouite/gloves.svg
 shortcode: bvglv
 type: armorgear
 data:
+  icon: gloves
   templatePriority: 0
 sohl:
   craft:

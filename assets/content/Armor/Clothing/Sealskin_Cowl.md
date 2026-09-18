@@ -4,10 +4,10 @@ name:
   full: Sealskin Cowl
   aliases: []
 description: "Water-resistant seal-fur hood; ideal for coastal regions."
-img: icons/game-icons/lorc/hood.svg
 shortcode: slscowl
 type: armorgear
 data:
+  icon: hood
   templatePriority: 0
 sohl:
   craft:

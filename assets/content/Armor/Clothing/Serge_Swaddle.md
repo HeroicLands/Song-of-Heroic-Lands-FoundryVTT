@@ -4,10 +4,10 @@ name:
   full: Serge Swaddle
   aliases: []
 description: "Durable twilled serge swaddle for infants; warm, secure, reliable."
-img: icons/game-icons/lorc/trousers.svg
 shortcode: sgswd
 type: armorgear
 data:
+  icon: trousers
   templatePriority: 0
 sohl:
   craft:

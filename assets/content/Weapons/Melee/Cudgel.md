@@ -4,10 +4,10 @@ name:
   full: Cudgel
   aliases: []
 description: "Short heavy-headed bludgeon for close-quarters; sell-sword's preference."
-img: icons/game-icons/badges/club.svg
 shortcode: cdgl
 type: weapongear
 data:
+  icon: club
   templatePriority: 0
 sohl:
   craft:

@@ -5,10 +5,10 @@ name:
   full: Tomatoes
   aliases: []
 description: "Round soft garden fruit, cooked in soups and stews, preserved dried."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: tomatoes
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

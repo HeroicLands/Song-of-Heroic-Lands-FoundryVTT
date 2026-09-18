@@ -6,10 +6,10 @@ name:
 description: "Stout ash shaft, wood or bronze knob; breaks bone, stuns boar."
 type: projectilegear
 data:
+  icon: broadheadarrow
   templatePriority: 0
 subType: arrow
 shortcode: arwhblt
-img: icons/game-icons/lorc/broadheadarrow.svg
 easyname: Heavy Blunt
 sohl:
   craft:

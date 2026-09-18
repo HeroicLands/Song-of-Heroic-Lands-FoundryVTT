@@ -4,10 +4,10 @@ name:
   full: Hypoglycemic
   aliases: []
 description: "Blood sugar crashes; tremor, sweating, confusion, collapse."
-img: icons/game-icons/delapouite/stomach.svg
 shortcode: hypgly
 type: trauma
 data:
+  icon: stomach
   templatePriority: 0
 subType: physcond
 sohl:

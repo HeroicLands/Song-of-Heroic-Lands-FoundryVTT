@@ -5,10 +5,10 @@ name:
   full: "Candle, Calibrated"
   aliases: []
 description: "Marked candle burned to measure hours; favored by scribes, scholars, astrologers."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: candlecali
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

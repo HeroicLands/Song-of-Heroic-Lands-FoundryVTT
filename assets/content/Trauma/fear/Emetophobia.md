@@ -3,10 +3,10 @@ tags: []
 name:
   full: Emetophobia
   aliases: []
-img: icons/game-icons/cathelineau/dread.svg
 shortcode: emetophb
 type: trauma
 data:
+  icon: dread
   templatePriority: 0
 subType: fear
 sohl:

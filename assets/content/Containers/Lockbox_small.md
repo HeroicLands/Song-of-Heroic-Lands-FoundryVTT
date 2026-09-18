@@ -4,10 +4,10 @@ name:
   full: "Lockbox, small"
   aliases: []
 description: "Portable iron-banded lockbox for coin, documents, or letters of credit."
-img: icons/game-icons/delapouite/chest.svg
 shortcode: lockboxsma
 type: containergear
 data:
+  icon: chest
   templatePriority: 0
 sohl:
   craft:

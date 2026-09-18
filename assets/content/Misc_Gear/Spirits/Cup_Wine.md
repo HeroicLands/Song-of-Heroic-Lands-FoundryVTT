@@ -5,10 +5,10 @@ name:
   full: Cup Wine
   aliases: []
 description: "Common wine in cup; less refined than aged vintages; for modest means."
-img: icons/game-icons/lorc/jeweledchalice.svg
 shortcode: winecup
 type: miscgear
 data:
+  icon: jeweledchalice
   templatePriority: 0
 sohl:
   craft:

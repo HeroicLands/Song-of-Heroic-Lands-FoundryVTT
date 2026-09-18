@@ -9,10 +9,10 @@ name:
   home: ""
 packFolder: archetypes
 shortcode: basicfolk
-img: icons/game-icons/delapouite/person.svg
-portrait: null
 type: being
 data:
+  icon: person
+  portrait: null
   templatePriority: 1
   gender: male
   age: 20

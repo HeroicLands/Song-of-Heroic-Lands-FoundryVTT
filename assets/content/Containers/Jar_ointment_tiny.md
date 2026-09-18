@@ -4,10 +4,10 @@ name:
   full: "Jar, ointment, tiny"
   aliases: []
 description: "Thumb-sized ceramic vessel for precious unguent or poison antidote."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: jarointmen4
 type: containergear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

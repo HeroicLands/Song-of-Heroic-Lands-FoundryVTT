@@ -3,10 +3,10 @@ tags: []
 name:
   full: Impaired Vision
   aliases: []
-img: icons/game-icons/lorc/battlegear.svg
 shortcode: imprdvsn
 type: trauma
 data:
+  icon: battlegear
   templatePriority: 0
 subType: physcond
 sohl:

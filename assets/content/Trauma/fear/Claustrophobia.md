@@ -3,10 +3,10 @@ tags: []
 name:
   full: Claustrophobia
   aliases: []
-img: icons/game-icons/cathelineau/dread.svg
 shortcode: clstrphb
 type: trauma
 data:
+  icon: dread
   templatePriority: 0
 subType: fear
 sohl:

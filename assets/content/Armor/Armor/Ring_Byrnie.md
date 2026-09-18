@@ -4,10 +4,10 @@ name:
   full: Ring Byrnie
   aliases: []
 description: "Leather tunic reinforced with overlapping metal rings; upper-body defense."
-img: icons/game-icons/willdabeast/chainmail.svg
 shortcode: rbyr
 type: armorgear
 data:
+  icon: chainmail
   templatePriority: 0
 sohl:
   craft:

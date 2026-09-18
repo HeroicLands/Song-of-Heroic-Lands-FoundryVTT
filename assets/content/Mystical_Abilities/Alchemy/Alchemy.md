@@ -4,10 +4,10 @@ name:
   full: Alchemy
   aliases: []
 description: "Preparing elixirs and worked substances that carry mystical potency."
-img: icons/game-icons/lorc/bubblingflask.svg
 shortcode: alch
 type: mysticalability
 data:
+  icon: bubblingflask
   templatePriority: 0
 subType: alchemy
 sohl:

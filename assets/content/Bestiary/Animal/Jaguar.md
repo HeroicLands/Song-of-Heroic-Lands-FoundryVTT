@@ -6,11 +6,11 @@ name:
   full: Jaguar
   aliases: []
 description: "The stocky apex cat of tropical jungles and riverbanks, wielding the strongest proportional bite of any cat, able to puncture turtle shell and skull."
-img: icons/game-icons/delapouite/feline.svg
-portrait: images/being/jaguar.webp
 shortcode: jaguar
 type: being
 data:
+  icon: feline
+  portrait: jaguar
   templatePriority: 0
 sohl:
   kbcat: animal

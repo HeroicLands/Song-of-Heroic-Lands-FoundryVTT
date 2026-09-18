@@ -4,10 +4,10 @@ name:
   full: Heat-Exhausted
   aliases: []
 description: "Moderate heat injury; pale, clammy skin, weak pulse, nausea, faintness."
-img: icons/game-icons/delapouite/stomach.svg
 shortcode: htexh
 type: trauma
 data:
+  icon: stomach
   templatePriority: 0
 subType: physcond
 sohl:

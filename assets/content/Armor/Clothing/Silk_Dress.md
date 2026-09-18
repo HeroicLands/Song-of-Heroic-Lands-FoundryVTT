@@ -4,10 +4,10 @@ name:
   full: Silk Dress
   aliases: []
 description: "Elegant flowing silk dress; perfect for formal events and occasions."
-img: icons/game-icons/skoll/dress.svg
 shortcode: slkdress
 type: armorgear
 data:
+  icon: dress
   templatePriority: 0
 sohl:
   craft:

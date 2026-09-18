@@ -3,10 +3,10 @@ tags: []
 name:
   full: Gephyrophobia
   aliases: []
-img: icons/game-icons/cathelineau/dread.svg
 shortcode: gphyrphb
 type: trauma
 data:
+  icon: dread
   templatePriority: 0
 subType: fear
 sohl:

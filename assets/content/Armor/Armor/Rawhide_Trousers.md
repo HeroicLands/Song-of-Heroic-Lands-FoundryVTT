@@ -4,10 +4,10 @@ name:
   full: Rawhide Trousers
   aliases: []
 description: "Thick untanned hide leg-wear for rough labor and harsh climates."
-img: icons/game-icons/lorc/trousers.svg
 shortcode: rhtrsr
 type: armorgear
 data:
+  icon: trousers
   templatePriority: 0
 sohl:
   craft:

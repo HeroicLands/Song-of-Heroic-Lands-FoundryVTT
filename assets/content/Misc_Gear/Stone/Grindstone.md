@@ -5,10 +5,10 @@ name:
   full: Grindstone
   aliases: []
 description: "Sandstone or granite disc; horizontal axle; grinds grain, ore, pigment by hand-turn."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: grindstone
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

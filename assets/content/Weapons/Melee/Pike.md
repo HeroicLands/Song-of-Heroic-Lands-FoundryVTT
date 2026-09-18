@@ -4,10 +4,10 @@ name:
   full: Pike
   aliases: []
 description: "Nine-foot slender thrusting spear; pike-rank cavalry-breaking wall."
-img: icons/game-icons/lorc/spears.svg
 shortcode: pike
 type: weapongear
 data:
+  icon: spears
   templatePriority: 0
 sohl:
   craft:

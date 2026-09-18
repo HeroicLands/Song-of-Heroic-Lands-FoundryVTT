@@ -4,10 +4,10 @@ name:
   full: Trance
   aliases: []
 description: "Loosening soul from body in deep meditation to perceive and cross into the spirit world."
-img: icons/game-icons/lorc/meditation.svg
 shortcode: trnc
 type: mysticalability
 data:
+  icon: meditation
   templatePriority: 0
 subType: spiritaction
 sohl:

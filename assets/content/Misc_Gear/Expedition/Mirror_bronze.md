@@ -5,10 +5,10 @@ name:
   full: "Mirror, bronze"
   aliases: []
 description: "Hand-sized bronze mirror for signaling, grooming, and spotting pursuers."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: mirrorbron
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

@@ -3,10 +3,10 @@ tags: []
 name:
   full: Pteronophobia
   aliases: []
-img: icons/game-icons/cathelineau/dread.svg
 shortcode: ptrnphb
 type: trauma
 data:
+  icon: dread
   templatePriority: 0
 subType: fear
 sohl:

@@ -3,10 +3,10 @@ tags: []
 name:
   full: Cleptophobia
   aliases: []
-img: icons/game-icons/cathelineau/dread.svg
 shortcode: clptphb
 type: trauma
 data:
+  icon: dread
   templatePriority: 0
 subType: fear
 sohl:

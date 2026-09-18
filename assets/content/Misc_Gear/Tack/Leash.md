@@ -5,10 +5,10 @@ name:
   full: Leash
   aliases: []
 description: "Rope or leather cord with snap and loop; leads dogs, goats, beasts."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: leash
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

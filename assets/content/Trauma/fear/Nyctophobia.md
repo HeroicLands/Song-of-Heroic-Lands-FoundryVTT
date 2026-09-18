@@ -3,10 +3,10 @@ tags: []
 name:
   full: Nyctophobia
   aliases: []
-img: icons/game-icons/cathelineau/dread.svg
 shortcode: nyctophb
 type: trauma
 data:
+  icon: dread
   templatePriority: 0
 subType: fear
 sohl:

@@ -4,10 +4,10 @@ name:
   full: Ermine Shirt
   aliases: []
 description: "White ermine fur shirt signifying high status and elite prestige."
-img: icons/game-icons/lucasms/shirt.svg
 shortcode: eshirt
 type: armorgear
 data:
+  icon: shirt
   templatePriority: 0
 sohl:
   craft:

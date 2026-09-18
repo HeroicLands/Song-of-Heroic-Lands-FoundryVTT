@@ -3,10 +3,10 @@ tags: []
 name:
   full: Ombrophobia
   aliases: []
-img: icons/game-icons/cathelineau/dread.svg
 shortcode: ombrophb
 type: trauma
 data:
+  icon: dread
   templatePriority: 0
 subType: fear
 sohl:

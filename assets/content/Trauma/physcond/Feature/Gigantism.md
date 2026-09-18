@@ -3,10 +3,10 @@ tags: []
 name:
   full: Gigantism
   aliases: []
-img: icons/game-icons/lorc/battlegear.svg
 shortcode: ggntsm
 type: trauma
 data:
+  icon: battlegear
   templatePriority: 0
 subType: physcond
 sohl:

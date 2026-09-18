@@ -4,10 +4,10 @@ name:
   full: Homespun Swaddle
   aliases: []
 description: "Simple homemade infant swaddle offering comfort and warmth."
-img: icons/game-icons/lorc/trousers.svg
 shortcode: hsswd
 type: armorgear
 data:
+  icon: trousers
   templatePriority: 0
 sohl:
   craft:

@@ -4,10 +4,10 @@ name:
   full: Maul
   aliases: []
 description: "Two-handed wooden hammer for siege breach; assault engineer's door-crasher."
-img: icons/game-icons/lorc/clawhammer.svg
 shortcode: maul
 type: weapongear
 data:
+  icon: clawhammer
   templatePriority: 0
 sohl:
   craft:

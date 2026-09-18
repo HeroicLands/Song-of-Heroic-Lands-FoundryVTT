@@ -3,10 +3,10 @@ tags: []
 name:
   full: Vanity
   aliases: []
-img: icons/game-icons/lorc/battlegear.svg
 shortcode: vanity
 type: trauma
 data:
+  icon: battlegear
   templatePriority: 0
 subType: psycond
 sohl:

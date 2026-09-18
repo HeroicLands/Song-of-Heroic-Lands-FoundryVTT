@@ -5,10 +5,10 @@ name:
   aliases:
     - Walking
 description: "Sustained weariness from long-distance walking at travel pace."
-img: icons/game-icons/lorc/sleepy.svg
 shortcode: march
 type: trauma
 data:
+  icon: sleepy
   templatePriority: 0
 subType: fatigue
 sohl:

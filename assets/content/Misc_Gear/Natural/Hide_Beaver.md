@@ -5,10 +5,10 @@ name:
   full: "Hide, Beaver"
   aliases: []
 description: "Beaver pelt with dense underfur and waterproof guard hairs; cloaks, winter garments. Price is for one whole skin."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: hidebeaver
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

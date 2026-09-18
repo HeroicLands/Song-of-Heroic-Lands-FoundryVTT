@@ -4,10 +4,10 @@ name:
   full: Homespun Cloak
   aliases: []
 description: "Practical homemade cloak providing basic weather protection."
-img: icons/game-icons/lucasms/cloak.svg
 shortcode: hsclk
 type: armorgear
 data:
+  icon: cloak
   templatePriority: 0
 sohl:
   craft:

@@ -4,10 +4,10 @@ name:
   full: Buckram Gloves
   aliases: []
 description: "Stiff buckram gloves offering rigid hand covering for structured tasks."
-img: icons/game-icons/delapouite/gloves.svg
 shortcode: bglv
 type: armorgear
 data:
+  icon: gloves
   templatePriority: 0
 sohl:
   craft:

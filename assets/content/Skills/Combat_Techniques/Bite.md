@@ -5,10 +5,10 @@ name:
   aliases:
     - Bite
 description: "Teeth, at the range where nothing else will reach; small, precise, and it draws blood."
-img: icons/game-icons/skoll/fangs.svg
 shortcode: bflkbite
 type: skill
 data:
+  icon: fangs
   templatePriority: 0
 subType: combattechnique
 sohl:

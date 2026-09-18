@@ -3,10 +3,10 @@ tags: []
 name:
   full: Diligent
   aliases: []
-img: icons/game-icons/lorc/battlegear.svg
 shortcode: diligent
 type: trauma
 data:
+  icon: battlegear
   templatePriority: 0
 subType: psycond
 sohl:

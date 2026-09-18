@@ -5,10 +5,10 @@ name:
   full: "Velvet, per sq yard"
   aliases: []
 description: "Piled silk-faced cloth of great price; court dress and hangings."
-img: icons/game-icons/delapouite/rolledcloth.svg
 shortcode: velvet
 type: miscgear
 data:
+  icon: rolledcloth
   templatePriority: 0
 sohl:
   craft:

@@ -4,10 +4,10 @@ name:
   full: Kûrbúl Coudes
   aliases: []
 description: "Treated leather elbow protection with intricate patterns for function and flair."
-img: icons/game-icons/delapouite/elbowpad.svg
 shortcode: kcou
 type: armorgear
 data:
+  icon: elbowpad
   templatePriority: 0
 sohl:
   craft:

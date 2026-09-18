@@ -4,10 +4,10 @@ name:
   full: Padded Cloak
   aliases: []
 description: "Quilted and padded cloak; cheap protection that doubles as a warm travelling garment."
-img: icons/game-icons/lucasms/cloak.svg
 shortcode: pdclk
 type: armorgear
 data:
+  icon: cloak
   templatePriority: 0
 sohl:
   craft:

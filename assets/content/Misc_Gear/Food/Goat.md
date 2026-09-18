@@ -5,10 +5,10 @@ name:
   full: Goat
   aliases: []
 description: "Fresh lean meat; pungent, stews or smokes well for travel stores."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: goat
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

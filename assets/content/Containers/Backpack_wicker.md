@@ -4,10 +4,10 @@ name:
   full: "Backpack, wicker"
   aliases: []
 description: "Woven wicker pack, inherently framed."
-img: icons/game-icons/delapouite/basket.svg
 shortcode: backpkwck
 type: containergear
 data:
+  icon: basket
   templatePriority: 0
 sohl:
   craft:

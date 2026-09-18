@@ -5,10 +5,10 @@ name:
   full: "Cage, iron, large"
   aliases: []
 description: "Heavy forged iron cage with riveted bars; confines man or dangerous beasts."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: cageironla
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

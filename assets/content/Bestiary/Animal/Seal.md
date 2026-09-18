@@ -7,11 +7,11 @@ name:
   aliases:
     - Grey Seal
 description: "A sleek, fish-eating pinniped of northern coasts whose meat, blubber, and hide sustain coastal communities through bitter winters."
-img: icons/game-icons/lorc/pawprint.svg
-portrait: images/being/seal.webp
 shortcode: seal
 type: being
 data:
+  icon: pawprint
+  portrait: seal
   templatePriority: 0
 sohl:
   kbcat: animal

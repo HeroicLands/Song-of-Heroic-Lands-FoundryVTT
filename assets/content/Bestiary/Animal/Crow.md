@@ -5,11 +5,11 @@ name:
   full: Crow
   aliases: []
 description: "A clever, adaptable passerine thriving alongside humans, showing curiosity, problem-solving, and a memory that lends each bird real personality."
-img: icons/game-icons/lorc/crowdive.svg
-portrait: images/being/crow.webp
 shortcode: crow
 type: being
 data:
+  icon: crowdive
+  portrait: crow
   templatePriority: 0
 sohl:
   kbcat: animal

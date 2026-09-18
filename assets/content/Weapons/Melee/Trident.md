@@ -4,10 +4,10 @@ name:
   full: Trident
   aliases: []
 description: "Three-pronged fork binding and piercing; favored by pit-fighters."
-img: icons/game-icons/lorc/trident.svg
 shortcode: tri
 type: weapongear
 data:
+  icon: trident
   templatePriority: 0
 sohl:
   craft:

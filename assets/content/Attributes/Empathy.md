@@ -4,10 +4,10 @@ name:
   full: Empathy
   aliases: []
 description: "Sensing and understanding the feelings and motives of others."
-img: icons/game-icons/zeromancer/heartplus.svg
 shortcode: emp
 type: attribute
 data:
+  icon: heartplus
   templatePriority: 0
 sohl:
   system:

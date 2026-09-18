@@ -5,10 +5,10 @@ name:
   full: Veal
   aliases: []
 description: "Pale tender young calf meat, fine-grained, favored by wealthy households."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: veal
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

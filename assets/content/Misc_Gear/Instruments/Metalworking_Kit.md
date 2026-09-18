@@ -5,10 +5,10 @@ name:
   full: Metalworking Kit
   aliases: []
 description: "Canvas roll with cold chisels, files, hammers, drifts, scribe; smiths finish metalwork."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: metalwrktl
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

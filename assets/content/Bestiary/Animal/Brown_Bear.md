@@ -5,11 +5,11 @@ name:
   full: Brown Bear
   aliases: []
 description: "A colossal, fiercely territorial apex predator of boreal and alpine wilds, the most dangerous large hunter of the northern hemisphere."
-img: icons/game-icons/delapouite/bearhead.svg
-portrait: images/being/brwnbr.webp
 shortcode: brwnbr
 type: being
 data:
+  icon: bearhead
+  portrait: brwnbr
   templatePriority: 0
 sohl:
   kbcat: animal

@@ -4,10 +4,10 @@ name:
   full: Beaver Cowl
   aliases: []
 description: "Beaver-fur cowl offering warmth and quiet opulence in cold weather."
-img: icons/game-icons/lorc/hood.svg
 shortcode: bvcowl
 type: armorgear
 data:
+  icon: hood
   templatePriority: 0
 sohl:
   craft:

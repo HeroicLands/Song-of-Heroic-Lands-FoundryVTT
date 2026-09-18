@@ -3,10 +3,10 @@ tags: []
 name:
   full: Iatrophobia
   aliases: []
-img: icons/game-icons/cathelineau/dread.svg
 shortcode: iatrophb
 type: trauma
 data:
+  icon: dread
   templatePriority: 0
 subType: fear
 sohl:

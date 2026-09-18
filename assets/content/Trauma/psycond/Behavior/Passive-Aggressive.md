@@ -3,10 +3,10 @@ tags: []
 name:
   full: Passive-Aggressive
   aliases: []
-img: icons/game-icons/lorc/battlegear.svg
 shortcode: passivea
 type: trauma
 data:
+  icon: battlegear
   templatePriority: 0
 subType: psycond
 sohl:

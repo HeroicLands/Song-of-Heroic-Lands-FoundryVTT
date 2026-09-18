@@ -4,10 +4,10 @@ name:
   full: Russet Trousers
   aliases: []
 description: "Reddish-brown wool breeches; leg-wear for outdoor work."
-img: icons/game-icons/lorc/trousers.svg
 shortcode: rtrsr
 type: armorgear
 data:
+  icon: trousers
   templatePriority: 0
 sohl:
   craft:

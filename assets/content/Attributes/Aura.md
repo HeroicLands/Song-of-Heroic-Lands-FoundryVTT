@@ -4,10 +4,10 @@ name:
   full: Aura
   aliases: []
 description: "Depth of the soul, and the presence every mystical connexion rests on."
-img: icons/game-icons/lorc/aura.svg
 shortcode: aur
 type: attribute
 data:
+  icon: aura
   templatePriority: 0
 sohl:
   system:

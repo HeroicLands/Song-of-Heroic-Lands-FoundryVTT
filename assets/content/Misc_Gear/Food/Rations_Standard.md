@@ -5,10 +5,10 @@ name:
   full: Rations, Standard
   aliases: []
 description: "Bread, dried meat, cheese, fruit bundle for traveler's day of moderate labor."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: stdrtns
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

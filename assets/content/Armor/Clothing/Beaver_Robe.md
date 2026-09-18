@@ -4,10 +4,10 @@ name:
   full: Beaver Robe
   aliases: []
 description: "Full-length beaver fur robe; heavy warmth and quiet status."
-img: icons/game-icons/lorc/robe.svg
 shortcode: bvrobe
 type: armorgear
 data:
+  icon: robe
   templatePriority: 0
 sohl:
   craft:

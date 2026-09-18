@@ -5,10 +5,10 @@ name:
   full: Fleece
   aliases: []
 description: "Raw wool sheared or combed; fine yields soft yarn, coarse felts."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: fleece
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

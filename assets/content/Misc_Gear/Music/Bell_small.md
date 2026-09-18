@@ -5,10 +5,10 @@ name:
   full: "Bell, small"
   aliases: []
 description: "Modest bronze-iron bell with handle; lighter, sharper than hand bell; livestock tracking."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: bellsmall
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

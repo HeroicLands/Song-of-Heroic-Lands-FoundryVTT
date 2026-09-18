@@ -3,10 +3,10 @@ tags: []
 name:
   full: Ichthyophobia
   aliases: []
-img: icons/game-icons/cathelineau/dread.svg
 shortcode: ichthyop
 type: trauma
 data:
+  icon: dread
   templatePriority: 0
 subType: fear
 sohl:

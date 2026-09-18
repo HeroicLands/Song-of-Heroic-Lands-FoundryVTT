@@ -4,10 +4,10 @@ name:
   full: Silk Vest
   aliases: []
 description: "Elegant silk vest; luxurious, refined garment for formal occasions."
-img: icons/game-icons/lorc/leathervest.svg
 shortcode: slkvest
 type: armorgear
 data:
+  icon: leathervest
   templatePriority: 0
 sohl:
   craft:

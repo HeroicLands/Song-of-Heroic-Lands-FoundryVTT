@@ -5,10 +5,10 @@ name:
   full: Pork
   aliases: []
 description: "Fatty rich swine meat, salts and smokes excellently, garrison staple."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: pork
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

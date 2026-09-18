@@ -4,10 +4,10 @@ name:
   full: Perfumery
   aliases: []
 description: "Blending herbs, flowers, and essences into scents and aromatic preparations."
-img: icons/game-icons/lorc/perfumebottle.svg
 shortcode: pfmy
 type: skill
 data:
+  icon: perfumebottle
   templatePriority: 0
 subType: lore
 sohl:

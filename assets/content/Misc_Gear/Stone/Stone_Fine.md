@@ -5,10 +5,10 @@ name:
   full: "Stone, Fine"
   aliases: []
 description: "Squared dressed stone blocks; smooth facing, precise joints; churches, fortifications."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: stonefine
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

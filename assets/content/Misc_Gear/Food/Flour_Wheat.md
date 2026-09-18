@@ -5,10 +5,10 @@ name:
   full: "Flour, Wheat"
   aliases: []
 description: "Fine pale flour; light breads and pastries, reserved for wealthier folk."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: flourwheat
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

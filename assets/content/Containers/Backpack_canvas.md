@@ -4,10 +4,10 @@ name:
   full: "Backpack, canvas"
   aliases: []
 description: "Frameless canvas pack with shoulder straps."
-img: icons/game-icons/lorc/knapsack.svg
 shortcode: backpkcvs
 type: containergear
 data:
+  icon: knapsack
   templatePriority: 0
 sohl:
   craft:

@@ -4,10 +4,10 @@ name:
   full: Boomerang
   aliases: []
 description: "Throwing curved wooden sticks for hunting and warfare, with returning and non-returning variants."
-img: icons/game-icons/delapouite/sling.svg
 shortcode: bmrng
 type: skill
 data:
+  icon: sling
   templatePriority: 0
 subType: combat
 sohl:

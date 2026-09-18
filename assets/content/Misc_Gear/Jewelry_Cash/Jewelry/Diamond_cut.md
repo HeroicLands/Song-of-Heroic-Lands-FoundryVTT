@@ -5,10 +5,10 @@ name:
   full: "Diamond, cut"
   aliases: []
 description: "Hardest stone, brilliant-cut gem refracting light into rainbow fire; marks extraordinary wealth."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: diamondcut
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

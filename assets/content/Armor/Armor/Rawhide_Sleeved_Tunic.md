@@ -4,10 +4,10 @@ name:
   full: Rawhide Sleeved Tunic
   aliases: []
 description: "Sturdy hide tunic; arms and torso protection."
-img: icons/game-icons/lucasms/shirt.svg
 shortcode: rhstunic
 type: armorgear
 data:
+  icon: shirt
   templatePriority: 0
 sohl:
   craft:

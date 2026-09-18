@@ -4,10 +4,10 @@ name:
   full: "Cooking pot, copper"
   aliases: []
 description: "Tinned-copper pot with lid for simmering without metallic taste."
-img: icons/game-icons/delapouite/cookingpot.svg
 shortcode: cookingpot
 type: containergear
 data:
+  icon: cookingpot
   templatePriority: 0
 sohl:
   craft:

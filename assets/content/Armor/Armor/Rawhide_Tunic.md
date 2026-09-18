@@ -4,10 +4,10 @@ name:
   full: Rawhide Tunic
   aliases: []
 description: "Stiff hide tunic; durable core protection."
-img: icons/game-icons/lucasms/shirt.svg
 shortcode: rhtunic
 type: armorgear
 data:
+  icon: shirt
   templatePriority: 0
 sohl:
   craft:

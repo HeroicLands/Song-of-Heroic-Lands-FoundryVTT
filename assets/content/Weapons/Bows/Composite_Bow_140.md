@@ -4,10 +4,10 @@ name:
   full: Composite Bow 140
   aliases: []
 description: "One-hundred-forty pound master-archer's bow; punches plate at distance."
-img: icons/game-icons/lorc/pocketbow.svg
 shortcode: cbw140
 type: weapongear
 data:
+  icon: pocketbow
   templatePriority: 0
 sohl:
   craft:

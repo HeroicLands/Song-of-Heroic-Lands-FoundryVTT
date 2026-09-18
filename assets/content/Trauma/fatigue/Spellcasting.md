@@ -4,10 +4,10 @@ name:
   full: Spellcasting
   aliases: []
 description: "Acute windedness from casting a spell."
-img: icons/game-icons/lorc/sleepy.svg
 shortcode: cast
 type: trauma
 data:
+  icon: sleepy
   templatePriority: 0
 subType: fatigue
 sohl:

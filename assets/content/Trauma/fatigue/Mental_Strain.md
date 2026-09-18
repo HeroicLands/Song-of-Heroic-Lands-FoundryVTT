@@ -4,10 +4,10 @@ name:
   full: Mental Strain
   aliases: []
 description: "Sustained weariness from prolonged mental effort — reading, scribing, calculation, deep focus."
-img: icons/game-icons/lorc/sleepy.svg
 shortcode: mentstn
 type: trauma
 data:
+  icon: sleepy
   templatePriority: 0
 subType: fatigue
 sohl:

@@ -6,11 +6,11 @@ name:
   full: Llama
   aliases: []
 description: "A domesticated highland camelid serving as pack animal, fiber and meat source, and guardian of smaller livestock in mountain caravans."
-img: icons/game-icons/delapouite/camelhead.svg
-portrait: images/being/llama.webp
 shortcode: llama
 type: being
 data:
+  icon: camelhead
+  portrait: llama
   templatePriority: 0
 sohl:
   kbcat: animal

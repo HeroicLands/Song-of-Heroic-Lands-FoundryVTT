@@ -5,10 +5,10 @@ name:
   full: "Holy Symbol, iron"
   aliases: []
 description: "Forged iron token of a god, plain and heavy; a smith's or soldier's symbol."
-img: icons/game-icons/lorc/prayer.svg
 shortcode: holysymiron
 type: miscgear
 data:
+  icon: prayer
   templatePriority: 0
 sohl:
   craft:

@@ -5,10 +5,10 @@ name:
   full: "Oil, myrtle"
   aliases: []
 description: "Clean astringent myrtle oil for perfumery and wound washes."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: oilmyrtle
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

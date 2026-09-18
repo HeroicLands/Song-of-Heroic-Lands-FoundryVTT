@@ -5,10 +5,10 @@ name:
   full: "Silk, per sq yard"
   aliases: []
 description: "Imported woven silk, light and lustrous; the dearest cloth in any market."
-img: icons/game-icons/delapouite/rolledcloth.svg
 shortcode: silk
 type: miscgear
 data:
+  icon: rolledcloth
   templatePriority: 0
 sohl:
   craft:

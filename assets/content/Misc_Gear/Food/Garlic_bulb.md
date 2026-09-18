@@ -5,10 +5,10 @@ name:
   full: Garlic bulb
   aliases: []
 description: "Papery-skinned bulb of cloves; sharp pungent seasoning, keeps for months."
-img: icons/game-icons/delapouite/herbsbundle.svg
 shortcode: garlic
 type: miscgear
 data:
+  icon: herbsbundle
   templatePriority: 0
 sohl:
   craft:

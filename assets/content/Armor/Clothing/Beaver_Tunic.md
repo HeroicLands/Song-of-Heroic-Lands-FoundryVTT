@@ -4,10 +4,10 @@ name:
   full: Beaver Tunic
   aliases: []
 description: "Beaver fur tunic blending function and status for cold weather."
-img: icons/game-icons/lucasms/shirt.svg
 shortcode: bvtunic
 type: armorgear
 data:
+  icon: shirt
   templatePriority: 0
 sohl:
   craft:

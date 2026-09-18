@@ -6,11 +6,11 @@ name:
   full: Baboon
   aliases: []
 description: "A powerfully built, highly social monkey of the river lowlands, dwelling in rocky escarpments and river margins near human settlements."
-img: icons/game-icons/lorc/monkey.svg
-portrait: images/being/baboon.webp
 shortcode: baboon
 type: being
 data:
+  icon: monkey
+  portrait: baboon
   templatePriority: 0
 sohl:
   kbcat: animal

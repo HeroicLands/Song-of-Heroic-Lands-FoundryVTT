@@ -4,10 +4,10 @@ name:
   full: Engineering
   aliases: []
 description: "Designing bridges, mills, siegeworks; managing stress, leverage, materials."
-img: icons/game-icons/lorc/gears.svg
 shortcode: eng
 type: skill
 data:
+  icon: gears
   templatePriority: 0
 subType: lore
 sohl:

@@ -5,11 +5,11 @@ name:
   full: Palfrey
   aliases: []
 description: "A refined, smooth-gaited riding horse bred by nobility for comfort over long distances, favored by ladies, couriers, and wealthy merchants."
-img: icons/game-icons/delapouite/horsehead.svg
-portrait: images/being/palfrey.webp
 shortcode: palfrey
 type: being
 data:
+  icon: horsehead
+  portrait: palfrey
   templatePriority: 0
 sohl:
   kbcat: animal

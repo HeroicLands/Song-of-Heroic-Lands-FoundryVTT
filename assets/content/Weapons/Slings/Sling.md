@@ -4,10 +4,10 @@ name:
   full: Sling
   aliases: []
 description: "Leather cradle on cords; low-cost ranged arm for skirmishers."
-img: icons/game-icons/delapouite/sling.svg
 shortcode: slng
 type: weapongear
 data:
+  icon: sling
   templatePriority: 0
 sohl:
   craft:

@@ -5,10 +5,10 @@ name:
   full: Pike
   aliases: []
 description: "Freshwater predator with firm white flaky flesh, salts and smokes well."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: pike
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

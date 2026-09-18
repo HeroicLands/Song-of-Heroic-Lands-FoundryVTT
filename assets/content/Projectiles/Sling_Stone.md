@@ -6,10 +6,10 @@ name:
 description: "Smooth river pebble or kiln-fired clay; cracks skulls, breaks hound legs."
 type: projectilegear
 data:
+  icon: stonepile
   templatePriority: 0
 subType: bullet
 shortcode: sston
-img: icons/game-icons/delapouite/stonepile.svg
 easyname: Stone
 sohl:
   craft:

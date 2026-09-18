@@ -4,7 +4,6 @@ name:
   full: Wayfarer's Rest, Loft
   aliases: []
 description: "The sleeping loft above the common room, reached by one stair."
-img: systems/sohl/assets/ui/parchment.jpg
 shortcode: wayrestloft
 type: map
 packFolder: battlemaps
@@ -58,6 +57,8 @@ sohl:
         down:
           teleportToken:
             to: { map: wayrestground, region: stair-foot }
+data:
+  icon: sohl-none-image-parchment
 ---
 
 Half a floor, boarded over the common room's east end and open to it on the

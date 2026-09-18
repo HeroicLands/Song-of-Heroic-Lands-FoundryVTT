@@ -3,10 +3,10 @@ tags: []
 name:
   full: Energetic
   aliases: []
-img: icons/game-icons/lorc/battlegear.svg
 shortcode: enrgtc
 type: trauma
 data:
+  icon: battlegear
   templatePriority: 0
 subType: psycond
 sohl:

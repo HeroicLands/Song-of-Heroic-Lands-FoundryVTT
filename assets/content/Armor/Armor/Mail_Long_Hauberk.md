@@ -4,10 +4,10 @@ name:
   full: Mail Long Hauberk
   aliases: []
 description: "Lengthy metal ring torso armor for extended leg protection."
-img: icons/game-icons/willdabeast/chainmail.svg
 shortcode: mlhbk
 type: armorgear
 data:
+  icon: chainmail
   templatePriority: 0
 sohl:
   craft:

@@ -3,10 +3,10 @@ tags: []
 name:
   full: Reliable
   aliases: []
-img: icons/game-icons/lorc/battlegear.svg
 shortcode: reliable
 type: trauma
 data:
+  icon: battlegear
   templatePriority: 0
 subType: psycond
 sohl:

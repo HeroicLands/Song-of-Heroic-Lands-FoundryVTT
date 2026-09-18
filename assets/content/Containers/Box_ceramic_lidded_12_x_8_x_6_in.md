@@ -4,10 +4,10 @@ name:
   full: "Box, ceramic, lidded, 12 x 8 x 6 in"
   aliases: []
 description: "Lidded earthenware box for dry goods kept away from damp and vermin."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: boxcerlid
 type: containergear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

@@ -4,10 +4,10 @@ name:
   full: Gambeson Tunic
   aliases: []
 description: "Padded tunic offering protection worn under or over armor."
-img: icons/game-icons/lucasms/shirt.svg
 shortcode: gtnc
 type: armorgear
 data:
+  icon: shirt
   templatePriority: 0
 sohl:
   craft:

@@ -5,10 +5,10 @@ name:
   full: "Earrings, bronze"
   aliases: []
 description: "Hard cast bronze pair; keeps its shape where softer wire pulls open."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: earringsbronze
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

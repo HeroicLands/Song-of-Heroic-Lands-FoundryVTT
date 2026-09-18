@@ -5,10 +5,10 @@ name:
   full: Bronze
   aliases: []
 description: "Copper-and-tin alloy, harder than copper; cast into tools, vessels, and ornament."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: bronze
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

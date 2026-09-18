@@ -4,10 +4,10 @@ name:
   full: "Jar, ointment, medium"
   aliases: []
 description: "Ceramic apothecary jar with wide mouth for creams and medicinal tinctures."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: jarointmen2
 type: containergear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

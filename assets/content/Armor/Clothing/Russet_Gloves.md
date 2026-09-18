@@ -4,10 +4,10 @@ name:
   full: Russet Gloves
   aliases: []
 description: "Reddish-brown wool hand-covers; cold-weather protection."
-img: icons/game-icons/delapouite/gloves.svg
 shortcode: rglv
 type: armorgear
 data:
+  icon: gloves
   templatePriority: 0
 sohl:
   craft:

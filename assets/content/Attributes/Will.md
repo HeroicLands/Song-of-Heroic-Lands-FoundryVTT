@@ -4,10 +4,10 @@ name:
   full: Will
   aliases: []
 description: "Determination and self-mastery; holding a course despite hardship or fear."
-img: icons/game-icons/lorc/meditation.svg
 shortcode: wil
 type: attribute
 data:
+  icon: meditation
   templatePriority: 0
 sohl:
   system:

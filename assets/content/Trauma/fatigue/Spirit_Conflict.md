@@ -4,10 +4,10 @@ name:
   full: Spirit Conflict
   aliases: []
 description: "Acute windedness from spiritual struggle against a contesting entity."
-img: icons/game-icons/lorc/sleepy.svg
 shortcode: spiritcnfl
 type: trauma
 data:
+  icon: sleepy
   templatePriority: 0
 subType: fatigue
 sohl:

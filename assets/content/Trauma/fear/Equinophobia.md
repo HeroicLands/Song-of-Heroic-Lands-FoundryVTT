@@ -3,10 +3,10 @@ tags: []
 name:
   full: Equinophobia
   aliases: []
-img: icons/game-icons/cathelineau/dread.svg
 shortcode: eqnphb
 type: trauma
 data:
+  icon: dread
   templatePriority: 0
 subType: fear
 sohl:

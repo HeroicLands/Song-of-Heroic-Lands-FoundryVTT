@@ -4,10 +4,10 @@ name:
   full: Buckram Surcoat
   aliases: []
 description: "Stiff buckram surcoat providing durability and reliable structured fit."
-img: icons/game-icons/lucasms/shirt.svg
 shortcode: bscoat
 type: armorgear
 data:
+  icon: shirt
   templatePriority: 0
 sohl:
   craft:

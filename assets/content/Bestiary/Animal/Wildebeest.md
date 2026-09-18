@@ -7,11 +7,11 @@ name:
   aliases:
     - Gnu
 description: "A large, shaggy savannah bovine whose vast migratory herds define the southern grasslands in their sweeping annual movement."
-img: icons/game-icons/lorc/pawprint.svg
-portrait: images/being/wldbst.webp
 shortcode: wldbst
 type: being
 data:
+  icon: pawprint
+  portrait: wldbst
   templatePriority: 0
 sohl:
   kbcat: animal

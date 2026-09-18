@@ -4,10 +4,10 @@ name:
   full: Buckram Cloak
   aliases: []
 description: "Stiff, glue-stiffened cloth cloak providing structure and reliable durability."
-img: icons/game-icons/lucasms/cloak.svg
 shortcode: bclk
 type: armorgear
 data:
+  icon: cloak
   templatePriority: 0
 sohl:
   craft:

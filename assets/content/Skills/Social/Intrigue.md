@@ -4,10 +4,10 @@ name:
   full: Intrigue
   aliases: []
 description: "Detecting hidden motives, deception; unraveling plots and conspiracies."
-img: icons/game-icons/lorc/cloakdagger.svg
 shortcode: intr
 type: skill
 data:
+  icon: cloakdagger
   templatePriority: 0
 subType: social
 sohl:

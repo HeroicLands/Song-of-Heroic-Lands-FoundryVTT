@@ -4,10 +4,10 @@ name:
   full: Riding
   aliases: []
 description: "Controlling mounted animals through communication and empathic connection."
-img: icons/game-icons/delapouite/cavalry.svg
 shortcode: ridg
 type: skill
 data:
+  icon: cavalry
   templatePriority: 0
 subType: physical
 sohl:

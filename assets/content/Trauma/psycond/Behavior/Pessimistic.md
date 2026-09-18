@@ -3,10 +3,10 @@ tags: []
 name:
   full: Pessimistic
   aliases: []
-img: icons/game-icons/lorc/battlegear.svg
 shortcode: pssmstc
 type: trauma
 data:
+  icon: battlegear
   templatePriority: 0
 subType: psycond
 sohl:

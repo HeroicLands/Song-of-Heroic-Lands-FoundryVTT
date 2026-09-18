@@ -5,10 +5,10 @@ name:
   full: Carpentry Kit
   aliases: []
 description: "Journeyman's leather roll holding chisels, plane, saw, auger, rules."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: carpentryk
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

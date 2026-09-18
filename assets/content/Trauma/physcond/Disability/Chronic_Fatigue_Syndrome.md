@@ -3,10 +3,10 @@ tags: []
 name:
   full: Chronic Fatigue Syndrome
   aliases: []
-img: icons/game-icons/lorc/battlegear.svg
 shortcode: cfs
 type: trauma
 data:
+  icon: battlegear
   templatePriority: 0
 subType: physcond
 sohl:

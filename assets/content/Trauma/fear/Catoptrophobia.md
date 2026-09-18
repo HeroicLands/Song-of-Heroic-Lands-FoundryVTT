@@ -3,10 +3,10 @@ tags: []
 name:
   full: Catoptrophobia
   aliases: []
-img: icons/game-icons/cathelineau/dread.svg
 shortcode: ctptrphb
 type: trauma
 data:
+  icon: dread
   templatePriority: 0
 subType: fear
 sohl:

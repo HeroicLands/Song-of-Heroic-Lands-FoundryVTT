@@ -4,10 +4,10 @@ name:
   full: Smallpox
   aliases: []
 description: "Viral infection; high fever followed by characteristic pustular rash; often fatal."
-img: icons/game-icons/lorc/virus.svg
 shortcode: smlpox
 type: affliction
 data:
+  icon: virus
   templatePriority: 0
 subType: disease
 sohl:

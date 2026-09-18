@@ -4,10 +4,10 @@ name:
   full: "Pole, load carrying"
   aliases: []
 description: "Shoulder pole for carrying slung loads."
-img: icons/game-icons/lorc/knapsack.svg
 shortcode: polecarry
 type: containergear
 data:
+  icon: knapsack
   templatePriority: 0
 sohl:
   craft:

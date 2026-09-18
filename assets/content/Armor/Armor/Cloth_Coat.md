@@ -4,10 +4,10 @@ name:
   full: Cloth Coat
   aliases: []
 description: "Simple cloth coat providing comfort and warmth for everyday use."
-img: icons/game-icons/lucasms/shirt.svg
 shortcode: ccoat
 type: armorgear
 data:
+  icon: shirt
   templatePriority: 0
 sohl:
   craft:

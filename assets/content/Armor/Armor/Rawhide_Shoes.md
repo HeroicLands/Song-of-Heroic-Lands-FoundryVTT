@@ -4,10 +4,10 @@ name:
   full: Rawhide Shoes
   aliases: []
 description: "Stout hide footwear; durable and protective."
-img: icons/game-icons/lorc/leatherboot.svg
 shortcode: rhshoe
 type: armorgear
 data:
+  icon: leatherboot
   templatePriority: 0
 sohl:
   craft:

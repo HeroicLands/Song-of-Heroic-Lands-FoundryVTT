@@ -4,10 +4,10 @@ name:
   full: Sealskin Shirt
   aliases: []
 description: "Waterproof seal-fur shirt; basic upper-body weather protection."
-img: icons/game-icons/lucasms/shirt.svg
 shortcode: slsshirt
 type: armorgear
 data:
+  icon: shirt
   templatePriority: 0
 sohl:
   craft:

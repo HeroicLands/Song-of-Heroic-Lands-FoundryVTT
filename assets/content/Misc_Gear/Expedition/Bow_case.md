@@ -5,10 +5,10 @@ name:
   full: Bow case
   aliases: []
 description: "Ash-staved leather case on shoulder strap; protects finished bow during travel."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: bowcase
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

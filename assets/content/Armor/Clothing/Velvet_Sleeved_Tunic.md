@@ -4,10 +4,10 @@ name:
   full: Velvet Sleeved Tunic
   aliases: []
 description: "Soft plush velvet sleeved tunic; luxurious garment for formal occasions."
-img: icons/game-icons/lucasms/shirt.svg
 shortcode: vstnc
 type: armorgear
 data:
+  icon: shirt
   templatePriority: 0
 sohl:
   craft:

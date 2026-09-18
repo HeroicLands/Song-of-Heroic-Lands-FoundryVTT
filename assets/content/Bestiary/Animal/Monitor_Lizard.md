@@ -5,11 +5,11 @@ name:
   full: Monitor Lizard
   aliases: []
 description: "A large, agile reptile five to seven feet long with a camouflaged hide and muscular neck, a lean predator of arid and rocky terrain."
-img: icons/game-icons/lorc/gecko.svg
-portrait: images/being/mntrlzrd.webp
 shortcode: mntrlzrd
 type: being
 data:
+  icon: gecko
+  portrait: mntrlzrd
   templatePriority: 0
 sohl:
   kbcat: animal

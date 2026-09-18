@@ -4,10 +4,10 @@ name:
   full: Cloth Cowl
   aliases: []
 description: "Simple cloth cowl offering comfort and everyday warmth."
-img: icons/game-icons/lorc/hood.svg
 shortcode: ccowl
 type: armorgear
 data:
+  icon: hood
   templatePriority: 0
 sohl:
   craft:

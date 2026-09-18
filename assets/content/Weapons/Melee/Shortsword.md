@@ -4,10 +4,10 @@ name:
   full: Shortsword
   aliases: []
 description: "Short double-edged blade for stabbing thrust; footman's close-quarters steel."
-img: icons/game-icons/lorc/broadsword.svg
 shortcode: shrtswd
 type: weapongear
 data:
+  icon: broadsword
   templatePriority: 0
 sohl:
   craft:

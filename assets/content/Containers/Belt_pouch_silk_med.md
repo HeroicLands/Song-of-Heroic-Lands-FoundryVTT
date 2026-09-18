@@ -4,10 +4,10 @@ name:
   full: "Belt pouch, silk, med"
   aliases: []
 description: "Moderate silk belt pouch; conspicuous wealth worn at the hip."
-img: icons/game-icons/lorc/knapsack.svg
 shortcode: bpchmdslk
 type: containergear
 data:
+  icon: knapsack
   templatePriority: 0
 sohl:
   craft:

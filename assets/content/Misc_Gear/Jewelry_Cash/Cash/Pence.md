@@ -5,10 +5,10 @@ name:
   full: Pence
   aliases: []
 description: "Alloyed silver coin, everyday currency of trade; worth its face, not its metal."
-img: icons/game-icons/badges/coinsbdg.svg
 shortcode: pence
 type: miscgear
 data:
+  icon: coinsbdg
   templatePriority: 0
 sohl:
   craft:

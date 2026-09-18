@@ -3,10 +3,10 @@ tags: []
 name:
   full: Duergarphobia
   aliases: []
-img: icons/game-icons/cathelineau/dread.svg
 shortcode: drgrphb
 type: trauma
 data:
+  icon: dread
   templatePriority: 0
 subType: fear
 sohl:

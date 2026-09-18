@@ -4,10 +4,10 @@ name:
   full: Crowbar
   aliases: []
 description: "Carpenter's iron tool; claw hooks and shaft bludgeons alike."
-img: icons/game-icons/badges/club.svg
 shortcode: crwbr
 type: weapongear
 data:
+  icon: club
   templatePriority: 0
 sohl:
   craft:

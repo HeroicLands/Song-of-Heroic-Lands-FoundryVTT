@@ -4,10 +4,10 @@ name:
   full: Belt pouch, leather, lg
   aliases: []
 description: "Large leather pouch for coins, rations, or daily essentials."
-img: icons/game-icons/lorc/knapsack.svg
 shortcode: bpchlg
 type: containergear
 data:
+  icon: knapsack
   templatePriority: 0
 sohl:
   craft:

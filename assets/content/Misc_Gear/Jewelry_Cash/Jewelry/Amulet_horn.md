@@ -5,10 +5,10 @@ name:
   full: "Amulet, horn"
   aliases: []
 description: "A charm hung at the neck on a cord or chain, in carved horn."
-img: icons/game-icons/lorc/gempendant.svg
 shortcode: amulethorn
 type: miscgear
 data:
+  icon: gempendant
   templatePriority: 0
 sohl:
   craft:

@@ -4,10 +4,10 @@ name:
   full: Trachoma
   aliases: []
 description: "Chlamydia eye infection; scarring eyelids turn inward, scratching cornea."
-img: icons/game-icons/lorc/virus.svg
 shortcode: trachoma
 type: affliction
 data:
+  icon: virus
   templatePriority: 0
 subType: disease
 sohl:

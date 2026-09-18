@@ -6,10 +6,10 @@ name:
 description: "War-arrow with wide flanged barbs; mortal wounds, hooks bone in skirmish."
 type: projectilegear
 data:
+  icon: broadheadarrow
   templatePriority: 0
 subType: arrow
 shortcode: arwhbrd
-img: icons/game-icons/lorc/broadheadarrow.svg
 easyname: Heavy Broad
 sohl:
   craft:

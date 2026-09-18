@@ -4,10 +4,10 @@ name:
   full: Worsted Apron
   aliases: []
 description: "Tightly-spun wool apron; durable for tasks requiring resilience."
-img: icons/game-icons/delapouite/cook.svg
 shortcode: wapn
 type: armorgear
 data:
+  icon: cook
   templatePriority: 0
 sohl:
   craft:

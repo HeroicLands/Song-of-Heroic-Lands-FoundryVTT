@@ -4,10 +4,10 @@ name:
   full: Cloth Tunic
   aliases: []
 description: "Simple cloth tunic offering comfort and warmth for daily wear."
-img: icons/game-icons/lucasms/shirt.svg
 shortcode: ctunic
 type: armorgear
 data:
+  icon: shirt
   templatePriority: 0
 sohl:
   craft:

@@ -4,10 +4,10 @@ name:
   full: Ring Leggings
   aliases: []
 description: "Leather leggings studded with rings; thigh and shin protection."
-img: icons/game-icons/lorc/trousers.svg
 shortcode: rnleg
 type: armorgear
 data:
+  icon: trousers
   templatePriority: 0
 sohl:
   craft:

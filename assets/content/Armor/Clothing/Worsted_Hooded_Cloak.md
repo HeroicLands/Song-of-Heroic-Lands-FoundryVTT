@@ -4,10 +4,10 @@ name:
   full: Worsted Hooded Cloak
   aliases: []
 description: "Tightly-spun wool cloak with a hood; durable, practical garment for weather."
-img: icons/game-icons/lucasms/cloak.svg
 shortcode: whclk
 type: armorgear
 data:
+  icon: cloak
   templatePriority: 0
 sohl:
   craft:

@@ -4,10 +4,10 @@ name:
   full: Canvas Surcoat
   aliases: []
 description: "Hard-wearing canvas surcoat worn over gear on the march."
-img: icons/game-icons/lucasms/shirt.svg
 shortcode: cvscoat
 type: armorgear
 data:
+  icon: shirt
   templatePriority: 0
 sohl:
   craft:

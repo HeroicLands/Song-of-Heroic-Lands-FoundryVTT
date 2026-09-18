@@ -5,10 +5,10 @@ name:
   aliases:
     - Heat Exposure
 description: "Sustained weariness from prolonged heat exposure short of heat injury."
-img: icons/game-icons/lorc/sleepy.svg
 shortcode: swltr
 type: trauma
 data:
+  icon: sleepy
   templatePriority: 0
 subType: fatigue
 sohl:

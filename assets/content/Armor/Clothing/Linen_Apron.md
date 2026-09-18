@@ -4,10 +4,10 @@ name:
   full: Linen Apron
   aliases: []
 description: "Breathable linen apron ideal for daily chores and cooking."
-img: icons/game-icons/delapouite/cook.svg
 shortcode: lapn
 type: armorgear
 data:
+  icon: cook
   templatePriority: 0
 sohl:
   craft:

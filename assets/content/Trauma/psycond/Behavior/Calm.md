@@ -3,10 +3,10 @@ tags: []
 name:
   full: Calm
   aliases: []
-img: icons/game-icons/lorc/battlegear.svg
 shortcode: calm
 type: trauma
 data:
+  icon: battlegear
   templatePriority: 0
 subType: psycond
 sohl:

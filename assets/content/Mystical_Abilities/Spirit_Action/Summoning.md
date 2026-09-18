@@ -4,10 +4,10 @@ name:
   full: Summoning
   aliases: []
 description: "Calling a spirit or other entity, and binding or bargaining it into service."
-img: icons/game-icons/delapouite/enrage.svg
 shortcode: summ
 type: mysticalability
 data:
+  icon: enrage
   templatePriority: 0
 subType: spiritaction
 sohl:

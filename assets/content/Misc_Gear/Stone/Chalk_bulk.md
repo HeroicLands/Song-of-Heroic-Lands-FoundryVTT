@@ -5,10 +5,10 @@ name:
   full: "Chalk, bulk"
   aliases: []
 description: "Soft quarried chalk block; masons' plaster, scribes' pouncing, shepherd marking stock."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: chalkbulk
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

@@ -5,10 +5,10 @@ name:
   full: "Onyx, cut"
   aliases: []
 description: "Black-and-white banded chalcedony; striking striped pattern, favored for signet rings."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: onyxcut
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

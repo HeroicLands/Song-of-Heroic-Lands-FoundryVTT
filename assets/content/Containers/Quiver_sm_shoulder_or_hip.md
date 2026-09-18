@@ -4,10 +4,10 @@ name:
   full: "Quiver, sm (shoulder or hip)"
   aliases: []
 description: "Smaller quiver worn at shoulder or hip for light archery and hunting."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: quiversmsh
 type: containergear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

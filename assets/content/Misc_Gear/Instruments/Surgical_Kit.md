@@ -5,10 +5,10 @@ name:
   full: Surgical Kit
   aliases: []
 description: "Oiled-leather case with lancets, bone saw, forceps, scalpels, probes; physicians for grave wounds."
-img: icons/game-icons/lorc/scalpel.svg
 shortcode: surgkit
 type: miscgear
 data:
+  icon: scalpel
   templatePriority: 0
 sohl:
   craft:

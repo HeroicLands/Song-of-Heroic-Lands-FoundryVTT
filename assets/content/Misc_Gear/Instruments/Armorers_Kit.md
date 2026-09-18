@@ -5,10 +5,10 @@ name:
   full: Armorer's Kit
   aliases: []
 description: "Heavy canvas roll with mail pliers, dollies, planishing hammers, rivet set, strap stock; armor fitting and repair."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: armrkit
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

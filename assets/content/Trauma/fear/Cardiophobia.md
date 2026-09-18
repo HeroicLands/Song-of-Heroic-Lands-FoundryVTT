@@ -3,10 +3,10 @@ tags: []
 name:
   full: Cardiophobia
   aliases: []
-img: icons/game-icons/cathelineau/dread.svg
 shortcode: crdphb
 type: trauma
 data:
+  icon: dread
   templatePriority: 0
 subType: fear
 sohl:

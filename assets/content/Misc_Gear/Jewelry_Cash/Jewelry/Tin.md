@@ -5,10 +5,10 @@ name:
   full: Tin
   aliases: []
 description: "Soft white metal; alloyed with copper for bronze and with lead for pewter."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: tin
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

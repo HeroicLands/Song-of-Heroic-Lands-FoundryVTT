@@ -5,11 +5,11 @@ name:
   full: Falcon
   aliases: []
 description: "A sleek, compact raptor of the middle air, striking prey in devastating high-speed vertical dives no larger bird can match."
-img: icons/game-icons/delapouite/falconmoon.svg
-portrait: images/being/falcon.webp
 shortcode: falcon
 type: being
 data:
+  icon: falconmoon
+  portrait: falcon
   templatePriority: 0
 sohl:
   kbcat: animal

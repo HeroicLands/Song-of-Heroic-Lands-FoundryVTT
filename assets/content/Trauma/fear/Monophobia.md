@@ -3,10 +3,10 @@ tags: []
 name:
   full: Monophobia
   aliases: []
-img: icons/game-icons/cathelineau/dread.svg
 shortcode: monophb
 type: trauma
 data:
+  icon: dread
   templatePriority: 0
 subType: fear
 sohl:

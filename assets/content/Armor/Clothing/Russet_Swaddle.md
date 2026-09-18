@@ -4,10 +4,10 @@ name:
   full: Russet Swaddle
   aliases: []
 description: "Reddish-brown wool wrap; infant comfort in cold."
-img: icons/game-icons/lorc/trousers.svg
 shortcode: rswd
 type: armorgear
 data:
+  icon: trousers
   templatePriority: 0
 sohl:
   craft:

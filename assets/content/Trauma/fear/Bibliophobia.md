@@ -3,10 +3,10 @@ tags: []
 name:
   full: Bibliophobia
   aliases: []
-img: icons/game-icons/cathelineau/dread.svg
 shortcode: biblphb
 type: trauma
 data:
+  icon: dread
   templatePriority: 0
 subType: fear
 sohl:

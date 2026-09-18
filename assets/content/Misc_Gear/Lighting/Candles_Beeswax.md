@@ -5,10 +5,10 @@ name:
   full: "Candles, Beeswax"
   aliases: []
 description: "Pure beeswax candles; bright, sweet-scented; favored by churches and gentry."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: candlesbee
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

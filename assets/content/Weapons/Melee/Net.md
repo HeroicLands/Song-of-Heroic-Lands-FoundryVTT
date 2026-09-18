@@ -4,10 +4,10 @@ name:
   full: Net
   aliases: []
 description: "Weighted mesh entangles limbs; gladiatorial disarm-and-strike with spear."
-img: icons/game-icons/lorc/fishingnet.svg
 shortcode: net
 type: weapongear
 data:
+  icon: fishingnet
   templatePriority: 0
 sohl:
   craft:

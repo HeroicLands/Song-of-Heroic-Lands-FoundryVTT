@@ -5,10 +5,10 @@ name:
   full: Horseshoe
   aliases: []
 description: "Curved iron plate nailed to hoof; distributes wear, grips stone and mud."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: horseshoe
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

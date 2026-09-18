@@ -4,10 +4,10 @@ name:
   full: Shuriken
   aliases: []
 description: "Iron star-spikes thrown for distraction and wound; assassin's surprise reach."
-img: icons/game-icons/darkzaitzev/shurikendrkz.svg
 shortcode: shrkn
 type: weapongear
 data:
+  icon: shurikendrkz
   templatePriority: 0
 sohl:
   craft:

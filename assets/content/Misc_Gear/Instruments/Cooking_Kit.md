@@ -5,10 +5,10 @@ name:
   full: Cooking Kit
   aliases: []
 description: "Oiled-leather satchel holding iron pans, spoons, knife, grater, ladle for field cooking."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: cookkit
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

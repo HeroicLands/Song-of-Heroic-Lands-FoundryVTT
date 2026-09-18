@@ -4,10 +4,10 @@ name:
   full: "Bottle, glass, large"
   aliases: []
 description: "Substantial blown glass bottle for liquids and provisions."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: bottleglas
 type: containergear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

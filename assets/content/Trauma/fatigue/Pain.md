@@ -5,10 +5,10 @@ name:
   aliases:
     - Injury
 description: "Long-term weakness from active wounds and persistent pain."
-img: icons/game-icons/lorc/sleepy.svg
 shortcode: pain
 type: trauma
 data:
+  icon: sleepy
   templatePriority: 0
 subType: fatigue
 sohl:

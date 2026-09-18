@@ -4,10 +4,10 @@ name:
   full: Leather Skirt
   aliases: []
 description: "Lightweight styled leather leg garment adding edge with minimal protection."
-img: icons/game-icons/delapouite/skirt.svg
 shortcode: ltskirt
 type: armorgear
 data:
+  icon: skirt
   templatePriority: 0
 sohl:
   craft:

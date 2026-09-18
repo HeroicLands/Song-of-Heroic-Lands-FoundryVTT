@@ -3,10 +3,10 @@ tags: []
 name:
   full: Overconfident
   aliases: []
-img: icons/game-icons/lorc/battlegear.svg
 shortcode: overconf
 type: trauma
 data:
+  icon: battlegear
   templatePriority: 0
 subType: psycond
 sohl:

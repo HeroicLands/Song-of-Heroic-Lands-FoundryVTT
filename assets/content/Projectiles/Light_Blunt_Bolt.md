@@ -6,10 +6,10 @@ name:
 description: "Light quarrel with padded knob; stuns small game; spares fur and feather."
 type: projectilegear
 data:
+  icon: broadheadarrow
   templatePriority: 0
 subType: bolt
 shortcode: bltlblt
-img: icons/game-icons/lorc/broadheadarrow.svg
 easyname: Light Blunt
 sohl:
   craft:

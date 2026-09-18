@@ -6,7 +6,8 @@ name:
   full: Automated Attack
   aliases: []
 shortcode: autoattack
-img: icons/game-icons/lorc/crossedswords.svg
+data:
+  icon: crossedswords
 ---
 
 Runs the combat attack workflow for the combatant whose turn it is, so a GM can

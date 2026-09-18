@@ -4,10 +4,10 @@ name:
   full: "Ampoule, single dose, glass"
   aliases: []
 description: "Sealed single-dose glass ampoule."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: ampoule1
 type: containergear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

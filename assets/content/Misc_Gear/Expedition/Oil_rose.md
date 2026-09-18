@@ -5,10 +5,10 @@ name:
   full: "Oil, rose"
   aliases: []
 description: "Rose oil pressed from petals in vast quantity; the standard fine scent."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: oilrose
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

@@ -5,11 +5,11 @@ name:
   full: Rock Python
   aliases: []
 description: "A massive constrictor serpent up to forty feet long, slow but unstoppable, ambushing prey in deep jungles, rocky highlands, and caves."
-img: icons/game-icons/lorc/snake.svg
-portrait: images/being/rckpythn.webp
 shortcode: rckpythn
 type: being
 data:
+  icon: snake
+  portrait: rckpythn
   templatePriority: 0
 sohl:
   kbcat: animal

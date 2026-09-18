@@ -5,10 +5,10 @@ name:
   full: "Anklet, ivory"
   aliases: []
 description: "A band worn at the ankle, closed or hinged, and often hung with small charms, in carved ivory."
-img: icons/game-icons/lorc/gempendant.svg
 shortcode: ankletivory
 type: miscgear
 data:
+  icon: gempendant
   templatePriority: 0
 sohl:
   craft:

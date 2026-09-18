@@ -3,10 +3,10 @@ tags: []
 name:
   full: Assertive
   aliases: []
-img: icons/game-icons/lorc/battlegear.svg
 shortcode: assrtv
 type: trauma
 data:
+  icon: battlegear
   templatePriority: 0
 subType: psycond
 sohl:

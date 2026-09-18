@@ -4,10 +4,10 @@ name:
   full: Burden
   aliases: []
 description: "Sustained weariness from carrying a heavy load."
-img: icons/game-icons/lorc/sleepy.svg
 shortcode: burden
 type: trauma
 data:
+  icon: sleepy
   templatePriority: 0
 subType: fatigue
 sohl:

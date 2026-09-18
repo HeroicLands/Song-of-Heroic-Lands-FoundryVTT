@@ -5,10 +5,10 @@ name:
   full: "Stone, Marble"
   aliases: []
 description: "Banded metamorphic stone; costly beautiful durable; altars, memorials, noble halls."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: stonemarbl
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

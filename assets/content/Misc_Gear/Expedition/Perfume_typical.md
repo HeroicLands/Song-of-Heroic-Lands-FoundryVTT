@@ -5,10 +5,10 @@ name:
   full: "Perfume, typical"
   aliases: []
 description: "Competently blended scent that lasts an evening."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: perfumetypical
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

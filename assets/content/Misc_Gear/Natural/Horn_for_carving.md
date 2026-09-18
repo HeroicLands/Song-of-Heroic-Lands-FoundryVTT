@@ -5,10 +5,10 @@ name:
   full: Horn (for carving)
   aliases: []
 description: "Cattle horn and deer or elk antler; twice the price of bone, and worked much the same."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: hornforcar
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

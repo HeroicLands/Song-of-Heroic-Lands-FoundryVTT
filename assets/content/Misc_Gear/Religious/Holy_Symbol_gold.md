@@ -5,10 +5,10 @@ name:
   full: "Holy Symbol, gold"
   aliases: []
 description: "Gold token of a god; the symbol of a prelate or a great house."
-img: icons/game-icons/lorc/prayer.svg
 shortcode: holysymgold
 type: miscgear
 data:
+  icon: prayer
   templatePriority: 0
 sohl:
   craft:

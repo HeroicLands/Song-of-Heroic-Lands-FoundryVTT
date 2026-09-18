@@ -4,10 +4,10 @@ name:
   full: Homespun Skirt
   aliases: []
 description: "Simple homemade skirt offering coverage and practical comfort."
-img: icons/game-icons/delapouite/skirt.svg
 shortcode: hsskirt
 type: armorgear
 data:
+  icon: skirt
   templatePriority: 0
 sohl:
   craft:

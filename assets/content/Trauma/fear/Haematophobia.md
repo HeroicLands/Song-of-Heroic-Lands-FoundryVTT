@@ -3,10 +3,10 @@ tags: []
 name:
   full: Haematophobia
   aliases: []
-img: icons/game-icons/cathelineau/dread.svg
 shortcode: hmtphb
 type: trauma
 data:
+  icon: dread
   templatePriority: 0
 subType: fear
 sohl:

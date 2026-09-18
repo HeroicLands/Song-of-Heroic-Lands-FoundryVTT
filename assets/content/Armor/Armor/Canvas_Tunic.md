@@ -4,10 +4,10 @@ name:
   full: Canvas Tunic
   aliases: []
 description: "Stout canvas tunic cut for work and hard travel."
-img: icons/game-icons/lucasms/shirt.svg
 shortcode: cvtunic
 type: armorgear
 data:
+  icon: shirt
   templatePriority: 0
 sohl:
   craft:

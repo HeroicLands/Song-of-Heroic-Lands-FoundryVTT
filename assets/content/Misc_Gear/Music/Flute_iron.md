@@ -5,10 +5,10 @@ name:
   full: "Flute, iron"
   aliases: []
 description: "Iron pipe with fipple and finger holes; bright piercing voice; durable, weather-resistant."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: fluteiron
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

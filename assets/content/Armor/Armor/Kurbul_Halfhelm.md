@@ -4,10 +4,10 @@ name:
   full: Kûrbúl Halfhelm
   aliases: []
 description: "Leather helm covering head and jawline with styled design and reduced weight."
-img: icons/game-icons/lorc/barbute.svg
 shortcode: khlfhelm
 type: armorgear
 data:
+  icon: barbute
   templatePriority: 0
 sohl:
   craft:

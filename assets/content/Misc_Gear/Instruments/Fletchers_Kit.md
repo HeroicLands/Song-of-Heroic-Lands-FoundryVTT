@@ -5,10 +5,10 @@ name:
   full: Fletcher's Kit
   aliases: []
 description: "Wooden case with feather shears, binding silk, glue pot, nocking jig, shaft plane for arrows."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: fletchkit
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

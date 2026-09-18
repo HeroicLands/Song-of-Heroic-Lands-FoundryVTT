@@ -5,10 +5,10 @@ name:
   full: "Ring, horn"
   aliases: []
 description: "A band for the finger, plain or chased, in carved horn."
-img: icons/game-icons/lorc/gempendant.svg
 shortcode: ringhorn
 type: miscgear
 data:
+  icon: gempendant
   templatePriority: 0
 sohl:
   craft:

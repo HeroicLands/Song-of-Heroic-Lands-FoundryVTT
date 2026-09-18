@@ -4,10 +4,10 @@ name:
   full: "Cauldron, Iron"
   aliases: []
 description: "Heavy cast-iron pot for communal cooking or laundry."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: cauldronir
 type: containergear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

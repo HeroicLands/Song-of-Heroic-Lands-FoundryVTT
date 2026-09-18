@@ -4,10 +4,10 @@ name:
   full: Linen Sleeved Tunic
   aliases: []
 description: "Light breathable sleeved garment perfect for warm weather activities."
-img: icons/game-icons/lucasms/shirt.svg
 shortcode: lstnc
 type: armorgear
 data:
+  icon: shirt
   templatePriority: 0
 sohl:
   craft:

@@ -4,10 +4,10 @@ name:
   full: Cloth Surcoat
   aliases: []
 description: "Simple cloth surcoat providing comfort and practical outer wear."
-img: icons/game-icons/lucasms/shirt.svg
 shortcode: cscoat
 type: armorgear
 data:
+  icon: shirt
   templatePriority: 0
 sohl:
   craft:

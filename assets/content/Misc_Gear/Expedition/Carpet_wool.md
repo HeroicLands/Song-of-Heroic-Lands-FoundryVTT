@@ -5,10 +5,10 @@ name:
   full: "Carpet, wool"
   aliases: []
 description: "Knotted wool carpet, three feet square; wall-hanging as often as floor covering."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: carpetwool
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

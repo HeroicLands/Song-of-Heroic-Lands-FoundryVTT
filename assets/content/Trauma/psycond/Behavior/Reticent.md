@@ -3,10 +3,10 @@ tags: []
 name:
   full: Reticent
   aliases: []
-img: icons/game-icons/lorc/battlegear.svg
 shortcode: reticent
 type: trauma
 data:
+  icon: battlegear
   templatePriority: 0
 subType: psycond
 sohl:

@@ -3,10 +3,10 @@ tags: []
 name:
   full: Cold Intolerance
   aliases: []
-img: icons/game-icons/lorc/battlegear.svg
 shortcode: coldinto
 type: trauma
 data:
+  icon: battlegear
   templatePriority: 0
 subType: physcond
 sohl:

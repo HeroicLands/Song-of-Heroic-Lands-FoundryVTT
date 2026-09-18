@@ -5,10 +5,10 @@ name:
   full: "Grooming Kit, noble"
   aliases: []
 description: "Fitted case with an ivory comb, silver hand-mirror, fine perfume and silver implements; a great house's upkeep."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: groomkitnob
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

@@ -5,10 +5,10 @@ name:
   full: "Seal, Signature"
   aliases: []
 description: "Brass or iron seal carved with owner's mark; authenticates charters, contracts, deeds."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: sealsignat
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

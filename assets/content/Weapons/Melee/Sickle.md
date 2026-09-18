@@ -4,10 +4,10 @@ name:
   full: Sickle
   aliases: []
 description: "Curved harvest-tool-blade for slash and entangle; peasant levy's accessible reach."
-img: icons/game-icons/delapouite/sickle.svg
 shortcode: skl
 type: weapongear
 data:
+  icon: sickle
   templatePriority: 0
 sohl:
   craft:

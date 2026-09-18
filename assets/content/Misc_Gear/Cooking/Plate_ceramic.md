@@ -5,10 +5,10 @@ name:
   full: "Plate, ceramic"
   aliases: []
 description: "Glazed earthenware plate, eight inches across."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: platecer
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

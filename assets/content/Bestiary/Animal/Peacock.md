@@ -7,11 +7,11 @@ name:
   aliases:
     - Peafowl
 description: "A spectacular southern bird whose iridescent male unfurls a seven-foot train of elongated tail coverts in the most dazzling display in the world."
-img: icons/game-icons/lorc/pawprint.svg
-portrait: images/being/peacock.webp
 shortcode: peacock
 type: being
 data:
+  icon: pawprint
+  portrait: peacock
   templatePriority: 0
 sohl:
   kbcat: animal

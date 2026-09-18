@@ -7,11 +7,11 @@ name:
   aliases:
     - Ice Bear
 description: "The apex arctic predator of the far north, a solitary fifteen-hundred-pound hunter of ice and freezing water, a pure carnivore unlike the omnivorous brown bear."
-img: icons/game-icons/cathelineau/polarbear.svg
-portrait: images/being/plrbr.webp
 shortcode: plrbr
 type: being
 data:
+  icon: polarbear
+  portrait: plrbr
   templatePriority: 0
 sohl:
   kbcat: animal

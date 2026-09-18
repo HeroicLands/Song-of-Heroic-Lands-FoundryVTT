@@ -5,10 +5,10 @@ name:
   full: "Ring, ivory"
   aliases: []
 description: "A band for the finger, plain or chased, in carved ivory."
-img: icons/game-icons/lorc/gempendant.svg
 shortcode: ringivory
 type: miscgear
 data:
+  icon: gempendant
   templatePriority: 0
 sohl:
   craft:

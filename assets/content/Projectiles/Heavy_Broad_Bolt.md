@@ -6,10 +6,10 @@ name:
 description: "Heavy quarrel with wide barbed head; bleeds flesh, unseats mounted rider."
 type: projectilegear
 data:
+  icon: broadheadarrow
   templatePriority: 0
 subType: bolt
 shortcode: blthbrd
-img: icons/game-icons/lorc/broadheadarrow.svg
 easyname: Heavy Broad
 sohl:
   craft:

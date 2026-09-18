@@ -4,10 +4,10 @@ name:
   full: Mail Longshirt
   aliases: []
 description: "Metal ring torso and upper arm garment providing substantial protection."
-img: icons/game-icons/willdabeast/chainmail.svg
 shortcode: mlshirt
 type: armorgear
 data:
+  icon: chainmail
   templatePriority: 0
 sohl:
   craft:

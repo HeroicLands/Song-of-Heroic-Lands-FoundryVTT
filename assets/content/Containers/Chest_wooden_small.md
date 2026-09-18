@@ -4,10 +4,10 @@ name:
   full: "Chest, wooden, small"
   aliases: []
 description: "Small joined wooden chest."
-img: icons/game-icons/delapouite/chest.svg
 shortcode: chestwdsm
 type: containergear
 data:
+  icon: chest
   templatePriority: 0
 sohl:
   craft:

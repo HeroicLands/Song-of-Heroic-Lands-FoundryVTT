@@ -4,10 +4,10 @@ name:
   full: Homespun Breeches
   aliases: []
 description: "Simple homemade cloth breeches; practical for laborers and farmers."
-img: icons/game-icons/lorc/trousers.svg
 shortcode: hsbrch
 type: armorgear
 data:
+  icon: trousers
   templatePriority: 0
 sohl:
   craft:

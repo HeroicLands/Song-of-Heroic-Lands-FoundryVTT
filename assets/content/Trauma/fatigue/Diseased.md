@@ -5,10 +5,10 @@ name:
   aliases:
     - Disease
 description: "Long-term weakness from carrying an active disease."
-img: icons/game-icons/lorc/sleepy.svg
 shortcode: disd
 type: trauma
 data:
+  icon: sleepy
   templatePriority: 0
 subType: fatigue
 sohl:

@@ -5,10 +5,10 @@ name:
   full: "Dye, Forest Green"
   aliases: []
 description: "Woad and madder blend; dark sage green favored by hunters and foresters."
-img: icons/game-icons/caro-asercion/roundpotion.svg
 shortcode: dyefst
 type: miscgear
 data:
+  icon: roundpotion
   templatePriority: 0
 sohl:
   craft:

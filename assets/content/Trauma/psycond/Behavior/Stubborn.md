@@ -3,10 +3,10 @@ tags: []
 name:
   full: Stubborn
   aliases: []
-img: icons/game-icons/lorc/battlegear.svg
 shortcode: stubborn
 type: trauma
 data:
+  icon: battlegear
   templatePriority: 0
 subType: psycond
 sohl:

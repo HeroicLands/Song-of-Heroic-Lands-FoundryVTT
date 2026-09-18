@@ -6,10 +6,10 @@ name:
 description: "Light quarrel, leaf-bladed iron head; opens bleeding wound; hunters, scouts, brigand foes."
 type: projectilegear
 data:
+  icon: broadheadarrow
   templatePriority: 0
 subType: bolt
 shortcode: bltlbrd
-img: icons/game-icons/lorc/broadheadarrow.svg
 easyname: Light Broad
 sohl:
   craft:

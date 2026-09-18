@@ -3,10 +3,10 @@ tags: []
 name:
   full: Cautious
   aliases: []
-img: icons/game-icons/lorc/battlegear.svg
 shortcode: cautious
 type: trauma
 data:
+  icon: battlegear
   templatePriority: 0
 subType: psycond
 sohl:

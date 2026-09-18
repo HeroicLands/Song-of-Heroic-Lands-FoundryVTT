@@ -5,10 +5,10 @@ name:
   full: "Chrysolite, cut"
   aliases: []
 description: "Pale yellow-green faceted gem; nobility and clergy set in rings."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: chrysolite
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

@@ -5,10 +5,10 @@ name:
   full: "Ink, Brown"
   aliases: []
 description: "Walnut-husk ink; common in ledgers, fades with time, suits working copies."
-img: icons/game-icons/lorc/inkswirl.svg
 shortcode: inkbrn
 type: miscgear
 data:
+  icon: inkswirl
   templatePriority: 0
 sohl:
   craft:

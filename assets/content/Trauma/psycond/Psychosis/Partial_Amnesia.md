@@ -3,10 +3,10 @@ tags: []
 name:
   full: Partial Amnesia
   aliases: []
-img: icons/game-icons/lorc/battlegear.svg
 shortcode: amnsprtl
 type: trauma
 data:
+  icon: battlegear
   templatePriority: 0
 subType: psycond
 sohl:

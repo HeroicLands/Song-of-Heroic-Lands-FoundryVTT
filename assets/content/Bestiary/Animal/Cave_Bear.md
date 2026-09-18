@@ -5,11 +5,11 @@ name:
   full: Cave Bear
   aliases: []
 description: "A titanic solitary apex predator of mountains and deep caverns, larger and more muscular than any brown bear and thought to survive from an older age."
-img: icons/game-icons/delapouite/bearhead.svg
-portrait: images/being/cavebear.webp
 shortcode: cavebear
 type: being
 data:
+  icon: bearhead
+  portrait: cavebear
   templatePriority: 0
 sohl:
   kbcat: animal

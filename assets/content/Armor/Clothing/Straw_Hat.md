@@ -4,10 +4,10 @@ name:
   full: Straw Hat
   aliases: []
 description: "Lightweight breathable straw hat; excellent sun protection for laborers."
-img: icons/game-icons/lorc/pointyhat.svg
 shortcode: sthat
 type: armorgear
 data:
+  icon: pointyhat
   templatePriority: 0
 sohl:
   craft:

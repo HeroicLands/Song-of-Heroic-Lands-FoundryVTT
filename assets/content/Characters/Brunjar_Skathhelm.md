@@ -11,10 +11,10 @@ name:
   aliases: []
 packFolder: pregens
 shortcode: brunjarskathhel
-img: icons/game-icons/delapouite/person.svg
-portrait: null
 type: being
 data:
+  icon: person
+  portrait: null
   templatePriority: null
   gender: male
   age: 22

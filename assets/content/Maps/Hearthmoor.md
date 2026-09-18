@@ -4,7 +4,6 @@ name:
   full: Hearthmoor
   aliases: []
 description: "The open moor the road crosses, a day's walk end to end."
-img: systems/sohl/assets/ui/parchment.jpg
 shortcode: hearthmoor
 type: map
 packFolder: regionalmaps
@@ -23,6 +22,8 @@ sohl:
         wading:
           modifyMovementCost:
             difficulties: { walk: 3 }
+data:
+  icon: sohl-none-image-parchment
 ---
 
 Heather and standing water from edge to edge, crossed by one road and no

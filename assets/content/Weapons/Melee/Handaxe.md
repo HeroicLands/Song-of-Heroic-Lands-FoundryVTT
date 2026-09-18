@@ -4,10 +4,10 @@ name:
   full: Handaxe
   aliases: []
 description: "Light ash-haft axe; foot-soldier's main arm or cavalry sidearm."
-img: icons/game-icons/lorc/battleaxe.svg
 shortcode: haxe
 type: weapongear
 data:
+  icon: battleaxe
   templatePriority: 0
 sohl:
   craft:

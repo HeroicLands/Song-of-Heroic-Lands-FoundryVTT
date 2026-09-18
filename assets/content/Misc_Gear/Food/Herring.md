@@ -5,10 +5,10 @@ name:
   full: Herring
   aliases: []
 description: "Small oil-rich fish; smoked or salt-packed, heavily salted lasts indefinitely."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: herring
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

@@ -4,10 +4,10 @@ name:
   full: Plate Helm
   aliases: []
 description: "Plain steel skullcap helm; covers the crown alone and leaves the face open."
-img: icons/game-icons/lorc/crestedhelmet.svg
 shortcode: phlm
 type: armorgear
 data:
+  icon: crestedhelmet
   templatePriority: 0
 sohl:
   craft:

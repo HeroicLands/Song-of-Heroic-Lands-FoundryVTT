@@ -4,10 +4,10 @@ name:
   full: Beaver Mantle
   aliases: []
 description: "Beaver fur mantle blending function and status; warm and luxurious."
-img: icons/game-icons/delapouite/cape.svg
 shortcode: bvmntl
 type: armorgear
 data:
+  icon: cape
   templatePriority: 0
 sohl:
   craft:

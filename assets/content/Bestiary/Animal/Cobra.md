@@ -6,11 +6,11 @@ name:
   full: Cobra
   aliases: []
 description: "A large, fast venomous serpent of the river lowlands, haunting river margins, granaries, and ruins where its bite delivers swift death."
-img: icons/game-icons/lorc/snake.svg
-portrait: images/being/cobra.webp
 shortcode: cobra
 type: being
 data:
+  icon: snake
+  portrait: cobra
   templatePriority: 0
 sohl:
   kbcat: animal

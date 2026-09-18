@@ -5,10 +5,10 @@ name:
   full: Cherries
   aliases: []
 description: "Tart dried cherries from summer harvest; flavor game, sweeten puddings."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: cherries
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

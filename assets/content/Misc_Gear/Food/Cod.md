@@ -5,10 +5,10 @@ name:
   full: Cod
   aliases: []
 description: "Salt-cured white fish; dried or salted for long trade voyages."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: cod
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

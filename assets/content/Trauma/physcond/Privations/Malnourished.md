@@ -4,10 +4,10 @@ name:
   full: Malnourished
   aliases: []
 description: "Chronic shortage of nutrients; poor healing, scurvy-like signs."
-img: icons/game-icons/delapouite/stomach.svg
 shortcode: malnut
 type: trauma
 data:
+  icon: stomach
   templatePriority: 0
 subType: physcond
 sohl:

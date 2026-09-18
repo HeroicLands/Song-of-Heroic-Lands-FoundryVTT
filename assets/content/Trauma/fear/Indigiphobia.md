@@ -3,10 +3,10 @@ tags: []
 name:
   full: Indigiphobia
   aliases: []
-img: icons/game-icons/cathelineau/dread.svg
 shortcode: indgphb
 type: trauma
 data:
+  icon: dread
   templatePriority: 0
 subType: fear
 sohl:

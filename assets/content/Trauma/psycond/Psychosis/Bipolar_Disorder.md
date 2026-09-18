@@ -3,10 +3,10 @@ tags: []
 name:
   full: Bipolar Disorder
   aliases: []
-img: icons/game-icons/lorc/battlegear.svg
 shortcode: bipolar
 type: trauma
 data:
+  icon: battlegear
   templatePriority: 0
 subType: psycond
 sohl:

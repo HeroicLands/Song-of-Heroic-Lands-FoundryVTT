@@ -5,10 +5,10 @@ name:
   full: "Necklace, bone"
   aliases: []
 description: "A chain or strung band worn at the throat, in carved bone."
-img: icons/game-icons/lorc/gempendant.svg
 shortcode: necklacebone
 type: miscgear
 data:
+  icon: gempendant
   templatePriority: 0
 sohl:
   craft:

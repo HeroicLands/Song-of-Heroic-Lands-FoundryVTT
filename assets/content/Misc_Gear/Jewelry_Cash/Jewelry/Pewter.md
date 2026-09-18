@@ -5,10 +5,10 @@ name:
   full: Pewter
   aliases: []
 description: "Soft tin-lead alloy; cheaper than silver; tavern cups and household goods."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: pewter
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

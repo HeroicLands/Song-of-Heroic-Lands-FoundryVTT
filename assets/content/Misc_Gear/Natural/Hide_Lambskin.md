@@ -5,10 +5,10 @@ name:
   full: "Hide, Lambskin"
   aliases: []
 description: "Young sheep pelt with wool; light, dyes well; pliant warm leather. Price is for one whole skin."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: hidelambsk
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

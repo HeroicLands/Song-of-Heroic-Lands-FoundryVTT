@@ -5,10 +5,10 @@ name:
   full: Wheat
   aliases: []
 description: "Golden grain for fine bread and pastries, stores years when sealed."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: wheat
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

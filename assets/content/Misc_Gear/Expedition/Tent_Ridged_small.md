@@ -5,10 +5,10 @@ name:
   full: "Tent, Ridged, small"
   aliases: []
 description: "One-person ridge-pole tent; tight profile resists wind, packs readily."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: tentridged2
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

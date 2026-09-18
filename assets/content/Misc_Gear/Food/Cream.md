@@ -5,10 +5,10 @@ name:
   full: Cream
   aliases: []
 description: "Rich pale cream; enriches sauces and custards, highly perishable, used fresh."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: cream
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

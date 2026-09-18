@@ -5,10 +5,10 @@ name:
   full: "Tankard, pewter"
   aliases: []
 description: "Straight-sided pewter tankard for taverns and barracks serving ale by pint."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: tankardpew
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

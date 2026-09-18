@@ -3,10 +3,10 @@ tags: []
 name:
   full: Inquisitive
   aliases: []
-img: icons/game-icons/lorc/battlegear.svg
 shortcode: inqstv
 type: trauma
 data:
+  icon: battlegear
   templatePriority: 0
 subType: psycond
 sohl:

@@ -5,10 +5,10 @@ name:
   full: "Honey, pot"
   aliases: []
 description: "Gallon pot of honey; winter household supply or merchant trade good."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: honeypot
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

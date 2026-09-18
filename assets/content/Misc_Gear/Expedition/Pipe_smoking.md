@@ -5,10 +5,10 @@ name:
   full: "Pipe, smoking"
   aliases: []
 description: "Fruitwood or horn pipe for tobacco; carved for nobles, plain for soldiers."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: pipesmokin
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

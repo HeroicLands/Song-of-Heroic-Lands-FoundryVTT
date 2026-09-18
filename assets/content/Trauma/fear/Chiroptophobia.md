@@ -3,10 +3,10 @@ tags: []
 name:
   full: Chiroptophobia
   aliases: []
-img: icons/game-icons/cathelineau/dread.svg
 shortcode: chrptphb
 type: trauma
 data:
+  icon: dread
   templatePriority: 0
 subType: fear
 sohl:

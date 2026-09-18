@@ -4,10 +4,10 @@ name:
   full: Discourse
   aliases: []
 description: "Convincing through reasoned argument, evidence, and rhetorical skill."
-img: icons/game-icons/delapouite/facetoface.svg
 shortcode: dscr
 type: skill
 data:
+  icon: facetoface
   templatePriority: 0
 subType: social
 sohl:

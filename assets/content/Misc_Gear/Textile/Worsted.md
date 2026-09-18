@@ -5,10 +5,10 @@ name:
   full: "Worsted, per sq yard"
   aliases: []
 description: "Fine fulled wool in strong colours; urban guild work only."
-img: icons/game-icons/delapouite/rolledcloth.svg
 shortcode: worsted
 type: miscgear
 data:
+  icon: rolledcloth
   templatePriority: 0
 sohl:
   craft:

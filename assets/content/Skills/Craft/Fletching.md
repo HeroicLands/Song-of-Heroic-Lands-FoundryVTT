@@ -4,10 +4,10 @@ name:
   full: Fletching
   aliases: []
 description: "Crafting bows, crossbows, arrows; producing reliable or masterwork projectile weapons."
-img: icons/game-icons/lorc/broadheadarrow.svg
 shortcode: fltch
 type: skill
 data:
+  icon: broadheadarrow
   templatePriority: 0
 subType: craft
 sohl:

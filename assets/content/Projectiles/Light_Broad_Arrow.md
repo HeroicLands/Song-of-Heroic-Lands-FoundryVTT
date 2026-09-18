@@ -6,10 +6,10 @@ name:
 description: "Light hunting shaft, leaf-shaped iron edge; bleeds prey, deer, fox, unarmoured men."
 type: projectilegear
 data:
+  icon: broadheadarrow
   templatePriority: 0
 subType: arrow
 shortcode: arwlbrd
-img: icons/game-icons/lorc/broadheadarrow.svg
 easyname: Light Broad
 sohl:
   craft:

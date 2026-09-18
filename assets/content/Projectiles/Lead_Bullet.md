@@ -6,10 +6,10 @@ name:
 description: "Cast lead almond-shaped ball; farther-flying, harder-striking than stone; pierces gambesons."
 type: projectilegear
 data:
+  icon: stonepile
   templatePriority: 0
 subType: bullet
 shortcode: lbul
-img: icons/game-icons/delapouite/stonepile.svg
 easyname: Lead Bullet
 sohl:
   craft:

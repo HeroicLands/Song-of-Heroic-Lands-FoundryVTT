@@ -5,10 +5,10 @@ name:
   full: "Opal, cut"
   aliases: []
 description: "Luminous pale gem with rainbow-color flashes; iridescent, softer and requires gentle handling."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: opalcut
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

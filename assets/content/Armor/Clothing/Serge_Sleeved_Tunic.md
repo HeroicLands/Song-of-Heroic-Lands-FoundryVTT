@@ -4,10 +4,10 @@ name:
   full: Serge Sleeved Tunic
   aliases: []
 description: "Twilled serge sleeved tunic; practical, versatile everyday garment."
-img: icons/game-icons/lucasms/shirt.svg
 shortcode: sgstnc
 type: armorgear
 data:
+  icon: shirt
   templatePriority: 0
 sohl:
   craft:

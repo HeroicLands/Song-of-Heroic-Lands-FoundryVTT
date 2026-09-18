@@ -3,10 +3,10 @@ tags: []
 name:
   full: Acrophobia
   aliases: []
-img: icons/game-icons/cathelineau/dread.svg
 shortcode: acrophb
 type: trauma
 data:
+  icon: dread
   templatePriority: 0
 subType: fear
 sohl:

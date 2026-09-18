@@ -4,10 +4,10 @@ name:
   full: Fate
   aliases: []
 description: "A thread of destiny held and spent to raise a roll that has already settled."
-img: icons/game-icons/lorc/crystalball.svg
 shortcode: fate
 type: mysticalability
 data:
+  icon: crystalball
   templatePriority: 0
 subType: divination
 sohl:

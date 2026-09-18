@@ -6,10 +6,10 @@ name:
 description: "Heavy hardwood quarrel with ball head; breaks ribs, clears crowds bloodlessly."
 type: projectilegear
 data:
+  icon: broadheadarrow
   templatePriority: 0
 subType: bolt
 shortcode: blthblt
-img: icons/game-icons/lorc/broadheadarrow.svg
 easyname: Heavy Blunt
 sohl:
   craft:

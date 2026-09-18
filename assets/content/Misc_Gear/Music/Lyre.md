@@ -5,10 +5,10 @@ name:
   full: Lyre
   aliases: []
 description: "Ancient wooden frame, curved arms and strings; bright voice for hymns."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: lyre
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

@@ -4,10 +4,10 @@ name:
   full: Silk Gloves
   aliases: []
 description: "Soft silk gloves; luxury touch for formal occasions and high-status."
-img: icons/game-icons/delapouite/gloves.svg
 shortcode: slkglv
 type: armorgear
 data:
+  icon: gloves
   templatePriority: 0
 sohl:
   craft:

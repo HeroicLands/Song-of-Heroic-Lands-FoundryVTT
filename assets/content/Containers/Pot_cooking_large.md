@@ -4,10 +4,10 @@ name:
   full: "Pot, cooking, large"
   aliases: []
 description: "Iron cookpot with wire handle; hangs over fire or sits in embers."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: potcooking
 type: containergear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

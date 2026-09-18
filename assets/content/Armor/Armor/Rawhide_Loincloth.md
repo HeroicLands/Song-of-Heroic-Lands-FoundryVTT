@@ -4,10 +4,10 @@ name:
   full: Rawhide Loincloth
   aliases: []
 description: "Stiff hide garment; minimal coverage for rough environments."
-img: icons/game-icons/delapouite/loincloth.svg
 shortcode: rhloin
 type: armorgear
 data:
+  icon: loincloth
   templatePriority: 0
 sohl:
   craft:

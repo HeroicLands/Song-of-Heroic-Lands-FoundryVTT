@@ -3,10 +3,10 @@ tags: []
 name:
   full: Suspicious
   aliases: []
-img: icons/game-icons/lorc/battlegear.svg
 shortcode: sspcs
 type: trauma
 data:
+  icon: battlegear
   templatePriority: 0
 subType: psycond
 sohl:

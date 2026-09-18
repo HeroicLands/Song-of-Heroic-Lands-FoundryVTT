@@ -3,10 +3,10 @@ tags: []
 name:
   full: Koumpounophobia
   aliases: []
-img: icons/game-icons/cathelineau/dread.svg
 shortcode: kmpnphb
 type: trauma
 data:
+  icon: dread
   templatePriority: 0
 subType: fear
 sohl:

@@ -4,10 +4,10 @@ name:
   full: Cloth Shoes
   aliases: []
 description: "Breathable cloth footwear for casual, light-duty wear."
-img: icons/game-icons/lorc/leatherboot.svg
 shortcode: cshoe
 type: armorgear
 data:
+  icon: leatherboot
   templatePriority: 0
 sohl:
   craft:

@@ -4,10 +4,10 @@ name:
   full: Plate Vambraces
   aliases: []
 description: "Steel forearm-guards; protects wrists and inner arms."
-img: icons/game-icons/delapouite/bracer.svg
 shortcode: plvamb
 type: armorgear
 data:
+  icon: bracer
   templatePriority: 0
 sohl:
   craft:

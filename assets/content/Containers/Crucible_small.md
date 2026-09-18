@@ -4,10 +4,10 @@ name:
   full: "Crucible, small"
   aliases: []
 description: "Small thin-walled ceramic crucible."
-img: icons/game-icons/delapouite/cookingpot.svg
 shortcode: cruciblesm
 type: containergear
 data:
+  icon: cookingpot
   templatePriority: 0
 sohl:
   craft:

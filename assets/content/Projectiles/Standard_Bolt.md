@@ -6,10 +6,10 @@ name:
 description: "Stout hardwood quarrel, simple iron head; cheap volley fire against unarmoured."
 type: projectilegear
 data:
+  icon: broadheadarrow
   templatePriority: 0
 subType: bolt
 shortcode: bltstd
-img: icons/game-icons/lorc/broadheadarrow.svg
 easyname: Standard
 sohl:
   craft:

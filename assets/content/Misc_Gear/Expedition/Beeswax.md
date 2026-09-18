@@ -5,10 +5,10 @@ name:
   full: Beeswax
   aliases: []
 description: "Pale honey-colored cake; waterproofs leather, caulks wood, and makes fine candles."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: bswax
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

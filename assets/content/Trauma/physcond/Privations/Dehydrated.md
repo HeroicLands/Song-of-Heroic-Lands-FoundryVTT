@@ -4,10 +4,10 @@ name:
   full: Dehydrated
   aliases: []
 description: "Insufficient water; thirst, dry mouth, dark urine, dizziness, collapse."
-img: icons/game-icons/delapouite/stomach.svg
 shortcode: dehyd
 type: trauma
 data:
+  icon: stomach
   templatePriority: 0
 subType: physcond
 sohl:

@@ -4,10 +4,10 @@ name:
   full: Truncheon
   aliases: []
 description: "Wooden club; town watch tool enforcing order without obvious intent."
-img: icons/game-icons/badges/club.svg
 shortcode: trunch
 type: weapongear
 data:
+  icon: club
   templatePriority: 0
 sohl:
   craft:

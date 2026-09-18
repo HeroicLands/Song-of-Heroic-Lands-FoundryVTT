@@ -3,10 +3,10 @@ tags: []
 name:
   full: Impulsive
   aliases: []
-img: icons/game-icons/lorc/battlegear.svg
 shortcode: implsv
 type: trauma
 data:
+  icon: battlegear
   templatePriority: 0
 subType: psycond
 sohl:

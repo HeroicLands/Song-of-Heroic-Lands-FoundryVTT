@@ -3,10 +3,10 @@ tags: []
 name:
   full: Perfectionist
   aliases: []
-img: icons/game-icons/lorc/battlegear.svg
 shortcode: prfctnst
 type: trauma
 data:
+  icon: battlegear
   templatePriority: 0
 subType: psycond
 sohl:

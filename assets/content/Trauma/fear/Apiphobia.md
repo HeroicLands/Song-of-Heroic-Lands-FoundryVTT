@@ -3,10 +3,10 @@ tags: []
 name:
   full: Apiphobia
   aliases: []
-img: icons/game-icons/cathelineau/dread.svg
 shortcode: apiphb
 type: trauma
 data:
+  icon: dread
   templatePriority: 0
 subType: fear
 sohl:

@@ -4,10 +4,10 @@ name:
   full: Buckram Sleeved Tunic
   aliases: []
 description: "Stiff, structured buckram tunic offering durable and reliable fit."
-img: icons/game-icons/lucasms/shirt.svg
 shortcode: bstnc
 type: armorgear
 data:
+  icon: shirt
   templatePriority: 0
 sohl:
   craft:

@@ -4,10 +4,10 @@ name:
   full: Linen Swaddle
   aliases: []
 description: "Light breathable infant wrapping perfect for warm climates."
-img: icons/game-icons/lorc/trousers.svg
 shortcode: lnswd
 type: armorgear
 data:
+  icon: trousers
   templatePriority: 0
 sohl:
   craft:

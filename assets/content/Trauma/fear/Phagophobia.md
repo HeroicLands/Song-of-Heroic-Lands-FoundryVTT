@@ -3,10 +3,10 @@ tags: []
 name:
   full: Phagophobia
   aliases: []
-img: icons/game-icons/cathelineau/dread.svg
 shortcode: phagophb
 type: trauma
 data:
+  icon: dread
   templatePriority: 0
 subType: fear
 sohl:

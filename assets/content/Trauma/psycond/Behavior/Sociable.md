@@ -3,10 +3,10 @@ tags: []
 name:
   full: Sociable
   aliases: []
-img: icons/game-icons/lorc/battlegear.svg
 shortcode: sociable
 type: trauma
 data:
+  icon: battlegear
   templatePriority: 0
 subType: psycond
 sohl:

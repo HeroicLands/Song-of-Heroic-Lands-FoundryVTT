@@ -5,10 +5,10 @@ name:
   full: "Dye, Saffron Yellow"
   aliases: []
 description: "Dried crocus stigmas; brilliant golden yellow for noble silk garments."
-img: icons/game-icons/caro-asercion/roundpotion.svg
 shortcode: dyesfrn
 type: miscgear
 data:
+  icon: roundpotion
   templatePriority: 0
 sohl:
   craft:

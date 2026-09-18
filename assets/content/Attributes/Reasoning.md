@@ -4,10 +4,10 @@ name:
   full: Reasoning
   aliases: []
 description: "Logic, memory, and deduction; the foundation of learning and craft."
-img: icons/game-icons/lorc/brain.svg
 shortcode: rea
 type: attribute
 data:
+  icon: brain
   templatePriority: 0
 sohl:
   system:

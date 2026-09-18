@@ -4,10 +4,10 @@ name:
   full: Leather Tunic
   aliases: []
 description: "Rugged styled leather garment providing minimal protection and style."
-img: icons/game-icons/lucasms/shirt.svg
 shortcode: lttunic
 type: armorgear
 data:
+  icon: shirt
   templatePriority: 0
 sohl:
   craft:

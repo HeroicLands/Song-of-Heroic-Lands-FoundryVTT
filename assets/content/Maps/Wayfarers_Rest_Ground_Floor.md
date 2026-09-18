@@ -4,7 +4,6 @@ name:
   full: Wayfarer's Rest, Ground Floor
   aliases: []
 description: "The common room of a roadside shelter: one hearth, one stair, one door."
-img: systems/sohl/assets/ui/parchment.jpg
 shortcode: wayrestground
 type: map
 packFolder: battlemaps
@@ -58,13 +57,13 @@ sohl:
     strongbox:
       position: [352, 96]
       size: [64, 64]
-      image: systems/sohl/assets/icons/game-icons/delapouite/chest.svg
+      image: sohl-none-icon-chest
 
   sounds:
     eaves:
       position: [256, 64]
       radius: 20
-      path: systems/sohl/assets/audio/swoosh1.ogg
+      path: sohl-none-audio-swoosh1
       volume: 0.3
 
   regions:
@@ -93,6 +92,8 @@ sohl:
         up:
           teleportToken:
             to: { map: wayrestloft, region: stair-head }
+data:
+  icon: sohl-none-image-parchment
 ---
 
 A shelter of the commonest kind: a single room with a hearth at one end, a

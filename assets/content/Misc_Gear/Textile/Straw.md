@@ -5,10 +5,10 @@ name:
   full: "Straw, woven, per sq yard"
   aliases: []
 description: "Plaited straw worked into sheet; hats, light summer wear and coarse matting."
-img: icons/game-icons/delapouite/rolledcloth.svg
 shortcode: straw
 type: miscgear
 data:
+  icon: rolledcloth
   templatePriority: 0
 sohl:
   craft:

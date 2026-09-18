@@ -4,10 +4,10 @@ name:
   full: "Carry frame"
   aliases: []
 description: "Wooden pack frame for lashing loads to."
-img: icons/game-icons/lorc/knapsack.svg
 shortcode: carryframe
 type: containergear
 data:
+  icon: knapsack
   templatePriority: 0
 sohl:
   craft:

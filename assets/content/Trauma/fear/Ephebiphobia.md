@@ -3,10 +3,10 @@ tags: []
 name:
   full: Ephebiphobia
   aliases: []
-img: icons/game-icons/cathelineau/dread.svg
 shortcode: ephbphb
 type: trauma
 data:
+  icon: dread
   templatePriority: 0
 subType: fear
 sohl:

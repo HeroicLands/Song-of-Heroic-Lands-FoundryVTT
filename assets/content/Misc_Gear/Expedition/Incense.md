@@ -5,10 +5,10 @@ name:
   full: Incense
   aliases: []
 description: "Frankincense, myrrh, or eastern spices; marks holy occasions and scents chambers."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: incense
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

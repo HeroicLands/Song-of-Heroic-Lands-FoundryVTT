@@ -7,11 +7,11 @@ name:
   aliases:
     - Caribou
 description: "A hardy northern cervid in which both sexes grow antlers, supremely adapted to survive and sustain entire cultures in bitter arctic cold."
-img: icons/game-icons/caro-asercion/deer.svg
-portrait: images/being/reindeer.webp
 shortcode: reindeer
 type: being
 data:
+  icon: deer
+  portrait: reindeer
   templatePriority: 0
 sohl:
   kbcat: animal

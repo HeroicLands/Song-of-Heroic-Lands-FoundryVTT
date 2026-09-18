@@ -5,11 +5,11 @@ name:
   full: Glass Lizard
   aliases: []
 description: "A sleek, semi-arboreal reptilian predator over ten feet long, blending into rocky scrubland where it basks by day and hunts by night."
-img: icons/game-icons/lorc/gecko.svg
-portrait: images/being/glsslzrd.webp
 shortcode: glsslzrd
 type: being
 data:
+  icon: gecko
+  portrait: glsslzrd
   templatePriority: 0
 sohl:
   kbcat: animal

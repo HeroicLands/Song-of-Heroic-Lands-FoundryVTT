@@ -4,10 +4,10 @@ name:
   full: "Chest, wooden"
   aliases: []
 description: "Carved storage chest with a flat hinged lid (1 x 2 x 2 feet)."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: chestwood
 type: containergear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

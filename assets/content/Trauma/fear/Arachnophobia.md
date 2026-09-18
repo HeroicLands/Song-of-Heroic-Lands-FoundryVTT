@@ -3,10 +3,10 @@ tags: []
 name:
   full: Arachnophobia
   aliases: []
-img: icons/game-icons/cathelineau/dread.svg
 shortcode: aracphb
 type: trauma
 data:
+  icon: dread
   templatePriority: 0
 subType: fear
 sohl:

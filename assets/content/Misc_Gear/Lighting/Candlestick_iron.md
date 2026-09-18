@@ -5,10 +5,10 @@ name:
   full: "Candlestick, iron"
   aliases: []
 description: "Iron socket with weighted base; holds candle upright for table or shelf."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: candlestic
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

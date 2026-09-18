@@ -5,10 +5,10 @@ name:
   full: Keg Good Wine
   aliases: []
 description: "Aged fine wine in keg; lord's cellar treasure, craftsman's yearly wage."
-img: icons/game-icons/delapouite/winebottle.svg
 shortcode: gwinekeg
 type: miscgear
 data:
+  icon: winebottle
   templatePriority: 0
 sohl:
   craft:

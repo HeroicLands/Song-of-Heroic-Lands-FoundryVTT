@@ -3,10 +3,10 @@ tags: []
 name:
   full: Adaptable
   aliases: []
-img: icons/game-icons/lorc/battlegear.svg
 shortcode: adapt
 type: trauma
 data:
+  icon: battlegear
   templatePriority: 0
 subType: psycond
 sohl:

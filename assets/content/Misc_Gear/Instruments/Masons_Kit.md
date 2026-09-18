@@ -5,10 +5,10 @@ name:
   full: Mason's Kit
   aliases: []
 description: "Heavy canvas roll with mallets, pitching tool, chisels, plumb, level; masons shape stone."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: masonkit
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

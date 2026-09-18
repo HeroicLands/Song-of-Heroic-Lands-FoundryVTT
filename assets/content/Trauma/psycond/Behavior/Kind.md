@@ -3,10 +3,10 @@ tags: []
 name:
   full: Kind
   aliases: []
-img: icons/game-icons/lorc/battlegear.svg
 shortcode: kind
 type: trauma
 data:
+  icon: battlegear
   templatePriority: 0
 subType: psycond
 sohl:

@@ -4,10 +4,10 @@ name:
   full: Charm
   aliases: []
 description: "Winning trust and favor through warmth, wit, and emotional persuasion."
-img: icons/game-icons/lorc/charm.svg
 shortcode: chrm
 type: skill
 data:
+  icon: charm
   templatePriority: 0
 subType: social
 sohl:

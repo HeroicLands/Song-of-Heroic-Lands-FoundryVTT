@@ -4,10 +4,10 @@ name:
   full: Morningstar
   aliases: []
 description: "Spiked iron sphere on short haft; mounted man-at-arms' shock-versatility."
-img: icons/game-icons/delapouite/flangedmace.svg
 shortcode: mgstr
 type: weapongear
 data:
+  icon: flangedmace
   templatePriority: 0
 sohl:
   craft:

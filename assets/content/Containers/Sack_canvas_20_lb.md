@@ -4,10 +4,10 @@ name:
   full: "Sack, canvas, 20 lb"
   aliases: []
 description: "Plain canvas sack for grain, flour, or produce (20 lb)."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: sackcanvas20
 type: containergear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

@@ -4,10 +4,10 @@ name:
   full: Talent
   aliases: []
 description: "An untaught arcane knack, invoked directly and free of the incantation penalty."
-img: icons/game-icons/lorc/psychicwaves.svg
 shortcode: tlnt
 type: mysticalability
 data:
+  icon: psychicwaves
   templatePriority: 0
 subType: arcanetalent
 sohl:

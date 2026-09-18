@@ -3,10 +3,10 @@ tags: []
 name:
   full: Dwarfism
   aliases: []
-img: icons/game-icons/lorc/battlegear.svg
 shortcode: dwarfism
 type: trauma
 data:
+  icon: battlegear
   templatePriority: 0
 subType: physcond
 sohl:

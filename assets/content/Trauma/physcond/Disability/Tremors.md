@@ -3,10 +3,10 @@ tags: []
 name:
   full: Tremors
   aliases: []
-img: icons/game-icons/lorc/battlegear.svg
 shortcode: tremors
 type: trauma
 data:
+  icon: battlegear
   templatePriority: 0
 subType: physcond
 sohl:

@@ -3,10 +3,10 @@ tags: []
 name:
   full: Amaxophobia
   aliases: []
-img: icons/game-icons/cathelineau/dread.svg
 shortcode: amaxphb
 type: trauma
 data:
+  icon: dread
   templatePriority: 0
 subType: fear
 sohl:

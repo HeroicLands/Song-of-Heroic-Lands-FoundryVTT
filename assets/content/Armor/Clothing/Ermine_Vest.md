@@ -4,10 +4,10 @@ name:
   full: Ermine Vest
   aliases: []
 description: "White ermine fur vest signifying high status and elite prestige."
-img: icons/game-icons/lorc/leathervest.svg
 shortcode: evest
 type: armorgear
 data:
+  icon: leathervest
   templatePriority: 0
 sohl:
   craft:

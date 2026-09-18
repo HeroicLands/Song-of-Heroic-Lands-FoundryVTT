@@ -4,10 +4,10 @@ name:
   full: Plate Breastplate
   aliases: []
 description: "Steel plate protecting torso; cornerstone of knightly armor."
-img: icons/game-icons/lorc/breastplate.svg
 shortcode: plbreast
 type: armorgear
 data:
+  icon: breastplate
   templatePriority: 0
 sohl:
   craft:

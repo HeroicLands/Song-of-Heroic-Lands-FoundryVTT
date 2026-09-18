@@ -5,10 +5,10 @@ name:
   full: Scallions
   aliases: []
 description: "Young onions with tender greens, fresh or dried, early spring crop."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: scallions
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

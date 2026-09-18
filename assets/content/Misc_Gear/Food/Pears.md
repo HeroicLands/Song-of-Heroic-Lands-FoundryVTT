@@ -5,10 +5,10 @@ name:
   full: Pears
   aliases: []
 description: "Dried autumn fruit, hardened sweet traveler's treat and childhood prize."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: pears
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

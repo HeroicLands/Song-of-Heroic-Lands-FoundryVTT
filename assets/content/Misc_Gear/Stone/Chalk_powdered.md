@@ -5,10 +5,10 @@ name:
   full: "Chalk, powdered"
   aliases: []
 description: "Ground chalk powder in sealed pot; scribes erase, masons whitewash."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: chalkpowde
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

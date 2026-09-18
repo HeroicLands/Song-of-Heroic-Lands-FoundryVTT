@@ -4,10 +4,10 @@ name:
   full: Acrobatics
   aliases: []
 description: "Vaulting, balance, tumbling; recovers gracefully from perilous falls."
-img: icons/game-icons/lorc/cartwheel.svg
 shortcode: acro
 type: skill
 data:
+  icon: cartwheel
   templatePriority: 0
 subType: physical
 sohl:

@@ -4,10 +4,10 @@ name:
   full: Mail Byrnie
   aliases: []
 description: "Metal ring shirt providing significant protection against slashes and thrusts."
-img: icons/game-icons/willdabeast/chainmail.svg
 shortcode: mbyr
 type: armorgear
 data:
+  icon: chainmail
   templatePriority: 0
 sohl:
   craft:

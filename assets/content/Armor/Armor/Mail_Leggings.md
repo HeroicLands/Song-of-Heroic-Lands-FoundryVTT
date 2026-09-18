@@ -4,10 +4,10 @@ name:
   full: Mail Leggings
   aliases: []
 description: "Metal ring leg coverings providing substantial protection against slashes."
-img: icons/game-icons/lorc/trousers.svg
 shortcode: mleg
 type: armorgear
 data:
+  icon: trousers
   templatePriority: 0
 sohl:
   craft:

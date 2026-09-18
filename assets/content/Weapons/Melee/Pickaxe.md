@@ -4,10 +4,10 @@ name:
   full: Pickaxe
   aliases: []
 description: "Mining tool with point and adze; siege and armor-cracking weapon."
-img: icons/game-icons/lorc/mining.svg
 shortcode: pkaxe
 type: weapongear
 data:
+  icon: mining
   templatePriority: 0
 sohl:
   craft:

@@ -5,10 +5,10 @@ name:
   full: Blacksmith's Kit
   aliases: []
 description: "Heavy canvas roll with forging hammers, tongs, hardies, fullers, swages, punches, hot chisels; smiths forge iron at the anvil."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: blacksmkit
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

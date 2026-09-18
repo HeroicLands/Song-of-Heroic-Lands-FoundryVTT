@@ -4,10 +4,10 @@ name:
   full: Ermine Robe
   aliases: []
 description: "Full-length ermine robe; ceremonial dress of the highest rank."
-img: icons/game-icons/lorc/robe.svg
 shortcode: erobe
 type: armorgear
 data:
+  icon: robe
   templatePriority: 0
 sohl:
   craft:

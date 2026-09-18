@@ -4,10 +4,10 @@ name:
   full: "Box, wooden, 12 x 8 x 6 in"
   aliases: []
 description: "Small carved wooden box with a fitted lid, for oddments and keepsakes."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: boxwood
 type: containergear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

@@ -5,10 +5,10 @@ name:
   full: "Hide, Pig"
   aliases: []
 description: "Hog hide thicker than sheep; moderately soft leather for gloves and belts. Price is for one whole skin."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: hidepig
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

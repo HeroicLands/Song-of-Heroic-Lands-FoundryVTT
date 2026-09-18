@@ -5,10 +5,10 @@ name:
   full: Steel
   aliases: []
 description: "Carburised iron, twice the price; takes and holds an edge where iron will not."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: steel
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

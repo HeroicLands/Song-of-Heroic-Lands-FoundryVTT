@@ -5,10 +5,10 @@ name:
   full: "Baldric, Shoulder"
   aliases: []
 description: "Wide leather strap with brass rings worn diagonally across chest and shoulder."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: baldricsho
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

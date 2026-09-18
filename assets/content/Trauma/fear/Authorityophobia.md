@@ -3,10 +3,10 @@ tags: []
 name:
   full: Authorityophobia
   aliases: []
-img: icons/game-icons/cathelineau/dread.svg
 shortcode: arithphb
 type: trauma
 data:
+  icon: dread
   templatePriority: 0
 subType: fear
 sohl:

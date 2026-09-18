@@ -4,10 +4,10 @@ name:
   full: Silk Tunic
   aliases: []
 description: "Elegant silk tunic; luxurious, refined garment for formal occasions."
-img: icons/game-icons/lucasms/shirt.svg
 shortcode: slktunic
 type: armorgear
 data:
+  icon: shirt
   templatePriority: 0
 sohl:
   craft:

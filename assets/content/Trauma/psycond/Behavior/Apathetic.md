@@ -3,10 +3,10 @@ tags: []
 name:
   full: Apathetic
   aliases: []
-img: icons/game-icons/lorc/battlegear.svg
 shortcode: apthtc
 type: trauma
 data:
+  icon: battlegear
   templatePriority: 0
 subType: psycond
 sohl:

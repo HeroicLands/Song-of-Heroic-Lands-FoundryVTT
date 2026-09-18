@@ -4,10 +4,10 @@ name:
   full: "Chest, wicker, small"
   aliases: []
 description: "Small lidded wicker chest."
-img: icons/game-icons/delapouite/basket.svg
 shortcode: chestwksm
 type: containergear
 data:
+  icon: basket
   templatePriority: 0
 sohl:
   craft:

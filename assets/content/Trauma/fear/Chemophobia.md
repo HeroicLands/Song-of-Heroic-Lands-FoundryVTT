@@ -3,10 +3,10 @@ tags: []
 name:
   full: Chemophobia
   aliases: []
-img: icons/game-icons/cathelineau/dread.svg
 shortcode: chemophb
 type: trauma
 data:
+  icon: dread
   templatePriority: 0
 subType: fear
 sohl:

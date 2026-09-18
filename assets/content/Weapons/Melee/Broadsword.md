@@ -4,10 +4,10 @@ name:
   full: Broadsword
   aliases: []
 description: "Wide flat double-edged blade excels at choppy cuts; footman's reliable steel."
-img: icons/game-icons/lorc/broadsword.svg
 shortcode: brdswd
 type: weapongear
 data:
+  icon: broadsword
   templatePriority: 0
 sohl:
   craft:

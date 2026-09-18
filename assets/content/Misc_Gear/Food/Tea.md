@@ -5,10 +5,10 @@ name:
   full: Tea
   aliases: []
 description: "Distant leaf brew stretched across days, sharpens mind and warms."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: tea
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

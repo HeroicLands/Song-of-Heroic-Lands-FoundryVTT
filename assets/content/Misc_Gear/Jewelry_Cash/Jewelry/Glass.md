@@ -5,10 +5,10 @@ name:
   full: Glass
   aliases: []
 description: "Melted sand cast or blown into vessels, lamps, windows, and goblets."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: glass
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

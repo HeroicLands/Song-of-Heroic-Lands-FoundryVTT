@@ -4,10 +4,10 @@ name:
   full: Linen Breeches
   aliases: []
 description: "Light breathable leg covering perfect for warm climates or strenuous activity."
-img: icons/game-icons/lorc/trousers.svg
 shortcode: lnbrch
 type: armorgear
 data:
+  icon: trousers
   templatePriority: 0
 sohl:
   craft:

@@ -3,10 +3,10 @@ tags: []
 name:
   full: Limb Weakness
   aliases: []
-img: icons/game-icons/lorc/battlegear.svg
 shortcode: lmbwknss
 type: trauma
 data:
+  icon: battlegear
   templatePriority: 0
 subType: physcond
 sohl:

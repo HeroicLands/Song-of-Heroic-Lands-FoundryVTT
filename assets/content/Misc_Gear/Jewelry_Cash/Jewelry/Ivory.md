@@ -5,10 +5,10 @@ name:
   full: Ivory
   aliases: []
 description: "Polished tooth of great beasts; creamy white, carved into combs, buttons, ornaments."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: ivory
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

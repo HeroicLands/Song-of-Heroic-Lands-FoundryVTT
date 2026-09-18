@@ -5,10 +5,10 @@ name:
   full: "Bed, single"
   aliases: []
 description: "Wooden bedstead with a roped frame to carry a mattress."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: bedsingle
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

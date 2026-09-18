@@ -4,10 +4,10 @@ name:
   full: Worsted Dress
   aliases: []
 description: "Tightly-spun wool dress; durable, versatile garment for activities."
-img: icons/game-icons/skoll/dress.svg
 shortcode: wdress
 type: armorgear
 data:
+  icon: dress
   templatePriority: 0
 sohl:
   craft:

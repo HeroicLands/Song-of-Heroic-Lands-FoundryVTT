@@ -4,10 +4,10 @@ name:
   full: Language
   aliases: []
 description: "Proficiency in some particular tongue — the generic skill used wherever a named-language entry would overspecify."
-img: icons/game-icons/lorc/conversation.svg
 shortcode: lang
 type: skill
 data:
+  icon: conversation
   templatePriority: 0
 subType: language
 sohl:

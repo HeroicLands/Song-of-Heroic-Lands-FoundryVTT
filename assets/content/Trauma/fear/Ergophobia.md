@@ -3,10 +3,10 @@ tags: []
 name:
   full: Ergophobia
   aliases: []
-img: icons/game-icons/cathelineau/dread.svg
 shortcode: ergophb
 type: trauma
 data:
+  icon: dread
   templatePriority: 0
 subType: fear
 sohl:

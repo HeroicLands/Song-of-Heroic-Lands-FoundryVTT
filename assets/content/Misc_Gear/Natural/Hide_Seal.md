@@ -5,10 +5,10 @@ name:
   full: "Hide, Seal"
   aliases: []
 description: "Coastal oiled hide; waterproof supple leather for sea-boots, deckcloaks. Price is for one whole skin."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: hideseal
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

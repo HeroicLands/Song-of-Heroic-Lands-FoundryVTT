@@ -4,10 +4,10 @@ name:
   full: Rawhide Gauntlets
   aliases: []
 description: "Thick hide hand-guards; resists abrasion and impact."
-img: icons/game-icons/delapouite/gauntlet.svg
 shortcode: rhgntl
 type: armorgear
 data:
+  icon: gauntlet
   templatePriority: 0
 sohl:
   craft:

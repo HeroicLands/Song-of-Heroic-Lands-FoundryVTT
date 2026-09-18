@@ -4,10 +4,10 @@ name:
   full: Padded Cuisse
   aliases: []
 description: "Cushioned thigh protection ideal for wear under heavier armor."
-img: icons/game-icons/lorc/trousers.svg
 shortcode: pcuis
 type: armorgear
 data:
+  icon: trousers
   templatePriority: 0
 sohl:
   craft:

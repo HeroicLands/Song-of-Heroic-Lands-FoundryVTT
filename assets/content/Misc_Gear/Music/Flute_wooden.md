@@ -5,10 +5,10 @@ name:
   full: "Flute, wooden"
   aliases: []
 description: "Turned fruitwood pipe with fipple; warm sweet voice, apt for folk melody."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: flutewoode
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

@@ -3,10 +3,10 @@ tags: []
 name:
   full: Ulcer
   aliases: []
-img: icons/game-icons/lorc/battlegear.svg
 shortcode: ulcer
 type: trauma
 data:
+  icon: battlegear
   templatePriority: 0
 subType: physcond
 sohl:

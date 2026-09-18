@@ -4,10 +4,10 @@ name:
   full: Milling
   aliases: []
 description: "Processing grain into flour and meal using mill mechanics and stone-dressing."
-img: icons/game-icons/caro-asercion/watermill.svg
 shortcode: mill
 type: skill
 data:
+  icon: watermill
   templatePriority: 0
 subType: craft
 sohl:

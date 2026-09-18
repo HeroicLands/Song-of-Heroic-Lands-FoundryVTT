@@ -5,10 +5,10 @@ name:
   aliases:
     - Poison
 description: "Long-term weakness from active poison or toxin in the body."
-img: icons/game-icons/lorc/sleepy.svg
 shortcode: poison
 type: trauma
 data:
+  icon: sleepy
   templatePriority: 0
 subType: fatigue
 sohl:

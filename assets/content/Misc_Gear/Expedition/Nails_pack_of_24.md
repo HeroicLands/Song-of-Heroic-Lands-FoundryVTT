@@ -5,10 +5,10 @@ name:
   full: "Nails, pack of 24"
   aliases: []
 description: "Mixed iron nails for quick repairs and affixing tent frames."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: nailspacko
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

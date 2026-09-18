@@ -3,10 +3,10 @@ tags: []
 name:
   full: Coulrophobia
   aliases: []
-img: icons/game-icons/cathelineau/dread.svg
 shortcode: clrphb
 type: trauma
 data:
+  icon: dread
   templatePriority: 0
 subType: fear
 sohl:

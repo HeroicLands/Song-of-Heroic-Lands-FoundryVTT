@@ -3,10 +3,10 @@ tags: []
 name:
   full: Photophobia
   aliases: []
-img: icons/game-icons/cathelineau/dread.svg
 shortcode: photophb
 type: trauma
 data:
+  icon: dread
   templatePriority: 0
 subType: physcond
 sohl:

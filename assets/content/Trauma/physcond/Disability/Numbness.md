@@ -3,10 +3,10 @@ tags: []
 name:
   full: Numbness
   aliases: []
-img: icons/game-icons/lorc/battlegear.svg
 shortcode: numbness
 type: trauma
 data:
+  icon: battlegear
   templatePriority: 0
 subType: physcond
 sohl:

@@ -5,10 +5,10 @@ name:
   full: Jeweler's Kit
   aliases: []
 description: "Fine leather roll with graduated files, pin hammer, pliers, loupe, tweezers, drawplate, burnishers; goldsmiths' precision tools."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: jewelerskt
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

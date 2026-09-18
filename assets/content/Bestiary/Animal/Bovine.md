@@ -5,11 +5,11 @@ name:
   full: Bovine
   aliases: []
 description: "A massive domesticated herbivore bred for docility and labor, standing up to six feet at the shoulder yet capable of goring the careless."
-img: icons/game-icons/delapouite/cow.svg
-portrait: images/being/bovine.webp
 shortcode: bovine
 type: being
 data:
+  icon: cow
+  portrait: bovine
   templatePriority: 0
 sohl:
   kbcat: animal

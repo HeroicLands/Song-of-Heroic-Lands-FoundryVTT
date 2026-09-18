@@ -4,10 +4,10 @@ name:
   full: Morality
   aliases: []
 description: "Ethical conscience, and the willingness to act on it under temptation."
-img: icons/game-icons/lorc/scales.svg
 shortcode: mor
 type: attribute
 data:
+  icon: scales
   templatePriority: 0
 sohl:
   system:

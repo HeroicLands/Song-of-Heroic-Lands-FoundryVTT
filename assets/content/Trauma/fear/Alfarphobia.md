@@ -3,10 +3,10 @@ tags: []
 name:
   full: Alfarphobia
   aliases: []
-img: icons/game-icons/cathelineau/dread.svg
 shortcode: alfrphb
 type: trauma
 data:
+  icon: dread
   templatePriority: 0
 subType: fear
 sohl:

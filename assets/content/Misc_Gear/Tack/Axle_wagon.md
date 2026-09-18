@@ -5,10 +5,10 @@ name:
   full: "Axle, wagon"
   aliases: []
 description: "Iron-shod wagon axle; the part that fails first and strands the load."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: axlewagon
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

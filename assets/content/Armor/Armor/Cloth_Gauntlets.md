@@ -4,10 +4,10 @@ name:
   full: Cloth Gauntlets
   aliases: []
 description: "Soft cloth hand coverings offering basic protection for light work."
-img: icons/game-icons/delapouite/gloves.svg
 shortcode: cgntl
 type: armorgear
 data:
+  icon: gloves
   templatePriority: 0
 sohl:
   craft:

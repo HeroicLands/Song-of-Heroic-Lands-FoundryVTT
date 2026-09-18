@@ -5,10 +5,10 @@ name:
   full: "Carnelian, cut"
   aliases: []
 description: "Translucent warm orange-red gem from iron oxide; durable favorite for rings."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: carnelianc
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

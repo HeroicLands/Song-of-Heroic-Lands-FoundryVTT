@@ -5,10 +5,10 @@ name:
   full: Feathers
   aliases: []
 description: "Down and flight feathers; stuff quilts and padding, used for arrow fletching."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: feathers
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

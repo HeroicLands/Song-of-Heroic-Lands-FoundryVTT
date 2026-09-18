@@ -4,10 +4,10 @@ name:
   full: Scent
   aliases: []
 description: "Smell alone: detecting, distinguishing, and following a trail on the air."
-img: icons/game-icons/lorc/snout.svg
 shortcode: snt
 type: attribute
 data:
+  icon: snout
   templatePriority: 0
 sohl:
   system:

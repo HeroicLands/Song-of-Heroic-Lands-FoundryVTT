@@ -4,10 +4,10 @@ name:
   full: Typhoid Fever
   aliases: []
 description: "Salmonella via contaminated water; prolonged fever and abdominal pain."
-img: icons/game-icons/lorc/virus.svg
 shortcode: typhfvr
 type: affliction
 data:
+  icon: virus
   templatePriority: 0
 subType: disease
 sohl:

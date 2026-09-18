@@ -4,10 +4,10 @@ name:
   full: Belt pouch, leather, med
   aliases: []
 description: "Moderate leather belt pouch for coins and small items."
-img: icons/game-icons/lorc/knapsack.svg
 shortcode: bpchmd
 type: containergear
 data:
+  icon: knapsack
   templatePriority: 0
 sohl:
   craft:

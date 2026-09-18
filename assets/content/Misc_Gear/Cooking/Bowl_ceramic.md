@@ -5,10 +5,10 @@ name:
   full: "Bowl, ceramic"
   aliases: []
 description: "Glazed earthenware bowl for pottage, milk, or dough."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: bowlcer
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:

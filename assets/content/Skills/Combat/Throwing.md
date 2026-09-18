@@ -4,10 +4,10 @@ name:
   full: Throwing
   aliases: []
 description: "Hurling daggers, axes, javelins, and projectiles with accuracy and force."
-img: icons/game-icons/delapouite/throwingball.svg
 shortcode: thro
 type: skill
 data:
+  icon: throwingball
   templatePriority: 0
 subType: combat
 sohl:

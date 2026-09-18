@@ -5,10 +5,10 @@ name:
   full: "Anklet, bronze"
   aliases: []
 description: "A band worn at the ankle, closed or hinged, and often hung with small charms, in cast bronze."
-img: icons/game-icons/lorc/gempendant.svg
 shortcode: ankletbronze
 type: miscgear
 data:
+  icon: gempendant
   templatePriority: 0
 sohl:
   craft:

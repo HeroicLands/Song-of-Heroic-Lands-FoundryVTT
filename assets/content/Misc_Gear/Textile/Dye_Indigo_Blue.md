@@ -5,10 +5,10 @@ name:
   full: "Dye, Indigo Blue"
   aliases: []
 description: "Precious indigo powder; rich permanent blue for wealthy merchants and court dyers."
-img: icons/game-icons/caro-asercion/roundpotion.svg
 shortcode: dyeindg
 type: miscgear
 data:
+  icon: roundpotion
   templatePriority: 0
 sohl:
   craft:

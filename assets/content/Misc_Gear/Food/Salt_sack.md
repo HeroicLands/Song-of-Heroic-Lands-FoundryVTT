@@ -5,10 +5,10 @@ name:
   full: "Salt, sack"
   aliases: []
 description: "Bulk coarse crystals, preserves a dozen fish or full ham."
-img: icons/game-icons/lorc/swapbag.svg
 shortcode: saltsack
 type: miscgear
 data:
+  icon: swapbag
   templatePriority: 0
 sohl:
   craft:
