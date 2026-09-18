@@ -58,7 +58,7 @@ sohl:
           teleportToken:
             to: { map: wayrestground, region: stair-foot }
 data:
-  icon: sohl-none-image-parchment
+  bgImage: sohl-none-image-parchment
 ---
 
 Half a floor, boarded over the common room's east end and open to it on the

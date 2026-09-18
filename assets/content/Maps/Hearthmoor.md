@@ -23,7 +23,7 @@ sohl:
           modifyMovementCost:
             difficulties: { walk: 3 }
 data:
-  icon: sohl-none-image-parchment
+  bgImage: sohl-none-image-parchment
 ---
 
 Heather and standing water from edge to edge, crossed by one road and no
