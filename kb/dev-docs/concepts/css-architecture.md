@@ -97,7 +97,7 @@ cascade reads top-to-bottom. Target folders:
 Every component is already emitted inside the `.sohl { }` (or compound `.sohl.sheet { }`)
 wrapper set up in `scss/sohl.scss` (§5), which provides the namespace. So BEM block names
 are written **without** a redundant `sohl-` prefix — the wrapper supplies it, and writing
-`.sohl .facade__image` keeps the same specificity as the name it replaces. Retire ad-hoc,
+`.sohl .facade__editor` keeps the same specificity as the name it replaces. Retire ad-hoc,
 type-suffixed, and abbreviated names. Examples of the transform:
 
 | Current (ad-hoc)        | Target (BEM, under the `.sohl` wrapper) |
@@ -105,7 +105,7 @@ type-suffixed, and abbreviated names. Examples of the transform:
 | `.header-details`       | `.sheet-header__details`                |
 | `.actor-img`            | `.sheet-header__portrait`               |
 | `.toggle-status-effect` | `.sheet-header__status`                 |
-| `.facade-image`         | `.facade__image`                        |
+| `.facade-editor`        | `.facade__editor`                       |
 | `.bodylocation-name`    | `.body-location__name`                  |
 
 Conventions:

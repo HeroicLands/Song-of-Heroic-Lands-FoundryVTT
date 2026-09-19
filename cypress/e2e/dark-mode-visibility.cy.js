@@ -67,7 +67,7 @@ describe("dark-mode visibility", () => {
                 );
                 return win.getComputedStyle(el).color;
             }).should("eq", DARK_INK);
-            // Visual: portrait SVG + editor legibility.
+            // Visual: editor legibility.
             cy.screenshot("facade-dark", { capture: "viewport" });
         });
     });

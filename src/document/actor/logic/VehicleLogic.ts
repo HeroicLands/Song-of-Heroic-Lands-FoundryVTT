@@ -80,7 +80,7 @@ export interface VehicleOccupantRow {
     title: string | null;
     /** The resolved actor's name, falling back to the raw handle. */
     name: string;
-    /** The resolved actor's portrait, or `""`. */
+    /** The resolved actor's profile art, or `""`. */
     img: string;
     /** The resolved actor's UUID, or `null` when it does not resolve. */
     uuid: string | null;

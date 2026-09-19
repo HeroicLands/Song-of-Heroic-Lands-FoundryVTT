@@ -1,18 +1,15 @@
-// Facade tab (Manuscript redesign, epic #783) — the portrait beside the
-// appearance prose editor (manuscript `.facade`). The portrait is a fixed rounded
-// panel anchored to the top; the appearance column fills the remaining width and
-// its editor fills the tab height, scrolling its own content so the tab never
-// shows a scrollbar.
+// Facade tab — the appearance prose editor (manuscript `.facade`). The
+// appearance column fills the tab width and its editor fills the tab height,
+// scrolling its own content so the tab never shows a scrollbar.
 //
 // Loaded under `.sohl { }` (components layer); selectors written bare.
 
 // Gate the flex layout to the active state: `.facade` is the `.tab` element
 // itself, so declaring `display` unconditionally would override Foundry's
 // inactive-tab hiding (`.tab:not(.active) { display: none }`) and leak the
-// portrait/appearance onto every other tab. Only lay it out when shown.
+// appearance editor onto every other tab. Only lay it out when shown.
 .facade.active {
     display: flex;
-    gap: 1rem;
     padding: 0.7rem 0.95rem;
     height: 100%;
     align-items: stretch;
@@ -21,25 +18,7 @@
     overflow: hidden;
 }
 
-// Portrait panel — anchored to the top at its natural size (never stretched to
-// the full row height).
-.facade__portrait {
-    flex: none;
-    align-self: flex-start;
-}
-
-img.facade__image {
-    display: block;
-    width: 180px;
-    height: 260px;
-    object-fit: cover;
-    background: linear-gradient(160deg, var(--sohl-color-bg-surface), var(--sohl-color-bg-stamp));
-    border: 1.5px solid var(--sohl-color-text-primary);
-    border-radius: var(--sohl-radius-md);
-    cursor: pointer;
-}
-
-// Appearance column — grows to fill the row and stacks its label over the editor.
+// Appearance column — fills the row and stacks its label over the editor.
 .facade__appearance {
     flex: 1 1 260px;
     min-width: 0;

@@ -339,7 +339,6 @@
                     "health.value",
                     "lastRun",
                     "movementProfiles",
-                    "portrait",
                     "scheduledActions",
                     "shortcode",
                     "templatePriority"
@@ -357,7 +356,6 @@
                     "health.value",
                     "lastRun",
                     "movementProfiles",
-                    "portrait",
                     "scheduledActions",
                     "shortcode",
                     "templatePriority"
@@ -375,7 +373,6 @@
                     "health.value",
                     "lastRun",
                     "movementProfiles",
-                    "portrait",
                     "scheduledActions",
                     "shortcode",
                     "templatePriority"
@@ -393,7 +390,6 @@
                     "health.value",
                     "lastRun",
                     "movementProfiles",
-                    "portrait",
                     "scheduledActions",
                     "shortcode",
                     "templatePriority"

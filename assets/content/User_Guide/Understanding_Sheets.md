@@ -31,7 +31,7 @@ Actor sheets (Beings, Cohorts, Structures, Vehicles) share several common tabs. 
 
 ## Facade
 
-The **Facade** tab shows the actor's portrait image and a rich-text description field. This is the "at a glance" view — use it for the actor's appearance, personality notes, or any freeform text.
+The **Facade** tab is a rich-text description field. This is the "at a glance" view — use it for the actor's appearance, personality notes, or any freeform text. A picture belongs here too: drop an image into the description and it sits with the prose it illustrates. The small image beside the actor's name, above the tabs, is set from the header, not here.
 
 ## Profile (Beings only)
 

@@ -74,7 +74,6 @@ function buildActorData(actor: any, kind: string): any {
         actionDefs: [],
         dossier: "",
         appearance: "",
-        portrait: "",
         // Mirrors the base actor schema default (SohlActorDataModel): every actor
         // carries a derived-but-never-persisted health bar, seeded at 100/100.
         health: { value: 100, max: 100 },
