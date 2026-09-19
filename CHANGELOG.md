@@ -1,5 +1,99 @@
 # sohl
 
+## 0.8.6
+
+### Patch Changes
+
+- 6002038: **Content tables are now written in SQL.**
+  
+  All 106 tables across 14 notes move from Dataview's query language to **SQL, run
+  by DuckDB over the content index** — the language the toolchain is standardising
+  on. Nothing about how a table is authored changes: it is still a fenced block in
+  the note, answered at build time, rendered into the compendium journal and the
+  knowledgebase page.
+  
+  Of the 106, 68 emit byte-identical markdown. What a reader sees change:
+  
+  | Table                          | Before                                             | After                                |
+  | ------------------------------ | -------------------------------------------------- | ------------------------------------ |
+  | The weapon catalog             | sorted by name — the `weaponType` key read nothing | grouped by weapon type, then by name |
+  | Eight of the _Gear_ catalogs   | rows in note-path order                            | rows in index order                  |
+  | The 29 deliberately-empty ones | a bare header row and a rule                       | nothing until content is written     |
+  
+  The rest sort exactly as before: a table ordered by a name asks for
+  `COLLATE NOCASE`, which is what keeps _Horn, Hunting_ beside _Horn, fanfare_
+  rather than before it, as the retiring language did by default.
+  
+  **The authoring guide is rewritten.** `Generated Content Tables` in the developer
+  knowledgebase now documents SQL — what `FROM notes` holds, the `_ref` and
+  `_section` aliases that decide which column links and where a section breaks, the
+  `:allow-empty` and `:section-level` fence arguments, and what happens when a query
+  names a field no note carries: an error, where the old language rendered a column
+  of em-dashes.
+- 89d8a55: **Knowledgebase**
+  
+  - Every page carries a Profile box, and one box per game system that kind of page
+    reaches. A system box with nothing to show says so — _Not available_ where that
+    system compiled nothing for the page, _Nothing beyond the profile_ where what it
+    compiled adds nothing the profile already gives. A system with no such concept
+    for the page draws no box at all.
+  - A box's rows follow the page's own fields, so facts that were authored and never
+    displayed are on the page: a weapon's heft and its strike modes, a settlement's
+    lore, a being's home.
+  - Skills, spells and carried gear link to the entries they name, and are spelled
+    out rather than abbreviated.
+  - The boxes sit in a rail beside the text, and above it on a narrow screen, with
+    the page's contents list at the foot of the same rail. A box opens and closes,
+    so a closed one costs a line rather than a panel.
+- 1f3d125: **A shortcode is now lowercase.** The identity key every item and actor carries
+  must match `^[a-z0-9]+$` — it was previously allowed a capital.
+  
+  Case was never carrying a distinction. The address and the document id built
+  from a shortcode were already lowercased, so `Clb` and `clb` published one
+  address, one id and one URL while the key itself counted as two — a difference
+  you could only see by looking twice, and one nothing reported. Requiring
+  lowercase makes the key equal the thing derived from it.
+  
+  **Nothing in the shipped content changes**, because it is already lowercase
+  throughout. A world carried forward from 0.8 has its stored keys folded for it:
+  the repair that already rewrote a key holding a hyphen or an ampersand now folds
+  a capital too, so `Clb` becomes `clb`. That is a respelling of the same entity,
+  not a change of identity, so a world copy keeps pointing at the compendium
+  document it came from.
+  
+  A shortcode typed with a capital is refused rather than silently rewritten, the
+  same way punctuation always was. Where a key is being repaired instead of
+  refused — an import, or a duplicate — it is folded.
+- 33c506c: **The three maps ship.** Hearthmoor and both floors of the Wayfarer's Rest
+  compile into Scenes, with their background, the loft stair's ambient sound and
+  the strongbox tile all in place. The scene pack shipped empty.
+- 5d68316: **A being's portrait is part of its description**
+  
+  - The **Facade** tab is the public description and nothing else. A picture of a
+    character is a picture, so it goes in the prose that describes them: drop an
+    image into the appearance text and it sits with the words it illustrates,
+    sized and placed where you put it, instead of being locked to a fixed panel.
+  - Beings that ship with the system carry their portrait this way already, so
+    their Facade reads as one piece rather than a stamp beside a paragraph.
+  - The small image beside an actor's name, above the tabs, is unchanged — it is
+    still the actor's own art, set from the sheet header, and it is still what a
+    token and the directory listing use.
+  - **Upgrading:** the separate portrait a Facade tab used to hold is not carried
+    forward. If you picked one by hand on a character, put it back into that
+    character's appearance text.
+- da5f4e1: **Being portraits ship with the package.**
+  
+  Every being's lead image in the appearance section — the picture set by the
+  note's `![[shortcode|Name]]` line — now arrives in the installed system
+  instead of rendering as a broken image.
+- 91c025a: **This system moves to `@heroiclands/package-build@^21.2.0`.**
+  
+  Artwork is addressed by the package that ships it, so the icons, portraits and
+  map images the reference notes name reach the compendium documents and the
+  knowledgebase pages. Labelled links between notes resolve from a bare
+  shortcode, so a cross-reference inside a journal or an actor lands where it
+  points.
+
 ## 0.8.5
 
 ### Patch Changes
