@@ -1,5 +1,5 @@
 ---
-"sohl": minor
+"sohl": patch
 ---
 
 **A being's portrait is part of its description**
