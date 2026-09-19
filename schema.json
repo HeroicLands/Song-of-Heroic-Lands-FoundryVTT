@@ -1,7 +1,7 @@
 {
     "version": 1,
     "system": "sohl",
-    "systemVersion": "0.8.6",
+    "systemVersion": "0.8.7",
     "documents": {
         "Item": {
             "affiliation": {
