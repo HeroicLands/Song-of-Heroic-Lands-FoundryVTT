@@ -96,7 +96,7 @@ describe("Map notes → Scenes", () => {
             // silently replaced by `migrateLevels` with one named after the
             // scene and carrying no image, so both facts are asserted.
             expect(s.levelName, "the authored Level, not a migrated one").to.eq("Ground");
-            expect(s.background).to.eq("systems/sohl/assets/ui/parchment.jpg");
+            expect(s.background).to.eq("systems/sohl/assets/images/parchment.jpg");
             expect(s.walls, "walls and doors").to.eq(7);
             expect(s.regions).to.eq(3);
             expect(s.notes, "map pins").to.eq(3);
