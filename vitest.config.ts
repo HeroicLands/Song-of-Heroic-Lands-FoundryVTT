@@ -71,6 +71,7 @@ export default defineConfig({
         ],
         coverage: {
             reporter: ["text", "html"],
+            reportsDirectory: "build/coverage",
             include: ["src/**/*.ts"],
             exclude: [
                 // Foundry-dependent code (DataModel, Sheet, Document classes)
