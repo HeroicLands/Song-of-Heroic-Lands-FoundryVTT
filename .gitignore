@@ -29,14 +29,29 @@ AI.md
 *.swo
 Session.vim
 .netrwhist
+
+##########################################
 # Emacs (backups, auto-save, lock files)
 *~
 \#*\#
 .\#*
+*.el
 
-# Obsidian (assets/content is opened as a vault; local UI state only)
-assets/content/.obsidian/
+# Byte-compiled / native-compiled elisp
+*.elc
+*.eln
 
+# Auto-save list and session files
+auto-save-list/
+tramp
+.emacs.desktop
+.emacs.desktop.lock
+
+# Org-mode
+.org-id-locations
+*_archive
+
+##########################################
 # GitHub
 .github/copilot-instructions.md
 
@@ -74,4 +89,3 @@ assets/content/.obsidian/
 # Hidden files
 /nogit/
 *.wip
-*.el
