@@ -24,10 +24,6 @@
     "engines": {
         "node": ">=24.0.0"
     },
-    "workspaces": [
-        "packages/*",
-        "."
-    ],
     "type": "module",
     "browser": "./sohl.js",
     "exports": {
@@ -40,15 +36,13 @@
         "distclean": "package-build clean --distclean",
         "build": "npm ci && npm run build:noci",
         "build:local": "npm i && npm run build:noci",
-        "build:noci": "run-s lint build:types check:sohl-types build:prepare test:coverage test:purity build:code lint:bundle-globals",
+        "build:noci": "run-s lint build:types build:prepare test:coverage test:purity build:code lint:bundle-globals",
         "build:prepare": "run-p build:css build:db build:system",
         "build:db": "run-s build:content-index build:assets build:compiledb",
         "build:types": "tsc -p tsconfig.json",
         "build:system": "package-build manifest",
         "build:css": "sass --load-path=scss scss/sohl.scss build/stage/css/sohl.css",
         "build:code": "vite build --mode release",
-        "build:sohl-types": "tsc -p tsconfig.sohl-types.json && rollup -c packages/sohl-types/rollup.config.mjs",
-        "check:sohl-types": "npm run build:sohl-types && tsc -p packages/sohl-types/test/tsconfig.json && node utils/check-sohl-types.mjs",
         "build:assets": "package-build assets",
         "build:icons": "node utils/build-icon-font.mjs",
         "build:icon-legend": "node utils/build-icon-legend.mjs",
@@ -169,8 +163,6 @@
         "loglevel-plugin-prefix": "^0.8.4",
         "npm-run-all": "^4.1.5",
         "prettier": "^3.9.6",
-        "rollup": "^4.63.1",
-        "rollup-plugin-dts": "^6.5.1",
         "sass": "^1.104.0",
         "ssh2-sftp-client": "^12.1.1",
         "stylelint": "^17.15.0",
