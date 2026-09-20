@@ -215,7 +215,7 @@ $fonts: (
 // `[data-theme]` toggle).
 //
 // Why this is needed: the bundled icons ship as black-on-transparent SVGs made
-// theme-adaptive at build time (`utils/svg-theme.mjs` injects a
+// theme-adaptive at build time (the toolchain's `svg-theme` transform injects a
 // `@media (prefers-color-scheme: dark)` fill swap). Loaded via `<img>`, an SVG is
 // an isolated document — its `prefers-color-scheme` resolves from the element's
 // used `color-scheme`, which **Foundry stamps from _its own_ UI theme** onto the

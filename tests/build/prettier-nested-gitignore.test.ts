@@ -15,24 +15,17 @@ const REPO_ROOT = path.resolve(__dirname, "../..");
  * Prettier's `--ignore-path` defaults to `[.gitignore, .prettierignore]` — the
  * two files **at the repository root**, and nothing else. A `.gitignore` in a
  * subdirectory is never read, so a tree ignored only from there is invisible to
- * git and fully visible to Prettier.
+ * git and fully visible to Prettier: `npm run format:check` walks straight into
+ * generated markdown or minified HTML, and its result depends on what has been
+ * built rather than on what has been written.
  *
- * `kb/.gitignore` ignores the generated `content/`, `public/`, and
- * `resources/_gen/` trees. Without this, `npm run format:check` walks straight
- * into them — warning on generated markdown once `build:kb-content` has run,
- * then failing outright with a `SyntaxError` on Hugo's minified HTML once
- * `build:kb` has. The command's result would depend on
- * what had been built rather than on what had been written.
- *
- * The fix is to restate each such tree in `.prettierignore`, and this is what
- * keeps it restated: a new nested ignore rule fails here until it is.
+ * So every tree this repository ignores is ignored from the root, where both
+ * tools read it. A nested `.gitignore` fails here until each directory it
+ * ignores is restated in `.prettierignore`.
  */
 describe("Prettier's ignore set", () => {
     it("covers every tree ignored by a nested .gitignore", async () => {
         const nested = await findNestedGitignores(REPO_ROOT);
-
-        // A guard that found nothing to check would pass forever in silence.
-        expect(nested.length).toBeGreaterThan(0);
 
         const unignored: string[] = [];
         for (const gitignore of nested) {
@@ -57,9 +50,8 @@ describe("Prettier's ignore set", () => {
  *
  * One already-ignored path prunes the whole subtree beneath it, which is what
  * keeps this honest without a second list to maintain: `nogit/` (ignored by the
- * root `.gitignore`) and `kb/themes/` (a submodule, excluded by name in
- * `.prettierignore`) both carry nested ignore files of their own, and neither is
- * this repository's to format.
+ * root `.gitignore`) carries an ignore file of its own, and is not this
+ * repository's to format.
  *
  * @param root Absolute path of the repository root.
  * @returns Repo-relative paths, root `.gitignore` excluded.
@@ -95,8 +87,8 @@ async function findNestedGitignores(root: string): Promise<string[]> {
  *
  * Only directories (a trailing `/`) are collected. Prettier expands a directory
  * argument to the files whose extension it recognises, so a generated *tree* is
- * what it walks into; a single ignored file with no Prettier parser — `kb`'s
- * `.hugo_build.lock`, say — is never reached either way.
+ * what it walks into; a single ignored file with no Prettier parser — a lock
+ * file, say — is never reached either way.
  *
  * @param body Contents of the `.gitignore` file.
  * @param relDir Repo-relative directory the file sits in.

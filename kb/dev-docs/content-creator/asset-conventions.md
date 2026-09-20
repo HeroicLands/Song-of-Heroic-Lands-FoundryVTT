@@ -214,8 +214,8 @@ Bundled icons are solid black silhouettes, which vanish on a dark surface —
 including the Foundry compendium and directory windows, whose `<img>` thumbnails
 SoHL's `.sohl`-scoped CSS cannot reach. The only styling that travels with an
 SVG loaded through `<img>` is the SVG itself, so staging runs every
-`.svg` under `assets/icons` through `injectAdaptiveFill`
-(`utils/svg-theme.mjs`), which inserts a `<style>` block carrying a
+`.svg` under `assets/icons` through the toolchain's `svg-theme` transform
+(`assetTransform: svg-theme` in `package-build.config.yaml`), which inserts a `<style>` block carrying a
 `@media (prefers-color-scheme: dark)` fill swap: iron-gall ink `#211d16` in
 light, cream `#ece3cf` in dark, mirroring `--sohl-color-text-primary` (see
 [CSS Architecture](../concepts/css-architecture.md)). The two colours are kept

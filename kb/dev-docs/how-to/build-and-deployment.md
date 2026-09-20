@@ -53,28 +53,29 @@ sequence; `run-p` runs them in parallel.
 
 ### Build
 
-| Script                | What it does                                                                                                                                       |
-| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `build`               | Full production build: `npm ci` then `build:noci`. The canonical "build it all" entry.                                                             |
-| `build:local`         | Same as `build` but `npm i` (allows lockfile updates) instead of `npm ci`.                                                                         |
-| `build:noci`          | The pipeline without install: `lint:format → lint:docs-index → build:types → lint:dts → build:prepare → test:coverage → test:purity → build:code`. |
-| `build:prepare`       | In parallel: `build:css`, `build:db`, `build:system`.                                                                                              |
-| `build:types`         | TypeScript type-check / compile (`tsc -p tsconfig.json`). No emit beyond `.d.ts`/checking.                                                         |
-| `build:css`           | Compile `scss/sohl.scss` → `build/stage/css/sohl.css` (Sass).                                                                                      |
-| `build:system`        | Generate `build/stage/system.json` from `package-build.config.yaml` (`package-build manifest`).                                                    |
-| `build:assets`        | Copy `templates/`, `lang/`, `assets/*`, `LICENSE.md`, `README.md` into `build/stage/` (`package-build assets`).                                    |
-| `build:db`            | `build:assets` then `build:compiledb` — stage assets, then compile packs.                                                                          |
-| `build:compiledb`     | Generate JSON from `assets/content/` Markdown, then compile LevelDB packs in `build/stage/packs/`.                                                 |
-| `build:unpackdb`      | The reverse: unpack the staged LevelDB packs back to JSON (for inspection).                                                                        |
-| `build:code`          | Bundle the system with Vite (`vite build --mode release`) → `build/stage/sohl.js`.                                                                 |
-| `build:icons`         | Rebuild the icon font from SVGs (`utils/build-icon-font.mjs`). Run by hand when icons change.                                                      |
-| `build:icon-legend`   | Regenerate the user guide's Icon Legend page from `src/` + `lang/en.json` (`utils/build-icon-legend.mjs`). Verified by `lint:icon-legend`.         |
-| `build:kb-content`    | Generate the site's Markdown: `assets/content/` + `kb/dev-docs/` → `kb/content/kb/` (`content-build site`). No Hugo needed.                        |
-| `build:kb`            | `build:kb-content` then render it with Hugo → `build/site/sohl/`. Needs Hugo and the theme submodule.                                              |
-| `site:assemble`       | Mount the TypeDoc HTML at `build/site/sohl/api/` and finish the deployable tree (`utils/build-site.mjs`).                                          |
-| `build:site`          | The whole of `/sohl/`: `docs:prepare → docs:html → build:kb → site:assemble`.                                                                      |
-| `build:pack-release`  | Zip `build/stage/` → `build/dist/system.zip` and copy `system.json` (`package-build release`).                                                     |
-| `clean` / `distclean` | Remove build output (`distclean` also clears caches/`node_modules`-level artifacts).                                                               |
+| Script                | What it does                                                                                                                                                         |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `build`               | Full production build: `npm ci` then `build:noci`. The canonical "build it all" entry.                                                                               |
+| `build:local`         | Same as `build` but `npm i` (allows lockfile updates) instead of `npm ci`.                                                                                           |
+| `build:noci`          | The pipeline without install: `lint:format → lint:docs-index → build:types → lint:dts → build:prepare → test:coverage → test:purity → build:code`.                   |
+| `build:prepare`       | In parallel: `build:css`, `build:db`, `build:system`.                                                                                                                |
+| `build:types`         | TypeScript type-check / compile (`tsc -p tsconfig.json`). No emit beyond `.d.ts`/checking.                                                                           |
+| `build:css`           | Compile `scss/sohl.scss` → `build/stage/css/sohl.css` (Sass).                                                                                                        |
+| `build:system`        | Generate `build/stage/system.json` from `package-build.config.yaml` (`package-build manifest`).                                                                      |
+| `build:assets`        | Copy `templates/`, `lang/`, `assets/*`, `LICENSE.md`, `README.md` into `build/stage/` (`package-build assets`).                                                      |
+| `build:db`            | `build:assets` then `build:compiledb` — stage assets, then compile packs.                                                                                            |
+| `build:compiledb`     | Generate JSON from `assets/content/` Markdown, then compile LevelDB packs in `build/stage/packs/`.                                                                   |
+| `build:unpackdb`      | The reverse: unpack the staged LevelDB packs back to JSON (for inspection).                                                                                          |
+| `build:code`          | Bundle the system with Vite (`vite build --mode release`) → `build/stage/sohl.js`.                                                                                   |
+| `build:icons`         | Rebuild the icon font from SVGs (`utils/build-icon-font.mjs`). Run by hand when icons change.                                                                        |
+| `build:icon-legend`   | Regenerate the user guide's Icon Legend page from `src/` + `lang/en.json` (`utils/build-icon-legend.mjs`). Verified by `lint:icon-legend`.                           |
+| `build:deps`          | Fetch what the site build reads from the network — the shared header navigation, and any declared dependency (`content-build deps fetch`).                           |
+| `build:kb-content`    | Generate the Hugo source tree, `build/hugo/`: the content from `assets/content/` + `kb/dev-docs/`, and `hugo.toml` (`content-build site`). No Hugo needed.           |
+| `build:kb`            | `build:deps`, `build:kb-content`, then render `build/hugo/` with Hugo → `build/site/sohl/`. Needs Hugo and the theme (installed by `npm ci`).                        |
+| `site:assemble`       | Write the deployment root's `_headers` and `_redirects` (`package-build site-root`), then mount the TypeDoc HTML at `build/site/sohl/api/` (`utils/build-site.mjs`). |
+| `build:site`          | The whole of `/sohl/`: `docs:prepare → docs:html → build:kb → site:assemble`.                                                                                        |
+| `build:pack-release`  | Zip `build/stage/` → `build/dist/system.zip` and copy `system.json` (`package-build release`).                                                                       |
+| `clean` / `distclean` | Remove build output (`distclean` also clears caches/`node_modules`-level artifacts).                                                                                 |
 
 ### Compendium packs
 
@@ -242,8 +243,8 @@ line length, list indentation, and blank lines — Prettier's territory. So
 
 `MD024` runs with `siblings_only` — repeating `## Notes` under several parents is a
 normal reference-page shape, and only a repeat within one parent is ambiguous.
-`gitignore: true` keeps the generated trees out (`kb/content/`, `kb/public/`,
-`build/`, `nogit/`); `CHANGELOG.md` is excluded by the shared configuration,
+`gitignore: true` keeps the generated trees out (`build/`, `nogit/`);
+`CHANGELOG.md` is excluded by the shared configuration,
 since `changeset version` regenerates it in every repository here, and the theme
 submodule by `.markdownlint-cli2.mjs` — which is all that file holds. It spreads
 the shared configuration and adds `kb/themes`, because a submodule that lints
@@ -350,9 +351,10 @@ build/
 │   └── system.json   the released manifest
 ├── docs/             the Markdown documentation tree (from docs:md)
 ├── docs-html/        the generated API documentation (from docs:html)
+├── hugo/             the generated Hugo source: hugo.toml, content/, Hugo's cache
 ├── site/             THE DEPLOYABLE WEBSITE — what Cloudflare Pages serves
-│   ├── _redirects    sends the deployment's own root to /sohl/
-│   ├── _headers      noindex on the host-assigned *.pages.dev addresses
+│   ├── _redirects    sends /sohl/ to the landing page
+│   ├── _headers      noindex on the host-assigned addresses; a lifetime on the redirect
 │   ├── 404.html      a real 404 for a path outside /sohl/
 │   └── sohl/         everything published at www.heroiclands.org/sohl/
 │       ├── index.html  the package landing page
@@ -1068,8 +1070,8 @@ the zone edge holds nothing under `/sohl/` to invalidate, so a
 (`www`'s own pages, `cdn`). Should a Cache Rule ever cover `/sohl/`, purge those
 URLs rather than the zone.
 
-**The deployment carries the `/sohl/` prefix physically.** `publishDir` in
-`kb/hugo.toml` renders into `build/site/sohl/`, and the directory that is
+**The deployment carries the `/sohl/` prefix physically.** The generated
+`publishDir` renders into `build/site/sohl/`, and the directory that is
 uploaded is `build/site/` — so a page's `/sohl/kb/…` link resolves against the
 deployment exactly as it will against `www`. That is what lets the hosting
 project be checked at its own `*.pages.dev` address before any routing points at
@@ -1080,8 +1082,9 @@ nothing to rewrite.
 A Cloudflare Pages project answers at `<project>.pages.dev` (and at
 `<deployment>.<project>.pages.dev` for every deployment) as well as under
 `www.heroiclands.org/sohl/`. Nothing advertises it, but it serves the same
-pages, so `build/site/_headers` marks those hostnames — and only those —
-`X-Robots-Tag: noindex`. The rules are host-scoped rather than blanket
+pages, so `build/site/_headers` — written by `package-build site-root` — marks
+those hostnames, and only those, `X-Robots-Tag: noindex`. The rules are
+host-scoped rather than blanket
 so the tree stays correct anywhere it is deployed: under its own domain it is
 indexable. The hosting cannot tell the routing layer's request apart from a
 reader's, since it is the same URL at the same address, so the header reaches
@@ -1130,12 +1133,13 @@ is built from the page's own `.RelPermalink`, so moving the package or its
 artwork is a config edit rather than a sweep through the templates.
 Worth knowing when you add one: with `cdnBaseURL` unset the partial falls back
 to `relURL`, so a missing param yields `/sohl/images/…` — a 404 against this
-deploy, not a build failure. `kb/hugo.toml` declaring the param is the guard,
-not the template.
+deploy, not a build failure. `site.assets` in `package-build.config.yaml`, which
+the generated configuration writes as `params.cdnBaseURL`, is the guard, not
+the template.
 
 **Links inside the generated Markdown carry the prefix from the builder, not
 from Hugo.** Hugo prefixes what it emits itself (permalinks, assets), but the
-wikilinks and cross-references written into `kb/content/` are ordinary site paths
+wikilinks and cross-references written into `build/hugo/content/` are ordinary site paths
 that nothing rewrites afterwards. They are composed from `site.base` (defaulting
 to `/<contentPackage>/`), `publish.address.prefix` and `site.passOptions.apiBase`
 in `package-build.config.yaml`, which is where a relocation is edited.
@@ -1158,13 +1162,11 @@ and how to invoke it — read the file itself for the authoritative detail. In b
 | Script                   | Purpose                                                                                                                                    |
 | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
 | `manifest-flags.mjs`     | The `flags(config)` hook `package-build manifest` calls: the credits journal's `@UUID`, which only exists once the content tree is walked. |
-| `svg-theme.mjs`          | The `transform` hook `package-build assets` calls: recolor each staged SVG so icons follow the Foundry theme.                              |
 | `build-icon-font.mjs`    | Build the icon font from SVGs.                                                                                                             |
 | `build-type-catalog.mjs` | Generate `kb/dev-docs/reference/type-catalog.md` from the kind enums.                                                                      |
 | `docs-coverage.mjs`      | Report doc-comment coverage.                                                                                                               |
 | `build-site.mjs`         | Assemble the deployable `/sohl/` tree: mount the API docs, refuse a partial build, and refuse a link to a retired hostname.                |
 | `retired-hosts.mjs`      | The withdrawn hostnames and what replaced each — shared by the content-link check and the deploy gate.                                     |
-| `release.mjs`            | Legacy local release path; authenticate with `gh auth login` (CI normally cuts releases).                                                  |
 | `typedoc-plugin-*.mjs`   | TypeDoc plugins (source categories, nested nav, Foundry links, data-field schema).                                                         |
 
 ## See also

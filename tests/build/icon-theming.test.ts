@@ -11,9 +11,9 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-// Build-time helper (plain ESM, no Foundry). Imported by relative path
-// because the build scripts live outside the `@src` alias tree.
-import { injectAdaptiveFill } from "../../utils/svg-theme.mjs";
+// The transform `package-build assets` runs over every staged SVG
+// (`assetTransform: svg-theme` in `package-build.config.yaml`).
+import { injectAdaptiveFill } from "@heroiclands/package-build/engine/svg-theme";
 import { ItemMetadatas, ActorMetadatas } from "@src/utils/constants";
 
 /**
