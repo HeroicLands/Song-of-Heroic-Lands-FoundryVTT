@@ -79,12 +79,9 @@ Hooks.once("ready", () => {
 A module reaches SoHL through the same two surfaces any script uses — the global
 `sohl` object (system-wide services and helpers) and each document's `.logic`
 (per-document state and actions). See **[The SoHL API](../concepts/sohl-api.md)**
-for both surfaces and the `SohlSystem` member reference. For **type-safe** module
-development, install the generated types package
-(`npm install -D @heroiclands/sohl-types`) and reference it in your `tsconfig.json`
-(`"types": ["@heroiclands/sohl-types"]`) — it types the `sohl` global and exports
-the public class/interface types for annotations (see
-[API Access Map](../how-to/api-access-map.md#type-declarations-for-a-typescript-module)).
+for both surfaces and the `SohlSystem` member reference, and
+[API Access Map](../how-to/api-access-map.md#reaching-sohl-at-runtime) for how a
+module reaches the `sohl` global without importing the system's runtime code.
 
 > Treat the canonical how-to references below as the source of truth for exact
 > registration calls, and prefer hooks for behavior you want to be stable.

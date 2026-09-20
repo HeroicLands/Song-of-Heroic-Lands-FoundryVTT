@@ -106,43 +106,11 @@ worked examples.
 SohlSystem.registerCalendar("my-calendar", {/* calendar definition */});
 ```
 
-## Type declarations for a TypeScript module
+## Reaching SoHL at runtime
 
-A variant or extension module consumes SoHL along **two separate channels** —
-keep them distinct:
-
-- **Runtime — always the `sohl` global.** SoHL is a Foundry _system_ (a manifest
-  and the built `sohl.js` bundle), not an npm package. Foundry loads it into the
-  page, and a module reaches every value through the live **`sohl`** global that is
-  already there: `new sohl.entity.ValueModifier(...)`,
-  `sohl.document.effect.foundry.SohlActiveEffect`, `sohl.log`, and so on. A module
-  **never imports the system's runtime code** — doing so would load a second copy
-  of the system.
-- **Types — dev-time only.** Install the types package:
-
-  ```
-  npm install -D @heroiclands/sohl-types
-  ```
-
-  and reference it in your module's `tsconfig.json`:
-
-  ```json
-  {
-    "compilerOptions": {
-      "types": ["@heroiclands/sohl-types"]
-    }
-  }
-  ```
-
-  It declares **no runtime values** — it exports the Logic/Data interfaces and
-  domain class types for annotations, and types the `sohl` global with the full
-  namespace tree. It is **generated from the SoHL source**, so it never drifts.
-  `fvtt-types` is a **peer dependency** (it supplies Foundry's globals, which these
-  types reference); your module already depends on it for Foundry development.
-
-```ts
-// dev-time: annotation type from the package
-import type { ValueModifier } from "@heroiclands/sohl-types";
-// runtime: value from the global — never an import of the system
-const mod: ValueModifier = new sohl.entity.ValueModifier(data, { parent });
-```
+SoHL is a Foundry _system_ (a manifest and the built `sohl.js` bundle), not an
+npm package. Foundry loads it into the page, and a variant or extension module
+reaches every value through the live **`sohl`** global that is already there:
+`new sohl.entity.ValueModifier(...)`, `sohl.document.effect.foundry.SohlActiveEffect`,
+`sohl.log`, and so on. A module **never imports the system's runtime code** —
+doing so would load a second copy of the system.

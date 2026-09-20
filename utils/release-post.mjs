@@ -12,7 +12,7 @@
  */
 
 /**
- * The two things that happen *after* a release is cut, and that only this
+ * The thing that happens *after* a release is cut, and that only this
  * repository does.
  *
  * Every HeroicLands Foundry package now releases through one shared workflow,
@@ -25,37 +25,16 @@
  * It runs **after** the Release, so nothing here can be the reason a release
  * was not cut.
  *
- * The two steps have deliberately different failure behaviour, which is the
- * whole reason this is a script rather than two workflow steps. The workflow it
- * replaces marked the npm publish `continue-on-error: true` — but that
- * attribute is per-step and blunt: it swallows *everything* the step does. A
- * script can say which half is best-effort and which is not.
- *
- *   1. **Republish /sohl/ — required.** A published release moves the API half
- *      of the site, which documents the newest release tag rather than `main`.
- *      A failure here means the site still describes the previous release, so
- *      it fails the job.
- *
- *   2. **Publish @heroiclands/sohl-types — best effort.** Foundry installs from
- *      the Release's `system.zip`, never from npm, so a registry failure must
- *      not mark a successful release as failed. It is reported as a workflow
- *      error annotation (loud, visible in the run summary) without failing.
- *
- * The publish is idempotent: a version already on the registry is skipped, so
- * re-running the workflow for an existing release republishes nothing.
+ * **Republish /sohl/.** A published release moves the API half of the site,
+ * which documents the newest release tag rather than `main`. A failure here
+ * means the site still describes the previous release, so it fails the job.
  */
 
 import { execFileSync } from "node:child_process";
-import { readFileSync } from "node:fs";
 
 /** Run a command, inheriting stdio; throws on a non-zero exit. */
 function run(command, args, options = {}) {
     execFileSync(command, args, { stdio: "inherit", ...options });
-}
-
-/** Read a package.json `version` without importing the file as a module. */
-function versionOf(packageJsonPath) {
-    return JSON.parse(readFileSync(packageJsonPath, "utf8")).version;
 }
 
 /**
@@ -73,54 +52,4 @@ function republishSite() {
     run("gh", ["workflow", "run", "deploy-sohl.yml", "--ref", "main"]);
 }
 
-/**
- * Publish the types-only npm package via npm Trusted Publishing (OIDC) — no
- * `NPM_TOKEN`.
- *
- * Requires a Trusted Publisher configured on npm for `@heroiclands/sohl-types`
- * pointing at this repository and `.github/workflows/release.yml`, plus
- * `id-token: write`. **The workflow filename is the load-bearing part**: npm
- * authorizes the workflow that *initiates* the run, not the reusable one it
- * calls, so moving the body of the release into a shared workflow needs no
- * change on npm — as long as the caller here keeps its name.
- *
- * The package is versioned by hand in `packages/sohl-types/package.json`,
- * independently of the system version; its `prepack` regenerates `index.d.ts`
- * from source at pack time. npm >= 11.5 is required for OIDC, so the runner's
- * npm is upgraded first.
- */
-function publishTypes() {
-    const cwd = "packages/sohl-types";
-    const version = versionOf(`${cwd}/package.json`);
-    const spec = `@heroiclands/sohl-types@${version}`;
-
-    let published = false;
-    try {
-        execFileSync("npm", ["view", spec, "version"], { stdio: "pipe" });
-        published = true;
-    } catch {
-        // `npm view` exits non-zero for a version that does not exist, which is
-        // the ordinary case on a release — not an error worth reporting.
-    }
-
-    if (published) {
-        console.log(`${spec} is already published — skipping.`);
-        return;
-    }
-
-    console.log(`Publishing ${spec}…`);
-    run("npm", ["install", "-g", "npm@latest"]);
-    run("npm", ["publish"], { cwd });
-}
-
 republishSite();
-
-try {
-    publishTypes();
-} catch (error) {
-    // Best effort by design: Foundry installs from the Release's system.zip,
-    // never from npm. Loud, but not fatal.
-    console.log(
-        `::error title=sohl-types was not published::${error.message} — the release itself is unaffected; publish by hand from packages/sohl-types.`,
-    );
-}

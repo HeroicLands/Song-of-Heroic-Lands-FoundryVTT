@@ -17,18 +17,6 @@ name: Version and Release
 # the job reported green (HeroicLands/.github#12). This is the sixth and last
 # adoption, taken after the other five so that the caller with the most to lose
 # went last.
-#
-# ---------------------------------------------------------------------------
-# THE FILE NAME IS LOAD-BEARING
-# ---------------------------------------------------------------------------
-#
-# npm Trusted Publishing binds the publisher to this repository *and this
-# workflow path*, and `release:post` publishes @heroiclands/sohl-types through
-# it. npm authorizes the workflow that **initiates** the run, not the reusable
-# one it calls, so moving the body of the release into the shared workflow needs
-# no change on npm — precisely because this file keeps its name. Renaming or
-# moving it invalidates the credential until the trusted publisher is
-# reconfigured on npm.
 
 on:
     push:
@@ -45,7 +33,6 @@ on:
 permissions:
     contents: write # push the version branch, create the tag and Release
     pull-requests: write # open and update the Version Packages pull request
-    id-token: write # OIDC for npm Trusted Publishing (@heroiclands/sohl-types)
     actions: write # dispatch deploy-sohl.yml from release:post
 
 jobs:
@@ -53,8 +40,8 @@ jobs:
         uses: HeroicLands/.github/.github/workflows/release-foundry-package.yml@main
         with:
             package-kind: system
-            # The two things only this repository does, after the Release
-            # exists: republish /sohl/ from the new tag, and publish the
-            # types-only npm package. See utils/release-post.mjs — the shared
-            # workflow runs the script and knows nothing about its contents.
+            # The one thing only this repository does, after the Release
+            # exists: republish /sohl/ from the new tag. See
+            # utils/release-post.mjs — the shared workflow runs the script and
+            # knows nothing about its contents.
             post-release-script: release:post
