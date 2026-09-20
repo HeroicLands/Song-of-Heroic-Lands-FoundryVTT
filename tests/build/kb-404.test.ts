@@ -75,10 +75,10 @@ describe("the /sohl/ site's 404 page", () => {
 
     it("routes back to the surfaces this site actually publishes", () => {
         // One 404 page serves the whole of /sohl/, so a reader who mistyped an
-        // API address is handed the same file as one who mistyped a
-        // knowledgebase address — and it has to offer both.
+        // API address is handed the same file as one who mistyped a page
+        // address — and it has to offer both the homepage and the API.
         const urls = (notfound()?.links ?? []).map((link) => link.url);
-        expect(urls).toContain("/kb/");
+        expect(urls).toContain("/");
         expect(urls).toContain("/api/");
     });
 
@@ -113,14 +113,9 @@ describe("the /sohl/ site's 404 page", () => {
 
 describe("assembling the /sohl/ deployment", () => {
     it("requires an entry point for every surface it publishes", () => {
-        // One deploy carries the landing page, the knowledgebase and the API
+        // One deploy carries the homepage, every page and the API
         // documentation; a half-assembled tree would 404 an advertised address.
-        expect(REQUIRED).toEqual([
-            "sohl/index.html",
-            "sohl/404.html",
-            "sohl/kb/index.html",
-            "sohl/api/index.html",
-        ]);
+        expect(REQUIRED).toEqual(["sohl/index.html", "sohl/404.html", "sohl/api/index.html"]);
     });
 
     it("names what is missing rather than publishing a partial tree", () => {
@@ -128,7 +123,7 @@ describe("assembling the /sohl/ deployment", () => {
         const missing = missingRequired("/site", (p: string) =>
             present.has(p.replace("/site/", "")),
         );
-        expect(missing).toEqual(["sohl/kb/index.html", "sohl/api/index.html"]);
+        expect(missing).toEqual(["sohl/api/index.html"]);
     });
 
     it("reports nothing missing from a complete tree", () => {
@@ -136,10 +131,9 @@ describe("assembling the /sohl/ deployment", () => {
     });
 
     it("writes the root files the toolchain owns, where Pages reads them", () => {
-        // `_headers` and `_redirects` — the `noindex` on every host-assigned
-        // address, and the prefix root's redirect to the landing — are
+        // `_headers` — the `noindex` on every host-assigned address — is
         // `package-build site-root`'s, written beside the prefix. Pages reads
-        // them only from the root of the uploaded directory, so the assembly
+        // it only from the root of the uploaded directory, so the assembly
         // has to run the command and the deploy has to upload that directory.
         const scripts = JSON.parse(read("package.json")).scripts as Record<string, string>;
         expect(scripts["site:assemble"]).toMatch(/package-build site-root/);

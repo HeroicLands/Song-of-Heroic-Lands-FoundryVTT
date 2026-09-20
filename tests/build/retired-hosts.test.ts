@@ -33,7 +33,7 @@ describe("RETIRED_HOSTS", () => {
 
     it("gives each host the address that replaced it", () => {
         expect(RETIRED_HOSTS.get("api.heroiclands.org")).toContain("www.heroiclands.org/sohl/api/");
-        expect(RETIRED_HOSTS.get("kb.heroiclands.org")).toContain("www.heroiclands.org/sohl/kb/");
+        expect(RETIRED_HOSTS.get("kb.heroiclands.org")).toContain("www.heroiclands.org/sohl/");
     });
 });
 
@@ -54,7 +54,7 @@ describe("rewriteHint", () => {
 
     it("repoints a knowledgebase link", () => {
         expect(rewriteHint("https://kb.heroiclands.org/rules/combat/")).toBe(
-            "https://www.heroiclands.org/sohl/kb/rules/combat/",
+            "https://www.heroiclands.org/sohl/rules/combat/",
         );
     });
 
@@ -118,7 +118,7 @@ describe("rewriteCandidates", () => {
         // a `doc` note addressed by its shortcode, and the assembler takes only
         // the candidate that resolves in the tree it just built.
         expect(rewriteCandidates("https://kb.heroiclands.org/concepts/architecture/")).toEqual([
-            "https://www.heroiclands.org/sohl/kb/concepts/architecture/",
+            "https://www.heroiclands.org/sohl/concepts/architecture/",
             "https://www.heroiclands.org/sohl/doc-architecture/",
         ]);
     });
@@ -139,7 +139,7 @@ describe("repairRetiredHrefs", () => {
     const resolves = (url: string) =>
         [
             "https://www.heroiclands.org/sohl/api/",
-            "https://www.heroiclands.org/sohl/kb/",
+            "https://www.heroiclands.org/sohl/",
             "https://www.heroiclands.org/sohl/doc-architecture/",
         ].includes(url);
 
@@ -160,9 +160,7 @@ describe("repairRetiredHrefs", () => {
             '<a href="https://kb.heroiclands.org/concepts/architecture/">A</a>',
             resolves,
         );
-        expect(repaired[0].to).not.toBe(
-            "https://www.heroiclands.org/sohl/kb/concepts/architecture/",
-        );
+        expect(repaired[0].to).not.toBe("https://www.heroiclands.org/sohl/concepts/architecture/");
     });
 
     it("reports a link no candidate can rescue, and leaves it in place", () => {
@@ -185,7 +183,7 @@ describe("repairRetiredHrefs", () => {
     });
 
     it("returns clean HTML untouched", () => {
-        const clean = '<a href="https://www.heroiclands.org/sohl/kb/">KB</a>';
+        const clean = '<a href="https://www.heroiclands.org/sohl/">KB</a>';
         const { html, repaired } = repairRetiredHrefs(clean, resolves);
         expect(html).toBe(clean);
         expect(repaired).toEqual([]);

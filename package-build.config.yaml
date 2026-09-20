@@ -428,11 +428,10 @@ publish:
     # A mode, not the retired boolean (package-build#55). The mode says how
     # much of the package reaches the web, and the floor is its front page at
     # `/sohl/`: `homepage` publishes that page and *fences the content surfaces
-    # off* — the tree is never walked, and `sections`, `landing` and
-    # `backfillSections` below emit nothing however they are declared, which is
-    # what keeps a fan-licensed package's content unpublishable by
-    # construction. This repository publishes the whole knowledgebase, so it is
-    # `content`: that page plus every page the content tree compiles to.
+    # off* — the tree is never walked, which is what keeps a fan-licensed
+    # package's content unpublishable by construction. This repository
+    # publishes the whole knowledgebase, so it is `content`: that page plus
+    # every page the content tree compiles to.
     site: content
     # Where the content tree mounts inside the package. Read by both `manifest`
     # and the knowledgebase build, so the address a manifest publishes is the
@@ -460,21 +459,8 @@ site:
     # The site's `<meta name="description">`.
     description: Song of Heroic Lands — a classless, skill-based fantasy system for Foundry Virtual Tabletop.
     # `packages:` is absent deliberately, and absent means `[contentPackage]` —
-    # exactly the pages this repository compiles. It used to name `thalorna`
-    # alongside `sohl`, from when a note declared its own package and a foreign
-    # one filed here would render beside the local ones. `package:` is retired
-    # (#1745, package-build#56), so every note in this tree is `sohl` by
-    # construction: naming a second package selects nothing, and nothing can
-    # make it select anything (#1753).
+    # exactly the pages this repository compiles.
     #
-    # `backfillSections` is deliberately absent (it defaults to false). It gave a
-    # bare `_index.md` to any directory under the mount that `sections` below did
-    # not declare — and with pages emitted flat (package-build#204) no page
-    # creates a directory, so it can never fire again. The one landing it used to
-    # produce here was `macro`, which is why that section is now declared like
-    # every other. `sections` is the whole of the section list, and there is no
-    # second, implicit way for a landing to appear.
-    landing: { title: Knowledgebase, type: knowledgebase }
     # This repository's own body rewrite: `{@link}` against the TypeDoc symbol
     # map, which the TypeDoc build writes to `build/hugo/data/` (`docs:html`
     # runs before the site build). Named rather than imported — a configuration
@@ -483,14 +469,10 @@ site:
     passOptions:
         apiBase: /sohl/api/
         symbolMap: build/hugo/data/api-symbols.json
-    # This is a reference catalog: a page's shortcode is the identifier the
-    # system uses for that item, so listings show "Name (shortcode)".
-    list:
-        shortcodes: true
     # The "page not found" page. Its template is the theme's; the wording and
     # the routes back are this site's. One page covers the whole of /sohl/, so
     # it names every surface — a reader who mistyped an API address is served
-    # the same file as one who mistyped a knowledgebase address. Each url is
+    # the same file as one who mistyped a page address. Each url is
     # resolved against this site's own base by the template, so it is written
     # site-relative and picks up the /sohl/ prefix.
     notfound:
@@ -501,9 +483,6 @@ site:
             - title: Song of Heroic Lands
               url: /
               text: What the system is, and where everything about it lives.
-            - title: Knowledgebase
-              url: /kb/
-              text: Every section, with the full content catalog.
             - title: API Documentation
               url: /api/
               text: Generated reference for the current release.
@@ -511,10 +490,10 @@ site:
               url: /doc-devdocs/
               text: Architecture, extension points, testing, and reference material.
             - title: User Guide
-              url: /kb/user-guide/
+              url: /doc-userguide/
               text: Player- and GM-facing guides to playing with Song of Heroic Lands.
             - title: Rules
-              url: /kb/rules/
+              url: /doc-rulesintro/
               text: Success and opposed tests, injury, healing, shock, bleeding, and trauma.
     # What the generated Hugo configuration does not write. The highlight style
     # is the one the developer documentation's code blocks are styled for.
@@ -522,74 +501,3 @@ site:
         markup:
             highlight:
                 style: monokai
-    # Landing title + hero for a section, so a landing matches the home-page
-    # card that links to it rather than Hugo's auto-humanised directory name
-    # (which spells `weapongear` "Weapongears" and `rules` "Ruleses").
-    #
-    # **Every content section is declared here now** (package-build#204). A
-    # section used to be able to take its landing from a `README.md`, and the
-    # page that introduced a type *was* that landing — so the introduction, the
-    # section's identity and its URL were one document. They are three separate
-    # things: the introduction is now an ordinary note addressed `doc-<type>`,
-    # the section is a Hugo directory, and its landing is the empty-bodied
-    # listing page written from the entry below. Nothing is lost from the
-    # reader's side: the section still answers at `/sohl/kb/<section>/`,
-    # titled, with its hero, listing its members.
-    #
-    # `writeSectionLandings` writes an `_index.md` for every entry and runs
-    # *after* `renderPages`; no content note lands at a section, so an entry
-    # never overwrites a page.
-    #
-    # The developer documentation has no entry: its index is the `doc-devdocs`
-    # note, a curated page whose lists are content tables.
-    sections:
-        being: { title: Beings, banner: banners/creature.webp }
-        trauma: { title: Trauma, banner: banners/trauma.webp }
-        attribute: { title: Skills/Attributes, banner: banners/skills-attributes.webp }
-        # Map notes — one type, whose subType decides the derived canvas. No
-        # banner: the heroes are CDN assets and there is none for maps yet, so
-        # this landing renders without one.
-        map: { title: Maps, listType: map }
-        # The doc genres. `rules` and `user-guide` each hold a chapter set
-        # whose front page is now an ordinary note inside them
-        # (`doc-rulesintro`, `doc-userguide`) rather than their landing;
-        # `reference` holds the credits and the ten type introductions.
-        #
-        # A key here is a **section** — a published URL — not a subType, and
-        # `user-guide` is the one place the two differ. The notes carry
-        # `subType: userguide`, because a subType is an address segment and a
-        # segment is `^[A-Za-z0-9]+$` (package-build#207); the section keeps its
-        # hyphen because `/sohl/kb/user-guide/` is linked from the home page,
-        # the menu and the sitemap. Nothing joins the two — pages emit flat and
-        # the landing's own `listSubType` below selects its members by
-        # frontmatter — so they are free to differ.
-        rules: { title: Rules, banner: banners/rules.webp, listType: doc, listSubType: rules }
-        user-guide:
-            {
-                title: User Guide,
-                banner: banners/user-guide.webp,
-                listType: doc,
-                listSubType: userguide,
-            }
-        reference: { title: Reference, listType: doc, listSubType: reference }
-        # Macro notes. Declared rather than backfilled: this landing existed only
-        # because `backfillSections` invented it from the directory the macro
-        # pages sat in, and flat emission leaves no such directory — so without
-        # this line `/sohl/kb/macro/` becomes a 404 for a URL that answers today
-        # and is in the sitemap.
-        macro: { title: Macros, listType: macro }
-        # One per item type, each introduced by a `doc-<type>` note filed under
-        # `reference` above. Declared even where the type ships no content note
-        # yet (`concoctiongear`, `mystery`): `writeSectionLandings` creates the
-        # directory, so the landing exists — empty — before the first one does.
-        weapongear: { title: Weapons, banner: banners/weapons.webp }
-        armorgear: { title: Armor/Clothing, banner: banners/armor-clothing.webp }
-        projectilegear: { title: Projectiles, banner: banners/projectiles.webp }
-        containergear: { title: Containers, banner: banners/containers.webp }
-        miscgear: { title: Misc Gear, banner: banners/misc-gear.webp }
-        affliction: { title: Afflictions, banner: banners/affliction.webp }
-        mysticalability: { title: Mystical Abilities, banner: banners/mystical-abilities.webp }
-        skill: { title: Skills/Attributes, banner: banners/skills-attributes.webp }
-        # No banner: the heroes are CDN assets and neither section has one.
-        concoctiongear: { title: Concoctions, listType: concoctiongear }
-        mystery: { title: Mysteries, listType: mystery }
