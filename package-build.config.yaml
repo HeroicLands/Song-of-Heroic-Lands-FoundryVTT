@@ -1,70 +1,19 @@
-# This repository's content-build configuration — everything about the pack
-# pipeline that is *this* repository's rather than any consumer's (#1508).
-#
-# Every value the pack compilers used to carry as a module-level constant is
-# declared here: which content package they select, which Foundry package ships
-# the result, where the content tree and the build outputs live, what each
-# compiled document's `_stats` block says, and which packs exist. A different
-# repository — `sohl-thalorna`, `sohl-kethira-basic`, an adventure module —
-# ships the same toolchain with its own copy of this file and nothing else.
-#
-# **This file is the source; the manifest is generated from it.** That arrow
-# used to point the other way: `system.template.json` was hand-authored JSON
-# holding the pack list, the Foundry range and the package id a second time,
-# and the build read `compatibility.minimum` back out of it. The template is
-# retired (package-build#9) and nothing reads it any more.
-#
-# **What is absent is derived, not forgotten.** `rootDir` is the directory this
-# file sits in; `foundryPackage` is the `name` of the `package.json` beside it;
-# `stats.systemVersion` is that file's `version` — the one Changesets bumps —
-# so the stamp equals the version of the system that compiled the document. A
-# transcribed one froze at `0.6.0` for four releases (#1548). Authoring any of
-# them is an error, not an override.
-
-# The distribution unit every note in this tree belongs to. A note used to
-# declare its own in `package:` frontmatter; that field is retired and now a
-# hard build error (package-build#56), so this is the single source of a note's
-# package — the tree compiles as one unit, and membership is a property of the
-# repository rather than of the note.
 contentPackage: sohl
 
-# The Foundry package the packs ship in — the `id` in
-# `assets/templates/system.template.json`, and the first segment of every
-# compendium UUID the compilers emit. Equal to `contentPackage` here only by
-# coincidence: in `sohl-thalorna` the two differ (#1498).
 packageKind: systems
 
-# Stamped into every compiled document's `_stats`. Only `lastModifiedBy` is
-# authored: `systemId` and `systemVersion` are derived and refused if written
-# (HeroicLands/package-build#48) — a system package is its own system, and its
-# version is the `version` of the `package.json` beside this file. `coreVersion`
-# is likewise read from the manifest's `compatibility.minimum`.
 stats:
     lastModifiedBy: sohlbuilder00000
 
-# The Foundry core range this system supports. `minimum` is stamped into every
-# compiled document as `_stats.coreVersion`, so a document never claims to
-# predate the migrations that would rewrite it. `verified` names the newest
-# build the full suite has actually passed on — never an aspiration.
-#
-# It lives here rather than in the shipped manifest because the manifest is
-# generated *from* this file now; reading it back would be a round trip through
-# an artifact `build:db` can run before writing.
 compatibility:
     minimum: "14.359"
     verified: "14.364"
 
-# How this repository frames the pages `content-build docs` generates. The
-# tables come from the `itemBuilders` registry and are the same wherever they
-# are rendered; the heading, where the page is filed, and what a reader is told
-# before the tables start are this repository's. They were the whole reason a
-# script wrapped the renderer here.
 docs:
     itemFields:
         title: Item Note Frontmatter
         out: assets/content/Dev_Docs/content-creator/item-frontmatter.md
-        # Beyond the note envelope the generator writes: the developer audience
-        # the index tables select on, and the one-line description they show.
+        # `kbcat: devdocs` places this page in the developer-docs index.
         frontmatter:
             description: "The generated per-type field reference for all 13 item types: every `sohl:` field, its shape, requiredness, and default."
             sohl:
@@ -76,35 +25,19 @@ docs:
             - ""
             - "The tables are rendered from the declaration that _builds_ each document, not from a description of it, so a field listed here is a field the compiler reads and a field absent here is one it ignores. An unrecognised `sohl:` key is silently dropped, so a typo shows up as a missing value rather than an error — check the spelling here first."
 
-# Which content types compile into Items, and what builds each one's `system`
-# block. `itemTypes` and the doc-carrying-type set are derived from the
-# registry's keys, so a type cannot be accepted without a builder behind it
-# (#1504). It is named rather than supplied: the registry is SoHL data-model
-# knowledge living in the toolchain's `sohl` half, and data cannot carry code.
+# Names this repository's own item-type registry — SoHL data-model knowledge,
+# not shared with `hm3`.
 itemBuilders: sohl
 
-# `assets/content/` is opened as an Obsidian vault, whose templater scaffolding
-# lives in `Templates/` and is never compendium content.
+# `assets/content/` is opened as an Obsidian vault; Templater's `Templates/`
+# scaffolding is never compendium content.
 skipDirectories: [Templates]
 
-# The icon fonts this package ships and the names its notes draw from them.
 # Generated by `utils/build-icon-legend.mjs` from the classes the interface
 # actually renders, so the registry, the icon legend and the webfont cannot
-# disagree — which is what lets the legend be written in `:icon-…:` rather than
-# raw markup no book renderer can read.
+# disagree.
 icons: assets/icon-registry.yaml
 
-# The one pack list. Order is **not** load-bearing (package-build#73). The
-# dependency it used to encode is real — the actors pass resolves each being's
-# embedded items against the items pass's output, so it must run after them —
-# but the toolchain now derives that from what each pass declares it reads,
-# rather than trusting the order written here. This list already compiles in the
-# order it is declared, so nothing moves; it is free to be ordered for the
-# reader, which matters because it is also the manifest's `packs` array and the
-# thing `packFolders` below names. `packDirectories` — what `build:compiledb`
-# turns into LevelDB — is still derived from it, so the compile list and the
-# compiler list cannot drift apart the way `SOURCE_PACKS` and `PACK_CONFIGS`
-# did.
 packs:
     - { name: items, label: Items, type: Item }
     - { name: journals, label: Journals, type: JournalEntry }
@@ -114,31 +47,18 @@ packs:
       type: Scene
       label: Maps
       # One pass, two packs: every map note's Scene, and the Adventure bundling
-      # the pinned ones with their journals so a `keepId: true` import makes the
-      # pins resolve (#1525).
+      # the pinned ones with their journals, so a `keepId: true` import
+      # resolves the pins.
       companions:
           - { name: adventures, type: Adventure, label: Adventures }
 
-# Everything `@heroiclands/package-build` needs. It reads this same file rather
-# than one of its own: `packageKind` and `foundryPackage` above are two of the
-# values it wants, and restating them in a second file is two places for one
-# fact — which is exactly what `utils/push-stage.mjs` did before it was deleted.
 packageBuild:
-    # Where the data models are, so `package-build schema` can publish this
-    # system's `system` field sets as `schema.json`.
-    #
     # Both registries live in one configuration module here, so the file is
-    # named twice; a system that keeps one registry per file names two. The
-    # registry — not a directory walk — is what says which subtypes exist:
-    # walking `*DataModel.ts` would publish schemas for classes nothing
-    # registers and miss any whose filename did not match.
+    # named twice; a system that keeps one registry per file names two.
     schema:
         Item: { from: src/core/foundry/sohl-config.ts, registry: ITEM_DM_DEF }
         Actor: { from: src/core/foundry/sohl-config.ts, registry: ACTOR_DM_DEF }
 
-    # Staged into `build/stage` (the default), so each `to:` is the path *within*
-    # the shipped package. The table each consumer used to keep locally spelled
-    # `build/stage/` on every row.
     assets:
         - { from: assets/audio, to: assets/audio }
         - { from: assets/icons, to: assets/icons }
@@ -149,7 +69,6 @@ packageBuild:
         - { from: templates, to: templates }
         - { from: LICENSE.md, to: LICENSE.md }
         - { from: README.md, to: README.md }
-        # The published `system` field sets (HeroicLands/package-build#60).
         # Shipped inside the archive rather than left to be fetched from a git
         # tag, because `content-build deps fetch` already downloads and unzips
         # exactly this archive at a relationship's `compatibility.verified` —
@@ -158,16 +77,10 @@ packageBuild:
         # way for the two to disagree.
         - { from: build/schema.json, to: schema.json }
 
-    # The toolchain's shipped transform: every icon's hard-coded fill is
-    # rewritten to `currentColor` so the art follows the Foundry theme.
-    # `cypress/e2e/icon-color-scheme.cy.js` is what proves it reaches the
-    # browser.
     assetTransform: svg-theme
 
     lang:
         sources: lang/*.json
-        # A dotted-prefix collision makes `foundry.utils.expandObject` throw, and
-        # Foundry then drops the whole translation file (#636).
         help: >-
             A dotted-prefix collision makes foundry.utils.expandObject throw, and
             Foundry then drops the whole translation file (issue #636). Make each
@@ -175,27 +88,17 @@ packageBuild:
             assets/content/Dev_Docs/reference/localization-keys.md for the
             placeholder and key-segment rules.
 
-        # `primary`, `scripts` and `templates` are absent because this
-        # repository follows the conventional layout the defaults describe:
-        # `lang/en.json`, `src/**/*.{ts,mjs}`, `templates/**/*.hbs`.
-
-        # Stated rather than derived because `TYPE` is a root this repository
-        # *scans for* and `lang/en.json` declares no key under: deriving the
-        # roots from the file's own keys would silently stop looking for it, and
-        # the day a `TYPE.…` reference appears it would be read as ordinary
-        # prose instead of as a missing key.
+        # `TYPE` is stated because `lang/en.json` declares no key under it yet,
+        # though the code scans for it; left to derive from the file's own
+        # keys, that root would silently stop being checked.
         keyRoots: [SOHL, TYPES, TYPE]
 
         # `defineType(prefix, def, labelKeys?)` (`src/utils/constants.ts`) mints
         # one key per member of an enum by a rule that is SoHL's alone, so no
-        # shared guard can know it and no repository can compare the result
-        # against the file. This module reproduces the rule from the TypeScript
-        # AST and hands the keys back as an ordinary reference set.
+        # shared guard can know it. This module reproduces the rule from the
+        # TypeScript AST and hands the keys back as an ordinary reference set.
         references: ./utils/lang-references.mjs
 
-        # Keys reached in a way no scan can see, exempt from the unreferenced
-        # advisory. The reason is a claim a reviewer has to be able to check —
-        # the honest fix for an unreferenced key is to delete it.
         retained:
             - prefix: SOHL.Gear.Action.
               reason: Intrinsic action titles built as `${titlePrefix}.${shortcode}`
@@ -207,13 +110,6 @@ packageBuild:
               reason: As above.
             - prefix: SOHL.Affliction.Action.
               reason: As above.
-            # `SOHL.ContextMenu.SortGroup.` was retained here until the shared
-            # scan made it unnecessary: the action ledger builds those keys with
-            # `(concat "SOHL.ContextMenu.SortGroup." action.data.group)`, and a
-            # literal that ends on a dot is a key *shape* the shared scan reads
-            # as `SOHL.ContextMenu.SortGroup.*`. The local guard only recognised
-            # the template-literal spelling, so it reported all four as
-            # unreferenced and the entry existed to silence it.
             - prefix: SOHL.Being.StumbleTest.
               reason: keepControlTable resolves `<prefix>.<SuccessLevel>.label|description`
                   from a success level computed at runtime.
@@ -223,8 +119,6 @@ packageBuild:
               reason: Resolved from the stored tactical-advantage value, not named
                   in source.
 
-        # Template literals that are deliberately not localization keys. The
-        # escape hatch, not the rule: ordinary UI prose belongs in en.json.
         allow:
             - literal: item.system.code === 'pyrn'
               reason: A SafeExpression example shown as a placeholder — code, not
@@ -232,36 +126,24 @@ packageBuild:
 
     # Vite emits `sohl.js`, not the `<packageId>.mjs` the toolchain assumes, so
     # the one thing `package-build bundle check` cannot derive is stated here.
-    # It is deliberately not read back out of the generated manifest: a value
-    # taken from there would agree with itself by construction, and the check's
-    # whole question is whether the manifest declares this file the way Foundry
-    # needs it.
     bundle:
         entry: sohl.js
 
-    # Running the built system in a Foundry container. dev, qa, prod and test
-    # need no entry — their data root is `FOUNDRYVTT_<STAGE>_DATA`, the same
-    # variable `package-build deploy` writes into, and their ports are
-    # conventional. `leg` is genuinely this repository's: the previous,
-    # pre-TypeScript system on an older Foundry, whose world is managed by hand
-    # (an empty `world` declares "never auto-launch"). Its build comes from
-    # FOUNDRYVTT_LEG_VERSION in .env.local, since it is the maintainer's own.
+    # `leg` deploys the non-TypeScript build to an older Foundry version, kept
+    # running by hand for players who have not moved off it — an empty `world`
+    # declares "never auto-launch". Its Foundry version comes from
+    # FOUNDRYVTT_LEG_VERSION in .env.local, the maintainer's own.
     container:
         stages:
             leg: { port: 30000, world: "" }
 
-    # The end-to-end harness. Everything about the disposable world derives from
-    # the package id — world `sohl-e2e`, GM `Gamemaster` / `sohl-e2e` — so none
-    # of it is stated here.
-    #
-    # The Foundry build the suite runs on is not stated either: it is
-    # `compatibility.minimum` above. The floor is the claim the suite exists to
-    # defend, so the claim and the evidence for it are one number, and raising
-    # the pin is a decision to raise the supported floor rather than a test
-    # tweak. `npm run e2e:sweep -- <build>` runs the full suite against a build
-    # this repository does not pin.
+    # Everything about the disposable world derives from the package id —
+    # world `sohl-e2e`, GM `Gamemaster` / `sohl-e2e` — so none of it is stated
+    # here. The Foundry build the suite runs on is not stated either: it is
+    # `compatibility.minimum` above, so the claim and the evidence for it are
+    # one number, and raising the pin is a decision to raise the supported
+    # floor rather than a test tweak.
     e2e:
-        # The one thing the harness does not own.
         suite:
             run: [npx, cypress, run]
             open: [npx, cypress, open]
@@ -283,15 +165,8 @@ packageBuild:
     # walked. This module computes it.
     manifestFlags: ./utils/manifest-flags.mjs
 
-    # The Foundry package manifest, generated into the build stage by
-    # `package-build manifest`. Emitted as declared — `id`, `version`,
-    # `description`, `url`, the release addresses, `compatibility` and `packs`
-    # are derived (from `package.json` and this file) and must not appear here.
-    #
-    # Moved verbatim out of the retired `assets/templates/system.template.json`.
     manifest:
         title: Song of Heroic Lands
-        # The pitch shown in Foundry's package browser.
         descriptionHtml:
             "<p><strong>Song of Heroic Lands: A Gateway to Adventure!</strong> Embark on a journey
             through a richly detailed fantasy world with Song of Heroic Lands (SoHL)—a game system built to
@@ -422,59 +297,27 @@ packageBuild:
             units: ft
         primaryTokenAttribute: health
 
-# This repository publishes a knowledgebase and a link manifest, and consumes
-# the manifests of the packages it links into (#1385/#1446).
 publish:
-    # A mode, not the retired boolean (package-build#55). The mode says how
-    # much of the package reaches the web, and the floor is its front page at
-    # `/sohl/`: `homepage` publishes that page and *fences the content surfaces
-    # off* — the tree is never walked, which is what keeps a fan-licensed
-    # package's content unpublishable by construction. This repository
-    # publishes the whole knowledgebase, so it is `content`: that page plus
-    # every page the content tree compiles to.
+    # This repository publishes the whole knowledgebase, so it is `content`:
+    # the front page plus every page the content tree compiles to.
     site: content
-    # Where the content tree mounts inside the package. Read by both `manifest`
-    # and the knowledgebase build, so the address a manifest publishes is the
-    # address a page is emitted at — stating it twice is how a manifest comes
-    # to assert a URL that resolves at build time and 404s for the reader.
     address:
         prefix: kb/
 
-# How this repository frames the website it publishes. Framing only — how a page
-# gets its *address* is `publish.address` above, shared with the link manifest
-# so the two cannot disagree about where a page is.
-# The Hugo configuration itself is generated into `build/hugo/hugo.toml` on
-# every site build: `baseURL` from `package.json`'s `homepage`, `title` from
-# `packageBuild.manifest.title`, `author` from `package.json`, the description
-# from `site.description` below, the brand links and the header menu from the
-# organisation, and the rest from the keys below. The content mount is
-# `build/hugo/content` and the rendered site lands at `build/site/sohl`,
-# neither of which is a choice.
 site:
-    # The root a package-owned image's web address is joined onto:
-    # `<assets>/<package>/<suffix>`. Without it a page naming such an image is
-    # an error, because the website is the one surface whose address cannot be
-    # derived from the repository itself.
     assets: https://cdn.heroiclands.org
-    # The site's `<meta name="description">`.
     description: Song of Heroic Lands — a classless, skill-based fantasy system for Foundry Virtual Tabletop.
-    # `packages:` is absent deliberately, and absent means `[contentPackage]` —
-    # exactly the pages this repository compiles.
-    #
     # This repository's own body rewrite: `{@link}` against the TypeDoc symbol
     # map, which the TypeDoc build writes to `build/hugo/data/` (`docs:html`
-    # runs before the site build). Named rather than imported — a configuration
-    # is data and cannot hold a function.
+    # runs before the site build).
     pass: sohlKb
     passOptions:
         apiBase: /sohl/api/
         symbolMap: build/hugo/data/api-symbols.json
-    # The "page not found" page. Its template is the theme's; the wording and
-    # the routes back are this site's. One page covers the whole of /sohl/, so
-    # it names every surface — a reader who mistyped an API address is served
-    # the same file as one who mistyped a page address. Each url is
-    # resolved against this site's own base by the template, so it is written
-    # site-relative and picks up the /sohl/ prefix.
+    # One page covers the whole of /sohl/, so it names every surface — a reader
+    # who mistyped an API address is served the same file as one who mistyped a
+    # page address. Each `url` is written site-relative and picks up the
+    # /sohl/ prefix.
     notfound:
         heroimage: images/brand/sohl-banner.webp
         tagline: Song of Heroic Lands has no page at
@@ -495,8 +338,8 @@ site:
             - title: Rules
               url: /doc-rulesintro/
               text: Success and opposed tests, injury, healing, shock, bleeding, and trauma.
-    # What the generated Hugo configuration does not write. The highlight style
-    # is the one the developer documentation's code blocks are styled for.
+    # The highlight style is the one the developer documentation's code blocks
+    # are styled for.
     hugo:
         markup:
             highlight:
