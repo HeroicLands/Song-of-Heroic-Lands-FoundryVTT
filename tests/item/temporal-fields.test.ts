@@ -23,11 +23,11 @@ import path from "node:path";
  * what other repositories actually read — and it needs no Foundry stubs, where
  * importing the DataModel classes pulls in a chain that does.
  *
- * `npm run lint:schema` separately guarantees this file still matches the
- * source, so asserting on it is not asserting on a stale copy.
+ * `build/schema.json` is generated fresh by `npm run build:schema` before this
+ * suite runs, so asserting on it is never asserting on a stale copy.
  */
 const artifact = JSON.parse(
-    fs.readFileSync(path.join(import.meta.dirname, "../../schema.json"), "utf8"),
+    fs.readFileSync(path.join(import.meta.dirname, "../../build/schema.json"), "utf8"),
 );
 
 /** Every field path a subtype declares, own and inherited. */

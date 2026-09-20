@@ -28,9 +28,9 @@ import path from "node:path";
  *   emitted-versus-declared check, and the satellite content trees that author
  *   the field. An undeclared `system` key is discarded silently at
  *   construction, so this has to be checked against the artifact rather than
- *   against the source it was generated from. `npm run lint:schema` separately
- *   guarantees the artifact is not stale, so asserting on it is not asserting
- *   on a stale copy.
+ *   against the source it was generated from. `npm run build:schema` generates
+ *   `build/schema.json` fresh before this suite runs, so asserting on it is
+ *   never asserting on a stale copy.
  * - **It is declared once, with the right options.** `schema.json` records
  *   field _names_, not field options, so the `nullable` / `integer` /
  *   `initial: null` triple is asserted against the source of
@@ -39,7 +39,7 @@ import path from "node:path";
  *   DataModel classes pulls in a circular Foundry-coupled chain.
  */
 const ROOT = path.join(import.meta.dirname, "../..");
-const artifact = JSON.parse(fs.readFileSync(path.join(ROOT, "schema.json"), "utf8"));
+const artifact = JSON.parse(fs.readFileSync(path.join(ROOT, "build/schema.json"), "utf8"));
 const sharedSchemaSource = fs.readFileSync(
     path.join(ROOT, "src/core/foundry/SohlDataModel.ts"),
     "utf8",
