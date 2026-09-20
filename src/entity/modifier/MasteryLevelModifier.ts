@@ -187,7 +187,7 @@ function getStandardSuccessDescriptionTable(
  * The bare side-effect imports above guarantee the result classes self-register
  * so `entity.SuccessTestResult` / `entity.OpposedTestResult` resolve even in a
  * bare unit test. See the "Entity class registry" section of
- * kb/dev-docs/reference/runtime-contracts.md.
+ * assets/content/Dev_Docs/reference/runtime-contracts.md.
  * ────────────────────────────────────────────────────────────────────────────
  */
 /**
@@ -379,7 +379,7 @@ export class MasteryLevelModifier extends ValueModifier {
      * {@link sohl.entity.result.SuccessTestResult.ContextScope} for the typed
      * shape and per-field docs). Supplying these is how a **generic** success test
      * becomes a bespoke graded test _without a subclass_ (see the
-     * [pass-data pattern](https://www.heroiclands.org/sohl/kb/dev-docs/how-to/extension-points/)):
+     * [pass-data pattern](https://www.heroiclands.org/sohl/doc-extensionpoints/)):
      *
      * - `resultDescTable` — the {@link sohl.entity.result.SuccessTestResult.LimitedDescription | result-description table}
      *   mapping each rung to its label / description / star count. Defaults to this

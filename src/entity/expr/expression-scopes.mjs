@@ -25,7 +25,7 @@
  * 2. **The editor** — autocomplete offers exactly these identifiers, with these
  *    descriptions, and live validation flags an out-of-scope one while typing.
  * 3. **The documentation** — the bound-variables table in
- *    `kb/dev-docs/concepts/expressions.md` is generated from this catalog by
+ *    `assets/content/Dev_Docs/concepts/expressions.md` is generated from this catalog by
  *    `utils/build-expression-scopes-doc.mjs` and guarded by `npm run lint`.
  *
  * This module is deliberately **plain ESM** — no TypeScript, no `@src` aliases,

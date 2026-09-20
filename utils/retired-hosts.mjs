@@ -29,13 +29,14 @@
  *
  * Both were withdrawn when the site consolidated everything under one `/sohl/`
  * deploy: the API documentation is published once, unversioned,
- * at `/sohl/api/`, and the knowledgebase at `/sohl/kb/`.
+ * at `/sohl/api/`, and the knowledgebase at `/sohl/` — its homepage and,
+ * beside it, one page per note.
  *
  * @type {Map<string, string>}
  */
 export const RETIRED_HOSTS = new Map([
     ["api.heroiclands.org", "https://www.heroiclands.org/sohl/api/"],
-    ["kb.heroiclands.org", "https://www.heroiclands.org/sohl/kb/"],
+    ["kb.heroiclands.org", "https://www.heroiclands.org/sohl/"],
 ]);
 
 /**
@@ -99,13 +100,29 @@ export function rewriteHint(url) {
 }
 
 /**
- * Where the developer documentation lives on the knowledgebase now.
+ * The address a developer-documentation page has, given the path a retired
+ * host served it at.
  *
- * The retired host served it at `/dev/<path>/`, and the API documentation's own
- * landing page linked it at a bare `/<path>/` — a route that was already wrong
- * before the move. Both become the one section that exists today.
+ * The retired host served the developer documentation at `/dev/<path>/`, and
+ * the API documentation's own landing page linked it at a bare `/<path>/` — a
+ * route that was already wrong before the host went. Each page is a `doc` note
+ * whose shortcode is its file name with everything but letters and digits
+ * removed — `how-to/testing/` is `doc-testing`, `concepts/action-cards/` is
+ * `doc-actioncards` — published at the package root like every page, and the
+ * tree's index (`README`, or the bare root) is `doc-devdocs`.
+ *
+ * @param {string} site - The package root the retired host maps onto.
+ * @param {string} rest - The path below the retired host, `dev/` removed.
+ * @returns {string} The page's address.
  */
-const KB_DEV_SECTION = "dev-docs/";
+function devDocAddress(site, rest) {
+    const segment = rest.split(/[?#]/)[0].split("/").filter(Boolean).pop();
+    const shortcode =
+        !segment || /^readme$/i.test(segment) ?
+            "devdocs"
+        :   segment.toLowerCase().replace(/[^a-z0-9]/g, "");
+    return `${site}doc-${shortcode}/`;
+}
 
 /**
  * Every address a retired URL might have become, best guess first.
@@ -128,9 +145,9 @@ export function rewriteCandidates(url) {
 
     const rest = base.slice(kb.length);
     if (rest.startsWith("dev/")) {
-        return [base, kb + KB_DEV_SECTION + rest.slice("dev/".length)];
+        return [base, devDocAddress(kb, rest.slice("dev/".length))];
     }
-    return rest ? [base, kb + KB_DEV_SECTION + rest] : [base];
+    return rest ? [base, devDocAddress(kb, rest)] : [base];
 }
 
 /**

@@ -14,7 +14,7 @@
 /**
  * Injury Treatment tables — the Physician **Treatment Test** and its
  * consequences, as pure, Foundry-free lookups over the tables in the Injury
- * rules (`https://www.heroiclands.org/sohl/kb/dev-docs/` → Injury → _Injury Treatment_).
+ * rules (`https://www.heroiclands.org/sohl/doc-trtnginj/`, _Treating Injuries_).
  *
  * A new injury is untreated; treatment establishes its
  * {@link sohl.document.item.logic.TraumaData.healingRateBase | Healing Rate}

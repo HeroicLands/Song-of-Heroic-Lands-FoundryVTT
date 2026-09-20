@@ -30,7 +30,7 @@
  * packs) lives in `FoundryHelpers.ts` (`fvttDiscoverArchetypes`); it hands this
  * module plain records so all of the interesting logic is unit-testable in Node.
  *
- * @see https://www.heroiclands.org/sohl/kb/dev-docs/how-to/extension-points/
+ * @see https://www.heroiclands.org/sohl/doc-extensionpoints/
  */
 
 import { slugifyShortcode } from "../../utils/helpers";

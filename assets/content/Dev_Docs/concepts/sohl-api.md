@@ -1,0 +1,101 @@
+---
+type: doc
+subType: concept
+name:
+  full: The SoHL API
+  aliases: []
+shortcode: sohlapi
+pack: none
+sohl:
+  kbcat: devdocs
+---
+
+# The SoHL API
+
+Scripts — Foundry [[doc-macrosandactions|macros and Script Actions]] — and
+[[doc-moduledevelopment|modules]] reach into Song of Heroic Lands
+through **two distinct surfaces**. This page explains how they relate and when to
+use each; _what_ each surface offers is documented on the class it points at.
+
+- **The document surface** — `document.logic`, a {@link sohl.core.logic.SohlLogic} — for working
+  with _one specific_ actor or item.
+- **The `sohl` surface** — the {@link sohl.core.logic.SohlSystem} singleton — for _system-wide_
+  services and helpers.
+
+## The document surface — `document.logic`
+
+Every SoHL document exposes its Foundry-free domain object as **`document.logic`**
+(a {@link sohl.core.logic.SohlLogic}), holding the document's computed state and its actions:
+
+```js
+const actor = game.actors.getName("Grymm");
+const being = actor.logic; // the actor's logic
+const sword = actor.items.getName("Broadsword").logic; // an item's logic
+```
+
+The **actions** it holds include both per-kind ones and the universal actions every
+document shares — e.g. every item's logic carries **Output Description to Chat**
+(`outputDescription`), which posts that item's description to the chat log. See
+[[doc-macrosandactions#how-sohl-uses-this-internally-intrinsic-actions|Macros and Actions]].
+
+For typed fields, read **`document.logic.data`** — the document's `*Data` interface,
+so editors autocomplete and the API reference links straight to it. {@link sohl.core.logic.SohlLogic}
+documents the layer and its lifecycle;
+[[doc-architecture#three-class-pattern|Architecture Overview]] covers how
+`document.system` (the DataModel) and `document.logic` (the Logic) relate.
+
+Use this surface whenever the task is "read or act on _this particular_ thing."
+
+## The `sohl` surface — the global singleton
+
+System-wide helpers and services that aren't tied to any one document live on the
+global **`sohl`** object — the {@link sohl.core.logic.SohlSystem} singleton, created during Foundry's
+`init` hook (so it's available from `init` onward, not earlier):
+
+```js
+sohl.utils.romanize(4); // "IV" — a system helper
+sohl.log.info("hello from a macro"); // the system logger
+```
+
+What it offers — services, helpers, constants, and direct entry points into the
+logic layer — is enumerated and kept current on **{@link sohl.core.logic.SohlSystem}**; treat that
+class as the source of truth rather than any list here.
+
+### The namespace tree — addressing every class
+
+Every SoHL class is also reachable through `sohl` by a **source-mirroring path**:
+`sohl.document.effect.foundry.SohlActiveEffect`,
+`sohl.entity.modifier.ValueModifier`, `sohl.apps.foundry.CalendarSettingsMenu`, and so
+on — the path equals the file's location under `src/`, so a reference is
+unambiguous and easy to locate. The top-level namespaces are `sohl.document`,
+`sohl.core`, `sohl.apps`, and `sohl.entity`.
+
+`sohl.entity` is special: it is **both** the override-aware construction registry
+(the flat, PascalCase getters `sohl.entity.ValueModifier` and
+`sohl.entity.register(...)`) **and** a namespace (`sohl.entity.modifier.ValueModifier`).
+The two occupy distinct property names, so both work — but **construct or override
+through the flat registry**: those getters honor a `register()` override, whereas a
+namespace path is for reference/addressing and always resolves to the original
+class.
+
+### A note on `CONFIG`
+
+SoHL registers its document, modifier, and result classes into Foundry's global
+`CONFIG` at init (mirrored at `sohl.CONFIG`) — registration/wiring used by the system
+and by modules adding new types, not a day-to-day scripting surface. For extending
+it, see [[doc-extensionpoints|Extension Points]].
+
+## Changing state
+
+Treat both surfaces as **read-first**. To _change_ state, prefer a document's own
+actions and the system's mutation paths over writing fields directly: an actor
+mutates only itself, and cross-actor effects route through a target-addressed
+acknowledgement flow — see
+[[doc-architecture#actor-state-sovereignty|actor state sovereignty]].
+
+## See also
+
+- [[doc-macrosandactions|Macros and Actions]] — scripting against these surfaces.
+- [[doc-moduledevelopment|Writing Modules]] — extending the system in a package.
+- [[doc-architecture|Architecture Overview]] — the three-layer model.
+- [API Reference](/sohl/api/) — every exported symbol.

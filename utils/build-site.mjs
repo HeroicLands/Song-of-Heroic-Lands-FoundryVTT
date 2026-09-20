@@ -58,9 +58,8 @@ export const API_SRC = "build/docs-html";
  * as paths relative to {@link SITE_OUT}.
  *
  * Each is an entry point something already links to, so a build missing one
- * publishes a 404 at an address that is advertised — the landing page the
- * navigation points at, the knowledgebase, the API documentation, and the 404
- * page itself. That last one matters most: Cloudflare Pages serves the nearest
+ * publishes a 404 at an address that is advertised — the package's homepage
+ * the navigation points at, the API documentation, and the 404 page itself. That last one matters most: Cloudflare Pages serves the nearest
  * `404.html` with a genuine 404 status and, with none, falls back to the site
  * root — a soft-404 that answers 200 with the landing page and reads as success
  * to every link checker.
@@ -68,7 +67,6 @@ export const API_SRC = "build/docs-html";
 export const REQUIRED = Object.freeze([
     `${PACKAGE_DIR}/index.html`,
     `${PACKAGE_DIR}/404.html`,
-    `${PACKAGE_DIR}/kb/index.html`,
     `${PACKAGE_DIR}/api/index.html`,
 ]);
 

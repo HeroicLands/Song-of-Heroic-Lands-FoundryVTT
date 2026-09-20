@@ -105,7 +105,7 @@ const REGISTERED_ENTITY_CLASSES = [
 
 export default [
     {
-        ignores: ["build/**", "node_modules/**", "docs/**", "nogit/**"],
+        ignores: ["build/**", "node_modules/**", "typedoc/**", "nogit/**"],
     },
     {
         // Plain JS (build utilities, this config)
@@ -141,7 +141,7 @@ export default [
             // Enforce strict equality, but bless the `== null` / `!= null`
             // idiom used deliberately at Foundry boundaries to match both
             // `null` and `undefined` in one check. See the null/undefined
-            // convention in kb/dev-docs/contributing/system-development.md.
+            // convention in assets/content/Dev_Docs/contributing/system-development.md.
             eqeqeq: ["error", "always", { null: "ignore" }],
             // A bare `return` is fine in a `void`/`Promise<void>` function,
             // but when the signature admits `undefined` as a real value it
@@ -210,7 +210,7 @@ export default [
                         "|",
                     )})$/]`,
                     message:
-                        'Do not bare-`new` a registered entity class: it bypasses the entity registry and ignores overrides. Inside SoHL use `new entity.X(...)` (import { entity } from "@src/entity/registry", or "@src/entity/entityRegistry" for a base class); outside SoHL use `new sohl.entity.X(...)`. See kb/dev-docs/reference/runtime-contracts.md (Entity class registry).',
+                        'Do not bare-`new` a registered entity class: it bypasses the entity registry and ignores overrides. Inside SoHL use `new entity.X(...)` (import { entity } from "@src/entity/registry", or "@src/entity/entityRegistry" for a base class); outside SoHL use `new sohl.entity.X(...)`. See assets/content/Dev_Docs/reference/runtime-contracts.md (Entity class registry).',
                 },
             ],
         },

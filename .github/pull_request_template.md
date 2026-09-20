@@ -1,6 +1,6 @@
 <!-- This body becomes the squash commit message on merge, so keep it tight and
      delete anything you do not fill in. The Definition of Done lives in
-     kb/dev-docs/contributing/system-development.md — CI enforces most of it. -->
+     assets/content/Dev_Docs/contributing/system-development.md — CI enforces most of it. -->
 
 ## What changed
 

@@ -20,9 +20,10 @@ import path from "node:path";
  *
  * At render end, walks every reflection that has a rendered page (or member
  * anchor) and records its `sohl`-rooted full name against its `.url`. The map is
- * written to `kb/data/api-symbols.json` (a Hugo data file), so the knowledgebase
- * build can resolve `{@link sohl.*}` references in the developer docs to the API
- * site without itself running TypeDoc.
+ * written to `build/hugo/data/api-symbols.json` — a build output, beside the
+ * generated Hugo tree — so the knowledgebase build can resolve `{@link sohl.*}`
+ * references in the developer documentation to the API site without itself
+ * running TypeDoc. `docs:html` therefore runs before `content-build site`.
  *
  * URLs come from the renderer's {@link https://typedoc.org | Router} rather
  * than from scanning HTML filenames, so disambiguation suffixes (e.g.
@@ -44,7 +45,7 @@ export function load(app) {
         if (!router) {
             throw new Error(
                 "symbol-map: the renderer exposed no router, so no symbol URL " +
-                    "can be resolved. Refusing to overwrite kb/data/api-symbols.json.",
+                    "can be resolved. Refusing to write build/hugo/data/api-symbols.json.",
             );
         }
 
@@ -60,15 +61,15 @@ export function load(app) {
         if (Object.keys(map).length === 0) {
             throw new Error(
                 "symbol-map: resolved 0 symbols, which would blank " +
-                    "kb/data/api-symbols.json and break every API link in the " +
-                    "knowledgebase. Refusing to write.",
+                    "build/hugo/data/api-symbols.json and break every API link " +
+                    "in the knowledgebase. Refusing to write.",
             );
         }
 
         const sorted = {};
         for (const key of Object.keys(map).sort()) sorted[key] = map[key];
 
-        const out = path.resolve("kb/data/api-symbols.json");
+        const out = path.resolve("build/hugo/data/api-symbols.json");
         fs.mkdirSync(path.dirname(out), { recursive: true });
         fs.writeFileSync(out, JSON.stringify(sorted, null, 2) + "\n");
         app.logger.info(`symbol-map: wrote ${Object.keys(sorted).length} entries to ${out}`);

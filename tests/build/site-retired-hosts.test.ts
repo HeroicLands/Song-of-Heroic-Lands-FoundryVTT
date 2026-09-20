@@ -33,7 +33,7 @@ describe("sitePathFor", () => {
             "sohl/api/index.html",
             "sohl/api/classes/sohl.x.Y.html",
             "sohl/kb/index.html",
-            "sohl/kb/dev-docs/concepts/architecture/index.html",
+            "sohl/doc-architecture/index.html",
         ].map((p) => path.join("/site", p)),
     );
     const exists = (p: string) => published.has(p);
@@ -89,7 +89,7 @@ describe("the assembled tree", () => {
         // The pages the repair is allowed to point at.
         put("sohl/index.html", "<p>landing</p>");
         put("sohl/kb/index.html", "<p>kb</p>");
-        put("sohl/kb/dev-docs/concepts/architecture/index.html", "<p>arch</p>");
+        put("sohl/doc-architecture/index.html", "<p>arch</p>");
         put("sohl/api/index.html", "<p>api</p>");
     });
 
@@ -109,8 +109,7 @@ describe("the assembled tree", () => {
         expect(report.repaired).toHaveLength(1);
         expect(report.unresolved).toEqual([]);
         expect(fs.readFileSync(path.join(root, "sohl/api/index.html"), "utf8")).toBe(
-            '<a href="https://www.heroiclands.org/sohl/kb/dev-docs/' +
-                'concepts/architecture/">Arch</a>',
+            '<a href="https://www.heroiclands.org/sohl/doc-architecture/">Arch</a>',
         );
         // And the tree is clean afterwards — the gate's own question.
         expect(retiredHrefsUnder(root)).toEqual([]);

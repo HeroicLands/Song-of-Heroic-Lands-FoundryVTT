@@ -59,7 +59,7 @@ const PAGE_PACK_FOLDER = "userguide";
  * refused outright, so a generator emitting one would fail the build
  * on the next run.
  *
- * See kb/dev-docs/reference/content-links.md.
+ * See assets/content/Dev_Docs/content-creator/content-links.md.
  */
 const PAGE_TYPE = "doc";
 const PAGE_SHORTCODE = "iconlgndug";

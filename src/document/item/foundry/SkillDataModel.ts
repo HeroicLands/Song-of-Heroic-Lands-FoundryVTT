@@ -74,7 +74,7 @@ function defineSkillSchema(): foundry.data.fields.DataSchema {
         // `null` when it is not a specialization. Nullable and non-blank so
         // Foundry cleans a blank form submission (and any legacy `""`) to
         // `null` — null at the persistence edge, per the null/undefined
-        // discipline in docs/contributing/system-development.md.
+        // discipline in assets/content/Dev_Docs/contributing/system-development.md.
         parentSkillCode: new StringField({
             nullable: true,
             initial: null,

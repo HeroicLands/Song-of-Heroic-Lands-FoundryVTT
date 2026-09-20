@@ -13,7 +13,7 @@
 
 /**
  * Generate the "Bound variables" section of
- * `kb/dev-docs/concepts/expressions.md` from the expression-scope catalog
+ * `assets/content/Dev_Docs/concepts/expressions.md` from the expression-scope catalog
  * (`src/entity/expr/expression-scopes.mjs`).
  *
  * The catalog is the same module the runtime validates against and the editor
@@ -42,7 +42,7 @@ import path from "path";
 import { formatGenerated } from "./format-generated.mjs";
 import { EXPRESSION_SCOPES } from "../src/entity/expr/expression-scopes.mjs";
 
-const DOC = path.resolve("kb/dev-docs/concepts/expressions.md");
+const DOC = path.resolve("assets/content/Dev_Docs/concepts/expressions.md");
 const BEGIN = "<!-- BEGIN GENERATED: expression-scopes -->";
 const END = "<!-- END GENERATED: expression-scopes -->";
 

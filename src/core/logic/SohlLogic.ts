@@ -87,9 +87,9 @@ import { toHTMLString } from "@src/utils/helpers";
  * methods on items — use these lifecycle methods instead.
  *
  * See also the
- * [Phase-batched lifecycle](https://www.heroiclands.org/sohl/kb/dev-docs/concepts/architecture/#phase-batched-lifecycle)
+ * [Phase-batched lifecycle](https://www.heroiclands.org/sohl/doc-architecture/#phase-batched-lifecycle)
  * concept overview and the
- * [Lifecycle Hooks](https://www.heroiclands.org/sohl/kb/dev-docs/how-to/lifecycle-hooks/)
+ * [Lifecycle Hooks](https://www.heroiclands.org/sohl/doc-lifecyclehooks/)
  * extension guide.
  *
  * @typeParam TData - The data interface this logic operates on, extending
@@ -488,7 +488,7 @@ export abstract class SohlLogic<TData extends SohlLogicData<any> = SohlLogicData
      * Phase-batched lifecycle methods, called by
      * SohlActor.prepareEmbeddedDocuments() in three barrier-separated passes across
      * ALL items, NOT per-item like Foundry's default. See the class-level JSDoc
-     * and the "Phase-batched lifecycle" section of kb/dev-docs/concepts/architecture.md.
+     * and the "Phase-batched lifecycle" section of assets/content/Dev_Docs/concepts/architecture.md.
      */
 
     /**
@@ -629,7 +629,7 @@ export interface SohlLogicData<
      * `finalize()` re-arms these into the event queue on every preparation. Only
      * documents whose data model extends the base `SohlDataModel` (actors, items,
      * combatants) carry it — hence optional here. See
-     * https://www.heroiclands.org/sohl/kb/dev-docs/reference/event-queue/.
+     * https://www.heroiclands.org/sohl/doc-eventqueue/.
      */
     scheduledActions?: ScheduledAction[];
     /**
