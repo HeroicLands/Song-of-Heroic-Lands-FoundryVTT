@@ -98,16 +98,16 @@ landing:
           itself.
         links:
           - title: Developer documentation
-            url: kb/dev-docs/
+            url: doc-devdocs/
             note: architecture and how-tos
           - title: API reference
             url: api/
             note: every public symbol
           - title: Extension points
-            url: kb/dev-docs/how-to/extension-points/
+            url: doc-extensionpoints/
             note: extending without forking
           - title: Macros and Actions
-            url: kb/dev-docs/concepts/macros-and-actions/
+            url: doc-macrosandactions/
 
   closing: >-
     The whole reference is browsable from the [knowledgebase](kb/), and the

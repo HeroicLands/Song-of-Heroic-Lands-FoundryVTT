@@ -13,7 +13,7 @@
 
 /**
  * Naming guard: `lang/en.json` follows the key-naming standard
- * published at `kb/dev-docs/reference/localization-keys.md`. Keys are permanent
+ * published at `assets/content/Dev_Docs/reference/localization-keys.md`. Keys are permanent
  * (`CLAUDE.md` rule 4), so a mis-named key is expensive to undo — these assertions
  * hold the two structural consolidations that standard required, and stop the
  * shapes they removed from creeping back in.

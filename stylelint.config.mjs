@@ -14,7 +14,7 @@ export default {
     // stylelint is here for the checks Prettier structurally cannot perform
     // (#1622): invalid declarations, unknown properties and units, duplicate
     // and dead selectors, and — the reason it matters most — the naming
-    // conventions that `kb/dev-docs/concepts/css-architecture.md` documents as
+    // conventions that `assets/content/Dev_Docs/concepts/css-architecture.md` documents as
     // an extension surface third-party modules compile against.
     //
     // So the rule set is deliberately narrow in one specific way: every rule
@@ -38,7 +38,7 @@ export default {
             "^[a-z][a-z0-9]*(-[a-z0-9]+)*(__[a-z0-9]+(-[a-z0-9]+)*)?(--[a-z0-9]+(-[a-z0-9]+)*)?$",
             {
                 message:
-                    "Expected class selector to be BEM kebab-case: block__element--modifier (kb/dev-docs/concepts/css-architecture.md §3)",
+                    "Expected class selector to be BEM kebab-case: block__element--modifier (assets/content/Dev_Docs/concepts/css-architecture.md §3)",
             },
         ],
 
@@ -59,7 +59,7 @@ export default {
             "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
             {
                 message:
-                    "Expected custom property to be lowercase kebab-case (kb/dev-docs/concepts/css-architecture.md §4)",
+                    "Expected custom property to be lowercase kebab-case (assets/content/Dev_Docs/concepts/css-architecture.md §4)",
             },
         ],
 
@@ -123,7 +123,7 @@ export default {
                     "^sohl-[a-z0-9]+(-[a-z0-9]+)*$",
                     {
                         message:
-                            "Expected custom property to be in the --sohl-* token namespace (kb/dev-docs/concepts/css-architecture.md §4)",
+                            "Expected custom property to be in the --sohl-* token namespace (assets/content/Dev_Docs/concepts/css-architecture.md §4)",
                     },
                 ],
             },

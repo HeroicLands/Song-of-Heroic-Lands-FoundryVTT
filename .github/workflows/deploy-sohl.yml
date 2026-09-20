@@ -87,11 +87,6 @@ jobs:
                   hugo-version: "0.163.3"
                   extended: true
 
-            # The landing page and the knowledgebase, into build/site/sohl/.
-            # `build:kb` fetches the shared header navigation first.
-            - name: Build the site
-              run: npm run build:kb
-
             # The API documentation is built from the newest *release*, not from
             # main: it documents what people are running (#1452). Resolved here
             # rather than inherited from the triggering ref, which is irrelevant
@@ -128,6 +123,33 @@ jobs:
                   npm ci
                   npm run docs:prepare
                   npm run docs:html
+
+            # The TypeDoc build also writes the symbol map the knowledgebase
+            # resolves `{@link sohl.*}` against. The map has to describe the
+            # API pages that are published — the release's — so it is carried
+            # across before the site build reads it from this checkout's
+            # `build/hugo/data/`. Where the release checkout wrote it is the
+            # release's own plugin's decision, so both of its locations are
+            # accepted; a release that wrote neither fails here, before a site
+            # with every API link degraded could be published.
+            - name: Carry the API symbol map to the site build
+              run: |
+                  set -euo pipefail
+                  for candidate in release/build/hugo/data/api-symbols.json release/kb/data/api-symbols.json; do
+                      if [ -f "$candidate" ]; then
+                          mkdir -p build/hugo/data
+                          cp "$candidate" build/hugo/data/api-symbols.json
+                          echo "Symbol map taken from $candidate."
+                          exit 0
+                      fi
+                  done
+                  echo "The release checkout wrote no API symbol map." >&2
+                  exit 1
+
+            # The landing page and the knowledgebase, into build/site/sohl/.
+            # `build:kb` fetches the shared header navigation first.
+            - name: Build the site
+              run: npm run build:kb
 
             # Mounts the API tree at build/site/sohl/api/ and refuses to
             # continue if any surface — landing, knowledgebase, API, or the 404

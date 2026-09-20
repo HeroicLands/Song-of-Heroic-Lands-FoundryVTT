@@ -12,7 +12,7 @@
  */
 
 /**
- * {@include ../docs/api-module.md}
+ * {@include ../typedoc/api-module.md}
  *
  * @module sohl
  */

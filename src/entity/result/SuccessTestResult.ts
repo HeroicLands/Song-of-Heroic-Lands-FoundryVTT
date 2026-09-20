@@ -78,7 +78,7 @@ import { SohlTokenDocumentLogic } from "@src/document/token/logic/SohlTokenDocum
  * undefined`). The bare side-effect import above guarantees MasteryLevelModifier
  * self-registers so `entity.MasteryLevelModifier` resolves even in a bare unit
  * test. See the "Entity class registry" section of
- * kb/dev-docs/reference/runtime-contracts.md.
+ * assets/content/Dev_Docs/reference/runtime-contracts.md.
  * ────────────────────────────────────────────────────────────────────────────
  */
 
@@ -1142,7 +1142,7 @@ export namespace SuccessTestResult {
      * carries the outcome mapping and `targetValueFunc` the grading value; follow-up
      * consent buttons are passed separately to
      * {@link SuccessTestResult.toChat}. See the
-     * [pass-data pattern](https://www.heroiclands.org/sohl/kb/dev-docs/how-to/extension-points/).
+     * [pass-data pattern](https://www.heroiclands.org/sohl/doc-extensionpoints/).
      */
     export interface ContextScope {
         /**
@@ -1216,7 +1216,7 @@ export namespace SuccessTestResult {
      * literal or a {@link sohl.entity.expr.SafeExpression} computed from the test
      * bindings (`successLevel`, `targetValue`, `lastDigit`) — data, so the whole
      * table serializes across clients. See the
-     * [Result-description Tables](https://www.heroiclands.org/sohl/kb/dev-docs/reference/result-description-tables/)
+     * [Result-description Tables](https://www.heroiclands.org/sohl/doc-resultdescriptiontables/)
      * guide.
      */
     export interface LimitedDescription {

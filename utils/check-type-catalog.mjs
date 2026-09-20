@@ -12,12 +12,12 @@
  */
 
 /**
- * Fail if the committed `kb/dev-docs/reference/type-catalog.md` is out of date with the
- * code. The catalog is generated (from the kind enums, `lang/en.json`, and each
- * Logic class's TSDoc) yet tracked in git because docs link to it; this guard —
- * wired into `npm run lint` — keeps the committed copy current, the same way
- * `check-docs-index.mjs` guards the docs index. Regenerate with
- * `npm run docs:catalog` and commit the result.
+ * Fail if the committed `assets/content/Dev_Docs/reference/type-catalog.md`
+ * is out of date with the code. The catalog is generated (from the kind enums,
+ * `lang/en.json`, and each Logic class's TSDoc) yet tracked in git because
+ * notes link to it; this guard — wired into `npm run lint` — keeps the
+ * committed copy current. Regenerate with `npm run docs:catalog` and commit
+ * the result.
  */
 
 import fs from "fs";
@@ -26,7 +26,7 @@ import path from "path";
 import { buildTypeCatalog } from "./build-type-catalog.mjs";
 import { formatGenerated } from "./format-generated.mjs";
 
-const OUT = path.resolve("kb/dev-docs/reference/type-catalog.md");
+const OUT = path.resolve("assets/content/Dev_Docs/reference/type-catalog.md");
 const rel = path.relative(process.cwd(), OUT);
 
 const { md, warnings } = buildTypeCatalog();

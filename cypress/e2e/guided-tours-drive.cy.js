@@ -287,7 +287,7 @@ describe("driven-tour: drive steps (SohlTour)", () => {
     // roll-initiative + advance-turn, set-target/clear-target) are exercised
     // end-to-end by the forthcoming Automated Combat tour, which ships the
     // adventure + scene + token fixtures they need. Headless runs suppress the
-    // placeable-Token canvas draw (see kb/dev-docs/how-to/testing.md), so combat/target
+    // placeable-Token canvas draw (see assets/content/Dev_Docs/how-to/testing.md), so combat/target
     // primitives can't be proven on pixels here.
     it.skip("imports an adventure, starts combat, and sets a target (#620)", () => {
         // RED — blocked on the Automated Combat tour: needs its fixtures and a

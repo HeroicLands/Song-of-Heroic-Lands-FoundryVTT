@@ -21,7 +21,7 @@ It is a world with weight. Fights are fast and genuinely dangerous, so choosing 
 ## Documentation
 
 - How to contribute: [CONTRIBUTING.md](CONTRIBUTING.md)
-- Developer & API documentation hub: [kb/dev-docs/README.md](kb/dev-docs/README.md)
+- Developer & API documentation hub: [assets/content/Dev_Docs/_Introduction.md](assets/content/Dev_Docs/_Introduction.md)
 - Player & GM rules and guides: [heroiclands.org](https://heroiclands.org/projects/sohl/)
 
 ## Copyright

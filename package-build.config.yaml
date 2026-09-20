@@ -62,11 +62,11 @@ compatibility:
 docs:
     itemFields:
         title: Item Note Frontmatter
-        out: kb/dev-docs/content-creator/item-frontmatter.md
+        out: assets/content/Dev_Docs/content-creator/item-frontmatter.md
         preamble:
-            - "See also: [The Authoring Workflow](authoring-workflow.md), [Actor Notes](actor-notes.md), [Asset Conventions](asset-conventions.md)"
+            - "See also: [[doc-authoringworkflow|The Authoring Workflow]], [[doc-actornotes|Actor Notes]], [[doc-assetconventions|Asset Conventions]]"
             - ""
-            - "Every item note carries the frontmatter envelope described in [The Authoring Workflow](authoring-workflow.md) — `name.full`, `type`, `shortcode`, and the required `sohl.archetype`. This page covers what each **type** adds to that: the fields under its `sohl:` block, and nothing else."
+            - "Every item note carries the frontmatter envelope described in [[doc-authoringworkflow|The Authoring Workflow]] — `name.full`, `type`, `shortcode`, and the required `sohl.archetype`. This page covers what each **type** adds to that: the fields under its `sohl:` block, and nothing else."
             - ""
             - "The tables are rendered from the declaration that _builds_ each document, not from a description of it, so a field listed here is a field the compiler reads and a field absent here is one it ignores. An unrecognised `sohl:` key is silently dropped, so a typo shows up as a missing value rather than an error — check the spelling here first."
 
@@ -166,8 +166,8 @@ packageBuild:
             A dotted-prefix collision makes foundry.utils.expandObject throw, and
             Foundry then drops the whole translation file (issue #636). Make each
             key a leaf OR a branch, never both. See
-            kb/dev-docs/reference/localization-keys.md for the placeholder and
-            key-segment rules.
+            assets/content/Dev_Docs/reference/localization-keys.md for the
+            placeholder and key-segment rules.
 
         # `primary`, `scripts` and `templates` are absent because this
         # repository follows the conventional layout the defaults describe:
@@ -422,7 +422,7 @@ publish:
     # A mode, not the retired boolean (package-build#55). The mode says how
     # much of the package reaches the web, and the floor is its front page at
     # `/sohl/`: `homepage` publishes that page and *fences the content surfaces
-    # off* — the tree is never walked, and `sections`, `trees`, `landing` and
+    # off* — the tree is never walked, and `sections`, `landing` and
     # `backfillSections` below emit nothing however they are declared, which is
     # what keeps a fan-licensed package's content unpublishable by
     # construction. This repository publishes the whole knowledgebase, so it is
@@ -469,14 +469,14 @@ site:
     # every other. `sections` is the whole of the section list, and there is no
     # second, implicit way for a landing to appear.
     landing: { title: Knowledgebase, type: knowledgebase }
-    # This repository's own body rewrites: `{@link}` against the TypeDoc symbol
-    # map, and repo-relative links in the developer docs. Named rather than
-    # imported — a configuration is data and cannot hold a function.
+    # This repository's own body rewrite: `{@link}` against the TypeDoc symbol
+    # map, which the TypeDoc build writes to `build/hugo/data/` (`docs:html`
+    # runs before the site build). Named rather than imported — a configuration
+    # is data and cannot hold a function.
     pass: sohlKb
     passOptions:
         apiBase: /sohl/api/
-        symbolMap: kb/data/api-symbols.json
-        blob: https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/blob/main/
+        symbolMap: build/hugo/data/api-symbols.json
     # This is a reference catalog: a page's shortcode is the identifier the
     # system uses for that item, so listings show "Name (shortcode)".
     list:
@@ -502,7 +502,7 @@ site:
               url: /api/
               text: Generated reference for the current release.
             - title: Developer Documentation
-              url: /kb/dev-docs/
+              url: /doc-devdocs/
               text: Architecture, extension points, testing, and reference material.
             - title: User Guide
               url: /kb/user-guide/
@@ -510,19 +510,12 @@ site:
             - title: Rules
               url: /kb/rules/
               text: Success and opposed tests, injury, healing, shock, bleeding, and trauma.
-    # What the generated Hugo configuration does not write. The catalog layouts
-    # and the TypeDoc symbol map are authored in `kb/`, outside the generated
-    # tree, so Hugo is pointed back at them; both paths are relative to
-    # `build/hugo`. The highlight style is the one the developer docs' code
-    # blocks are styled for.
+    # What the generated Hugo configuration does not write. The highlight style
+    # is the one the developer documentation's code blocks are styled for.
     hugo:
-        layoutDir: ../../kb/layouts
-        dataDir: ../../kb/data
         markup:
             highlight:
                 style: monokai
-    trees:
-        - { from: kb/dev-docs, section: dev-docs }
     # Landing title + hero for a section, so a landing matches the home-page
     # card that links to it rather than Hugo's auto-humanised directory name
     # (which spells `weapongear` "Weapongears" and `rules` "Ruleses").
@@ -538,10 +531,13 @@ site:
     # titled, with its hero, listing its members.
     #
     # `writeSectionLandings` writes an `_index.md` for every entry and runs
-    # *after* `renderPages`, so an entry must not name a section that a note
-    # lands at — it would overwrite that page. No content note lands at a
-    # section any more, so that hazard is gone; it survives only for `trees`,
-    # whose README landings are declared in `readmeSections` below.
+    # *after* `renderPages`; no content note lands at a section, so an entry
+    # never overwrites a page.
+    #
+    # The developer documentation (`Dev_Docs/`, `sohl.kbcat: devdocs`) has no
+    # entry: an entry lists by `listType` / `listSubType` only, and those
+    # pages share `type: doc` and the three genres with the rest of the tree.
+    # Their index is the `doc-devdocs` note.
     sections:
         being: { title: Beings, banner: banners/creature.webp }
         trauma: { title: Trauma, banner: banners/trauma.webp }
@@ -593,11 +589,3 @@ site:
         # No banner: the heroes are CDN assets and neither section has one.
         concoctiongear: { title: Concoctions, listType: concoctiongear }
         mystery: { title: Mysteries, listType: mystery }
-    # Landing title + hero for a **tree** whose index comes from a `README.md`.
-    # A `trees` entry mounts a repository directory into the knowledgebase
-    # rather than compiling content notes, and it still lands on its README — so
-    # the developer documentation is the one entry left here. What the section
-    # says about itself wins over what its README happens to carry, so the
-    # landing matches the card that links to it.
-    readmeSections:
-        dev-docs: { title: Developer Documentation, banner: banners/dev-docs.webp }

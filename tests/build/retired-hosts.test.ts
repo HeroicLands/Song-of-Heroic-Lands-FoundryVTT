@@ -112,20 +112,20 @@ describe("rewriteCandidates", () => {
         );
     });
 
-    it("offers the developer-docs section for a bare knowledgebase path", () => {
-        // The old API landing linked the developer docs without their section
-        // segment, so the host swap alone lands on a 404. `/dev-docs/` is where
-        // that page lives now, and the assembler takes only the candidate that
-        // resolves in the tree it just built.
+    it("offers the developer page for a bare knowledgebase path", () => {
+        // The old API landing linked the developer docs by their path under
+        // the retired host, so the host swap alone lands on a 404. The page is
+        // a `doc` note addressed by its shortcode, and the assembler takes only
+        // the candidate that resolves in the tree it just built.
         expect(rewriteCandidates("https://kb.heroiclands.org/concepts/architecture/")).toEqual([
             "https://www.heroiclands.org/sohl/kb/concepts/architecture/",
-            "https://www.heroiclands.org/sohl/kb/dev-docs/concepts/architecture/",
+            "https://www.heroiclands.org/sohl/doc-architecture/",
         ]);
     });
 
-    it("rewrites the old /dev/ route to /dev-docs/", () => {
+    it("rewrites the old /dev/ route to the page's own address", () => {
         expect(rewriteCandidates("https://kb.heroiclands.org/dev/how-to/testing/")).toContain(
-            "https://www.heroiclands.org/sohl/kb/dev-docs/how-to/testing/",
+            "https://www.heroiclands.org/sohl/doc-testing/",
         );
     });
 
@@ -140,7 +140,7 @@ describe("repairRetiredHrefs", () => {
         [
             "https://www.heroiclands.org/sohl/api/",
             "https://www.heroiclands.org/sohl/kb/",
-            "https://www.heroiclands.org/sohl/kb/dev-docs/concepts/architecture/",
+            "https://www.heroiclands.org/sohl/doc-architecture/",
         ].includes(url);
 
     it("replaces a dead href with the candidate that resolves", () => {
@@ -148,10 +148,7 @@ describe("repairRetiredHrefs", () => {
             '<a href="https://kb.heroiclands.org/concepts/architecture/">A</a>',
             resolves,
         );
-        expect(html).toBe(
-            '<a href="https://www.heroiclands.org/sohl/kb/dev-docs/' +
-                'concepts/architecture/">A</a>',
-        );
+        expect(html).toBe('<a href="https://www.heroiclands.org/sohl/doc-architecture/">A</a>');
         expect(repaired).toHaveLength(1);
         expect(unresolved).toEqual([]);
     });

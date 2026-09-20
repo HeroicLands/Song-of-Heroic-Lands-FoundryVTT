@@ -58,10 +58,7 @@ const GLYPH_BASELINE_SHIFT = "-0.30em";
 function usedIconNames() {
     const re = new RegExp(`\\b${CLASS_PREFIX}([a-z0-9-]+)`, "g");
     const names = new Set();
-    for (const file of [
-        ...globSync("assets/content/**/*.md"),
-        ...globSync("kb/dev-docs/**/*.md"),
-    ]) {
+    for (const file of globSync("assets/content/**/*.md")) {
         const text = readFileSync(file, "utf8");
         for (const m of text.matchAll(re)) names.add(m[1]);
     }
