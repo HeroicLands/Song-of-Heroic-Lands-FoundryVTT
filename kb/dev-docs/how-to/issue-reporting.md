@@ -79,7 +79,7 @@ Labels are for **categorization only**. The table below is the **complete,
 authoritative set**. Its machine-readable twin is `.github/labels.yml`, which the
 `labels-sync` workflow reconciles onto GitHub (the set is _closed_ — a label not
 in the registry is deleted on sync). `npm run lint` fails if the two disagree
-(`check-labels`), so they cannot drift.
+(`lint:labels`), so they cannot drift.
 
 > **MUST NOT invent, rename, or improvise labels.** If no existing label fits, add
 > none and (if it matters) note the gap in the issue body for a maintainer to decide.

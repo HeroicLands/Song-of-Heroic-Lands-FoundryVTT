@@ -16,7 +16,7 @@
  * UI theme disagree.
  *
  * The bundled icons are `<img>`-embedded SVGs whose fill follows the element's
- * used `color-scheme` (see `utils/svg-theme.mjs`). Foundry stamps `color-scheme`
+ * used `color-scheme` (see the toolchain's `svg-theme` transform). Foundry stamps `color-scheme`
  * from ITS OWN theme onto the enclosing chrome, but SoHL's surface themes from
  * the OS — so without the fix the icon fill and the vellum ground diverge and the
  * icons vanish. The fix pins `color-scheme` on SoHL's own scoped surfaces to the

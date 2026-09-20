@@ -74,8 +74,7 @@ content will be removed immediately.
   `npm ci` and runs from `node_modules`. Optional, for specific workflows: SSH
   access to a remote host (deploying to a remote Foundry instance via
   `npm run push:dev` / `push:prod`, which use SFTP over SSH — no `rsync` needed) and
-  `gh auth login` (so the legacy local release helper, `utils/release.mjs`, can read
-  a GitHub token from your keychain).
+  `gh auth login` (the gh CLI, for the GitHub work the guide below asks for).
 - **First steps:** fork the repo, branch from `main`, run `npm ci`, and copy
   `.env.local.example` to `.env.local` (gitignored; one per developer). See
   [Getting Started](../how-to/getting-started.md) for the full setup and codebase

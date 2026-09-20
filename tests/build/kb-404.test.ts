@@ -13,7 +13,9 @@ import { fileURLToPath } from "node:url";
 
 // Build-time helper (plain ESM, no Foundry). Imported by relative path
 // because the build scripts live outside the `@src` alias tree.
-import { REQUIRED, REDIRECTS, missingRequired } from "../../utils/build-site.mjs";
+import { parse as parseYaml } from "yaml";
+
+import { REQUIRED, SITE_OUT, missingRequired } from "../../utils/build-site.mjs";
 
 /**
  * The site must publish a `404.html`.
@@ -33,8 +35,9 @@ import { REQUIRED, REDIRECTS, missingRequired } from "../../utils/build-site.mjs
  *   not install, so these assertions do not read it — asserting on an absent
  *   directory would fail for the wrong reason.
  * - _This repository_ owns the wording and the routes back, via
- *   `params.notfound` in `kb/hugo.toml`, and owns the deploy that publishes the
- *   artifact.
+ *   `site.notfound` in `package-build.config.yaml` — written into the generated
+ *   Hugo configuration as `params.notfound` — and owns the deploy that
+ *   publishes the artifact.
  *
  * So the assertions below pin what this repository can actually regress: the
  * consumer configuration, the assembly step that refuses to ship a build
@@ -50,29 +53,33 @@ const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..
 const read = (rel: string) => fs.readFileSync(path.join(REPO_ROOT, rel), "utf8");
 
 describe("the /sohl/ site's 404 page", () => {
-    const CONFIG = "kb/hugo.toml";
+    const CONFIG = "package-build.config.yaml";
     const DEPLOY = ".github/workflows/deploy-sohl.yml";
+
+    type NotFound = { tagline?: string; links?: Array<{ url: string }> };
+    const notfound = (): NotFound | undefined =>
+        (parseYaml(read(CONFIG)) as { site?: { notfound?: NotFound } }).site?.notfound;
 
     it("supplies the 404 page's wording, which the theme leaves to us", () => {
         // The theme carries layout, not addresses: it renders generic
         // wording when the consumer supplies none, so an empty section here
         // publishes a page that never names the site.
-        const config = read(CONFIG);
-        expect(config).toMatch(/\[params\.notfound\]/);
-        expect(config).toMatch(/tagline\s*=/);
+        const config = notfound();
+        expect(config).toBeDefined();
+        expect(config?.tagline).toMatch(/\S/);
     });
 
     it("offers at least one route back, so a stale link is not a dead end", () => {
-        expect(read(CONFIG)).toMatch(/\[\[params\.notfound\.links\]\]/);
+        expect(notfound()?.links?.length).toBeGreaterThan(0);
     });
 
     it("routes back to the surfaces this site actually publishes", () => {
         // One 404 page serves the whole of /sohl/, so a reader who mistyped an
         // API address is handed the same file as one who mistyped a
         // knowledgebase address — and it has to offer both.
-        const urls = [...read(CONFIG).matchAll(/^\s*url\s*=\s*"(.*)"$/gm)].map(([, u]) => u);
-        expect(urls).toContain("kb/");
-        expect(urls).toContain("api/");
+        const urls = (notfound()?.links ?? []).map((link) => link.url);
+        expect(urls).toContain("/kb/");
+        expect(urls).toContain("/api/");
     });
 
     it("installs the theme, which is where the template lives", () => {
@@ -128,9 +135,14 @@ describe("assembling the /sohl/ deployment", () => {
         expect(missingRequired("/site", () => true)).toEqual([]);
     });
 
-    it("sends the deployment's own root to the package", () => {
-        // Only reachable at the hosting project's own address; once routing
-        // exists, the site root is a different project's deploy.
-        expect(REDIRECTS.trim()).toBe("/ /sohl/ 302");
+    it("writes the root files the toolchain owns, where Pages reads them", () => {
+        // `_headers` and `_redirects` — the `noindex` on every host-assigned
+        // address, and the prefix root's redirect to the landing — are
+        // `package-build site-root`'s, written beside the prefix. Pages reads
+        // them only from the root of the uploaded directory, so the assembly
+        // has to run the command and the deploy has to upload that directory.
+        const scripts = JSON.parse(read("package.json")).scripts as Record<string, string>;
+        expect(scripts["site:assemble"]).toMatch(/package-build site-root/);
+        expect(read(".github/workflows/deploy-sohl.yml")).toContain(`pages deploy ${SITE_OUT} `);
     });
 });

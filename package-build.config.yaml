@@ -152,11 +152,11 @@ packageBuild:
         # way for the two to disagree.
         - { from: schema.json, to: schema.json }
 
-    # The one genuine piece of code in staging, and it stays this repository's:
-    # every icon's hard-coded fill is rewritten to `currentColor` so the art
-    # follows the Foundry theme. `cypress/e2e/icon-color-scheme.cy.js` is what
-    # proves it reaches the browser.
-    assetTransform: ./utils/svg-theme.mjs
+    # The toolchain's shipped transform: every icon's hard-coded fill is
+    # rewritten to `currentColor` so the art follows the Foundry theme.
+    # `cypress/e2e/icon-color-scheme.cy.js` is what proves it reaches the
+    # browser.
+    assetTransform: svg-theme
 
     lang:
         sources: lang/*.json
@@ -278,22 +278,13 @@ packageBuild:
     manifestFlags: ./utils/manifest-flags.mjs
 
     # The Foundry package manifest, generated into the build stage by
-    # `package-build manifest`. Emitted as declared — `id`, `version`, the four
-    # release addresses, `compatibility` and `packs` are derived and must not
-    # appear here.
+    # `package-build manifest`. Emitted as declared — `id`, `version`,
+    # `description`, `url`, the release addresses, `compatibility` and `packs`
+    # are derived (from `package.json` and this file) and must not appear here.
     #
     # Moved verbatim out of the retired `assets/templates/system.template.json`.
     manifest:
         title: Song of Heroic Lands
-        description:
-            "<p><strong>Song of Heroic Lands: A Gateway to Adventure!</strong> Embark on a journey
-            through a richly detailed fantasy world with Song of Heroic Lands (SoHL)—a game system built to
-            bring your adventures to life in Foundry Virtual Tabletop. Seamlessly compatible with the renowned
-            HârnMaster system, SoHL allows you to experience the intricacies of one of the most immersive
-            and realistic fantasy role-playing systems ever created.</p><p>Designed for both seasoned veterans
-            and new players, SoHL captures the essence of detailed game mechanics while leveraging the power
-            of Foundry VTT to streamline gameplay, enhance storytelling, and immerse you in the lore-rich
-            environment.</p>"
         authors:
             - name: Toasty
               discord: toasty#8538
@@ -437,8 +428,13 @@ publish:
 # How this repository frames the website it publishes. Framing only — how a page
 # gets its *address* is `publish.address` above, shared with the link manifest
 # so the two cannot disagree about where a page is.
+# The Hugo configuration itself is generated into `build/hugo/hugo.toml` on
+# every site build: `baseURL` from `package.json`'s `homepage`, `title` from
+# `packageBuild.manifest.title`, the description and author from `package.json`,
+# the brand links and the header menu from the organisation, and the rest from
+# the keys below. The content mount is `build/hugo/content` and the rendered
+# site lands at `build/site/sohl`, neither of which is a choice.
 site:
-    out: kb/content
     # The root a package-owned image's web address is joined onto:
     # `<assets>/<package>/<suffix>`. Without it a page naming such an image is
     # an error, because the website is the one surface whose address cannot be
@@ -468,6 +464,50 @@ site:
         apiBase: /sohl/api/
         symbolMap: kb/data/api-symbols.json
         blob: https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/blob/main/
+    # This is a reference catalog: a page's shortcode is the identifier the
+    # system uses for that item, so listings show "Name (shortcode)".
+    list:
+        shortcodes: true
+    # The "page not found" page. Its template is the theme's; the wording and
+    # the routes back are this site's. One page covers the whole of /sohl/, so
+    # it names every surface — a reader who mistyped an API address is served
+    # the same file as one who mistyped a knowledgebase address. Each url is
+    # resolved against this site's own base by the template, so it is written
+    # site-relative and picks up the /sohl/ prefix.
+    notfound:
+        heroimage: images/brand/sohl-banner.webp
+        tagline: Song of Heroic Lands has no page at
+        sitenoun: site
+        links:
+            - title: Song of Heroic Lands
+              url: /
+              text: What the system is, and where everything about it lives.
+            - title: Knowledgebase
+              url: /kb/
+              text: Every section, with the full content catalog.
+            - title: API Documentation
+              url: /api/
+              text: Generated reference for the current release.
+            - title: Developer Documentation
+              url: /kb/dev-docs/
+              text: Architecture, extension points, testing, and reference material.
+            - title: User Guide
+              url: /kb/user-guide/
+              text: Player- and GM-facing guides to playing with Song of Heroic Lands.
+            - title: Rules
+              url: /kb/rules/
+              text: Success and opposed tests, injury, healing, shock, bleeding, and trauma.
+    # What the generated Hugo configuration does not write. The catalog layouts
+    # and the TypeDoc symbol map are authored in `kb/`, outside the generated
+    # tree, so Hugo is pointed back at them; both paths are relative to
+    # `build/hugo`. The highlight style is the one the developer docs' code
+    # blocks are styled for.
+    hugo:
+        layoutDir: ../../kb/layouts
+        dataDir: ../../kb/data
+        markup:
+            highlight:
+                style: monokai
     trees:
         - { from: kb/dev-docs, section: dev-docs }
     # Landing title + hero for a section, so a landing matches the home-page

@@ -18,8 +18,9 @@
  * `/sohl/`, and two different builds produce it:
  *
  * - **Hugo** renders the package landing and the knowledgebase into
- *   `build/site/sohl/` (`npm run build:kb` — the prefix comes from `publishDir`
- *   in `kb/hugo.toml`, not from this script).
+ *   `build/site/sohl/` (`npm run build:kb` — the prefix comes from the
+ *   `publishDir` the toolchain generates into `build/hugo/hugo.toml`, not from
+ *   this script).
  * - **TypeDoc** generates the API documentation into `build/docs-html`
  *   (`npm run docs:html`), which is plain HTML with relative links, so it is
  *   mounted here as a static tree at `build/site/sohl/api/`.
@@ -29,6 +30,10 @@
  * it — every link the pages emit is `/sohl/…`, and it resolves against the
  * deployment exactly as it will against www — and it leaves the routing layer
  * a pure path-preserving pass-through with nothing to rewrite.
+ *
+ * The files beside the prefix — the deployment root's `_headers` and
+ * `_redirects` — are the toolchain's: `package-build site-root` writes them,
+ * and `npm run site:assemble` runs it before this script.
  *
  * Usage: node utils/build-site.mjs [--api <dir>]
  */
@@ -79,87 +84,8 @@ export function missingRequired(root, exists = fs.existsSync) {
 }
 
 /**
- * The deployment root's `_redirects`, sending its own root to the package.
- *
- * Only ever consulted at the hosting project's own address: once routing is in
- * place `www.heroiclands.org/` is another project's deploy entirely and
- * never reaches this one. Without it that address answers with the host's bare
- * default page, which is a poor first impression of a deploy whose whole
- * purpose is to be checked there.
- */
-export const REDIRECTS = `/ /${PACKAGE_DIR}/ 302\n`;
-
-/**
- * The namespace the routing layer derives this package's origin in: `/sohl/` is
- * proxied to `https://sohl.pkg.heroiclands.org/sohl/`.
- *
- * A **dedicated** namespace, and {@link HEADERS} depends on it being one — see
- * the third rule there. Changing it would have to be matched in
- * `heroiclands-site`'s router, which derives the same address from the package
- * prefix, and in the `domain-suffix` input of the shared deploy workflow.
- */
-export const ORIGIN_SUFFIX = "pkg.heroiclands.org";
-
-/**
- * The deployment root's `_headers`, marking the hosting project's own
- * addresses `noindex`.
- *
- * A Cloudflare Pages project answers at **three** families of address besides
- * its canonical path on `www.heroiclands.org`: `<project>.pages.dev`, one
- * `<deployment>.<project>.pages.dev` per deployment, and
- * `<package>.{@link ORIGIN_SUFFIX}` — the custom domain the project carries so
- * the routing layer has an origin to fetch. None is advertised, all serve the
- * same pages, and left alone they are indexed and compete with the canonical
- * URL in search results.
- *
- * The third rule covers the address a reader is most plausibly handed:
- * `https://sohl.pkg.heroiclands.org/sohl/` and `https://sohl-kb.pages.dev/sohl/`
- * are the *same deployment* with byte-identical bodies, so without it the
- * host-assigned name answers 200 with no `X-Robots-Tag` and stays indexable.
- *
- * The rules are **scoped to those hostnames**, which is what keeps this file
- * correct for anyone who takes the repository elsewhere: deployed under its own
- * domain the site is indexable, and only the host-assigned addresses are not.
- * `:project`, `:version` and `:package` are Cloudflare's own placeholders — a
- * named wildcard matching exactly **one label**, since the delimiter inside a
- * host is the dot.
- *
- * That single-label rule is also what keeps the canonical address out of the
- * third rule: `:package.pkg.heroiclands.org` requires four labels and a literal
- * `pkg`, so the three-label `www.heroiclands.org` cannot match it. This holds
- * only while {@link ORIGIN_SUFFIX} names a dedicated namespace rather than the
- * domain the canonical site is served from — a consumer whose site is
- * `www.example.net` must not set it to `example.net`, which would match `www`
- * here and equally give the router `/www/` as a package prefix.
- *
- * The hosting cannot tell the routing layer's request apart from a reader's —
- * it is the same URL at the same address — so this header reaches
- * `www.heroiclands.org` too, and the router (`heroiclands-site`, `worker/`,
- * `canonicalHeaders`) removes it there. That is the only place the two
- * addresses are distinguishable, and it is why the third rule carries a risk
- * the first two do not: the router fetches its origin from the custom domain,
- * so the header reaches `www` and the strip is what keeps it off the canonical
- * address. A router pointed back at `<project>.pages.dev` would make the first
- * rule cover it instead.
- *
- * A page that needs `noindex` at *every* address must say so in the document
- * (`<meta name="robots">`), which is body content and is passed through
- * untouched.
- */
-export const HEADERS = [
-    "https://:project.pages.dev/*",
-    "  X-Robots-Tag: noindex",
-    "",
-    "https://:version.:project.pages.dev/*",
-    "  X-Robots-Tag: noindex",
-    "",
-    `https://:package.${ORIGIN_SUFFIX}/*`,
-    "  X-Robots-Tag: noindex",
-    "",
-].join("\n");
-
-/**
- * The origin this deployment is served from. Matches `baseURL` in `kb/hugo.toml`.
+ * The origin this deployment is served from. Matches the generated `baseURL`,
+ * which derives from `package.json`'s `homepage`.
  *
  * Only used to recognise the site's *own* absolute addresses, so that a link
  * can be checked against the tree being assembled rather than over the network.
@@ -319,8 +245,6 @@ function main(argv) {
     // outside /sohl/ — reachable only at the hosting project's own address —
     // answers with a real 404 rather than the host's default page.
     fs.copyFileSync(path.join(pkg, "404.html"), path.join(root, "404.html"));
-    fs.writeFileSync(path.join(root, "_redirects"), REDIRECTS);
-    fs.writeFileSync(path.join(root, "_headers"), HEADERS);
 
     const missing = missingRequired(root);
     if (missing.length) {
