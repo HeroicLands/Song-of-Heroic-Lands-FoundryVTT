@@ -1,16 +1,16 @@
 ---
 type: doc
 subType: reference
+shortcode: itemfrontmatter
 name:
   full: Item Note Frontmatter
-  aliases: []
-shortcode: itemfrontmatter
-description: "The generated per-type field reference for all 13 item types: every `sohl:` field, its shape, requiredness, and default."
 pack: none
+description: >-
+  The generated per-type field reference for all 13 item types: every `sohl:`
+  field, its shape, requiredness, and default.
 sohl:
   kbcat: devdocs
 ---
-
 # Item Note Frontmatter
 
 <!-- AUTO-GENERATED FILE — do not edit by hand.

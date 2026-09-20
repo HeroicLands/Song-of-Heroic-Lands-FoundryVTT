@@ -63,6 +63,12 @@ docs:
     itemFields:
         title: Item Note Frontmatter
         out: assets/content/Dev_Docs/content-creator/item-frontmatter.md
+        # Beyond the note envelope the generator writes: the developer audience
+        # the index tables select on, and the one-line description they show.
+        frontmatter:
+            description: "The generated per-type field reference for all 13 item types: every `sohl:` field, its shape, requiredness, and default."
+            sohl:
+                kbcat: devdocs
         preamble:
             - "See also: [[doc-authoringworkflow|The Authoring Workflow]], [[doc-actornotes|Actor Notes]], [[doc-assetconventions|Asset Conventions]]"
             - ""
@@ -534,10 +540,8 @@ site:
     # *after* `renderPages`; no content note lands at a section, so an entry
     # never overwrites a page.
     #
-    # The developer documentation (`Dev_Docs/`, `sohl.kbcat: devdocs`) has no
-    # entry: an entry lists by `listType` / `listSubType` only, and those
-    # pages share `type: doc` and the three genres with the rest of the tree.
-    # Their index is the `doc-devdocs` note.
+    # The developer documentation has no entry: its index is the `doc-devdocs`
+    # note, a curated page whose lists are content tables.
     sections:
         being: { title: Beings, banner: banners/creature.webp }
         trauma: { title: Trauma, banner: banners/trauma.webp }
