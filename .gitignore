@@ -60,7 +60,6 @@ assets/content/.obsidian/
 
 # Build files
 /build/
-/coverage/
 /css/
 
 # Cypress run artifacts (specs/support/config are committed)

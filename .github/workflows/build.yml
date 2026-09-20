@@ -52,7 +52,7 @@ jobs:
               uses: actions/upload-artifact@v7
               with:
                   name: coverage-report
-                  path: coverage/
+                  path: build/coverage/
 
             - name: Build API documentation
               run: npm run docs:prepare && npm run docs:html
