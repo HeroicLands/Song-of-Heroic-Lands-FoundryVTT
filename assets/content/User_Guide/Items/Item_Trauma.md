@@ -462,9 +462,9 @@ The Pall is expelled, and the Trauma removed, when its Pall Level reaches 0.
 
 A critical failure posts a card titled **Face the Pall**, saying that the Pall cannot be expelled and that the victim must choose one of three fates:
 
-- **Embrace the Pall** — the soul is imprisoned; the body persists as an undead Nightwight.
-- **Vacate the Body** — the soul unanchors into a Shade; the empty body becomes a mindless Helthraal.
-- **Accept True Death** — the soul departs to the afterlife; the body allows only a brief moment as a Helthraal.
+- **Embrace the Pall** — the soul is imprisoned; the body walks on as undead, its own will intact.
+- **Vacate the Body** — the soul unanchors into a Shade; the empty body is left mindless undead for another will to drive.
+- **Accept True Death** — the soul departs to the afterlife; the body yields only a brief moment of control as mindless undead.
 
 **The card has no buttons, and nothing is applied.** This is deliberate. Which fate a character meets is not something software should decide, or even offer as a click — it is the largest decision that will ever be made about that character, and it belongs to their player and the GM. The card exists to put the choice in front of the table, in the victim's own terms, and then get out of the way. Whatever you decide is played out by hand.
 

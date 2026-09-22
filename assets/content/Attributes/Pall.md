@@ -23,7 +23,7 @@ sort: 150
 packFolder: attributes
 ---
 
-The Pall measures the weight of death and chaos that emanates from an undead thing—the corrupting pressure it exerts on the living world simply by existing. Where Aura marks the depth of a living soul, the Pall marks its absence and its unmaking: the raw force of death and chaos that animates the Helspawn and seeps from tainted places and objects. A stronger Pall is at once easier to sense—dread runs ahead of it, and those attuned to the Arcane feel it from afar—and more able to unmake the souls of the living, assailing Spirit and driving the mind toward disturbance, terror, and worse.
+The Pall measures the weight of death and chaos that emanates from an undead thing—the corrupting pressure it exerts on the living world simply by existing. Where Aura marks the depth of a living soul, the Pall marks its absence and its unmaking: the raw force of death and chaos that animates the undead and seeps from tainted places and objects. A stronger Pall is at once easier to sense—dread runs ahead of it, and those attuned to the Arcane feel it from afar—and more able to unmake the souls of the living, assailing Spirit and driving the mind toward disturbance, terror, and worse.
 
 ### Tainted
 
@@ -39,7 +39,7 @@ A malign Pall radiates outward like heat from a forge, palpable ill will that ar
 
 ### Ravening
 
-A ravening Pall is a devouring hunger that tears at every living soul within its reach. The air seems to curdle and darken, light dims, sound flattens, and the mind gropes toward panic of its own accord. Few can stand in its presence without being unmade—reduced to gibbering terror or frozen catatonia—and merely to sense it from afar is to feel one's own soul thinned and drawn toward it. Liches and the mightiest of the Helspawn bear a Pall of this order.
+A ravening Pall is a devouring hunger that tears at every living soul within its reach. The air seems to curdle and darken, light dims, sound flattens, and the mind gropes toward panic of its own accord. Few can stand in its presence without being unmade—reduced to gibbering terror or frozen catatonia—and merely to sense it from afar is to feel one's own soul thinned and drawn toward it. Liches and the mightiest of the undead bear a Pall of this order.
 
 ### Abyssal
 
