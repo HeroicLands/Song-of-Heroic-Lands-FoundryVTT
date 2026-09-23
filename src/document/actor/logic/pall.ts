@@ -204,9 +204,9 @@ export const PALL_RECOVERY_INTERVAL_FORMULA = "1d6 * 86400";
  * the victim's own choice.
  */
 export const PALL_FATE = {
-    /** The soul is imprisoned; the body persists as an undead Nightwight. */
+    /** The soul is imprisoned; the body walks on as undead, its own will intact. */
     EMBRACE: "embrace",
-    /** The soul unanchors into a Shade; the body a mindless Helthraal. */
+    /** The soul unanchors into a Shade; the empty body is left mindless undead. */
     VACATE: "vacate",
     /** The soul departs to the afterlife (True Death). */
     TRUE_DEATH: "truedeath",
