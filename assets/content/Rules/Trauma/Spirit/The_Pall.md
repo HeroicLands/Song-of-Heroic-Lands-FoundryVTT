@@ -8,7 +8,7 @@ packFolder: spirit
 shortcode: thepall
 ---
 
-**The Pall** is the most dangerous [[doc-traumaintro|Trauma]] a character can face. Where other trauma assails Will or Initiative, the Pall tests **Spirit** in a struggle for the character's soul. It emanates from the forces of death and chaos, corrupts mortals into the undead **Helspawn**, can infuse beings and objects alike, and can be summoned by death-cult priests.
+**The Pall** is the most dangerous [[doc-traumaintro|Trauma]] a character can face. Where other trauma assails Will or Initiative, the Pall tests **Spirit** in a struggle for the character's soul. It emanates from the forces of death and chaos, corrupts mortals into the undead, can infuse beings and objects alike, and can be summoned by death-cult priests.
 
 ## Pall Strength
 
@@ -47,9 +47,9 @@ Reaching 0 PSL without ever rolling a CS keeps the condition **permanent**; a si
 
 When the Pall cannot be expelled, it corrupts the body, and the forces of death force the soul into one of three choices — always the victim's to make, since not even death and chaos can _demand_ undeath:
 
-- **Embrace the Pall** — the soul is imprisoned in the shadow region of the Spirit realm; the body persists as an undead **Nightwight**.
-- **Vacate the Body** — the soul unanchors into an active **Shade**; the empty body can be puppeted as a mindless **Helthraal**.
-- **Accept True Death** — the soul departs to the afterlife; the decaying body allows only a brief moment of control as a Helthraal.
+- **Embrace the Pall** — the soul is imprisoned in the shadow region of the Spirit realm; the body walks on as **undead**, its own will intact.
+- **Vacate the Body** — the soul unanchors into an active **Shade**; the empty body is left **mindless undead** for another will to drive.
+- **Accept True Death** — the soul departs to the afterlife; the decaying body yields only a brief moment of control as mindless undead.
 
 ## See also
 
