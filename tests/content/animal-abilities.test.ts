@@ -684,8 +684,8 @@ const CREATURES = path.resolve(__dirname, "../../assets/content/Bestiary");
  * invariants below. Every entry is a real gap, not a permanent exemption:
  * shrink this list, never grow it.
  *
- * `Golem`, `Goblin`, `Grukar` and `Helspawn` carry no `sohl` block at all —
- * they are family overviews rather than statted creatures.
+ * `Golem`, `Goblin` and `Grukar` carry no `sohl` block at all — they are
+ * family overviews rather than statted creatures.
  */
 const NO_ANATOMY_YET = new Set([
     "Constructs/Aegiron_Sentinel",
@@ -694,7 +694,6 @@ const NO_ANATOMY_YET = new Set([
     "Constructs/Terrakith_Sentinel",
     "Folk/Goblin",
     "Folk/Grukar",
-    "Helspawn/Helspawn",
 ]);
 
 /** Creatures with an anatomy but, as yet, no natural weapon of their own. */
