@@ -517,8 +517,8 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
     /**
      * Prepare context for the sheet header.
      * Provides the item name, image, type label, and the bindings for the two
-     * marker controls in the identity block — the archetype marker and the
-     * draft checkbox.
+     * marker controls in the identity block — the archetype marker, and the
+     * draft flag behind the checkbox and the image's outline.
      * @param context - The render context to augment.
      * @param _options - Sheet render options (unused).
      * @returns The context extended with header fields.

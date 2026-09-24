@@ -71,6 +71,10 @@
     // Unscoped for the same reason: a link into a note that exists but is not
     // written yet is marked in the same prose (package-build#183).
     @include meta.load-css("components/draft-link");
+    // Unscoped as well: a draft document's image is outlined on its sheet, in
+    // the sidebar directory and in the compendium browser, and two of those are
+    // Foundry chrome outside the `.sohl` frame.
+    @include meta.load-css("components/draft-mark");
     // Unscoped: the picker dialog is a top-level DialogV2 window (no `.sohl`
     // frame); the file scopes its sheet-control rules to `.sohl` internally.
     @include meta.load-css("components/date-picker");

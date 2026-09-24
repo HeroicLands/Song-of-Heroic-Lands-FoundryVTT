@@ -167,6 +167,26 @@ marker beside it, which is GM-only. A viewer who may not edit the document is
 handed a sheet whose form controls Foundry has disabled, and that is the whole
 rule: whoever can edit the sheet can set the mark.
 
+**Where the flag shows.** A draft document's image carries an amber outline on
+its own sheet, in the sidebar directory and in the compendium browser. One class
+(`sohl-draft`, from {@link sohl.apps.foundry.DRAFT_MARK_CLASS}) and one
+stylesheet rule serve all three, so they cannot drift; the colour is overridable
+as `--sohl-draft-mark-color`.
+
+Two Foundry facts make the directories reachable, and both are worth knowing
+before changing anything there:
+
+- **One render hook covers all three.** ApplicationV2 fires its render hook once
+  for every class in the application's inheritance chain, and `ActorDirectory`,
+  `ItemDirectory` and the compendium browser (`Compendium`) all extend
+  `DocumentDirectory` — so `renderDocumentDirectory` reaches the sidebar and the
+  pack browser in one registration.
+- **A compendium lists index entries, not documents.** A pack index carries
+  `_id`, `name`, `img`, `type`, `sort` and `folder` and nothing else unless a
+  system asks, so `system.isDraft` is registered in `CONFIG.Actor` and
+  `CONFIG.Item` `compendiumIndexFields`. Without that the browser's rows have no
+  flag to read, and reading it would mean loading every document in the pack.
+
 ## Document/DataModel/Logic contract
 
 SoHL separates persistence from behavior:
