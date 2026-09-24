@@ -17,7 +17,7 @@ data:
   templatePriority: null
   gender: male
   age: 30
-  birthday: 690/6/11
+  born: 690/6/11
   height: 1.83
   weight: 82
   frame: heavy

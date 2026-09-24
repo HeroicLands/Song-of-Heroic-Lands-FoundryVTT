@@ -16,7 +16,7 @@ data:
   templatePriority: 1
   gender: male
   age: 20
-  birthday: 700/1/1
+  born: 700/1/1
   height: 1.7
   weight: 68
   frame: medium
