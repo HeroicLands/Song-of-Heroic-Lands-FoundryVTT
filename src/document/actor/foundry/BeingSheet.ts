@@ -1601,7 +1601,13 @@ html, body { margin: 0; padding: 0; background: #fff; }
 
     /**
      * Prepare context for the sheet header: name, image, health, status effects,
-     * body parts, and the draft flag the portrait is outlined by.
+     * body parts, and the draft mark behind the header checkbox and the
+     * portrait's outline.
+     *
+     * A being's name, shortcode and archetype are edited through the identity
+     * dialog behind the header pencil, so this context does not carry them. The
+     * draft mark is not an identity edit — it is state a referee flips in place,
+     * like the status pills in the same row — so it binds here.
      *
      * @param context - The render context to augment.
      * @param _options - The render options (unused).

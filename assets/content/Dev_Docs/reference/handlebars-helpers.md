@@ -99,7 +99,7 @@ given a `DataField` it delegates to `field.toInput` (inheriting the schema's
 **worldTime** field (seconds since the calendar epoch, as in
 `game.time.worldTime`). It renders the current value formatted by the active
 calendar plus a calendar-icon button that opens the picker dialog
-(`data-action="pickDate"` → the sheet's `pickDate` action →
+(`data-action="pickDate"` > the sheet's `pickDate` action >
 {@link sohl.apps.foundry.openDatePickerDialog}). The field **stores and returns
 the numeric worldTime**; only display and editing use calendar format.
 
@@ -112,7 +112,7 @@ The dialog offers a month dropdown, day/year and hour/minute/second inputs, a
 ±N-day stepper (rolling months/years over correctly), **Now** (current world
 time) and **Clear** (empty) buttons, a live preview, and a red
 "Invalid Date Format" message when the parts don't resolve to a real date. The
-worldTime ↔ calendar-parts conversion lives in the Foundry-free
+conversion between worldTime and calendar parts lives in the Foundry-free
 {@link sohl.core.logic.datePartsToWorldTime | date-picker-logic} module.
 
 ```hbs

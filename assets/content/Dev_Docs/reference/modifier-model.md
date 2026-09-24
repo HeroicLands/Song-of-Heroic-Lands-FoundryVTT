@@ -167,14 +167,14 @@ free. The pieces, all on `SkillLogic`:
   infinite charge (`charges.value` disabled) is honored and never decremented. The
   Fate offer is gated on this set being non-empty.
 - **The Fate Test.** {@link sohl.document.item.logic.SkillLogic.fateMasteryLevel | `fateMasteryLevel`}
-  is a `MasteryLevelModifier` seeded at **base 50 + ⌊Aura EML ÷ 2⌋**, gated by the
+  is a `MasteryLevelModifier` seeded at **base 50 + floor(Aura EML ÷ 2)**, gated by the
   `optionFate` world setting (`everyone` / `pconly` / off) and disabled when the
   actor has no Aura. {@link sohl.document.item.logic.SkillLogic.fateTest | `fateTest`}
   rolls it as its own success test (resolved by `getFateDescTable`, `canFate:
 false` so a Fate roll can't itself be fated) — the generic `successTest` path
   again, not a subclass.
-- **Rung → (consume, delta).** The matched **rung** drives the outcome (never
-  `isSuccess`): CF → lose a point, +0; MF → keep, +0; MS → spend, +1; CS → the
+- **Rung > (consume, delta).** The matched **rung** drives the outcome (never
+  `isSuccess`): CF > lose a point, +0; MF > keep, +0; MS > spend, +1; CS > the
   player's **spend (+2) / keep (+1)** choice. A consumed point is decremented from
   one eligible Mystery (the player picks when more than one qualifies, pre-selecting
   the most-restricted so general points are preserved).

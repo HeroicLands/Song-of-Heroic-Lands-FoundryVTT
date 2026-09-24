@@ -34,6 +34,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 <i class="fa-solid fa-circle-question sheet-header__status-legend"
                     data-tooltip="{{localize 'SOHL.Being.StatusLegend'}}"
                     aria-label="{{localize 'SOHL.Being.StatusLegend'}}"></i>
+                {{> draftField isDraft=isDraft}}
             </div>
             <div class="sheet-header__health">
                 <span class="sheet-header__health-label" data-tooltip="{{healthPct}}%">{{localize "Health"}} ·

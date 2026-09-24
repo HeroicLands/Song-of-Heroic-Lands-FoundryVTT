@@ -62,7 +62,7 @@ Automated combat checks these invariants up front and aborts (with a player-faci
 - **Turn gate:** `startAutomatedAttack` aborts when `outOfTurnAttackReason(getActiveCombat()?.combatant?.id, this.combatant?.id)` returns a reason — there is no active combat turn, or the attacker is not the current combatant. Only the current combatant may _start_ an automated attack; out-of-turn defenses (a counterstrike, a Tactical-Advantage follow-up) run through the `automated*Resume` path, not `startAutomatedAttack`, so the gate never blocks them.
 - **Attacker status:** `startAutomatedAttack` (`src/document/combatant/logic/SohlCombatantLogic.ts`) aborts when `attackerBlockingStatus(this.data.statuses, this.data.isDefeated)` (matched against `ATTACK_BLOCKING_STATUSES`) returns a status. The attacker's combat membership is guaranteed by the entry point (`StrikeModeBase.automatedCombatStart` resolves the attacker via `fvttActiveCombatantForActor`; the tracker action is on the combatant itself).
 - **Target validity:** `startAutomatedAttack` resolves the target to a combatant (`fvttActiveCombatantForActor(context.target.actorLogic?.actor)`) — aborting if it isn't one — then aborts when `targetInvalidStatus(...)` (matched against `TARGET_INVALID_STATUSES` = `dead` / `vanquished`) returns a status.
-- **Incapacitated defender → Ignore-only:** `gateAutomatedDefenseButtons` (`src/document/chat/chat-card-gating.ts`), using `DEFENSE_DISABLING_STATUSES` + `hasAnyStatus`. Render-time gating removes Dodge/Block/Counterstrike for an incapacitated defender, leaving Ignore.
+- **Incapacitated defender > Ignore-only:** `gateAutomatedDefenseButtons` (`src/document/chat/chat-card-gating.ts`), using `DEFENSE_DISABLING_STATUSES` + `hasAnyStatus`. Render-time gating removes Dodge/Block/Counterstrike for an incapacitated defender, leaving Ignore.
 
 The status sets and predicates (`outOfTurnAttackReason`, `attackerBlockingStatus`, `targetInvalidStatus`, `hasAnyStatus`) are pure and unit-tested; the resolution/gating that consumes them is Foundry glue. The turn gate applies only to _starting_ an attack: automated and assisted combat can still be freely interleaved, and a defender's counterstrike (or a Tactical-Advantage follow-up) resolves within the attacker's exchange without waiting for the defender's own turn.
 
@@ -223,13 +223,13 @@ agree, and every contribution arrives as a **named delta** (`StrImp`, `OffHnd`,
 The rule itself
 ({@link sohl.entity.strikemode.strengthImpactModifier}) is a closed form rather
 than the published lookup table, so it extends without bound in both directions:
-`⌊(STR − 10) / 2⌋` at STR ≥ 5, and the steeper `2 × STR − 12` below it. It
+`floor((STR − 10) / 2)` at STR ≥ 5, and the steeper `2 × STR − 12` below it. It
 applies to melee modes and thrown weapons only — a launcher firing separate
 ammunition is excluded, as is anything carrying the `noStrMod` trait.
 
 Off-hand determination runs through
 {@link sohl.entity.body.isOffHandGrip}; see
-[[doc-bodystructure#laterality-and-dominance|Body Structure → Laterality and dominance]].
+[[doc-bodystructure#laterality-and-dominance|Body Structure > Laterality and dominance]].
 
 ### Injury resolution {#injury-resolution}
 

@@ -319,7 +319,7 @@ The **logic/domain layer is Foundry-free**, and new logic/domain code must keep 
 that way: never value-import from `**/foundry/**` or other Foundry-coupled modules —
 use `import type`, or add a `fvtt*` shim to `src/core/FoundryHelpers.ts` (plus its
 mock). The boundary, why it holds, and the ESLint + purity guards that enforce it are
-described in [[doc-architecture#logic-layer|Architecture → Logic layer]] —
+described in [[doc-architecture#logic-layer|Architecture > Logic layer]] —
 read it (and [[doc-extensionpoints|Extension Points]]) before changing core
 systems.
 
@@ -363,7 +363,7 @@ against real world data — migrations must never require manual user interventi
   (no line numbers) and name the symbol in prose. **Never** use line-range fragments
   (`#L120-L140`): they rot silently on any edit and duplicate TypeDoc's automatic,
   commit-pinned source links.
-- **JSDoc → doc-page links.** The reverse direction — a **JSDoc comment pointing
+- **JSDoc > doc-page links.** The reverse direction — a **JSDoc comment pointing
   at a concept/reference doc** — links to the doc's **published URL**
   (`https://www.heroiclands.org/sohl/doc-<shortcode>/`, e.g.
   `https://www.heroiclands.org/sohl/doc-securitymodel/`). The
@@ -371,7 +371,7 @@ against real world data — migrations must never require manual user interventi
   so a relative `.md` link from JSDoc has no page to resolve to. `{@link}`
   targets code symbols only, not doc pages. Non-rendered `//` or `/* */`
   comments (which TypeDoc does not emit) may instead cite the repo path
-  `assets/content/Dev_Docs/…​.md`, which a source reader opens directly.
+  `assets/content/Dev_Docs/….md`, which a source reader opens directly.
 - **Stylesheets and markdown are linted, not just formatted.** Prettier owns the
   whitespace of both; `npm run lint:styles` (stylelint) and `npm run lint:markdown`
   (markdownlint) — both part of `npm run lint` — own what it cannot see. In SCSS
@@ -380,7 +380,7 @@ against real world data — migrations must never require manual user interventi
   surface; in markdown it is document structure and links that do not link. Both
   rule sets are deliberately narrow and both configuration files carry the
   rationale per rule — see
-  [[doc-buildanddeployment#what-the-two-linters-check|Build & Deployment → What the two linters check]]
+  [[doc-buildanddeployment#what-the-two-linters-check|Build & Deployment > What the two linters check]]
   before adding to either. A deliberate exception is annotated at the site with a
   `stylelint-disable` comment and its reason, not by switching the rule off.
 - **Localization keys.** Every user-visible string is a key in `lang/en.json`, named
@@ -415,7 +415,7 @@ against real world data — migrations must never require manual user interventi
   distinguishable from _every_ valid value (an optional cap, a die size, an optional
   reference). Always set `initial` explicitly — a bare `new StringField()` is
   non-required and silently initializes to `undefined`, not `""`.
-  - _Optional "not specified" StringField → `null`, not `""`._ For an optional string
+  - _Optional "not specified" StringField > `null`, not `""`._ For an optional string
     that means "unset" when empty (an optional reference/code/UUID, a formula, a
     free-text field where blank and unset coincide), prefer
     `{ nullable: true, blank: false, initial: null }` over an `""` sentinel: `blank:

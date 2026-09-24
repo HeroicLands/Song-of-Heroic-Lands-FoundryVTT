@@ -22,8 +22,30 @@ Every sheet has a header at the top showing:
 - **Image** — click to change the entity's portrait or icon
 - **Name** — click to rename the entity
 - **Type label** — shows what kind of actor or item this is
+- **Draft** — a checkbox marking this entity's content as unfinished
 
 The header is always visible regardless of which tab you're on.
+
+## Marking Something a Draft {#sheets-draft}
+
+**Draft** is your own note that an entity is not settled — half-built, unverified,
+or copied from something you have not finished adapting for your table. Tick the
+box to mark it; clear the box when you are satisfied with it. The mark is saved on
+the entity itself, so it travels with the character or item and every user who can
+see the sheet sees the same mark.
+
+It changes nothing about how the entity behaves: a draft weapon still fights, a
+draft character still rolls. It is a note to you and your players, not a rule.
+
+Two things worth knowing:
+
+- **Anyone who can edit the entity can set it.** If you can change the name on a
+  sheet, you can tick the box; if the sheet is read-only to you, the box is too.
+- **It is separate from any "draft" wording inside the entity's own text.** An
+  entity that arrived from a compendium may say in its description that its
+  content is unfinished. That sentence belongs to whoever wrote it, and clearing
+  the checkbox leaves the sentence alone — edit the description yourself if you
+  want it gone.
 
 # Common Actor Tabs {#sheets-actor-tabs}
 
