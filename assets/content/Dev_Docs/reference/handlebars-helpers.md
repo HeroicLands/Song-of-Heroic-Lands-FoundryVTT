@@ -12,7 +12,7 @@ sohl:
 
 # Handlebars Template Helpers
 
-See also: [[doc-cssarchitecture|CSS Architecture]], [[doc-calendar|Calendar]]
+See also: [[doc-cssarchitecture|CSS Architecture]]
 
 SoHL registers a set of global [Handlebars](https://handlebarsjs.com/) helpers at
 system init (in `registerHandlebarsHelpers`, `src/sohl.ts`). They are available
@@ -126,9 +126,9 @@ conversion between worldTime and calendar parts lives in the Foundry-free
 ### `displayWorldTime`
 
 `{{displayWorldTime value format=…}}` — format a worldTime value (seconds) with
-the active calendar. Read-only (no input); safe on any installed calendar (the
-`sohl.*` formatters degrade gracefully on foreign calendar classes) and returns
-`""` for an empty/non-finite value.
+the active calendar. Read-only (no input); safe on any installed calendar — the
+`sohl.*` formatters read only the base `CalendarData` API — and returns `""` for
+an empty/non-finite value.
 
 | Argument   | Kind       | Description                                                                           |
 | ---------- | ---------- | ------------------------------------------------------------------------------------- |
@@ -141,8 +141,6 @@ the active calendar. Read-only (no input); safe on any installed calendar (the
 {{displayWorldTime t format="sohl.timestamp"}}
 {{displayWorldTime t format="sohl.relative" short=true maxTerms=2}}
 ```
-
-See the [[doc-calendar|Calendar reference]] for the calendar model and formats.
 
 ---
 

@@ -46,7 +46,7 @@ Common extension needs: register new settings, sheets, hooks, or document classe
 
 **Guidelines:** Keep registration logic explicit and centralized. Avoid side-effect imports.
 
-Registration runs in `Hooks.once("init")` (settings, system config, calendars, hooks, combat/time defaults, sheet registration), then `Hooks.once("ready")` (Handlebars helpers, then `SohlSystem.ready = true`). Read `src/sohl.ts` for the authoritative order, and add new registration alongside the existing calls there and in {@link sohl.core.logic.SohlSystem}.
+Registration runs in `Hooks.once("init")` (settings, system config, hooks, combat/time defaults, sheet registration), then `Hooks.once("ready")` (Handlebars helpers, then `SohlSystem.ready = true`). Read `src/sohl.ts` for the authoritative order, and add new registration alongside the existing calls there and in {@link sohl.core.logic.SohlSystem}.
 
 ## 2) Actor and Item type extension {#2-actor-and-item-type-extension}
 
@@ -278,16 +278,7 @@ Extension surfaces:
 All Foundry hook wiring lives in `SohlHookBridge` — do not call `Hooks.on(...)`
 elsewhere for dispatch. See the [[doc-eventqueue|Event Queue Reference]].
 
-## 9) Calendar registration {#9-calendar-registration}
-
-SoHL keeps a registry of calendars that modules can extend; registered calendars
-appear in the GM's calendar settings. The registry API
-(`SohlSystem.registerCalendar` / `unregisterCalendar` / `getCalendar` /
-`applyCalendar` / `calendars`), how to register from a module, and the JSON import
-format are documented in the
-[[doc-calendar#calendar-registry-and-gm-workflow|Calendar Reference]].
-
-## 10) Create-dialog archetypes (`system.templatePriority`) {#10-create-dialog-archetypes-systemtemplatepriority}
+## 9) Create-dialog archetypes (`system.templatePriority`) {#9-create-dialog-archetypes-systemtemplatepriority}
 
 The shared Create dialog (`sohlCreateDialog`, used by both `SohlActor` and
 `SohlItem`) offers an **Archetype** picker that seeds a new document from an

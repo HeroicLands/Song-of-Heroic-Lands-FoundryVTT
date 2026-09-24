@@ -229,8 +229,8 @@ function across the wire, and never by `JSON.parse` + evaluate.
 
 ## Guardrail: HTML rendering / XSS
 
-Author-controlled strings (item/actor/effect names and descriptions, domain and
-calendar names, modifier breakdowns) reach dialogs, sheets, and chat cards.
+Author-controlled strings (item/actor/effect names and descriptions, domain
+names, modifier breakdowns) reach dialogs, sheets, and chat cards.
 
 - **Never interpolate data into Handlebars _template source_.** Building a
   template string with `` `...${item.name}...` `` and then `Handlebars.compile`

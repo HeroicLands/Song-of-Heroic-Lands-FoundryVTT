@@ -12,7 +12,6 @@
  */
 
 import { SOHLCONFIG } from "@src/core/foundry/sohl-config";
-import { DEFAULT_CALENDAR_SHORTCODE } from "@src/core/foundry/builtin-calendars";
 import { migrateWorld } from "@src/core/foundry/migration";
 import { SohlSystem } from "@src/core/logic/SohlSystem";
 import * as documentNs from "@src/document";
@@ -33,7 +32,6 @@ import { CohortDataModel } from "@src/document/actor/foundry/CohortDataModel";
 import { registerCombatTrackerHooks } from "@src/document/combat/combat-tracker-hooks";
 import { registerCombatantConfigHooks } from "@src/document/combatant/combatant-config-hooks";
 import { wireSohlHookBridge } from "@src/core/logic/SohlHookBridge";
-import { CalendarSettingsMenu } from "@src/apps/foundry/CalendarSettingsMenu";
 import { ExpressionLibraryMenu } from "@src/apps/foundry/ExpressionLibraryMenu";
 import { registerCreditsMenu } from "@src/apps/foundry/credits";
 import { registerSystemTours } from "@src/apps/foundry/tours/register-tours";
@@ -222,38 +220,6 @@ function registerSystemSettings() {
         default: "kilometer",
     });
 
-    // Calendar settings
-    game.settings.register("sohl", "activeCalendar", {
-        name: "SOHL.Settings.Calendar.Name",
-        hint: "SOHL.Settings.Calendar.Hint",
-        scope: "world",
-        config: false,
-        type: String,
-        default: DEFAULT_CALENDAR_SHORTCODE,
-        onChange: (value: string): void => {
-            try {
-                SohlSystem.applyCalendar(value);
-            } catch (err) {
-                sohl.log.error(`Failed to apply calendar "${value}":`, err as PlainObject);
-            }
-        },
-    });
-    game.settings.register("sohl", "importedCalendars", {
-        name: "SOHL.Settings.ImportedCalendars.Name",
-        scope: "world",
-        config: false,
-        type: Object,
-        default: {},
-    });
-    game.settings.registerMenu("sohl", "calendarConfig", {
-        name: "SOHL.Settings.CalendarConfig.Name",
-        label: "SOHL.Settings.CalendarConfig.Label",
-        hint: "SOHL.Settings.CalendarConfig.Hint",
-        icon: "fa-solid fa-calendar",
-        type: CalendarSettingsMenu as any,
-        restricted: true,
-    });
-
     // Expression helper library settings. The parsed custom-helper map and the
     // chosen file path are persisted so helpers reload on world start.
     game.settings.register("sohl", "expressionHelpers", {
@@ -281,19 +247,6 @@ function registerSystemSettings() {
 }
 
 /**
- * Rehydrate imported calendars from the world setting into the registry.
- */
-function rehydrateCalendars(): void {
-    const imported = game.settings.get("sohl", "importedCalendars") as Record<string, any>;
-    for (const [id, reg] of Object.entries(imported)) {
-        SohlSystem.registerCalendar(id, {
-            ...reg,
-            builtin: false,
-        });
-    }
-}
-
-/**
  * Load the world's persisted custom expression helpers into the global
  * registry at world start. Reads the `expressionHelpers` world setting (a map
  * of helper name → `{ args?, body }`) and installs each; invalid entries are
@@ -310,20 +263,6 @@ function rehydrateExpressionHelpers(): void {
         }
     }
     sohl.log.info(`SoHL | Loaded ${installed.length} custom expression helper(s).`);
-}
-
-/**
- * Apply the active calendar from settings to CONFIG.time.
- */
-function applyActiveCalendar(): void {
-    const activeId = game.settings.get("sohl", "activeCalendar") as string;
-    const cal = SohlSystem.getCalendar(activeId);
-    if (cal) {
-        SohlSystem.applyCalendar(activeId);
-    } else {
-        console.warn(`SoHL | Calendar "${activeId}" not found, falling back to default`);
-        SohlSystem.applyCalendar(DEFAULT_CALENDAR_SHORTCODE);
-    }
 }
 
 /**
@@ -501,8 +440,6 @@ function registerSystemHooks() {
     system.utils = utilsNs;
     globalThis.sohl = system as unknown as SohlSystem;
 
-    rehydrateCalendars();
-    applyActiveCalendar();
     rehydrateExpressionHelpers();
     sohl.log.setLogThreshold((game as any).settings.get("sohl", "logLevel") || LOGLEVEL.INFO);
     registerSystemHooks();
@@ -639,9 +576,8 @@ function registerHandlebarsHelpers() {
 
     /**
      * Format a world time (seconds, as in `game.time.worldTime`) using the
-     * active calendar. Safe to call regardless of which calendar (SoHL's or a
-     * module's) is currently installed — the `sohl.*` formatters degrade
-     * gracefully on foreign calendar classes.
+     * active calendar. Safe to call whichever calendar is installed — the
+     * `sohl.*` formatters read only the base `CalendarData` API.
      *
      * @example
      * ```hbs

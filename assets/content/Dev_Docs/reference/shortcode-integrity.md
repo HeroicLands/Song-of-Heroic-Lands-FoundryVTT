@@ -255,7 +255,7 @@ operation field, so typed call sites cast the options object.
 - **Stay strict** (reject on collision) — the human Create dialog, which instead
   pre-resolves a unique shortcode and **live-checks** the field, disabling **Create**
   until it is unique (warning key `SOHL.CreateDocument.duplicateShortcode`). See
-  [[doc-extensionpoints|Extension Points §10]].
+  [[doc-extensionpoints|Extension Points §9]].
 
 ## A shortcode is half of the published URL
 

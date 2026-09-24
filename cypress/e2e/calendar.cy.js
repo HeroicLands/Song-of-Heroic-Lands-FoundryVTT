@@ -12,71 +12,58 @@
  */
 
 /**
- * Calendar read / advance / format.
+ * World time read / advance / format.
  *
- * The SoHL world calendar is a `SohlCalendarData` (a `foundry.data.CalendarData`
- * subclass) exposed at `sohl.calendar` (`SohlSystem.calendar` → `game.time.calendar`).
- * It adds an era model (`eraYear`/`eraAbbrev`/`beforeEra`) on top of Foundry's
- * year/month/day schema and registers three formatters in `CONFIG.time.formatters`:
- * `sohl.timestamp`, `sohl.default`, `sohl.relative` (`src/core/logic/sohl-calendar-logic.ts`).
+ * The world calendar is whichever `foundry.data.CalendarData` the world has
+ * installed, exposed at `sohl.calendar` (`SohlSystem.calendar` →
+ * `game.time.calendar`). SoHL contributes three formatters to
+ * `CONFIG.time.formatters` — `sohl.timestamp`, `sohl.default` and
+ * `sohl.relative` (`src/core/logic/sohl-calendar-logic.ts`) — which read only
+ * the base `CalendarData` API and so work against any calendar.
  *
  * World time is advanced with Foundry core (`game.time.advance(seconds)`); the
  * system only listens via the `updateWorldTime` hook, so there is no
- * system-specific advance mutator. Fully GREEN — the calendar is implemented
- * over Foundry core.
+ * system-specific advance mutator. Fully GREEN.
  */
 
 const DAY = 24 * 60 * 60;
 const HOUR = 60 * 60;
 
-describe("calendar read / advance / format", () => {
+describe("world time read / advance / format", () => {
     before(() => cy.login().then(() => cy.cleanupWorld()));
     afterEach(() => cy.cleanupWorld());
 
     // -------------------------------------------------------------------- read
 
-    it("exposes the SoHL calendar via sohl.calendar", () => {
+    it("exposes the world calendar via sohl.calendar", () => {
         cy.foundry((win) => ({
             hasCalendar: !!win.sohl.calendar,
-            isSohl: win.sohl.calendar?.isSohlCalendar,
             sameAsGameTime: win.sohl.calendar === win.game.time.calendar,
+            hasMonths: (win.sohl.calendar?.months?.values?.length ?? 0) > 0,
         })).should((r) => {
             expect(r.hasCalendar, "sohl.calendar present").to.be.true;
-            expect(r.isSohl, "isSohlCalendar").to.be.true;
             expect(r.sameAsGameTime, "returns game.time.calendar").to.be.true;
+            expect(r.hasMonths, "calendar carries months").to.be.true;
         });
     });
 
-    it("worldDate decomposes the current world time with era components", () => {
-        cy.foundry((win) => {
-            const wd = win.sohl.calendar.worldDate;
-            return {
-                keys: Object.keys(wd),
-                eraYear: wd.eraYear,
-                eraAbbrev: wd.eraAbbrev,
-                eraName: wd.eraName,
-                beforeEra: wd.beforeEra,
-                // Round-trip: components → time should equal the current worldTime.
-                roundTrip: win.game.time.calendar.componentsToTime(wd),
-                worldTime: win.game.time.worldTime,
-            };
-        }).should((r) => {
-            expect(r.keys, "era component fields present").to.include.members([
-                "eraYear",
-                "eraAbbrev",
-                "eraName",
-                "beforeEra",
+    it("registers only the three sohl formatters on CONFIG.time", () => {
+        cy.foundry((win) => ({
+            formatters: Object.keys(win.CONFIG.time.formatters ?? {}).filter((k) =>
+                k.startsWith("sohl."),
+            ),
+        })).should((r) => {
+            expect(r.formatters.sort(), "sohl formatters").to.deep.eq([
+                "sohl.default",
+                "sohl.relative",
+                "sohl.timestamp",
             ]);
-            expect(r.eraYear, "eraYear is a number").to.be.a("number");
-            expect(r.eraAbbrev, "eraAbbrev non-empty").to.be.a("string").and.not.be.empty;
-            expect(r.beforeEra, "beforeEra is boolean").to.be.a("boolean");
-            expect(r.roundTrip, "worldDate round-trips to worldTime").to.eq(r.worldTime);
         });
     });
 
     // ----------------------------------------------------------------- advance
 
-    it("advancing world time moves worldTime and worldDate by the delta", () => {
+    it("advancing world time moves worldTime and the calendar date by the delta", () => {
         cy.foundry(async (win) => {
             const cal = win.game.time.calendar;
             const before = win.game.time.worldTime;
@@ -100,14 +87,14 @@ describe("calendar read / advance / format", () => {
             return result;
         }).should((r) => {
             expect(r.delta, "worldTime advanced one day").to.eq(DAY);
-            expect(r.dateDelta, "worldDate advanced one day").to.eq(DAY);
+            expect(r.dateDelta, "calendar date advanced one day").to.eq(DAY);
             expect(r.sameDay, "calendar day changed").to.be.false;
         });
     });
 
     // ----------------------------------------------------------------- format
 
-    it("formats the current time as a SoHL timestamp and default string", () => {
+    it("formats the current time as a timestamp and a default string", () => {
         cy.foundry((win) => {
             const cal = win.game.time.calendar;
             const comp = cal.timeToComponents(win.game.time.worldTime);
@@ -116,16 +103,16 @@ describe("calendar read / advance / format", () => {
                 def: cal.format(comp, "sohl.default"),
             };
         }).should((r) => {
-            // " 0722-04-15 14:30:00" — leading era sign, zero-padded date/time.
+            // "0722-04-15 14:30:00" — zero-padded date and time.
             expect(r.timestamp, "sohl.timestamp shape").to.match(
-                /^[ -]\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/,
+                /^-?\d{4,}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/,
             );
-            // "<day> <month> <eraYear><eraAbbr> HH:MM:SS" — e.g. "15 Highsun 722TR
-            // 14:30:00". The month name and era abbreviation are i18n keys here:
-            // the headless container has no lang pack loaded, so they render as
-            // the raw keys rather than localized text. Assert the structure, which
-            // is what the formatter is responsible for, not the localization.
-            expect(r.def, "sohl.default shape").to.match(/^\d{1,2} \S+ \d+\S+ \d{2}:\d{2}:\d{2}$/);
+            // "<day> <month> <year> HH:MM:SS" — e.g. "15 January 2024 14:30:00".
+            // The month name may be an i18n key: the headless container has no
+            // lang pack loaded, so a key renders as itself rather than localized
+            // text. Assert the structure, which is what the formatter is
+            // responsible for, not the localization.
+            expect(r.def, "sohl.default shape").to.match(/^\d{1,2} \S+ -?\d+ \d{2}:\d{2}:\d{2}$/);
         });
     });
 
