@@ -16,7 +16,7 @@ data:
   templatePriority: null
   gender: male
   age: 34
-  birthday: 686/4/2
+  born: 686/4/2
   height: 1.8
   weight: 67
   frame: medium
