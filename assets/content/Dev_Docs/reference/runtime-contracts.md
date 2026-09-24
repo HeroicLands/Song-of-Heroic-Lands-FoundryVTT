@@ -135,6 +135,26 @@ when a document is copied verbatim (Import, Duplicate); the clear lives at those
 specific entry points and **never** in `_preCreate` (which cannot tell the two
 apart).
 
+### The draft flag (`system.isDraft`)
+
+| Field            | Type      | On           | Meaning                                                                                                 |
+| ---------------- | --------- | ------------ | ------------------------------------------------------------------------------------------------------- |
+| `system.isDraft` | `boolean` | Actor / Item | Marks the document's content as unfinished, so a sheet or a directory can say the entry is not settled. |
+
+Declared once, on the shared base schema (`defineSohlDataSchema`), so it reaches
+every Actor, Item and Combatant subtype without a subtype restating it.
+
+**Two states, not three.** The field is a `BooleanField` with an explicit
+`initial: false` and is **not** nullable: "unset" and "not a draft" are the same
+condition, and no reader distinguishes them, so `false` carries both. A
+`nullable` declaration would invent a third state nothing can act on.
+
+**A document's flag is independent of the prose it was compiled with.** A being
+whose source note is unfinished also carries a notice in `system.dossier` — that
+sentence is what the author published, while `isDraft` is the referee's own
+judgement about their world. Clearing the flag leaves the sentence, and that is
+deliberate; the two are never derived from one another at runtime.
+
 ## Document/DataModel/Logic contract
 
 SoHL separates persistence from behavior:

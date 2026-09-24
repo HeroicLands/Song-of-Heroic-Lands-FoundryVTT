@@ -185,6 +185,32 @@ Unlike a removal, this payload is conditional — a document already carrying a
 valid value is left alone and never written. `0.9.0` (affiliation `subType`)
 is the worked example.
 
+### Adding a field that has an `initial`
+
+The cheap case, and the one that needs no migrator at all. A field declared with
+an `initial` gets that value the moment Foundry constructs a document, whether or
+not the stored record holds the key — so every reader sees the right value with
+nothing written, and a migrator that stamped the default would rewrite the whole
+world to no effect.
+
+Register the step anyway, with a `description` and no `migrators`. A schema field
+is never added without a registry entry: the entry is what records at which
+version the field arrives, and the planner and the runner both handle a step that
+touches no document kind. The value reaches the stored record the next time the
+document is written at all — including by any other step in the same release that
+hands back a whole `system` object.
+
+```ts
+const example: MigrationStep = {
+  version: "0.8.0",
+  description:
+    "Record the new system.isDraft flag. Declared with initial: false, so " +
+    "Foundry supplies the value at construction and no document changes.",
+};
+```
+
+`0.9.0` (`system.isDraft`) is the worked example.
+
 ## Resilience
 
 Each document update is wrapped: a single failing document is logged and counted,

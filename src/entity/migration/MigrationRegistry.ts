@@ -292,6 +292,15 @@ export const SOHL_MIGRATIONS: readonly MigrationStep[] = Object.freeze([
             Item: alphanumericShortcode,
         },
     },
+    {
+        version: "0.9.0",
+        description:
+            "Record the system.isDraft flag on every Actor and Item. The field " +
+            "is declared with initial: false, so Foundry supplies the value at " +
+            "construction and no document needs changing; the whole-system " +
+            "rewrite the other steps at this version perform is what persists " +
+            "it into the stored record.",
+    },
 ]);
 
 /**
