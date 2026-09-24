@@ -155,6 +155,19 @@ sentence is what the author published, while `isDraft` is the referee's own
 judgement about their world. Clearing the flag leaves the sentence, and that is
 deliberate; the two are never derived from one another at runtime.
 
+**Where a referee sets it.** The identity block of every Actor and Item sheet
+header carries a **Draft** checkbox, rendered from the shared `draftField`
+partial ({@link sohl.utils.DRAFT_FIELD_PARTIAL}) and bound straight to
+`system.isDraft`. It is an ordinary form control on a `submitOnChange` sheet, so
+ticking it saves; the beings' header carries the same control even though a
+being's name and shortcode are edited through the identity dialog, because the
+mark is state a referee reads at a glance rather than an identity edit.
+
+The control carries **no permission gate of its own** — unlike the archetype
+marker beside it, which is GM-only. A viewer who may not edit the document is
+handed a sheet whose form controls Foundry has disabled, and that is the whole
+rule: whoever can edit the sheet can set the mark.
+
 ## Document/DataModel/Logic contract
 
 SoHL separates persistence from behavior:

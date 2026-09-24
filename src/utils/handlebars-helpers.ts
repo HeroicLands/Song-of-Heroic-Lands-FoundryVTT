@@ -149,6 +149,36 @@ export const ARCHETYPE_FIELD_PARTIAL = `{{#if canMarkArchetype}}
 </label>
 {{/if}}`;
 
+/** Name of the shared draft-marker field partial ({@link DRAFT_FIELD_PARTIAL}). */
+export const DRAFT_FIELD_PARTIAL_NAME = "draftField";
+
+/**
+ * The reusable **draft-marker** control, registered as the named partial
+ * `draftField` and rendered in the identity block of every Actor and Item sheet
+ * header. It binds `system.isDraft` — the referee's own judgement that this
+ * document's content is unfinished.
+ *
+ * An ordinary checkbox: Foundry's `FormDataExtended` reads a checkbox with no
+ * `value` attribute as a boolean from its checked state, so both states are
+ * submitted and clearing the box writes `false`. The sheet's `submitOnChange`
+ * saves it the moment it is clicked.
+ *
+ * The control carries no permission gate of its own. A viewer who may not edit
+ * the document gets a sheet whose form controls Foundry has disabled, which is
+ * the same rule every other field on the header follows.
+ *
+ * The mark is independent of the notice a compiled document carries in its
+ * prose: clearing the box leaves that sentence alone, because the sentence is
+ * the author's text and the box is this table's judgement.
+ *
+ * Invocation context:
+ * - `isDraft` — the current `system.isDraft`.
+ */
+export const DRAFT_FIELD_PARTIAL = `<label class="sheet-header__draft" data-tooltip="{{localize "SOHL.Draft.hint"}}">
+    <input class="sheet-header__draft-input" type="checkbox" name="system.isDraft" {{checked isDraft}} />
+    <span class="sheet-header__draft-label">{{localize "SOHL.Draft.label"}}</span>
+</label>`;
+
 /** Name of the shared SafeExpression field partial ({@link EXPRESSION_FIELD_PARTIAL}). */
 export const EXPRESSION_FIELD_PARTIAL_NAME = "expressionField";
 
@@ -185,8 +215,9 @@ export const EXPRESSION_FIELD_PARTIAL = `<div class="expression-field">
  * `toJSON`, `toLowerCase`, `arrayToString`, `injurySeverity`, `array`, and the
  * `shortcodeRefField` ({@link SHORTCODE_REF_PARTIAL}), `expressionField`
  * ({@link EXPRESSION_FIELD_PARTIAL}), `sharedWithCohortsField`
- * ({@link SHARED_COHORTS_PARTIAL}), and `archetypeField`
- * ({@link ARCHETYPE_FIELD_PARTIAL}) partials.
+ * ({@link SHARED_COHORTS_PARTIAL}), `archetypeField`
+ * ({@link ARCHETYPE_FIELD_PARTIAL}), and `draftField`
+ * ({@link DRAFT_FIELD_PARTIAL}) partials.
  *
  * @param H - The Handlebars instance to register onto (Foundry's global, or the
  *   `handlebars` package in tests).
@@ -301,4 +332,5 @@ export function registerPureHandlebarsHelpers(H: HandlebarsLike): void {
     H.registerPartial(EXPRESSION_FIELD_PARTIAL_NAME, EXPRESSION_FIELD_PARTIAL);
     H.registerPartial(SHARED_COHORTS_PARTIAL_NAME, SHARED_COHORTS_PARTIAL);
     H.registerPartial(ARCHETYPE_FIELD_PARTIAL_NAME, ARCHETYPE_FIELD_PARTIAL);
+    H.registerPartial(DRAFT_FIELD_PARTIAL_NAME, DRAFT_FIELD_PARTIAL);
 }
