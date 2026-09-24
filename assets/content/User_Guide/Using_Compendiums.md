@@ -74,6 +74,21 @@ Contains reference documentation, including this user guide.
 2. Click a compendium pack to open it.
 3. Browse or search the contents.
 
+### Drafts Are Outlined {#compendium-drafts}
+
+An entry whose content is unfinished is marked a **draft**, and its picture
+carries an amber ring — in the compendium you are browsing, in the Actors and
+Items tabs of the sidebar, and on the entry's own sheet. The ring is the same
+everywhere, so an entry you have already imported still reads as unsettled in
+the sidebar.
+
+It is a caution, not a restriction: a draft entry imports, opens and plays
+exactly like any other. Take it as "check this before you lean on it." Anything
+without a ring carries no claim either way — most entries are simply finished.
+
+The ring follows the entry's own **Draft** setting, so clearing that setting on a
+copy in your world removes the ring from your copy.
+
 ## Importing to Your World
 
 There are several ways to get compendium content into your world:

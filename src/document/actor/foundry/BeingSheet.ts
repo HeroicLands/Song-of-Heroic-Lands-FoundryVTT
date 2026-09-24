@@ -1600,7 +1600,8 @@ html, body { margin: 0; padding: 0; background: #fff; }
     /* -------------------------------------------- */
 
     /**
-     * Prepare context for the sheet header: name, image, health, status effects, body parts.
+     * Prepare context for the sheet header: name, image, health, status effects,
+     * body parts, and the draft flag the portrait is outlined by.
      *
      * @param context - The render context to augment.
      * @param _options - The render options (unused).
@@ -1680,6 +1681,7 @@ html, body { margin: 0; padding: 0; background: #fff; }
             shockState: logic?.shockState,
             statusEffects,
             bodyParts,
+            isDraft: (actor.system as any)?.isDraft ?? false,
         });
     }
 

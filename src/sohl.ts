@@ -32,6 +32,7 @@ import {
 import { CohortDataModel } from "@src/document/actor/foundry/CohortDataModel";
 import { registerCombatTrackerHooks } from "@src/document/combat/combat-tracker-hooks";
 import { registerCombatantConfigHooks } from "@src/document/combatant/combatant-config-hooks";
+import { registerDraftMarkHooks } from "@src/apps/foundry/draft-marks";
 import { wireSohlHookBridge } from "@src/core/logic/SohlHookBridge";
 import { CalendarSettingsMenu } from "@src/apps/foundry/CalendarSettingsMenu";
 import { ExpressionLibraryMenu } from "@src/apps/foundry/ExpressionLibraryMenu";
@@ -327,12 +328,16 @@ function applyActiveCalendar(): void {
 }
 
 /**
- * Wires SoHL combat-tracker hooks and bridges Foundry's lifecycle hooks
- * to SoHL trigger dispatches.
+ * Wires SoHL combat-tracker and draft-mark hooks and bridges Foundry's lifecycle
+ * hooks to SoHL trigger dispatches.
  */
 function registerSystemHooks() {
     registerCombatTrackerHooks();
     registerCombatantConfigHooks();
+
+    // Outline a draft document's image on its sheet, in the sidebar directory
+    // and in the compendium browser.
+    registerDraftMarkHooks();
 
     // Translate Foundry's built-in lifecycle hooks (updateWorldTime,
     // combatStart, combatRound, combatTurn, deleteCombat) into SoHL

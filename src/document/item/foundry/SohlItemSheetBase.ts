@@ -516,8 +516,8 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
 
     /**
      * Prepare context for the sheet header.
-     * Provides the item name, image, type label, and the archetype-marker
-     * control's binding.
+     * Provides the item name, image, type label, the archetype-marker control's
+     * binding, and the draft flag the image is outlined by.
      * @param context - The render context to augment.
      * @param _options - Sheet render options (unused).
      * @returns The context extended with header fields.
@@ -533,6 +533,7 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
             typeLabel: this.document.logic?.typeLabel,
             templatePriority: (this.document.system as any)?.templatePriority ?? null,
             canMarkArchetype: canMarkArchetype(fvttIsCurrentUserGM(), this.document.isEmbedded),
+            isDraft: (this.document.system as any)?.isDraft ?? false,
         });
     }
 

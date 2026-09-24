@@ -1,0 +1,31 @@
+// Draft mark — the outline a document's image carries while `system.isDraft`
+// is set: on its own sheet header, in the sidebar directory, and in the
+// compendium browser.
+//
+// One rule for all three. The class is written into the sheet header templates
+// and onto directory rows by the render hook (`src/apps/foundry/draft-marks.ts`),
+// so every place draws the same ring and none of them can drift.
+//
+// Unscoped for the same reason as `_draft-link.scss`: the sidebar and the
+// compendium browser are Foundry chrome, outside the `.sohl` frame.
+//
+// **The amber is the draft amber this system already uses** for a link into a
+// note that is not written yet, so "unfinished" reads one way everywhere. It is
+// deliberately not `--sohl-color-warning`, which says *caution* on a sheet and
+// measures only 2.4:1 against the light sidebar's parchment — below the 3:1 a
+// graphical mark owes a reader. Measured against the grounds this actually
+// lands on: 4.6:1 on the light sidebar parchment and 11.2:1 on the dark one,
+// 5.8:1 and 9.8:1 on the light and dark sheet.
+//
+// `light-dark()` rather than a media query, because Foundry drives its themes
+// through `color-scheme`, so the ring follows the user's chosen theme in the
+// sidebar and the sheet alike.
+//
+// `outline` rather than `border`, and drawn *inside* the image with a negative
+// offset: an outline reserves no space, so a marked image neither grows nor
+// shifts the row beside it, and pulling it inward keeps the ring clear of the
+// clipping a dense directory row applies to what overflows it.
+.sohl-draft {
+    outline: 2px solid var(--sohl-draft-mark-color, light-dark(#805500, #f2b950));
+    outline-offset: -2px;
+}

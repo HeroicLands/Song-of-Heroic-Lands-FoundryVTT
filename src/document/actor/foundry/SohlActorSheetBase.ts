@@ -433,8 +433,8 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
 
     /**
      * Build the `header` part's render context: the actor's name, profile art,
-     * localized type label, and the archetype-marker control's binding, which
-     * every actor header template binds. Subclasses override to
+     * localized type label, the archetype-marker control's binding, and the
+     * draft flag its portrait is outlined by. Subclasses override to
      * add their own header content (a being's health bar, status pills, and
      * body-part lozenges, for instance).
      * @param context - The in-progress render context.
@@ -452,6 +452,7 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
             typeLabel: sohl.i18n.localize(`TYPES.Actor.${actor.type}`),
             templatePriority: (actor.system as any)?.templatePriority ?? null,
             canMarkArchetype: canMarkArchetype(fvttIsCurrentUserGM(), actor.isEmbedded),
+            isDraft: (actor.system as any)?.isDraft ?? false,
         });
     }
 

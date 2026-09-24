@@ -21,7 +21,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 <header class="sheet-header">
     <div class="sheet-header__main flexrow">
-        <img class="sheet-header__portrait" src="{{actorImg}}" data-edit="img" alt="{{actorName}}" />
+        <img class="sheet-header__portrait{{#if isDraft}} sohl-draft{{/if}}" src="{{actorImg}}" data-edit="img" alt="{{actorName}}" />
         <div class="sheet-header__details">
             <div class="sheet-header__identity">
                 <h1 class="sheet-header__name">{{actorName}}</h1>
