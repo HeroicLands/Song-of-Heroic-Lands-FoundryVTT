@@ -105,7 +105,7 @@ Two reasons this is easy to miss:
 
 | Field                     | Type             | On           | Meaning                                                                                                                                                                                                                                                                           |
 | ------------------------- | ---------------- | ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `system.templatePriority` | `number \| null` | Actor / Item | Marks the document as a Create-dialog **archetype** (a populated starting template) and carries its **priority**. `null` means "not an archetype". See [[doc-extensionpoints#10-create-dialog-archetypes-systemtemplatepriority \| Extension Points → Create-dialog archetypes]]. |
+| `system.templatePriority` | `number \| null` | Actor / Item | Marks the document as a Create-dialog **archetype** (a populated starting template) and carries its **priority**. `null` means "not an archetype". See [[doc-extensionpoints#10-create-dialog-archetypes-systemtemplatepriority \| Extension Points > Create-dialog archetypes]]. |
 
 Declared once, on the shared base schema (`defineSohlDataSchema`), so it reaches
 every Actor, Item and Combatant subtype. It is a schema field rather than a
@@ -314,7 +314,7 @@ Which one to use depends on _whether you are inside or outside SoHL_:
 
 Both mechanisms read the identical backing record, so an override registered via `sohl.entity.register` is honored no matter which one constructs the object.
 
-**The barrel vs. the leaf.** `registry.ts` is an _eager-load barrel_: its side-effect imports pull in every class module so all self-register, and it re-exports the surface. Most internal code imports `entity` from the barrel. But a class that is _itself the base of a registered class_ cannot import the barrel — the barrel eagerly imports that class's own subclasses, so a re-entrant load would evaluate `class Sub extends Base` while `Base` is still mid-load → `TypeError: Class extends value undefined`. Those base classes (`ValueModifier`, `MasteryLevelModifier`, `SuccessTestResult`, `OpposedTestResult`, `StrikeModeBase`) import `entity` from the **cycle-free leaf** `entityRegistry.ts` instead, and add a bare side-effect `import` of each class they construct so those targets self-register even when the barrel has not been loaded (e.g. in a bare unit test). Each carries a header block explaining this.
+**The barrel vs. the leaf.** `registry.ts` is an _eager-load barrel_: its side-effect imports pull in every class module so all self-register, and it re-exports the surface. Most internal code imports `entity` from the barrel. But a class that is _itself the base of a registered class_ cannot import the barrel — the barrel eagerly imports that class's own subclasses, so a re-entrant load would evaluate `class Sub extends Base` while `Base` is still mid-load > `TypeError: Class extends value undefined`. Those base classes (`ValueModifier`, `MasteryLevelModifier`, `SuccessTestResult`, `OpposedTestResult`, `StrikeModeBase`) import `entity` from the **cycle-free leaf** `entityRegistry.ts` instead, and add a bare side-effect `import` of each class they construct so those targets self-register even when the barrel has not been loaded (e.g. in a bare unit test). Each carries a header block explaining this.
 
 ### Enforcement
 
@@ -360,4 +360,4 @@ An action's `scope` travels as one serialized `data-scope` blob, not a spray of 
 
 ## Safe extension checklist
 
-To add a new actor or item type, follow the worked example in [[doc-extensionpoints#2-actor-and-item-type-extension|Extension Points — Actor and Item type extension]]: add the kind constant + metadata → data model + logic + sheet → register in `SohlSystem` → verify `fromData(...)`/drag-drop/sheet contexts resolve → validate startup.
+To add a new actor or item type, follow the worked example in [[doc-extensionpoints#2-actor-and-item-type-extension|Extension Points — Actor and Item type extension]]: add the kind constant + metadata > data model + logic + sheet > register in `SohlSystem` > verify `fromData(...)`/drag-drop/sheet contexts resolve > validate startup.

@@ -27,9 +27,9 @@ See also: [[doc-modifiermodel|Modifier Model]], [[doc-extensionpoints|Extension 
 
 - Extends Foundry `ActiveEffect`.
 - Exposes convenience accessors:
-  - `logic` → typed `SohlEffectData`
-  - `item` → parent item (when effect is item-owned)
-  - `actor` → owning actor fallback
+  - `logic` > typed `SohlEffectData`
+  - `item` > parent item (when effect is item-owned)
+  - `actor` > owning actor fallback
 - Delegates context-menu entries to logic (`_getContextOptions`).
 
 ### `SohlEffectData`
@@ -49,9 +49,9 @@ Foundry's baseline ActiveEffect model operates on the embedded owner document. S
 This behavior is driven by two fields on `SohlActiveEffectDataModel`:
 
 - `scope`
-  - `"this"` → apply changes to the document where the effect is embedded (item or actor).
-  - `"actor"` → apply changes to the owning actor.
-  - `<itemKind>` (e.g. `"skill"`, `"trauma"`, `"weapongear"`, etc.) → apply to every item of that kind on the owning actor, filtered by the `test` predicate. **Scope determines the EFFECT_KEY namespace shown in the changes UI**, so the set of available keys is always known ahead of time.
+  - `"this"` > apply changes to the document where the effect is embedded (item or actor).
+  - `"actor"` > apply changes to the owning actor.
+  - `<itemKind>` (e.g. `"skill"`, `"trauma"`, `"weapongear"`, etc.) > apply to every item of that kind on the owning actor, filtered by the `test` predicate. **Scope determines the EFFECT_KEY namespace shown in the changes UI**, so the set of available keys is always known ahead of time.
 - `test`
   - Optional {@link sohl.entity.expr.SafeExpression}. When `scope` is an item-kind, this predicate narrows the matched items. Variable binding: `item`. Empty `test` matches every item of that kind.
 
@@ -161,7 +161,7 @@ When writing effect code, always use the v14 API. Do not use deprecated v13 patt
 
 ## Current boundaries
 
-- There is no single centralized effects→modifiers transformer in one file.
+- There is no single centralized effects-to-modifiers transformer in one file.
 - Effects participate through document prep + logic usage patterns.
 - Any cross-cutting effect mechanics should be introduced through explicit logic entry points, not hidden template-side calculations.
 - Regex-based targeting should be kept narrow and intentional to avoid accidentally affecting broad item sets.

@@ -16,7 +16,7 @@ Everything you need to take Song of Heroic Lands (SoHL) from a fresh clone to a
 running Foundry instance and a published release: environment setup, every npm
 script, how the build pipeline works, the layout of the `build/` directory,
 compendium packs from in-repo Markdown, deploying to a Foundry instance, and the
-release process. **Manual steps are called out explicitly** with a 🔧 marker.
+release process. **Manual steps are called out explicitly**, each tagged **Manual**.
 
 > Audience: maintainers and contributors working on the SoHL system itself. For
 > the rules of contributing, see
@@ -24,7 +24,7 @@ release process. **Manual steps are called out explicitly** with a 🔧 marker.
 
 ## 1. First-time setup
 
-🔧 **Prerequisites:** **Node.js ≥ 24** (see `engines` in `package.json`) and
+**Manual — prerequisites:** **Node.js ≥ 24** (see `engines` in `package.json`) and
 **Git** — that's all you need to build and test. Deploying to a Foundry instance
 may need extra access depending on the target (for example, SSH for a remote host).
 
@@ -36,7 +36,7 @@ npm ci                             # clean install from package-lock.json → no
 npm run build                      # full build into build/stage/
 ```
 
-🔧 **`.env.local`** (gitignored — each developer keeps their own) holds the Foundry
+**Manual — `.env.local`** (gitignored — each developer keeps their own) holds the Foundry
 paths that drive deployment. You only need it when deploying to a Foundry instance;
 [§6 Deploying to a Foundry instance](#6-deploying-to-a-foundry-instance) lists
 every variable and what it's for.
@@ -57,24 +57,24 @@ sequence; `run-p` runs them in parallel.
 | --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `build`               | Full production build: `npm ci` then `build:noci`. The canonical "build it all" entry.                                                                               |
 | `build:local`         | Same as `build` but `npm i` (allows lockfile updates) instead of `npm ci`.                                                                                           |
-| `build:noci`          | The pipeline without install: `lint → build:types → build:prepare → test:coverage → test:purity → build:code → lint:bundle-globals`.                                 |
+| `build:noci`          | The pipeline without install: `lint > build:types > build:prepare > test:coverage > test:purity > build:code > lint:bundle-globals`.                                 |
 | `build:prepare`       | In parallel: `build:css`, `build:db`, `build:system`.                                                                                                                |
 | `build:types`         | TypeScript type-check / compile (`tsc -p tsconfig.json`). No emit beyond `.d.ts`/checking.                                                                           |
-| `build:css`           | Compile `scss/sohl.scss` → `build/stage/css/sohl.css` (Sass).                                                                                                        |
+| `build:css`           | Compile `scss/sohl.scss` > `build/stage/css/sohl.css` (Sass).                                                                                                        |
 | `build:system`        | Generate `build/stage/system.json` from `package-build.config.yaml` (`package-build manifest`).                                                                      |
 | `build:assets`        | Copy `templates/`, `lang/`, `assets/*`, `LICENSE.md`, `README.md` into `build/stage/` (`package-build assets`).                                                      |
 | `build:db`            | `build:assets` then `build:compiledb` — stage assets, then compile packs.                                                                                            |
 | `build:compiledb`     | Generate JSON from `assets/content/` Markdown, then compile LevelDB packs in `build/stage/packs/`.                                                                   |
 | `build:unpackdb`      | The reverse: unpack the staged LevelDB packs back to JSON (for inspection).                                                                                          |
-| `build:code`          | Bundle the system with Vite (`vite build --mode release`) → `build/stage/sohl.js`.                                                                                   |
+| `build:code`          | Bundle the system with Vite (`vite build --mode release`) > `build/stage/sohl.js`.                                                                                   |
 | `build:icons`         | Rebuild the icon font from SVGs (`utils/build-icon-font.mjs`). Run by hand when icons change.                                                                        |
 | `build:icon-legend`   | Regenerate the user guide's Icon Legend page from `src/` + `lang/en.json` (`utils/build-icon-legend.mjs`). Verified by `lint:icon-legend`.                           |
 | `build:deps`          | Fetch what the site build reads from the network — the shared header navigation, and any declared dependency (`content-build deps fetch`).                           |
 | `build:kb-content`    | Generate the Hugo source tree, `build/hugo/`: the content from `assets/content/`, and `hugo.toml` (`content-build site`). No Hugo needed.                            |
-| `build:kb`            | `build:deps`, `build:kb-content`, then render `build/hugo/` with Hugo → `build/site/sohl/`. Needs Hugo and the theme (installed by `npm ci`).                        |
+| `build:kb`            | `build:deps`, `build:kb-content`, then render `build/hugo/` with Hugo > `build/site/sohl/`. Needs Hugo and the theme (installed by `npm ci`).                        |
 | `site:assemble`       | Write the deployment root's `_headers` and `_redirects` (`package-build site-root`), then mount the TypeDoc HTML at `build/site/sohl/api/` (`utils/build-site.mjs`). |
-| `build:site`          | The whole of `/sohl/`: `docs:prepare → docs:html → build:kb → site:assemble`.                                                                                        |
-| `build:pack-release`  | Zip `build/stage/` → `build/dist/system.zip` and copy `system.json` (`package-build release`).                                                                       |
+| `build:site`          | The whole of `/sohl/`: `docs:prepare > docs:html > build:kb > site:assemble`.                                                                                        |
+| `build:pack-release`  | Zip `build/stage/` > `build/dist/system.zip` and copy `system.json` (`package-build release`).                                                                       |
 | `clean` / `distclean` | Remove build output (`distclean` also clears caches/`node_modules`-level artifacts).                                                                                 |
 
 ### Compendium packs
@@ -88,7 +88,7 @@ The authoritative content is the in-repo Markdown under `assets/content/`; the
 JSON is a disposable `build/` intermediate. `build:compiledb` reads the Markdown
 directly — nothing stands between the note you edit and the pack that ships.
 
-#### Scene ↔ Level integrity
+#### Scene and Level integrity
 
 `build:compiledb` reads each pack **back off disk** after writing it and fails the
 build if a Scene has lost its embedded `Level`.
@@ -259,7 +259,7 @@ better — across files rather than within one — by `lint:doc-links` and
 
 | Script                      | What it does                                                                                                                                                |
 | --------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `docs`                      | Full doc build: `docs:prepare → docs:html → docs:md`.                                                                                                       |
+| `docs`                      | Full doc build: `docs:prepare > docs:html > docs:md`.                                                                                                       |
 | `docs:prepare`              | `docs:catalog` (generate the type catalog) + `docs:expr-scopes` (generate the expression-scope table).                                                      |
 | `docs:expr-scopes`          | Regenerate the bound-variables table in [[doc-expressions                                              \| Expressions and Scripts]] from the scope catalog. |
 | `docs:html` / `docs:md`     | TypeDoc HTML / Markdown output.                                                                                                                             |
@@ -270,8 +270,8 @@ better — across files rather than within one — by `lint:doc-links` and
 
 | Script                                     | What it does                                                                                                            |
 | ------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------- |
-| `push:dev` / `push:qa` / `push:prod`       | 🔧 copy `build/stage/` to the matching `FOUNDRYVTT_*_DATA` instance.                                                    |
-| `deploy:dev` / `deploy:qa` / `deploy:prod` | 🔧 `build` then the matching `push:*`.                                                                                  |
+| `push:dev` / `push:qa` / `push:prod`       | **Manual** — copy `build/stage/` to the matching `FOUNDRYVTT_*_DATA` instance.                                          |
+| `deploy:dev` / `deploy:qa` / `deploy:prod` | **Manual** — `build` then the matching `push:*`.                                                                        |
 | `deploy:release`                           | `build` then `build:pack-release` — produce the release zip locally.                                                    |
 | `changeset`                                | Create a changeset (interactive). See [[doc-writingchangesets                                  \| Writing Changesets]]. |
 | `changeset:version`                        | Apply pending changesets: bump the version and update `CHANGELOG.md` (normally run by CI).                              |
@@ -288,11 +288,11 @@ better — across files rather than within one — by `lint:doc-links` and
    surface is valid), and the rest of the table above.
 2. **`build:types`** — `tsc` type-checks the whole project.
 3. **`build:prepare`** (parallel):
-   - **`build:css`** — Sass → `build/stage/css/sohl.css`.
+   - **`build:css`** — Sass > `build/stage/css/sohl.css`.
    - **`build:db`** — copy assets, then compile packs to `build/stage/packs/`.
    - **`build:system`** — write `build/stage/system.json`.
 4. **`test:coverage`** and **`test:purity`** — the suite must pass.
-5. **`build:code`** — Vite bundles `src/sohl.ts` → `build/stage/sohl.js` (single ES
+5. **`build:code`** — Vite bundles `src/sohl.ts` > `build/stage/sohl.js` (single ES
    module, sourcemap, unminified, with `emptyOutDir: false` so it doesn't wipe the
    staged CSS/assets/packs).
 6. **`lint:bundle-globals`** — the manifest loads the bundle the way it was built.
@@ -418,9 +418,9 @@ not authored per note — it is the `contentPackage` declared once in
 `package-build.config.yaml`, `sohl` here),
 authored anywhere under `assets/content/`.
 **Classification is frontmatter-driven, not directory-driven:** a file joins a
-pack because of its `type` (item kinds →
-the items pack **and**, for its prose, the journals pack; `type: doc` → journals;
-`being` → actors), so the
+pack because of its `type` (item kinds >
+the items pack **and**, for its prose, the journals pack; `type: doc` > journals;
+`being` > actors), so the
 folder layout is for human organization only and can be reorganized freely. A
 compendium folder is a `type: folder` note, and an entry names one with a
 top-level `packFolder:` giving that note's address.
@@ -518,7 +518,7 @@ states only what makes it that pass:
 | Hook                              | What it decides                                                  |
 | --------------------------------- | ---------------------------------------------------------------- |
 | `selects(fm)`                     | Which notes this pack claims. **Required.**                      |
-| `buildEntry(fm, markdown)`        | One note → one document. **Required.**                           |
+| `buildEntry(fm, markdown)`        | One note > one document. **Required.**                           |
 | `prepare()`                       | Anything the walk needs first — an index, a prior pack's output. |
 | `skipNote(fm, body)`              | A further rejection the type filter cannot express.              |
 | `compileNote(fm, markdown)`       | A note that emits _more_ than its own document.                  |
@@ -549,7 +549,7 @@ folderResolver, packName, docType, router}`, `await compile()`, read `errorCount
 and `compiledCount`.
 
 `@heroiclands/package-build/engine/map-notes` is deliberately **not** a subclass: it never walks
-the tree. It is the pure markdown→`Scene` translator the scenes pass calls, and
+the tree. It is the pure markdown-to-`Scene` translator the scenes pass calls, and
 keeping it framework-free is what makes it unit-testable.
 
 #### The pack pipeline is configured, not hard-coded
@@ -801,7 +801,7 @@ remote push re-uploads the whole staged build each time.
 Point each `*_DATA` variable at the Foundry **user-data directory** (the one that
 contains `Data/`), not at `systems/` — the deploy appends the rest.
 
-🔧 **Manual steps around a deploy:**
+**Manual steps around a deploy:**
 
 - Stop (or at least be ready to reload) Foundry — a running server can hold file
   locks and won't pick up code changes until reloaded.
@@ -855,12 +855,12 @@ Configuration lives in `.env.local` (all optional):
 | Variable                     | Default                | Purpose                                                               |
 | ---------------------------- | ---------------------- | --------------------------------------------------------------------- |
 | `FOUNDRYVTT_CONTAINER_IMAGE` | `felddy/foundryvtt:14` | Image tag to run (the major is derived from `compatibility.minimum`). |
-| `FOUNDRYVTT_<STAGE>_VERSION` | `test` → `14.359`      | Exact build, passed to felddy as `FOUNDRY_VERSION` (see below).       |
+| `FOUNDRYVTT_<STAGE>_VERSION` | `test` > `14.359`      | Exact build, passed to felddy as `FOUNDRY_VERSION` (see below).       |
 | `FOUNDRYVTT_<STAGE>_PORT`    | 30000 / 30001 / 30002  | Published host port (distinct per stage so all three can coexist).    |
 | `FOUNDRYVTT_CACHE`           | —                      | Host dir with a pre-downloaded Foundry zip (see cache note below).    |
 | `FOUNDRY_*` / `CONTAINER_*`  | —                      | Passed through to the image (licensing, cache, tuning — see below).   |
 
-🔧 **The `test` stage's Foundry build is `compatibility.minimum` itself** — read
+**The `test` stage's Foundry build is `compatibility.minimum` itself** — read
 from the top level of `package-build.config.yaml` and passed to felddy as
 `FOUNDRY_VERSION`, so it downloads that exact build rather than the newest of the
 `:14` tag. That is what makes the e2e suite reproducible: without it the test
@@ -887,9 +887,9 @@ full suite has **actually passed**, never an aspiration.
 any run. Raising the committed pin, by contrast, is a decision to **raise the
 supported floor**: move the top-level `compatibility.minimum` in
 `package-build.config.yaml` with it. See
-[[doc-testing#which-build-the-suite-runs-on-the-two-tracks|Testing → Which build the suite runs on]].
+[[doc-testing#which-build-the-suite-runs-on-the-two-tracks|Testing > Which build the suite runs on]].
 
-🔧 **First-run licensing.** felddy needs to fetch Foundry once. Supply your
+**Manual — first-run licensing.** felddy needs to fetch Foundry once. Supply your
 Foundry credentials (`FOUNDRY_USERNAME` / `FOUNDRY_PASSWORD` [+ `FOUNDRY_LICENSE_KEY`]),
 a timed `FOUNDRY_RELEASE_URL`, or a pre-seeded cache (below) — whichever you
 prefer, in `.env.local`. The download is cached, so subsequent `start`s are fast
@@ -940,7 +940,7 @@ These accumulate on `main` as PRs merge.
    **`chore(release): version packages`** — it runs `changeset version` to bump
    `package.json` and rewrite `CHANGELOG.md`. Review it (the version and changelog
    are the release).
-3. 🔧 **Merge that PR** — in the GitHub UI, or from the CLI (the changesets
+3. **Manual — merge that PR** — in the GitHub UI, or from the CLI (the changesets
    action opens it from the `changeset-release/main` branch):
 
    ```bash
@@ -973,12 +973,12 @@ That's the entire release. Two notes:
 
 | Step                          | Manual? | By         |
 | ----------------------------- | ------- | ---------- |
-| Author changesets             | 🔧 yes  | developer  |
+| Author changesets             | yes     | developer  |
 | Open the Version Packages PR  | no (CI) | —          |
-| Merge the Version Packages PR | 🔧 yes  | maintainer |
+| Merge the Version Packages PR | yes     | maintainer |
 | Tag + GitHub Release + assets | no (CI) | —          |
 | Publish the API docs          | no (CI) | —          |
-| Deploy to a Foundry instance  | 🔧 yes  | operator   |
+| Deploy to a Foundry instance  | yes     | operator   |
 
 ## 8. Publishing the `/sohl/` website
 

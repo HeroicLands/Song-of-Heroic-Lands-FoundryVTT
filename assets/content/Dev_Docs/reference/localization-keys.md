@@ -71,8 +71,8 @@ The namespace is the **domain concept** the strings belong to, spelled as the re
 of the UI would name it:
 
 ```jsonc
-"SOHL.Item.…"        // ✅ the concept
-"SOHL.SohlItem.…"    // ❌ the implementation class
+"SOHL.Item.…"        // right: the concept
+"SOHL.SohlItem.…"    // wrong: the implementation class
 ```
 
 `SohlItem`, `SohlLogic`, `SohlCombatant`, `SohlContextMenu` are class names — internal,
@@ -185,8 +185,8 @@ auto-localization looks for exactly those.
 A key must never be named after the function that happens to build it:
 
 ```jsonc
-"SOHL.Being._createTestItem.dialog.title": "…",   // ❌
-"SOHL.Being.createTest.title": "…",               // ✅ names the user-facing thing
+"SOHL.Being._createTestItem.dialog.title": "…",   // wrong
+"SOHL.Being.createTest.title": "…",               // right: names the user-facing thing
 ```
 
 Because keys are permanent, a key named after a private method **freezes that method's
@@ -200,12 +200,12 @@ Key segments are identifiers, not payloads. A file path, a UUID, a shortcode, or
 user-authored name must never be baked into a key:
 
 ```jsonc
-"SOHL.SohlSpeaker.SOUND.sounds/dice.wav": "Dice",   // ❌ a path inside a key
-"SOHL.Speaker.Sound.dice": "Dice",                  // ✅ the path is the value
+"SOHL.SohlSpeaker.SOUND.sounds/dice.wav": "Dice",   // wrong: a path inside a key
+"SOHL.Speaker.Sound.dice": "Dice",                  // right: the path is the value
 ```
 
 Besides being unreadable, embedded data invites the `expandObject` collision below: a
-dotted payload silently becomes extra branches (`sounds/dice` → `wav`), so any sibling
+dotted payload silently becomes extra branches (`sounds/dice` > `wav`), so any sibling
 leaf can trip it.
 
 ## Placeholders

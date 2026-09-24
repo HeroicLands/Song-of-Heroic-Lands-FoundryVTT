@@ -548,36 +548,21 @@ sohl:
 
 # Appearance {#appearance}
 
-TBD
+Basic Folk is the shape of a person and nothing more. A young adult of middling
+height and medium build, brown of hair and eye, fair-skinned and unmarked by
+weather or work, dressed in whatever the table decides. Nothing here is
+memorable, because every feature is the human average: this is the face a
+player paints over.
 
 # Dossier {#dossier}
 
-TBD
+Basic Folk is the starting template for a human character. Every attribute sits
+at 11, the everyday skills are opened at their initial mastery, and the body is
+the reference Human anatomy the rest of the system measures against. There is no
+name that sticks, no home, no station and no history, because the archetype
+exists to be copied and then made into someone.
 
-## Psyche
-
-### Personality
-
-TBD
-
-### Motivation
-
-TBD
-
-### Strengths
-
-TBD
-
-## Social
-
-## Companions
-
-TBD
-
-### Patrons
-
-TBD
-
-### Enemies
-
-TBD
+Take it from the Beings compendium, duplicate the copy, and rename it. The sheet
+opens already populated, so what is left is deciding who this one is. The Create
+Actor dialog reaches the same template through its **Archetype** field, where
+Basic Folk is the default for a Being.

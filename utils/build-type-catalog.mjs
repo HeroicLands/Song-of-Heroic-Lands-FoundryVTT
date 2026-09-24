@@ -174,7 +174,7 @@ See also: [[doc-devdocs|Documentation Hub]], [[doc-architecture|Architecture Ove
 
 The canonical SoHL actor and item types. Each description is the opening line of
 that type's Logic class documentation; for the full classes (DataModel, Logic,
-Sheet) see **Documents → Actor** and **Documents → Item** in the API reference.
+Sheet) see **Documents > Actor** and **Documents > Item** in the API reference.
 
 ## Actors
 

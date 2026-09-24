@@ -39,7 +39,7 @@ If the build succeeds, you're ready. If tests fail, check `tests/setup.ts` — i
 
 | Command               | What it does                             |
 | --------------------- | ---------------------------------------- |
-| `npm run build`       | Full pipeline: types → test → bundle     |
+| `npm run build`       | Full pipeline: types > test > bundle     |
 | `npm run build:types` | TypeScript compilation only (fast check) |
 | `npm run test`        | Run vitest                               |
 | `npm run test:watch`  | Watch mode                               |
@@ -60,7 +60,7 @@ If the build succeeds, you're ready. If tests fail, check `tests/setup.ts` — i
 
 > **See the Being sheet end to end, in-app.** Launch a world and run the
 > **Create a Character** guided tour (offered on first load, or any time from
-> **Settings → Tour Management**). It walks the full character-creation flow —
+> **Settings > Tour Management**). It walks the full character-creation flow —
 > Facade, Profile, Skills, Gear, Combat, Mysteries, and containers — and doubles
 > as a live map of the Being sheet. See [[doc-guidedtours|Writing Guided Tours]]
 > for how it is built.
@@ -70,7 +70,7 @@ If the build succeeds, you're ready. If tests fail, check `tests/setup.ts` — i
 The design and rationale live in the concept docs — read them there rather than duplicated here, so there's a single source of truth that can't drift:
 
 - **[[doc-architecture#three-class-pattern|Three-class pattern]]** — every actor/item type splits into a Foundry-free Logic class (game rules), a DataModel (persisted schema), and a Sheet (UI), plus how to reach a document's data via `logic.data`.
-- **[[doc-architecture#phase-batched-lifecycle|Phase-batched lifecycle]]** and **{@link sohl.core.logic.SohlLogic}** — how `initialize → evaluate → finalize` map onto Foundry's `prepare*` hooks, and the barriers that let sibling items depend on one another.
+- **[[doc-architecture#phase-batched-lifecycle|Phase-batched lifecycle]]** and **{@link sohl.core.logic.SohlLogic}** — how `initialize > evaluate > finalize` map onto Foundry's `prepare*` hooks, and the barriers that let sibling items depend on one another.
 - **[[doc-architecture#domain-objects|Domain objects]]** — the `src/entity/` value objects (modifiers, results, body, movement, actions), rebuilt from persisted data each preparation cycle.
 - **[[doc-architecture#foundryhelpers-shim|FoundryHelpers shim]]** — how Logic stays Foundry-free: the `fvtt` prefix convention, and `sohl.log.uiWarn` / `sohl.log.uiError` for notifications.
 

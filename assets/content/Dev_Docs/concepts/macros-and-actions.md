@@ -23,7 +23,7 @@ both are built on [[doc-sohlapi|The SoHL API]]. They are **different things**:
 This page walks from the familiar (macros) to the SoHL-specific (actions), then
 shows that SoHL uses the very same action mechanism internally.
 
-> For _using_ actions during play, see the in-game **User Guide → Actions**. This
+> For _using_ actions during play, see the in-game **User Guide > Actions**. This
 > page explains what they are and how the mechanism works.
 
 ## Macros

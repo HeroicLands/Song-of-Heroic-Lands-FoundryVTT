@@ -141,7 +141,7 @@ All three names are valid against any active calendar — see the formatter tabl
 
 ### Scheduling future events
 
-Calendar **display** is one half of the use case; the other is **scheduling work to fire at a future world time**. SoHL provides `sohl.events` for that — see `src/entity/event/SohlEventQueue.ts`. The queue dispatches on the `updateWorldTime` hook (primary GM only). The injury → next-healing-check flow is the canonical example.
+Calendar **display** is one half of the use case; the other is **scheduling work to fire at a future world time**. SoHL provides `sohl.events` for that — see `src/entity/event/SohlEventQueue.ts`. The queue dispatches on the `updateWorldTime` hook (primary GM only). The injury > next-healing-check flow is the canonical example.
 
 ```typescript
 // In a Logic class's finalize() — schedule the next check
