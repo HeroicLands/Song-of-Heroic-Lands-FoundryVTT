@@ -12,15 +12,13 @@
  */
 
 import { fvttWorldTime, fvttGetListFormatter } from "@src/core/FoundryHelpers";
-import type { SohlCalendarComponents } from "@src/core/foundry/SohlCalendar";
 
 /**
  * Format time components as a YYYY-MM-DD HH:MM:SS timestamp.
  * @remarks
- * SoHL calendar: " 0722-04-15 14:30:00" (leading space for after-era)
- * or "-0051-04-15 00:00:00" for 51 years before the era.
- * Foreign calendar: the same shape without the era-sign prefix and
- * without year-zero adjustment.
+ * Renders "0722-04-15 14:30:00" from whatever calendar is installed, reading
+ * only the base `CalendarData` API. The year is the calendar's own, with no
+ * era sign and no year-zero adjustment.
  * @param calendar - The calendar to use for formatting
  * @param components - The time components to format
  * @param _options - Formatting options (not used)
@@ -39,12 +37,6 @@ export function formatTimestamp(
     const m = components.minute.paddedString(2);
     const s = components.second.paddedString(2);
 
-    if ((calendar as any).isSohlCalendar) {
-        const sc = components as SohlCalendarComponents;
-        const yyyy = sc.eraYear.paddedString(4);
-        return `${sc.beforeEra ? "-" : " "}${yyyy}-${mm}-${dd} ${h}:${m}:${s}`;
-    }
-
     const yyyy = components.year.paddedString(4);
     return `${yyyy}-${mm}-${dd} ${h}:${m}:${s}`;
 }
@@ -52,8 +44,11 @@ export function formatTimestamp(
 /**
  * Format time components using the default formatting rules.
  * @remarks
- * SoHL calendar: "15 Highsun 722TR 14:30:00".
- * Foreign calendar: "15 {monthName} {year} 14:30:00" (no era data).
+ * Renders "15 {monthName} {year} 14:30:00" from whatever calendar is
+ * installed. The month name is passed through {@link sohl.i18n.localize}, so a
+ * calendar may ship localization keys as its month names and have them resolve
+ * here; plain text passes through unchanged. The era, if the calendar keeps
+ * one, belongs to whoever owns the calendar and is not rendered.
  * @param calendar - The calendar to use for formatting
  * @param components - The time components to format
  * @param _options - Formatting options (not used)
@@ -70,17 +65,6 @@ export function formatDefault(
     const hh = String(components.hour).padStart(2, "0");
     const mm = String(components.minute).padStart(2, "0");
     const ss = String(components.second).padStart(2, "0");
-
-    if ((calendar as any).isSohlCalendar) {
-        const sc = components as SohlCalendarComponents;
-        // The month name and era abbreviation are i18n keys (or already-plain
-        // text); localize both — exactly as the generic branch below does for
-        // the month — so a SoHL date never renders raw keys.
-        // `localize` is idempotent on non-key text, so plain values pass through.
-        const localizedMonth = sohl.i18n.localize((calendar as any).getMonthName(sc.month));
-        const localizedEra = sohl.i18n.localize(sc.eraAbbrev);
-        return `${dd} ${localizedMonth} ${sc.eraYear}${localizedEra} ${hh}:${mm}:${ss}`;
-    }
 
     const localizedMonth = sohl.i18n.localize(monthName);
     return `${dd} ${localizedMonth} ${components.year} ${hh}:${mm}:${ss}`;

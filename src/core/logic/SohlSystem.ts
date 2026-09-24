@@ -12,8 +12,6 @@
  */
 
 import { SohlMap } from "@src/utils/collection/SohlMap";
-import { SohlCalendarData } from "@src/core/foundry/SohlCalendar";
-import { BUILTIN_CALENDARS } from "@src/core/foundry/builtin-calendars";
 import { SohlEventQueue } from "@src/entity/event/SohlEventQueue";
 import type { Rng } from "@src/entity/random/Rng";
 import { createRng } from "@src/entity/random/createRng";
@@ -34,7 +32,6 @@ import {
     COMMON_ACTOR_SHEETS,
     COMMON_ITEM_SHEETS,
     SOHLCONFIG,
-    type CalendarRegistration,
     type SohlConfig,
 } from "@src/core/foundry/sohl-config";
 import { SohlActorLogic } from "@src/document/actor/logic/SohlActorBaseLogic";
@@ -81,9 +78,9 @@ import type { SohlAction } from "@src/entity/action/SohlAction";
  *   {@link constants} (`ACTOR_KIND`, `ITEM_KIND`, …).
  * - **Direct entries into the logic layer** — {@link actorLogics},
  *   {@link itemLogics}, {@link currentCombatCombatantLogics}.
- * - **Config & calendar** — {@link SOHLCONFIG} (the document/sheet/DataModel,
- *   modifier, and result classes merged into Foundry's `CONFIG` at init) and the
- *   active {@link calendar}.
+ * - **Config** — {@link SOHLCONFIG} (the document/sheet/DataModel, modifier,
+ *   and result classes merged into Foundry's `CONFIG` at init) and the active
+ *   {@link calendar}.
  */
 export class SohlSystem {
     private static instance: SohlSystem | null = null;
@@ -99,11 +96,6 @@ export class SohlSystem {
         }
         return this.instance;
     }
-
-    protected static _calendars: SohlMap<string, CalendarRegistration> = new SohlMap<
-        string,
-        CalendarRegistration
-    >();
 
     /** The {@link constants} module (static access). */
     static readonly constants: typeof constants = constants;
@@ -125,7 +117,7 @@ export class SohlSystem {
     declare readonly document: typeof import("@src/document");
     /** The `core` namespace tree (`sohl.core.logic.SohlSystem`, …). Bound at init. */
     declare readonly core: typeof import("@src/core");
-    /** The `apps` namespace tree (`sohl.apps.foundry.CalendarSettingsMenu`, …). Bound at init. */
+    /** The `apps` namespace tree (`sohl.apps.foundry.ExpressionLibraryMenu`, …). Bound at init. */
     declare readonly apps: typeof import("@src/apps");
     /**
      * The `utils` namespace (`sohl.utils`) — the Foundry-free utility superset:
@@ -170,77 +162,6 @@ export class SohlSystem {
      */
     get CONFIG(): SohlConfig {
         return SOHLCONFIG;
-    }
-
-    /* -------------------------------------------- */
-    /*  Calendar Registry                           */
-    /* -------------------------------------------- */
-
-    /**
-     * Register a calendar configuration. Overwrites any existing registration
-     * with the same ID.
-     *
-     * @param id - The unique identifier for the calendar.
-     * @param registration - The calendar registration to store.
-     */
-    static registerCalendar(id: string, registration: CalendarRegistration): void {
-        this._calendars.set(id, registration);
-    }
-
-    /**
-     * Remove a calendar registration. A no-op if `id` is not registered.
-     *
-     * @param id - The identifier of the calendar to remove.
-     * @throws Error if `id` names a **built-in** calendar — built-ins cannot be
-     *   deleted, only imported calendars can.
-     */
-    static unregisterCalendar(id: string): void {
-        const cal = this._calendars.get(id);
-        if (!cal) return;
-        if (cal.builtin) {
-            throw new Error(`Cannot delete built-in calendar "${id}".`);
-        }
-        this._calendars.delete(id);
-    }
-
-    /**
-     * Get a registered calendar by ID.
-     *
-     * @param id - The identifier of the calendar to retrieve.
-     * @returns The matching calendar registration, or `undefined` if none.
-     */
-    static getCalendar(id: string): CalendarRegistration | undefined {
-        return this._calendars.get(id);
-    }
-
-    /**
-     * All registered calendars.
-     */
-    static get calendars(): SohlMap<string, CalendarRegistration> {
-        return this._calendars;
-    }
-
-    /**
-     * Apply a registered calendar to SOHLCONFIG.time, and re-initialize
-     * game.time so the change takes effect without a reload. Safe to call
-     * during the `init` hook before game.time exists.
-     *
-     * @param id - The identifier of the registered calendar to apply.
-     * @throws Error if no calendar is registered under `id` (the message lists
-     *   the available ids).
-     */
-    static applyCalendar(id: string): void {
-        const cal = this._calendars.get(id);
-        if (!cal) {
-            throw new Error(
-                `Calendar "${id}" is not registered. Available: ${Array.from(
-                    this._calendars.keys(),
-                ).join(", ")}`,
-            );
-        }
-        SOHLCONFIG.time.worldCalendarConfig = cal.config as any;
-        SOHLCONFIG.time.worldCalendarClass = (cal.calendarClass ?? SohlCalendarData) as any;
-        (game as any)?.time?.initializeCalendar?.();
     }
 
     /** The {@link constants} module (`sohl.constants`). */
@@ -344,9 +265,9 @@ export class SohlSystem {
     }
 
     /**
-     * The currently active world calendar. May be a SohlCalendarData or any
-     * CalendarData subclass installed by another module — code that consumes
-     * this must use only the base CalendarData API.
+     * The currently active world calendar — Foundry's own, or one installed by
+     * another module. Code that consumes this must use only the base
+     * `CalendarData` API, since the class behind it is not the system's to say.
      */
     get calendar(): foundry.data.CalendarData<foundry.data.CalendarData.TimeComponents> {
         return game.time.calendar;
@@ -557,15 +478,4 @@ export class SohlSystem {
         if (!fvttIsCurrentUserGM()) return undefined;
         return attachScriptAction(doc, spec);
     }
-}
-
-// Register the shipped built-in calendars from their JSON data files, each
-// keyed by its shortcode (the value a character's `social.calendar` names).
-for (const calendar of BUILTIN_CALENDARS) {
-    SohlSystem.registerCalendar(calendar.shortcode, {
-        label: calendar.label,
-        config: calendar.config,
-        calendarClass: SohlCalendarData,
-        builtin: true,
-    });
 }

@@ -46,7 +46,7 @@ That's the pattern to expect throughout: helpful nudges and one-click rolls at t
 The chapters below are in the order a new group meets them: get a world running, learn to read a sheet, then the things on the sheet, then the things you do with them. Each is written on the terms the ones before it defined, so if you are reading rather than looking something up, read them in order.
 
 1. **[[doc-quickstartug|Quickstart]]** — install the system, import a character, and make your first roll. The shortest path from nothing to playing.
-2. **Setting up a world** — the GM's opening moves: [[doc-syssetngug|System Settings]] (calendar, healing interval, fate rules, and the rest), [[doc-usingpacksug|Using Compendiums]] (what ships with the system and how to import it), [[doc-crtngactitemug|Creating Actors and Items]] (the four ways to make one), and [[doc-charcreationug|Character Creation]] (building a playable character end to end).
+2. **Setting up a world** — the GM's opening moves: [[doc-syssetngug|System Settings]] (healing interval, fate rules, and the rest), [[doc-usingpacksug|Using Compendiums]] (what ships with the system and how to import it), [[doc-crtngactitemug|Creating Actors and Items]] (the four ways to make one), and [[doc-charcreationug|Character Creation]] (building a playable character end to end).
 3. **[[doc-undrstndsheetug|Understanding Sheets]]** — the sheet anatomy every actor and item shares: the header, the tab strip, and what each tab is for. Read this before the chapters that describe individual sheets. Alongside it, [[doc-iconlgndug|Icon Legend]] identifies every glyph the system uses, and [[doc-shortcodesug|Shortcodes]] explains the identifier that appears on every sheet.
 4. **[[doc-ugactors|Actors]]** — the four kinds of actor and how to choose between them: [[doc-beingug|Being]], [[doc-cohortug|Cohort]], [[doc-structureug|Structure]], and [[doc-vehicleug|Vehicle]].
 5. **[[doc-ugitems|Items]]** — nearly everything a character _is_ or _carries_: attributes, skills, affiliations, wounds, afflictions, mysteries, and every kind of gear. Start from [[doc-baseitemug|Base Item]], which describes what every item type has in common. Using gear at the table — equipping, nesting, and handing it over — is [[doc-gearandequipug|Working with Gear and Equipment]].
@@ -56,7 +56,7 @@ The chapters below are in the order a new group meets them: get a world running,
 9. **[[doc-afflinjug|Afflictions and Injuries]]** — what to do when a character is hurt or sick: how wounds and diseases arrive, what they cost, and the reminder loop that carries them to a resolution.
 10. **[[doc-mystclpwug|Mystical Powers]]** — using the supernatural at the table: the Mysteries tab, casting and miracle-working, and mystical devices.
 
-**Customizing the system** is the last chapter, and is for GMs who want to go past what the sheets offer: [[doc-sfexprssug|Safe Expressions]] is the small expression language SoHL evaluates wherever a value can be computed, [[doc-effcttrgug|Effect Targeting]] is how an active effect chooses what it applies to, and [[doc-calendarfmtug|Calendar JSON Format]] is the shape of a custom calendar.
+**Customizing the system** is the last chapter, and is for GMs who want to go past what the sheets offer: [[doc-sfexprssug|Safe Expressions]] is the small expression language SoHL evaluates wherever a value can be computed, and [[doc-effcttrgug|Effect Targeting]] is how an active effect chooses what it applies to.
 
 ## Where to look something up
 

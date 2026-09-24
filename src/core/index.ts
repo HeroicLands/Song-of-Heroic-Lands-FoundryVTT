@@ -14,7 +14,7 @@
 // Namespace barrel — hand-maintained. `npm run lint` (check-ns-barrels)
 // verifies every sibling module and subfolder here is re-exported.
 
-/** Foundry-facing core — config, the data-model and document foundations, calendar, and logging. */
+/** Foundry-facing core — config, the data-model and document foundations, and logging. */
 export * as foundry from "./foundry";
 /** Foundry-free core — SohlLogic, SohlSpeaker, SohlSystem, and the hook bridge. */
 export * as logic from "./logic";

@@ -39,8 +39,6 @@ import {
     ItemKinds,
     STATUS_EFFECT,
 } from "@src/utils/constants";
-import { SohlCalendarData } from "./SohlCalendar";
-import { DEFAULT_CALENDAR_CONFIG } from "./builtin-calendars";
 import { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import type { SohlActorLogic } from "@src/document/actor/logic/SohlActorBaseLogic";
 import { SohlActorSheetBase } from "@src/document/actor/foundry/SohlActorSheetBase";
@@ -409,18 +407,6 @@ export const {
     weapongear: WeaponGearSheet,
 } as StrictObject<Constructor<SohlItemSheetBase>>);
 
-/** A calendar entry in the {@link sohl.core.logic.SohlSystem} calendar registry. */
-export interface CalendarRegistration {
-    /** Display name (localization key or plain text) */
-    label: string;
-    /** Calendar data matching CalendarData.CreateData shape */
-    config: object;
-    /** CalendarData subclass to use (defaults to SohlCalendarData) */
-    calendarClass?: typeof SohlCalendarData;
-    /** If true, cannot be deleted via the settings UI */
-    builtin?: boolean;
-}
-
 /** A status-effect entry merged into Foundry's `CONFIG.statusEffects`. */
 export interface ConfigStatusEffect {
     /** Unique status-effect id. */
@@ -478,7 +464,7 @@ export interface SohlConfig {
     specialStatusEffects: StrictObject<string>;
     /** Control-icon overrides keyed by role. */
     controlIcons: StrictObject<FilePath>;
-    /** World-time / calendar configuration. */
+    /** World-time configuration: the formatters SoHL registers. */
     time: PlainObject;
     /** Actor registration block. */
     Actor: DocumentConfig;
@@ -524,7 +510,7 @@ export interface SohlConfig {
 
 /**
  * The system's registration config, merged into Foundry's `CONFIG` at init.
- * It declares status effects, the world-time calendar, and — per document
+ * It declares status effects, the world-time formatters, and — per document
  * type — the document/sheet/DataModel classes, plus the modifier and result
  * class registries. See {@link SohlConfig} for the shape.
  */
@@ -572,8 +558,6 @@ export const SOHLCONFIG: SohlConfig = {
         defeated: toFilePath("systems/sohl/assets/icons/other/surrender.svg"),
     },
     time: {
-        worldCalendarConfig: DEFAULT_CALENDAR_CONFIG,
-        worldCalendarClass: SohlCalendarData,
         formatters: {
             "sohl.timestamp": formatTimestamp,
             "sohl.relative": formatRelativeTime,

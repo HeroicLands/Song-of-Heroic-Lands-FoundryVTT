@@ -32,7 +32,7 @@ documentation path equals its location in the source and on the runtime global
 (for example `sohl.document.actor.logic.BeingLogic`):
 
 - **`sohl.core`** — Foundry-layer foundations: system registration, the
-  data-model and logic bases, the `FoundryHelpers` shim, calendar, event queue.
+  data-model and logic bases, the `FoundryHelpers` shim, event queue.
 - **`sohl.document`** — Foundry document types by kind (actor, item, combat,
   combatant, chat, effect, scene, token), each with its Foundry-free logic.
 - **`sohl.entity`** — pure, Foundry-free game-mechanics objects: modifiers,
