@@ -15,7 +15,7 @@ data:
   templatePriority: null
   gender: male
   age: 22
-  birthday: 697/10/3
+  born: 697/10/3
   height: 1.75
   weight: 68
   frame: medium
