@@ -143,6 +143,31 @@ img.item-img {
     border-radius: var(--sohl-radius-sm);
 }
 
+// Draft marker — the referee's own note that this item's content is unfinished.
+// Beside the archetype control in the identity row and matched to it in weight,
+// so the identity row reads as one band of provenance metadata.
+.sheet-header__draft {
+    display: inline-flex;
+    flex: 0 0 auto;
+    gap: 0.3rem;
+    align-items: center;
+    font-family: var(--sohl-font-sans);
+    font-size: 0.66rem;
+    color: var(--sohl-color-text-muted);
+    cursor: pointer;
+}
+
+.sheet-header__draft-label {
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.sheet-header__draft-input {
+    flex: 0 0 auto;
+    width: auto;
+    margin: 0;
+}
+
 // --- Type label --------------------------------------------------------------
 // The localized item type name below the identity row — muted, uppercase, sans.
 .sheet-header__type {
