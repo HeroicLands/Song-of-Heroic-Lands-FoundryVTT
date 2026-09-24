@@ -61,9 +61,9 @@ Wiring a timed or lifecycle behavior is four steps:
    trigger** (`combatStart`, `roundStart`, `turnEnd`, …). See
    [Triggers](#triggers-the-moments-you-can-hook).
 3. **Register the subscription.**
-   - a **persisted, recurring** schedule → {@link sohl.core.logic.SohlSystem.schedule | sohl.schedule} (writes the durable record **and** arms the queue). It defaults to a **time** schedule (`anchor + interval`); pass a `triggerName` for a **persisted event-driven** schedule — `sohl.schedule(doc, "shockReTest", 0, undefined, undefined, "turnEnd")` re-arms a `turnEnd` subscription on every reload, so a lifecycle cadence survives a reload just like a timed one, and both are offered through the shared {@link sohl.document.item.logic.offerSchedule};
-   - a **one-shot** future time → {@link sohl.entity.event.SohlEventQueue.scheduleAt | scheduleAt};
-   - a **transient lifecycle** subscription (not persisted; re-derived from live state each prep, e.g. a berserker check that exists only while a condition holds) → {@link sohl.entity.event.SohlEventQueue.subscribe | subscribe}, called directly from the document's `finalize()`.
+   - a **persisted, recurring** schedule > {@link sohl.core.logic.SohlSystem.schedule | sohl.schedule} (writes the durable record **and** arms the queue). It defaults to a **time** schedule (`anchor + interval`); pass a `triggerName` for a **persisted event-driven** schedule — `sohl.schedule(doc, "shockReTest", 0, undefined, undefined, "turnEnd")` re-arms a `turnEnd` subscription on every reload, so a lifecycle cadence survives a reload just like a timed one, and both are offered through the shared {@link sohl.document.item.logic.offerSchedule};
+   - a **one-shot** future time > {@link sohl.entity.event.SohlEventQueue.scheduleAt | scheduleAt};
+   - a **transient lifecycle** subscription (not persisted; re-derived from live state each prep, e.g. a berserker check that exists only while a condition holds) > {@link sohl.entity.event.SohlEventQueue.subscribe | subscribe}, called directly from the document's `finalize()`.
 4. **Let re-arm and reload take care of themselves.** `finalize()` runs on every
    client every preparation, so it is the natural place to (re)register; on world
    load SoHL rebuilds the queue from persisted state for you. For a _recurring_
@@ -223,16 +223,16 @@ async healingTest(context: SohlActionContext): Promise<{ level: number } | null>
 ```
 
 - {@link sohl.core.logic.SohlSystem.schedule | sohl.schedule} / {@link sohl.core.logic.SohlSystem.unschedule | sohl.unschedule} write the store **and** (un)arm the queue in one call.
-- {@link sohl.document.item.logic.offerSchedule} is the shared consent step — accept → `sohl.schedule` the next; decline → `sohl.unschedule` (see [consent](#consent-the-queue-reminds-the-human-performs)).
+- {@link sohl.document.item.logic.offerSchedule} is the shared consent step — accept > `sohl.schedule` the next; decline > `sohl.unschedule` (see [consent](#consent-the-queue-reminds-the-human-performs)).
 - {@link sohl.entity.event.armScheduledActions} does the reload re-arm; {@link sohl.entity.event.elapsedCheckpoints} enumerates the checkpoints a skipped-over stretch of world time contains, for a caller that has to catch up on more than one.
 
 **Check/Test is the shape every recurring effect uses**: a `*Check` only
 offers, a `*Test` acts and then offers the next occurrence. One check invites one
 test — nothing re-arms behind the player, and a check that is never answered
-changes nothing. Blood-loss (`bloodLossAdvanceCheck` → `bloodLossAdvanceTest`),
-the shock/coma/infection recovery (`courseCheck` → `courseTest`), and the trauma
+changes nothing. Blood-loss (`bloodLossAdvanceCheck` > `bloodLossAdvanceTest`),
+the shock/coma/infection recovery (`courseCheck` > `courseTest`), and the trauma
 recovery checks follow the identical pair; the affliction phase machine
-(`onsetCheck` → `resolutionCheck` → recurring `healingCheck`) schedules each next
+(`onsetCheck` > `resolutionCheck` > recurring `healingCheck`) schedules each next
 phase from the transition that precedes it.
 
 ### 2. A one-shot deferred action — "at time T, do X once"
@@ -326,7 +326,7 @@ elsewhere is **held, not lost**, and surfaces when they re-enter that scene. Omi
 clock is the one case where **unconditional** re-arm (the action calls
 `sohl.schedule` again itself) is appropriate — it is ambient and GM-only, not a
 character's action. The full module walkthrough is in
-[[doc-moduledevelopment#scheduling-deferred-actions|Writing Modules → Scheduling deferred actions]].
+[[doc-moduledevelopment#scheduling-deferred-actions|Writing Modules > Scheduling deferred actions]].
 
 ### 6. A custom trigger — fire your own lifecycle moment
 
@@ -424,7 +424,7 @@ fired**. So a recurring consumer must persist an **anchor** and derive the next
 {@link sohl.entity.event.ScheduledAction | `system.scheduledActions`} entry
 (`anchor + interval`).
 
-> ⚠️ Scheduling from `game.time.worldTime + interval` is a **bug** for recurrence:
+> :icon-warning: Scheduling from `game.time.worldTime + interval` is a **bug** for recurrence:
 > during a time jump the clock is already at the far end, so it skips every
 > intermediate occurrence — and because it derives from the live clock rather than
 > a stored fact, other clients can't reconstruct it deterministically.
@@ -473,7 +473,7 @@ Follow these for the exact parameters and return types:
 
 ## See also
 
-- [[doc-moduledevelopment#scheduling-deferred-actions|Writing Modules → Scheduling deferred actions]] — the bandit-check example end to end.
+- [[doc-moduledevelopment#scheduling-deferred-actions|Writing Modules > Scheduling deferred actions]] — the bandit-check example end to end.
 - [[doc-actioncards|Action Cards & the Consent Model]] — the `[Perform]` reminder and self-sufficient actions.
 - [[doc-effectsintegration|Effects Integration]] — the shared trigger vocabulary with `CONFIG.ActiveEffect.expiryEvents`.
 - [[doc-lifecyclehooks|Lifecycle Hooks]] — where `finalize()` fits in preparation.

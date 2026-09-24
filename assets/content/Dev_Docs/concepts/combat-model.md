@@ -30,11 +30,11 @@ They differ only in how much of the exchange the system drives:
 
 |                  | **Assisted**                                                    | **Automated**                                                                          |
 | ---------------- | --------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
-| Scope            | A single roll (attack / block / counterstrike / dodge / impact) | The whole attacker↔defender exchange                                                   |
+| Scope            | A single roll (attack / block / counterstrike / dodge / impact) | The whole attacker-and-defender exchange                                               |
 | Context required | None                                                            | A running combat encounter, combatants, tokens, a target, and the attacker on its turn |
 | Workflow         | None — posts one test card                                      | Multi-stage, cross-client, chat-driven                                                 |
 | Entry            | Being-sheet Combat-tab cells                                    | `StrikeModeBase.automatedCombatStart` / combatant action                               |
-| Result types     | `SuccessTestResult`                                             | `AttackResult` + `DefendResult` → `CombatResult`                                       |
+| Result types     | `SuccessTestResult`                                             | `AttackResult` + `DefendResult` > `CombatResult`                                       |
 
 The rule of thumb when extending: **assisted combat is a thin wrapper over
 `successTest`; automated combat is an orchestration layer on top of the same
@@ -51,8 +51,8 @@ Being sheet's Combat tab.
   reads `data-sm-id` / `data-item-id` / `data-test-kind` off the clicked cell,
   resolves the `StrikeModeBase`, and calls
   **`selectStrikeModeModifier(sm, testKind)`** (`being-sheet-view.ts`), which
-  maps `attack → sm.attack`, `block → sm.defense.block`,
-  `counterstrike → sm.defense.counterstrike`.
+  maps `attack > sm.attack`, `block > sm.defense.block`,
+  `counterstrike > sm.defense.counterstrike`.
 - It then builds a bare `SohlActionContext` (shift-click sets `skipDialog`) and
   calls **`mlMod.successTest(context)`** directly. That posts a standard
   success-test card — no opposed resolution, no second party.
@@ -60,7 +60,7 @@ Being sheet's Combat tab.
   mode's `impact` modifier and dispatches the actor's `calcImpact` action
   (`actorLogic.executeAction("calcImpact", …)` with the modifier on
   `context.scope`), posting a damage card. Skills use the identical shape via
-  `_onRollSkillTest` → `skillLogic.successTest`.
+  `_onRollSkillTest` > `skillLogic.successTest`.
 
 Because it only touches the strike-mode modifiers and `successTest`, the assisted
 path never references combat state. There are **no weapon-level attack/block/
@@ -133,13 +133,13 @@ Both converge on one executor, `SohlCombatantLogic.startAutomatedAttack`:
 
 | Stage                            | Driver                                                                                                           | What happens                                                                                                                                                                                                                                      |
 | -------------------------------- | ---------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **1. Attack roll**               | `startAutomatedAttack` → `commonAttack` (shared attack dialog) → `buildAttackResult` → `attackResult.evaluate()` | The attack is **pre-evaluated on the attacker's client** (the roll is the attacker's). A miss disables impact; impact is _not_ rolled yet.                                                                                                        |
-| **2. Attack card**               | `buildAttackCardData` → `templates/chat/attack-card.hbs`                                                         | Emits **all four** defense buttons; embeds the serialized `AttackResult` in the card's `data-scope`; addresses the **target actor** via `handlerActorUuid`.                                                                                       |
+| **1. Attack roll**               | `startAutomatedAttack` > `commonAttack` (shared attack dialog) > `buildAttackResult` > `attackResult.evaluate()` | The attack is **pre-evaluated on the attacker's client** (the roll is the attacker's). A miss disables impact; impact is _not_ rolled yet.                                                                                                        |
+| **2. Attack card**               | `buildAttackCardData` > `templates/chat/attack-card.hbs`                                                         | Emits **all four** defense buttons; embeds the serialized `AttackResult` in the card's `data-scope`; addresses the **target actor** via `handlerActorUuid`.                                                                                       |
 | **3. Defender responds**         | Defender's intrinsic resume actions (all `visible: "false"`, group `HIDDEN`)                                     | The clicked button runs one of the `*Resume` executors below on the **defender's** combatant, reviving the attacker's result as `context.scope.attackResult`.                                                                                     |
-| **4. Defense roll + resolution** | `automated{Block,Dodge,Counterstrike,Ignore}Resume` → `buildCombatResult` → `CombatResult.evaluate()`            | Builds a `DefendResult`, composes it with the (already-evaluated) attack into a `CombatResult`, and runs the opposed test.                                                                                                                        |
-| **5. Impact**                    | `CombatResult` → `rollImpact`                                                                                    | Impact is rolled **only when a blow lands** (this is where damage dice are rolled), producing an `ImpactResult`.                                                                                                                                  |
-| **6. Combat-result card**        | `buildCombatCardData` → `attack-result-card.hbs`                                                                 | Two-column (Attack \| Defend) card; one "Calculate Injury" button per landing side.                                                                                                                                                               |
-| **7. Injury**                    | injury button → `BeingLogic.onCreateInjury` → `resolveAutomatedInjury`                                           | Rolls the hit location, applies armor/body-location protection, and **records the Trauma with no dialog** (automated), because the button forwards the attack's aim. See [[doc-combatresolutionpipeline#injury-resolution \| injury resolution]]. |
+| **4. Defense roll + resolution** | `automated{Block,Dodge,Counterstrike,Ignore}Resume` > `buildCombatResult` > `CombatResult.evaluate()`            | Builds a `DefendResult`, composes it with the (already-evaluated) attack into a `CombatResult`, and runs the opposed test.                                                                                                                        |
+| **5. Impact**                    | `CombatResult` > `rollImpact`                                                                                    | Impact is rolled **only when a blow lands** (this is where damage dice are rolled), producing an `ImpactResult`.                                                                                                                                  |
+| **6. Combat-result card**        | `buildCombatCardData` > `attack-result-card.hbs`                                                                 | Two-column (Attack \| Defend) card; one "Calculate Injury" button per landing side.                                                                                                                                                               |
+| **7. Injury**                    | injury button > `BeingLogic.onCreateInjury` > `resolveAutomatedInjury`                                           | Rolls the hit location, applies armor/body-location protection, and **records the Trauma with no dialog** (automated), because the button forwards the attack's aim. See [[doc-combatresolutionpipeline#injury-resolution \| injury resolution]]. |
 
 The four defense resumes:
 
@@ -156,7 +156,7 @@ The four defense resumes:
 - **`automatedIgnoreResume`** — no contest, `TEST_TYPE.IGNORE`, single card.
 
 Opposed resolution, victory score, tactical advantages, per-defense "lands a
-blow" rules, and impact→armor→injury are all detailed in the
+blow" rules, and impact > armor > injury are all detailed in the
 [[doc-combatresolutionpipeline|Combat Resolution Pipeline]]; this
 doc does not repeat them.
 
@@ -179,7 +179,7 @@ be authorized. The flow (`src/sohl.ts` `renderChatMessageHTML` hook, plus
      This is **UX only** — it hides buttons, it does not authorize.
 3. **Click-time authorization (the real boundary).**
    `resolveAuthorizedChatCardHandler` (`chat-card-dispatch.ts`) resolves the
-   handler doc (uuid precedence `docUuid → handlerUuid → handlerActorUuid →
+   handler doc (uuid precedence `docUuid > handlerUuid > handlerActorUuid >
 actionHandlerUuid`) and returns it **only if `isOwner`**; `onChatCardButton`
    re-checks ownership. The button's `data-scope` becomes `context.scope`, so the
    resume reads `context.scope.attackResult`.
@@ -199,7 +199,7 @@ encounter-scoped state on top of Foundry's Combatant. Key fields the logic reads
 | ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `groupId`                          | The combatant's `CombatantGroup` — the side it fights on. Reads `_source.group` first for a stable id. The sole input to `isEnemyOf` / `allies` / `threatenedBy`; see [Combatant groups](#combatant-groups). |
 | `moveFactor`                       | GM situational move multiplier (run/sprint/terrain); `computedMove()` scales the actor's `feetPerRound` by it.                                                                                               |
-| `displayedMedium`                  | Which movement medium the tracker shows; seeded at `_preCreate` (user-set › the actor's `currentMoveMedium` › schema default). _(Not yet honored by `computedMove`, which uses the actor's active medium.)_  |
+| `displayedMedium`                  | Which movement medium the tracker shows; seeded at `_preCreate` (user-set > the actor's `currentMoveMedium` > schema default). _(Not yet honored by `computedMove`, which uses the actor's active medium.)_  |
 | `computedMove()` / `displayedMove` | Tactical feet-per-round from the actor's `feetPerRound` (scaled by `moveFactor`), or `null` for a non-mover (movement medium `NONE`).                                                                        |
 | initiative                         | `_getInitiativeFormula()` returns the actor's `init` skill mastery as a **fixed string** — SoHL initiative is skill-driven, not a die roll.                                                                  |
 
@@ -221,7 +221,7 @@ allegiance is a property of the encounter, not of the character, and the same
 mercenary is an ally this week and an enemy the next. The group is where that
 per-encounter fact lives, and it is deliberately the only input to it. The whole
 rule is one comparison, in the pure `areCombatantsEnemies`: **two combatants are
-enemies iff their group ids differ.** Same group ⇒ allies; a combatant is never
+enemies iff their group ids differ.** Same group means allies; a combatant is never
 its own enemy; and a missing group on either side resolves defensively to
 _enemy_, so a not-yet-seeded combatant is never mistaken for a friend.
 
@@ -277,8 +277,8 @@ fire-and-forget:
 
 - **`SohlHookBridge`** (`src/core/logic/SohlHookBridge.ts`) fans Foundry's combat
   hooks into system lifecycle events, all GM-gated and routed through the event
-  queue: `combatStart`, `combatRound` → `roundEnd` + `roundStart`, `combatTurn`
-  → `turnEnd` + `turnStart`, `deleteCombat` → `combatEnd`.
+  queue: `combatStart`, `combatRound` > `roundEnd` + `roundStart`,
+  `combatTurn` > `turnEnd` + `turnStart`, `deleteCombat` > `combatEnd`.
 - **`updateCombat`** (`src/sohl.ts`) captures the new current combatant's position
   and resets its per-turn `didAction` on turn/round change. It is the source of
   the turn-start location that `spacesMovedThisTurn` reports.

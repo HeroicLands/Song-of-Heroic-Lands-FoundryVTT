@@ -90,7 +90,7 @@ class MyResult extends sohl.entity.SuccessTestResult {
 
 Every class is also addressable by its source-mirroring namespace path —
 `sohl.entity.modifier.ValueModifier`, `sohl.document.effect.foundry.SohlActiveEffect`,
-etc. (see [[doc-sohlapi|The SoHL API → namespace tree]]). Use those
+etc. (see [[doc-sohlapi|The SoHL API > namespace tree]]). Use those
 paths for reference and discovery, but **construct and override through the flat
 `sohl.entity.<ClassName>` registry above** — only its getters honor a `register()`
 override; a namespace path always resolves to the original class.

@@ -807,6 +807,8 @@
     "SOHL.Dialog.TreatmentTest.hint": "Paste the wound's UUID to send the patient an Accept card. Leave it blank to run a GM-directed test on the severity/aspect below.",
     "SOHL.Dialog.TreatmentTest.injuryUuid": "Injury UUID (optional)",
     "SOHL.Dialog.TreatmentTest.uuidPlaceholder": "Item....",
+    "SOHL.Draft.hint": "Mark this document a draft: its content is unfinished, unverified, or not yet adapted for your table.",
+    "SOHL.Draft.label": "Draft",
     "SOHL.Effect.contextMenu.delete": "Delete Effect",
     "SOHL.Effect.contextMenu.disable": "Disable Effect",
     "SOHL.Effect.contextMenu.edit": "Edit Effect",

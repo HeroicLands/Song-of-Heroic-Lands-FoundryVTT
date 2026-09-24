@@ -90,7 +90,7 @@ its documentation journal.
 
 | Field                | Shape                     | Meaning                                                      |
 | -------------------- | ------------------------- | ------------------------------------------------------------ |
-| `attributes`         | map of shortcode → number | Embedded attribute items, each opened at that score.         |
+| `attributes`         | map of shortcode > number | Embedded attribute items, each opened at that score.         |
 | `items`              | list of entries           | Everything else the being embeds. See below.                 |
 | `body`               | nested object             | The being's physical body. Omit it for an incorporeal being. |
 | `currentMoveMedium`  | string, default `"none"`  | Which medium it is currently moving through.                 |

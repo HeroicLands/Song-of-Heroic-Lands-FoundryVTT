@@ -98,7 +98,7 @@ does not exist is worse than no entry at all.
 | `version`        | Format version. See [Versioning](#versioning).                                                                           |
 | `package`        | The **content** package — the emitting repository's configured `contentPackage`.                                         |
 | `foundryPackage` | The **Foundry** package whose compendiums hold the compiled documents. Absent when the emitting build compiles no packs. |
-| `entries`        | Canonical address → entry. Sorted, so a committed copy diffs only on real change.                                        |
+| `entries`        | Canonical address > entry. Sorted, so a committed copy diffs only on real change.                                        |
 
 `package` and `foundryPackage` are **different namespaces** and coincide only by
 accident. `sohl-thalorna` configures `contentPackage: thalorna`; its documents
@@ -113,7 +113,7 @@ compilation targets, which is why addresses are namespaced on it.
 | `path`    | no       | The note's address **below the package's own base**, no leading slash. |
 | `uuid`    | no       | The Foundry UUID of the document this note compiles into.              |
 | `doc`     | no       | For an item, the **address** of its documentation entry.               |
-| `anchors` | no       | Named sections → the whole UUID each compiled to.                      |
+| `anchors` | no       | Named sections > the whole UUID each compiled to.                      |
 
 `name` is the only required field, because it is the only one that is not an
 address. A note may have a web address, a Foundry address, or both, and the

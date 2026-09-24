@@ -113,7 +113,7 @@ maintained API.
 ### New types, sheets, effects, and chat cards
 
 Adding a new actor/item type or sheet follows the system's layering pattern
-(Document → DataModel → Logic → Sheet). [[doc-extensionpoints|Extension Points]]
+(Document > DataModel > Logic > Sheet). [[doc-extensionpoints|Extension Points]]
 walks through registering new types, active-effect integration, and UI/chat-card
 templates. Read [[doc-architecture|Architecture Overview]] first for the
 three-layer model and the Foundry-free logic boundary your additions must respect.
@@ -252,7 +252,7 @@ There are two ways to author it, and neither modifies system source:
    must still place a "SoHL Event Trigger" behavior on the region for the events to
    flow — that is the human-behest opt-in. High-frequency streams (`tokenMove*`)
    are deliberately not exposed. See
-   [[doc-eventqueue#8-a-scene-region-trigger-offer-a-check-on-entering|Event Queue → Scene-region triggers]].
+   [[doc-eventqueue#8-a-scene-region-trigger-offer-a-check-on-entering|Event Queue > Scene-region triggers]].
 
 ### Shipping Create-dialog archetypes {#shipping-create-dialog-archetypes}
 
@@ -301,7 +301,7 @@ A GM can set the same field from the sheet: every Actor and Item sheet header
 carries a GM-only **Archetype Priority** control bound to `system.templatePriority`
 (on the Being sheet it is in the header's identity dialog).
 
-See [[doc-extensionpoints#9-create-dialog-archetypes-systemtemplatepriority|Extension Points → Create-dialog archetypes]]
+See [[doc-extensionpoints#9-create-dialog-archetypes-systemtemplatepriority|Extension Points > Create-dialog archetypes]]
 for the full contract, the Foundry-free discovery helper, and the
 instantiation-clears / copy-preserves boundary.
 

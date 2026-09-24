@@ -70,16 +70,16 @@ Combat relationships are **derived, not stored**. The combatant persists exactly
 - `allies` — the other combatants sharing this one's group.
 - `threatenedBy` — the enemies currently menacing this combatant: not defeated, carrying none of `THREAT_NEGATING_STATUSES`, not hidden, and within melee `reach`.
 
-See [[doc-combatmodel#combatant-groups|Combat Model → Combatant groups]] for what the grouping is for, how membership is seeded, and which of these relations are consumed today.
+See [[doc-combatmodel#combatant-groups|Combat Model > Combatant groups]] for what the grouping is for, how membership is seeded, and which of these relations are consumed today.
 
 ### Movement state
 
 `SohlCombatant` carries two movement-related system fields, both encounter-scoped (created with the combatant, destroyed when removed):
 
 - `moveFactor: number` — situational multiplier the GM sets to express run/sprint/encumbrance/terrain. Defaults to 1.
-- `displayedMedium: MovementMedium` — which movement medium the tracker row reports. Seeded at `_preCreate` time (user-set › the actor's `system.currentMoveMedium` › schema default).
+- `displayedMedium: MovementMedium` — which movement medium the tracker row reports. Seeded at `_preCreate` time (user-set > the actor's `system.currentMoveMedium` > schema default).
 
-`combatant.computedMove()` returns the actor's tactical move (feet per combat round) for its active movement medium — read from its `feetPerRound`, **scaled by `moveFactor`** — or `null` for a non-mover (movement medium `NONE`). `combatant.displayedMove` is the convenience getter the combat tracker reads. Note that `displayedMedium` is not yet honored by `computedMove`, which always uses the actor's active medium (`currentMoveMedium`) — see [[doc-combatmodel#current-gaps-and-caveats|Combat Model → Current gaps and caveats]].
+`combatant.computedMove()` returns the actor's tactical move (feet per combat round) for its active movement medium — read from its `feetPerRound`, **scaled by `moveFactor`** — or `null` for a non-mover (movement medium `NONE`). `combatant.displayedMove` is the convenience getter the combat tracker reads. Note that `displayedMedium` is not yet honored by `computedMove`, which always uses the actor's active medium (`currentMoveMedium`) — see [[doc-combatmodel#current-gaps-and-caveats|Combat Model > Current gaps and caveats]].
 
 Movement is a **universal actor capability** — every actor kind carries, on the base {@link sohl.document.actor.logic.SohlActorBaseLogic} (see also `src/document/actor/logic/movement.ts`), per-medium `movementProfiles` (each with `feetPerRound`, `leaguesPerWatch`, and encumbrance/strength expressions) plus a `currentMoveMedium`. During preparation the actor resolves its active profile — selected by `currentMoveMedium` — into `feetPerRound` / `leaguesPerWatch` `ValueModifier`s that Active Effects can layer on. The default medium is `MOVEMENT_MEDIUM.NONE` (a non-mover, the `NONE_MOVE_PROFILE` constant), never authored per-actor. Nothing else — weather, terrain — is modeled by the system.
 

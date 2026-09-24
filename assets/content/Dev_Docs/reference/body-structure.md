@@ -158,10 +158,10 @@ A part may carry multiple roles. A wolf's foreleg might be `[locomotor, manipula
 1. **Skill / attribute impairment.** Skills and attributes carry an `impairedByRoles: BodyRole[]` field. When a body part takes an injury, every skill and attribute whose `impairedByRoles` intersects the part's `roles` is impaired. Mental attributes leave the list empty; physical ones list the relevant roles. See [src/document/item/foundry/SkillDataModel.ts](../../../../src/document/item/foundry/SkillDataModel.ts) and [AttributeDataModel.ts](../../../../src/document/item/foundry/AttributeDataModel.ts).
 2. **Mobility impairment.** `BodyPart.affectsMobility` returns `true` when the part has any of `vital`, `core`, or `locomotor`.
 3. **Mishap checks** (fumble / stumble) on injury severity:
-   - `vital` Serious → fumble + stumble check; Grievous → both auto
-   - `core` Serious → fumble + stumble check; Grievous → both auto
-   - `manipulator` Serious → fumble check; Grievous → auto fumble
-   - `locomotor` Serious → stumble check; Grievous → auto stumble
+   - `vital` Serious > fumble + stumble check; Grievous > both auto
+   - `core` Serious > fumble + stumble check; Grievous > both auto
+   - `manipulator` Serious > fumble check; Grievous > auto fumble
+   - `locomotor` Serious > stumble check; Grievous > auto stumble
 
 ### Resolving a flagged mishap — the keep-control test
 
@@ -267,7 +267,7 @@ the limb is disabled: the body-part editor
 attribute declares the body-part roles it depends on in its `impairedByRoles`, and
 the being projects its injured parts onto two role views: `being.unusableRoles()`
 (roles of every _unusable_ part) and `being.impairedRolePenalties()` (each
-still-usable-but-impaired role → its worst −5/−10 penalty; the two never overlap,
+still-usable-but-impaired role > its worst −5/−10 penalty; the two never overlap,
 since an unusable part contributes no number). In
 {@link sohl.entity.modifier.MasteryLevelModifier.successTest} a test whose
 `impairedByRoles` intersects an **unusable** role is forced to a Critical Failure
@@ -418,7 +418,7 @@ The **Resolve Injury** action determines its hit location by **Zone-Number aimin
 
 `aimZone` returns the full trace (`targetZoneNumber`, `zoneDie`, `zoneDieResult`, `hitZoneNumber`, `zone`, `location`, `isMiss`) so the result card can echo how the location was determined. `targetZoneNumber` defaults to 1 and an unaimed strike uses `zoneDie = maxZoneNumber`, which reproduces the whole-body weighted distribution above.
 
-For the broader resolution flow (rolls → wound calculation → effects), see [[doc-combatresolutionpipeline|Combat Resolution Pipeline]].
+For the broader resolution flow (rolls > wound calculation > effects), see [[doc-combatresolutionpipeline|Combat Resolution Pipeline]].
 
 ## Localization
 
@@ -535,11 +535,11 @@ Structure section** — no macro needed:
 - **Add** — the section header carries a **+ Add** control that creates a body
   part; each body-part header carries a **+ Add** that creates a hit location
   under it. Both prompt for a name and a unique shortcode.
-- **Edit** — each part header and location row has a **⋮** menu whose **Edit**
+- **Edit** — each part header and location row has a **:icon-menu:** menu whose **Edit**
   opens the `BodyPartConfig` / `BodyLocationConfig` editor for that entry, which
   auto-saves each field change (roles, protection, bleeding / amputability
   tiers, and so on).
-- **Delete** — the same **⋮** menu's **Delete** removes the entry after
+- **Delete** — the same **:icon-menu:** menu's **Delete** removes the entry after
   confirmation. Deleting a part is refused while it still owns hit locations —
   remove those first.
 - **Reorder** — parts and locations reorder, and locations move between parts,

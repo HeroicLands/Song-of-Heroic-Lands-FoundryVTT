@@ -39,7 +39,7 @@ nor sufficient for it.
 This is what makes **matching** well-defined, and matching is the reason the key
 exists:
 
-- **Compendium ↔ world reconciliation.** A world document is recognized as _the same
+- **Compendium and world reconciliation.** A world document is recognized as _the same
   entity_ as its compendium origin because they share `(type, shortcode)`, even
   though import gave the world copy a fresh `_id` and the user has since edited its
   values.
@@ -83,8 +83,8 @@ import a build dependency, so neither copy can be removed;
 thing that would notice a drift.
 
 Repair, where a violation cannot simply be refused, **spells every letter it can,
-drops the rest, and folds to lowercase** — `B&CFl` → `bcfl`, `self-pro` → `selfpro`,
-`Tabûri` → `taburi`, `Æthelred` → `aethelred`. That is deliberately not
+drops the rest, and folds to lowercase** — `B&CFl` > `bcfl`, `self-pro` > `selfpro`,
+`Tabûri` > `taburi`, `Æthelred` > `aethelred`. That is deliberately not
 `slugifyShortcode`, which also **abbreviates and shortens**: that one derives a _new_
 key from a display name, while a repair keeps an _existing_ identity as recognizable as
 possible, so every letter survives.
@@ -92,8 +92,8 @@ possible, so every letter survives.
 Keeping the identity recognizable is why a letter is **folded rather than deleted**.
 `sanitizeShortcode` carries the value into ASCII with `toAsciiLetters` — the same fold
 `slugifyShortcode` uses — before it drops anything, so an accented letter becomes its
-base (`û` → `u`) and a letter with no mark to separate is written out (`Æ` → `AE`,
-`þ` → `th`). Deleting instead changes **which entity the key names**: a document
+base (`û` > `u`) and a letter with no mark to separate is written out (`Æ` > `AE`,
+`þ` > `th`). Deleting instead changes **which entity the key names**: a document
 repaired from `Tabûri` to `Tabri` no longer matches the compendium entry it came from,
 which the identity semantics above make a silent, irreversible break.
 Folding is a no-op on an ASCII key, so the two punctuation repairs are unaffected; what
@@ -200,7 +200,7 @@ The 0.9.0 migration `alphanumericShortcode` (`MigrationRegistry.ts`) rewrites an
 stored shortcode that fails the shape rule, applying the same strip-and-fold repair,
 so a world that imported a legacy key keeps pointing at the same entity as its renamed
 compendium origin. It also folds a mixed-case key that broke no earlier
-rule (`Clb` → `clb`) — a canonical respelling rather than a change of identity, since
+rule (`Clb` > `clb`) — a canonical respelling rather than a change of identity, since
 the address and `_id` derived from a shortcode were already lowercased. Folding is
 also what makes the repair **converge**: a case-preserving repair would hand the guard
 back the same value it had just refused, repairing nothing on every load. It leaves a blank shortcode alone (filling one in is the
@@ -214,14 +214,14 @@ The pure decision logic is {@link sohl.utils.resolveShortcodeKey} — Foundry-fr
 unit-tested. It takes the desired shortcode, the document name, the taken set, and a
 `shortcodeDedupe` flag, and returns `{ shortcode }` or `{ reject: true }`:
 
-| shortcode in data      | name → slug | `shortcodeDedupe` | result                                                      |
+| shortcode in data      | name > slug | `shortcodeDedupe` | result                                                      |
 | ---------------------- | ----------- | ----------------- | ----------------------------------------------------------- |
-| provided, matches rule | —           | `true`            | collides → suffix (`arrow` → `arrow2`); else accept         |
-| provided, matches rule | —           | `false`/absent    | collides → **reject** (`collision`); else accept            |
-| provided, fails rule   | —           | `true`            | repaired (`B&CFl` → `bcfl`, `BCap` → `bcap`), then as above |
+| provided, matches rule | —           | `true`            | collides > suffix (`arrow` > `arrow2`); else accept         |
+| provided, matches rule | —           | `false`/absent    | collides > **reject** (`collision`); else accept            |
+| provided, fails rule   | —           | `true`            | repaired (`B&CFl` > `bcfl`, `BCap` > `bcap`), then as above |
 | provided, fails rule   | —           | `false`/absent    | **reject** (`invalid`)                                      |
-| blank                  | non-empty   | `true`            | base = slug; collides → suffix                              |
-| blank                  | non-empty   | `false`/absent    | base = slug; collides → **reject**                          |
+| blank                  | non-empty   | `true`            | base = slug; collides > suffix                              |
+| blank                  | non-empty   | `false`/absent    | base = slug; collides > **reject**                          |
 | blank                  | blank       | `true`            | random 16-char id                                           |
 | blank                  | blank       | `false`/absent    | **reject** (`missing`)                                      |
 
@@ -298,10 +298,10 @@ author writes the matching key by hand, pinning `locations.stair-foot` at a head
 called _Stair Foot_ — and for **pack filenames**, read back only by the unpacker. It
 transliterates before reducing, so an accented character is carried across rather
 than dropped: `Nüsvōrroth` reduces to `nusvorroth`, where a stripping slugifier
-produced `n-sv-rroth`. Ligatures expand as a reader would spell them (`þ`→`th`,
-`æ`→`ae`, `œ`→`oe`, `ß`→`ss`, `ĳ`→`ij`, `ﬁ`→`fi`; eth follows the Icelandic `d`),
-apostrophes are removed rather than made separators (`Armorer's Kit` →
-`armorers-kit`), and a fraction keeps its digits together (`Kûrbúl ¾-Helm` →
+produced `n-sv-rroth`. Ligatures expand as a reader would spell them (`þ` > `th`, `æ` > `ae`,
+`œ` > `oe`, `ß` > `ss`, `ĳ` > `ij`, `ﬁ` > `fi`; eth follows the Icelandic `d`),
+apostrophes are removed rather than made separators (`Armorer's Kit` >
+`armorers-kit`), and a fraction keeps its digits together (`Kûrbúl ¾-Helm` >
 `kurbul-34-helm`, not `kurbul-3-4-helm`).
 
 **There is no alias namespace.** A wikilink is always qualified —

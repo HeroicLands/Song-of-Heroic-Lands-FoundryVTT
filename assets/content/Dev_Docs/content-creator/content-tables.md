@@ -136,10 +136,10 @@ markdown reader still highlight the block as SQL and ignore what follows. A key 
 
 ## How values render
 
-- absent or `NULL` → an em dash (`—`);
-- a list → its elements, comma-separated;
-- a boolean → `yes` / `no`;
-- a **struct** → a build error. A column resolving to an object is almost always a
+- absent or `NULL` > an em dash (`—`);
+- a list > its elements, comma-separated;
+- a boolean > `yes` / `no`;
+- a **struct** > a build error. A column resolving to an object is almost always a
   truncated path (`sohl.system.protectionBase` for `…protectionBase.blunt`), and would
   otherwise ship as `[object Object]`.
 
@@ -168,7 +168,7 @@ builds but is not alphabetical.
 header and a rule, and a stale query — a renamed type, a retired category, a typo'd
 path — is then indistinguishable from a category that is legitimately empty. Eight
 tables in `Rules/Bestiary.md` published that way for months after the
-`creature` → `being` rename, and no build said a word.
+`creature` > `being` rename, and no build said a word.
 
 Where a table is _meant_ to be empty — a category whose content is not written yet —
 say so on the fence with `:allow-empty`.

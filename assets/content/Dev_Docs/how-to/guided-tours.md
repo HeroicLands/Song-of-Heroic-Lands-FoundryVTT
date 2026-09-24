@@ -132,7 +132,7 @@ rulebook ruling. It is driven by `cypress/e2e/assisted-combat-tour.cy.js`.
 
 ### Listing vs. hiding a tour
 
-`display` controls whether a **registered** tour appears in _Settings → Tour
+`display` controls whether a **registered** tour appears in _Settings > Tour
 Management_ — it does not control registration. A content tour meant for players
 uses `display: true` so they can find and launch it. An **internal** tour — a
 framework demo, or a fixture that exists only for the e2e suite to drive — should
@@ -292,7 +292,7 @@ const config: SohlTourConfig = {
 };
 ```
 
-> ⚠️ **The seeded RNG MUST be restored on every exit path, and this is the tour's
+> :icon-warning: **The seeded RNG MUST be restored on every exit path, and this is the tour's
 > only teardown obligation.** `sohl.random` is the process-wide shared stream; a
 > seed left in place makes the **user's real game return identical dice until they
 > reload**. The restore is registered at seed time as a fire-once

@@ -71,7 +71,7 @@ Logic classes handle game rules, calculations, and actions — separated from Fo
 
 Logic/domain code may also _reference_ Foundry-coupled classes (`SohlItem`, `SohlActor`, `SohlTokenDocument`) with **`import type` only** — type imports are erased at compile time and create no runtime dependency.
 
-Persisted `*Data` fields are **references** (a UUID, id, or shortcode); the logic layer resolves them to **live objects**. This "reference on the wire, live object in memory" rule spans the whole system and is the canonical serialization contract — see [[doc-runtimecontracts#the-grounding-rule-reference-on-the-wire-live-object-in-memory|Runtime Contracts → the grounding rule]].
+Persisted `*Data` fields are **references** (a UUID, id, or shortcode); the logic layer resolves them to **live objects**. This "reference on the wire, live object in memory" rule spans the whole system and is the canonical serialization contract — see [[doc-runtimecontracts#the-grounding-rule-reference-on-the-wire-live-object-in-memory|Runtime Contracts > the grounding rule]].
 
 This isolation is precisely what makes the logic layer **unit-testable with no Foundry running**: both channels are replaced with test doubles (see [[doc-testing|Testing]]). It is enforced two ways:
 
@@ -94,13 +94,13 @@ A sheet (or settings app) is Foundry code: it owns the DOM, fires hooks, mutates
 
 The convention: a sheet/app class `FooSheet`/`FooApp` with pure view-model logic gets a `foo-sheet-view.ts` (apps: `foo-view.ts`) module of free functions in the **sibling `logic/` directory** (e.g. `actor/logic/being-sheet-view.ts`, `apps/logic/domain-manager-view.ts`). These take accessor callbacks or minimal structural inputs — never Foundry document types — so they stay value-Foundry-free; the sheet keeps only orchestration and delegates the shaping. The canonical example is `being-sheet-view.ts`.
 
-Create such a module **only when there is real logic to hold** — trivial field-injection (`system.foo → context.foo`) stays inline. Don't add empty placeholder modules.
+Create such a module **only when there is real logic to hold** — trivial field-injection (`system.foo > context.foo`) stays inline. Don't add empty placeholder modules.
 
 ## Three-class pattern {#three-class-pattern}
 
 Every actor and item type is split into three classes across two directories:
 
-1. **Logic class** (e.g., `SkillLogic` in `item/logic/SkillLogic.ts`) — business logic, calculations, actions. Participates in the phase-batched lifecycle: `initialize()` → `evaluate()` → `finalize()`. Also contains the Data interface.
+1. **Logic class** (e.g., `SkillLogic` in `item/logic/SkillLogic.ts`) — business logic, calculations, actions. Participates in the phase-batched lifecycle: `initialize()` > `evaluate()` > `finalize()`. Also contains the Data interface.
 
 2. **DataModel class** (e.g., `SkillDataModel` in `item/foundry/SkillDataModel.ts`) — extends Foundry `TypeDataModel`, defines the persisted schema via `defineSchema()`.
 
@@ -123,7 +123,7 @@ Switching an existing field is not automatically a no-op, though. `SafeExpressio
 
 ### Accessing a document's data and logic
 
-At runtime, `document.system` is the **DataModel** instance and `document.logic` (≡ `document.system.logic`) is the **Logic**. The DataModel implements the type's `*Data` interface, so the persisted fields are the same object whichever way you reach them.
+At runtime, `document.system` is the **DataModel** instance and `document.logic` (the same object as `document.system.logic`) is the **Logic**. The DataModel implements the type's `*Data` interface, so the persisted fields are the same object whichever way you reach them.
 
 For typed, documented access, prefer **`document.logic.data`**. `SohlLogic.data` returns the `*Data` interface — e.g. `skillItem.logic.data` is typed `SkillData` — so editors autocomplete the fields and the API reference links straight to the shape. `document.system` holds the identical object but is typed as the Foundry-internal DataModel class (excluded from the API docs).
 
@@ -165,7 +165,7 @@ being.body.isIncorporeal; // true when the body structure is empty
 ```
 
 At the data layer, the anatomy/weight/reach/scale **schema is the `body` `SchemaField` on
-`BeingDataModel`** (see [[doc-bodystructure#where-the-data-lives|Body Structure → Where the data lives]]), while the movement schema is on the base actor DataModel.
+`BeingDataModel`** (see [[doc-bodystructure#where-the-data-lives|Body Structure > Where the data lives]]), while the movement schema is on the base actor DataModel.
 
 ## Document types
 
@@ -173,7 +173,7 @@ SoHL defines several **actor** and **item** types, each following the three-clas
 
 - `ACTOR_KIND` and `ITEM_KIND` in `src/utils/constants.ts` — the canonical set of type codes.
 - [[doc-typecatalog|Type Catalog]] — what each type is and how they interact.
-- The API reference — every type's classes, under **Documents → Actor** and **Documents → Item**.
+- The API reference — every type's classes, under **Documents > Actor** and **Documents > Item**.
 
 In short: **actors** model the entities in the world — individual beings and creatures, groups, structures, vehicles, and item-container assemblies. **Items** model the capabilities and possessions an actor carries — skills, gear, afflictions and injuries, traumas, and mystical abilities.
 
@@ -229,7 +229,7 @@ For UI notifications, use `sohl.log.uiWarn` / `sohl.log.uiError` (SohlLogger), n
 
 ## Build system
 
-`npm run build` runs the full pipeline (type-check → test → bundle with Vite) into **`build/stage/`**, which mirrors the installed Foundry system directory — Foundry could load it as-is. For the script catalog, the pipeline stages, the `build/` layout, and how `system.json` is assembled, see [[doc-buildanddeployment|Build, Deployment, and Release]].
+`npm run build` runs the full pipeline (type-check > test > bundle with Vite) into **`build/stage/`**, which mirrors the installed Foundry system directory — Foundry could load it as-is. For the script catalog, the pipeline stages, the `build/` layout, and how `system.json` is assembled, see [[doc-buildanddeployment|Build, Deployment, and Release]].
 
 ## Actor state sovereignty {#actor-state-sovereignty}
 
@@ -245,7 +245,7 @@ Example: a wizard casts Sleep on a victim. The wizard rolls to land the spell; o
 
 **Why:** Foundry permissions — a client can only reliably update documents it owns — and player accountability: each player (the GM owns all actors) stays in control of, and every cross-actor consequence stays visible in chat for, their own character.
 
-This already underlies automated combat: defense buttons dispatch to the _defender's_ client, and the "Calculate Injury" button resolves on the _target's_ client. To implement a new cross-actor mechanic, follow [[doc-extensionpoints#cross-actor-effects-the-acknowledge-button-pattern|Extension Points → Cross-actor effects]].
+This already underlies automated combat: defense buttons dispatch to the _defender's_ client, and the "Calculate Injury" button resolves on the _target's_ client. To implement a new cross-actor mechanic, follow [[doc-extensionpoints#cross-actor-effects-the-acknowledge-button-pattern|Extension Points > Cross-actor effects]].
 
 ## Architectural rules {#architectural-rules}
 

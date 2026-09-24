@@ -182,11 +182,11 @@ schedule the project keeps. Leave every milestone's due date blank.
 
 Walk this in order; take the first match.
 
-1. Is something **broken** relative to intended behavior? → **bug** (add `regression` if it used to work).
-2. Is the outcome **genuinely uncertain** and the deliverable a **decision/answer**? → **spike** (state question + timebox).
-3. Is this too large to ship as one issue, needing **multiple sub-issues** to coordinate? → **epic**.
-4. Is it a **new capability or enhancement** that doesn't exist yet? → **feature**.
-5. Otherwise — chore, maintenance, refactor, docs, tooling, release? → **task**.
+1. Is something **broken** relative to intended behavior? > **bug** (add `regression` if it used to work).
+2. Is the outcome **genuinely uncertain** and the deliverable a **decision/answer**? > **spike** (state question + timebox).
+3. Is this too large to ship as one issue, needing **multiple sub-issues** to coordinate? > **epic**.
+4. Is it a **new capability or enhancement** that doesn't exist yet? > **feature**.
+5. Otherwise — chore, maintenance, refactor, docs, tooling, release? > **task**.
 
 Then, regardless of type: set **priority** (default Medium; justify higher), apply
 any **labels** from §3 that categorize it, and set a **milestone** only when the issue
@@ -307,13 +307,13 @@ maintainer decide whether to make it public.
 
 > **Title:** Fix character sheet failing to render after v14 migration
 > **Type:** bug · **Priority:** High · **Labels:** `system`, `regression` · **Milestone:** _(unset — maintenance on an already-crossed gate)_
-> Body: reproduces on Foundry v14; sheet threw before the migration didn't. No workaround → High.
+> Body: reproduces on Foundry v14; sheet threw before the migration didn't. No workaround > High.
 
 **Feature, Medium**
 
 > **Title:** Add wound tracking to combat resolution
 > **Type:** feature · **Priority:** Medium · **Labels:** `system` · **Milestone:** `Combat-capable` (advances exactly this gate)
-> Body: new capability, single shippable unit, not blocking → Medium.
+> Body: new capability, single shippable unit, not blocking > Medium.
 
 **Epic, Medium**
 
@@ -325,7 +325,7 @@ maintainer decide whether to make it public.
 
 > **Title:** Bump Vitest to latest and refresh snapshots
 > **Type:** task · **Priority:** Low · **Labels:** `tests`, `devops` · **Milestone:** _(unset — serves no gate)_
-> Body: routine maintenance, deferrable → Low.
+> Body: routine maintenance, deferrable > Low.
 
 **Spike, Medium**
 
@@ -378,10 +378,10 @@ if the fix is an edit to a file in a given repository, the issue belongs to that
 repository, even when the symptom shows up somewhere else. Two cases that look alike
 and are not:
 
-- A Thalorna note renders wrong because its own frontmatter is malformed → an issue in
+- A Thalorna note renders wrong because its own frontmatter is malformed > an issue in
   `sohl-thalorna`.
 - A Thalorna note renders wrong because `@heroiclands/package-build` mishandles valid
-  frontmatter → an issue **here**, because that is where the package lives.
+  frontmatter > an issue **here**, because that is where the package lives.
 
 When the answer is genuinely "both", file in each repository and link them — the
 symptom where it appears, the cause where it lives.
@@ -422,5 +422,5 @@ You should confirm all of these before submitting an issue:
 - [ ] No label duplicates what the type, priority field, or milestone already says.
 - [ ] **Milestone** set only when the issue clearly advances one existing capability gate (§4); otherwise unset. **Never** invented.
 - [ ] Title is imperative and specific; body follows the §6 shape for its type. Title should not encode labels or other field information.
-- [ ] If `security` + exploitable → routed to **private advisory**, not a public issue (§7).
-- [ ] If **epic** → sub-issues are linked. If **spike** → question and timebox are present.
+- [ ] If `security` + exploitable > routed to **private advisory**, not a public issue (§7).
+- [ ] If **epic** > sub-issues are linked. If **spike** > question and timebox are present.

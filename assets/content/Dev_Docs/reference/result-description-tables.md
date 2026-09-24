@@ -101,7 +101,7 @@ reference-on-wire / live-object-in-memory rule:
   `serializeLimitedDescriptionTable` — a `SafeExpression` becomes its
   `__kind`-tagged source string; literals pass through. (Emitting a live
   `SafeExpression` would recurse into its parent back-reference during the
-  `undefined→null` pass — see the helper's note.)
+  `undefined`-to-`null` pass — see the helper's note.)
 - **The constructor** revives each field via `reviveLimitedDescriptionTable`,
   rehydrating a serialized expression into a live `SafeExpression` owned by the
   result's parent logic.

@@ -156,6 +156,26 @@ span.sep {
         font-size: 12px;
     }
 
+    // Draft marker — the referee's own note that this document's content is
+    // unfinished. Sits with the other identity metadata, matched to the
+    // archetype control in scale so the two read as one row of provenance.
+    .sheet-header__draft {
+        display: inline-flex;
+        gap: 5px;
+        align-items: center;
+        margin: 0 0 4px 5px;
+        font-size: 12px;
+        font-weight: 400;
+        color: var(--sohl-color-text-muted);
+        cursor: pointer;
+    }
+
+    .sheet-header__draft-input {
+        flex: 0 0 auto;
+        width: auto;
+        margin: 0;
+    }
+
     img.sheet-header__portrait {
         flex: 0 0 100px;
         max-width: 100px;
