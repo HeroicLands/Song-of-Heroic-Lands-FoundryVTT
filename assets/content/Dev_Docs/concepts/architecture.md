@@ -29,7 +29,7 @@ Song of Heroic Lands (SoHL) is a Foundry VTT game system implementing HârnMaste
 src/
 ├── core/        System foundations, split into logic/ (Foundry-free: system
 │                registration, the Logic base, event queue, hook bridge) and
-│                foundry/ (the DataModel base, calendar) plus the FoundryHelpers shim.
+│                foundry/ (the DataModel base) plus the FoundryHelpers shim.
 ├── entity/      Pure, Foundry-free game-mechanics objects: modifier/, result/,
 │                body/, movement/, action/, roll/, event/, expr/ (SafeExpression),
 │                strikemode/, skill base.

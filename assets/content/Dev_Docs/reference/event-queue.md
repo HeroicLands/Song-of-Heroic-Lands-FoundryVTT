@@ -476,5 +476,4 @@ Follow these for the exact parameters and return types:
 - [[doc-moduledevelopment#scheduling-deferred-actions|Writing Modules → Scheduling deferred actions]] — the bandit-check example end to end.
 - [[doc-actioncards|Action Cards & the Consent Model]] — the `[Perform]` reminder and self-sufficient actions.
 - [[doc-effectsintegration|Effects Integration]] — the shared trigger vocabulary with `CONFIG.ActiveEffect.expiryEvents`.
-- [[doc-calendar|Calendar]] — formatting event times for sheets and chat.
 - [[doc-lifecyclehooks|Lifecycle Hooks]] — where `finalize()` fits in preparation.

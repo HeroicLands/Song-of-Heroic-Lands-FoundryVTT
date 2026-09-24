@@ -24,7 +24,6 @@ Primary file: `src/core/logic/SohlSystem.ts`
 
 - `globalThis.sohl` is assigned during init (`src/sohl.ts`) and provides the runtime system instance.
 - Core config surface (`CONFIG`) exposes document classes, data models, sheets, and result/modifier constructors.
-- Calendar registry (see [[doc-extensionpoints#9-calendar-registration|Extension Points — Calendar Registration]]).
 
 ### CONFIG structure
 
@@ -103,9 +102,9 @@ Two reasons this is easy to miss:
 
 ### The archetype marker (`system.templatePriority`)
 
-| Field                     | Type             | On           | Meaning                                                                                                                                                                                                                                                                           |
-| ------------------------- | ---------------- | ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `system.templatePriority` | `number \| null` | Actor / Item | Marks the document as a Create-dialog **archetype** (a populated starting template) and carries its **priority**. `null` means "not an archetype". See [[doc-extensionpoints#10-create-dialog-archetypes-systemtemplatepriority \| Extension Points → Create-dialog archetypes]]. |
+| Field                     | Type             | On           | Meaning                                                                                                                                                                                                                                                                          |
+| ------------------------- | ---------------- | ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `system.templatePriority` | `number \| null` | Actor / Item | Marks the document as a Create-dialog **archetype** (a populated starting template) and carries its **priority**. `null` means "not an archetype". See [[doc-extensionpoints#9-create-dialog-archetypes-systemtemplatepriority \| Extension Points → Create-dialog archetypes]]. |
 
 Declared once, on the shared base schema (`defineSohlDataSchema`), so it reaches
 every Actor, Item and Combatant subtype. It is a schema field rather than a

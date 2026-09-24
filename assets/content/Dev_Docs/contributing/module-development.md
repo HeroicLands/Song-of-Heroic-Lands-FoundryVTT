@@ -103,12 +103,11 @@ for the full hook reference, the arguments each receives, and the recommended
 **module guard pattern** (a world setting toggle plus a GM guard) so your module
 is opt-in and side-effect-safe.
 
-### Registries — calendars
+### Registries
 
-The system keeps registries a module can add to during `init`, including the
-**calendar** registry. The exact registration calls live in
-[[doc-extensionpoints|Extension Points]] (§7 System registries,
-§8 Calendar registration) — follow that document so your code matches the
+The system keeps registries a module can add to during `init`. The exact
+registration calls live in [[doc-extensionpoints|Extension Points]]
+(§7 System registries) — follow that document so your code matches the
 maintained API.
 
 ### New types, sheets, effects, and chat cards
@@ -302,7 +301,7 @@ A GM can set the same field from the sheet: every Actor and Item sheet header
 carries a GM-only **Archetype Priority** control bound to `system.templatePriority`
 (on the Being sheet it is in the header's identity dialog).
 
-See [[doc-extensionpoints#10-create-dialog-archetypes-systemtemplatepriority|Extension Points → Create-dialog archetypes]]
+See [[doc-extensionpoints#9-create-dialog-archetypes-systemtemplatepriority|Extension Points → Create-dialog archetypes]]
 for the full contract, the Foundry-free discovery helper, and the
 instantiation-clears / copy-preserves boundary.
 

@@ -83,15 +83,9 @@ See [[doc-combatmodel#combatant-groups|Combat Model → Combatant groups]] for w
 
 Movement is a **universal actor capability** — every actor kind carries, on the base {@link sohl.document.actor.logic.SohlActorBaseLogic} (see also `src/document/actor/logic/movement.ts`), per-medium `movementProfiles` (each with `feetPerRound`, `leaguesPerWatch`, and encumbrance/strength expressions) plus a `currentMoveMedium`. During preparation the actor resolves its active profile — selected by `currentMoveMedium` — into `feetPerRound` / `leaguesPerWatch` `ValueModifier`s that Active Effects can layer on. The default medium is `MOVEMENT_MEDIUM.NONE` (a non-mover, the `NONE_MOVE_PROFILE` constant), never authored per-actor. Nothing else — weather, terrain — is modeled by the system.
 
-## Calendar
-
-The in-world calendar is a separate subsystem — see the dedicated
-[[doc-calendar|Calendar reference]] (`src/core/foundry/SohlCalendar.ts`).
-
 ## Extension guidance
 
 - A combatant (with its token and actor) mutates only **itself** — see [[doc-architecture#actor-state-sovereignty|Actor state sovereignty]]. Cross-actor effects go through a target-addressed chat acknowledge button, never a direct write to another combatant/token/actor.
 - Use token helper methods instead of duplicating target/selection/range logic.
 - Keep initiative semantics aligned with skill-driven design.
 - For overland travel, weather, and terrain effects, leave it to GM narrative — the system does not model these.
-- For calendar changes, preserve deterministic data shapes and enum bounds.

@@ -11,17 +11,16 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlCalendarData, SohlCalendarComponents } from "@src/core/foundry/SohlCalendar";
-
 /**
  * The Foundry-free conversion between a stored **worldTime** value (seconds
  * since the calendar epoch) and the calendar parts a user edits in the
  * {@link sohl.document | date-picker} dialog: a month index, a 1-based day of
- * month, and the display (era) year.
+ * month, and the year.
  *
- * The active calendar ({@link sohl.core.foundry.SohlCalendarData}) is passed in
- * so these functions stay Foundry-free and unit-testable. Correctness relies on
- * two calendar facts:
+ * The active calendar is passed in so these functions stay Foundry-free and
+ * unit-testable. Only the base `CalendarData` API is read, so the dialog works
+ * against whichever calendar the world has installed. Correctness relies on two
+ * calendar facts:
  *
  * - {@link foundry.data.CalendarData.componentsToTime} consumes **day-of-year**
  *   (`components.day`) and ignores `month`/`dayOfMonth`, so
@@ -31,6 +30,9 @@ import type { SohlCalendarData, SohlCalendarComponents } from "@src/core/foundry
  *   `timeToComponents` → compare), which tolerates calendars with intercalary
  *   days and rejects an out-of-range day without assuming uniform months.
  */
+
+/** The active world calendar, read through the base `CalendarData` API alone. */
+type PickerCalendar = foundry.data.CalendarData<foundry.data.CalendarData.TimeComponents>;
 
 /** A selectable month for the date-picker month dropdown. */
 export interface MonthChoice {
@@ -45,8 +47,8 @@ export interface MonthChoice {
  * @param calendar - The active calendar.
  * @returns One {@link MonthChoice} per month, in calendar order.
  */
-export function monthChoices(calendar: SohlCalendarData): MonthChoice[] {
-    return calendar.months.values.map((m, index) => ({
+export function monthChoices(calendar: PickerCalendar): MonthChoice[] {
+    return calendar.months!.values.map((m, index) => ({
         index,
         name: sohl.i18n.localize(m.name),
     }));
@@ -58,10 +60,8 @@ export interface DateParts {
     monthIndex: number;
     /** One-based day of the month. */
     day: number;
-    /** Year as displayed in the calendar's era terms (always positive). */
-    eraYear: number;
-    /** True when the year falls before the era's epoch. Defaults to `false`. */
-    beforeEra: boolean;
+    /** The calendar's own year. */
+    year: number;
     /** Hour of day (0 … hoursPerDay − 1). */
     hour: number;
     /** Minute of hour (0 … minutesPerHour − 1). */
@@ -77,7 +77,7 @@ export interface DateParts {
  * @param calendar - The active calendar.
  * @returns Seconds per day.
  */
-export function calendarSecondsPerDay(calendar: SohlCalendarData): number {
+export function calendarSecondsPerDay(calendar: PickerCalendar): number {
     const { hoursPerDay, minutesPerHour, secondsPerMinute } = calendar.days;
     return hoursPerDay * minutesPerHour * secondsPerMinute;
 }
@@ -86,15 +86,14 @@ export function calendarSecondsPerDay(calendar: SohlCalendarData): number {
  * Decompose a worldTime value into the editable calendar parts.
  * @param calendar - The active calendar.
  * @param time - The worldTime value (seconds since epoch).
- * @returns The month index, 1-based day, era year, before-era flag, and time of day.
+ * @returns The month index, 1-based day, year, and time of day.
  */
-export function worldTimeToDateParts(calendar: SohlCalendarData, time: number): DateParts {
-    const c = calendar.timeToComponents(time) as SohlCalendarComponents;
+export function worldTimeToDateParts(calendar: PickerCalendar, time: number): DateParts {
+    const c = calendar.timeToComponents(time);
     return {
         monthIndex: c.month,
         day: c.dayOfMonth + 1,
-        eraYear: c.eraYear,
-        beforeEra: c.beforeEra,
+        year: c.year,
         hour: c.hour,
         minute: c.minute,
         second: c.second,
@@ -113,7 +112,7 @@ export function worldTimeToDateParts(calendar: SohlCalendarData, time: number): 
  * @returns The shifted parts, or `null` if `parts` is not a valid date.
  */
 export function skipDays(
-    calendar: SohlCalendarData,
+    calendar: PickerCalendar,
     parts: DateParts,
     nDays: number,
 ): DateParts | null {
@@ -126,42 +125,25 @@ export function skipDays(
 }
 
 /**
- * Convert a display (era) year into the calendar's absolute `year`, inverting
- * {@link sohl.core.foundry.SohlCalendarData.timeToComponents}'s era mapping.
- * @param calendar - The active calendar.
- * @param eraYear - The positive era year.
- * @param beforeEra - Whether the year is before the era epoch.
- * @returns The absolute year used by `componentsToTime`.
- */
-function eraYearToAbsolute(
-    calendar: SohlCalendarData,
-    eraYear: number,
-    beforeEra: boolean,
-): number {
-    if (beforeEra) return -eraYear;
-    return eraYear - (calendar.era.hasYearZero ? 0 : 1);
-}
-
-/**
  * Day-of-year (0-based) for a month + 1-based day, summing each preceding
  * month's own length (leap-aware). Does not itself validate the day against the
  * month length — {@link datePartsToWorldTime} validates by round-trip.
  * @param calendar - The active calendar.
- * @param absoluteYear - The absolute year (for the leap-year test).
+ * @param year - The year (for the leap-year test).
  * @param monthIndex - Zero-based month index.
  * @param day - One-based day of month.
  * @returns The 0-based day of the year.
  */
 function dayOfYear(
-    calendar: SohlCalendarData,
-    absoluteYear: number,
+    calendar: PickerCalendar,
+    year: number,
     monthIndex: number,
     day: number,
 ): number {
-    const leap = calendar.isLeapYear(absoluteYear);
+    const leap = calendar.isLeapYear(year);
     let doy = 0;
     for (let i = 0; i < monthIndex; i++) {
-        const m = calendar.months.values[i];
+        const m = calendar.months!.values[i];
         doy += leap ? ((m as { leapDays?: number }).leapDays ?? m.days) : m.days;
     }
     return doy + (day - 1);
@@ -172,23 +154,23 @@ function dayOfYear(
  * parts do not resolve to a real date on `calendar`.
  *
  * Validity is checked by round-trip: the computed time is decomposed again and
- * must yield the same month, day-of-month, era year, and before-era flag. This
- * catches an out-of-range day (which would spill into the next month or into
- * intercalary days) and any era mismatch, without assuming uniform months.
+ * must yield the same month, day-of-month, and year. This catches an
+ * out-of-range day (which would spill into the next month or into intercalary
+ * days), without assuming uniform months.
  * @param calendar - The active calendar.
  * @param parts - The editable calendar parts.
  * @returns The worldTime value (seconds since epoch), or `null` if invalid.
  */
-export function datePartsToWorldTime(calendar: SohlCalendarData, parts: DateParts): number | null {
-    const { monthIndex, day, eraYear, beforeEra, hour, minute, second } = parts;
+export function datePartsToWorldTime(calendar: PickerCalendar, parts: DateParts): number | null {
+    const { monthIndex, day, year, hour, minute, second } = parts;
     const { hoursPerDay, minutesPerHour, secondsPerMinute } = calendar.days;
     if (
         !Number.isInteger(monthIndex) ||
         monthIndex < 0 ||
-        monthIndex >= calendar.months.values.length ||
+        monthIndex >= calendar.months!.values.length ||
         !Number.isInteger(day) ||
         day < 1 ||
-        !Number.isInteger(eraYear) ||
+        !Number.isInteger(year) ||
         !Number.isInteger(hour) ||
         hour < 0 ||
         hour >= hoursPerDay ||
@@ -202,7 +184,6 @@ export function datePartsToWorldTime(calendar: SohlCalendarData, parts: DatePart
         return null;
     }
 
-    const year = eraYearToAbsolute(calendar, eraYear, beforeEra);
     const doy = dayOfYear(calendar, year, monthIndex, day);
     const time = calendar.componentsToTime({
         year,
@@ -213,14 +194,9 @@ export function datePartsToWorldTime(calendar: SohlCalendarData, parts: DatePart
     } as foundry.data.CalendarData.TimeComponents);
 
     // Round-trip the date part (time of day is range-checked above, so it never
-    // rolls the day over): month, day-of-month, and era must all match.
-    const rt = calendar.timeToComponents(time) as SohlCalendarComponents;
-    if (
-        rt.month !== monthIndex ||
-        rt.dayOfMonth !== day - 1 ||
-        rt.eraYear !== eraYear ||
-        rt.beforeEra !== beforeEra
-    ) {
+    // rolls the day over): month, day-of-month, and year must all match.
+    const rt = calendar.timeToComponents(time);
+    if (rt.month !== monthIndex || rt.dayOfMonth !== day - 1 || rt.year !== year) {
         return null;
     }
     return time;

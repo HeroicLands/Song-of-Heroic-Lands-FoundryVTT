@@ -108,27 +108,6 @@ declare global {
         parent?: TDataModel;
     };
 
-    // SoHL Calendar structure
-    interface WorldDate {
-        era: "TR" | "BT";
-        year: number; // always positive (1, 2, 3, ...)
-        month: number; // 1–12
-        day: number; // 1–30
-        dayOfYear: number; // 1–360
-        weekday: number; // 1–10 (or 0–9 if you prefer; I’ll use 0-based in code and convert)
-        moonPhase: {
-            dayInCycle: number; // 0–29, where 0 = full moon
-            isFull: boolean;
-        };
-        // Optional: time of day in world units
-        timeOfDay?: {
-            seconds: number;
-            hours: number;
-            minutes: number;
-            secondsRemainder: number;
-        };
-    }
-
     // ✅ Global system accessor
     var sohl: SohlSystem;
 }
@@ -187,8 +166,6 @@ declare module "fvtt-types/configuration" {
         "sohl.trekDistanceUnit": string;
         "sohl.tacticalDistanceUnit": string;
         "sohl.logThreshold": string;
-        "sohl.activeCalendar": string;
-        "sohl.importedCalendars": Record<string, any>;
         "sohl.expressionHelpers": Record<string, any>;
         "sohl.expressionHelpersPath": string;
     }

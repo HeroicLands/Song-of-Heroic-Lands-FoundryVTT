@@ -11,7 +11,6 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlCalendarData } from "@src/core/foundry/SohlCalendar";
 import {
     type DateParts,
     worldTimeToDateParts,
@@ -56,12 +55,15 @@ const DIALOG_CONTENT = toHTMLString(
     </div>`,
 );
 
+/** The active world calendar, whichever one the world has installed. */
+type PickerCalendar = foundry.data.CalendarData<foundry.data.CalendarData.TimeComponents>;
+
 /**
- * The active SoHL calendar, narrowed for its component/era API.
- * @returns The active {@link sohl.core.foundry.SohlCalendarData}.
+ * The active world calendar.
+ * @returns The calendar behind {@link sohl.calendar}.
  */
-function activeCalendar(): SohlCalendarData {
-    return sohl.calendar as unknown as SohlCalendarData;
+function activeCalendar(): PickerCalendar {
+    return sohl.calendar;
 }
 
 /**
@@ -95,7 +97,7 @@ export async function openDatePickerDialog(
                 selected: c.index === parts.monthIndex,
             })),
             day: parts.day,
-            year: parts.eraYear,
+            year: parts.year,
             hour: parts.hour,
             minute: parts.minute,
             second: parts.second,
@@ -148,7 +150,7 @@ export async function openDatePickerDialog(
 }
 
 /**
- * Build {@link DateParts} from a dialog form's parsed values (after-era only).
+ * Build {@link DateParts} from a dialog form's parsed values.
  * @param form - The parsed form values (`month`, `day`, `year`, `hour`, …).
  * @returns The editable date parts.
  */
@@ -156,8 +158,7 @@ function formToParts(form: Record<string, unknown>): DateParts {
     return {
         monthIndex: Number(form.month),
         day: Number(form.day),
-        eraYear: Number(form.year),
-        beforeEra: false,
+        year: Number(form.year),
         hour: Number(form.hour),
         minute: Number(form.minute),
         second: Number(form.second),
@@ -171,7 +172,7 @@ function formToParts(form: Record<string, unknown>): DateParts {
  * @param element - The dialog's rendered root element.
  * @param calendar - The active calendar.
  */
-function wireDialog(element: HTMLElement, calendar: SohlCalendarData): void {
+function wireDialog(element: HTMLElement, calendar: PickerCalendar): void {
     const q = <T extends HTMLElement>(sel: string): T | null => element.querySelector<T>(sel);
     const fields = ["month", "day", "year", "hour", "minute", "second"] as const;
     const inputs = Object.fromEntries(
@@ -185,8 +186,7 @@ function wireDialog(element: HTMLElement, calendar: SohlCalendarData): void {
     const readParts = (): DateParts => ({
         monthIndex: Number(inputs.month?.value),
         day: Number(inputs.day?.value),
-        eraYear: Number(inputs.year?.value),
-        beforeEra: false,
+        year: Number(inputs.year?.value),
         hour: Number(inputs.hour?.value),
         minute: Number(inputs.minute?.value),
         second: Number(inputs.second?.value),
@@ -194,7 +194,7 @@ function wireDialog(element: HTMLElement, calendar: SohlCalendarData): void {
     const writeParts = (p: DateParts): void => {
         if (inputs.month) inputs.month.value = String(p.monthIndex);
         if (inputs.day) inputs.day.value = String(p.day);
-        if (inputs.year) inputs.year.value = String(p.eraYear);
+        if (inputs.year) inputs.year.value = String(p.year);
         if (inputs.hour) inputs.hour.value = String(p.hour);
         if (inputs.minute) inputs.minute.value = String(p.minute);
         if (inputs.second) inputs.second.value = String(p.second);

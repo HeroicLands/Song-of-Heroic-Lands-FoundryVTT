@@ -95,17 +95,6 @@ paths for reference and discovery, but **construct and override through the flat
 `sohl.entity.<ClassName>` registry above** — only its getters honor a `register()`
 override; a namespace path always resolves to the original class.
 
-## Calendar registration
-
-Register a world calendar with the static
-{@link sohl.core.logic.SohlSystem.registerCalendar} method. See the
-[[doc-calendar|Calendar reference]] for the calendar shape and
-worked examples.
-
-```js
-SohlSystem.registerCalendar("my-calendar", {/* calendar definition */});
-```
-
 ## Reaching SoHL at runtime {#reaching-sohl-at-runtime}
 
 SoHL is a Foundry _system_ (a manifest and the built `sohl.js` bundle), not an
