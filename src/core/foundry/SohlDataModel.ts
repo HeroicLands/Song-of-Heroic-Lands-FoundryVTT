@@ -45,13 +45,20 @@ import {
     COMBATANT_LOGIC,
 } from "@src/core/foundry/sohl-config";
 const { HandlebarsApplicationMixin } = foundry.applications.api;
-const { StringField, SchemaField, NumberField, ArrayField, ObjectField, JavaScriptField } =
-    foundry.data.fields;
+const {
+    StringField,
+    SchemaField,
+    NumberField,
+    BooleanField,
+    ArrayField,
+    ObjectField,
+    JavaScriptField,
+} = foundry.data.fields;
 
 /**
  * Builds the Foundry data schema shared by every SoHL data model (shortcode,
- * the template priority, the array of action definitions, and the generic
- * schedule). Concrete document schemas (`defineSohlItemDataSchema`,
+ * the draft flag, the template priority, the array of action definitions, and
+ * the generic schedule). Concrete document schemas (`defineSohlItemDataSchema`,
  * `defineSohlActorDataSchema`, the combatant schema) spread this so every SoHL
  * data model carries these fields.
  * @returns The shared SoHL data schema.
@@ -67,6 +74,14 @@ export function defineSohlDataSchema(): foundry.data.fields.DataSchema {
         // / `enforceShortcodeOnUpdate`. Other documents (combatant,
         // …) never key on it and leave it blank.
         shortcode: new StringField({ initial: "" }),
+        // Whether this document's content is unfinished. A compendium entry
+        // carries no mark of its own once it is in a world, so the fact lives
+        // on the document where a sheet or a directory can act on it.
+        //
+        // Two states, not three: "unset" and "not a draft" are the same
+        // condition and no reader distinguishes them, so `false` carries both
+        // and the field is not nullable.
+        isDraft: new BooleanField({ initial: false }),
         // Create-dialog **archetype** marker and template priority. The
         // field is the *priority*, never the kind:
         // authored content already carries a sibling `archetypes` list — what

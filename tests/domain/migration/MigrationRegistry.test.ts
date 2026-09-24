@@ -677,3 +677,47 @@ describe("0.9.0 — alphanumeric shortcodes", () => {
         });
     });
 });
+
+// ---------------------------------------------------------------------------
+// 0.9.0 — record the system.isDraft flag
+// ---------------------------------------------------------------------------
+
+describe("0.9.0 — record system.isDraft", () => {
+    const step = SOHL_MIGRATIONS.find((s) => s.description.includes("isDraft"));
+
+    it("is registered at the version that adds the field", () => {
+        expect(step).toBeDefined();
+        expect(step!.version).toBe("0.9.0");
+    });
+
+    it("carries no migrator, because the field's initial supplies the value", () => {
+        // `isDraft` is declared with `initial: false`, so Foundry fills it in
+        // the moment a document is constructed: every reader already sees the
+        // right value with nothing written. The step exists because a schema
+        // field is never added without one, not because a document needs
+        // changing.
+        expect(step!.migrators ?? {}).toEqual({});
+    });
+
+    it("says why it changes no document", () => {
+        expect(step!.description).toMatch(/initial|construct/i);
+    });
+
+    it("is carried into the stored record by the release's whole-system rewrite", () => {
+        // The load-bearing claim behind carrying no migrator: the other 0.9.0
+        // steps hand back the document's own `system` object, and a
+        // non-recursive update replaces the whole of it — so the value the
+        // schema supplied at construction is what gets persisted.
+        const plan = planMigrations("0.8.2", "0.9.0");
+        const update = migrateDocumentSource(
+            {
+                type: "skill",
+                name: "Climbing",
+                system: { shortcode: "clb", isDraft: true },
+            },
+            "Item",
+            plan,
+        );
+        expect((update.system as MigrationSource).isDraft).toBe(true);
+    });
+});
