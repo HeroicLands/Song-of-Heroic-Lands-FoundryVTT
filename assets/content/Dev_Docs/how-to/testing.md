@@ -113,7 +113,7 @@ For placeholder tests, use `it.todo("description")` to document intended behavio
 
 ## Scope: the logic layer
 
-Unit tests are scoped to the **logic layer** — Logic classes and domain objects. They do not test the Foundry layer (DataModels, Sheets, documents) — with one narrow exception: **chat-card and dialog templates** can be rendered and their HTML asserted in Node (see [Asserting rendered HTML in unit tests](#asserting-rendered-html-in-unit-tests)), since that rendering is plain Handlebars. This is possible because the logic layer is **Foundry-isolated**: it touches Foundry only through the `FoundryHelpers` shim and the `*Data` interfaces on `logic.data` — see [[doc-architecture#logic-layer|Architecture → Logic layer]] for the boundary and why it holds.
+Unit tests are scoped to the **logic layer** — Logic classes and domain objects. They do not test the Foundry layer (DataModels, Sheets, documents) — with one narrow exception: **chat-card and dialog templates** can be rendered and their HTML asserted in Node (see [Asserting rendered HTML in unit tests](#asserting-rendered-html-in-unit-tests)), since that rendering is plain Handlebars. This is possible because the logic layer is **Foundry-isolated**: it touches Foundry only through the `FoundryHelpers` shim and the `*Data` interfaces on `logic.data` — see [[doc-architecture#logic-layer|Architecture > Logic layer]] for the boundary and why it holds.
 
 Tests run in Node via vitest (no browser, no Foundry server) by supplying test doubles for exactly those two channels, plus the `sohl` surface:
 
@@ -161,7 +161,7 @@ Additional patterns:
 - **Dice** — three levels, cheapest first. For a roll you can reach, pre-seed the
   instance (`new SimpleRoll({ …, rolls: [5] })` or `.setRolls([5])`), or spy
   `vi.spyOn(SimpleRoll, "fromFormula")` returning a stub. For a roll **buried deep
-  in the logic** (a success test's d100, an affliction's critical-failure→infection,
+  in the logic** (a success test's d100, an affliction's critical-failure-to-infection,
   the combat exchange) that a test can't reach, use the process-wide **forced-value
   queue**: `SimpleRoll.forceValues(5, 100)` seeds die values that `roll()` consumes
   one per die (FIFO) instead of drawing from the seedable generator;
@@ -186,7 +186,7 @@ createRng(...))`) — isolated and order-independent. In e2e, re-seed the shared
 
 ## Logic-layer purity smoke test
 
-`npm run test:purity` (part of `build:noci`) runs `tests/purity/logic-imports.purity.ts` under `vitest.purity.config.ts` — a config with **no** `tests/setup.ts`, so no Foundry global stubs exist. It dynamically imports every module in the Foundry-free zones (`src/document/*/logic/`, `src/entity/`, the pure core files, `src/apps/logic/ContextMenuEntry.ts`); any module-level `foundry.*`/`game.*` access throws and fails the suite. This is one of the two boundary guards — see [[doc-architecture#logic-layer|Architecture → Logic layer]] for what they enforce and the complementary ESLint rule.
+`npm run test:purity` (part of `build:noci`) runs `tests/purity/logic-imports.purity.ts` under `vitest.purity.config.ts` — a config with **no** `tests/setup.ts`, so no Foundry global stubs exist. It dynamically imports every module in the Foundry-free zones (`src/document/*/logic/`, `src/entity/`, the pure core files, `src/apps/logic/ContextMenuEntry.ts`); any module-level `foundry.*`/`game.*` access throws and fails the suite. This is one of the two boundary guards — see [[doc-architecture#logic-layer|Architecture > Logic layer]] for what they enforce and the complementary ESLint rule.
 
 ## End-to-end example: testing a domain object
 
@@ -403,7 +403,7 @@ Override the seed via `.env.local` (`SOHL_E2E_WORLD_ID`, `SOHL_E2E_GM_NAME`,
 function the seed uses (`resolveE2EWorld`), so the two cannot disagree about the
 world — a spec just calls `cy.login()`.
 
-🔧 **Foundry license (required).** The `test` container needs its own Foundry
+**Foundry license (required).** The `test` container needs its own Foundry
 license. A license signed for one installation does **not** transfer to another
 (a copied `license.json` won't verify), and each license is **single-seat** (one
 running instance at a time). So **dedicate a spare license to the test stage** —
@@ -426,7 +426,7 @@ pins a stable one (`sohl-foundry-<stage>`); the signed `license.json` then
 persists across recreates (the seed wipes only the world, not `Config`). Without
 that pin Foundry would revert to "requires signature" on every run.
 
-🔧 **The test container's Foundry build is `compatibility.minimum` itself.**
+**The test container's Foundry build is `compatibility.minimum` itself.**
 There is no second pin to keep in sync: the harness reads the floor from the top
 level of `package-build.config.yaml` and passes it to felddy as
 `FOUNDRY_VERSION`, so a fresh checkout runs the suite on that exact build with no
@@ -494,10 +494,10 @@ it, and leave `verified` where it was.
 **`.env.local` wins over the committed default.** Setting
 `FOUNDRYVTT_TEST_VERSION` there overrides the pin for every run, which is how you
 sit on a build you are trialling without touching committed configuration.
-`resolveVersion()` resolves environment → committed default → `null` (float on
+`resolveVersion()` resolves environment > committed default > `null` (float on
 the major tag).
 
-The full precedence is **`e2e:sweep`'s argument → `.env.local` → the committed
+The full precedence is **`e2e:sweep`'s argument > `.env.local` > the committed
 default**: the sweep exports `FOUNDRYVTT_TEST_VERSION` into the child process, and
 `dotenv` does not overwrite a variable already set, so a sweep still runs on the
 build you named even when `.env.local` pins a different one.
@@ -512,7 +512,7 @@ specs](#writing-specs). Cypress run artifacts (`cypress/videos`,
 `cypress/screenshots`) are gitignored; the config, support, and specs are
 committed.
 
-🔧 **Cypress version matters.** Foundry v14's client uses ES2024 `Set`
+**Cypress version matters.** Foundry v14's client uses ES2024 `Set`
 methods (`Set.prototype.difference`), so Cypress must bundle **Chromium ≥ 122**
 — otherwise the app throws `.difference is not a function` on load and every
 spec fails. Cypress 15 (Electron 37 / Chromium 138) is fine; do not downgrade
@@ -792,7 +792,7 @@ These cost real debugging time; they are not apparent from the code.
   environment-specific core errors — never to mask a real failure.
 - **Placeable-`Token` rendering is suppressed headless — don't assert on token
   pixels.** Placing a Token fires core's canvas render chain
-  (`Token.draw` → `TokenRuler.draw`, and the per-tick `_refreshState` refresh)
+  (`Token.draw` > `TokenRuler.draw`, and the per-tick `_refreshState` refresh)
   against a viewport that never finishes initializing headless, throwing
   unhandled rejections (`reading 'addChild'`, `reading 'OBJECTS'`) that fail
   token-placing specs nondeterministically. `cy.login()` therefore no-ops the placeable
@@ -881,6 +881,6 @@ when a spec touches these areas:
   `update({ "system.…parts.2.field": value })` makes Foundry rebuild the array
   from a sparse map, truncating and default-filling every other element. Write
   the _complete_ array back instead (see
-  [[doc-runtimecontracts#updating-array-fields-write-the-whole-array-never-an-element-by-index|Runtime Contracts → Updating array fields]]).
+  [[doc-runtimecontracts#updating-array-fields-write-the-whole-array-never-an-element-by-index|Runtime Contracts > Updating array fields]]).
   Note a valid field value is needed to trigger it — an invalid one is dropped and
   the update no-ops, so placeholder-id tests hide the bug.

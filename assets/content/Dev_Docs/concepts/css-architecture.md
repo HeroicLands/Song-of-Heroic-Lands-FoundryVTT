@@ -36,7 +36,7 @@ class name outside the BEM convention of §3, and on a custom property outside t
 ordinary correctness checks — invalid declarations, unknown properties, dead
 selectors. The rule set and the reasoning behind each choice are in
 `stylelint.config.mjs`; what it does and does not cover is described in
-[[doc-buildanddeployment#what-the-two-linters-check|Build & Deployment → What the two linters check]].
+[[doc-buildanddeployment#what-the-two-linters-check|Build & Deployment > What the two linters check]].
 
 One gap to keep in mind: the tokens are emitted through interpolation
 (`--sohl-color-#{$name}`), which stylelint cannot see through. Renaming a key in a
@@ -213,9 +213,9 @@ Declare the order once, at the top of the entry stylesheet:
 @layer sohl.base, sohl.layout, sohl.components, sohl.apps, sohl.utilities;
 ```
 
-Order rationale (earlier = lower priority): `base` (resets/overrides) → `layout`
-(structure) → `components` (widgets) → `apps` (sheet-specific tweaks override the
-generic widget) → `utilities` (single-purpose helpers win last, as intended).
+Order rationale (earlier = lower priority): `base` (resets/overrides) > `layout`
+(structure) > `components` (widgets) > `apps` (sheet-specific tweaks override the
+generic widget) > `utilities` (single-purpose helpers win last, as intended).
 `abstracts/` is unlayered because it emits nothing; `@font-face`/icon glyphs are left
 unlayered too (no cascade competition).
 
@@ -230,8 +230,8 @@ whole layer stack.
 ApplicationV2 puts **all** of an application's option classes on the **same frame
 element**. So for a sheet whose classes are `sohl sheet`:
 
-- `.sohl .sheet` — **descendant**, expects `sheet` _inside_ `sohl`. **Never matches.** ❌
-- `.sohl.sheet` — **compound**, matches the one element carrying both classes. ✅
+- `.sohl .sheet` — **descendant**, expects `sheet` _inside_ `sohl`. **Never matches.**
+- `.sohl.sheet` — **compound**, matches the one element carrying both classes.
 
 **Rule: target frame/option classes with a compound selector, never a descendant.**
 The live example is the entry stylesheet, where sheet-frame layout is loaded under the

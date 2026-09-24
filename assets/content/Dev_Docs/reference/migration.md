@@ -40,7 +40,7 @@ The runner is split along the system's Foundry boundary:
 
 | Layer                                | File                                              | Responsibility                                                                                                                      |
 | ------------------------------------ | ------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| **Decision (Foundry-free)**          | `src/entity/migration/` → `sohl.entity.migration` | Semver comparison, step planning, and folding one document's source into an update. Pure, unit-tested.                              |
+| **Decision (Foundry-free)**          | `src/entity/migration/` > `sohl.entity.migration` | Semver comparison, step planning, and folding one document's source into an update. Pure, unit-tested.                              |
 | **Orchestration (Foundry boundary)** | `src/core/foundry/migration.ts`                   | Reads/writes the `systemMigrationVersion` setting through the `fvtt*` shims and walks the world's live documents applying the plan. |
 
 Because the decision logic is Foundry-free, _which_ migrations run for a given
@@ -63,10 +63,10 @@ The world setting `systemMigrationVersion` (world-scope, hidden) stores the
 version a world was last migrated **to**. On load the runner resolves an effective
 "from" version and plans every step in `(from, current]`:
 
-- **Stored version present** → migrate from it.
-- **Empty + world has no content** → _brand-new world_: `from = current`, so the
+- **Stored version present** > migrate from it.
+- **Empty + world has no content** > _brand-new world_: `from = current`, so the
   plan is empty and the runner simply stamps the version forward.
-- **Empty + world has content** → _pre-tracking legacy world_: `from = "0.0.0"`,
+- **Empty + world has content** > _pre-tracking legacy world_: `from = "0.0.0"`,
   so every registered step runs.
 
 The stored version is advanced whenever it differs from the running version —

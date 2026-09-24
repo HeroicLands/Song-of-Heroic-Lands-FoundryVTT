@@ -81,7 +81,7 @@ This is the canonical "add a type" procedure — the [[doc-runtimecontracts|Runt
 The steps above add a kind in-system. A **variant module** instead overrides an
 existing kind's Logic class at runtime — no source edits. The base classes are
 exposed on the `sohl` global as `sohl.actorLogicClasses` / `sohl.itemLogicClasses`
-(kind → base class), and {@link sohl.core.logic.SohlSystem.registerActorLogic} /
+(kind > base class), and {@link sohl.core.logic.SohlSystem.registerActorLogic} /
 {@link sohl.core.logic.SohlSystem.registerItemLogic} swap the class used to build every document
 of that kind. The resolution path (`SohlDataModel.create`) already reads that
 registry, so no construction sites change.
@@ -351,7 +351,7 @@ boundary that gathers candidates from the world directory and every matching
 compendium pack is `fvttDiscoverArchetypes` in `FoundryHelpers.ts`.
 
 **Archetype-first defaulting (Name/Shortcode).** The dialog is laid out
-**Type → SubType → Archetype → Name → Shortcode**, with Name and Shortcode
+**Type > SubType > Archetype > Name > Shortcode**, with Name and Shortcode
 **optional**. Selecting an archetype pre-fills Name and Shortcode from its own
 `name` / `system.shortcode` (live, until you type into a field); leaving them
 blank creates a document that matches the archetype — its shortcode _is_ the
@@ -400,7 +400,7 @@ as "drop a falsy value".
 > marker). It must stay at the specific instantiation entry points (dialog +
 > drop), and both sides are guarded by tests.
 
-See [[doc-moduledevelopment#shipping-create-dialog-archetypes|Module Development → Archetypes]]
+See [[doc-moduledevelopment#shipping-create-dialog-archetypes|Module Development > Archetypes]]
 for the module-author recipe.
 
 ## What to update when you add something

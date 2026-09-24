@@ -29,7 +29,7 @@ defines them:
   [SohlActor](../../../../src/document/actor/foundry/SohlActor.ts), which fires the hooks during data preparation.
 - **The type strings** in the hook names (`sohl.<itemType>.…` and
   `sohl.actor.<actorType>.…`) are {@link sohl.utils.ITEM_KIND} and {@link sohl.utils.ACTOR_KIND}.
-- **The phase model** — the three phases (`initialize` → `evaluate` → `finalize`)
+- **The phase model** — the three phases (`initialize` > `evaluate` > `finalize`)
   and the barrier guarantees — is in
   {@link sohl.core.logic.SohlLogic}; for the concept overview see
   [[doc-architecture#phase-batched-lifecycle|Phase-batched lifecycle]].

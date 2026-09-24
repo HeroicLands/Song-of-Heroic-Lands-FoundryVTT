@@ -27,7 +27,7 @@ populate the GitHub Release notes — then deletes the consumed files.
 - **`cleanup/*`, `docs/*`, and `chore/*` need none** — pure housekeeping, docs, or
   tooling with no shipped-behavior change.
 
-See [[doc-systemdevelopment|System Development → Development workflow]] for the full branch and
+See [[doc-systemdevelopment|System Development > Development workflow]] for the full branch and
 issue rules. Keep the changeset **current as the work evolves** — add to it when you
 make a decision, fix a bug, or introduce a breaking change, not only at the end.
 

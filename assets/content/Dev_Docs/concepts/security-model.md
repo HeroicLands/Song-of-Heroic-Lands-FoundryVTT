@@ -64,7 +64,7 @@ to its full statement below and to where the contract is specified/enforced.
 | **1** | [Reference code, never compile it](#the-core-principle-reference-code-never-compile-it-from-data) | Data carries a _reference_ (`__kind`, an intrinsic **method name**, or a **Macro UUID**) — never source; **functions are never serialized** | [[doc-runtimecontracts#entity-serialization-contract                  \| Entity serialization contract]] · [[doc-expressions                               \| Expressions]] · [[doc-macrosandactions \| Macros and Actions]] |
 | 2     | [Safe serialization](#guardrail-safe-serialization)                                               | `defaultFromJSON` revives no code and `defaultToJSON` emits no function; revived `__kind` data is untrusted constructor input               | [[doc-runtimecontracts#entity-serialization-contract                  \| Entity serialization contract]]                                                                                                                     |
 | 3     | [HTML rendering / XSS](#guardrail-html-rendering--xss)                                            | Escaped data binding + an allowlist sanitizer; never interpolate data into template _source_                                                | [[doc-runtimecontracts#chat-card-dispatch-contract                    \| Chat-card dispatch contract]]                                                                                                                       |
-| 4     | [Cross-client authorization](#guardrail-cross-client-authorization)                               | Client-side gating is UX; the real boundary is document ownership — at _write_ time and at chat-card dispatch                               | [[doc-runtimecontracts#authorization-the-handler-documents-owner-acts \| Chat-card dispatch → Authorization]] · [[doc-architecture#actor-state-sovereignty \| Actor state sovereignty]]                                      |
+| 4     | [Cross-client authorization](#guardrail-cross-client-authorization)                               | Client-side gating is UX; the real boundary is document ownership — at _write_ time and at chat-card dispatch                               | [[doc-runtimecontracts#authorization-the-handler-documents-owner-acts \| Chat-card dispatch > Authorization]] · [[doc-architecture#actor-state-sovereignty \| Actor state sovereignty]]                                      |
 | 5     | [No unbounded regex (ReDoS)](#guardrail-no-unbounded-regex-on-data-redos)                         | Remove quantifier ambiguity; a length cap is not a ReDoS guard                                                                              | —                                                                                                                                                                                                                            |
 | 6     | [Red-flag checklist](#red-flag-checklist-for-reviewers-and-ai-agents)                             | The grep-able patterns that block a PR until proven safe                                                                                    | —                                                                                                                                                                                                                            |
 
@@ -97,7 +97,7 @@ out and revives no code on the way in is the
 the action executor model — an intrinsic **method name** or a **Macro UUID**,
 never a code body — is {@link sohl.entity.action.SohlAction} and
 [[doc-macrosandactions|Macros and Actions]]; the class registry is
-`src/utils/kindRegistry.ts`; and the only string→value path permitted on
+`src/utils/kindRegistry.ts`; and the only string-to-value path permitted on
 untrusted data is the AST-allowlist {@link sohl.entity.expr.SafeExpression}. There is deliberately
 **no** function-id/`__funcref__` registry: nothing that needs to survive a
 round-trip is a function, so none is serialized at all.
@@ -125,7 +125,7 @@ allowlist** (parse, then permit a fixed set of nodes/identifiers — this is wha
 compiling at all** (the reference model above). For behavior driven by
 _untrusted_ data — installed content and cross-client messages — SoHL chose not
 compiling at all: `SafeExpression` (`src/entity/expr/SafeExpression.ts`) is the
-only string→logic path on that surface, and it is an allowlist, not a denylist.
+only string-to-logic path on that surface, and it is an allowlist, not a denylist.
 
 **The one sanctioned exception: the GM Expression Library.** `textToFunction`
 (the denylist screen) ships, used by the expression-helper registry
@@ -304,7 +304,7 @@ Treat any of these as a blocker until proven safe against the threat model:
   `isOwner`/`canUserModify`/`isGM` check.
 - A `RegExp` built from, or matched against, attacker-influenced data without a
   backtracking bound.
-- A new string→function or string→predicate path (other than `SafeExpression`,
+- A new string-to-function or string-to-predicate path (other than `SafeExpression`,
   or the single sanctioned GM Expression Library caller of `textToFunction`).
 
 ## Tracking

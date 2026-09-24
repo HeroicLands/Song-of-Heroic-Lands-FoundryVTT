@@ -337,7 +337,7 @@ and
 
 ## The pipeline
 
-`assets/content/` → `build/packs-json/<pack>/` → `build/stage/packs/<pack>/`.
+`assets/content/` > `build/packs-json/<pack>/` > `build/stage/packs/<pack>/`.
 
 | Stage | Command                          | Output                              |
 | ----- | -------------------------------- | ----------------------------------- |

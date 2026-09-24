@@ -168,8 +168,8 @@ from a sheet or context menu.
 | Step       | Action (where)                                        | By hand                                                                                  | From the card                                                                        |
 | ---------- | ----------------------------------------------------- | ---------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
 | 1. Request | `TraumaLogic.requestTreatment` (wound context menu)   | patient invokes it                                                                       | — (it is the entry point)                                                            |
-| 2. Perform | `BeingLogic.performTreatmentTest` (Being Actions tab) | physician runs it; dialog takes a pasted injury UUID _or_ a GM-described severity/aspect | open `@self` button → runs on the clicker's own character, `skipDialog` + wound uuid |
-| 3. Treat   | `TraumaLogic.treatInjury` (wound context menu)        | anyone runs it; dialog takes the Healing Rate                                            | owner-gated Accept button → `skipDialog` + the physician's proposed rate             |
+| 2. Perform | `BeingLogic.performTreatmentTest` (Being Actions tab) | physician runs it; dialog takes a pasted injury UUID _or_ a GM-described severity/aspect | open `@self` button > runs on the clicker's own character, `skipDialog` + wound uuid |
+| 3. Treat   | `TraumaLogic.treatInjury` (wound context menu)        | anyone runs it; dialog takes the Healing Rate                                            | owner-gated Accept button > `skipDialog` + the physician's proposed rate             |
 
 1. The patient runs **Request Treatment** on the wound; it posts an _open_ Perform
    card.
@@ -231,10 +231,10 @@ On a 5-day cadence anchored at day 0, with the player at day 22:
 
 | Test performed | Next anchored at | Next due | Effect                        |
 | -------------- | ---------------- | -------- | ----------------------------- |
-| day 5          | day 5            | day 10   | past → card posts immediately |
-| day 10         | day 10           | day 15   | past → card posts immediately |
-| day 15         | day 15           | day 20   | past → card posts immediately |
-| day 20         | day 20           | day 25   | future → waits                |
+| day 5          | day 5            | day 10   | past > card posts immediately |
+| day 10         | day 10           | day 15   | past > card posts immediately |
+| day 15         | day 15           | day 20   | past > card posts immediately |
+| day 20         | day 20           | day 25   | future > waits                |
 
 Four tests, four separate consents, and the cadence still lands on day 25 — not
 on day 27, where anchoring at the moment of each click would have pushed it.
