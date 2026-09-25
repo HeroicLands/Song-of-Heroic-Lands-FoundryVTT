@@ -1,5 +1,5 @@
 ---
-"sohl": minor
+"sohl": patch
 ---
 
 **The world keeps its own calendar.** Dates on sheets, chat cards and the date
