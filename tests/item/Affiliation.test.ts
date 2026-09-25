@@ -26,6 +26,7 @@ function affiliationFields(overrides: Record<string, unknown> = {}) {
         parents: [],
         seat: null,
         domain: [],
+        commonSkills: [],
         ...overrides,
     };
 }
@@ -252,6 +253,15 @@ describe("AffiliationDataModel", () => {
 });
 
 describe("affiliation references", () => {
+    it("keeps exact common skill UUIDs through the logic layer without acquiring skills", () => {
+        const uuid = "Compendium.thalorna.skills.Item.ABC123";
+        const logic = makeAffiliation({ commonSkills: [uuid] });
+        logic.initialize();
+        logic.evaluate();
+        logic.finalize();
+        expect(logic.data.commonSkills).toEqual([uuid]);
+        expect(logic.item.update).not.toHaveBeenCalled();
+    });
     it("answers to nobody by default, and that is a value rather than an absence", () => {
         const logic = makeAffiliation();
         expect(logic.data.parents).toEqual([]);

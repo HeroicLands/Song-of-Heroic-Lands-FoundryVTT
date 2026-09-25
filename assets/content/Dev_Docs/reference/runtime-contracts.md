@@ -69,6 +69,13 @@ Key contracts:
 - Logic object is created lazily through `create(...)` + `logic` accessor.
 - `fromData(...)` resolves model class by `kind` across configured document families and normalizes serialized JSON forms.
 
+An Affiliation's native `system.commonSkills` is an array of exact Foundry UUIDs
+of SoHL skill Items, initially empty. A UUID may identify a skill in another
+installed module's compendium. The Affiliation sheet resolves each UUID through
+Foundry when it renders; an unavailable target stays in the array and appears
+with its UUID. Adding a reference checks that the target is a skill Item. The
+list does not grant skills to an actor or trigger any game action.
+
 ### Updating array fields: write the whole array, never an element by index {#updating-array-fields-write-the-whole-array-never-an-element-by-index}
 
 **Never** target a single element of an `ArrayField` by index in an `update()`
