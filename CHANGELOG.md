@@ -1,5 +1,80 @@
 # sohl
 
+## 0.8.7
+
+### Patch Changes
+
+The Basic Folk archetype describes itself on the sheet and on its page, saying
+what the template is and how to make a character out of it, rather than
+reading TBD.
+
+Every page lists the pages that link to it and the pages it links to,
+grouped by type, at the foot of the page.
+
+The site has a search box: every page's text is searchable, and a search can be narrowed by page type.
+
+**Affiliations.** Record skills commonly taught by an organization and open them from its sheet. Missing skills stay visible for review; listing a skill does not grant it to a character.
+
+**Every bundled asset says where it came from.** The eight combat sounds and the
+parchment ground carry their attribution, source and licence alongside the art
+they describe, as the icons and portraits already did.
+
+**The developer documentation is part of the knowledgebase.** Every developer
+page — architecture, the how-tos, the content-creator guides, the reference
+pages and the contributing guides — is a note like any other, published at
+`/sohl/doc-<shortcode>/` beside the rules and the user guide and linked from
+[the developer documentation index](https://www.heroiclands.org/sohl/doc-devdocs/),
+whose page lists are generated so a page cannot be left out. None of these
+pages compiles into a compendium document.
+
+**Addresses.** The former `/sohl/kb/dev-docs/…` addresses answer 404; each
+page has one address, `/sohl/doc-<shortcode>/`.
+
+**Drafts.** An actor or item marked a draft carries an amber ring on its
+
+picture — on its own sheet, in the sidebar, and in the compendium you are
+browsing — so an unfinished entry reads as unfinished before you rely on it.
+Anything not marked looks exactly as it did.
+
+your own note that the entity is half-built, unverified, or not yet adapted for
+your table. Anyone who can edit the sheet can set it, and clearing it leaves any
+"draft" wording in the entity's own description alone.
+
+**The Pall.** The rules, the user guide and the Face the Pall card name the
+undead in the system's own words — one that walks on with its will intact, one
+left mindless for another will to drive — instead of one world's folk names for
+them.
+
+**The types package is no longer published to npm.** TypeScript authors
+writing against the `sohl` global no longer have a generated `@types`
+package to install; a module still reaches every runtime value through the
+live `sohl` global the same way it always has.
+
+**The knowledgebase wears the shared header.** Every page under `/sohl/` now
+carries the same navigation as the rest of heroiclands.org — Home, Song of
+Heroic Lands, HârnMaster 3, Thalorna, the Other Modules menu and License — so
+moving between the sites is one menu rather than one per site. The "Main Site"
+link in the system's settings sidebar opens the Song of Heroic Lands landing
+page.
+
+**The system's description reads the same everywhere.** Foundry's package
+listing shows the one-paragraph description the project publishes, rather than
+a separate pitch of its own.
+
+**The module describes itself separately for Foundry and for the site.**
+Foundry's package browser shows a formatted pitch; the site's search-result
+snippet shows one plain sentence. The two no longer share a single string,
+so each reads naturally for its own audience.
+
+**The world keeps its own calendar.** Dates on sheets, chat cards and the date
+picker now read against whichever calendar your world uses, rather than the one
+the system chose for you. A calendar module you install is the one you see.
+
+**Settings.** The Calendar entry is gone from system settings, and with it the
+business of picking a built-in calendar or importing one from a file.
+
+**Dates.** The picker shows the year alone, without an era beside it.
+
 ## 0.8.6
 
 ### Patch Changes
