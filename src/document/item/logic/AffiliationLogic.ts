@@ -157,4 +157,6 @@ export interface AffiliationData<
      * relation, kept apart from the organisational one in {@link parents}.
      */
     domain: string[];
+    /** Exact Foundry UUIDs of native skill Items commonly taught by the body. */
+    commonSkills: string[];
 }

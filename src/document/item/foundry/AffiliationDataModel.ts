@@ -110,6 +110,9 @@ function defineAffiliationDataSchema(): foundry.data.fields.DataSchema {
         domain: new ArrayField(new StringField({ required: true, blank: false }), {
             initial: [],
         }),
+        commonSkills: new ArrayField(new StringField({ required: true, blank: false }), {
+            initial: [],
+        }),
     };
 }
 
@@ -136,6 +139,7 @@ export class AffiliationDataModel<
     parents!: string[];
     seat!: string | null;
     domain!: string[];
+    commonSkills!: string[];
 
     /**
      * Returns the Foundry data schema for the affiliation item.

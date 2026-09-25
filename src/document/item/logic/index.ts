@@ -19,6 +19,7 @@ export * from "./AfflictionLogic";
 export * from "./ArmorGearLogic";
 export * from "./AttributeLogic";
 export * from "./ConcoctionGearLogic";
+export * from "./common-skill-references";
 export * from "./ContainerGearLogic";
 export * from "./GearLogic";
 export * from "./MiscGearLogic";

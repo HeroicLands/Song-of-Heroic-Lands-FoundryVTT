@@ -45,6 +45,7 @@ Along with the [[doc-baseitemug|Standard Item Properties]], the following proper
 - **Office:** The role or function the character fills within the organization, if any — for example a stewardship, a command, or a ministry.
 - **Title:** The title of the character's rank within the organization — the named form of their standing, sometimes influenced by their Office.
 - **Level:** The character's rank within the organization, as a number, with higher numbers indicating greater rank. Rank 0 is usually a lay member; rank 1 an initiate, acolyte, or apprentice; in most organizations a fully trained and accepted member — such as a guild master or an ordained priest — is around rank 3.
+- **Common Skills:** Skills commonly taught by the organization. Select **Add Common Skill** and paste the skill Item's UUID from its sheet header, including a skill in an installed compendium. Select a listed skill to open its sheet, or use the remove control to clear the reference. An unavailable skill remains listed with its UUID so you can identify it. This list describes the organization; it does not add skills to a character.
 
 # Intrinsic Actions
 

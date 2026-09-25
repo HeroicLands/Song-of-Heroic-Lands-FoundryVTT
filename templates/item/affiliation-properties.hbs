@@ -52,4 +52,30 @@ SPDX-License-Identifier: GPL-3.0-or-later
         <div class="array-list__empty">{{localize "SOHL.Affiliation.relationEmpty"}}</div>
         {{/each}}
     </div>
+
+    <div class="section-legend section-legend--subtype">
+        <span class="section-legend__name">{{localize "SOHL.Affiliation.FIELDS.commonSkills.label"}}</span>
+        <span class="section-legend__rule"></span>
+        <span class="section-legend__add">
+            <button class="add-button add-button--small" data-action="addCommonSkill"
+                data-tooltip="{{localize "SOHL.Affiliation.Action.addCommonSkill"}}">
+                <i class="fa-solid fa-plus"></i><span>{{localize "SOHL.Affiliation.Action.addCommonSkill"}}</span>
+            </button>
+        </span>
+    </div>
+    <p class="hint">{{localize "SOHL.Affiliation.FIELDS.commonSkills.hint"}}</p>
+    <div class="array-list">
+        {{#each commonSkillRows}}
+        <div class="array-list__row">
+            <a class="array-list__field{{#if this.unavailable}} unresolved{{/if}}"
+                data-action="openCommonSkill" data-uuid="{{this.uuid}}"
+                title="{{this.uuid}}">{{#if this.unavailable}}{{localize "SOHL.Affiliation.unavailableCommonSkill"}}: {{/if}}{{this.label}}</a>
+            <a class="array-list__remove icon-button icon-button--danger" data-action="deleteCommonSkill"
+                data-index="{{this.index}}"
+                title="{{localize "SOHL.Affiliation.Action.deleteCommonSkill"}}"><i class="fa-solid fa-trash"></i></a>
+        </div>
+        {{else}}
+        <div class="array-list__empty">{{localize "SOHL.Affiliation.commonSkillsEmpty"}}</div>
+        {{/each}}
+    </div>
 </section>

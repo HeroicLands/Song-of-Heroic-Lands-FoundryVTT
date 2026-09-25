@@ -15,6 +15,10 @@ import { SohlItem } from "@src/document/item/foundry/SohlItem";
 import { SohlItemSheetBase } from "@src/document/item/foundry/SohlItemSheetBase";
 import { buildRelationRows } from "@src/document/item/logic/item-sheet-view";
 import { actorItemRefOptions } from "@src/document/item/logic/refOptions";
+import {
+    commonSkillRows,
+    resolveCommonSkillReference,
+} from "@src/document/item/logic/common-skill-references";
 import { dialog } from "@src/core/FoundryHelpers";
 import { toHTMLString } from "@src/utils/helpers";
 import {
@@ -50,6 +54,16 @@ const ADD_RELATION_FORM = `<form id="add-relation">
     </div>
 </form>`;
 
+const ADD_COMMON_SKILL_FORM = `<form id="add-common-skill">
+    <div class="form-group">
+        <label>{{localize "SOHL.Affiliation.FIELDS.commonSkills.label"}}</label>
+        <div class="form-fields">
+            <input type="text" name="uuid" value="" />
+        </div>
+        <p class="hint">{{localize "SOHL.Affiliation.FIELDS.commonSkills.hint"}}</p>
+    </div>
+</form>`;
+
 /** @internal */
 export class AffiliationSheet extends SohlItemSheetBase {
     /** @inheritDoc */
@@ -67,6 +81,9 @@ export class AffiliationSheet extends SohlItemSheetBase {
         actions: {
             addRelation: AffiliationSheet._onAddRelation,
             deleteRelation: AffiliationSheet._onDeleteRelation,
+            addCommonSkill: AffiliationSheet._onAddCommonSkill,
+            openCommonSkill: AffiliationSheet._onOpenCommonSkill,
+            deleteCommonSkill: AffiliationSheet._onDeleteCommonSkill,
         },
     };
 
@@ -163,6 +180,72 @@ export class AffiliationSheet extends SohlItemSheetBase {
         void this.render();
     }
 
+    /** Prompt for an exact skill Item UUID and store it without acquiring a skill. */
+    protected static async _onAddCommonSkill(this: AffiliationSheet): Promise<void> {
+        const result = await dialog({
+            title: sohl.i18n.localize("SOHL.Affiliation.Action.addCommonSkill"),
+            content: toHTMLString(ADD_COMMON_SKILL_FORM),
+            buttons: [
+                {
+                    action: "ok",
+                    label: sohl.i18n.localize("SOHL.Affiliation.Action.addCommonSkill"),
+                    default: true,
+                },
+            ],
+            callback: (formData: PlainObject) => String(formData.uuid ?? "").trim(),
+            rejectClose: false,
+        });
+        if (!result) return;
+        const skill = await resolveCommonSkillReference(result);
+        if (!skill) {
+            sohl.log.uiWarn("SOHL.Affiliation.invalidCommonSkill");
+            return;
+        }
+        const uuids = (this.document.system as any).commonSkills as string[];
+        if (uuids.includes(result)) return;
+        await this.document.update({ "system.commonSkills": [...uuids, result] } as any);
+        void this.render();
+    }
+
+    /**
+     * Open a referenced skill when it is available.
+     * @param _event - The triggering pointer event (unused).
+     * @param target - The clicked skill reference.
+     */
+    protected static async _onOpenCommonSkill(
+        this: AffiliationSheet,
+        _event: PointerEvent,
+        target: HTMLElement,
+    ): Promise<void> {
+        const uuid = target.dataset.uuid;
+        if (!uuid) return;
+        const skill = await resolveCommonSkillReference(uuid);
+        if (!skill) {
+            sohl.log.uiWarn("SOHL.Affiliation.unavailableCommonSkill");
+            return;
+        }
+        await skill.sheet?.render({ force: true });
+    }
+
+    /**
+     * Remove only the selected reference from the native UUID list.
+     * @param _event - The triggering pointer event (unused).
+     * @param target - The clicked remove control.
+     */
+    protected static async _onDeleteCommonSkill(
+        this: AffiliationSheet,
+        _event: PointerEvent,
+        target: HTMLElement,
+    ): Promise<void> {
+        const index = Number(target.dataset.index);
+        const uuids = (this.document.system as any).commonSkills as string[];
+        if (!Number.isInteger(index) || index < 0 || index >= uuids.length) return;
+        await this.document.update({
+            "system.commonSkills": uuids.filter((_, at) => at !== index),
+        } as any);
+        void this.render();
+    }
+
     /**
      * Augments the render context for the affiliation properties tab with the
      * affiliation's system fields (subtype, society, office, title, level) and
@@ -193,6 +276,10 @@ export class AffiliationSheet extends SohlItemSheetBase {
                 })),
             ),
             standingChoices: AffiliationStandingChoices,
+            commonSkillRows: (await commonSkillRows(system.commonSkills)).map((row, index) => ({
+                ...row,
+                index,
+            })),
         });
     }
 }
