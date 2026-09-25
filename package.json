@@ -136,7 +136,7 @@
         "@eslint/js": "^10.0.1",
         "@foundryvtt/foundryvtt-cli": "^3.0.4",
         "@heroiclands/hugo-theme": "^0.9.0",
-        "@heroiclands/package-build": "^22.7.0",
+        "@heroiclands/package-build": "^22.9.2",
         "@typescript-eslint/eslint-plugin": "^8.70.0",
         "@typescript-eslint/parser": "^8.70.0",
         "@vitest/coverage-v8": "^5.0.1",
