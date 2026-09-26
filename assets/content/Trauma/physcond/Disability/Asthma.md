@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Asthma
-  aliases: []
 shortcode: asthma
+name: {full: Asthma, aliases: []}
 type: trauma
-data:
-  icon: battlegear
-  templatePriority: 0
-  packFolder: traumaphysical
 subType: physcond
-sohl:
-  kbcat: physdisability
-  system:
-    category: impediment
+tags: []
+data: {icon: battlegear, templatePriority: 0, packFolder: traumaphysical}
+sohl: {kbcat: physdisability, system: {category: impediment}}
 ---
 
 Asthma is a chronic condition of the lungs, where the airways become narrowed and inflamed, causing difficulty in breathing. Without modern medicine, those afflicted rely on rest, avoiding known triggers, and natural remedies to manage their symptoms. The condition can be life-threatening during severe attacks.

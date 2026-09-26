@@ -1,11 +1,9 @@
 ---
+shortcode: structureug
+name: {full: "Structure"}
 type: doc
 subType: userguide
-name:
-  full: "Structure"
-shortcode: structureug
-data:
-  packFolder: actors
+data: {packFolder: actors}
 ---
 
 # What Is a Structure?

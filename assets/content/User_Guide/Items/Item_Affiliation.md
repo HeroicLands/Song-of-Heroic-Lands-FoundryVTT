@@ -1,11 +1,9 @@
 ---
+shortcode: affltnug
+name: {full: "Affiliation"}
 type: doc
 subType: userguide
-name:
-  full: "Affiliation"
-shortcode: affltnug
-data:
-  packFolder: items
+data: {packFolder: items}
 ---
 
 # What Is an Affiliation?

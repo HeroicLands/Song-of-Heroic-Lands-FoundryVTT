@@ -1,12 +1,9 @@
 ---
+shortcode: brthsgn
+name: {full: Birthsign, aliases: []}
 type: doc
 subType: rules
-name:
-  full: Birthsign
-  aliases: []
-shortcode: brthsgn
-data:
-  packFolder: mysteries
+data: {packFolder: mysteries}
 ---
 
 A passive influence conferred by the celestial sign under which the character was born. A birthsign is never invoked; it quietly shapes the character, strengthening the aptitudes it favours and weakening others.

@@ -1,16 +1,11 @@
 ---
-tags: []
-name:
-  full: Command
-  aliases: []
-description: "Compelling obedience through authority, intimidation, and commanding presence."
 shortcode: cmd
+name: {full: Command, aliases: []}
 type: skill
-data:
-  icon: conversation
-  templatePriority: 0
-  packFolder: social
 subType: social
+description: "Compelling obedience through authority, intimidation, and commanding presence."
+tags: []
+data: {icon: conversation, templatePriority: 0, packFolder: social}
 sohl:
   kbcat: social
   system:
@@ -19,9 +14,7 @@ sohl:
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 2
-    impairedByRoles:
-      - core
-      - vital
+    impairedByRoles: [core, vital]
 ---
 
 Command is persuasion by force of presence — the assertion of authority, and the threat, spoken or otherwise, that stands behind it. It is what a character tests to make someone do a thing they would not do naturally or willingly: hold a line, open a gate, put a weapon down, answer a question they would rather not.

@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Padded Shirt
-  aliases: []
-description: "Cushioned torso covering for warmth and cold weather protection."
 shortcode: psht
+name: {full: Padded Shirt, aliases: []}
 type: armorgear
-data:
-  icon: shirt
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Cushioned torso covering for warmth and cold weather protection."
+tags: []
+data: {icon: shirt, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: padded
   armorType: Shirt
   detailMaterial: Padded
@@ -22,20 +15,8 @@ sohl:
     valueBase: 70
     durabilityBase: 10
     material: Padded
-    locations:
-      flexible:
-        - lshldloc
-        - rshldloc
-        - lupaloc
-        - rupaloc
-        - thrxloc
-        - abdmnloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [lshldloc, rshldloc, lupaloc, rupaloc, thrxloc, abdmnloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

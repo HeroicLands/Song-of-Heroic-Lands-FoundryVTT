@@ -1,12 +1,9 @@
 ---
+shortcode: mysteryintro
+name: {full: Mysteries Introduction, aliases: []}
 type: doc
 subType: rules
-name:
-  full: Mysteries Introduction
-  aliases: []
-shortcode: mysteryintro
-data:
-  packFolder: mysteries
+data: {packFolder: mysteries}
 ---
 
 - [[doc-brthsgn|Birthsign]]

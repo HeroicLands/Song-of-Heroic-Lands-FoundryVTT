@@ -1,20 +1,11 @@
 ---
-tags: []
-name:
-  full: Androphobia
-  aliases: []
 shortcode: andphb
+name: {full: Androphobia, aliases: []}
 type: trauma
-data:
-  icon: dread
-  templatePriority: 0
-  packFolder: phobias
 subType: fear
-sohl:
-  kbcat: phobias
-  system:
-    category: none
-    levelBase: 0
+tags: []
+data: {icon: dread, templatePriority: 0, packFolder: phobias}
+sohl: {kbcat: phobias, system: {category: none, levelBase: 0}}
 ---
 
 Androphobia is an intense, irrational fear of men. People with androphobia may experience a range of symptoms when they think about, see, or are near men.

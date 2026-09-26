@@ -1,11 +1,9 @@
 ---
+shortcode: undrstndsheetug
+name: {full: "Understanding Sheets"}
 type: doc
 subType: userguide
-name:
-  full: "Understanding Sheets"
-shortcode: undrstndsheetug
-data:
-  packFolder: userguide
+data: {packFolder: userguide}
 ---
 
 # What Is a Sheet? {#sheets-overview}

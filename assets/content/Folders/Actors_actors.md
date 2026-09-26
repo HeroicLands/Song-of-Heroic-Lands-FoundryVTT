@@ -1,8 +1,6 @@
 ---
-name:
-  full: "Actors"
 shortcode: actors
+name: {full: "Actors"}
 type: folder
-data:
-  parent: userguide
+data: {parent: userguide}
 ---

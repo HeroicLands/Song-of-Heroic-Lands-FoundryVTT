@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Buckram Coat
-  aliases: []
-description: "Stiff buckram coat offering durable, reliable outer protection."
 shortcode: bcoat
+name: {full: Buckram Coat, aliases: []}
 type: armorgear
-data:
-  icon: shirt
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Stiff buckram coat offering durable, reliable outer protection."
+tags: []
+data: {icon: shirt, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Coat
   detailMaterial: Buckram
@@ -38,11 +31,7 @@ sohl:
         - lthghloc
         - rthghloc
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

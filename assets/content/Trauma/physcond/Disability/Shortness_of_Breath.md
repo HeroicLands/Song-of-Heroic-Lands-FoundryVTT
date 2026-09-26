@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Shortness of Breath
-  aliases: []
 shortcode: shrtbrth
+name: {full: Shortness of Breath, aliases: []}
 type: trauma
-data:
-  icon: battlegear
-  templatePriority: 0
-  packFolder: traumaphysical
 subType: physcond
-sohl:
-  kbcat: physdisability
-  system:
-    category: impediment
+tags: []
+data: {icon: battlegear, templatePriority: 0, packFolder: traumaphysical}
+sohl: {kbcat: physdisability, system: {category: impediment}}
 ---
 
 Shortness of Breath is a condition characterized by difficulty breathing where the act of drawing air feels laborious and uncomfortable. Those suffering from dyspnea must rely on rest, herbal remedies, and the support of others to manage their condition.

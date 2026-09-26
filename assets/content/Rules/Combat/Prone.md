@@ -1,12 +1,9 @@
 ---
+shortcode: prone
+name: {full: Prone, aliases: []}
 type: doc
 subType: rules
-name:
-  full: Prone
-  aliases: []
-shortcode: prone
-data:
-  packFolder: rulescombat
+data: {packFolder: rulescombat}
 ---
 
 When a being stumbles or falls, it becomes **prone**, with the following effects:

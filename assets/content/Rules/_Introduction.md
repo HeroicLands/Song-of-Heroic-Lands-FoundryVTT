@@ -1,12 +1,9 @@
 ---
+shortcode: rulesintro
+name: {full: Song of Heroic Lands Rules, aliases: []}
 type: doc
 subType: rules
-name:
-  full: Song of Heroic Lands Rules
-  aliases: []
-shortcode: rulesintro
-data:
-  packFolder: rules
+data: {packFolder: rules}
 ---
 
 _Song of Heroic Lands_ is a classless, skill-based fantasy roleplaying game. There are no levels and no archetypes to pick between: a character is described by the capacities they were born with, the skills they have trained, the people who will vouch for them, and the marks the world has left on them. What follows is the whole of how that character is described, and how the dice answer for them when the outcome of something is genuinely in doubt.

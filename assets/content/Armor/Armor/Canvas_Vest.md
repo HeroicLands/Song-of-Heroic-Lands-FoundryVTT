@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Canvas Vest
-  aliases: []
-description: "Sleeveless canvas vest offering tough, unfussy body cover."
 shortcode: cvvest
+name: {full: Canvas Vest, aliases: []}
 type: armorgear
-data:
-  icon: leathervest
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Sleeveless canvas vest offering tough, unfussy body cover."
+tags: []
+data: {icon: leathervest, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Vest
   detailMaterial: Canvas
@@ -22,16 +15,8 @@ sohl:
     valueBase: 22
     durabilityBase: 11
     material: Cloth
-    locations:
-      flexible:
-        - thrxloc
-        - abdmnloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [thrxloc, abdmnloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

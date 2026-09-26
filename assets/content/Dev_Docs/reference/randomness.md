@@ -1,23 +1,12 @@
 ---
+shortcode: randomness
+name: {full: Randomness, aliases: [PRNG, sohl.random, Rng, SimpleRoll RNG]}
 type: doc
 subType: reference
-name:
-  full: Randomness
-  aliases:
-    - PRNG
-    - sohl.random
-    - Rng
-    - SimpleRoll RNG
-shortcode: randomness
 description: For developers generating randomness in the logic layer, or driving RNG-gated flows deterministically in tests.
-tags:
-  - core-system
-  - dice
-  - testing
-data:
-  pack: none
-sohl:
-  kbcat: devdocs
+tags: [core-system, dice, testing]
+data: {pack: none}
+sohl: {kbcat: devdocs}
 ---
 
 # Randomness

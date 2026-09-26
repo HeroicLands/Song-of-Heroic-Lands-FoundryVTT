@@ -1,20 +1,11 @@
 ---
-tags: []
-name:
-  full: Thaumatophobia
-  aliases: []
 shortcode: thmtphb
+name: {full: Thaumatophobia, aliases: []}
 type: trauma
-data:
-  icon: dread
-  templatePriority: 0
-  packFolder: phobias
 subType: fear
-sohl:
-  kbcat: phobias
-  system:
-    category: none
-    levelBase: 0
+tags: []
+data: {icon: dread, templatePriority: 0, packFolder: phobias}
+sohl: {kbcat: phobias, system: {category: none, levelBase: 0}}
 ---
 
 Thaumatophobia is an intense, irrational fear of magic or supernatural occurrences. People with thaumatophobia may experience a range of symptoms when they think about, see, or are near anything they perceive as magical or supernatural.

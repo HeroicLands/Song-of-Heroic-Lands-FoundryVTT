@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: "Jar, ointment, small"
-  aliases: []
-description: "Small ceramic ointment jar for salves and medicinal paste samples."
 shortcode: jarointmen3
+name: {full: "Jar, ointment, small", aliases: []}
 type: containergear
-data:
-  icon: swapbag
-  templatePriority: 0
-  packFolder: containers
+description: "Small ceramic ointment jar for salves and medicinal paste samples."
+tags: []
+data: {icon: swapbag, templatePriority: 0, packFolder: containers}
 sohl:
-  craft:
-    skill: cmcs
-    secondary: []
+  craft: {skill: cmcs, secondary: []}
   system:
     weightBase: 0.4
     valueBase: 1

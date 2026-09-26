@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Ballista
-  aliases: []
-description: "Heavy torsion bolt-thrower; four-crew engine that spits a shaft through shield, mail and man."
 shortcode: ballsta
+name: {full: Ballista, aliases: []}
 type: weapongear
-data:
-  icon: aerodynamicharpoon
-  templatePriority: 0
-  packFolder: weapons
+description: "Heavy torsion bolt-thrower; four-crew engine that spits a shaft through shield, mail and man."
+tags: []
+data: {icon: aerodynamicharpoon, templatePriority: 0, packFolder: weapons}
 sohl:
-  craft:
-    skill: wood
-    secondary: []
+  craft: {skill: wood, secondary: []}
   kbcat: siege
   weaponType: Siege
   system:
@@ -27,14 +20,8 @@ sohl:
         name: Shoot
         assocSkillCode: archery
         minParts: 2
-        attack:
-          spread: 0
-          modifier: 0
-        impactBase:
-          numDice: 0
-          die: null
-          modifier: 22
-          aspect: piercing
+        attack: {spread: 0, modifier: 0}
+        impactBase: {numDice: 0, die: null, modifier: 22, aspect: piercing}
         traits:
           meleeMod: 0
           blockSLMod: 0

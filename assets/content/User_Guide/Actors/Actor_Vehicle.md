@@ -1,11 +1,9 @@
 ---
+shortcode: vehicleug
+name: {full: "Vehicle"}
 type: doc
 subType: userguide
-name:
-  full: "Vehicle"
-shortcode: vehicleug
-data:
-  packFolder: actors
+data: {packFolder: actors}
 ---
 
 # What Is a Vehicle?

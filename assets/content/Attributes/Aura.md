@@ -1,24 +1,14 @@
 ---
-tags: []
-name:
-  full: Aura
-  aliases: []
-description: "Depth of the soul, and the presence every mystical connexion rests on."
 shortcode: aur
+name: {full: Aura, aliases: []}
 type: attribute
-data:
-  icon: aura
-  templatePriority: 0
-  packFolder: attributes
+description: "Depth of the soul, and the presence every mystical connexion rests on."
+tags: []
+data: {icon: aura, templatePriority: 0, packFolder: attributes}
 sohl:
   system:
     scoreBase: 0
-    valueDesc:
-      - Mundane:4
-      - Shallow:8
-      - Average:12
-      - Deep:16
-      - Profound:999
+    valueDesc: [Mundane:4, Shallow:8, Average:12, Deep:16, Profound:999]
     initDiceFormula: 3d6
 ---
 

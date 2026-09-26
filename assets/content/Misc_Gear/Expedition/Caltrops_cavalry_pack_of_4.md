@@ -1,26 +1,14 @@
 ---
-tags:
-  - expedition
-name:
-  full: "Caltrops, cavalry, pack of 4"
-  aliases: []
-description: "Four cast-iron implements with four points; slows mounted pursuers and damages hooves."
 shortcode: caltropsca
+name: {full: "Caltrops, cavalry, pack of 4", aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
-  packFolder: expedition
+description: "Four cast-iron implements with four points; slows mounted pursuers and damages hooves."
+tags: [expedition]
+data: {icon: swapbag, templatePriority: 0, packFolder: expedition}
 sohl:
-  craft:
-    skill: mtlc
-    secondary: []
+  craft: {skill: mtlc, secondary: []}
   kbcat: expedition
-  system:
-    weightBase: 2
-    valueBase: 12
-    qualityBase: 0
-    durabilityBase: 8
+  system: {weightBase: 2, valueBase: 12, qualityBase: 0, durabilityBase: 8}
 ---
 
 Four cast-iron implements with four points each, designed so one always stands upright when scattered on the ground. Cavalry caltrops are strewn across a roadway or camp perimeter to slow or injure mounted pursuers and damage hooves; a single caltrop can cripple a horse or turn a charge. Soldiers and outriders carry them in a small bundle or tied in cloth.

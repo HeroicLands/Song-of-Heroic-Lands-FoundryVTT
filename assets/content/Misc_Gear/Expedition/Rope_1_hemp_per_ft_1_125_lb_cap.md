@@ -1,26 +1,14 @@
 ---
-tags:
-  - expedition
-name:
-  full: "Rope, 1” hemp, per ft  (1,125 lb cap.)"
-  aliases: []
-description: "Stiff hemp rope for wagons and builders; tarred against weather damage."
 shortcode: rope1hempp
+name: {full: "Rope, 1” hemp, per ft  (1,125 lb cap.)", aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
-  packFolder: expedition
+description: "Stiff hemp rope for wagons and builders; tarred against weather damage."
+tags: [expedition]
+data: {icon: swapbag, templatePriority: 0, packFolder: expedition}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: expedition
-  system:
-    weightBase: 0.27
-    valueBase: 2
-    qualityBase: 0
-    durabilityBase: 7
+  system: {weightBase: 0.27, valueBase: 2, qualityBase: 0, durabilityBase: 7}
 ---
 
 Hemp rope is twisted from the fibers of the hemp plant, stiff and strong. A single fist-thick cord of one-inch hemp will bear the weight of a loaded wagon without complaint, though it grows brittle and frays in water left standing. Road wardens, drovers, and builders coil vast lengths of it; a merchant’s hemp is often tarred against the weather of a long march.

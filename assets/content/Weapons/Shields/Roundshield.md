@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Roundshield
-  aliases: []
-description: "Oak circular shield with iron-domed boss; common soldier's line-wall reliable."
 shortcode: rndsh
+name: {full: Roundshield, aliases: []}
 type: weapongear
-data:
-  icon: roundshield
-  templatePriority: 0
-  packFolder: weapons
+description: "Oak circular shield with iron-domed boss; common soldier's line-wall reliable."
+tags: []
+data: {icon: roundshield, templatePriority: 0, packFolder: weapons}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [mtlc, mnrl]
+  craft: {skill: wpnc, secondary: [mtlc, mnrl]}
   kbcat: shield
   weaponType: Shield
   system:
@@ -27,14 +20,8 @@ sohl:
         name: Bash
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 6
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 1
-          aspect: blunt
+        attack: {spread: 6, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 1, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -63,9 +50,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 1
-        defense:
-          blockMod: 0
-          counterstrikeMod: 0
+        defense: {blockMod: 0, counterstrikeMod: 0}
 ---
 
 A circular plank shield some two to three feet across, laminated from oak or linden boards, faced with hide or rawhide and rimmed with iron against splitting. It is gripped center-hand behind a domed iron boss that can punch as well as parry, lending itself to the shield-wall of line footmen as readily as to the saddle of a raiding horseman. The common soldier's shield of the realm — cheap to make, quick to replace, and forgiving of hard use.

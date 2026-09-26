@@ -1,11 +1,9 @@
 ---
+shortcode: afflctnug
+name: {full: "Affliction"}
 type: doc
 subType: userguide
-name:
-  full: "Affliction"
-shortcode: afflctnug
-data:
-  packFolder: items
+data: {packFolder: items}
 ---
 
 # What Is an Affliction?

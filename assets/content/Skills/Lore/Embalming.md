@@ -1,16 +1,11 @@
 ---
-tags: []
-name:
-  full: Embalming
-  aliases: []
-description: "Preparing corpses for burial; delaying decomposition through preservation techniques."
 shortcode: embl
+name: {full: Embalming, aliases: []}
 type: skill
-data:
-  icon: mummyhead
-  templatePriority: 0
-  packFolder: lore
 subType: lore
+description: "Preparing corpses for burial; delaying decomposition through preservation techniques."
+tags: []
+data: {icon: mummyhead, templatePriority: 0, packFolder: lore}
 sohl:
   kbcat: lore
   system:
@@ -19,10 +14,7 @@ sohl:
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 0
-    impairedByRoles:
-      - core
-      - vital
-      - manipulator
+    impairedByRoles: [core, vital, manipulator]
 ---
 
 Embalming is the preparation of a corpse for burial according to the observances of a particular faith — evisceration, immersion in spirits, wrapping, and the packing of mouth, nose and ears with herbs, spices and cotton. It is priestly work as often as it is a trade, and the techniques differ between religions in ways their practitioners consider anything but cosmetic.

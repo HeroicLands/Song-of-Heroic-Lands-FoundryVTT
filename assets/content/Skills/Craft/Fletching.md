@@ -1,16 +1,11 @@
 ---
-tags: []
-name:
-  full: Fletching
-  aliases: []
-description: "Crafting bows, crossbows, arrows; producing reliable or masterwork projectile weapons."
 shortcode: fltch
+name: {full: Fletching, aliases: []}
 type: skill
-data:
-  icon: broadheadarrow
-  templatePriority: 0
-  packFolder: craft
 subType: craft
+description: "Crafting bows, crossbows, arrows; producing reliable or masterwork projectile weapons."
+tags: []
+data: {icon: broadheadarrow, templatePriority: 0, packFolder: craft}
 sohl:
   kbcat: craft
   system:
@@ -19,10 +14,7 @@ sohl:
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 0
-    impairedByRoles:
-      - core
-      - vital
-      - manipulator
+    impairedByRoles: [core, vital, manipulator]
 ---
 
 Strictly, a fletcher makes arrows and a bowyer makes bows, but the guilds long ago stopped observing the distinction and the first word has swallowed the second. Fletching covers bows, crossbows, arrows and quarrels from stave and billet through to a finished, tillered, nocked weapon.

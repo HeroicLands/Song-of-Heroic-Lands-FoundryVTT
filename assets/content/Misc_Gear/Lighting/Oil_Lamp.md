@@ -1,26 +1,14 @@
 ---
-tags:
-  - lighting
-name:
-  full: "Oil, Lamp"
-  aliases: []
-description: "Animal fat or oil in clay-bronze reservoir; steady flame with twisted-flax wick."
 shortcode: oillamp
+name: {full: "Oil, Lamp", aliases: []}
 type: miscgear
-data:
-  icon: roundpotion
-  templatePriority: 0
-  packFolder: lighting
+description: "Animal fat or oil in clay-bronze reservoir; steady flame with twisted-flax wick."
+tags: [lighting]
+data: {icon: roundpotion, templatePriority: 0, packFolder: lighting}
 sohl:
-  craft:
-    skill: mtlc
-    secondary: []
+  craft: {skill: mtlc, secondary: []}
   kbcat: lighting
-  system:
-    weightBase: 12
-    valueBase: 12
-    qualityBase: 0
-    durabilityBase: 0
+  system: {weightBase: 12, valueBase: 12, qualityBase: 0, durabilityBase: 0}
 ---
 
 Rendered animal fat or vegetable oil kept in a clay or bronze reservoir, burned by means of a twisted-flax wick that draws fuel upward by capillary action. Oil lamps are filled at the chandler and burn steadier than candles, unaffected by guttering and sputtering. A lamp's light is warmer and softer than candlelight, favored in studies and merchant countinghouses where the reader will spend hours; the wick must be trimmed occasionally to prevent smoking.

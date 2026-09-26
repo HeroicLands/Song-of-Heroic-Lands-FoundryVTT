@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Wooden Crossbow 160
-  aliases: []
-description: "Heavy prod spanning by cranequin; castle-wall and convoy suppression weapon."
 shortcode: wcxbw160
+name: {full: Wooden Crossbow 160, aliases: []}
 type: weapongear
-data:
-  icon: crossbow
-  templatePriority: 0
-  packFolder: weapons
+description: "Heavy prod spanning by cranequin; castle-wall and convoy suppression weapon."
+tags: []
+data: {icon: crossbow, templatePriority: 0, packFolder: weapons}
 sohl:
-  craft:
-    skill: fltch
-    secondary: [wood, timb]
+  craft: {skill: fltch, secondary: [wood, timb]}
   kbcat: crossbow
   weaponType: Crossbow
   system:
@@ -27,14 +20,8 @@ sohl:
         name: Ranged
         assocSkillCode: archery
         minParts: 2
-        attack:
-          spread: 0
-          modifier: 0
-        impactBase:
-          numDice: 0
-          die: null
-          modifier: 3
-          aspect: piercing
+        attack: {spread: 0, modifier: 0}
+        impactBase: {numDice: 0, die: null, modifier: 3, aspect: piercing}
         traits:
           meleeMod: 0
           blockSLMod: 0

@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Linen Breeches
-  aliases: []
-description: "Light breathable leg covering perfect for warm climates or strenuous activity."
 shortcode: lnbrch
+name: {full: Linen Breeches, aliases: []}
 type: armorgear
-data:
-  icon: trousers
-  templatePriority: 0
-  packFolder: clothing
+description: "Light breathable leg covering perfect for warm climates or strenuous activity."
+tags: []
+data: {icon: trousers, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Breeches
   detailMaterial: Linen
@@ -22,18 +15,8 @@ sohl:
     valueBase: 9
     durabilityBase: 5
     material: Cloth
-    locations:
-      flexible:
-        - lthghloc
-        - rthghloc
-        - lkneeloc
-        - rkneeloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [lthghloc, rthghloc, lkneeloc, rkneeloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

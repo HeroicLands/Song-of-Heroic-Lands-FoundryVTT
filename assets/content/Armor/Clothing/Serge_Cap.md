@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Serge Cap
-  aliases: []
-description: "Twilled serge cap; comfortable, durable head covering for daily use."
 shortcode: sgcap
+name: {full: Serge Cap, aliases: []}
 type: armorgear
-data:
-  icon: billedcap
-  templatePriority: 0
-  packFolder: clothing
+description: "Twilled serge cap; comfortable, durable head covering for daily use."
+tags: []
+data: {icon: billedcap, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Cap
   detailMaterial: Serge
@@ -22,15 +15,8 @@ sohl:
     valueBase: 2
     durabilityBase: 7
     material: Cloth
-    locations:
-      flexible:
-        - skullloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [skullloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

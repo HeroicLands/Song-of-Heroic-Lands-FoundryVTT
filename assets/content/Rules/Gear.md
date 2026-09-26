@@ -1,12 +1,9 @@
 ---
+shortcode: gearrules
+name: {full: Gear, aliases: []}
 type: doc
 subType: rules
-name:
-  full: Gear
-  aliases: []
-shortcode: gearrules
-data:
-  packFolder: rules
+data: {packFolder: rules}
 ---
 
 **Gear** is the physical property a character owns and carries — weapons, armor, tools, supplies, coin, and everything in between. Each piece of gear is its own item, so it can be picked up, dropped, traded, stored in a container, or handed to another character. This page describes the properties common to all gear, the way gear burdens the character who carries it, and each of the gear types defined here.

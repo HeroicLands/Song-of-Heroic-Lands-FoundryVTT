@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Rawhide Vest
-  aliases: []
-description: "Thick hide sleeveless vest; torso-only durability."
 shortcode: rhvest
+name: {full: Rawhide Vest, aliases: []}
 type: armorgear
-data:
-  icon: leathervest
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Thick hide sleeveless vest; torso-only durability."
+tags: []
+data: {icon: leathervest, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: leather
   armorType: Vest
   detailMaterial: Rawhide
@@ -22,16 +15,8 @@ sohl:
     valueBase: 100
     durabilityBase: 11
     material: Leather
-    locations:
-      flexible:
-        - thrxloc
-        - abdmnloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [thrxloc, abdmnloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

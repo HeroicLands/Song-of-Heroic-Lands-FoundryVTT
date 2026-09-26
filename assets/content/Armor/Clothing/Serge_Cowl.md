@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Serge Cowl
-  aliases: []
-description: "Twilled serge cowl; provides warmth and protection for everyday wear."
 shortcode: sgcowl
+name: {full: Serge Cowl, aliases: []}
 type: armorgear
-data:
-  icon: hood
-  templatePriority: 0
-  packFolder: clothing
+description: "Twilled serge cowl; provides warmth and protection for everyday wear."
+tags: []
+data: {icon: hood, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Cowl
   detailMaterial: Serge
@@ -22,16 +15,8 @@ sohl:
     valueBase: 4
     durabilityBase: 7
     material: Cloth
-    locations:
-      flexible:
-        - skullloc
-        - neckloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [skullloc, neckloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

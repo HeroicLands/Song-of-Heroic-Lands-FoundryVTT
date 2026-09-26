@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Whip, Teamster
-  aliases: []
-description: "Short cord lash stinging rather than cutting; driver's incidental combat tool."
 shortcode: twhp
+name: {full: "Whip, Teamster", aliases: []}
 type: weapongear
-data:
-  icon: whip
-  templatePriority: 0
-  packFolder: weapons
+description: "Short cord lash stinging rather than cutting; driver's incidental combat tool."
+tags: []
+data: {icon: whip, templatePriority: 0, packFolder: weapons}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: whip
   weaponType: Flail
   system:
@@ -27,14 +20,8 @@ sohl:
         name: Lash
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 8
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 0
-          aspect: edged
+        attack: {spread: 8, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 0, aspect: edged}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -63,22 +50,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 4
-        defense:
-          blockMod: -20
-          counterstrikeMod: -20
+        defense: {blockMod: -20, counterstrikeMod: -20}
       - shortcode: pommel
         type: melee
         name: Pommel
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 4
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 0
-          aspect: blunt
+        attack: {spread: 4, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 0, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -107,9 +86,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 4
-        defense:
-          blockMod: -20
-          counterstrikeMod: -20
+        defense: {blockMod: -20, counterstrikeMod: -20}
 ---
 
 A short, stout cord or rawhide whip bound to a wooden handle, the teamster's whip is primarily a driver's tool for commanding ox-teams and wagon-spans. Light and fast to crack, it stings rather than cuts, used for noise and sharp warnings. Drivers pressed into militia sometimes arm themselves with what they carry, giving the whip incidental combat service.

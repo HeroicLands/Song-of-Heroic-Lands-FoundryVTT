@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Worsted Shirt
-  aliases: []
-description: "Tightly-spun wool shirt; durable, practical garment for activities."
 shortcode: wshirt
+name: {full: Worsted Shirt, aliases: []}
 type: armorgear
-data:
-  icon: shirt
-  templatePriority: 0
-  packFolder: clothing
+description: "Tightly-spun wool shirt; durable, practical garment for activities."
+tags: []
+data: {icon: shirt, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Shirt
   detailMaterial: Worsted
@@ -22,20 +15,8 @@ sohl:
     valueBase: 80
     durabilityBase: 9
     material: Cloth
-    locations:
-      flexible:
-        - lshldloc
-        - rshldloc
-        - lupaloc
-        - rupaloc
-        - thrxloc
-        - abdmnloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [lshldloc, rshldloc, lupaloc, rupaloc, thrxloc, abdmnloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

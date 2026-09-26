@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Linen Cap
-  aliases: []
-description: "Light breathable head covering protecting from sun in warmer weather."
 shortcode: lcap
+name: {full: Linen Cap, aliases: []}
 type: armorgear
-data:
-  icon: billedcap
-  templatePriority: 0
-  packFolder: clothing
+description: "Light breathable head covering protecting from sun in warmer weather."
+tags: []
+data: {icon: billedcap, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Cap
   detailMaterial: Linen
@@ -22,15 +15,8 @@ sohl:
     valueBase: 2
     durabilityBase: 5
     material: Cloth
-    locations:
-      flexible:
-        - skullloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [skullloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

@@ -1,26 +1,14 @@
 ---
-tags:
-  - food
-name:
-  full: "Pie, Fruit"
-  aliases: []
-description: "Hand-sized pastry with sweet apple or berry filling from baker."
 shortcode: piefruit
+name: {full: "Pie, Fruit", aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
-  packFolder: food
+description: "Hand-sized pastry with sweet apple or berry filling from baker."
+tags: [food]
+data: {icon: swapbag, templatePriority: 0, packFolder: food}
 sohl:
-  craft:
-    skill: cook
-    secondary: []
+  craft: {skill: cook, secondary: []}
   kbcat: food
-  system:
-    weightBase: 0.5
-    valueBase: 0.75
-    qualityBase: 0
-    durabilityBase: 0
+  system: {weightBase: 0.5, valueBase: 0.75, qualityBase: 0, durabilityBase: 0}
 ---
 
 A hand-sized fruit pie, warm from the baker's oven or day-old and still firm, holds sweet apple or berry filling in a buttered crust. A laborer buys one for his midday meal; a child receives it as a rare treat. Bakers sell them cheap by afternoon, before they stale, or keep them wrapped for travelers.

@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Ring Hauberk
-  aliases: []
-description: "Long leather coat with metal-ring overlay; full-torso and arm-coverage."
 shortcode: rhbk
+name: {full: Ring Hauberk, aliases: []}
 type: armorgear
-data:
-  icon: chainmail
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Long leather coat with metal-ring overlay; full-torso and arm-coverage."
+tags: []
+data: {icon: chainmail, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [mtlc, mnrl]
+  craft: {skill: wpnc, secondary: [mtlc, mnrl]}
   kbcat: ring
   armorType: Hauberk
   detailMaterial: Ring
@@ -38,11 +31,7 @@ sohl:
         - plvisloc
         - lthghloc
         - rthghloc
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 15
     perceptionPenaltyBase: 0
 ---

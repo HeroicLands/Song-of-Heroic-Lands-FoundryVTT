@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Rawhide Shoes
-  aliases: []
-description: "Stout hide footwear; durable and protective."
 shortcode: rhshoe
+name: {full: Rawhide Shoes, aliases: []}
 type: armorgear
-data:
-  icon: leatherboot
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Stout hide footwear; durable and protective."
+tags: []
+data: {icon: leatherboot, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: leather
   armorType: Shoes
   detailMaterial: Rawhide
@@ -22,16 +15,8 @@ sohl:
     valueBase: 30
     durabilityBase: 11
     material: Leather
-    locations:
-      flexible:
-        - lfootloc
-        - rfootloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [lfootloc, rfootloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

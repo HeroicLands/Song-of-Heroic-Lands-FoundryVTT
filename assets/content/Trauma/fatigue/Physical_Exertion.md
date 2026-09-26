@@ -1,22 +1,12 @@
 ---
-tags: []
-name:
-  full: Physical Exertion
-  aliases: []
-description: "Acute windedness from sustained physical exertion."
 shortcode: physex
+name: {full: Physical Exertion, aliases: []}
 type: trauma
-data:
-  icon: sleepy
-  templatePriority: 0
-  packFolder: fatigue
 subType: fatigue
-sohl:
-  kbcat: fatigue
-  system:
-    category: windedness
-    levelBase: 1
-    healingRateBase: 5
+description: "Acute windedness from sustained physical exertion."
+tags: []
+data: {icon: sleepy, templatePriority: 0, packFolder: fatigue}
+sohl: {kbcat: fatigue, system: {category: windedness, levelBase: 1, healingRateBase: 5}}
 ---
 
 Physical exertion fatigue accrues from all-out physical exertion sustained over more than a few seconds — the urgent, breathless pace of pursuit; melee combat; sprinting; or climbing.

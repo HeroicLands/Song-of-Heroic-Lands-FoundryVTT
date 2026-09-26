@@ -1,17 +1,10 @@
 ---
-tags:
-  - animal
-  - creature
-  - image-needed
-name:
-  full: Ostrich
-  aliases: []
-description: "The largest living bird of the desert, a flightless seven-to-nine-foot desert runner carried on a pair of devastatingly powerful legs."
 shortcode: ostrich
+name: {full: Ostrich, aliases: []}
 type: being
-data:
-  icon: cassowaryhead
-  templatePriority: 0
+description: "The largest living bird of the desert, a flightless seven-to-nine-foot desert runner carried on a pair of devastatingly powerful legs."
+tags: [animal, creature, image-needed]
+data: {icon: cassowaryhead, templatePriority: 0}
 sohl:
   kbcat: animal
   attrRollFormula:
@@ -25,21 +18,21 @@ sohl:
     rea: 1d4+4
     cre: 1d4+3
   items:
-    - { model: attribute-str, system: { scoreBase: 14 } }
-    - { model: attribute-end, system: { scoreBase: 13 } }
-    - { model: attribute-dex, system: { scoreBase: 14 } }
-    - { model: attribute-agl, system: { scoreBase: 15 } }
-    - { model: attribute-per, system: { scoreBase: 16 } }
-    - { model: attribute-aur, system: { scoreBase: 8 } }
-    - { model: attribute-wil, system: { scoreBase: 10 } }
-    - { model: attribute-rea, system: { scoreBase: 7 } }
-    - { model: attribute-cre, system: { scoreBase: 6 } }
-    - { model: skill-awar, system: { masteryLevelBase: 65 } }
-    - { model: skill-stlth, system: { masteryLevelBase: 60 } }
-    - { model: mysticalability-sprt, system: { masteryLevelBase: 27 } }
-    - { model: skill-init, system: { masteryLevelBase: 36 } }
-    - { model: skill-dge, system: { masteryLevelBase: 60 } }
-    - { model: skill-shok, system: { masteryLevelBase: 35 } }
+    - {model: attribute-str, system: {scoreBase: 14}}
+    - {model: attribute-end, system: {scoreBase: 13}}
+    - {model: attribute-dex, system: {scoreBase: 14}}
+    - {model: attribute-agl, system: {scoreBase: 15}}
+    - {model: attribute-per, system: {scoreBase: 16}}
+    - {model: attribute-aur, system: {scoreBase: 8}}
+    - {model: attribute-wil, system: {scoreBase: 10}}
+    - {model: attribute-rea, system: {scoreBase: 7}}
+    - {model: attribute-cre, system: {scoreBase: 6}}
+    - {model: skill-awar, system: {masteryLevelBase: 65}}
+    - {model: skill-stlth, system: {masteryLevelBase: 60}}
+    - {model: mysticalability-sprt, system: {masteryLevelBase: 27}}
+    - {model: skill-init, system: {masteryLevelBase: 36}}
+    - {model: skill-dge, system: {masteryLevelBase: 60}}
+    - {model: skill-shok, system: {masteryLevelBase: 35}}
     - name: Power Kick
       type: skill
       system:
@@ -47,35 +40,20 @@ sohl:
         subType: combattechnique
         masteryLevelBase: 60
         combatCategory: melee
-        impairedByRoles:
-          - locomotor
+        impairedByRoles: [locomotor]
         strikeMode:
           type: melee
           shortcode: kick
           name: Power Kick
           minParts: 1
           assocSkillCode: null
-          attack:
-            disabled: false
-            spread: 4
-            modifier: 0
-          impactBase:
-            numDice: 1
-            die: 6
-            modifier: -1
-            aspect: blunt
+          attack: {disabled: false, spread: 4, modifier: 0}
+          impactBase: {numDice: 1, die: 6, modifier: -1, aspect: blunt}
           lengthBase: 2
           defense:
-            block:
-              disabled: true
-              modifier: 0
-              successLevelMod: 0
-            counterstrike:
-              disabled: false
-              modifier: 0
-              successLevelMod: 0
-          traits:
-            noBlock: true
+            block: {disabled: true, modifier: 0, successLevelMod: 0}
+            counterstrike: {disabled: false, modifier: 0, successLevelMod: 0}
+          traits: {noBlock: true}
     - name: Wing Buffet
       type: skill
       system:
@@ -83,68 +61,44 @@ sohl:
         subType: combattechnique
         masteryLevelBase: 60
         combatCategory: melee
-        impairedByRoles:
-          - core
+        impairedByRoles: [core]
         strikeMode:
           type: melee
           shortcode: ram
           name: Wing Buffet
           minParts: 1
           assocSkillCode: null
-          attack:
-            disabled: false
-            spread: 4
-            modifier: 0
-          impactBase:
-            numDice: 1
-            die: 6
-            modifier: 1
-            aspect: blunt
+          attack: {disabled: false, spread: 4, modifier: 0}
+          impactBase: {numDice: 1, die: 6, modifier: 1, aspect: blunt}
           lengthBase: 1
           defense:
-            block:
-              disabled: true
-              modifier: 0
-              successLevelMod: 0
-            counterstrike:
-              disabled: false
-              modifier: 0
-              successLevelMod: 0
-          traits:
-            noBlock: true
+            block: {disabled: true, modifier: 0, successLevelMod: 0}
+            counterstrike: {disabled: false, modifier: 0, successLevelMod: 0}
+          traits: {noBlock: true}
   system:
     body:
       structure:
         zones:
-          - name: Head
-            shortcode: headzone
-            probWeight: 2
-          - name: Body
-            shortcode: torsozone
-            probWeight: 4
-          - name: Hindquarters
-            shortcode: hindqtrzone
-            probWeight: 4
+          - {name: Head, shortcode: headzone, probWeight: 2}
+          - {name: Body, shortcode: torsozone, probWeight: 4}
+          - {name: Hindquarters, shortcode: hindqtrzone, probWeight: 4}
         parts:
           - name: Head
             shortcode: headpart
             bodyZoneCode: headzone
-            roles:
-              - vital
+            roles: [vital]
             canHoldItem: false
             probWeight: 10
           - name: Torso
             shortcode: torsopart
             bodyZoneCode: torsozone
-            roles:
-              - core
+            roles: [core]
             canHoldItem: false
             probWeight: 10
           - name: Left Foreclaw
             shortcode: lforelegpart
             bodyZoneCode: torsozone
-            roles: &a1
-              - locomotor
+            roles: &a1 [locomotor]
             canHoldItem: false
             probWeight: 2
           - name: Right Foreclaw
@@ -156,15 +110,13 @@ sohl:
           - name: Left Leg
             shortcode: lhindlegpart
             bodyZoneCode: hindqtrzone
-            roles:
-              - locomotor
+            roles: [locomotor]
             canHoldItem: false
             probWeight: 8
           - name: Right Leg
             shortcode: rhindlegpart
             bodyZoneCode: hindqtrzone
-            roles:
-              - locomotor
+            roles: [locomotor]
             canHoldItem: false
             probWeight: 8
           - name: Tail
@@ -181,11 +133,7 @@ sohl:
             amputability: none
             shockValue: 5
             probWeight: 6
-            protectionBase:
-              blunt: 3
-              edged: 2
-              piercing: 1
-              fire: 3
+            protectionBase: {blunt: 3, edged: 2, piercing: 1, fire: 3}
           - name: Neck
             shortcode: neckloc
             bodyPartCode: headpart
@@ -193,11 +141,7 @@ sohl:
             amputability: low
             shockValue: 5
             probWeight: 4
-            protectionBase:
-              blunt: 3
-              edged: 2
-              piercing: 1
-              fire: 3
+            protectionBase: {blunt: 3, edged: 2, piercing: 1, fire: 3}
           - name: Thorax
             shortcode: thoraxloc
             bodyPartCode: torsopart
@@ -205,11 +149,7 @@ sohl:
             amputability: none
             shockValue: 4
             probWeight: 6
-            protectionBase:
-              blunt: 3
-              edged: 2
-              piercing: 1
-              fire: 3
+            protectionBase: {blunt: 3, edged: 2, piercing: 1, fire: 3}
           - name: Abdomen
             shortcode: abdloc
             bodyPartCode: torsopart
@@ -217,11 +157,7 @@ sohl:
             amputability: none
             shockValue: 4
             probWeight: 4
-            protectionBase:
-              blunt: 3
-              edged: 2
-              piercing: 1
-              fire: 3
+            protectionBase: {blunt: 3, edged: 2, piercing: 1, fire: 3}
           - name: Left Foreclaw
             shortcode: lforelegloc
             bodyPartCode: lforelegpart
@@ -229,11 +165,7 @@ sohl:
             amputability: medium
             shockValue: 2
             probWeight: 10
-            protectionBase:
-              blunt: 3
-              edged: 2
-              piercing: 1
-              fire: 3
+            protectionBase: {blunt: 3, edged: 2, piercing: 1, fire: 3}
           - name: Right Foreclaw
             shortcode: rforelegloc
             bodyPartCode: rforelegpart
@@ -241,11 +173,7 @@ sohl:
             amputability: medium
             shockValue: 2
             probWeight: 10
-            protectionBase:
-              blunt: 3
-              edged: 2
-              piercing: 1
-              fire: 3
+            protectionBase: {blunt: 3, edged: 2, piercing: 1, fire: 3}
           - name: Left Leg
             shortcode: lhindlegloc
             bodyPartCode: lhindlegpart
@@ -253,11 +181,7 @@ sohl:
             amputability: medium
             shockValue: 2
             probWeight: 10
-            protectionBase:
-              blunt: 3
-              edged: 2
-              piercing: 1
-              fire: 3
+            protectionBase: {blunt: 3, edged: 2, piercing: 1, fire: 3}
           - name: Right Leg
             shortcode: rhindlegloc
             bodyPartCode: rhindlegpart
@@ -265,11 +189,7 @@ sohl:
             amputability: medium
             shockValue: 2
             probWeight: 10
-            protectionBase:
-              blunt: 3
-              edged: 2
-              piercing: 1
-              fire: 3
+            protectionBase: {blunt: 3, edged: 2, piercing: 1, fire: 3}
           - name: Tail
             shortcode: tailloc
             bodyPartCode: tailpart
@@ -277,14 +197,8 @@ sohl:
             amputability: high
             shockValue: 1
             probWeight: 10
-            protectionBase:
-              blunt: 3
-              edged: 2
-              piercing: 1
-              fire: 3
-      weight:
-        base: 250
-        calc: "250"
+            protectionBase: {blunt: 3, edged: 2, piercing: 1, fire: 3}
+      weight: {base: 250, calc: "250"}
       reachBase: 0
       bodyScaleBase: 1.17
       personalFatigue: enc + 5

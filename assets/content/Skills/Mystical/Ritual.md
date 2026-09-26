@@ -1,16 +1,11 @@
 ---
-tags: []
-name:
-  full: Ritual
-  aliases: []
-description: "Conducting ceremonies, rites, and worship services for one's faith."
 shortcode: ritual
+name: {full: Ritual, aliases: []}
 type: skill
-data:
-  icon: circle
-  templatePriority: 0
-  packFolder: mysticalskills
 subType: mystical
+description: "Conducting ceremonies, rites, and worship services for one's faith."
+tags: []
+data: {icon: circle, templatePriority: 0, packFolder: mysticalskills}
 sohl:
   kbcat: mystical
   system:
@@ -19,10 +14,7 @@ sohl:
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 0
-    impairedByRoles:
-      - core
-      - vital
-      - manipulator
+    impairedByRoles: [core, vital, manipulator]
 ---
 
 Ritual is a character's grasp of the beliefs and observances of **one religion** — its liturgy, its calendar, its sacraments and rites of passage, its canon law, and the practical business of conducting a service so that the congregation is served and the god is not offended. Each religion is a separate Ritual skill with its own Mastery Level, named for the faith it belongs to.

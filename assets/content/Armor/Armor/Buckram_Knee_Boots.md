@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Buckram Knee Boots
-  aliases: []
-description: "Stiff buckram knee boots offering durability and structured leg protection."
 shortcode: bboot
+name: {full: Buckram Knee Boots, aliases: []}
 type: armorgear
-data:
-  icon: leatherboot
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Stiff buckram knee boots offering durability and structured leg protection."
+tags: []
+data: {icon: leatherboot, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Knee Boots
   detailMaterial: Buckram
@@ -22,20 +15,8 @@ sohl:
     valueBase: 25
     durabilityBase: 10
     material: Cloth
-    locations:
-      flexible:
-        - lkneeloc
-        - rkneeloc
-        - lcalfloc
-        - rcalfloc
-        - lfootloc
-        - rfootloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [lkneeloc, rkneeloc, lcalfloc, rcalfloc, lfootloc, rfootloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Waxed Canvas Cowl
-  aliases: []
-description: "Waxed canvas cowl keeping rain off head and shoulders."
 shortcode: wxcvcowl
+name: {full: Waxed Canvas Cowl, aliases: []}
 type: armorgear
-data:
-  icon: hood
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Waxed canvas cowl keeping rain off head and shoulders."
+tags: []
+data: {icon: hood, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Cowl
   detailMaterial: Waxed Canvas
@@ -22,16 +15,8 @@ sohl:
     valueBase: 8
     durabilityBase: 12
     material: Cloth
-    locations:
-      flexible:
-        - skullloc
-        - neckloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [skullloc, neckloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

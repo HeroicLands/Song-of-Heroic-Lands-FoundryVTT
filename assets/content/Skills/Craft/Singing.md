@@ -1,16 +1,11 @@
 ---
-tags: []
-name:
-  full: Singing
-  aliases: []
-description: "Vocal performance with control of pitch, tone, and emotional expression."
 shortcode: sing
+name: {full: Singing, aliases: []}
 type: skill
-data:
-  icon: sing
-  templatePriority: 0
-  packFolder: craft
 subType: social
+description: "Vocal performance with control of pitch, tone, and emotional expression."
+tags: []
+data: {icon: sing, templatePriority: 0, packFolder: craft}
 sohl:
   kbcat: craft
   system:
@@ -19,10 +14,7 @@ sohl:
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 3
-    impairedByRoles:
-      - core
-      - vital
-      - manipulator
+    impairedByRoles: [core, vital, manipulator]
 ---
 
 Singing rests on a physiology quite separate from a good speaking voice, which is why fine orators sing badly and fine singers are often unremarkable in conversation. The skill therefore carries its own primary quality, **Voice**, averaged with Creativity to give its Skill Base — the instrument and the musicianship, neither of which is worth much without the other.

@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Worsted Tunic
-  aliases: []
-description: "Tightly-spun wool tunic; durable, practical garment for activities."
 shortcode: wtunic
+name: {full: Worsted Tunic, aliases: []}
 type: armorgear
-data:
-  icon: shirt
-  templatePriority: 0
-  packFolder: clothing
+description: "Tightly-spun wool tunic; durable, practical garment for activities."
+tags: []
+data: {icon: shirt, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Tunic
   detailMaterial: Worsted
@@ -34,11 +27,7 @@ sohl:
         - abdmnloc
         - plvisloc
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

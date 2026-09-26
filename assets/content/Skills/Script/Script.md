@@ -1,16 +1,11 @@
 ---
-tags: []
-name:
-  full: Script
-  aliases: []
-description: "Reading, writing, and interpreting text in specific writing systems."
 shortcode: script
+name: {full: Script, aliases: []}
 type: skill
-data:
-  icon: scrollunfurled
-  templatePriority: 0
-  packFolder: script
 subType: script
+description: "Reading, writing, and interpreting text in specific writing systems."
+tags: []
+data: {icon: scrollunfurled, templatePriority: 0, packFolder: script}
 sohl:
   kbcat: script
   system:
@@ -19,9 +14,7 @@ sohl:
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 0
-    impairedByRoles:
-      - core
-      - vital
+    impairedByRoles: [core, vital]
 ---
 
 Script is the ability to write and to read a particular **writing system**. Languages and scripts are separate things: a tongue may have no written form at all, or several, and one script may serve a number of unrelated languages. To read a text, a character needs **both** the relevant Language and the relevant Script.

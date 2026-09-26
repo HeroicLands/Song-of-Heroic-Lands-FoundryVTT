@@ -1,9 +1,6 @@
 ---
-name:
-  full: "Fear"
 shortcode: fear
+name: {full: "Fear"}
 type: folder
-data:
-  parent: trauma
-  color: "#6A5ACD"
+data: {parent: trauma, color: "#6A5ACD"}
 ---

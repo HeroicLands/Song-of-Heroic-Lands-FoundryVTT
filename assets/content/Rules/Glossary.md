@@ -1,12 +1,9 @@
 ---
+shortcode: glossary
+name: {full: Glossary, aliases: []}
 type: doc
 subType: rules
-name:
-  full: Glossary
-  aliases: []
-shortcode: glossary
-data:
-  packFolder: rules
+data: {packFolder: rules}
 ---
 
 # Glossary

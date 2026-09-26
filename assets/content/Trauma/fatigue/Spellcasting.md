@@ -1,22 +1,12 @@
 ---
-tags: []
-name:
-  full: Spellcasting
-  aliases: []
-description: "Acute windedness from casting a spell."
 shortcode: cast
+name: {full: Spellcasting, aliases: []}
 type: trauma
-data:
-  icon: sleepy
-  templatePriority: 0
-  packFolder: fatigue
 subType: fatigue
-sohl:
-  kbcat: fatigue
-  system:
-    category: windedness
-    levelBase: 1
-    healingRateBase: 5
+description: "Acute windedness from casting a spell."
+tags: []
+data: {icon: sleepy, templatePriority: 0, packFolder: fatigue}
+sohl: {kbcat: fatigue, system: {category: windedness, levelBase: 1, healingRateBase: 5}}
 ---
 
 Spellcasting fatigue is the body's cost of performing a worked spell to completion. Where invoking calls on a power external to the caster, casting reaches into the caster themselves — and pays the toll in their own aura, stamina, and concentration. Each spell carries its own cost; consecutive spells from the same caster accrue across a working. 0–10 (or more) fatigue per spell, depending on the spell's demand.

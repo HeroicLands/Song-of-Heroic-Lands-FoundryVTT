@@ -1,20 +1,12 @@
 ---
-tags: []
-name:
-  full: Immobilized
-  aliases: []
-description: "A limb pinned, bound, or paralyzed — it cannot be moved, but it keeps its grip."
 shortcode: immob
+name: {full: Immobilized, aliases: []}
 type: trauma
-data:
-  icon: handcuffed
-  templatePriority: 0
-  packFolder: traumaphysical
 subType: physcond
-sohl:
-  kbcat: physdisability
-  system:
-    category: impediment
+description: "A limb pinned, bound, or paralyzed — it cannot be moved, but it keeps its grip."
+tags: []
+data: {icon: handcuffed, templatePriority: 0, packFolder: traumaphysical}
+sohl: {kbcat: physdisability, system: {category: impediment}}
 ---
 
 Immobilized is a limb held fast. A wrestler's grip closes on a forearm and does not let go; a net tangles a leg; a rope binds an arm to the body; a spell locks a hand rigid where it stands. Whatever the cause, the result is the same — the limb is still whole, still strong, still gripping whatever it was gripping, but it can no longer be moved.

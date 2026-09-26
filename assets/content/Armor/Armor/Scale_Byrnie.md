@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Scale Byrnie
-  aliases: []
-description: "Fabric-backed overlapping metal scales; flexible torso defense."
 shortcode: sbyrn
+name: {full: Scale Byrnie, aliases: []}
 type: armorgear
-data:
-  icon: scalemail
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Fabric-backed overlapping metal scales; flexible torso defense."
+tags: []
+data: {icon: scalemail, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [hide, mtlc]
+  craft: {skill: wpnc, secondary: [hide, mtlc]}
   kbcat: scale
   armorType: Byrnie
   detailMaterial: Scale
@@ -22,20 +15,8 @@ sohl:
     valueBase: 330
     durabilityBase: 14
     material: Scale
-    locations:
-      flexible: []
-      rigid:
-        - lshldloc
-        - rshldloc
-        - lupaloc
-        - rupaloc
-        - thrxloc
-        - abdmnloc
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [], rigid: [lshldloc, rshldloc, lupaloc, rupaloc, thrxloc, abdmnloc]}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 10
     perceptionPenaltyBase: 0
 ---

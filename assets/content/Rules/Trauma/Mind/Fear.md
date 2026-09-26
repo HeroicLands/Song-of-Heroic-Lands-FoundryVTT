@@ -1,12 +1,9 @@
 ---
+shortcode: fear
+name: {full: Fear, aliases: []}
 type: doc
 subType: rules
-name:
-  full: Fear
-  aliases: []
-shortcode: fear
-data:
-  packFolder: mind
+data: {packFolder: mind}
 ---
 
 Ordinary fear is common and passes without lasting effect. **Traumatic fear** — brought on by the threat of death or injury, arcane forces, or supernatural occurrences — instead demands a **Fear Test**: a test against **Will**.

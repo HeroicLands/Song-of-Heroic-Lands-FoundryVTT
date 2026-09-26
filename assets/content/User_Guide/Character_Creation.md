@@ -1,11 +1,9 @@
 ---
+shortcode: charcreationug
+name: {full: "Character Creation"}
 type: doc
 subType: userguide
-name:
-  full: "Character Creation"
-shortcode: charcreationug
-data:
-  packFolder: userguide
+data: {packFolder: userguide}
 ---
 
 # Overview {#XvgvfmGmDVg3m3Hf}

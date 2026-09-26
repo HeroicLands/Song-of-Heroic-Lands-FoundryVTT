@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Scale Hauberk
-  aliases: []
-description: "Full-sleeved scale coat; comprehensive scale-armor coverage."
 shortcode: shaub
+name: {full: Scale Hauberk, aliases: []}
 type: armorgear
-data:
-  icon: scalemail
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Full-sleeved scale coat; comprehensive scale-armor coverage."
+tags: []
+data: {icon: scalemail, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [hide, mtlc]
+  craft: {skill: wpnc, secondary: [hide, mtlc]}
   kbcat: scale
   armorType: Hauberk
   detailMaterial: Scale
@@ -38,11 +31,7 @@ sohl:
         - plvisloc
         - lthghloc
         - rthghloc
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 20
     perceptionPenaltyBase: 0
 ---

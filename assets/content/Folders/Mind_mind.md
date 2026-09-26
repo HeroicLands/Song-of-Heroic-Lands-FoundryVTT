@@ -1,9 +1,6 @@
 ---
-name:
-  full: "Mind"
 shortcode: mind
+name: {full: "Mind"}
 type: folder
-data:
-  parent: rulestrauma
-  color: "#0a819d"
+data: {parent: rulestrauma, color: "#0a819d"}
 ---

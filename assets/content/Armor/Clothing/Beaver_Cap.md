@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Beaver Cap
-  aliases: []
-description: "Beaver fur cap offering warmth and luxury for high-status individuals."
 shortcode: bvcap
+name: {full: Beaver Cap, aliases: []}
 type: armorgear
-data:
-  icon: billedcap
-  templatePriority: 0
-  packFolder: clothing
+description: "Beaver fur cap offering warmth and luxury for high-status individuals."
+tags: []
+data: {icon: billedcap, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: leather
   armorType: Cap
   detailMaterial: Beaver
@@ -22,15 +15,8 @@ sohl:
     valueBase: 50
     durabilityBase: 9
     material: Leather
-    locations:
-      flexible:
-        - skullloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [skullloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

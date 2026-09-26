@@ -1,26 +1,14 @@
 ---
-tags:
-  - spirits
-name:
-  full: Hogshead Ale
-  aliases: []
-description: "Fifty gallons pale ale; garrison staple; drains in weeks of daily supply."
 shortcode: alehgsh
+name: {full: Hogshead Ale, aliases: []}
 type: miscgear
-data:
-  icon: beerstein
-  templatePriority: 0
-  packFolder: spirits
+description: "Fifty gallons pale ale; garrison staple; drains in weeks of daily supply."
+tags: [spirits]
+data: {icon: beerstein, templatePriority: 0, packFolder: spirits}
 sohl:
-  craft:
-    skill: brew
-    secondary: []
+  craft: {skill: brew, secondary: []}
   kbcat: spirits
-  system:
-    weightBase: 440
-    valueBase: 95
-    qualityBase: 0
-    durabilityBase: 0
+  system: {weightBase: 440, valueBase: 95, qualityBase: 0, durabilityBase: 0}
 
 # hmk:
 #   name: Hogshead Ale

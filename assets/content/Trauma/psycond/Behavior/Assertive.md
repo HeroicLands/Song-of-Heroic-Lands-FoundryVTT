@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Assertive
-  aliases: []
 shortcode: assrtv
+name: {full: Assertive, aliases: []}
 type: trauma
-data:
-  icon: battlegear
-  templatePriority: 0
-  packFolder: quirks
 subType: psycond
-sohl:
-  kbcat: psybehavior
-  system:
-    category: quirk
+tags: []
+data: {icon: battlegear, templatePriority: 0, packFolder: quirks}
+sohl: {kbcat: psybehavior, system: {category: quirk}}
 ---
 
 Assertive refers to an individual's ability to express their thoughts, needs, and desires confidently and directly, without being aggressive or submissive. An assertive person is clear in communicating their boundaries and expectations, while also respecting the rights and opinions of others. This balance allows them to navigate social and professional situations effectively, earning respect and fostering productive relationships. However, excessive assertiveness can sometimes come across as domineering or overbearing if not tempered with empathy and tact.

@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Plate Greaves
-  aliases: []
-description: "Steel plates protecting lower legs and shins."
 shortcode: plgrvs
+name: {full: Plate Greaves, aliases: []}
 type: armorgear
-data:
-  icon: greaves
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Steel plates protecting lower legs and shins."
+tags: []
+data: {icon: greaves, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [mtlc, mnrl]
+  craft: {skill: wpnc, secondary: [mtlc, mnrl]}
   kbcat: plate
   armorType: Greaves
   detailMaterial: Plate
@@ -22,16 +15,8 @@ sohl:
     valueBase: 240
     durabilityBase: 14
     material: Plate
-    locations:
-      flexible: []
-      rigid:
-        - lcalfloc
-        - rcalfloc
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [], rigid: [lcalfloc, rcalfloc]}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 5
     perceptionPenaltyBase: 0
 ---

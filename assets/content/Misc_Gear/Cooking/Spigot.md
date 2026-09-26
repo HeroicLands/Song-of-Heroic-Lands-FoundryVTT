@@ -1,26 +1,14 @@
 ---
-tags:
-  - cooking
-name:
-  full: Spigot
-  aliases: []
-description: "Wooden or bronze spigot for controlling flow from barrel or large vessel."
 shortcode: spigot
+name: {full: Spigot, aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
-  packFolder: cooking
+description: "Wooden or bronze spigot for controlling flow from barrel or large vessel."
+tags: [cooking]
+data: {icon: swapbag, templatePriority: 0, packFolder: cooking}
 sohl:
-  craft:
-    skill: wood
-    secondary: []
+  craft: {skill: wood, secondary: []}
   kbcat: cooking
-  system:
-    weightBase: 0
-    valueBase: 9
-    qualityBase: 0
-    durabilityBase: 5
+  system: {weightBase: 0, valueBase: 9, qualityBase: 0, durabilityBase: 5}
 ---
 
 A tapered wooden or bronze spigot, fitted into a hole drilled or burned in a barrel, keg, or large wooden vessel to control the flow of ale, mead, wine, or oil. A cooper fits the spigot to match the vessel's construction, hammering it tight and sealing with pitch or resin if needed. Tavern-keepers depend on a reliable spigot to serve patrons from the main cask, and merchants use them to dispense goods from storage vessels without full emptying.

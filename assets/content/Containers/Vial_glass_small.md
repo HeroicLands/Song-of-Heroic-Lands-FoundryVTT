@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: "Vial, glass, small"
-  aliases: []
-description: "Thumb-sized vial for single dose of poison, antidote, or rare oil."
 shortcode: vialglasss
+name: {full: "Vial, glass, small", aliases: []}
 type: containergear
-data:
-  icon: swapbag
-  templatePriority: 0
-  packFolder: containers
+description: "Thumb-sized vial for single dose of poison, antidote, or rare oil."
+tags: []
+data: {icon: swapbag, templatePriority: 0, packFolder: containers}
 sohl:
-  craft:
-    skill: glas
-    secondary: []
+  craft: {skill: glas, secondary: []}
   system:
     weightBase: 0.5
     valueBase: 4

@@ -1,26 +1,14 @@
 ---
-tags:
-  - spirits
-name:
-  full: "Ale, Pint"
-  aliases: []
-description: "Pale ale in cup or horn; staple wage for laborers and soldiers."
 shortcode: alept
+name: {full: "Ale, Pint", aliases: []}
 type: miscgear
-data:
-  icon: beerstein
-  templatePriority: 0
-  packFolder: spirits
+description: "Pale ale in cup or horn; staple wage for laborers and soldiers."
+tags: [spirits]
+data: {icon: beerstein, templatePriority: 0, packFolder: spirits}
 sohl:
-  craft:
-    skill: brew
-    secondary: []
+  craft: {skill: brew, secondary: []}
   kbcat: spirits
-  system:
-    weightBase: 1
-    valueBase: 0.25
-    qualityBase: 0
-    durabilityBase: 0
+  system: {weightBase: 1, valueBase: 0.25, qualityBase: 0, durabilityBase: 0}
 ---
 
 A pint of pale ale poured into a pewter cup or horn vessel. The sweetness of malt and the warmth of fermentation make it a staple wage—paid to laborers, soldiers, and servants by the measure as part of daily sustenance. Drunk quickly at the tavern counter or nursed over a hearth.

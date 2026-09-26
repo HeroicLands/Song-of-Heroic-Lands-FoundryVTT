@@ -1,26 +1,14 @@
 ---
-tags:
-  - medical
-name:
-  full: "Medical Supplies, per IL"
-  aliases: []
-description: "Bandages, splints, sutures, poultices, salves; one unit treats one injury level."
 shortcode: medsupil
+name: {full: "Medical Supplies, per IL", aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
-  packFolder: expedition
+description: "Bandages, splints, sutures, poultices, salves; one unit treats one injury level."
+tags: [medical]
+data: {icon: swapbag, templatePriority: 0, packFolder: expedition}
 sohl:
-  craft:
-    skill: herb
-    secondary: []
+  craft: {skill: herb, secondary: []}
   kbcat: expedition
-  system:
-    weightBase: 0.1
-    valueBase: 3
-    qualityBase: 0
-    durabilityBase: 0
+  system: {weightBase: 0.1, valueBase: 3, qualityBase: 0, durabilityBase: 0}
 ---
 
 An abstracted unit of the everyday consumables a healer needs to treat a wound of one injury level: pre-measured linen bandages, a splint of split willow, a small length of waxed suture thread on a curved needle, a scrap of boiled sponge, a dab of honey or tallow salve in a waxed-paper twist, and a measure of dried yarrow or comfrey for a poultice. Field-surgeons, barber-surgeons, monastery infirmarians, and anyone prudent enough to travel with an aid bag carry a supply by the handful, replenished at any market town.

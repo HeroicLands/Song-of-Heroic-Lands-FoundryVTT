@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Leather Skirt
-  aliases: []
-description: "Lightweight styled leather leg garment adding edge with minimal protection."
 shortcode: ltskirt
+name: {full: Leather Skirt, aliases: []}
 type: armorgear
-data:
-  icon: skirt
-  templatePriority: 0
-  packFolder: clothing
+description: "Lightweight styled leather leg garment adding edge with minimal protection."
+tags: []
+data: {icon: skirt, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: leather
   armorType: Skirt
   detailMaterial: Leather
@@ -23,20 +16,9 @@ sohl:
     durabilityBase: 9
     material: Leather
     locations:
-      flexible:
-        - plvisloc
-        - lthghloc
-        - rthghloc
-        - lkneeloc
-        - rkneeloc
-        - lcalfloc
-        - rcalfloc
+      flexible: [plvisloc, lthghloc, rthghloc, lkneeloc, rkneeloc, lcalfloc, rcalfloc]
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

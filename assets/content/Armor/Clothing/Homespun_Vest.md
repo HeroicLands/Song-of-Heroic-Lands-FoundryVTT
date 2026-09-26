@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Homespun Vest
-  aliases: []
-description: "Simple homemade vest offering comfort and practical warmth."
 shortcode: hsvest
+name: {full: Homespun Vest, aliases: []}
 type: armorgear
-data:
-  icon: leathervest
-  templatePriority: 0
-  packFolder: clothing
+description: "Simple homemade vest offering comfort and practical warmth."
+tags: []
+data: {icon: leathervest, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Vest
   detailMaterial: Homespun
@@ -22,16 +15,8 @@ sohl:
     valueBase: 7
     durabilityBase: 5
     material: Cloth
-    locations:
-      flexible:
-        - thrxloc
-        - abdmnloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [thrxloc, abdmnloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

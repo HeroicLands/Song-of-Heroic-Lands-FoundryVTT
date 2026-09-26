@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Enigmatic
-  aliases: []
 shortcode: engmtc
+name: {full: Enigmatic, aliases: []}
 type: trauma
-data:
-  icon: battlegear
-  templatePriority: 0
-  packFolder: quirks
 subType: psycond
-sohl:
-  kbcat: psybehavior
-  system:
-    category: quirk
+tags: []
+data: {icon: battlegear, templatePriority: 0, packFolder: quirks}
+sohl: {kbcat: psybehavior, system: {category: quirk}}
 ---
 
 Enigmatic refers to an individual's mysterious, intriguing nature that captivates and piques the curiosity of others. An enigmatic person reveals little about their true thoughts and intentions, often keeping people guessing. This air of mystery can be appealing, as it invites intrigue, but when taken too far, it can create frustration or distrust. While a degree of secrecy can make a person seem interesting, excessive enigma can lead to isolation and a sense of disconnection from others.

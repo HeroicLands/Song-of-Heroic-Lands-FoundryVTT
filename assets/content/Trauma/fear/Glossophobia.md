@@ -1,20 +1,11 @@
 ---
-tags: []
-name:
-  full: Glossophobia
-  aliases: []
 shortcode: glssphb
+name: {full: Glossophobia, aliases: []}
 type: trauma
-data:
-  icon: dread
-  templatePriority: 0
-  packFolder: phobias
 subType: fear
-sohl:
-  kbcat: phobias
-  system:
-    category: none
-    levelBase: 0
+tags: []
+data: {icon: dread, templatePriority: 0, packFolder: phobias}
+sohl: {kbcat: phobias, system: {category: none, levelBase: 0}}
 ---
 
 Glossophobia is an intense, irrational fear of public speaking or speaking in front of a group. People with glossophobia may experience a range of symptoms when they think about, see, or are in speaking situations.

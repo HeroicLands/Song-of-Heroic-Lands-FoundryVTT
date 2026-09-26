@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Kûrbúl Helm
-  aliases: []
-description: "Plain treated-leather skullcap helm; covers the crown alone and leaves the face open."
 shortcode: khlm
+name: {full: Kûrbúl Helm, aliases: []}
 type: armorgear
-data:
-  icon: crestedhelmet
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Plain treated-leather skullcap helm; covers the crown alone and leaves the face open."
+tags: []
+data: {icon: crestedhelmet, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [hide]
+  craft: {skill: wpnc, secondary: [hide]}
   kbcat: kurbul
   armorType: Helm
   detailMaterial: Kûrbúl
@@ -22,15 +15,8 @@ sohl:
     valueBase: 20
     durabilityBase: 13
     material: Kûrbúl
-    locations:
-      flexible: []
-      rigid:
-        - skullloc
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [], rigid: [skullloc]}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

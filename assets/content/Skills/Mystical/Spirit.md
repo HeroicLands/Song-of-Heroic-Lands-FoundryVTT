@@ -1,16 +1,11 @@
 ---
-tags: []
-name:
-  full: Spirit
-  aliases: []
-description: "Innate strength of soul, deepened by discipline; what the spirit world is met with."
 shortcode: spirit
+name: {full: Spirit, aliases: []}
 type: skill
-data:
-  icon: psychicwaves
-  templatePriority: 0
-  packFolder: mysticalskills
 subType: mystical
+description: "Innate strength of soul, deepened by discipline; what the spirit world is met with."
+tags: []
+data: {icon: psychicwaves, templatePriority: 0, packFolder: mysticalskills}
 sohl:
   kbcat: mystical
   system:

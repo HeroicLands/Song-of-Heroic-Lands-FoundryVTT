@@ -1,26 +1,14 @@
 ---
-tags:
-  - expedition
-name:
-  full: Blanket, heavy
-  aliases: []
-description: "Thick felted wool blanket; provides substantial winter warmth for sleeping."
 shortcode: hvyblkt
+name: {full: "Blanket, heavy", aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
-  packFolder: expedition
+description: "Thick felted wool blanket; provides substantial winter warmth for sleeping."
+tags: [expedition]
+data: {icon: swapbag, templatePriority: 0, packFolder: expedition}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: expedition
-  system:
-    weightBase: 8
-    valueBase: 20
-    qualityBase: 0
-    durabilityBase: 7
+  system: {weightBase: 8, valueBase: 20, qualityBase: 0, durabilityBase: 7}
 ---
 
 A thick blanket of carded and felted wool, dense enough to provide substantial warmth without stuffing. Heavy blankets are used alone for winter sleeping or layered in bedrolls, hung as room-dividers in tents, or employed as ground-cloth in temporary camps. They are durable but slow to dry if soaked and require regular beating to shed dust and vermin.

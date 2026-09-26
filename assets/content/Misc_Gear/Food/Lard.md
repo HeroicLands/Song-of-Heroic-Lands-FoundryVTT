@@ -1,26 +1,14 @@
 ---
-tags:
-  - food
-name:
-  full: Lard
-  aliases: []
-description: "Rendered hog fat for cooking and food preservation, a kitchen staple."
 shortcode: lard
+name: {full: Lard, aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
-  packFolder: food
+description: "Rendered hog fat for cooking and food preservation, a kitchen staple."
+tags: [food]
+data: {icon: swapbag, templatePriority: 0, packFolder: food}
 sohl:
-  craft:
-    skill: anmcft
-    secondary: []
+  craft: {skill: anmcft, secondary: []}
   kbcat: food
-  system:
-    weightBase: 1
-    valueBase: 1
-    qualityBase: 0
-    durabilityBase: 0
+  system: {weightBase: 1, valueBase: 1, qualityBase: 0, durabilityBase: 0}
 ---
 
 Rendered hog fat, white and stable, is the cook's workhorse—frying bread, seasoning beans, and sealing preserves. Packed in a glazed pot, lard keeps all year in a cool larder. Every pig-butcher renders it; its value lies in its versatility, stretching dough and enriching the plainest pottage.

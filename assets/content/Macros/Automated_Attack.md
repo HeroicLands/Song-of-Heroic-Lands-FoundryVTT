@@ -1,13 +1,10 @@
 ---
-tags: []
-description: "Runs the combat attack workflow for the combatant whose turn it is."
-type: macro
-name:
-  full: Automated Attack
-  aliases: []
 shortcode: autoattack
-data:
-  icon: crossedswords
+name: {full: Automated Attack, aliases: []}
+type: macro
+description: "Runs the combat attack workflow for the combatant whose turn it is."
+tags: []
+data: {icon: crossedswords}
 ---
 
 Runs the combat attack workflow for the combatant whose turn it is, so a GM can

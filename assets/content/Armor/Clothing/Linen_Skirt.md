@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Linen Skirt
-  aliases: []
-description: "Light breathable leg covering for warm weather casual outings."
 shortcode: lskirt
+name: {full: Linen Skirt, aliases: []}
 type: armorgear
-data:
-  icon: skirt
-  templatePriority: 0
-  packFolder: clothing
+description: "Light breathable leg covering for warm weather casual outings."
+tags: []
+data: {icon: skirt, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Skirt
   detailMaterial: Linen
@@ -23,20 +16,9 @@ sohl:
     durabilityBase: 5
     material: Cloth
     locations:
-      flexible:
-        - plvisloc
-        - lthghloc
-        - rthghloc
-        - lkneeloc
-        - rkneeloc
-        - lcalfloc
-        - rcalfloc
+      flexible: [plvisloc, lthghloc, rthghloc, lkneeloc, rkneeloc, lcalfloc, rcalfloc]
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

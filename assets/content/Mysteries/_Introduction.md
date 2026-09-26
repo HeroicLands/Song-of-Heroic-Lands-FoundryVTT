@@ -1,10 +1,8 @@
 ---
+shortcode: mystery
+name: {full: Mysteries, aliases: []}
 type: doc
 subType: reference
-name:
-  full: Mysteries
-  aliases: []
-shortcode: mystery
 description: Esoteric knowledge and hidden lore.
 ---
 

@@ -1,16 +1,11 @@
 ---
-tags: []
-name:
-  full: Legerdemain
-  aliases: []
-description: "Sleight of hand, purse-cutting, juggling; intricate manual dexterity."
 shortcode: lgdm
+name: {full: Legerdemain, aliases: []}
 type: skill
-data:
-  icon: juggler
-  templatePriority: 0
-  packFolder: physical
 subType: physical
+description: "Sleight of hand, purse-cutting, juggling; intricate manual dexterity."
+tags: []
+data: {icon: juggler, templatePriority: 0, packFolder: physical}
 sohl:
   kbcat: physical
   system:
@@ -19,10 +14,7 @@ sohl:
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 0
-    impairedByRoles:
-      - core
-      - vital
-      - manipulator
+    impairedByRoles: [core, vital, manipulator]
 ---
 
 Legerdemain is the specialised hand that Dexterity is the general one: palming, cutting a purse, running a shell game, keeping four objects in the air. Dexterity covers what anyone might attempt — catching a thrown cup, grabbing a ledge on the way past it — while Legerdemain covers what has been practised until it looks like nothing at all.

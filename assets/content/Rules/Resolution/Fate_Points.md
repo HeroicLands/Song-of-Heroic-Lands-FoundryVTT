@@ -1,12 +1,9 @@
 ---
+shortcode: fatepnts
+name: {full: Fate Points, aliases: []}
 type: doc
 subType: rules
-name:
-  full: Fate Points
-  aliases: []
-shortcode: fatepnts
-data:
-  packFolder: resolution
+data: {packFolder: resolution}
 ---
 
 # Fate {#fate}

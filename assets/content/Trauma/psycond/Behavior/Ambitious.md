@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Ambitious
-  aliases: []
 shortcode: ambx
+name: {full: Ambitious, aliases: []}
 type: trauma
-data:
-  icon: battlegear
-  templatePriority: 0
-  packFolder: quirks
 subType: psycond
-sohl:
-  kbcat: psybehavior
-  system:
-    category: quirk
+tags: []
+data: {icon: battlegear, templatePriority: 0, packFolder: quirks}
+sohl: {kbcat: psybehavior, system: {category: quirk}}
 ---
 
 Ambition refers to an individual's strong desire to achieve success, power, or recognition. An ambitious person is driven by goals and aspirations, often setting high standards for themselves and working diligently to achieve them. Ambition can be a positive force, inspiring individuals to push beyond their limits and attain personal and professional growth. However, unchecked or **blind ambition** can lead to overreaching, ethical compromises, or strained relationships, especially when the desire for success outweighs other considerations.

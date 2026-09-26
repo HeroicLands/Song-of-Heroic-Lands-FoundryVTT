@@ -1,20 +1,11 @@
 ---
-tags: []
-name:
-  full: Apiphobia
-  aliases: []
 shortcode: apiphb
+name: {full: Apiphobia, aliases: []}
 type: trauma
-data:
-  icon: dread
-  templatePriority: 0
-  packFolder: phobias
 subType: fear
-sohl:
-  kbcat: phobias
-  system:
-    category: none
-    levelBase: 0
+tags: []
+data: {icon: dread, templatePriority: 0, packFolder: phobias}
+sohl: {kbcat: phobias, system: {category: none, levelBase: 0}}
 ---
 
 Apiphobia is an intense, irrational fear of bees. People with apiphobia may experience a range of symptoms when they think about, see, or are near bees.

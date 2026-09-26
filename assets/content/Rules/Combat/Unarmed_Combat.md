@@ -1,12 +1,9 @@
 ---
+shortcode: unrmdcmb
+name: {full: Unarmed Combat, aliases: []}
 type: doc
 subType: rules
-name:
-  full: Unarmed Combat
-  aliases: []
-shortcode: unrmdcmb
-data:
-  packFolder: rulescombat
+data: {packFolder: rulescombat}
 ---
 
 # Unarmed Combat {#unarmed-combat}

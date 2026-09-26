@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Beaver Shirt
-  aliases: []
-description: "Beaver fur shirt combining function and status for cold regions."
 shortcode: bvshirt
+name: {full: Beaver Shirt, aliases: []}
 type: armorgear
-data:
-  icon: shirt
-  templatePriority: 0
-  packFolder: clothing
+description: "Beaver fur shirt combining function and status for cold regions."
+tags: []
+data: {icon: shirt, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: leather
   armorType: Shirt
   detailMaterial: Beaver
@@ -22,20 +15,8 @@ sohl:
     valueBase: 400
     durabilityBase: 9
     material: Leather
-    locations:
-      flexible:
-        - lshldloc
-        - rshldloc
-        - lupaloc
-        - rupaloc
-        - thrxloc
-        - abdmnloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [lshldloc, rshldloc, lupaloc, rupaloc, thrxloc, abdmnloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

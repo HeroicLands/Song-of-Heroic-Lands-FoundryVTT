@@ -1,22 +1,12 @@
 ---
-tags: []
-name:
-  full: Aural Shock
-  aliases: []
-description: "Long-term weakness from spiritual aura damage."
 shortcode: auralshk
+name: {full: Aural Shock, aliases: []}
 type: trauma
-data:
-  icon: sleepy
-  templatePriority: 0
-  packFolder: fatigue
 subType: fatigue
-sohl:
-  kbcat: fatigue
-  system:
-    category: weakness
-    levelBase: 1
-    healingRateBase: 1
+description: "Long-term weakness from spiritual aura damage."
+tags: []
+data: {icon: sleepy, templatePriority: 0, packFolder: fatigue}
+sohl: {kbcat: fatigue, system: {category: weakness, levelBase: 1, healingRateBase: 1}}
 ---
 
 Aural shock weakness is the lingering damage to a character's spiritual aura after a severe mystical wounding — direct contact with an undead presence, exposure to a corrupting shadow, a failed summoning, a spirit-conflict lost. Where physical wounds heal in flesh, aural wounds heal in the aura itself, and the body carries the deficit until the aura mends. 5 fatigue per level of aural shock.

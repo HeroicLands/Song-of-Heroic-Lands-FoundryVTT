@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Kûrbúl Ailettes
-  aliases: []
-description: "Lightweight decorated leather shoulder guards, ideal for agile combatants."
 shortcode: kail
+name: {full: Kûrbúl Ailettes, aliases: []}
 type: armorgear
-data:
-  icon: dorsalscales
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Lightweight decorated leather shoulder guards, ideal for agile combatants."
+tags: []
+data: {icon: dorsalscales, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [hide]
+  craft: {skill: wpnc, secondary: [hide]}
   kbcat: kurbul
   armorType: Ailettes
   detailMaterial: Kûrbúl
@@ -22,16 +15,8 @@ sohl:
     valueBase: 15
     durabilityBase: 13
     material: Kûrbúl
-    locations:
-      flexible: []
-      rigid:
-        - lshldloc
-        - rshldloc
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [], rigid: [lshldloc, rshldloc]}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     encumbranceGroup: arm
     perceptionPenaltyBase: 0

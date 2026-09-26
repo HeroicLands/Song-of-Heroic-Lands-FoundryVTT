@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Cloth Surcoat
-  aliases: []
-description: "Simple cloth surcoat providing comfort and practical outer wear."
 shortcode: cscoat
+name: {full: Cloth Surcoat, aliases: []}
 type: armorgear
-data:
-  icon: shirt
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Simple cloth surcoat providing comfort and practical outer wear."
+tags: []
+data: {icon: shirt, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Surcoat
   detailMaterial: Cloth
@@ -34,11 +27,7 @@ sohl:
         - lkneeloc
         - rkneeloc
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Silk Robe
-  aliases: []
-description: "Elegant silk robe; luxurious garment for formal occasions and refinement."
 shortcode: slkrobe
+name: {full: Silk Robe, aliases: []}
 type: armorgear
-data:
-  icon: robe
-  templatePriority: 0
-  packFolder: clothing
+description: "Elegant silk robe; luxurious garment for formal occasions and refinement."
+tags: []
+data: {icon: robe, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Robe
   detailMaterial: Silk
@@ -42,11 +35,7 @@ sohl:
         - lcalfloc
         - rcalfloc
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

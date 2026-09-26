@@ -1,15 +1,11 @@
 ---
+shortcode: contentcreator
+name: {full: Content Creator, aliases: []}
 type: doc
 subType: reference
-name:
-  full: Content Creator
-  aliases: []
-shortcode: contentcreator
 description: "The section landing: what a content note is, and which page answers which question."
-data:
-  pack: none
-sohl:
-  kbcat: devdocs
+data: {pack: none}
+sohl: {kbcat: devdocs}
 ---
 
 # Content Creator

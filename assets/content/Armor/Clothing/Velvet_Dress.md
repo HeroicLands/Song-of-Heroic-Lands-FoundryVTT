@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Velvet Dress
-  aliases: []
-description: "Soft plush velvet dress; symbol of luxury and high status."
 shortcode: vdress
+name: {full: Velvet Dress, aliases: []}
 type: armorgear
-data:
-  icon: dress
-  templatePriority: 0
-  packFolder: clothing
+description: "Soft plush velvet dress; symbol of luxury and high status."
+tags: []
+data: {icon: dress, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Dress
   detailMaterial: Velvet
@@ -42,11 +35,7 @@ sohl:
         - lcalfloc
         - rcalfloc
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

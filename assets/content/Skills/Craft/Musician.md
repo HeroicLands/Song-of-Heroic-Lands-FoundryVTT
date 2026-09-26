@@ -1,16 +1,11 @@
 ---
-tags: []
-name:
-  full: Musician
-  aliases: []
-description: "Playing various instruments with technical facility and musical interpretation."
 shortcode: musc
+name: {full: Musician, aliases: []}
 type: skill
-data:
-  icon: harp
-  templatePriority: 0
-  packFolder: craft
 subType: craft
+description: "Playing various instruments with technical facility and musical interpretation."
+tags: []
+data: {icon: harp, templatePriority: 0, packFolder: craft}
 sohl:
   kbcat: craft
   system:
@@ -19,10 +14,7 @@ sohl:
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 0
-    impairedByRoles:
-      - core
-      - vital
-      - manipulator
+    impairedByRoles: [core, vital, manipulator]
 ---
 
 Musician is competence on an instrument, and it is defined narrowly on purpose: **one instrument, within one of three categories** — percussion, string or wind. Mastery Level describes that instrument. Anything else is played at a penalty.

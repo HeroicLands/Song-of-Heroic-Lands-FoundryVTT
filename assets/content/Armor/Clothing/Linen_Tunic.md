@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Linen Tunic
-  aliases: []
-description: "Light breathable torso garment perfect for warm weather casual wear."
 shortcode: ltunic
+name: {full: Linen Tunic, aliases: []}
 type: armorgear
-data:
-  icon: shirt
-  templatePriority: 0
-  packFolder: clothing
+description: "Light breathable torso garment perfect for warm weather casual wear."
+tags: []
+data: {icon: shirt, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Tunic
   detailMaterial: Linen
@@ -34,11 +27,7 @@ sohl:
         - abdmnloc
         - plvisloc
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Ermine Hat
-  aliases: []
-description: "White ermine fur hat signifying high status and elite prestige."
 shortcode: ehat
+name: {full: Ermine Hat, aliases: []}
 type: armorgear
-data:
-  icon: pointyhat
-  templatePriority: 0
-  packFolder: clothing
+description: "White ermine fur hat signifying high status and elite prestige."
+tags: []
+data: {icon: pointyhat, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: leather
   armorType: Hat
   detailMaterial: Ermine
@@ -22,15 +15,8 @@ sohl:
     valueBase: 100
     durabilityBase: 7
     material: Leather
-    locations:
-      flexible:
-        - skullloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [skullloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

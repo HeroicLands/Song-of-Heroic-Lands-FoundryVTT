@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Buckram Gloves
-  aliases: []
-description: "Stiff buckram gloves offering rigid hand covering for structured tasks."
 shortcode: bglv
+name: {full: Buckram Gloves, aliases: []}
 type: armorgear
-data:
-  icon: gloves
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Stiff buckram gloves offering rigid hand covering for structured tasks."
+tags: []
+data: {icon: gloves, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Gloves
   detailMaterial: Buckram
@@ -22,16 +15,8 @@ sohl:
     valueBase: 5
     durabilityBase: 10
     material: Cloth
-    locations:
-      flexible:
-        - lhandloc
-        - rhandloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [lhandloc, rhandloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

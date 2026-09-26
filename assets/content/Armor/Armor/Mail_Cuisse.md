@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Mail Cuisse
-  aliases: []
-description: "Metal ring thigh protection offering flexibility and defense for soldiers."
 shortcode: mcui
+name: {full: Mail Cuisse, aliases: []}
 type: armorgear
-data:
-  icon: chainmail
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Metal ring thigh protection offering flexibility and defense for soldiers."
+tags: []
+data: {icon: chainmail, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [mtlc, mnrl]
+  craft: {skill: wpnc, secondary: [mtlc, mnrl]}
   kbcat: mail
   armorType: Cuisse
   detailMaterial: Mail
@@ -22,18 +15,8 @@ sohl:
     valueBase: 255
     durabilityBase: 13
     material: Mail
-    locations:
-      flexible: []
-      rigid:
-        - lthghloc
-        - rthghloc
-        - lkneeloc
-        - rkneeloc
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [], rigid: [lthghloc, rthghloc, lkneeloc, rkneeloc]}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 5
     perceptionPenaltyBase: 0
 ---

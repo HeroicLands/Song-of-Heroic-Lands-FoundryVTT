@@ -1,12 +1,9 @@
 ---
+shortcode: hlngbs
+name: {full: Healing Base, aliases: []}
 type: doc
 subType: rules
-name:
-  full: Healing Base
-  aliases: []
-shortcode: hlngbs
-data:
-  packFolder: injury
+data: {packFolder: injury}
 ---
 
 Every creature has a **Healing Base (HB)** — the factor that governs how readily it recovers. The higher the Healing Base, the more likely recovery succeeds.

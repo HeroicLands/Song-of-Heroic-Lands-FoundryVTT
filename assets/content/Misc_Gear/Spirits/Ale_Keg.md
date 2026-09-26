@@ -1,26 +1,14 @@
 ---
-tags:
-  - spirits
-name:
-  full: "Ale, Keg"
-  aliases: []
-description: "Tarred stave-built keg; pale malty ale for tavern supply, military provisioning."
 shortcode: alekeg
+name: {full: "Ale, Keg", aliases: []}
 type: miscgear
-data:
-  icon: beerstein
-  templatePriority: 0
-  packFolder: spirits
+description: "Tarred stave-built keg; pale malty ale for tavern supply, military provisioning."
+tags: [spirits]
+data: {icon: beerstein, templatePriority: 0, packFolder: spirits}
 sohl:
-  craft:
-    skill: brew
-    secondary: []
+  craft: {skill: brew, secondary: []}
   kbcat: spirits
-  system:
-    weightBase: 72
-    valueBase: 16
-    qualityBase: 0
-    durabilityBase: 0
+  system: {weightBase: 72, valueBase: 16, qualityBase: 0, durabilityBase: 0}
 ---
 
 A stave-built keg of pale, malty ale brewed for keeping. The cooper's work is sound and tarred within to prevent leakage, while the vessel itself rests on an iron-banded frame. A publican or innkeeper keeps several on hand, tapped in turn to supply steady customers; a military company might purchase one for a fortnight's provisioning.

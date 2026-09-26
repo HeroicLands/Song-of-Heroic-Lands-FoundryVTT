@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Longbow 50
-  aliases: []
-description: "Fifty-pound short bow for small-game and practice."
 shortcode: lbw50
+name: {full: Longbow 50, aliases: []}
 type: weapongear
-data:
-  icon: pocketbow
-  templatePriority: 0
-  packFolder: weapons
+description: "Fifty-pound short bow for small-game and practice."
+tags: []
+data: {icon: pocketbow, templatePriority: 0, packFolder: weapons}
 sohl:
-  craft:
-    skill: fltch
-    secondary: [wood, timb]
+  craft: {skill: fltch, secondary: [wood, timb]}
   kbcat: bow
   weaponType: Bow
   system:
@@ -27,14 +20,8 @@ sohl:
         name: Crush
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 8
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 0
-          aspect: blunt
+        attack: {spread: 8, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 0, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -63,22 +50,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 5
-        defense:
-          blockMod: 0
-          counterstrikeMod: 0
+        defense: {blockMod: 0, counterstrikeMod: 0}
       - shortcode: ranged
         type: missile
         name: Ranged
         assocSkillCode: archery
         minParts: 2
-        attack:
-          spread: 0
-          modifier: 0
-        impactBase:
-          numDice: 0
-          die: null
-          modifier: 1
-          aspect: piercing
+        attack: {spread: 0, modifier: 0}
+        impactBase: {numDice: 0, die: null, modifier: 1, aspect: piercing}
         traits:
           meleeMod: 0
           blockSLMod: 0

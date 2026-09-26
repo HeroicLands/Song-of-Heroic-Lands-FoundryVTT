@@ -1,14 +1,10 @@
 ---
+shortcode: buildanddeployment
+name: {full: "Build, Deployment, and Release", aliases: []}
 type: doc
 subType: howto
-name:
-  full: Build, Deployment, and Release
-  aliases: []
-shortcode: buildanddeployment
-data:
-  pack: none
-sohl:
-  kbcat: devdocs
+data: {pack: none}
+sohl: {kbcat: devdocs}
 ---
 
 # Build, Deployment, and Release

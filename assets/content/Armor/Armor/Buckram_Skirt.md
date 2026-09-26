@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Buckram Skirt
-  aliases: []
-description: "Stiff buckram skirt offering durability and dependable rigid structure."
 shortcode: bskirt
+name: {full: Buckram Skirt, aliases: []}
 type: armorgear
-data:
-  icon: skirt
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Stiff buckram skirt offering durability and dependable rigid structure."
+tags: []
+data: {icon: skirt, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Skirt
   detailMaterial: Buckram
@@ -23,20 +16,9 @@ sohl:
     durabilityBase: 10
     material: Cloth
     locations:
-      flexible:
-        - plvisloc
-        - lthghloc
-        - rthghloc
-        - lkneeloc
-        - rkneeloc
-        - lcalfloc
-        - rcalfloc
+      flexible: [plvisloc, lthghloc, rthghloc, lkneeloc, rkneeloc, lcalfloc, rcalfloc]
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

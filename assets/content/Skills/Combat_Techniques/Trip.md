@@ -1,16 +1,11 @@
 ---
-tags: []
-name:
-  full: Trip
-  aliases: []
-description: "Taking the legs out from under an opponent, and the fight with them."
 shortcode: trip
+name: {full: Trip, aliases: []}
 type: skill
-data:
-  icon: trip
-  templatePriority: 0
-  packFolder: combat
 subType: combattechnique
+description: "Taking the legs out from under an opponent, and the fight with them."
+tags: []
+data: {icon: trip, templatePriority: 0, packFolder: combat}
 sohl:
   kbcat: unarmed
   strikeMode:
@@ -19,25 +14,12 @@ sohl:
     name: Trip
     minParts: 1
     assocSkillCode: melee
-    attack:
-      disabled: false
-      spread: 0
-      modifier: 0
-    impactBase:
-      numDice: 0
-      die: null
-      modifier: 0
-      aspect: blunt
+    attack: {disabled: false, spread: 0, modifier: 0}
+    impactBase: {numDice: 0, die: null, modifier: 0, aspect: blunt}
     lengthBase: 2
     defense:
-      block:
-        disabled: true
-        modifier: 0
-        successLevelMod: 0
-      counterstrike:
-        disabled: false
-        modifier: 0
-        successLevelMod: 0
+      block: {disabled: true, modifier: 0, successLevelMod: 0}
+      counterstrike: {disabled: false, modifier: 0, successLevelMod: 0}
     traits:
       meleeMod: 0
       blockSLMod: 0
@@ -72,8 +54,7 @@ sohl:
     combatCategory: melee
     parentSkillCode: ""
     initSkillMult: 2
-    impairedByRoles:
-      - locomotor
+    impairedByRoles: [locomotor]
 ---
 
 A hooked ankle, a swept shin, a leg behind the knee. Like the press it does no harm of itself; what it does is put an opponent on the ground, and a prone fighter is a fighter at everyone's mercy — slow to rise, penalised while down, and unable to run.

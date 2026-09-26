@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Tremors
-  aliases: []
 shortcode: tremors
+name: {full: Tremors, aliases: []}
 type: trauma
-data:
-  icon: battlegear
-  templatePriority: 0
-  packFolder: traumaphysical
 subType: physcond
-sohl:
-  kbcat: physdisability
-  system:
-    category: impediment
+tags: []
+data: {icon: battlegear, templatePriority: 0, packFolder: traumaphysical}
+sohl: {kbcat: physdisability, system: {category: impediment}}
 ---
 
 Tremors are involuntary, rhythmic shaking movements of the limbs or extremities, often occurring without the person's control. These tremors can make it difficult to perform tasks requiring steady hands or precise movements. Those suffering from tremors must adapt to their condition through alternative strategies and rely on others for support.

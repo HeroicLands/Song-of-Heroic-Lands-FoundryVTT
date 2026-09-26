@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Bastard Sword
-  aliases: []
-description: "Versatile straight blade for one or two hands; knight's choice."
 shortcode: bstdswd
+name: {full: Bastard Sword, aliases: []}
 type: weapongear
-data:
-  icon: broadsword
-  templatePriority: 0
-  packFolder: weapons
+description: "Versatile straight blade for one or two hands; knight's choice."
+tags: []
+data: {icon: broadsword, templatePriority: 0, packFolder: weapons}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [mtlc, mnrl]
+  craft: {skill: wpnc, secondary: [mtlc, mnrl]}
   kbcat: sword
   weaponType: Sword
   system:
@@ -27,14 +20,8 @@ sohl:
         name: Cut
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 8
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 10
-          modifier: 4
-          aspect: edged
+        attack: {spread: 8, modifier: 0}
+        impactBase: {numDice: 1, die: 10, modifier: 4, aspect: edged}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -63,22 +50,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 6
-        defense:
-          blockMod: 0
-          counterstrikeMod: 0
+        defense: {blockMod: 0, counterstrikeMod: 0}
       - shortcode: impale
         type: melee
         name: Impale
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 8
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 8
-          modifier: 2
-          aspect: piercing
+        attack: {spread: 8, modifier: 0}
+        impactBase: {numDice: 1, die: 8, modifier: 2, aspect: piercing}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -107,22 +86,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 6
-        defense:
-          blockMod: 0
-          counterstrikeMod: 0
+        defense: {blockMod: 0, counterstrikeMod: 0}
       - shortcode: pommel
         type: melee
         name: Pommel
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 4
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 0
-          aspect: blunt
+        attack: {spread: 4, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 0, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -151,22 +122,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 6
-        defense:
-          blockMod: 0
-          counterstrikeMod: 0
+        defense: {blockMod: 0, counterstrikeMod: 0}
       - shortcode: halfswordimpale
         type: melee
         name: Half-Sword Impale
         assocSkillCode: melee
         minParts: 2
-        attack:
-          spread: 6
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 8
-          modifier: 2
-          aspect: piercing
+        attack: {spread: 6, modifier: 0}
+        impactBase: {numDice: 1, die: 8, modifier: 2, aspect: piercing}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -195,9 +158,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 6
-        defense:
-          blockMod: 0
-          counterstrikeMod: 0
+        defense: {blockMod: 0, counterstrikeMod: 0}
 ---
 
 A straight double-edged blade hilted with a grip long enough for either hand alone or both hands together, the bastard sword balances reach with control. Knights favor this versatile steel for its capacity to thrust with the full weight of a two-handed grip or cut swift with a shield bearer's lightness. The grip tapers toward a weighted pommel that steadies the blade even in the off-hand.

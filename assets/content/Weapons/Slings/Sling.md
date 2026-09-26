@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Sling
-  aliases: []
-description: "Leather cradle on cords; low-cost ranged arm for skirmishers."
 shortcode: slng
+name: {full: Sling, aliases: []}
 type: weapongear
-data:
-  icon: sling
-  templatePriority: 0
-  packFolder: weapons
+description: "Leather cradle on cords; low-cost ranged arm for skirmishers."
+tags: []
+data: {icon: sling, templatePriority: 0, packFolder: weapons}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: sling
   weaponType: Sling
   system:
@@ -27,14 +20,8 @@ sohl:
         name: Ranged
         assocSkillCode: slng
         minParts: 2
-        attack:
-          spread: 0
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 10
-          modifier: 0
-          aspect: blunt
+        attack: {spread: 0, modifier: 0}
+        impactBase: {numDice: 1, die: 10, modifier: 0, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0

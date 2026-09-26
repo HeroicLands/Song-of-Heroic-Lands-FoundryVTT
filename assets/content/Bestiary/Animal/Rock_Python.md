@@ -1,16 +1,10 @@
 ---
-tags:
-  - animal
-  - creature
-name:
-  full: Rock Python
-  aliases: []
-description: "A massive constrictor serpent up to forty feet long, slow but unstoppable, ambushing prey in deep jungles, rocky highlands, and caves."
 shortcode: rckpythn
+name: {full: Rock Python, aliases: []}
 type: being
-data:
-  icon: snake
-  templatePriority: 0
+description: "A massive constrictor serpent up to forty feet long, slow but unstoppable, ambushing prey in deep jungles, rocky highlands, and caves."
+tags: [animal, creature]
+data: {icon: snake, templatePriority: 0}
 sohl:
   kbcat: animal
   attrRollFormula:
@@ -24,21 +18,21 @@ sohl:
     rea: 1d4+3
     cre: 1d4+2
   items:
-    - { model: attribute-str, system: { scoreBase: 17 } }
-    - { model: attribute-end, system: { scoreBase: 15 } }
-    - { model: attribute-dex, system: { scoreBase: 13 } }
-    - { model: attribute-agl, system: { scoreBase: 12 } }
-    - { model: attribute-per, system: { scoreBase: 14 } }
-    - { model: attribute-aur, system: { scoreBase: 8 } }
-    - { model: attribute-wil, system: { scoreBase: 12 } }
-    - { model: attribute-rea, system: { scoreBase: 6 } }
-    - { model: attribute-cre, system: { scoreBase: 5 } }
-    - { model: skill-awar, system: { masteryLevelBase: 65 } }
-    - { model: skill-stlth, system: { masteryLevelBase: 60 } }
-    - { model: mysticalability-sprt, system: { masteryLevelBase: 30 } }
-    - { model: skill-init, system: { masteryLevelBase: 36 } }
-    - { model: skill-dge, system: { masteryLevelBase: 52 } }
-    - { model: skill-shok, system: { masteryLevelBase: 40 } }
+    - {model: attribute-str, system: {scoreBase: 17}}
+    - {model: attribute-end, system: {scoreBase: 15}}
+    - {model: attribute-dex, system: {scoreBase: 13}}
+    - {model: attribute-agl, system: {scoreBase: 12}}
+    - {model: attribute-per, system: {scoreBase: 14}}
+    - {model: attribute-aur, system: {scoreBase: 8}}
+    - {model: attribute-wil, system: {scoreBase: 12}}
+    - {model: attribute-rea, system: {scoreBase: 6}}
+    - {model: attribute-cre, system: {scoreBase: 5}}
+    - {model: skill-awar, system: {masteryLevelBase: 65}}
+    - {model: skill-stlth, system: {masteryLevelBase: 60}}
+    - {model: mysticalability-sprt, system: {masteryLevelBase: 30}}
+    - {model: skill-init, system: {masteryLevelBase: 36}}
+    - {model: skill-dge, system: {masteryLevelBase: 52}}
+    - {model: skill-shok, system: {masteryLevelBase: 40}}
     - name: Lightning Strike
       type: skill
       system:
@@ -46,35 +40,20 @@ sohl:
         subType: combattechnique
         masteryLevelBase: 58
         combatCategory: melee
-        impairedByRoles:
-          - manipulator
+        impairedByRoles: [manipulator]
         strikeMode:
           type: melee
           shortcode: bite
           name: Lightning Strike
           minParts: 1
           assocSkillCode: null
-          attack:
-            disabled: false
-            spread: 4
-            modifier: 0
-          impactBase:
-            numDice: 1
-            die: 6
-            modifier: 4
-            aspect: piercing
+          attack: {disabled: false, spread: 4, modifier: 0}
+          impactBase: {numDice: 1, die: 6, modifier: 4, aspect: piercing}
           lengthBase: 1
           defense:
-            block:
-              disabled: true
-              modifier: 0
-              successLevelMod: 0
-            counterstrike:
-              disabled: false
-              modifier: 0
-              successLevelMod: 0
-          traits:
-            noBlock: true
+            block: {disabled: true, modifier: 0, successLevelMod: 0}
+            counterstrike: {disabled: false, modifier: 0, successLevelMod: 0}
+          traits: {noBlock: true}
     - name: Constricting Coils
       type: skill
       system:
@@ -82,72 +61,44 @@ sohl:
         subType: combattechnique
         masteryLevelBase: 63
         combatCategory: melee
-        impairedByRoles:
-          - manipulator
+        impairedByRoles: [manipulator]
         strikeMode:
           type: melee
           shortcode: grab
           name: Constricting Coils
           minParts: 1
           assocSkillCode: null
-          attack:
-            disabled: false
-            spread: 8
-            modifier: 0
-          impactBase:
-            numDice: 1
-            die: 6
-            modifier: 17
-            aspect: blunt
+          attack: {disabled: false, spread: 8, modifier: 0}
+          impactBase: {numDice: 1, die: 6, modifier: 17, aspect: blunt}
           lengthBase: 1
           defense:
-            block:
-              disabled: true
-              modifier: 0
-              successLevelMod: 0
-            counterstrike:
-              disabled: false
-              modifier: 0
-              successLevelMod: 0
-          traits:
-            noBlock: true
-            constrict: true
+            block: {disabled: true, modifier: 0, successLevelMod: 0}
+            counterstrike: {disabled: false, modifier: 0, successLevelMod: 0}
+          traits: {noBlock: true, constrict: true}
   system:
     body:
       structure:
         zones:
-          - name: Head
-            shortcode: headzone
-            probWeight: 3
-          - name: Forebody
-            shortcode: torsozone
-            probWeight: 11
-          - name: Hindbody
-            shortcode: hindbodyzone
-            probWeight: 6
+          - {name: Head, shortcode: headzone, probWeight: 3}
+          - {name: Forebody, shortcode: torsozone, probWeight: 11}
+          - {name: Hindbody, shortcode: hindbodyzone, probWeight: 6}
         parts:
           - name: Head
             shortcode: headpart
             bodyZoneCode: headzone
-            roles:
-              - vital
-              - manipulator
+            roles: [vital, manipulator]
             canHoldItem: false
             probWeight: 10
           - name: Forebody
             shortcode: forebodypart
             bodyZoneCode: torsozone
-            roles:
-              - core
-              - locomotor
+            roles: [core, locomotor]
             canHoldItem: false
             probWeight: 10
           - name: Hindbody
             shortcode: hindbodypart
             bodyZoneCode: hindbodyzone
-            roles:
-              - core
-              - locomotor
+            roles: [core, locomotor]
             canHoldItem: false
             probWeight: 6
           - name: Tail
@@ -164,11 +115,7 @@ sohl:
             amputability: none
             shockValue: 5
             probWeight: 4
-            protectionBase:
-              blunt: 3
-              edged: 2
-              piercing: 1
-              fire: 3
+            protectionBase: {blunt: 3, edged: 2, piercing: 1, fire: 3}
           - name: Neck
             shortcode: neckloc
             bodyPartCode: headpart
@@ -176,11 +123,7 @@ sohl:
             amputability: low
             shockValue: 5
             probWeight: 6
-            protectionBase:
-              blunt: 3
-              edged: 2
-              piercing: 1
-              fire: 3
+            protectionBase: {blunt: 3, edged: 2, piercing: 1, fire: 3}
           - name: Thorax
             shortcode: thoraxloc
             bodyPartCode: forebodypart
@@ -188,11 +131,7 @@ sohl:
             amputability: none
             shockValue: 4
             probWeight: 10
-            protectionBase:
-              blunt: 3
-              edged: 2
-              piercing: 1
-              fire: 3
+            protectionBase: {blunt: 3, edged: 2, piercing: 1, fire: 3}
           - name: Abdomen
             shortcode: abdloc
             bodyPartCode: hindbodypart
@@ -200,11 +139,7 @@ sohl:
             amputability: none
             shockValue: 4
             probWeight: 10
-            protectionBase:
-              blunt: 3
-              edged: 2
-              piercing: 1
-              fire: 3
+            protectionBase: {blunt: 3, edged: 2, piercing: 1, fire: 3}
           - name: Tail
             shortcode: tailloc
             bodyPartCode: tailpart
@@ -212,14 +147,8 @@ sohl:
             amputability: high
             shockValue: 1
             probWeight: 10
-            protectionBase:
-              blunt: 3
-              edged: 2
-              piercing: 1
-              fire: 3
-      weight:
-        base: 200
-        calc: "200"
+            protectionBase: {blunt: 3, edged: 2, piercing: 1, fire: 3}
+      weight: {base: 200, calc: "200"}
       reachBase: 0
       bodyScaleBase: 1.33
       personalFatigue: enc + 5

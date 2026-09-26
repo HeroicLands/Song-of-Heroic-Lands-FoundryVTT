@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Plate Rerebraces
-  aliases: []
-description: "Steel upper-arm guards; covers triceps and rear shoulder."
 shortcode: plrebr
+name: {full: Plate Rerebraces, aliases: []}
 type: armorgear
-data:
-  icon: dorsalscales
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Steel upper-arm guards; covers triceps and rear shoulder."
+tags: []
+data: {icon: dorsalscales, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [mtlc, mnrl]
+  craft: {skill: wpnc, secondary: [mtlc, mnrl]}
   kbcat: plate
   armorType: Rerebraces
   detailMaterial: Plate
@@ -22,18 +15,8 @@ sohl:
     valueBase: 160
     durabilityBase: 14
     material: Plate
-    locations:
-      flexible: []
-      rigid:
-        - lupaloc
-        - rupaloc
-        - lelbloc
-        - relbloc
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [], rigid: [lupaloc, rupaloc, lelbloc, relbloc]}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     encumbranceGroup: arm
     perceptionPenaltyBase: 0

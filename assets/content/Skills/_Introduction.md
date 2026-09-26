@@ -1,10 +1,8 @@
 ---
+shortcode: skill
+name: {full: Skills, aliases: []}
 type: doc
 subType: reference
-name:
-  full: Skills
-  aliases: []
-shortcode: skill
 description: Learned abilities and proficiencies.
 ---
 

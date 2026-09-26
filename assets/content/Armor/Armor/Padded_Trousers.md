@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Padded Trousers
-  aliases: []
-description: "Cushioned leg covering providing warmth and added protection."
 shortcode: ptrsr
+name: {full: Padded Trousers, aliases: []}
 type: armorgear
-data:
-  icon: trousers
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Cushioned leg covering providing warmth and added protection."
+tags: []
+data: {icon: trousers, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: padded
   armorType: Trousers
   detailMaterial: Padded
@@ -23,20 +16,9 @@ sohl:
     durabilityBase: 10
     material: Padded
     locations:
-      flexible:
-        - plvisloc
-        - lthghloc
-        - rthghloc
-        - lkneeloc
-        - rkneeloc
-        - lcalfloc
-        - rcalfloc
+      flexible: [plvisloc, lthghloc, rthghloc, lkneeloc, rkneeloc, lcalfloc, rcalfloc]
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

@@ -1,26 +1,14 @@
 ---
-tags:
-  - expedition
-name:
-  full: "Nails, pack of 24"
-  aliases: []
-description: "Mixed iron nails for quick repairs and affixing tent frames."
 shortcode: nailspacko
+name: {full: "Nails, pack of 24", aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
-  packFolder: expedition
+description: "Mixed iron nails for quick repairs and affixing tent frames."
+tags: [expedition]
+data: {icon: swapbag, templatePriority: 0, packFolder: expedition}
 sohl:
-  craft:
-    skill: mtlc
-    secondary: []
+  craft: {skill: mtlc, secondary: []}
   kbcat: expedition
-  system:
-    weightBase: 1
-    valueBase: 2
-    qualityBase: 0
-    durabilityBase: 7
+  system: {weightBase: 1, valueBase: 2, qualityBase: 0, durabilityBase: 7}
 ---
 
 Twenty-four iron nails of mixed sizes, hand-forged with tapered shanks and broad flat heads, bundled together. Carpenters and field workers keep a pack for quick repairs, hanging loose rafters or affixing tent frames when rope and wood-pegs fail.

@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Velvet Cowl
-  aliases: []
-description: "Soft plush velvet cowl; elegant, luxury garment for formal occasions."
 shortcode: vcowl
+name: {full: Velvet Cowl, aliases: []}
 type: armorgear
-data:
-  icon: hood
-  templatePriority: 0
-  packFolder: clothing
+description: "Soft plush velvet cowl; elegant, luxury garment for formal occasions."
+tags: []
+data: {icon: hood, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Cowl
   detailMaterial: Velvet
@@ -22,16 +15,8 @@ sohl:
     valueBase: 25
     durabilityBase: 10
     material: Cloth
-    locations:
-      flexible:
-        - skullloc
-        - neckloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [skullloc, neckloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

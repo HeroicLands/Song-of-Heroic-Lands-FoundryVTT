@@ -1,23 +1,12 @@
 ---
-tags: []
-name:
-  full: Poisoned
-  aliases:
-    - Poison
-description: "Long-term weakness from active poison or toxin in the body."
 shortcode: poison
+name: {full: Poisoned, aliases: [Poison]}
 type: trauma
-data:
-  icon: sleepy
-  templatePriority: 0
-  packFolder: fatigue
 subType: fatigue
-sohl:
-  kbcat: fatigue
-  system:
-    category: weakness
-    levelBase: 1
-    healingRateBase: 1
+description: "Long-term weakness from active poison or toxin in the body."
+tags: []
+data: {icon: sleepy, templatePriority: 0, packFolder: fatigue}
+sohl: {kbcat: fatigue, system: {category: weakness, levelBase: 1, healingRateBase: 1}}
 ---
 
 Poisoned weakness is the systemic cost of a poison's continued presence in the body — distinct from the poison's specific acute effects, which are treated under the poison itself. Where the poison's primary symptoms (paralysis, hallucination, cardiac disruption) describe its action, the weakness it produces is the simple cost of the body fighting it: depleted reserves, impaired organ function, the body diverting energy from everything else to processing the toxin. 5–10 fatigue per active poisoning.

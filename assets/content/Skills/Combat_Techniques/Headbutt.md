@@ -1,17 +1,11 @@
 ---
-tags: []
-name:
-  full: Folk Headbutt
-  aliases:
-    - Headbutt
-description: "The forehead driven into a face, from too close for anything else to work."
 shortcode: bflkheadbutt
+name: {full: Folk Headbutt, aliases: [Headbutt]}
 type: skill
-data:
-  icon: wreckingball
-  templatePriority: 0
-  packFolder: combat
 subType: combattechnique
+description: "The forehead driven into a face, from too close for anything else to work."
+tags: []
+data: {icon: wreckingball, templatePriority: 0, packFolder: combat}
 sohl:
   kbcat: unarmed
   strikeMode:
@@ -20,25 +14,12 @@ sohl:
     name: Headbutt
     minParts: 1
     assocSkillCode: melee
-    attack:
-      disabled: false
-      spread: 4
-      modifier: 0
-    impactBase:
-      numDice: 1
-      die: 6
-      modifier: -2
-      aspect: blunt
+    attack: {disabled: false, spread: 4, modifier: 0}
+    impactBase: {numDice: 1, die: 6, modifier: -2, aspect: blunt}
     lengthBase: 0
     defense:
-      block:
-        disabled: true
-        modifier: 0
-        successLevelMod: 0
-      counterstrike:
-        disabled: false
-        modifier: 0
-        successLevelMod: 0
+      block: {disabled: true, modifier: 0, successLevelMod: 0}
+      counterstrike: {disabled: false, modifier: 0, successLevelMod: 0}
     traits:
       meleeMod: 0
       blockSLMod: 0
@@ -73,8 +54,7 @@ sohl:
     combatCategory: melee
     parentSkillCode: ""
     initSkillMult: 2
-    impairedByRoles:
-      - vital
+    impairedByRoles: [vital]
 ---
 
 Delivered from inside a grapple, a press of bodies, or any place where there is no room to draw a fist back. Like the bite it has no reach at all — but where a bite needs a mouth free, a headbutt needs only that your head can move, so it survives being held by both arms.

@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Sealskin Vest
-  aliases: []
-description: "Water-resistant seal-fur sleeveless vest; core protection from wet."
 shortcode: slsvest
+name: {full: Sealskin Vest, aliases: []}
 type: armorgear
-data:
-  icon: leathervest
-  templatePriority: 0
-  packFolder: clothing
+description: "Water-resistant seal-fur sleeveless vest; core protection from wet."
+tags: []
+data: {icon: leathervest, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: leather
   armorType: Vest
   detailMaterial: Sealskin
@@ -22,16 +15,8 @@ sohl:
     valueBase: 290
     durabilityBase: 11
     material: Leather
-    locations:
-      flexible:
-        - thrxloc
-        - abdmnloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [thrxloc, abdmnloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Scale Leggings
-  aliases: []
-description: "Leggings with sewn metal scales; leg-and-thigh armor."
 shortcode: sleg
+name: {full: Scale Leggings, aliases: []}
 type: armorgear
-data:
-  icon: trousers
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Leggings with sewn metal scales; leg-and-thigh armor."
+tags: []
+data: {icon: trousers, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [hide, mtlc]
+  craft: {skill: wpnc, secondary: [hide, mtlc]}
   kbcat: scale
   armorType: Leggings
   detailMaterial: Scale
@@ -24,20 +17,8 @@ sohl:
     material: Scale
     locations:
       flexible: []
-      rigid:
-        - lthghloc
-        - rthghloc
-        - lkneeloc
-        - rkneeloc
-        - lcalfloc
-        - rcalfloc
-        - lfootloc
-        - rfootloc
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+      rigid: [lthghloc, rthghloc, lkneeloc, rkneeloc, lcalfloc, rcalfloc, lfootloc, rfootloc]
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 10
     perceptionPenaltyBase: 0
 ---

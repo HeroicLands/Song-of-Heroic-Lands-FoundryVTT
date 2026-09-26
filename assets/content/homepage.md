@@ -1,4 +1,6 @@
 ---
+shortcode: root
+name: {full: Song of Heroic Lands}
 # The package landing at /sohl/ — the entry point to everything this repository
 # publishes, and the address the site's navigation, the shipped system's in-app
 # help, and every external link to the project use.
@@ -18,13 +20,8 @@
 # table expands, so every link is a markdown link, package-relative (resolved
 # against the /sohl/ mount) or external.
 type: homepage
-shortcode: root
-description: A classless, skill-based fantasy system for Foundry Virtual Tabletop —
-  HârnMaster-compatible, and built to keep the books while you make the calls.
-data:
-  banner: null
-name:
-  full: Song of Heroic Lands
+description: A classless, skill-based fantasy system for Foundry Virtual Tabletop — HârnMaster-compatible, and built to keep the books while you make the calls.
+data: {banner: null}
 ---
 
 Everything published for the system lives under this address: the rules and the

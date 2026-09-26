@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Canvas Surcoat
-  aliases: []
-description: "Hard-wearing canvas surcoat worn over gear on the march."
 shortcode: cvscoat
+name: {full: Canvas Surcoat, aliases: []}
 type: armorgear
-data:
-  icon: shirt
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Hard-wearing canvas surcoat worn over gear on the march."
+tags: []
+data: {icon: shirt, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Surcoat
   detailMaterial: Canvas
@@ -34,11 +27,7 @@ sohl:
         - lkneeloc
         - rkneeloc
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

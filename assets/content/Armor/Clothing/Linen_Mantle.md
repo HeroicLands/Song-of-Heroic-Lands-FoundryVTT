@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Linen Mantle
-  aliases: []
-description: "Breathable outer layer providing sun protection without causing overheating."
 shortcode: lmntl
+name: {full: Linen Mantle, aliases: []}
 type: armorgear
-data:
-  icon: cape
-  templatePriority: 0
-  packFolder: clothing
+description: "Breathable outer layer providing sun protection without causing overheating."
+tags: []
+data: {icon: cape, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Mantle
   detailMaterial: Linen
@@ -22,19 +15,8 @@ sohl:
     valueBase: 11
     durabilityBase: 5
     material: Cloth
-    locations:
-      flexible:
-        - lshldloc
-        - rshldloc
-        - lupaloc
-        - rupaloc
-        - thrxloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [lshldloc, rshldloc, lupaloc, rupaloc, thrxloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

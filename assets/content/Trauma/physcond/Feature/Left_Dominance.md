@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Left Dominance
-  aliases: []
 shortcode: ldmnc
+name: {full: Left Dominance, aliases: []}
 type: trauma
-data:
-  icon: hand
-  templatePriority: 0
-  packFolder: traumaphysical
 subType: physcond
-sohl:
-  kbcat: physfeature
-  system:
-    category: trait
+tags: []
+data: {icon: hand, templatePriority: 0, packFolder: traumaphysical}
+sohl: {kbcat: physfeature, system: {category: trait}}
 ---
 
 Left Dominance is the natural favoring of the left side of the body — not the hand alone, but the whole side working in concert: the left hand grips and strikes, the left arm bears and throws, the left leg leads and balances, the left eye aims. It is far less common than Right Dominance, and in superstitious communities it is sometimes viewed with unease. A left-dominant person plants the left foot forward when set to act and presents an unfamiliar angle that orthodox fighters must adjust to.

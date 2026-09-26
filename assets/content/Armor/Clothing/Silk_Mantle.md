@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Silk Mantle
-  aliases: []
-description: "Luxurious silk mantle; elegant cloak for formal high-status occasions."
 shortcode: slkmntl
+name: {full: Silk Mantle, aliases: []}
 type: armorgear
-data:
-  icon: cape
-  templatePriority: 0
-  packFolder: clothing
+description: "Luxurious silk mantle; elegant cloak for formal high-status occasions."
+tags: []
+data: {icon: cape, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Mantle
   detailMaterial: Silk
@@ -22,19 +15,8 @@ sohl:
     valueBase: 190
     durabilityBase: 7
     material: Cloth
-    locations:
-      flexible:
-        - lshldloc
-        - rshldloc
-        - lupaloc
-        - rupaloc
-        - thrxloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [lshldloc, rshldloc, lupaloc, rupaloc, thrxloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

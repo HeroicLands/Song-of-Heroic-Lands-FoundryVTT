@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Serge Robe
-  aliases: []
-description: "Twilled serge robe; practical, versatile everyday garment."
 shortcode: sgrobe
+name: {full: Serge Robe, aliases: []}
 type: armorgear
-data:
-  icon: robe
-  templatePriority: 0
-  packFolder: clothing
+description: "Twilled serge robe; practical, versatile everyday garment."
+tags: []
+data: {icon: robe, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Robe
   detailMaterial: Serge
@@ -42,11 +35,7 @@ sohl:
         - lcalfloc
         - rcalfloc
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

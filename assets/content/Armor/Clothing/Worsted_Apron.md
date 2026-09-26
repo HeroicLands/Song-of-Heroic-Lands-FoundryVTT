@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Worsted Apron
-  aliases: []
-description: "Tightly-spun wool apron; durable for tasks requiring resilience."
 shortcode: wapn
+name: {full: Worsted Apron, aliases: []}
 type: armorgear
-data:
-  icon: cook
-  templatePriority: 0
-  packFolder: clothing
+description: "Tightly-spun wool apron; durable for tasks requiring resilience."
+tags: []
+data: {icon: cook, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Apron
   detailMaterial: Worsted
@@ -22,19 +15,8 @@ sohl:
     valueBase: 120
     durabilityBase: 9
     material: Cloth
-    locations:
-      flexible:
-        - thrxloc
-        - abdmnloc
-        - plvisloc
-        - lthghloc
-        - rthghloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [thrxloc, abdmnloc, plvisloc, lthghloc, rthghloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

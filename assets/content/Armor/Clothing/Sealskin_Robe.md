@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Sealskin Robe
-  aliases: []
-description: "Water-resistant seal-fur robe; comfort for seafaring folk."
 shortcode: slsrobe
+name: {full: Sealskin Robe, aliases: []}
 type: armorgear
-data:
-  icon: robe
-  templatePriority: 0
-  packFolder: clothing
+description: "Water-resistant seal-fur robe; comfort for seafaring folk."
+tags: []
+data: {icon: robe, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: leather
   armorType: Robe
   detailMaterial: Sealskin
@@ -42,11 +35,7 @@ sohl:
         - lcalfloc
         - rcalfloc
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

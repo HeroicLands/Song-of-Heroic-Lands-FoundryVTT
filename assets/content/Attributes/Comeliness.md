@@ -1,24 +1,14 @@
 ---
-tags: []
-name:
-  full: Comeliness
-  aliases: []
-description: "How far a person's physical form pleases the eye."
 shortcode: cml
+name: {full: Comeliness, aliases: []}
 type: attribute
-data:
-  icon: charm
-  templatePriority: 0
-  packFolder: attributes
+description: "How far a person's physical form pleases the eye."
+tags: []
+data: {icon: charm, templatePriority: 0, packFolder: attributes}
 sohl:
   system:
     scoreBase: 0
-    valueDesc:
-      - Ugly:4
-      - Unattractive:8
-      - Plain:12
-      - Attractive:16
-      - Striking:999
+    valueDesc: [Ugly:4, Unattractive:8, Plain:12, Attractive:16, Striking:999]
     initDiceFormula: 3d6
 ---
 

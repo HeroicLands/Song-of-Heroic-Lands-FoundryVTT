@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Mail Mittens
-  aliases: []
-description: "Metal ring hand protection offering excellent defense in combat."
 shortcode: mmtn
+name: {full: Mail Mittens, aliases: []}
 type: armorgear
-data:
-  icon: mailedfist
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Metal ring hand protection offering excellent defense in combat."
+tags: []
+data: {icon: mailedfist, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [mtlc, mnrl]
+  craft: {skill: wpnc, secondary: [mtlc, mnrl]}
   kbcat: mail
   armorType: Mittens
   detailMaterial: Mail
@@ -22,16 +15,8 @@ sohl:
     valueBase: 75
     durabilityBase: 13
     material: Mail
-    locations:
-      flexible: []
-      rigid:
-        - lhandloc
-        - rhandloc
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [], rigid: [lhandloc, rhandloc]}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     encumbranceGroup: arm
     perceptionPenaltyBase: 0

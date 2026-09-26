@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: "Ampoule, single dose, glass"
-  aliases: []
-description: "Sealed single-dose glass ampoule."
 shortcode: ampoule1
+name: {full: "Ampoule, single dose, glass", aliases: []}
 type: containergear
-data:
-  icon: swapbag
-  templatePriority: 0
-  packFolder: containers
+description: "Sealed single-dose glass ampoule."
+tags: []
+data: {icon: swapbag, templatePriority: 0, packFolder: containers}
 sohl:
-  craft:
-    skill: glas
-    secondary: []
+  craft: {skill: glas, secondary: []}
   system:
     weightBase: 0.1
     valueBase: 2.5

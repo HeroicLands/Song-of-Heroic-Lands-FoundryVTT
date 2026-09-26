@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Leather Bracers
-  aliases: []
-description: "Lightweight leather arm guards allowing full flexibility and movement."
 shortcode: ltbrcr
+name: {full: Leather Bracers, aliases: []}
 type: armorgear
-data:
-  icon: bracer
-  templatePriority: 0
-  packFolder: clothing
+description: "Lightweight leather arm guards allowing full flexibility and movement."
+tags: []
+data: {icon: bracer, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: leather
   armorType: Bracers
   detailMaterial: Leather
@@ -22,16 +15,8 @@ sohl:
     valueBase: 40
     durabilityBase: 9
     material: Leather
-    locations:
-      flexible:
-        - lfraloc
-        - rfraloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [lfraloc, rfraloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Homespun Dress
-  aliases: []
-description: "Simple homemade dress providing coverage and comfort."
 shortcode: hsdress
+name: {full: Homespun Dress, aliases: []}
 type: armorgear
-data:
-  icon: dress
-  templatePriority: 0
-  packFolder: clothing
+description: "Simple homemade dress providing coverage and comfort."
+tags: []
+data: {icon: dress, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Dress
   detailMaterial: Homespun
@@ -42,11 +35,7 @@ sohl:
         - lcalfloc
         - rcalfloc
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

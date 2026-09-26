@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Mail Vest
-  aliases: []
-description: "Metal ring torso armor offering substantial protection and flexibility."
 shortcode: mvest
+name: {full: Mail Vest, aliases: []}
 type: armorgear
-data:
-  icon: leathervest
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Metal ring torso armor offering substantial protection and flexibility."
+tags: []
+data: {icon: leathervest, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [mtlc, mnrl]
+  craft: {skill: wpnc, secondary: [mtlc, mnrl]}
   kbcat: mail
   armorType: Vest
   detailMaterial: Mail
@@ -22,16 +15,8 @@ sohl:
     valueBase: 360
     durabilityBase: 13
     material: Mail
-    locations:
-      flexible: []
-      rigid:
-        - thrxloc
-        - abdmnloc
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [], rigid: [thrxloc, abdmnloc]}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

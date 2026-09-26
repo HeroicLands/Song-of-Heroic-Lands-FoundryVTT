@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Leather Breeches
-  aliases: []
-description: "Lightweight stylish leather leg covering for rugged adventuring or everyday wear."
 shortcode: ltbrch
+name: {full: Leather Breeches, aliases: []}
 type: armorgear
-data:
-  icon: trousers
-  templatePriority: 0
-  packFolder: clothing
+description: "Lightweight stylish leather leg covering for rugged adventuring or everyday wear."
+tags: []
+data: {icon: trousers, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: leather
   armorType: Breeches
   detailMaterial: Leather
@@ -22,18 +15,8 @@ sohl:
     valueBase: 140
     durabilityBase: 9
     material: Leather
-    locations:
-      flexible:
-        - lthghloc
-        - rthghloc
-        - lkneeloc
-        - rkneeloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [lthghloc, rthghloc, lkneeloc, rkneeloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

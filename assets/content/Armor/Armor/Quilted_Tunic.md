@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Quilted Tunic
-  aliases: []
-description: "Padded tunic; stitched layers offer steady warmth."
 shortcode: qtnc
+name: {full: Quilted Tunic, aliases: []}
 type: armorgear
-data:
-  icon: shirt
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Padded tunic; stitched layers offer steady warmth."
+tags: []
+data: {icon: shirt, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: quilted
   armorType: Tunic
   detailMaterial: Quilted
@@ -34,11 +27,7 @@ sohl:
         - abdmnloc
         - plvisloc
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

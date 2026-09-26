@@ -1,23 +1,14 @@
 ---
-tags: []
-name:
-  full: Aconite
-  aliases: []
-description: "Wolfsbane alkaloid; burning, numbness, cardiac arrest; smeared on arrows."
 shortcode: aconite
+name: {full: Aconite, aliases: []}
 type: affliction
-data:
-  icon: poisonbottle
-  templatePriority: 0
-  packFolder: poisonsandtoxins
 subType: poisontoxin
+description: "Wolfsbane alkaloid; burning, numbness, cardiac arrest; smeared on arrows."
+tags: []
+data: {icon: poisonbottle, templatePriority: 0, packFolder: poisonsandtoxins}
 sohl:
   kbcat: poisontoxin
-  system:
-    levelBase: 1
-    healingRateBase: 3
-    contagionIndexBase: 3
-    transmission: vector
+  system: {levelBase: 1, healingRateBase: 3, contagionIndexBase: 3, transmission: vector}
 ---
 
 Aconite contains highly potent alkaloids such as aconitine, which are used both for poisoning and applied to arrow tips as a weapon. Aconite can cause severe cardiac and neurological disturbances.

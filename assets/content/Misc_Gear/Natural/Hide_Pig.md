@@ -1,26 +1,14 @@
 ---
-tags:
-  - natural
-name:
-  full: "Hide, Pig"
-  aliases: []
-description: "Hog hide thicker than sheep; moderately soft leather for gloves and belts. Price is for one whole skin."
 shortcode: hidepig
+name: {full: "Hide, Pig", aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
-  packFolder: natural
+description: "Hog hide thicker than sheep; moderately soft leather for gloves and belts. Price is for one whole skin."
+tags: [natural]
+data: {icon: swapbag, templatePriority: 0, packFolder: natural}
 sohl:
-  craft:
-    skill: anmcft
-    secondary: []
+  craft: {skill: anmcft, secondary: []}
   kbcat: natural
-  system:
-    weightBase: 1.75
-    valueBase: 5
-    qualityBase: 0
-    durabilityBase: 3
+  system: {weightBase: 1.75, valueBase: 5, qualityBase: 0, durabilityBase: 3}
 ---
 
 A hog's hide—scraped and salted—thicker and rougher than sheep but still workable. Tanners process pigskin into moderately soft leather for gloves and belts; the characteristic pores remain visible even after finishing. Butchers and pig farmers supply these hides regularly.

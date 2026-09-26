@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Beaver Mantle
-  aliases: []
-description: "Beaver fur mantle blending function and status; warm and luxurious."
 shortcode: bvmntl
+name: {full: Beaver Mantle, aliases: []}
 type: armorgear
-data:
-  icon: cape
-  templatePriority: 0
-  packFolder: clothing
+description: "Beaver fur mantle blending function and status; warm and luxurious."
+tags: []
+data: {icon: cape, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: leather
   armorType: Mantle
   detailMaterial: Beaver
@@ -22,19 +15,8 @@ sohl:
     valueBase: 255
     durabilityBase: 9
     material: Leather
-    locations:
-      flexible:
-        - lshldloc
-        - rshldloc
-        - lupaloc
-        - rupaloc
-        - thrxloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [lshldloc, rshldloc, lupaloc, rupaloc, thrxloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

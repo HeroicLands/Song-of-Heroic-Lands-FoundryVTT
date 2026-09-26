@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Worsted Cowl
-  aliases: []
-description: "Tightly-spun wool cowl; durable, versatile head covering."
 shortcode: wcowl
+name: {full: Worsted Cowl, aliases: []}
 type: armorgear
-data:
-  icon: hood
-  templatePriority: 0
-  packFolder: clothing
+description: "Tightly-spun wool cowl; durable, versatile head covering."
+tags: []
+data: {icon: hood, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Cowl
   detailMaterial: Worsted
@@ -22,16 +15,8 @@ sohl:
     valueBase: 14
     durabilityBase: 9
     material: Cloth
-    locations:
-      flexible:
-        - skullloc
-        - neckloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [skullloc, neckloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

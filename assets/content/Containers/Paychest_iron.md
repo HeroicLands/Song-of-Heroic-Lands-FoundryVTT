@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: "Paychest, iron"
-  aliases: []
-description: "Heavy iron paychest with multiple locks."
 shortcode: paychestir
+name: {full: "Paychest, iron", aliases: []}
 type: containergear
-data:
-  icon: chest
-  templatePriority: 0
-  packFolder: containers
+description: "Heavy iron paychest with multiple locks."
+tags: []
+data: {icon: chest, templatePriority: 0, packFolder: containers}
 sohl:
-  craft:
-    skill: mtlc
-    secondary: []
+  craft: {skill: mtlc, secondary: []}
   system:
     weightBase: 50
     valueBase: 960

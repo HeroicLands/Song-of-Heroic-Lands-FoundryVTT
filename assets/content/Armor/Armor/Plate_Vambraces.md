@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Plate Vambraces
-  aliases: []
-description: "Steel forearm-guards; protects wrists and inner arms."
 shortcode: plvamb
+name: {full: Plate Vambraces, aliases: []}
 type: armorgear
-data:
-  icon: bracer
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Steel forearm-guards; protects wrists and inner arms."
+tags: []
+data: {icon: bracer, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [mtlc, mnrl]
+  craft: {skill: wpnc, secondary: [mtlc, mnrl]}
   kbcat: plate
   armorType: Vambraces
   detailMaterial: Plate
@@ -22,16 +15,8 @@ sohl:
     valueBase: 100
     durabilityBase: 14
     material: Plate
-    locations:
-      flexible: []
-      rigid:
-        - lfraloc
-        - rfraloc
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [], rigid: [lfraloc, rfraloc]}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     encumbranceGroup: arm
     perceptionPenaltyBase: 0

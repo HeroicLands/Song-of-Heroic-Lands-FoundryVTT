@@ -1,20 +1,11 @@
 ---
-tags: []
-name:
-  full: Ballistophobia
-  aliases: []
 shortcode: ballphb
+name: {full: Ballistophobia, aliases: []}
 type: trauma
-data:
-  icon: dread
-  templatePriority: 0
-  packFolder: phobias
 subType: fear
-sohl:
-  kbcat: phobias
-  system:
-    category: none
-    levelBase: 0
+tags: []
+data: {icon: dread, templatePriority: 0, packFolder: phobias}
+sohl: {kbcat: phobias, system: {category: none, levelBase: 0}}
 ---
 
 Ballistophobia is an intense, irrational fear of projectiles. People with ballistophobia may experience a range of symptoms when they think about, see, or are around missile weapons or projectiles.

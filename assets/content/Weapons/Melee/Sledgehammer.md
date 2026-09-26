@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Sledgehammer
-  aliases: []
-description: "Massive twin-faced forge-hammer for breaching timber, stone, and mail."
 shortcode: slghmr
+name: {full: Sledgehammer, aliases: []}
 type: weapongear
-data:
-  icon: clawhammer
-  templatePriority: 0
-  packFolder: weapons
+description: "Massive twin-faced forge-hammer for breaching timber, stone, and mail."
+tags: []
+data: {icon: clawhammer, templatePriority: 0, packFolder: weapons}
 sohl:
-  craft:
-    skill: mtlc
-    secondary: [wood]
+  craft: {skill: mtlc, secondary: [wood]}
   kbcat: axe
   weaponType: Club
   system:
@@ -27,14 +20,8 @@ sohl:
         name: Crush
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 8
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 5
-          aspect: blunt
+        attack: {spread: 8, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 5, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -63,22 +50,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 5
-        defense:
-          blockMod: 0
-          counterstrikeMod: 0
+        defense: {blockMod: 0, counterstrikeMod: 0}
       - shortcode: shaft
         type: melee
         name: Shaft
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 8
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 1
-          aspect: blunt
+        attack: {spread: 8, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 1, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -107,9 +86,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 5
-        defense:
-          blockMod: 0
-          counterstrikeMod: 0
+        defense: {blockMod: 0, counterstrikeMod: 0}
 ---
 
 A forge-master's hammer repurposed to the breach—twin flat faces of iron set upon a long wooden haft, weighing as much as a small anvil. In siege work or fortress raid, it smashes through timber and stone, and when turned against a helm or shield-rim it crushes with indiscriminate weight. No finesse, only raw force applied by desperate men.

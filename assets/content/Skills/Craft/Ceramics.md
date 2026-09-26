@@ -1,16 +1,11 @@
 ---
-tags: []
-name:
-  full: Ceramics
-  aliases: []
-description: "Shaping clay into durable pots, bowls, tiles, bricks, and sculpture."
 shortcode: cmcs
+name: {full: Ceramics, aliases: []}
 type: skill
-data:
-  icon: amphora
-  templatePriority: 0
-  packFolder: craft
 subType: craft
+description: "Shaping clay into durable pots, bowls, tiles, bricks, and sculpture."
+tags: []
+data: {icon: amphora, templatePriority: 0, packFolder: craft}
 sohl:
   kbcat: craft
   system:
@@ -19,10 +14,7 @@ sohl:
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 0
-    impairedByRoles:
-      - core
-      - vital
-      - manipulator
+    impairedByRoles: [core, vital, manipulator]
 ---
 
 Ceramics is making durable things out of clay and heat. A potter is nominally a specialist, but the underlying principles carry across an unusually wide range of goods — cooking pots and storage jars, roof tile and brick, oil lamps, drainpipe, votive figures — so a single trained pair of hands supplies most of what a village puts on a shelf or a roof.

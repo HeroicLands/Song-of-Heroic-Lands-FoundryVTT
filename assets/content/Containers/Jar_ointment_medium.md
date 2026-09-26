@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: "Jar, ointment, medium"
-  aliases: []
-description: "Ceramic apothecary jar with wide mouth for creams and medicinal tinctures."
 shortcode: jarointmen2
+name: {full: "Jar, ointment, medium", aliases: []}
 type: containergear
-data:
-  icon: swapbag
-  templatePriority: 0
-  packFolder: containers
+description: "Ceramic apothecary jar with wide mouth for creams and medicinal tinctures."
+tags: []
+data: {icon: swapbag, templatePriority: 0, packFolder: containers}
 sohl:
-  craft:
-    skill: cmcs
-    secondary: []
+  craft: {skill: cmcs, secondary: []}
   system:
     weightBase: 0.7
     valueBase: 1.5

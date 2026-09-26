@@ -1,11 +1,9 @@
 ---
+shortcode: afflinjug
+name: {full: "Afflictions and Injuries"}
 type: doc
 subType: userguide
-name:
-  full: "Afflictions and Injuries"
-shortcode: afflinjug
-data:
-  packFolder: userguide
+data: {packFolder: userguide}
 ---
 
 # Overview {#conditions-overview}

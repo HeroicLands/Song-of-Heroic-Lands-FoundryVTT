@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Kûrbúl Halfhelm
-  aliases: []
-description: "Leather helm covering head and jawline with styled design and reduced weight."
 shortcode: khlfhelm
+name: {full: Kûrbúl Halfhelm, aliases: []}
 type: armorgear
-data:
-  icon: barbute
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Leather helm covering head and jawline with styled design and reduced weight."
+tags: []
+data: {icon: barbute, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [hide]
+  craft: {skill: wpnc, secondary: [hide]}
   kbcat: kurbul
   armorType: Halfhelm
   detailMaterial: Kûrbúl
@@ -24,20 +17,8 @@ sohl:
     material: Kûrbúl
     locations:
       flexible: []
-      rigid:
-        - skullloc
-        - jawloc
-        - lcheekloc
-        - rcheekloc
-        - learloc
-        - rearloc
-        - mouthloc
-        - noseloc
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+      rigid: [skullloc, jawloc, lcheekloc, rcheekloc, learloc, rearloc, mouthloc, noseloc]
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

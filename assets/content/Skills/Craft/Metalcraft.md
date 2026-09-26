@@ -1,16 +1,11 @@
 ---
-tags: []
-name:
-  full: Metalcraft
-  aliases: []
-description: "Smelting, forging, and finishing metal into tools, armor, and components."
 shortcode: mtlc
+name: {full: Metalcraft, aliases: []}
 type: skill
-data:
-  icon: metalbar
-  templatePriority: 0
-  packFolder: craft
 subType: craft
+description: "Smelting, forging, and finishing metal into tools, armor, and components."
+tags: []
+data: {icon: metalbar, templatePriority: 0, packFolder: craft}
 sohl:
   kbcat: craft
   system:
@@ -19,10 +14,7 @@ sohl:
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 0
-    impairedByRoles:
-      - core
-      - vital
-      - manipulator
+    impairedByRoles: [core, vital, manipulator]
 ---
 
 Metalcraft is the everyday smith's trade: the tools, fittings and household metal that a settlement cannot function without. Nails, hinges, pot-hooks, ploughshares, cauldrons, horseshoes, chain. It is the skill that keeps a manor working, and it is the substrate under half the other crafts — the fletcher's arrowheads, the lockmaker's wards, the armourer's plate all begin here.

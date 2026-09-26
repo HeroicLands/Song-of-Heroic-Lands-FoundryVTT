@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Plate Halfhelm
-  aliases: []
-description: "Steel helm covering crown and sides; exposes face for visibility."
 shortcode: plhhelm
+name: {full: Plate Halfhelm, aliases: []}
 type: armorgear
-data:
-  icon: barbute
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Steel helm covering crown and sides; exposes face for visibility."
+tags: []
+data: {icon: barbute, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [mtlc, mnrl]
+  craft: {skill: wpnc, secondary: [mtlc, mnrl]}
   kbcat: plate
   armorType: Halfhelm
   detailMaterial: Plate
@@ -24,20 +17,8 @@ sohl:
     material: Plate
     locations:
       flexible: []
-      rigid:
-        - skullloc
-        - jawloc
-        - lcheekloc
-        - rcheekloc
-        - learloc
-        - rearloc
-        - mouthloc
-        - noseloc
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+      rigid: [skullloc, jawloc, lcheekloc, rcheekloc, learloc, rearloc, mouthloc, noseloc]
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

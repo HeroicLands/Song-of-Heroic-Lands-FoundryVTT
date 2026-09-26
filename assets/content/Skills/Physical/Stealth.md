@@ -1,16 +1,11 @@
 ---
-tags: []
-name:
-  full: Stealth
-  aliases: []
-description: "Moving unseen through shadows, cover, and ambient noise for avoidance."
 shortcode: stlth
+name: {full: Stealth, aliases: []}
 type: skill
-data:
-  icon: hidden
-  templatePriority: 0
-  packFolder: physical
 subType: physical
+description: "Moving unseen through shadows, cover, and ambient noise for avoidance."
+tags: []
+data: {icon: hidden, templatePriority: 0, packFolder: physical}
 sohl:
   kbcat: physical
   system:
@@ -19,10 +14,7 @@ sohl:
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 3
-    impairedByRoles:
-      - core
-      - vital
-      - locomotor
+    impairedByRoles: [core, vital, locomotor]
 ---
 
 Stealth is two related crafts: **hiding**, which is not being seen, and **stalking**, which is not being heard. Hiding needs somewhere to do it — shadow, cover, broken ground — and is normally attempted from a standstill, though it may be tried at a half Move for −20. Stalking requires staying out of the target's line of sight and permits a half Move at no penalty at all; noisy footing costs −10 to −20.

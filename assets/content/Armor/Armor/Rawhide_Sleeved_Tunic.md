@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Rawhide Sleeved Tunic
-  aliases: []
-description: "Sturdy hide tunic; arms and torso protection."
 shortcode: rhstunic
+name: {full: Rawhide Sleeved Tunic, aliases: []}
 type: armorgear
-data:
-  icon: shirt
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Sturdy hide tunic; arms and torso protection."
+tags: []
+data: {icon: shirt, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: leather
   armorType: Sleeved Tunic
   detailMaterial: Rawhide
@@ -36,11 +29,7 @@ sohl:
         - abdmnloc
         - plvisloc
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

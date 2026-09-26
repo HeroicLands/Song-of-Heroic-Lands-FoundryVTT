@@ -1,17 +1,10 @@
 ---
-tags:
-  - animal
-  - creature
-  - image-needed
-name:
-  full: Walrus
-  aliases: []
-description: "An immense, tusked pinniped weighing up to three thousand pounds, hauling out in aggressive colonies on northern rocky shores and ice floes."
 shortcode: walrus
+name: {full: Walrus, aliases: []}
 type: being
-data:
-  icon: pawprint
-  templatePriority: 0
+description: "An immense, tusked pinniped weighing up to three thousand pounds, hauling out in aggressive colonies on northern rocky shores and ice floes."
+tags: [animal, creature, image-needed]
+data: {icon: pawprint, templatePriority: 0}
 sohl:
   kbcat: animal
   attrRollFormula:
@@ -25,21 +18,21 @@ sohl:
     rea: 1d4+4
     cre: 1d4+2
   items:
-    - { model: attribute-str, system: { scoreBase: 21 } }
-    - { model: attribute-end, system: { scoreBase: 20 } }
-    - { model: attribute-dex, system: { scoreBase: 6 } }
-    - { model: attribute-agl, system: { scoreBase: 6 } }
-    - { model: attribute-per, system: { scoreBase: 13 } }
-    - { model: attribute-aur, system: { scoreBase: 8 } }
-    - { model: attribute-wil, system: { scoreBase: 15 } }
-    - { model: attribute-rea, system: { scoreBase: 7 } }
-    - { model: attribute-cre, system: { scoreBase: 5 } }
-    - { model: skill-awar, system: { masteryLevelBase: 70 } }
-    - { model: skill-stlth, system: { masteryLevelBase: 50 } }
-    - { model: mysticalability-sprt, system: { masteryLevelBase: 33 } }
-    - { model: skill-init, system: { masteryLevelBase: 44 } }
-    - { model: skill-dge, system: { masteryLevelBase: 36 } }
-    - { model: skill-shok, system: { masteryLevelBase: 53 } }
+    - {model: attribute-str, system: {scoreBase: 21}}
+    - {model: attribute-end, system: {scoreBase: 20}}
+    - {model: attribute-dex, system: {scoreBase: 6}}
+    - {model: attribute-agl, system: {scoreBase: 6}}
+    - {model: attribute-per, system: {scoreBase: 13}}
+    - {model: attribute-aur, system: {scoreBase: 8}}
+    - {model: attribute-wil, system: {scoreBase: 15}}
+    - {model: attribute-rea, system: {scoreBase: 7}}
+    - {model: attribute-cre, system: {scoreBase: 5}}
+    - {model: skill-awar, system: {masteryLevelBase: 70}}
+    - {model: skill-stlth, system: {masteryLevelBase: 50}}
+    - {model: mysticalability-sprt, system: {masteryLevelBase: 33}}
+    - {model: skill-init, system: {masteryLevelBase: 44}}
+    - {model: skill-dge, system: {masteryLevelBase: 36}}
+    - {model: skill-shok, system: {masteryLevelBase: 53}}
     - name: Tusk Gore
       type: skill
       system:
@@ -47,35 +40,20 @@ sohl:
         subType: combattechnique
         masteryLevelBase: 44
         combatCategory: melee
-        impairedByRoles:
-          - manipulator
+        impairedByRoles: [manipulator]
         strikeMode:
           type: melee
           shortcode: gore
           name: Tusk Gore
           minParts: 1
           assocSkillCode: null
-          attack:
-            disabled: false
-            spread: 2
-            modifier: 0
-          impactBase:
-            numDice: 1
-            die: 6
-            modifier: 6
-            aspect: piercing
+          attack: {disabled: false, spread: 2, modifier: 0}
+          impactBase: {numDice: 1, die: 6, modifier: 6, aspect: piercing}
           lengthBase: 1
           defense:
-            block:
-              disabled: true
-              modifier: 0
-              successLevelMod: 0
-            counterstrike:
-              disabled: false
-              modifier: 0
-              successLevelMod: 0
-          traits:
-            noBlock: true
+            block: {disabled: true, modifier: 0, successLevelMod: 0}
+            counterstrike: {disabled: false, modifier: 0, successLevelMod: 0}
+          traits: {noBlock: true}
     - name: Crushing Weight
       type: skill
       system:
@@ -83,83 +61,56 @@ sohl:
         subType: combattechnique
         masteryLevelBase: 37
         combatCategory: melee
-        impairedByRoles:
-          - core
+        impairedByRoles: [core]
         strikeMode:
           type: melee
           shortcode: ram
           name: Crushing Weight
           minParts: 1
           assocSkillCode: null
-          attack:
-            disabled: false
-            spread: 4
-            modifier: 0
-          impactBase:
-            numDice: 1
-            die: 6
-            modifier: 5
-            aspect: blunt
+          attack: {disabled: false, spread: 4, modifier: 0}
+          impactBase: {numDice: 1, die: 6, modifier: 5, aspect: blunt}
           lengthBase: 1
           defense:
-            block:
-              disabled: true
-              modifier: 0
-              successLevelMod: 0
-            counterstrike:
-              disabled: false
-              modifier: 0
-              successLevelMod: 0
-          traits:
-            noBlock: true
+            block: {disabled: true, modifier: 0, successLevelMod: 0}
+            counterstrike: {disabled: false, modifier: 0, successLevelMod: 0}
+          traits: {noBlock: true}
   system:
     body:
       structure:
         zones:
-          - name: Head
-            shortcode: headzone
-            probWeight: 3
-          - name: Body
-            shortcode: torsozone
-            probWeight: 5
-          - name: Tail
-            shortcode: tailzone
-            probWeight: 2
+          - {name: Head, shortcode: headzone, probWeight: 3}
+          - {name: Body, shortcode: torsozone, probWeight: 5}
+          - {name: Tail, shortcode: tailzone, probWeight: 2}
         parts:
           - name: Head
             shortcode: headpart
             bodyZoneCode: headzone
-            roles:
-              - vital
-              - manipulator
+            roles: [vital, manipulator]
             canHoldItem: false
             probWeight: 10
           - name: Body
             shortcode: torsopart
             bodyZoneCode: torsozone
-            roles:
-              - core
+            roles: [core]
             canHoldItem: false
             probWeight: 10
           - name: Left Fin
             shortcode: lfinpart
             bodyZoneCode: torsozone
-            roles:
-              - locomotor
+            roles: [locomotor]
             canHoldItem: false
             probWeight: 2
           - name: Right Fin
             shortcode: rfinpart
             bodyZoneCode: torsozone
-            roles:
-              - locomotor
+            roles: [locomotor]
             canHoldItem: false
             probWeight: 2
           - name: Tail
             shortcode: tailpart
             bodyZoneCode: tailzone
-            roles:
-              - locomotor
+            roles: [locomotor]
             canHoldItem: false
             probWeight: 10
         locations:
@@ -170,11 +121,7 @@ sohl:
             amputability: none
             shockValue: 5
             probWeight: 6
-            protectionBase:
-              blunt: 6
-              edged: 5
-              piercing: 3
-              fire: 5
+            protectionBase: {blunt: 6, edged: 5, piercing: 3, fire: 5}
           - name: Gills
             shortcode: gillloc
             bodyPartCode: headpart
@@ -182,11 +129,7 @@ sohl:
             amputability: low
             shockValue: 5
             probWeight: 4
-            protectionBase:
-              blunt: 6
-              edged: 5
-              piercing: 3
-              fire: 5
+            protectionBase: {blunt: 6, edged: 5, piercing: 3, fire: 5}
           - name: Body
             shortcode: bodyloc
             bodyPartCode: torsopart
@@ -194,11 +137,7 @@ sohl:
             amputability: none
             shockValue: 4
             probWeight: 6
-            protectionBase:
-              blunt: 6
-              edged: 5
-              piercing: 3
-              fire: 5
+            protectionBase: {blunt: 6, edged: 5, piercing: 3, fire: 5}
           - name: Underbelly
             shortcode: underbellyloc
             bodyPartCode: torsopart
@@ -206,11 +145,7 @@ sohl:
             amputability: none
             shockValue: 4
             probWeight: 4
-            protectionBase:
-              blunt: 6
-              edged: 5
-              piercing: 3
-              fire: 5
+            protectionBase: {blunt: 6, edged: 5, piercing: 3, fire: 5}
           - name: Left Fin
             shortcode: lfinloc
             bodyPartCode: lfinpart
@@ -218,11 +153,7 @@ sohl:
             amputability: medium
             shockValue: 2
             probWeight: 10
-            protectionBase:
-              blunt: 6
-              edged: 5
-              piercing: 3
-              fire: 5
+            protectionBase: {blunt: 6, edged: 5, piercing: 3, fire: 5}
           - name: Right Fin
             shortcode: rfinloc
             bodyPartCode: rfinpart
@@ -230,11 +161,7 @@ sohl:
             amputability: medium
             shockValue: 2
             probWeight: 10
-            protectionBase:
-              blunt: 6
-              edged: 5
-              piercing: 3
-              fire: 5
+            protectionBase: {blunt: 6, edged: 5, piercing: 3, fire: 5}
           - name: Tail
             shortcode: tailloc
             bodyPartCode: tailpart
@@ -242,14 +169,8 @@ sohl:
             amputability: medium
             shockValue: 2
             probWeight: 10
-            protectionBase:
-              blunt: 6
-              edged: 5
-              piercing: 3
-              fire: 5
-      weight:
-        base: 400
-        calc: "400"
+            protectionBase: {blunt: 6, edged: 5, piercing: 3, fire: 5}
+      weight: {base: 400, calc: "400"}
       reachBase: 0
       bodyScaleBase: 1.52
       personalFatigue: enc + 5

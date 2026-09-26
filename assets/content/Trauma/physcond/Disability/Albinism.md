@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Albinism
-  aliases: []
 shortcode: albinism
+name: {full: Albinism, aliases: []}
 type: trauma
-data:
-  icon: battlegear
-  templatePriority: 0
-  packFolder: traumaphysical
 subType: physcond
-sohl:
-  kbcat: physdisability
-  system:
-    category: trait
+tags: []
+data: {icon: battlegear, templatePriority: 0, packFolder: traumaphysical}
+sohl: {kbcat: physdisability, system: {category: trait}}
 ---
 
 Albinism is a condition wherein the body produces little or no pigment in skin, hair, and eyes. The afflicted appear as if wrought from pale parchment—white or nearly white hair, skin of milk without tan or sunburn, eyes of pale blue or pink that catch the light strangely. In a world where strength and labor are bound to the sun's blessing, an albino person stands apart, visibly different in a way that invites both wonder and dread.

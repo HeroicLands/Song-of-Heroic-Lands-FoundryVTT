@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Springald
-  aliases: []
-description: "Light torsion bolt-thrower; two-crew wall-top engine for picking men off a rampart."
 shortcode: sprngld
+name: {full: Springald, aliases: []}
 type: weapongear
-data:
-  icon: spearhook
-  templatePriority: 0
-  packFolder: weapons
+description: "Light torsion bolt-thrower; two-crew wall-top engine for picking men off a rampart."
+tags: []
+data: {icon: spearhook, templatePriority: 0, packFolder: weapons}
 sohl:
-  craft:
-    skill: wood
-    secondary: []
+  craft: {skill: wood, secondary: []}
   kbcat: siege
   weaponType: Siege
   system:
@@ -27,14 +20,8 @@ sohl:
         name: Shoot
         assocSkillCode: archery
         minParts: 2
-        attack:
-          spread: 0
-          modifier: 0
-        impactBase:
-          numDice: 0
-          die: null
-          modifier: 14
-          aspect: piercing
+        attack: {spread: 0, modifier: 0}
+        impactBase: {numDice: 0, die: null, modifier: 14, aspect: piercing}
         traits:
           meleeMod: 0
           blockSLMod: 0

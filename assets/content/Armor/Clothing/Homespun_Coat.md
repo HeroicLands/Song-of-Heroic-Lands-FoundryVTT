@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Homespun Coat
-  aliases: []
-description: "Basic homemade coat providing warmth and simple protection."
 shortcode: hscoat
+name: {full: Homespun Coat, aliases: []}
 type: armorgear
-data:
-  icon: shirt
-  templatePriority: 0
-  packFolder: clothing
+description: "Basic homemade coat providing warmth and simple protection."
+tags: []
+data: {icon: shirt, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Coat
   detailMaterial: Homespun
@@ -38,11 +31,7 @@ sohl:
         - lthghloc
         - rthghloc
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

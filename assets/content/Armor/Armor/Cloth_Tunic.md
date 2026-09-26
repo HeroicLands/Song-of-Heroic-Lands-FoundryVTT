@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Cloth Tunic
-  aliases: []
-description: "Simple cloth tunic offering comfort and warmth for daily wear."
 shortcode: ctunic
+name: {full: Cloth Tunic, aliases: []}
 type: armorgear
-data:
-  icon: shirt
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Simple cloth tunic offering comfort and warmth for daily wear."
+tags: []
+data: {icon: shirt, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Tunic
   detailMaterial: Cloth
@@ -34,11 +27,7 @@ sohl:
         - abdmnloc
         - plvisloc
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Homespun Cowl
-  aliases: []
-description: "Simple homemade cowl offering warmth and basic protection."
 shortcode: hscowl
+name: {full: Homespun Cowl, aliases: []}
 type: armorgear
-data:
-  icon: hood
-  templatePriority: 0
-  packFolder: clothing
+description: "Simple homemade cowl offering warmth and basic protection."
+tags: []
+data: {icon: hood, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Cowl
   detailMaterial: Homespun
@@ -22,16 +15,8 @@ sohl:
     valueBase: 2
     durabilityBase: 5
     material: Cloth
-    locations:
-      flexible:
-        - skullloc
-        - neckloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [skullloc, neckloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

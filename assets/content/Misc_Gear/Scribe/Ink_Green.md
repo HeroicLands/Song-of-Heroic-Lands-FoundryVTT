@@ -1,26 +1,14 @@
 ---
-tags:
-  - scribe
-name:
-  full: "Ink, Green"
-  aliases: []
-description: "Verdigris or woad-iron pigment; marks heraldic and legal ornament, light-sensitive."
 shortcode: inkgrn
+name: {full: "Ink, Green", aliases: []}
 type: miscgear
-data:
-  icon: inkswirl
-  templatePriority: 0
-  packFolder: scribe
+description: "Verdigris or woad-iron pigment; marks heraldic and legal ornament, light-sensitive."
+tags: [scribe]
+data: {icon: inkswirl, templatePriority: 0, packFolder: scribe}
 sohl:
-  craft:
-    skill: herb
-    secondary: []
+  craft: {skill: herb, secondary: []}
   kbcat: scribe
-  system:
-    weightBase: 2
-    valueBase: 8
-    qualityBase: 0
-    durabilityBase: 0
+  system: {weightBase: 2, valueBase: 8, qualityBase: 0, durabilityBase: 0}
 ---
 
 Green pigment made from verdigris—copper oxide—or boiled woad with iron salts, bound for use on parchment. Green ink marks emphasis and ornamental flourishes in heraldic and legal documents. It is rarer and more delicate than black, fading if exposed to strong sunlight.

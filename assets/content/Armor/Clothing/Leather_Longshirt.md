@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Leather Longshirt
-  aliases: []
-description: "Stylish leather long-sleeved garment with modest coverage for light adventuring."
 shortcode: ltlgshrt
+name: {full: Leather Longshirt, aliases: []}
 type: armorgear
-data:
-  icon: shirt
-  templatePriority: 0
-  packFolder: clothing
+description: "Stylish leather long-sleeved garment with modest coverage for light adventuring."
+tags: []
+data: {icon: shirt, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: leather
   armorType: Longshirt
   detailMaterial: Leather
@@ -23,20 +16,9 @@ sohl:
     durabilityBase: 9
     material: Leather
     locations:
-      flexible:
-        - lshldloc
-        - rshldloc
-        - lupaloc
-        - rupaloc
-        - thrxloc
-        - abdmnloc
-        - plvisloc
+      flexible: [lshldloc, rshldloc, lupaloc, rupaloc, thrxloc, abdmnloc, plvisloc]
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

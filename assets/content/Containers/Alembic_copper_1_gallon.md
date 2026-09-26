@@ -1,25 +1,13 @@
 ---
-tags: []
-name:
-  full: "Alembic, copper, 1 gallon"
-  aliases: []
-description: "Copper still-head for distillation, one gallon."
 shortcode: alembcu1g
+name: {full: "Alembic, copper, 1 gallon", aliases: []}
 type: containergear
-data:
-  icon: cookingpot
-  templatePriority: 0
-  packFolder: containers
+description: "Copper still-head for distillation, one gallon."
+tags: []
+data: {icon: cookingpot, templatePriority: 0, packFolder: containers}
 sohl:
-  craft:
-    skill: mtlc
-    secondary: []
-  system:
-    weightBase: 5
-    valueBase: 60
-    qualityBase: 0
-    durabilityBase: 4
-    maxCapacityBase: 8
+  craft: {skill: mtlc, secondary: []}
+  system: {weightBase: 5, valueBase: 60, qualityBase: 0, durabilityBase: 4, maxCapacityBase: 8}
 ---
 
 The upper vessel of a still, beaten from copper, with a long spout running down to a collection pot. Copper conducts heat evenly and survives being set directly on a furnace, but it taints anything acid enough to attack the metal.

@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Sling Staff
-  aliases: []
-description: "Pole-mounted sling multiplying range and power for peasant levy."
 shortcode: slngstf
+name: {full: Sling Staff, aliases: []}
 type: weapongear
-data:
-  icon: sling
-  templatePriority: 0
-  packFolder: weapons
+description: "Pole-mounted sling multiplying range and power for peasant levy."
+tags: []
+data: {icon: sling, templatePriority: 0, packFolder: weapons}
 sohl:
-  craft:
-    skill: hide
-    secondary: [wood]
+  craft: {skill: hide, secondary: [wood]}
   kbcat: sling
   weaponType: Sling
   system:
@@ -27,14 +20,8 @@ sohl:
         name: Crush
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 6
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 1
-          aspect: blunt
+        attack: {spread: 6, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 1, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -63,22 +50,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 5
-        defense:
-          blockMod: 0
-          counterstrikeMod: 0
+        defense: {blockMod: 0, counterstrikeMod: 0}
       - shortcode: ranged
         type: missile
         name: Ranged
         assocSkillCode: slng
         minParts: 2
-        attack:
-          spread: 0
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 10
-          modifier: 0
-          aspect: blunt
+        attack: {spread: 0, modifier: 0}
+        impactBase: {numDice: 1, die: 10, modifier: 0, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0

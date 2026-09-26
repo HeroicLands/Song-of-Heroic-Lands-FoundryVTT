@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Arthritis
-  aliases: []
 shortcode: arthrts
+name: {full: Arthritis, aliases: []}
 type: trauma
-data:
-  icon: battlegear
-  templatePriority: 0
-  packFolder: traumaphysical
 subType: physcond
-sohl:
-  kbcat: physdisability
-  system:
-    category: impediment
+tags: []
+data: {icon: battlegear, templatePriority: 0, packFolder: traumaphysical}
+sohl: {kbcat: physdisability, system: {category: impediment}}
 ---
 
 Arthritis is a condition that causes inflammation and stiffness in the joints, leading to pain, swelling, and decreased mobility. It can affect one or more joints, making daily tasks difficult and often worsening over time. Individuals with arthritis must rely on rest, herbal remedies, and lifestyle adjustments to manage their symptoms and maintain their quality of life.

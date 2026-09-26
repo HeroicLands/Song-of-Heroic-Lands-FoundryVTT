@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Kûrbúl Cuirass
-  aliases: []
-description: "Specially treated leather torso armor for those prioritizing agility."
 shortcode: kcui
+name: {full: Kûrbúl Cuirass, aliases: []}
 type: armorgear
-data:
-  icon: breastplate
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Specially treated leather torso armor for those prioritizing agility."
+tags: []
+data: {icon: breastplate, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [hide]
+  craft: {skill: wpnc, secondary: [hide]}
   kbcat: kurbul
   armorType: Cuirass
   detailMaterial: Kûrbúl
@@ -22,16 +15,8 @@ sohl:
     valueBase: 120
     durabilityBase: 13
     material: Kûrbúl
-    locations:
-      flexible: []
-      rigid:
-        - thrxloc
-        - abdmnloc
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [], rigid: [thrxloc, abdmnloc]}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 5
     perceptionPenaltyBase: 0
 ---

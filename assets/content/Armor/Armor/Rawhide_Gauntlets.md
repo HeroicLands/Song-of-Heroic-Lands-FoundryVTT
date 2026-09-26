@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Rawhide Gauntlets
-  aliases: []
-description: "Thick hide hand-guards; resists abrasion and impact."
 shortcode: rhgntl
+name: {full: Rawhide Gauntlets, aliases: []}
 type: armorgear
-data:
-  icon: gauntlet
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Thick hide hand-guards; resists abrasion and impact."
+tags: []
+data: {icon: gauntlet, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: leather
   armorType: Gauntlets
   detailMaterial: Rawhide
@@ -22,16 +15,8 @@ sohl:
     valueBase: 20
     durabilityBase: 11
     material: Leather
-    locations:
-      flexible:
-        - lhandloc
-        - rhandloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [lhandloc, rhandloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

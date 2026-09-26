@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Maul
-  aliases: []
-description: "Two-handed wooden hammer for siege breach; assault engineer's door-crasher."
 shortcode: maul
+name: {full: Maul, aliases: []}
 type: weapongear
-data:
-  icon: clawhammer
-  templatePriority: 0
-  packFolder: weapons
+description: "Two-handed wooden hammer for siege breach; assault engineer's door-crasher."
+tags: []
+data: {icon: clawhammer, templatePriority: 0, packFolder: weapons}
 sohl:
-  craft:
-    skill: wood
-    secondary: []
+  craft: {skill: wood, secondary: []}
   kbcat: club
   weaponType: Club
   system:
@@ -27,14 +20,8 @@ sohl:
         name: Crush
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 8
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 6
-          aspect: blunt
+        attack: {spread: 8, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 6, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -63,22 +50,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 5
-        defense:
-          blockMod: -5
-          counterstrikeMod: -5
+        defense: {blockMod: -5, counterstrikeMod: -5}
       - shortcode: shaft
         type: melee
         name: Shaft
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 8
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 1
-          aspect: blunt
+        attack: {spread: 8, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 1, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -107,9 +86,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 5
-        defense:
-          blockMod: -5
-          counterstrikeMod: -5
+        defense: {blockMod: -5, counterstrikeMod: -5}
 ---
 
 A two-handed wooden hammer with a broad, flat head and long haft, the maul is built for siege work and breach-fighting. In a warrior's grip, it crashes through door-timbers, shield-walls, and armored shoulders alike. Heavy enough to require both hands and the full weight of a man's charge, it is the choice of the assault engineer and the hill-fort berserker.

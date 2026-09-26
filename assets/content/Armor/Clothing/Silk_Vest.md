@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Silk Vest
-  aliases: []
-description: "Elegant silk vest; luxurious, refined garment for formal occasions."
 shortcode: slkvest
+name: {full: Silk Vest, aliases: []}
 type: armorgear
-data:
-  icon: leathervest
-  templatePriority: 0
-  packFolder: clothing
+description: "Elegant silk vest; luxurious, refined garment for formal occasions."
+tags: []
+data: {icon: leathervest, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Vest
   detailMaterial: Silk
@@ -22,16 +15,8 @@ sohl:
     valueBase: 220
     durabilityBase: 7
     material: Cloth
-    locations:
-      flexible:
-        - thrxloc
-        - abdmnloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [thrxloc, abdmnloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

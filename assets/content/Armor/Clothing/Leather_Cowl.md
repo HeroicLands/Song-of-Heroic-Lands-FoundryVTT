@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Leather Cowl
-  aliases: []
-description: "Lightweight leather head and shoulder covering offering rugged simplicity."
 shortcode: ltcowl
+name: {full: Leather Cowl, aliases: []}
 type: armorgear
-data:
-  icon: hood
-  templatePriority: 0
-  packFolder: clothing
+description: "Lightweight leather head and shoulder covering offering rugged simplicity."
+tags: []
+data: {icon: hood, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: leather
   armorType: Cowl
   detailMaterial: Leather
@@ -22,16 +15,8 @@ sohl:
     valueBase: 50
     durabilityBase: 9
     material: Leather
-    locations:
-      flexible:
-        - skullloc
-        - neckloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [skullloc, neckloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

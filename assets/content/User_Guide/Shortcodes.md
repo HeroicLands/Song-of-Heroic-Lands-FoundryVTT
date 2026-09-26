@@ -1,11 +1,9 @@
 ---
+shortcode: shortcodesug
+name: {full: "Shortcodes"}
 type: doc
 subType: userguide
-name:
-  full: "Shortcodes"
-shortcode: shortcodesug
-data:
-  packFolder: userguide
+data: {packFolder: userguide}
 ---
 
 Every Actor and every Item in SoHL carries a **shortcode** — a short, plain-text label such as `bsw` for a broadsword or `basic-folk` for the starter character. It sits right under the name on the sheet, and it usually fills itself in, so it is easy to overlook. But the shortcode is how the system knows _what a thing is_, and a little understanding of it goes a long way — especially once you start importing from the compendiums.

@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Beaver Trousers
-  aliases: []
-description: "Beaver fur leg-wear for hard winters."
 shortcode: bvtrsr
+name: {full: Beaver Trousers, aliases: []}
 type: armorgear
-data:
-  icon: trousers
-  templatePriority: 0
-  packFolder: clothing
+description: "Beaver fur leg-wear for hard winters."
+tags: []
+data: {icon: trousers, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: leather
   armorType: Trousers
   detailMaterial: Beaver
@@ -23,20 +16,9 @@ sohl:
     durabilityBase: 9
     material: Leather
     locations:
-      flexible:
-        - plvisloc
-        - lthghloc
-        - rthghloc
-        - lkneeloc
-        - rkneeloc
-        - lcalfloc
-        - rcalfloc
+      flexible: [plvisloc, lthghloc, rthghloc, lkneeloc, rkneeloc, lcalfloc, rcalfloc]
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

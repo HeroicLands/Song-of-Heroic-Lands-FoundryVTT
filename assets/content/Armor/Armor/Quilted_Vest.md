@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Quilted Vest
-  aliases: []
-description: "Sleeveless padded vest; core warmth without arm-weight."
 shortcode: qvest
+name: {full: Quilted Vest, aliases: []}
 type: armorgear
-data:
-  icon: leathervest
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Sleeveless padded vest; core warmth without arm-weight."
+tags: []
+data: {icon: leathervest, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: quilted
   armorType: Vest
   detailMaterial: Quilted
@@ -22,16 +15,8 @@ sohl:
     valueBase: 100
     durabilityBase: 11
     material: Quilted
-    locations:
-      flexible:
-        - thrxloc
-        - abdmnloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [thrxloc, abdmnloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

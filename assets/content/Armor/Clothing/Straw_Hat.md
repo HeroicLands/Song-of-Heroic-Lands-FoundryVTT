@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Straw Hat
-  aliases: []
-description: "Lightweight breathable straw hat; excellent sun protection for laborers."
 shortcode: sthat
+name: {full: Straw Hat, aliases: []}
 type: armorgear
-data:
-  icon: pointyhat
-  templatePriority: 0
-  packFolder: clothing
+description: "Lightweight breathable straw hat; excellent sun protection for laborers."
+tags: []
+data: {icon: pointyhat, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Hat
   detailMaterial: Straw
@@ -22,15 +15,8 @@ sohl:
     valueBase: 1
     durabilityBase: 5
     material: Cloth
-    locations:
-      flexible:
-        - skullloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [skullloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Focused
-  aliases: []
 shortcode: focused
+name: {full: Focused, aliases: []}
 type: trauma
-data:
-  icon: battlegear
-  templatePriority: 0
-  packFolder: quirks
 subType: psycond
-sohl:
-  kbcat: psybehavior
-  system:
-    category: quirk
+tags: []
+data: {icon: battlegear, templatePriority: 0, packFolder: quirks}
+sohl: {kbcat: psybehavior, system: {category: quirk}}
 ---
 
 Focused refers to an individual's ability to concentrate deeply on tasks, thoughts, or goals. A focused person is often determined, persistent, and able to block out distractions in order to achieve their objectives. While focus is a valuable trait that allows individuals to be productive and goal-oriented, when it intensifies, it can lead to tunnel vision or obsession, causing the person to neglect other aspects of their life or relationships.

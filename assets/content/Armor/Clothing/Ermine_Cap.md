@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Ermine Cap
-  aliases: []
-description: "Soft white ermine fur cap signifying nobility and great wealth."
 shortcode: ecap
+name: {full: Ermine Cap, aliases: []}
 type: armorgear
-data:
-  icon: billedcap
-  templatePriority: 0
-  packFolder: clothing
+description: "Soft white ermine fur cap signifying nobility and great wealth."
+tags: []
+data: {icon: billedcap, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: leather
   armorType: Cap
   detailMaterial: Ermine
@@ -22,15 +15,8 @@ sohl:
     valueBase: 100
     durabilityBase: 7
     material: Leather
-    locations:
-      flexible:
-        - skullloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [skullloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

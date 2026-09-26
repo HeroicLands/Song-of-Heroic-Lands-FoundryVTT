@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Kûrbúl Coudes
-  aliases: []
-description: "Treated leather elbow protection with intricate patterns for function and flair."
 shortcode: kcou
+name: {full: Kûrbúl Coudes, aliases: []}
 type: armorgear
-data:
-  icon: elbowpad
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Treated leather elbow protection with intricate patterns for function and flair."
+tags: []
+data: {icon: elbowpad, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [hide]
+  craft: {skill: wpnc, secondary: [hide]}
   kbcat: kurbul
   armorType: Coudes
   detailMaterial: Kûrbúl
@@ -22,16 +15,8 @@ sohl:
     valueBase: 10
     durabilityBase: 13
     material: Kûrbúl
-    locations:
-      flexible: []
-      rigid:
-        - lelbloc
-        - relbloc
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [], rigid: [lelbloc, relbloc]}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     encumbranceGroup: arm
     perceptionPenaltyBase: 0

@@ -1,12 +1,9 @@
 ---
+shortcode: mstrylvl
+name: {full: Mastery Level, aliases: []}
 type: doc
 subType: rules
-name:
-  full: Mastery Level
-  aliases: []
-shortcode: mstrylvl
-data:
-  packFolder: resolution
+data: {packFolder: resolution}
 ---
 
 # Mastery Level {#mastery-level}

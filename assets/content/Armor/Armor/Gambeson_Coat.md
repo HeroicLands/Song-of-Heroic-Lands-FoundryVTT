@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Gambeson Coat
-  aliases: []
-description: "Padded coat worn under armor or standalone, offering cushioning protection."
 shortcode: gcoat
+name: {full: Gambeson Coat, aliases: []}
 type: armorgear
-data:
-  icon: shirt
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Padded coat worn under armor or standalone, offering cushioning protection."
+tags: []
+data: {icon: shirt, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: gambeson
   armorType: Coat
   detailMaterial: Gambeson
@@ -35,15 +28,8 @@ sohl:
         - rfraloc
         - lthghloc
         - rthghloc
-      rigid:
-        - thrxloc
-        - abdmnloc
-        - plvisloc
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+      rigid: [thrxloc, abdmnloc, plvisloc]
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 10
     perceptionPenaltyBase: 0
 ---

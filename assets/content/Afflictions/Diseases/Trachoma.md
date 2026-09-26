@@ -1,23 +1,14 @@
 ---
-tags: []
-name:
-  full: Trachoma
-  aliases: []
-description: "Chlamydia eye infection; scarring eyelids turn inward, scratching cornea."
 shortcode: trachoma
+name: {full: Trachoma, aliases: []}
 type: affliction
-data:
-  icon: virus
-  templatePriority: 0
-  packFolder: diseases
 subType: disease
+description: "Chlamydia eye infection; scarring eyelids turn inward, scratching cornea."
+tags: []
+data: {icon: virus, templatePriority: 0, packFolder: diseases}
 sohl:
   kbcat: diseases
-  system:
-    levelBase: 1
-    healingRateBase: 3
-    contagionIndexBase: 3
-    transmission: contact
+  system: {levelBase: 1, healingRateBase: 3, contagionIndexBase: 3, transmission: contact}
 ---
 
 Trachoma is a bacterial infection of the eye caused by _Chlamydia trachomatis_. It begins with symptoms like mild itching and irritation of the eyes and eyelids, followed by blurred vision and eye pain as the disease progresses. Repeated infections cause scarring of the inner eyelid, leading to trichiasis (inward turning of eyelashes) that scratch the cornea, resulting in blindness if untreated. The condition is closely linked to poor sanitation and hygiene.

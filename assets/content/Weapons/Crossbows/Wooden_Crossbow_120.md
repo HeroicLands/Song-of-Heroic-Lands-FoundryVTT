@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Wooden Crossbow 120
-  aliases: []
-description: "Town-watch crossbow; balanced draw for long patrols and garrison duty."
 shortcode: wcxbw120
+name: {full: Wooden Crossbow 120, aliases: []}
 type: weapongear
-data:
-  icon: crossbow
-  templatePriority: 0
-  packFolder: weapons
+description: "Town-watch crossbow; balanced draw for long patrols and garrison duty."
+tags: []
+data: {icon: crossbow, templatePriority: 0, packFolder: weapons}
 sohl:
-  craft:
-    skill: fltch
-    secondary: [wood, timb]
+  craft: {skill: fltch, secondary: [wood, timb]}
   kbcat: crossbow
   weaponType: Crossbow
   system:
@@ -27,14 +20,8 @@ sohl:
         name: Ranged
         assocSkillCode: archery
         minParts: 2
-        attack:
-          spread: 0
-          modifier: 0
-        impactBase:
-          numDice: 0
-          die: null
-          modifier: 2
-          aspect: piercing
+        attack: {spread: 0, modifier: 0}
+        impactBase: {numDice: 0, die: null, modifier: 2, aspect: piercing}
         traits:
           meleeMod: 0
           blockSLMod: 0

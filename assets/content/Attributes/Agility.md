@@ -1,24 +1,14 @@
 ---
-tags: []
-name:
-  full: Agility
-  aliases: []
-description: "Quickness, balance, and fluidity of whole-body movement."
 shortcode: agl
+name: {full: Agility, aliases: []}
 type: attribute
-data:
-  icon: cartwheel
-  templatePriority: 0
-  packFolder: attributes
+description: "Quickness, balance, and fluidity of whole-body movement."
+tags: []
+data: {icon: cartwheel, templatePriority: 0, packFolder: attributes}
 sohl:
   system:
     scoreBase: 0
-    valueDesc:
-      - Blundering:4
-      - Clumsy:8
-      - Average:12
-      - Nimble:16
-      - Graceful:999
+    valueDesc: [Blundering:4, Clumsy:8, Average:12, Nimble:16, Graceful:999]
     initDiceFormula: 3d6
 ---
 

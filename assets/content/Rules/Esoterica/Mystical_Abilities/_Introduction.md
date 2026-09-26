@@ -1,10 +1,8 @@
 ---
+shortcode: mystabilintro
+name: {full: Mystical Abilities Introduction, aliases: []}
 type: doc
 subType: rules
-name:
-  full: Mystical Abilities Introduction
-  aliases: []
-shortcode: mystabilintro
 ---
 
 Supernatural powers are expressed in _Song of Heroic Lands_ as a **Mystical Ability**.

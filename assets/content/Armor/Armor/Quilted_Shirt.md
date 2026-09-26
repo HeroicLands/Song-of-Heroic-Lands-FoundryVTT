@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Quilted Shirt
-  aliases: []
-description: "Stitched-layer shirt; winter-weight padding for torso."
 shortcode: qsht
+name: {full: Quilted Shirt, aliases: []}
 type: armorgear
-data:
-  icon: shirt
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Stitched-layer shirt; winter-weight padding for torso."
+tags: []
+data: {icon: shirt, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: quilted
   armorType: Shirt
   detailMaterial: Quilted
@@ -22,20 +15,8 @@ sohl:
     valueBase: 135
     durabilityBase: 11
     material: Quilted
-    locations:
-      flexible:
-        - lshldloc
-        - rshldloc
-        - lupaloc
-        - rupaloc
-        - thrxloc
-        - abdmnloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [lshldloc, rshldloc, lupaloc, rupaloc, thrxloc, abdmnloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

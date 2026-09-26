@@ -1,12 +1,9 @@
 ---
+shortcode: coma
+name: {full: Coma, aliases: []}
 type: doc
 subType: rules
-name:
-  full: Coma
-  aliases: []
-shortcode: coma
-data:
-  packFolder: body
+data: {packFolder: body}
 ---
 
 A **coma** is a state of deep unconsciousness in which the victim is near death — unaware and wholly unable to act, communicate, or care for themselves. Unlike the [[doc-shock#shock-state-index|shock states]], which are read off a running index and can improve or worsen from one turn to the next, a coma is a condition in its own right: the victim is out of the fight, out of the story's reach, and stays that way for as long as it lasts.

@@ -1,15 +1,11 @@
 ---
+shortcode: authoringworkflow
+name: {full: The Authoring Workflow, aliases: []}
 type: doc
 subType: howto
-name:
-  full: The Authoring Workflow
-  aliases: []
-shortcode: authoringworkflow
 description: "Where content lives, the frontmatter every note carries whatever its type, and how a note becomes a compendium document."
-data:
-  pack: none
-sohl:
-  kbcat: devdocs
+data: {pack: none}
+sohl: {kbcat: devdocs}
 ---
 
 # The Authoring Workflow

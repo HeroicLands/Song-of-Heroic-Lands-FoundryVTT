@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Suspicious
-  aliases: []
 shortcode: sspcs
+name: {full: Suspicious, aliases: []}
 type: trauma
-data:
-  icon: battlegear
-  templatePriority: 0
-  packFolder: quirks
 subType: psycond
-sohl:
-  kbcat: psybehavior
-  system:
-    category: quirk
+tags: []
+data: {icon: battlegear, templatePriority: 0, packFolder: quirks}
+sohl: {kbcat: psybehavior, system: {category: quirk}}
 ---
 
 Suspicion is a wariness toward others' intentions and a tendency to doubt their sincerity or honesty. A suspicious person questions motives, watches for deception, and approaches new relationships and situations with caution. In a world where betrayal can cost one's livelihood or life, some measure of wariness is wisdom; yet when suspicion becomes entrenched, it poisons all connection and peace.

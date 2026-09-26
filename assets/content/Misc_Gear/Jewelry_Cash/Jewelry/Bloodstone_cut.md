@@ -1,26 +1,14 @@
 ---
-tags:
-  - jewelry_cash
-name:
-  full: "Bloodstone, cut"
-  aliases: []
-description: "Deep green stone streaked with red; favored for signet rings of soldiers."
 shortcode: bloodstone
+name: {full: "Bloodstone, cut", aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
-  packFolder: jewelry
+description: "Deep green stone streaked with red; favored for signet rings of soldiers."
+tags: [jewelry_cash]
+data: {icon: swapbag, templatePriority: 0, packFolder: jewelry}
 sohl:
-  craft:
-    skill: jewl
-    secondary: []
+  craft: {skill: jewl, secondary: []}
   kbcat: jewelry
-  system:
-    weightBase: 0.0004
-    valueBase: 15
-    qualityBase: 0
-    durabilityBase: 2
+  system: {weightBase: 0.0004, valueBase: 15, qualityBase: 0, durabilityBase: 2}
 ---
 
 A deep green stone flecked or streaked with red spots, cut into a faceted gem by the lapidary's craft. The red markings resemble blood, lending the stone its name and making it favored for seals and signet rings, particularly among military orders and physicians. These stones hold their polish well and are sought by those who wish their rings to carry symbolic weight.

@@ -1,16 +1,11 @@
 ---
-tags: []
-name:
-  full: Mercantilism
-  aliases: []
-description: "Trade, commerce, appraisal, negotiation, and understanding market principles."
 shortcode: mrcn
+name: {full: Mercantilism, aliases: []}
 type: skill
-data:
-  icon: coinsbdg
-  templatePriority: 0
-  packFolder: lore
 subType: lore
+description: "Trade, commerce, appraisal, negotiation, and understanding market principles."
+tags: []
+data: {icon: coinsbdg, templatePriority: 0, packFolder: lore}
 sohl:
   kbcat: lore
   system:
@@ -19,8 +14,7 @@ sohl:
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 0
-    impairedByRoles:
-      - vital
+    impairedByRoles: [vital]
 ---
 
 Mercantilism is the ability to judge trade goods — quality, provenance, what they will actually fetch — together with the working knowledge of routes, markets and the people who control both. Real merchants specialise, in cloth or metalware or pottery, but at introductory levels the skill applies broadly across whatever a character's own culture trades in. Foreign markets carry the same distance penalties as foreign folklore, and a merchant a long way from home is regularly relieved of money by people who know the local price.

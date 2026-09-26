@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Pickaxe
-  aliases: []
-description: "Mining tool with point and adze; siege and armor-cracking weapon."
 shortcode: pkaxe
+name: {full: Pickaxe, aliases: []}
 type: weapongear
-data:
-  icon: mining
-  templatePriority: 0
-  packFolder: weapons
+description: "Mining tool with point and adze; siege and armor-cracking weapon."
+tags: []
+data: {icon: mining, templatePriority: 0, packFolder: weapons}
 sohl:
-  craft:
-    skill: mtlc
-    secondary: [wood]
+  craft: {skill: mtlc, secondary: [wood]}
   kbcat: axe
   weaponType: Axe
   system:
@@ -27,14 +20,8 @@ sohl:
         name: Impale
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 8
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 8
-          modifier: 5
-          aspect: piercing
+        attack: {spread: 8, modifier: 0}
+        impactBase: {numDice: 1, die: 8, modifier: 5, aspect: piercing}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -63,22 +50,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 5
-        defense:
-          blockMod: -15
-          counterstrikeMod: -15
+        defense: {blockMod: -15, counterstrikeMod: -15}
       - shortcode: pommel
         type: melee
         name: Pommel
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 4
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 0
-          aspect: blunt
+        attack: {spread: 4, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 0, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -107,9 +86,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 5
-        defense:
-          blockMod: -15
-          counterstrikeMod: -15
+        defense: {blockMod: -15, counterstrikeMod: -15}
 ---
 
 A mining tool with two opposed heads—a sharp point and a flat adze—hafted to five feet, pressed into war-service to crack armor and stone alike. The point punches through mail and plate; the adze chops or levers. Slow and unwieldy for a duelist, but deadly in the press of a siege or tunnel-breach where armor clusters thick.

@@ -1,26 +1,14 @@
 ---
-tags:
-  - tack
-name:
-  full: "Axle, wagon"
-  aliases: []
-description: "Iron-shod wagon axle; the part that fails first and strands the load."
 shortcode: axlewagon
+name: {full: "Axle, wagon", aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
-  packFolder: tack
+description: "Iron-shod wagon axle; the part that fails first and strands the load."
+tags: [tack]
+data: {icon: swapbag, templatePriority: 0, packFolder: tack}
 sohl:
-  craft:
-    skill: mtlc
-    secondary: []
+  craft: {skill: mtlc, secondary: []}
   kbcat: tack
-  system:
-    weightBase: 15
-    valueBase: 36
-    qualityBase: 0
-    durabilityBase: 8
+  system: {weightBase: 15, valueBase: 36, qualityBase: 0, durabilityBase: 8}
 ---
 
 A squared beam of seasoned oak shod at each end with iron sleeves and a retaining pin, or in better work an iron axle throughout. It is the component of a wagon most likely to fail and the hardest to bodge on a road, so a prudent carter carries a spare or at least the iron for one. Smiths in market towns keep them made up against the day someone limps in on three wheels.

@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Scale Sleeved Byrnie
-  aliases: []
-description: "Scale-armored torso and arms; sleeves add shoulder and arm coverage."
 shortcode: sslbyrn
+name: {full: Scale Sleeved Byrnie, aliases: []}
 type: armorgear
-data:
-  icon: scalemail
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Scale-armored torso and arms; sleeves add shoulder and arm coverage."
+tags: []
+data: {icon: scalemail, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [hide, mtlc]
+  craft: {skill: wpnc, secondary: [hide, mtlc]}
   kbcat: scale
   armorType: Sleeved Byrnie
   detailMaterial: Scale
@@ -35,11 +28,7 @@ sohl:
         - rfraloc
         - thrxloc
         - abdmnloc
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 15
     perceptionPenaltyBase: 0
 ---

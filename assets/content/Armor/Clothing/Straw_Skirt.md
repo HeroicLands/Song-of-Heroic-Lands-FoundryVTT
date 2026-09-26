@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Straw Skirt
-  aliases: []
-description: "Lightweight breathable straw skirt; airy garment for hot climates."
 shortcode: stskirt
+name: {full: Straw Skirt, aliases: []}
 type: armorgear
-data:
-  icon: skirt
-  templatePriority: 0
-  packFolder: clothing
+description: "Lightweight breathable straw skirt; airy garment for hot climates."
+tags: []
+data: {icon: skirt, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Skirt
   detailMaterial: Straw
@@ -23,20 +16,9 @@ sohl:
     durabilityBase: 5
     material: Cloth
     locations:
-      flexible:
-        - plvisloc
-        - lthghloc
-        - rthghloc
-        - lkneeloc
-        - rkneeloc
-        - lcalfloc
-        - rcalfloc
+      flexible: [plvisloc, lthghloc, rthghloc, lkneeloc, rkneeloc, lcalfloc, rcalfloc]
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

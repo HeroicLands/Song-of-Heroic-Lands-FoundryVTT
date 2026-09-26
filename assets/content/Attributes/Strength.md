@@ -1,24 +1,14 @@
 ---
-tags: []
-name:
-  full: Strength
-  aliases: []
-description: "The power of muscle and bone brought to bear by physical exertion."
 shortcode: str
+name: {full: Strength, aliases: []}
 type: attribute
-data:
-  icon: biceps
-  templatePriority: 0
-  packFolder: attributes
+description: "The power of muscle and bone brought to bear by physical exertion."
+tags: []
+data: {icon: biceps, templatePriority: 0, packFolder: attributes}
 sohl:
   system:
     scoreBase: 0
-    valueDesc:
-      - Feeble:4
-      - Weak:8
-      - Average:12
-      - Forceful:16
-      - Mighty:999
+    valueDesc: [Feeble:4, Weak:8, Average:12, Forceful:16, Mighty:999]
     initDiceFormula: 3d6
 ---
 

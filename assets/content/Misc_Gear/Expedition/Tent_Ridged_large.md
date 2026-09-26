@@ -1,26 +1,14 @@
 ---
-tags:
-  - expedition
-name:
-  full: "Tent, Ridged, large"
-  aliases: []
-description: "Ridge-pole tent for two or three; pitched roof sheds water well."
 shortcode: tentridged
+name: {full: "Tent, Ridged, large", aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
-  packFolder: expedition
+description: "Ridge-pole tent for two or three; pitched roof sheds water well."
+tags: [expedition]
+data: {icon: swapbag, templatePriority: 0, packFolder: expedition}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: expedition
-  system:
-    weightBase: 31
-    valueBase: 144
-    qualityBase: 0
-    durabilityBase: 6
+  system: {weightBase: 31, valueBase: 144, qualityBase: 0, durabilityBase: 6}
 ---
 
 A long ridge-pole tent with a pitched roof supported by two upright posts, the ends closed and the sides staked. Oiled linen walls shed water; a small door at one end closes with cord. Merchants and soldiers favor the larger ridged tents for parties of two or three; the streamlined design balances protection with pack-weight.

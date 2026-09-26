@@ -1,25 +1,13 @@
 ---
-tags: []
-name:
-  full: "Book case, travelling"
-  aliases: []
-description: "Waxed leather shoulder case; shields travelling book and scribe's kit from weather."
 shortcode: bkcasetrv
+name: {full: "Book case, travelling", aliases: []}
 type: containergear
-data:
-  icon: swapbag
-  templatePriority: 0
-  packFolder: containers
+description: "Waxed leather shoulder case; shields travelling book and scribe's kit from weather."
+tags: []
+data: {icon: swapbag, templatePriority: 0, packFolder: containers}
 sohl:
-  craft:
-    skill: wood
-    secondary: []
-  system:
-    weightBase: 2.5
-    valueBase: 180
-    qualityBase: 0
-    durabilityBase: 8
-    maxCapacityBase: 8
+  craft: {skill: wood, secondary: []}
+  system: {weightBase: 2.5, valueBase: 180, qualityBase: 0, durabilityBase: 8, maxCapacityBase: 8}
 ---
 
 A rigid satchel of heavy waxed leather, shaped and stitched over a stiffened inner frame to hold a travelling book flat and square. A broad shoulder strap crosses the body, buckled to sit the case at the hip where the wearer's off-hand can steady it. A flap closes over the top, overlapping the front seam and held by a pair of brass buckles or a turnkey latch; beneath it, a smaller gusseted storm-flap folds inward to keep rain from running along the spine.

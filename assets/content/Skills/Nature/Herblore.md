@@ -1,16 +1,11 @@
 ---
-tags: []
-name:
-  full: Herblore
-  aliases: []
-description: "Identifying, gathering, preparing plants for medicinal, culinary, mystical use."
 shortcode: herb
+name: {full: Herblore, aliases: []}
 type: skill
-data:
-  icon: herbsbundle
-  templatePriority: 0
-  packFolder: nature
 subType: nature
+description: "Identifying, gathering, preparing plants for medicinal, culinary, mystical use."
+tags: []
+data: {icon: herbsbundle, templatePriority: 0, packFolder: nature}
 sohl:
   kbcat: nature
   system:
@@ -19,10 +14,7 @@ sohl:
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 0
-    impairedByRoles:
-      - core
-      - vital
-      - manipulator
+    impairedByRoles: [core, vital, manipulator]
 ---
 
 Herblore is the knowledge of plants and of how to preserve and prepare them. In settled realms an apothecaries' guild regulates the keeping, compounding and sale of herbs; apothecaries sometimes gather their own, but usually buy wholesale from unguilded foragers — hunters, trappers, cottagers. Outside that arrangement, tribal and rural herbalists do both halves of the work themselves.

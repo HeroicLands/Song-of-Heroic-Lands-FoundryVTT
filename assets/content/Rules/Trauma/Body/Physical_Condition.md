@@ -1,12 +1,9 @@
 ---
+shortcode: physclcn
+name: {full: Physical Condition, aliases: []}
 type: doc
 subType: rules
-name:
-  full: Physical Condition
-  aliases: []
-shortcode: physclcn
-data:
-  packFolder: body
+data: {packFolder: body}
 ---
 
 A **physical condition** is a [[doc-traumaintro|Trauma]] of the body that is not a wound — a lasting state the character is simply _in_. A limp, poor eyesight, albinism, a hand bound fast, the condition of a man who has not eaten in a fortnight: none of these is an injury, none of them is running a course toward death or cure, and none of them heals by the day. They are the standing facts of a particular body.

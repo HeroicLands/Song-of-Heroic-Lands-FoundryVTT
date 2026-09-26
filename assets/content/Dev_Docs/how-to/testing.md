@@ -1,14 +1,10 @@
 ---
+shortcode: testing
+name: {full: Testing, aliases: []}
 type: doc
 subType: howto
-name:
-  full: Testing
-  aliases: []
-shortcode: testing
-data:
-  pack: none
-sohl:
-  kbcat: devdocs
+data: {pack: none}
+sohl: {kbcat: devdocs}
 ---
 
 # Testing

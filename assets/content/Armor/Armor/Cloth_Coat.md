@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Cloth Coat
-  aliases: []
-description: "Simple cloth coat providing comfort and warmth for everyday use."
 shortcode: ccoat
+name: {full: Cloth Coat, aliases: []}
 type: armorgear
-data:
-  icon: shirt
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Simple cloth coat providing comfort and warmth for everyday use."
+tags: []
+data: {icon: shirt, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Coat
   detailMaterial: Cloth
@@ -38,11 +31,7 @@ sohl:
         - lthghloc
         - rthghloc
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

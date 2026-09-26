@@ -1,23 +1,14 @@
 ---
-tags: []
-name:
-  full: Mandrake
-  aliases: []
-description: "Tropane alkaloid; hallucinations and confusion; large doses cause respiratory failure."
 shortcode: mandrk
+name: {full: Mandrake, aliases: []}
 type: affliction
-data:
-  icon: poisonbottle
-  templatePriority: 0
-  packFolder: poisonsandtoxins
 subType: poisontoxin
+description: "Tropane alkaloid; hallucinations and confusion; large doses cause respiratory failure."
+tags: []
+data: {icon: poisonbottle, templatePriority: 0, packFolder: poisonsandtoxins}
 sohl:
   kbcat: poisontoxin
-  system:
-    levelBase: 1
-    healingRateBase: 3
-    contagionIndexBase: 3
-    transmission: injested
+  system: {levelBase: 1, healingRateBase: 3, contagionIndexBase: 3, transmission: injested}
 ---
 
 Mandrake, known for its psychoactive and toxic properties, is used both medicinally and for poisoning. It contains tropane alkaloids such as hyoscyamine and scopolamine.

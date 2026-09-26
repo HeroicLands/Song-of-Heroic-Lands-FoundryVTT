@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Sickle
-  aliases: []
-description: "Curved harvest-tool-blade for slash and entangle; peasant levy's accessible reach."
 shortcode: skl
+name: {full: Sickle, aliases: []}
 type: weapongear
-data:
-  icon: sickle
-  templatePriority: 0
-  packFolder: weapons
+description: "Curved harvest-tool-blade for slash and entangle; peasant levy's accessible reach."
+tags: []
+data: {icon: sickle, templatePriority: 0, packFolder: weapons}
 sohl:
-  craft:
-    skill: mtlc
-    secondary: [wood]
+  craft: {skill: mtlc, secondary: [wood]}
   kbcat: axe
   weaponType: Axe
   system:
@@ -27,14 +20,8 @@ sohl:
         name: Cut
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 6
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 10
-          modifier: 2
-          aspect: edged
+        attack: {spread: 6, modifier: 0}
+        impactBase: {numDice: 1, die: 10, modifier: 2, aspect: edged}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -63,22 +50,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 3
-        defense:
-          blockMod: -5
-          counterstrikeMod: -5
+        defense: {blockMod: -5, counterstrikeMod: -5}
       - shortcode: pommel
         type: melee
         name: Pommel
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 4
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 0
-          aspect: blunt
+        attack: {spread: 4, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 0, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -107,9 +86,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 3
-        defense:
-          blockMod: -5
-          counterstrikeMod: -5
+        defense: {blockMod: -5, counterstrikeMod: -5}
 ---
 
 A curved iron blade hafted short on a handle, the sickle is first a harvest tool, second a weapon. Farmers and peasant-levies swing it to cut grain and flesh alike, effective against the lightly armored or unarmoured. Its curve favors slashing over thrusting; it catches on shield rims and garrottes at close work. Common among irregular troops lacking coin for proper arms.

@@ -1,16 +1,11 @@
 ---
-tags: []
-name:
-  full: Cookery
-  aliases: []
-description: "Preparing food; transforming ingredients into nourishing, delightful meals."
 shortcode: cook
+name: {full: Cookery, aliases: []}
 type: skill
-data:
-  icon: cookingpot
-  templatePriority: 0
-  packFolder: lore
 subType: lore
+description: "Preparing food; transforming ingredients into nourishing, delightful meals."
+tags: []
+data: {icon: cookingpot, templatePriority: 0, packFolder: lore}
 sohl:
   kbcat: lore
   system:
@@ -19,10 +14,7 @@ sohl:
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 2
-    impairedByRoles:
-      - core
-      - vital
-      - manipulator
+    impairedByRoles: [core, vital, manipulator]
 ---
 
 Cookery is turning ingredients into meals — and, at any table where the meal is also an occasion, into leverage. Preparing a substantial meal is a Cookery Success Value test taking **one hour per five people served**. The result speaks mostly to how the food looked, smelled and tasted rather than whether it was nourishing, and it colours every attempt at persuasion made across that table for as long as the meal lasts.

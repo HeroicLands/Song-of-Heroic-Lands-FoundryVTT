@@ -1,26 +1,14 @@
 ---
-tags:
-  - food
-name:
-  full: "Wool, Raw"
-  aliases: []
-description: "Freshly sheared fleece, carded clean, traded by weight for spinning."
 shortcode: woolraw
+name: {full: "Wool, Raw", aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
-  packFolder: food
+description: "Freshly sheared fleece, carded clean, traded by weight for spinning."
+tags: [food]
+data: {icon: swapbag, templatePriority: 0, packFolder: food}
 sohl:
-  craft:
-    skill: anmcft
-    secondary: []
+  craft: {skill: anmcft, secondary: []}
   kbcat: food
-  system:
-    weightBase: 1
-    valueBase: 4
-    qualityBase: 0
-    durabilityBase: 0
+  system: {weightBase: 1, valueBase: 4, qualityBase: 0, durabilityBase: 0}
 ---
 
 Raw wool is freshly sheared fleece, carded clean of seeds and dirt but not yet spun. Soft and warm, it is traded by weight between shepherds and clothiers. The wool is washed in hot soapy water, dried, then carded to align the fibers. Spinners twist it into thread; weavers then turn thread into cloth. The best wool comes from fine-breed sheep and commands premium prices.

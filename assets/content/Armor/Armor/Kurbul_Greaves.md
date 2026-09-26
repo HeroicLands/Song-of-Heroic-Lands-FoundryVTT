@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Kûrbúl Greaves
-  aliases: []
-description: "Treated leather leg armor combining protection and flexibility with decorative patterns."
 shortcode: kgrvs
+name: {full: Kûrbúl Greaves, aliases: []}
 type: armorgear
-data:
-  icon: greaves
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Treated leather leg armor combining protection and flexibility with decorative patterns."
+tags: []
+data: {icon: greaves, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [hide]
+  craft: {skill: wpnc, secondary: [hide]}
   kbcat: kurbul
   armorType: Greaves
   detailMaterial: Kûrbúl
@@ -22,16 +15,8 @@ sohl:
     valueBase: 60
     durabilityBase: 13
     material: Kûrbúl
-    locations:
-      flexible: []
-      rigid:
-        - lcalfloc
-        - rcalfloc
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [], rigid: [lcalfloc, rcalfloc]}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 5
     perceptionPenaltyBase: 0
 ---

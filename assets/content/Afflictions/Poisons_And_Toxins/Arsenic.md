@@ -1,23 +1,14 @@
 ---
-tags: []
-name:
-  full: Arsenic
-  aliases: []
-description: "Metalloid poison; causes gastrointestinal bleeding and organ failure."
 shortcode: arsenic
+name: {full: Arsenic, aliases: []}
 type: affliction
-data:
-  icon: poisonbottle
-  templatePriority: 0
-  packFolder: poisonsandtoxins
 subType: poisontoxin
+description: "Metalloid poison; causes gastrointestinal bleeding and organ failure."
+tags: []
+data: {icon: poisonbottle, templatePriority: 0, packFolder: poisonsandtoxins}
 sohl:
   kbcat: poisontoxin
-  system:
-    levelBase: 1
-    healingRateBase: 3
-    contagionIndexBase: 3
-    transmission: injested
+  system: {levelBase: 1, healingRateBase: 3, contagionIndexBase: 3, transmission: injested}
 ---
 
 Arsenic, often referred to as the "king of poisons," is a naturally occurring element that is commonly used for poisoning. It is favored for its potent and insidious effects, often administered secretly in food or drink.

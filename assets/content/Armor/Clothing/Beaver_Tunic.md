@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Beaver Tunic
-  aliases: []
-description: "Beaver fur tunic blending function and status for cold weather."
 shortcode: bvtunic
+name: {full: Beaver Tunic, aliases: []}
 type: armorgear
-data:
-  icon: shirt
-  templatePriority: 0
-  packFolder: clothing
+description: "Beaver fur tunic blending function and status for cold weather."
+tags: []
+data: {icon: shirt, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: leather
   armorType: Tunic
   detailMaterial: Beaver
@@ -34,11 +27,7 @@ sohl:
         - abdmnloc
         - plvisloc
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

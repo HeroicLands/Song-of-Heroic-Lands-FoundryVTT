@@ -1,9 +1,6 @@
 ---
-name:
-  full: "Resolution"
 shortcode: resolution
+name: {full: "Resolution"}
 type: folder
-data:
-  parent: rules
-  color: "#065860"
+data: {parent: rules, color: "#065860"}
 ---

@@ -1,15 +1,11 @@
 ---
+shortcode: writingchangesets
+name: {full: Writing Changesets, aliases: []}
 type: doc
 subType: howto
-name:
-  full: Writing Changesets
-  aliases: []
-shortcode: writingchangesets
 description: "Record a change for the changelog and release notes."
-data:
-  pack: none
-sohl:
-  kbcat: devdocs
+data: {pack: none}
+sohl: {kbcat: devdocs}
 ---
 
 # Writing Changesets

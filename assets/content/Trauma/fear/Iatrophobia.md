@@ -1,20 +1,11 @@
 ---
-tags: []
-name:
-  full: Iatrophobia
-  aliases: []
 shortcode: iatrophb
+name: {full: Iatrophobia, aliases: []}
 type: trauma
-data:
-  icon: dread
-  templatePriority: 0
-  packFolder: phobias
 subType: fear
-sohl:
-  kbcat: phobias
-  system:
-    category: none
-    levelBase: 0
+tags: []
+data: {icon: dread, templatePriority: 0, packFolder: phobias}
+sohl: {kbcat: phobias, system: {category: none, levelBase: 0}}
 ---
 
 Iatrophobia is an intense, irrational fear of physicians or medical treatment. People with iatrophobia may experience a range of symptoms when they think about, see, or are near physicians or medical facilities.

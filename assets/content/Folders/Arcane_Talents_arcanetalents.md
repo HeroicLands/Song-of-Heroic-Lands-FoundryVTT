@@ -1,9 +1,6 @@
 ---
-name:
-  full: "Arcane Talents"
 shortcode: arcanetalents
+name: {full: "Arcane Talents"}
 type: folder
-data:
-  parent: mysticalabilities
-  color: "#8B0000"
+data: {parent: mysticalabilities, color: "#8B0000"}
 ---

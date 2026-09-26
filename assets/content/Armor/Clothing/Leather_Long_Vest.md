@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Leather Long Vest
-  aliases: []
-description: "Stylish leather outer layer providing minimal protection for everyday wear."
 shortcode: ltlngvst
+name: {full: Leather Long Vest, aliases: []}
 type: armorgear
-data:
-  icon: leatherarmor
-  templatePriority: 0
-  packFolder: clothing
+description: "Stylish leather outer layer providing minimal protection for everyday wear."
+tags: []
+data: {icon: leatherarmor, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: leather
   armorType: Long Vest
   detailMaterial: Leather
@@ -22,19 +15,8 @@ sohl:
     valueBase: 300
     durabilityBase: 9
     material: Leather
-    locations:
-      flexible:
-        - lshldloc
-        - rshldloc
-        - thrxloc
-        - abdmnloc
-        - plvisloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [lshldloc, rshldloc, thrxloc, abdmnloc, plvisloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 5
     perceptionPenaltyBase: 0
 ---

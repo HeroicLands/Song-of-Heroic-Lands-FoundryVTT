@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Mail Habergeon
-  aliases: []
-description: "Mid-length metal ring shirt offering substantial protection against bladed attacks."
 shortcode: mhbgn
+name: {full: Mail Habergeon, aliases: []}
 type: armorgear
-data:
-  icon: chainmail
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Mid-length metal ring shirt offering substantial protection against bladed attacks."
+tags: []
+data: {icon: chainmail, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [mtlc, mnrl]
+  craft: {skill: wpnc, secondary: [mtlc, mnrl]}
   kbcat: mail
   armorType: Habergeon
   detailMaterial: Mail
@@ -24,21 +17,8 @@ sohl:
     material: Mail
     locations:
       flexible: []
-      rigid:
-        - lshldloc
-        - rshldloc
-        - lupaloc
-        - rupaloc
-        - lelbloc
-        - relbloc
-        - thrxloc
-        - abdmnloc
-        - plvisloc
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+      rigid: [lshldloc, rshldloc, lupaloc, rupaloc, lelbloc, relbloc, thrxloc, abdmnloc, plvisloc]
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 10
     perceptionPenaltyBase: 0
 ---

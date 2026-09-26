@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Serge Swaddle
-  aliases: []
-description: "Durable twilled serge swaddle for infants; warm, secure, reliable."
 shortcode: sgswd
+name: {full: Serge Swaddle, aliases: []}
 type: armorgear
-data:
-  icon: trousers
-  templatePriority: 0
-  packFolder: clothing
+description: "Durable twilled serge swaddle for infants; warm, secure, reliable."
+tags: []
+data: {icon: trousers, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Swaddle
   detailMaterial: Serge
@@ -22,18 +15,8 @@ sohl:
     valueBase: 11
     durabilityBase: 7
     material: Cloth
-    locations:
-      flexible:
-        - lcalfloc
-        - rcalfloc
-        - lfootloc
-        - rfootloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [lcalfloc, rcalfloc, lfootloc, rfootloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

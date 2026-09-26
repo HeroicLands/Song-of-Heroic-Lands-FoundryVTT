@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Leather Trousers
-  aliases: []
-description: "Full-length supple leather leg covering for travel and hard wear."
 shortcode: lttrsr
+name: {full: Leather Trousers, aliases: []}
 type: armorgear
-data:
-  icon: trousers
-  templatePriority: 0
-  packFolder: clothing
+description: "Full-length supple leather leg covering for travel and hard wear."
+tags: []
+data: {icon: trousers, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: leather
   armorType: Trousers
   detailMaterial: Leather
@@ -23,20 +16,9 @@ sohl:
     durabilityBase: 9
     material: Leather
     locations:
-      flexible:
-        - plvisloc
-        - lthghloc
-        - rthghloc
-        - lkneeloc
-        - rkneeloc
-        - lcalfloc
-        - rcalfloc
+      flexible: [plvisloc, lthghloc, rthghloc, lkneeloc, rkneeloc, lcalfloc, rcalfloc]
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

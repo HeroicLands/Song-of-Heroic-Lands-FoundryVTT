@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Glaive
-  aliases: []
-description: "Single-edged polearm cleaver; line infantry cavalry-breaker."
 shortcode: glv
+name: {full: Glaive, aliases: []}
 type: weapongear
-data:
-  icon: halberd
-  templatePriority: 0
-  packFolder: weapons
+description: "Single-edged polearm cleaver; line infantry cavalry-breaker."
+tags: []
+data: {icon: halberd, templatePriority: 0, packFolder: weapons}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [mtlc, mnrl]
+  craft: {skill: wpnc, secondary: [mtlc, mnrl]}
   kbcat: polearm
   weaponType: Polearm
   system:
@@ -27,14 +20,8 @@ sohl:
         name: Cut
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 8
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 10
-          modifier: 4
-          aspect: edged
+        attack: {spread: 8, modifier: 0}
+        impactBase: {numDice: 1, die: 10, modifier: 4, aspect: edged}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -63,22 +50,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 7
-        defense:
-          blockMod: 0
-          counterstrikeMod: 0
+        defense: {blockMod: 0, counterstrikeMod: 0}
       - shortcode: impale
         type: melee
         name: Impale
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 8
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 8
-          modifier: 3
-          aspect: piercing
+        attack: {spread: 8, modifier: 0}
+        impactBase: {numDice: 1, die: 8, modifier: 3, aspect: piercing}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -107,22 +86,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 7
-        defense:
-          blockMod: 0
-          counterstrikeMod: 0
+        defense: {blockMod: 0, counterstrikeMod: 0}
       - shortcode: shaft
         type: melee
         name: Shaft
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 8
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 1
-          aspect: blunt
+        attack: {spread: 8, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 1, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -151,22 +122,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 7
-        defense:
-          blockMod: 0
-          counterstrikeMod: 0
+        defense: {blockMod: 0, counterstrikeMod: 0}
       - shortcode: halfswordshaft
         type: melee
         name: Half-Sword Shaft
         assocSkillCode: melee
         minParts: 2
-        attack:
-          spread: 6
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 0
-          aspect: blunt
+        attack: {spread: 6, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 0, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -195,22 +158,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 7
-        defense:
-          blockMod: 0
-          counterstrikeMod: 0
+        defense: {blockMod: 0, counterstrikeMod: 0}
       - shortcode: halfswordimpale
         type: melee
         name: Half-Sword Impale
         assocSkillCode: melee
         minParts: 2
-        attack:
-          spread: 6
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 8
-          modifier: 3
-          aspect: piercing
+        attack: {spread: 6, modifier: 0}
+        impactBase: {numDice: 1, die: 8, modifier: 3, aspect: piercing}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -239,9 +194,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 7
-        defense:
-          blockMod: 0
-          counterstrikeMod: 0
+        defense: {blockMod: 0, counterstrikeMod: 0}
 ---
 
 A single-edged cleaver hafted to a long pole, the glaive marries the reach of a thrusting spear with the slashing power of a sword blade. Warriors favor it for broad, sweeping cuts that keep foes at distance and shear through both mail and shield. Line infantry employ glaives to receive and break cavalry charges.

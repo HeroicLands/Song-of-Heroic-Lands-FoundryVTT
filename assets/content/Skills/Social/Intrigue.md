@@ -1,16 +1,11 @@
 ---
-tags: []
-name:
-  full: Intrigue
-  aliases: []
-description: "Detecting hidden motives, deception; unraveling plots and conspiracies."
 shortcode: intr
+name: {full: Intrigue, aliases: []}
 type: skill
-data:
-  icon: cloakdagger
-  templatePriority: 0
-  packFolder: social
 subType: social
+description: "Detecting hidden motives, deception; unraveling plots and conspiracies."
+tags: []
+data: {icon: cloakdagger, templatePriority: 0, packFolder: social}
 sohl:
   kbcat: social
   system:
@@ -19,8 +14,7 @@ sohl:
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 3
-    impairedByRoles:
-      - vital
+    impairedByRoles: [vital]
 ---
 
 Intrigue is the sense for motive — why a person is saying this, to this listener, now — and the practical knack for conspiracy that follows from it. It rests on emotional and rational reading in equal parts, and it operates at two quite different scales.

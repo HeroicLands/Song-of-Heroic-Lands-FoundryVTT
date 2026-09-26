@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Padded Cuisse
-  aliases: []
-description: "Cushioned thigh protection ideal for wear under heavier armor."
 shortcode: pcuis
+name: {full: Padded Cuisse, aliases: []}
 type: armorgear
-data:
-  icon: trousers
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Cushioned thigh protection ideal for wear under heavier armor."
+tags: []
+data: {icon: trousers, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: padded
   armorType: Cuisse
   detailMaterial: Padded
@@ -22,18 +15,8 @@ sohl:
     valueBase: 35
     durabilityBase: 10
     material: Padded
-    locations:
-      flexible:
-        - lthghloc
-        - rthghloc
-        - lkneeloc
-        - rkneeloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [lthghloc, rthghloc, lkneeloc, rkneeloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

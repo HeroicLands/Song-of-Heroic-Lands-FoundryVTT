@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Plate ¾-Helm
-  aliases: []
-description: "Steel helm covering crown and face; knight-favored with narrow sight-slit."
 shortcode: pl34hlm
+name: {full: Plate ¾-Helm, aliases: []}
 type: armorgear
-data:
-  icon: crestedhelmet
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Steel helm covering crown and face; knight-favored with narrow sight-slit."
+tags: []
+data: {icon: crestedhelmet, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [mtlc, mnrl]
+  craft: {skill: wpnc, secondary: [mtlc, mnrl]}
   kbcat: plate
   armorType: 3/4-Helm
   detailMaterial: Plate
@@ -24,20 +17,8 @@ sohl:
     material: Plate
     locations:
       flexible: []
-      rigid:
-        - skullloc
-        - jawloc
-        - lcheekloc
-        - rcheekloc
-        - learloc
-        - rearloc
-        - mouthloc
-        - noseloc
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+      rigid: [skullloc, jawloc, lcheekloc, rcheekloc, learloc, rearloc, mouthloc, noseloc]
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: -5
 ---

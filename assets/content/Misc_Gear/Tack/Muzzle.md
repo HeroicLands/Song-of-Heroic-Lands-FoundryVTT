@@ -1,26 +1,14 @@
 ---
-tags:
-  - tack
-name:
-  full: Muzzle
-  aliases: []
-description: "Leather or iron cage over snout; prevents biting; kennel and hunt use."
 shortcode: muzzle
+name: {full: Muzzle, aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
-  packFolder: tack
+description: "Leather or iron cage over snout; prevents biting; kennel and hunt use."
+tags: [tack]
+data: {icon: swapbag, templatePriority: 0, packFolder: tack}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: tack
-  system:
-    weightBase: 1.5
-    valueBase: 6
-    qualityBase: 0
-    durabilityBase: 6
+  system: {weightBase: 1.5, valueBase: 6, qualityBase: 0, durabilityBase: 6}
 ---
 
 Leather or iron cage fitted over a dog's or beast's snout and secured with straps around the head, preventing the animal from biting or feeding while under control. A well-fitted muzzle allows the creature to breathe and drink but restricts its jaws; a loose one is useless and an ill-fitting one causes sores. Kennel masters, guards, and hunters managing vicious or straying hounds rely on muzzles to prevent bites and mayhem.

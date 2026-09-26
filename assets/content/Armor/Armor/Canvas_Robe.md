@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Canvas Robe
-  aliases: []
-description: "Full-length canvas robe favouring durability over comfort."
 shortcode: cvrobe
+name: {full: Canvas Robe, aliases: []}
 type: armorgear
-data:
-  icon: robe
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Full-length canvas robe favouring durability over comfort."
+tags: []
+data: {icon: robe, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Robe
   detailMaterial: Canvas
@@ -42,11 +35,7 @@ sohl:
         - lcalfloc
         - rcalfloc
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

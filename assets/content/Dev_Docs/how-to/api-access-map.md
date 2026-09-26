@@ -1,14 +1,10 @@
 ---
+shortcode: apiaccessmap
+name: {full: API Access Map (Macros and Modules), aliases: []}
 type: doc
 subType: howto
-name:
-  full: API Access Map (Macros and Modules)
-  aliases: []
-shortcode: apiaccessmap
-data:
-  pack: none
-sohl:
-  kbcat: devdocs
+data: {pack: none}
+sohl: {kbcat: devdocs}
 ---
 
 # API Access Map (Macros and Modules)

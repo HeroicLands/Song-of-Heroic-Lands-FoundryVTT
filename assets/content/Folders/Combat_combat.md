@@ -1,9 +1,6 @@
 ---
-name:
-  full: "Combat"
 shortcode: combat
+name: {full: "Combat"}
 type: folder
-data:
-  parent: skills
-  color: "#C0392B"
+data: {parent: skills, color: "#C0392B"}
 ---

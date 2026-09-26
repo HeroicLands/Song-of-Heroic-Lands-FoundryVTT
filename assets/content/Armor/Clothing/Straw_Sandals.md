@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Straw Sandals
-  aliases: []
-description: "Light breathable straw sandals; minimal protection, maximum airflow."
 shortcode: stshoes
+name: {full: Straw Sandals, aliases: []}
 type: armorgear
-data:
-  icon: flipflops
-  templatePriority: 0
-  packFolder: clothing
+description: "Light breathable straw sandals; minimal protection, maximum airflow."
+tags: []
+data: {icon: flipflops, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Sandals
   detailMaterial: Straw
@@ -22,16 +15,8 @@ sohl:
     valueBase: 2
     durabilityBase: 5
     material: Cloth
-    locations:
-      flexible:
-        - lfootloc
-        - rfootloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [lfootloc, rfootloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

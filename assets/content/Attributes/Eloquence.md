@@ -1,24 +1,14 @@
 ---
-tags: []
-name:
-  full: Eloquence
-  aliases: []
-description: "The power of chosen words to convince, inspire, teach, or deceive."
 shortcode: elo
+name: {full: Eloquence, aliases: []}
 type: attribute
-data:
-  icon: megaphone
-  templatePriority: 0
-  packFolder: attributes
+description: "The power of chosen words to convince, inspire, teach, or deceive."
+tags: []
+data: {icon: megaphone, templatePriority: 0, packFolder: attributes}
 sohl:
   system:
     scoreBase: 0
-    valueDesc:
-      - Incoherent:4
-      - Muddled:8
-      - Average:12
-      - Articulate:16
-      - Expressive:999
+    valueDesc: [Incoherent:4, Muddled:8, Average:12, Articulate:16, Expressive:999]
     initDiceFormula: 3d6
 ---
 

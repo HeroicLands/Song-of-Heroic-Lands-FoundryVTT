@@ -1,15 +1,11 @@
 ---
+shortcode: assetconventions
+name: {full: Asset Conventions, aliases: []}
 type: doc
 subType: reference
-name:
-  full: Asset Conventions
-  aliases: []
-shortcode: assetconventions
 description: "Where art files live, how `img:` resolves to a shipped path, image and SVG standards, and default item art."
-data:
-  pack: none
-sohl:
-  kbcat: devdocs
+data: {pack: none}
+sohl: {kbcat: devdocs}
 ---
 
 # Asset Conventions

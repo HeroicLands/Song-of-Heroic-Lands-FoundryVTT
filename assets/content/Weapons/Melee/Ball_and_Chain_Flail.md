@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Ball & Chain Flail
-  aliases: []
-description: "Chain-slung metal sphere slides past shields; heavy cavalry's armor-breaker."
 shortcode: bcfl
+name: {full: Ball & Chain Flail, aliases: []}
 type: weapongear
-data:
-  icon: flail
-  templatePriority: 0
-  packFolder: weapons
+description: "Chain-slung metal sphere slides past shields; heavy cavalry's armor-breaker."
+tags: []
+data: {icon: flail, templatePriority: 0, packFolder: weapons}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [mtlc, mnrl]
+  craft: {skill: wpnc, secondary: [mtlc, mnrl]}
   kbcat: flail
   weaponType: Flail
   system:
@@ -27,14 +20,8 @@ sohl:
         name: Crush
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 8
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 5
-          aspect: blunt
+        attack: {spread: 8, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 5, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -63,22 +50,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 5
-        defense:
-          blockMod: -10
-          counterstrikeMod: -10
+        defense: {blockMod: -10, counterstrikeMod: -10}
       - shortcode: pommel
         type: melee
         name: Pommel
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 4
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 0
-          aspect: blunt
+        attack: {spread: 4, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 0, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -107,9 +86,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 5
-        defense:
-          blockMod: -10
-          counterstrikeMod: -10
+        defense: {blockMod: -10, counterstrikeMod: -10}
 ---
 
 A heavy metal sphere riveted to an iron-bound wooden haft by a length of chain, the ball-and-chain flail is a crush weapon of intimidating reach. The chain's flexibility allows the weighted head to swing freely, sliding past shields and curving around defenses. Heavy-cavalry and foot soldiers of urban garrisons favor it for its ability to overcome shields and armor alike.

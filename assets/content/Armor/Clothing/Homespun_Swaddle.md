@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Homespun Swaddle
-  aliases: []
-description: "Simple homemade infant swaddle offering comfort and warmth."
 shortcode: hsswd
+name: {full: Homespun Swaddle, aliases: []}
 type: armorgear
-data:
-  icon: trousers
-  templatePriority: 0
-  packFolder: clothing
+description: "Simple homemade infant swaddle offering comfort and warmth."
+tags: []
+data: {icon: trousers, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Swaddle
   detailMaterial: Homespun
@@ -22,18 +15,8 @@ sohl:
     valueBase: 6
     durabilityBase: 5
     material: Cloth
-    locations:
-      flexible:
-        - lcalfloc
-        - rcalfloc
-        - lfootloc
-        - rfootloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [lcalfloc, rcalfloc, lfootloc, rfootloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

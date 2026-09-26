@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Kûrbúl Breastplate
-  aliases: []
-description: "Treated leather chest armor offering agility without sacrificing defense."
 shortcode: kbrst
+name: {full: Kûrbúl Breastplate, aliases: []}
 type: armorgear
-data:
-  icon: breastplate
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Treated leather chest armor offering agility without sacrificing defense."
+tags: []
+data: {icon: breastplate, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [hide]
+  craft: {skill: wpnc, secondary: [hide]}
   kbcat: kurbul
   armorType: Breastplate
   detailMaterial: Kûrbúl
@@ -24,19 +17,9 @@ sohl:
     material: Kûrbúl
     locations:
       flexible: []
-      rigid:
-        - thrxloc
-        - abdmnloc
-      facing:
-        - location: thrxloc
-          side: front
-        - location: abdmnloc
-          side: front
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+      rigid: [thrxloc, abdmnloc]
+      facing: [{location: thrxloc, side: front}, {location: abdmnloc, side: front}]
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 5
     perceptionPenaltyBase: 0
 ---

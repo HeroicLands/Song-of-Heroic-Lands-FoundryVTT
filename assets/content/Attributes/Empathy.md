@@ -1,24 +1,14 @@
 ---
-tags: []
-name:
-  full: Empathy
-  aliases: []
-description: "Sensing and understanding the feelings and motives of others."
 shortcode: emp
+name: {full: Empathy, aliases: []}
 type: attribute
-data:
-  icon: heartplus
-  templatePriority: 0
-  packFolder: attributes
+description: "Sensing and understanding the feelings and motives of others."
+tags: []
+data: {icon: heartplus, templatePriority: 0, packFolder: attributes}
 sohl:
   system:
     scoreBase: 0
-    valueDesc:
-      - Unfeeling:4
-      - Remote:8
-      - Average:12
-      - Understanding:16
-      - Sensitive:999
+    valueDesc: [Unfeeling:4, Remote:8, Average:12, Understanding:16, Sensitive:999]
     initDiceFormula: 3d6
 ---
 

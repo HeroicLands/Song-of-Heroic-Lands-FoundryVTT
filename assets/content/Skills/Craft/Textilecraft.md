@@ -1,16 +1,11 @@
 ---
-tags: []
-name:
-  full: Textilecraft
-  aliases: []
-description: "Spinning, weaving, dyeing, and sewing fabrics into finished textile goods."
 shortcode: txtl
+name: {full: Textilecraft, aliases: []}
 type: skill
-data:
-  icon: sewingneedle
-  templatePriority: 0
-  packFolder: craft
 subType: craft
+description: "Spinning, weaving, dyeing, and sewing fabrics into finished textile goods."
+tags: []
+data: {icon: sewingneedle, templatePriority: 0, packFolder: craft}
 sohl:
   kbcat: craft
   system:
@@ -19,10 +14,7 @@ sohl:
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 0
-    impairedByRoles:
-      - core
-      - vital
-      - manipulator
+    impairedByRoles: [core, vital, manipulator]
 ---
 
 Textilecraft covers cloth from the fibre onward — spinning, weaving, fulling, dyeing — and then the knitting, tailoring and embroidery that turn cloth into goods. The workhorse material for garments in temperate country is buckram: hard-wearing, cheap, and about as comfortable as sailcloth. Fine wool, soft leather and silk are what the money is spent on, and silk in particular multiplies in price many times over on its way from the countries that produce it.

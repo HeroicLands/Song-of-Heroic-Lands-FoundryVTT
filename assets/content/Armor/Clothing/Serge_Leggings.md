@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Serge Leggings
-  aliases: []
-description: "Twilled serge leggings; warm, durable leg covering for daily activities."
 shortcode: sgleg
+name: {full: Serge Leggings, aliases: []}
 type: armorgear
-data:
-  icon: trousers
-  templatePriority: 0
-  packFolder: clothing
+description: "Twilled serge leggings; warm, durable leg covering for daily activities."
+tags: []
+data: {icon: trousers, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Leggings
   detailMaterial: Serge
@@ -23,21 +16,9 @@ sohl:
     durabilityBase: 7
     material: Cloth
     locations:
-      flexible:
-        - lthghloc
-        - rthghloc
-        - lkneeloc
-        - rkneeloc
-        - lcalfloc
-        - rcalfloc
-        - lfootloc
-        - rfootloc
+      flexible: [lthghloc, rthghloc, lkneeloc, rkneeloc, lcalfloc, rcalfloc, lfootloc, rfootloc]
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

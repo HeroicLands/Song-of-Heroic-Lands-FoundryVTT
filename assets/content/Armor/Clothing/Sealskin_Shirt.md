@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Sealskin Shirt
-  aliases: []
-description: "Waterproof seal-fur shirt; basic upper-body weather protection."
 shortcode: slsshirt
+name: {full: Sealskin Shirt, aliases: []}
 type: armorgear
-data:
-  icon: shirt
-  templatePriority: 0
-  packFolder: clothing
+description: "Waterproof seal-fur shirt; basic upper-body weather protection."
+tags: []
+data: {icon: shirt, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: leather
   armorType: Shirt
   detailMaterial: Sealskin
@@ -22,20 +15,8 @@ sohl:
     valueBase: 400
     durabilityBase: 11
     material: Leather
-    locations:
-      flexible:
-        - lshldloc
-        - rshldloc
-        - lupaloc
-        - rupaloc
-        - thrxloc
-        - abdmnloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [lshldloc, rshldloc, lupaloc, rupaloc, thrxloc, abdmnloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

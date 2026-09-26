@@ -1,16 +1,11 @@
 ---
-tags: []
-name:
-  full: Folklore
-  aliases: []
-description: "Knowledge of homeland culture, history, traditions, myth and social customs."
 shortcode: folklr
+name: {full: Folklore, aliases: []}
 type: skill
-data:
-  icon: unicorn
-  templatePriority: 0
-  packFolder: lore
 subType: lore
+description: "Knowledge of homeland culture, history, traditions, myth and social customs."
+tags: []
+data: {icon: unicorn, templatePriority: 0, packFolder: lore}
 sohl:
   kbcat: lore
   system:
@@ -19,8 +14,7 @@ sohl:
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 1
-    impairedByRoles:
-      - vital
+    impairedByRoles: [vital]
 ---
 
 Folklore is what an educated person of a realm knows about that realm — traditionally parcelled out among six disciplines: geography, history, the nature of the world, mythic beasts, poetics and society. It is the skill that answers "have I heard of this?", and it covers a very great deal of ground because in a world without reference libraries, one well-read head is the reference library.

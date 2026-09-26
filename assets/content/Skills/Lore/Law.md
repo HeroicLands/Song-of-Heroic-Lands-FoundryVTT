@@ -1,16 +1,11 @@
 ---
-tags: []
-name:
-  full: Law
-  aliases: []
-description: "Knowledge of legal codes, customs, judicial procedures, guild regulations."
 shortcode: law
+name: {full: Law, aliases: []}
 type: skill
-data:
-  icon: scales
-  templatePriority: 0
-  packFolder: lore
 subType: lore
+description: "Knowledge of legal codes, customs, judicial procedures, guild regulations."
+tags: []
+data: {icon: scales, templatePriority: 0, packFolder: lore}
 sohl:
   kbcat: lore
   system:
@@ -19,8 +14,7 @@ sohl:
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 0
-    impairedByRoles:
-      - vital
+    impairedByRoles: [vital]
 ---
 
 Law is knowledge of the legal order the character was raised inside — which is rarely one order at all. Clan custom and the vendetta that enforces it, feudal obligation and the lord's court, royal justice where it reaches, and the dense, jealously guarded regulation of a guild town all operate at once and frequently against one another. Canon law is not covered here; that belongs to the relevant Ritual skill.

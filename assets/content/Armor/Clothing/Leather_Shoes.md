@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Leather Shoes
-  aliases: []
-description: "Comfortable lightweight leather foot covering for everyday wear or light adventuring."
 shortcode: ltshoe
+name: {full: Leather Shoes, aliases: []}
 type: armorgear
-data:
-  icon: leatherboot
-  templatePriority: 0
-  packFolder: clothing
+description: "Comfortable lightweight leather foot covering for everyday wear or light adventuring."
+tags: []
+data: {icon: leatherboot, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: leather
   armorType: Shoes
   detailMaterial: Leather
@@ -22,16 +15,8 @@ sohl:
     valueBase: 60
     durabilityBase: 9
     material: Leather
-    locations:
-      flexible:
-        - lfootloc
-        - rfootloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [lfootloc, rfootloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

@@ -1,12 +1,9 @@
 ---
+shortcode: hlngtst
+name: {full: Healing Test, aliases: []}
 type: doc
 subType: rules
-name:
-  full: Healing Test
-  aliases: []
-shortcode: hlngtst
-data:
-  packFolder: injury
+data: {packFolder: injury}
 ---
 
 Injuries recover through periodic **Injury Healing Tests**, one per injury on that injury's own healing period. Each is a test of **`Healing Base × Healing Rate`** (see [[doc-hlngbs|Healing Base]]), read by [[doc-sccsstst#success-level|success level]]:

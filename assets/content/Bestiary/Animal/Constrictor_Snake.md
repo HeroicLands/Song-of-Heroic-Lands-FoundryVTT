@@ -1,16 +1,10 @@
 ---
-tags:
-  - animal
-  - creature
-name:
-  full: Constrictor Snake
-  aliases: []
-description: "A huge non-venomous snake of tropical regions that kills through patient, crushing coils, subduing prey far larger than its own head."
 shortcode: cnstrctr
+name: {full: Constrictor Snake, aliases: []}
 type: being
-data:
-  icon: snake
-  templatePriority: 0
+description: "A huge non-venomous snake of tropical regions that kills through patient, crushing coils, subduing prey far larger than its own head."
+tags: [animal, creature]
+data: {icon: snake, templatePriority: 0}
 sohl:
   kbcat: animal
   attrRollFormula:
@@ -24,21 +18,21 @@ sohl:
     rea: 1d4
     cre: 1d4
   items:
-    - { model: attribute-str, system: { scoreBase: 14 } }
-    - { model: attribute-end, system: { scoreBase: 12 } }
-    - { model: attribute-agl, system: { scoreBase: 9 } }
-    - { model: attribute-per, system: { scoreBase: 13 } }
-    - { model: attribute-snt, system: { scoreBase: 3 } }
-    - { model: attribute-aur, system: { scoreBase: 2 } }
-    - { model: attribute-wil, system: { scoreBase: 8 } }
-    - { model: attribute-rea, system: { scoreBase: 2 } }
-    - { model: attribute-cre, system: { scoreBase: 2 } }
-    - { model: skill-awar, system: { masteryLevelBase: 55 } }
-    - { model: skill-stlth, system: { masteryLevelBase: 44 } }
-    - { model: mysticalability-sprt, system: { masteryLevelBase: 15 } }
-    - { model: skill-init, system: { masteryLevelBase: 20 } }
-    - { model: skill-dge, system: { masteryLevelBase: 48 } }
-    - { model: skill-shok, system: { masteryLevelBase: 52 } }
+    - {model: attribute-str, system: {scoreBase: 14}}
+    - {model: attribute-end, system: {scoreBase: 12}}
+    - {model: attribute-agl, system: {scoreBase: 9}}
+    - {model: attribute-per, system: {scoreBase: 13}}
+    - {model: attribute-snt, system: {scoreBase: 3}}
+    - {model: attribute-aur, system: {scoreBase: 2}}
+    - {model: attribute-wil, system: {scoreBase: 8}}
+    - {model: attribute-rea, system: {scoreBase: 2}}
+    - {model: attribute-cre, system: {scoreBase: 2}}
+    - {model: skill-awar, system: {masteryLevelBase: 55}}
+    - {model: skill-stlth, system: {masteryLevelBase: 44}}
+    - {model: mysticalability-sprt, system: {masteryLevelBase: 15}}
+    - {model: skill-init, system: {masteryLevelBase: 20}}
+    - {model: skill-dge, system: {masteryLevelBase: 48}}
+    - {model: skill-shok, system: {masteryLevelBase: 52}}
     - name: Bite
       type: skill
       system:
@@ -46,37 +40,20 @@ sohl:
         subType: combattechnique
         masteryLevelBase: 53
         combatCategory: melee
-        impairedByRoles:
-          - manipulator
+        impairedByRoles: [manipulator]
         strikeMode:
           type: melee
           shortcode: bite
           name: Bite
           minParts: 1
           assocSkillCode: null
-          attack:
-            disabled: false
-            spread: 2
-            modifier: 0
-          impactBase:
-            numDice: 1
-            die: 8
-            modifier: 2
-            aspect: piercing
+          attack: {disabled: false, spread: 2, modifier: 0}
+          impactBase: {numDice: 1, die: 8, modifier: 2, aspect: piercing}
           lengthBase: 3
           defense:
-            block:
-              disabled: true
-              modifier: 0
-              successLevelMod: 0
-            counterstrike:
-              disabled: false
-              modifier: 0
-              successLevelMod: 0
-          traits:
-            noBlock: true
-            clench: true
-            armorReduction: 2
+            block: {disabled: true, modifier: 0, successLevelMod: 0}
+            counterstrike: {disabled: false, modifier: 0, successLevelMod: 0}
+          traits: {noBlock: true, clench: true, armorReduction: 2}
     - name: Grab
       type: skill
       system:
@@ -84,79 +61,50 @@ sohl:
         subType: combattechnique
         masteryLevelBase: 73
         combatCategory: melee
-        impairedByRoles:
-          - core
+        impairedByRoles: [core]
         strikeMode:
           type: melee
           shortcode: grab
           name: Grab
           minParts: 1
           assocSkillCode: null
-          attack:
-            disabled: false
-            spread: 6
-            modifier: 0
-          impactBase:
-            numDice: 1
-            die: 6
-            modifier: 14
-            aspect: blunt
+          attack: {disabled: false, spread: 6, modifier: 0}
+          impactBase: {numDice: 1, die: 6, modifier: 14, aspect: blunt}
           lengthBase: 0
           defense:
-            block:
-              disabled: true
-              modifier: 0
-              successLevelMod: 0
-            counterstrike:
-              disabled: false
-              modifier: 0
-              successLevelMod: 0
-          traits:
-            noBlock: true
-            constrict: true
+            block: {disabled: true, modifier: 0, successLevelMod: 0}
+            counterstrike: {disabled: false, modifier: 0, successLevelMod: 0}
+          traits: {noBlock: true, constrict: true}
   system:
     body:
       structure:
         zones:
-          - name: Head
-            shortcode: headzone
-            probWeight: 3
-          - name: Forebody
-            shortcode: torsozone
-            probWeight: 11
-          - name: Hindbody
-            shortcode: hindbodyzone
-            probWeight: 6
+          - {name: Head, shortcode: headzone, probWeight: 3}
+          - {name: Forebody, shortcode: torsozone, probWeight: 11}
+          - {name: Hindbody, shortcode: hindbodyzone, probWeight: 6}
         parts:
           - name: Head
             shortcode: headpart
             bodyZoneCode: headzone
-            roles:
-              - vital
-              - manipulator
+            roles: [vital, manipulator]
             canHoldItem: false
             probWeight: 10
           - name: Forebody
             shortcode: forebodypart
             bodyZoneCode: torsozone
-            roles:
-              - core
-              - locomotor
+            roles: [core, locomotor]
             canHoldItem: false
             probWeight: 10
           - name: Hindbody
             shortcode: hindbodypart
             bodyZoneCode: hindbodyzone
-            roles:
-              - core
-              - locomotor
+            roles: [core, locomotor]
             canHoldItem: false
             probWeight: 6
           - name: Tail
             shortcode: tailpart
             bodyZoneCode: hindbodyzone
-            roles:
-              - locomotor
+            roles: [locomotor]
             canHoldItem: false
             probWeight: 4
         locations:
@@ -167,11 +115,7 @@ sohl:
             amputability: none
             shockValue: 5
             probWeight: 4
-            protectionBase:
-              blunt: 4
-              edged: 6
-              piercing: 5
-              fire: 4
+            protectionBase: {blunt: 4, edged: 6, piercing: 5, fire: 4}
           - name: Neck
             shortcode: neckloc
             bodyPartCode: headpart
@@ -179,11 +123,7 @@ sohl:
             amputability: low
             shockValue: 5
             probWeight: 6
-            protectionBase:
-              blunt: 4
-              edged: 6
-              piercing: 5
-              fire: 4
+            protectionBase: {blunt: 4, edged: 6, piercing: 5, fire: 4}
           - name: Thorax
             shortcode: thoraxloc
             bodyPartCode: forebodypart
@@ -191,11 +131,7 @@ sohl:
             amputability: none
             shockValue: 4
             probWeight: 10
-            protectionBase:
-              blunt: 4
-              edged: 6
-              piercing: 5
-              fire: 4
+            protectionBase: {blunt: 4, edged: 6, piercing: 5, fire: 4}
           - name: Abdomen
             shortcode: abdloc
             bodyPartCode: hindbodypart
@@ -203,11 +139,7 @@ sohl:
             amputability: none
             shockValue: 4
             probWeight: 10
-            protectionBase:
-              blunt: 4
-              edged: 6
-              piercing: 5
-              fire: 4
+            protectionBase: {blunt: 4, edged: 6, piercing: 5, fire: 4}
           - name: Tail
             shortcode: tailloc
             bodyPartCode: tailpart
@@ -215,14 +147,8 @@ sohl:
             amputability: high
             shockValue: 1
             probWeight: 10
-            protectionBase:
-              blunt: 4
-              edged: 6
-              piercing: 5
-              fire: 4
-      weight:
-        base: 150
-        calc: "150"
+            protectionBase: {blunt: 4, edged: 6, piercing: 5, fire: 4}
+      weight: {base: 150, calc: "150"}
       reachBase: 0
       bodyScaleBase: 1.17
       personalFatigue: enc + 5

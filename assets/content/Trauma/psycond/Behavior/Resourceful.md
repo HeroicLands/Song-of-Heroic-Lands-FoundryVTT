@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Resourceful
-  aliases: []
 shortcode: rsrcfl
+name: {full: Resourceful, aliases: []}
 type: trauma
-data:
-  icon: battlegear
-  templatePriority: 0
-  packFolder: quirks
 subType: psycond
-sohl:
-  kbcat: psybehavior
-  system:
-    category: quirk
+tags: []
+data: {icon: battlegear, templatePriority: 0, packFolder: quirks}
+sohl: {kbcat: psybehavior, system: {category: quirk}}
 ---
 
 Resourcefulness is the gift of finding swift and clever solutions to difficulties. A resourceful person does not merely accept the constraints of circumstance; they work within them, discovering unexpected paths where others see only walls. In a world where merchants lose caravans to bandits and smiths must forge steel without the right ore at hand, such ingenuity is worth its weight in silver.

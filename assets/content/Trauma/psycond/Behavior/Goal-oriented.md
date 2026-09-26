@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Goal-oriented
-  aliases: []
 shortcode: glrntd
+name: {full: Goal-oriented, aliases: []}
 type: trauma
-data:
-  icon: battlegear
-  templatePriority: 0
-  packFolder: quirks
 subType: psycond
-sohl:
-  kbcat: psybehavior
-  system:
-    category: quirk
+tags: []
+data: {icon: battlegear, templatePriority: 0, packFolder: quirks}
+sohl: {kbcat: psybehavior, system: {category: quirk}}
 ---
 
 Goal-Oriented refers to an individual's focus on achieving specific objectives and outcomes. A goal-oriented person is driven, organized, and persistent, often structuring their time and efforts around their ambitions. While being goal-oriented is generally a positive trait that leads to productivity and success, an excessive focus on goals can lead to neglect of personal well-being or relationships, as the individual becomes consumed by their pursuit of achievement.

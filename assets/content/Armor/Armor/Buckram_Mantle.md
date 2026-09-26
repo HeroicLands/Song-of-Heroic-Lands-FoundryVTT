@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Buckram Mantle
-  aliases: []
-description: "Stiff buckram mantle providing durability and reliable rigid cloaking."
 shortcode: bmntl
+name: {full: Buckram Mantle, aliases: []}
 type: armorgear
-data:
-  icon: cape
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Stiff buckram mantle providing durability and reliable rigid cloaking."
+tags: []
+data: {icon: cape, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Mantle
   detailMaterial: Buckram
@@ -22,19 +15,8 @@ sohl:
     valueBase: 25
     durabilityBase: 10
     material: Cloth
-    locations:
-      flexible:
-        - lshldloc
-        - rshldloc
-        - lupaloc
-        - rupaloc
-        - thrxloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [lshldloc, rshldloc, lupaloc, rupaloc, thrxloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

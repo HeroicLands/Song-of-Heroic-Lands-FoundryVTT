@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: "Sack, leather, med"
-  aliases: []
-description: "Moderate leather sack closed by a drawstring."
 shortcode: sackltmd
+name: {full: "Sack, leather, med", aliases: []}
 type: containergear
-data:
-  icon: swapbag
-  templatePriority: 0
-  packFolder: containers
+description: "Moderate leather sack closed by a drawstring."
+tags: []
+data: {icon: swapbag, templatePriority: 0, packFolder: containers}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   system:
     weightBase: 0.9
     valueBase: 2.25

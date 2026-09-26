@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Buckram Sleeved Tunic
-  aliases: []
-description: "Stiff, structured buckram tunic offering durable and reliable fit."
 shortcode: bstnc
+name: {full: Buckram Sleeved Tunic, aliases: []}
 type: armorgear
-data:
-  icon: shirt
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Stiff, structured buckram tunic offering durable and reliable fit."
+tags: []
+data: {icon: shirt, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Sleeved Tunic
   detailMaterial: Buckram
@@ -36,11 +29,7 @@ sohl:
         - abdmnloc
         - plvisloc
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

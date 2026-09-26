@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Worsted Surcoat
-  aliases: []
-description: "Tightly-spun wool surcoat; durable, practical protective garment."
 shortcode: wscoat
+name: {full: Worsted Surcoat, aliases: []}
 type: armorgear
-data:
-  icon: shirt
-  templatePriority: 0
-  packFolder: clothing
+description: "Tightly-spun wool surcoat; durable, practical protective garment."
+tags: []
+data: {icon: shirt, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Surcoat
   detailMaterial: Worsted
@@ -34,11 +27,7 @@ sohl:
         - lkneeloc
         - rkneeloc
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

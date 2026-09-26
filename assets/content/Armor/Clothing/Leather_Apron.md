@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Leather Apron
-  aliases: []
-description: "Leather apron for craftsmen and artisans, more style than protection."
 shortcode: ltapn
+name: {full: Leather Apron, aliases: []}
 type: armorgear
-data:
-  icon: cook
-  templatePriority: 0
-  packFolder: clothing
+description: "Leather apron for craftsmen and artisans, more style than protection."
+tags: []
+data: {icon: cook, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: leather
   armorType: Apron
   detailMaterial: Leather
@@ -22,19 +15,8 @@ sohl:
     valueBase: 385
     durabilityBase: 9
     material: Leather
-    locations:
-      flexible:
-        - thrxloc
-        - abdmnloc
-        - plvisloc
-        - lthghloc
-        - rthghloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [thrxloc, abdmnloc, plvisloc, lthghloc, rthghloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

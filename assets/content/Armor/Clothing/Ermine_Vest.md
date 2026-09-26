@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Ermine Vest
-  aliases: []
-description: "White ermine fur vest signifying high status and elite prestige."
 shortcode: evest
+name: {full: Ermine Vest, aliases: []}
 type: armorgear
-data:
-  icon: leathervest
-  templatePriority: 0
-  packFolder: clothing
+description: "White ermine fur vest signifying high status and elite prestige."
+tags: []
+data: {icon: leathervest, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: leather
   armorType: Vest
   detailMaterial: Ermine
@@ -22,16 +15,8 @@ sohl:
     valueBase: 580
     durabilityBase: 7
     material: Leather
-    locations:
-      flexible:
-        - thrxloc
-        - abdmnloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [thrxloc, abdmnloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

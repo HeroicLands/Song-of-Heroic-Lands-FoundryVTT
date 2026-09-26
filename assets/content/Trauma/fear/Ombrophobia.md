@@ -1,20 +1,11 @@
 ---
-tags: []
-name:
-  full: Ombrophobia
-  aliases: []
 shortcode: ombrophb
+name: {full: Ombrophobia, aliases: []}
 type: trauma
-data:
-  icon: dread
-  templatePriority: 0
-  packFolder: phobias
 subType: fear
-sohl:
-  kbcat: phobias
-  system:
-    category: none
-    levelBase: 0
+tags: []
+data: {icon: dread, templatePriority: 0, packFolder: phobias}
+sohl: {kbcat: phobias, system: {category: none, levelBase: 0}}
 ---
 
 Ombrophobia is an intense, irrational fear of rain. People with ombrophobia may experience a range of symptoms when they think about, see, or are exposed to rain.

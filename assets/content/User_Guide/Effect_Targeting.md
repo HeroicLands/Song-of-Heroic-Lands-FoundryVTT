@@ -1,11 +1,9 @@
 ---
+shortcode: effcttrgug
+name: {full: "Effect Targeting"}
 type: doc
 subType: userguide
-name:
-  full: "Effect Targeting"
-shortcode: effcttrgug
-data:
-  packFolder: userguide
+data: {packFolder: userguide}
 ---
 
 # Overview

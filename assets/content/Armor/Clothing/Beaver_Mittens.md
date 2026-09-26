@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Beaver Mittens
-  aliases: []
-description: "Beaver fur mittens offering comfort and warmth for cold climates."
 shortcode: bvmitt
+name: {full: Beaver Mittens, aliases: []}
 type: armorgear
-data:
-  icon: gloves
-  templatePriority: 0
-  packFolder: clothing
+description: "Beaver fur mittens offering comfort and warmth for cold climates."
+tags: []
+data: {icon: gloves, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: leather
   armorType: Mittens
   detailMaterial: Beaver
@@ -22,16 +15,8 @@ sohl:
     valueBase: 60
     durabilityBase: 9
     material: Leather
-    locations:
-      flexible:
-        - lhandloc
-        - rhandloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [lhandloc, rhandloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

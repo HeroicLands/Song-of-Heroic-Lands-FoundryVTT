@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Buckram Cowl
-  aliases: []
-description: "Stiff buckram cowl providing durability and rigid head-shoulder coverage."
 shortcode: bcowl
+name: {full: Buckram Cowl, aliases: []}
 type: armorgear
-data:
-  icon: hood
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Stiff buckram cowl providing durability and rigid head-shoulder coverage."
+tags: []
+data: {icon: hood, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Cowl
   detailMaterial: Buckram
@@ -22,16 +15,8 @@ sohl:
     valueBase: 6
     durabilityBase: 10
     material: Cloth
-    locations:
-      flexible:
-        - skullloc
-        - neckloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [skullloc, neckloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Plate Coudes
-  aliases: []
-description: "Steel elbow-caps; joint-guard for armed combat or labor."
 shortcode: plcou
+name: {full: Plate Coudes, aliases: []}
 type: armorgear
-data:
-  icon: elbowpad
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Steel elbow-caps; joint-guard for armed combat or labor."
+tags: []
+data: {icon: elbowpad, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [mtlc, mnrl]
+  craft: {skill: wpnc, secondary: [mtlc, mnrl]}
   kbcat: plate
   armorType: Coudes
   detailMaterial: Plate
@@ -22,16 +15,8 @@ sohl:
     valueBase: 40
     durabilityBase: 14
     material: Plate
-    locations:
-      flexible: []
-      rigid:
-        - lelbloc
-        - relbloc
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [], rigid: [lelbloc, relbloc]}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     encumbranceGroup: arm
     perceptionPenaltyBase: 0

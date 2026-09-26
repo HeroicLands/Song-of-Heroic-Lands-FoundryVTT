@@ -1,13 +1,10 @@
 ---
-tags: []
-name:
-  full: Bestiary
-  aliases: []
 shortcode: bestiary
+name: {full: Bestiary, aliases: []}
 type: doc
 subType: rules
-data:
-  packFolder: rules
+tags: []
+data: {packFolder: rules}
 ---
 
 # Animals

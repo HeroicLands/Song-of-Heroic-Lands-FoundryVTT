@@ -1,9 +1,6 @@
 ---
-name:
-  full: "Armor"
 shortcode: armorarmor
+name: {full: "Armor"}
 type: folder
-data:
-  parent: armor
-  color: "#4A4A4A"
+data: {parent: armor, color: "#4A4A4A"}
 ---

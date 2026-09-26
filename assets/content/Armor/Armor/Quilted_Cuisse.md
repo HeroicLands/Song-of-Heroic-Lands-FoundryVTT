@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Quilted Cuisse
-  aliases: []
-description: "Stitched thigh-guard; adds padding beneath heavier armor."
 shortcode: qcui
+name: {full: Quilted Cuisse, aliases: []}
 type: armorgear
-data:
-  icon: trousers
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Stitched thigh-guard; adds padding beneath heavier armor."
+tags: []
+data: {icon: trousers, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: quilted
   armorType: Cuisse
   detailMaterial: Quilted
@@ -22,18 +15,8 @@ sohl:
     valueBase: 70
     durabilityBase: 11
     material: Quilted
-    locations:
-      flexible:
-        - lthghloc
-        - rthghloc
-        - lkneeloc
-        - rkneeloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [lthghloc, rthghloc, lkneeloc, rkneeloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

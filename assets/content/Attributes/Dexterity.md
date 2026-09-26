@@ -1,24 +1,14 @@
 ---
-tags: []
-name:
-  full: Dexterity
-  aliases: []
-description: "Hand-and-eye coordination, steadiness of grip, and precision of touch."
 shortcode: dex
+name: {full: Dexterity, aliases: []}
 type: attribute
-data:
-  icon: juggler
-  templatePriority: 0
-  packFolder: attributes
+description: "Hand-and-eye coordination, steadiness of grip, and precision of touch."
+tags: []
+data: {icon: juggler, templatePriority: 0, packFolder: attributes}
 sohl:
   system:
     scoreBase: 0
-    valueDesc:
-      - Uncoordinated:4
-      - Awkward:8
-      - Average:12
-      - Deft:16
-      - Adroit:999
+    valueDesc: [Uncoordinated:4, Awkward:8, Average:12, Deft:16, Adroit:999]
     initDiceFormula: 3d6
 ---
 

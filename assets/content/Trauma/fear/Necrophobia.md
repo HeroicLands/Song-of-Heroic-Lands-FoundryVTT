@@ -1,20 +1,11 @@
 ---
-tags: []
-name:
-  full: Necrophobia
-  aliases: []
 shortcode: necrophb
+name: {full: Necrophobia, aliases: []}
 type: trauma
-data:
-  icon: dread
-  templatePriority: 0
-  packFolder: phobias
 subType: fear
-sohl:
-  kbcat: phobias
-  system:
-    category: none
-    levelBase: 0
+tags: []
+data: {icon: dread, templatePriority: 0, packFolder: phobias}
+sohl: {kbcat: phobias, system: {category: none, levelBase: 0}}
 ---
 
 Necrophobia is an intense, irrational fear of death or dead things. People with necrophobia may experience a range of symptoms when they think about, see, or are near anything related to death or corpses.

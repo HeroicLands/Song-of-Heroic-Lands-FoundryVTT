@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Cloth Cowl
-  aliases: []
-description: "Simple cloth cowl offering comfort and everyday warmth."
 shortcode: ccowl
+name: {full: Cloth Cowl, aliases: []}
 type: armorgear
-data:
-  icon: hood
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Simple cloth cowl offering comfort and everyday warmth."
+tags: []
+data: {icon: hood, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Cowl
   detailMaterial: Cloth
@@ -22,16 +15,8 @@ sohl:
     valueBase: 6
     durabilityBase: 10
     material: Cloth
-    locations:
-      flexible:
-        - skullloc
-        - neckloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [skullloc, neckloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

@@ -1,20 +1,11 @@
 ---
-tags: []
-name:
-  full: Gynophobia
-  aliases: []
 shortcode: gynophb
+name: {full: Gynophobia, aliases: []}
 type: trauma
-data:
-  icon: dread
-  templatePriority: 0
-  packFolder: phobias
 subType: fear
-sohl:
-  kbcat: phobias
-  system:
-    category: none
-    levelBase: 0
+tags: []
+data: {icon: dread, templatePriority: 0, packFolder: phobias}
+sohl: {kbcat: phobias, system: {category: none, levelBase: 0}}
 ---
 
 Gynophobia is an intense, irrational fear of women. People with gynophobia may experience a range of symptoms when they think about, see, or are near women.

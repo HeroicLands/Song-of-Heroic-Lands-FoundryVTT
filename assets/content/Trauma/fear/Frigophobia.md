@@ -1,20 +1,11 @@
 ---
-tags: []
-name:
-  full: Frigophobia
-  aliases: []
 shortcode: frigophb
+name: {full: Frigophobia, aliases: []}
 type: trauma
-data:
-  icon: dread
-  templatePriority: 0
-  packFolder: phobias
 subType: fear
-sohl:
-  kbcat: phobias
-  system:
-    category: none
-    levelBase: 0
+tags: []
+data: {icon: dread, templatePriority: 0, packFolder: phobias}
+sohl: {kbcat: phobias, system: {category: none, levelBase: 0}}
 ---
 
 Frigophobia is an intense, irrational fear of cold or cold things. People with frigophobia may experience a range of symptoms when they think about, see, or are exposed to cold temperatures.

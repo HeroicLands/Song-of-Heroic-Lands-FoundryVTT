@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Russet Cap
-  aliases: []
-description: "Reddish-brown wool head-cover; practical and warm."
 shortcode: rcap
+name: {full: Russet Cap, aliases: []}
 type: armorgear
-data:
-  icon: billedcap
-  templatePriority: 0
-  packFolder: clothing
+description: "Reddish-brown wool head-cover; practical and warm."
+tags: []
+data: {icon: billedcap, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Cap
   detailMaterial: Russet
@@ -22,15 +15,8 @@ sohl:
     valueBase: 5
     durabilityBase: 7
     material: Cloth
-    locations:
-      flexible:
-        - skullloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [skullloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

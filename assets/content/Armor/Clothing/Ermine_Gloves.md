@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Ermine Gloves
-  aliases: []
-description: "Soft white ermine gloves; mark of high status and wealth."
 shortcode: eglv
+name: {full: Ermine Gloves, aliases: []}
 type: armorgear
-data:
-  icon: gloves
-  templatePriority: 0
-  packFolder: clothing
+description: "Soft white ermine gloves; mark of high status and wealth."
+tags: []
+data: {icon: gloves, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: leather
   armorType: Gloves
   detailMaterial: Ermine
@@ -22,16 +15,8 @@ sohl:
     valueBase: 120
     durabilityBase: 7
     material: Leather
-    locations:
-      flexible:
-        - lhandloc
-        - rhandloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [lhandloc, rhandloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

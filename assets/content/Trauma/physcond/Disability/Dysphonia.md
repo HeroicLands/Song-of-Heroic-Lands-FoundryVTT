@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Dysphonia
-  aliases: []
 shortcode: dysphn
+name: {full: Dysphonia, aliases: []}
 type: trauma
-data:
-  icon: battlegear
-  templatePriority: 0
-  packFolder: traumaphysical
 subType: physcond
-sohl:
-  kbcat: physdisability
-  system:
-    category: impediment
+tags: []
+data: {icon: battlegear, templatePriority: 0, packFolder: traumaphysical}
+sohl: {kbcat: physdisability, system: {category: impediment}}
 ---
 
 Dysphonia is a condition characterized by difficulty or abnormality in vocal production, often manifesting as hoarseness, a weak voice, or trouble speaking. If left untreated, it can progressively worsen, leading to complete voice loss (aphonia). Dysphonia can be caused by vocal cord strain, injury, or underlying conditions that affect the vocal cords or nervous system.

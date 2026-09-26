@@ -1,26 +1,14 @@
 ---
-tags:
-  - clothing
-name:
-  full: "Dye, Tazach Purple"
-  aliases: []
-description: "Murex shellfish or Tazach lichen; rare purple marking rank and authority."
 shortcode: dyetzch
+name: {full: "Dye, Tazach Purple", aliases: []}
 type: miscgear
-data:
-  icon: roundpotion
-  templatePriority: 0
-  packFolder: textile
+description: "Murex shellfish or Tazach lichen; rare purple marking rank and authority."
+tags: [clothing]
+data: {icon: roundpotion, templatePriority: 0, packFolder: textile}
 sohl:
-  craft:
-    skill: herb
-    secondary: []
+  craft: {skill: herb, secondary: []}
   kbcat: dye
-  system:
-    weightBase: 0.0625
-    valueBase: 200
-    qualityBase: 0
-    durabilityBase: 1
+  system: {weightBase: 0.0625, valueBase: 200, qualityBase: 0, durabilityBase: 1}
 ---
 
 A rare and costly purple from crushed murex shellfish or Tazach lichen, mordanted and ground to powder. Only princes and the highest-born wear true purple cloth; a small pot of this dye is worth the annual wages of a skilled craftsman. The color does not fade in sunlight and is a mark of rank, authority, and wealth across the known lands.

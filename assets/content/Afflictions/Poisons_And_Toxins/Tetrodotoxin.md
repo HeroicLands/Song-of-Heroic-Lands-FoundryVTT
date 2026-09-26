@@ -1,23 +1,14 @@
 ---
-tags: []
-name:
-  full: Tetrodotoxin
-  aliases: []
-description: "Neurotoxin; blocks nerve signals; progressive paralysis including respiratory muscles."
 shortcode: tetdtxn
+name: {full: Tetrodotoxin, aliases: []}
 type: affliction
-data:
-  icon: poisonbottle
-  templatePriority: 0
-  packFolder: poisonsandtoxins
 subType: poisontoxin
+description: "Neurotoxin; blocks nerve signals; progressive paralysis including respiratory muscles."
+tags: []
+data: {icon: poisonbottle, templatePriority: 0, packFolder: poisonsandtoxins}
 sohl:
   kbcat: poisontoxin
-  system:
-    levelBase: 1
-    healingRateBase: 3
-    contagionIndexBase: 3
-    transmission: vector
+  system: {levelBase: 1, healingRateBase: 3, contagionIndexBase: 3, transmission: vector}
 ---
 
 Tetrodotoxin is a potent neurotoxin found in Octopuses and certain species of newts and frogs. It blocks sodium channels on nerve cell membranes, preventing nerve signal transmission, leading to paralysis. Initial symptoms include numbness and tingling around the mouth and extremities, followed by nausea, vomiting, and increasing paralysis that affects voluntary muscles. Most critically, it can lead to respiratory paralysis, causing death by asphyxiation if not treated promptly. Tetrodotoxin's high affinity for sodium channels makes it extremely lethal even in small quantities, with no known antidote, making immediate supportive care, such as artificial respiration, crucial for survival.

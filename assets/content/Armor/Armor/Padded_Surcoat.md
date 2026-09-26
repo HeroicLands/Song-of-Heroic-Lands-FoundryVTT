@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Padded Surcoat
-  aliases: []
-description: "Cushioned outer layer providing warmth for cold weather conditions."
 shortcode: pscoat
+name: {full: Padded Surcoat, aliases: []}
 type: armorgear
-data:
-  icon: shirt
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Cushioned outer layer providing warmth for cold weather conditions."
+tags: []
+data: {icon: shirt, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: padded
   armorType: Surcoat
   detailMaterial: Padded
@@ -34,11 +27,7 @@ sohl:
         - lkneeloc
         - rkneeloc
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

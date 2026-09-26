@@ -1,10 +1,8 @@
 ---
+shortcode: armorgear
+name: {full: Armor, aliases: []}
 type: doc
 subType: reference
-name:
-  full: Armor
-  aliases: []
-shortcode: armorgear
 description: "Defensive gear — mail, plate, shields, and more."
 ---
 

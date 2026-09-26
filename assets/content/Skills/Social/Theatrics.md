@@ -1,16 +1,11 @@
 ---
-tags: []
-name:
-  full: Theatrics
-  aliases: []
-description: "Performance and disguise through role assumption and identity transformation."
 shortcode: thtcs
+name: {full: Theatrics, aliases: []}
 type: skill
-data:
-  icon: dramamasks
-  templatePriority: 0
-  packFolder: social
 subType: social
+description: "Performance and disguise through role assumption and identity transformation."
+tags: []
+data: {icon: dramamasks, templatePriority: 0, packFolder: social}
 sohl:
   kbcat: social
   system:
@@ -19,9 +14,7 @@ sohl:
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 1
-    impairedByRoles:
-      - core
-      - vital
+    impairedByRoles: [core, vital]
 ---
 
 Theatrics is playing a role. The other persuasion skills project the character's own person at a listener, however manipulatively; Theatrics explicitly presents somebody else. Even the untrained can make an awkward attempt at it. Doing it well demands invention and vocal command both.

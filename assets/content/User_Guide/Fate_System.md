@@ -1,11 +1,9 @@
 ---
+shortcode: thftsystug
+name: {full: "The Fate System"}
 type: doc
 subType: userguide
-name:
-  full: "The Fate System"
-shortcode: thftsystug
-data:
-  packFolder: userguide
+data: {packFolder: userguide}
 ---
 
 # Overview {#fate-overview}

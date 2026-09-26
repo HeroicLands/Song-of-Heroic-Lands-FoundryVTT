@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Partial Amnesia
-  aliases: []
 shortcode: amnsprtl
+name: {full: Partial Amnesia, aliases: []}
 type: trauma
-data:
-  icon: battlegear
-  templatePriority: 0
-  packFolder: disorders
 subType: psycond
-sohl:
-  kbcat: psypsychosis
-  system:
-    category: disorder
+tags: []
+data: {icon: battlegear, templatePriority: 0, packFolder: disorders}
+sohl: {kbcat: psypsychosis, system: {category: disorder}}
 ---
 
 Partial Amnesia refers to the loss of memory affecting specific events, people, or periods of time, while other memories remain intact. This type of amnesia may arise due to repressed trauma or fear of a terrifying event or period. The mind may block out painful or overwhelming memories as a defense mechanism, or the memory loss may result from physical damage to the brain. Those experiencing partial amnesia often struggle with confusion and frustration, especially when triggered by reminders of what they have forgotten, leading to emotional distress and difficulty reconciling the missing pieces of their past.

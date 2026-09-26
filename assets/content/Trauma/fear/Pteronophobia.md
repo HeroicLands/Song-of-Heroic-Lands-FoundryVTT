@@ -1,20 +1,11 @@
 ---
-tags: []
-name:
-  full: Pteronophobia
-  aliases: []
 shortcode: ptrnphb
+name: {full: Pteronophobia, aliases: []}
 type: trauma
-data:
-  icon: dread
-  templatePriority: 0
-  packFolder: phobias
 subType: fear
-sohl:
-  kbcat: phobias
-  system:
-    category: none
-    levelBase: 0
+tags: []
+data: {icon: dread, templatePriority: 0, packFolder: phobias}
+sohl: {kbcat: phobias, system: {category: none, levelBase: 0}}
 ---
 
 Pteronophobia is an intense, irrational fear of feathers or being tickled by feathers. People with pteronophobia may experience a range of symptoms when they think about, see, or come in contact with feathers.

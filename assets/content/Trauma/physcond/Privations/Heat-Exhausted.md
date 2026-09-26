@@ -1,22 +1,12 @@
 ---
-tags: []
-name:
-  full: Heat-Exhausted
-  aliases: []
-description: "Moderate heat injury; pale, clammy skin, weak pulse, nausea, faintness."
 shortcode: htexh
+name: {full: Heat-Exhausted, aliases: []}
 type: trauma
-data:
-  icon: stomach
-  templatePriority: 0
-  packFolder: privations
 subType: physcond
-sohl:
-  kbcat: physprivations
-  system:
-    category: impediment
-    levelBase: 2
-    healingRateBase: 3
+description: "Moderate heat injury; pale, clammy skin, weak pulse, nausea, faintness."
+tags: []
+data: {icon: stomach, templatePriority: 0, packFolder: privations}
+sohl: {kbcat: physprivations, system: {category: impediment, levelBase: 2, healingRateBase: 3}}
 ---
 
 Heat exhaustion is the intermediate stage of heat injury, in which the body's cooling and circulation begin to fail under the combined load of high temperature and dehydration. Unlike heat fatigue it impairs function in real and obvious ways, and unlike heat stroke it remains reversible — but only if the victim is taken out of the heat at once.

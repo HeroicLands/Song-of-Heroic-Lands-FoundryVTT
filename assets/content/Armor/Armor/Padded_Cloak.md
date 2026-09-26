@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Padded Cloak
-  aliases: []
-description: "Quilted and padded cloak; cheap protection that doubles as a warm travelling garment."
 shortcode: pdclk
+name: {full: Padded Cloak, aliases: []}
 type: armorgear
-data:
-  icon: cloak
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Quilted and padded cloak; cheap protection that doubles as a warm travelling garment."
+tags: []
+data: {icon: cloak, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: padded
   armorType: Cloak
   detailMaterial: Padded
@@ -37,29 +30,16 @@ sohl:
         - rcalfloc
       rigid: []
       facing:
-        - location: thrxloc
-          side: back
-        - location: abdmnloc
-          side: back
-        - location: plvisloc
-          side: back
-        - location: lthghloc
-          side: back
-        - location: rthghloc
-          side: back
-        - location: lkneeloc
-          side: back
-        - location: rkneeloc
-          side: back
-        - location: lcalfloc
-          side: back
-        - location: rcalfloc
-          side: back
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+        - {location: thrxloc, side: back}
+        - {location: abdmnloc, side: back}
+        - {location: plvisloc, side: back}
+        - {location: lthghloc, side: back}
+        - {location: rthghloc, side: back}
+        - {location: lkneeloc, side: back}
+        - {location: rkneeloc, side: back}
+        - {location: lcalfloc, side: back}
+        - {location: rcalfloc, side: back}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

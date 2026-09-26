@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Buckler
-  aliases: []
-description: "Small light shield for rapid parries; duelist's off-hand ward."
 shortcode: bklr
+name: {full: Buckler, aliases: []}
 type: weapongear
-data:
-  icon: roundshield
-  templatePriority: 0
-  packFolder: weapons
+description: "Small light shield for rapid parries; duelist's off-hand ward."
+tags: []
+data: {icon: roundshield, templatePriority: 0, packFolder: weapons}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [mtlc, mnrl]
+  craft: {skill: wpnc, secondary: [mtlc, mnrl]}
   kbcat: shield
   weaponType: Shield
   system:
@@ -27,14 +20,8 @@ sohl:
         name: Bash
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 4
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 0
-          aspect: blunt
+        attack: {spread: 4, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 0, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -63,9 +50,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 1
-        defense:
-          blockMod: 0
-          counterstrikeMod: 0
+        defense: {blockMod: 0, counterstrikeMod: 0}
 ---
 
 A small round shield held by a central grip or worn on the forearm, the buckler is light and quick. Its narrow face suits rapid parries and punches; duellists and swordsmen favor it for one-handed blade work, using the buckler's weight and rim to deflect cuts and thrust the boss at close range.

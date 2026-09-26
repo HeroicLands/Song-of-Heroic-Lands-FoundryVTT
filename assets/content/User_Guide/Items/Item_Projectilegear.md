@@ -1,11 +1,9 @@
 ---
+shortcode: projectilegearug
+name: {full: "Projectile"}
 type: doc
 subType: userguide
-name:
-  full: "Projectile"
-shortcode: projectilegearug
-data:
-  packFolder: items
+data: {packFolder: items}
 ---
 
 # What are Projectiles?

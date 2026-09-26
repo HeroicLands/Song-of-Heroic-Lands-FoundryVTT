@@ -1,9 +1,6 @@
 ---
-name:
-  full: "Instruments"
 shortcode: instruments
+name: {full: "Instruments"}
 type: folder
-data:
-  parent: miscgear
-  color: "#1D3557"
+data: {parent: miscgear, color: "#1D3557"}
 ---

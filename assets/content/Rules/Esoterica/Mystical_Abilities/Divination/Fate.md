@@ -1,12 +1,9 @@
 ---
+shortcode: ftdvn
+name: {full: Fate, aliases: []}
 type: doc
 subType: rules
-name:
-  full: Fate
-  aliases: []
-shortcode: ftdvn
-data:
-  packFolder: mysticalabilitiesdivination
+data: {packFolder: mysticalabilitiesdivination}
 ---
 
 **Fate** is counted among the divinatory arts, and it is the odd one out in every respect. The other divinations read something outside the diviner — the sky, the cards, a beast's liver, a still surface. Fate reads the diviner's **own thread**: the character reaches for the strand of destiny they were born holding, finds the moment they are living through, and pulls.

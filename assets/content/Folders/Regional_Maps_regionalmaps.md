@@ -1,8 +1,6 @@
 ---
-name:
-  full: "Regional Maps"
 shortcode: regionalmaps
+name: {full: "Regional Maps"}
 type: folder
-data:
-  color: "#7a4a3f"
+data: {color: "#7a4a3f"}
 ---

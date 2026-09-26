@@ -1,23 +1,12 @@
 ---
-tags: []
-name:
-  full: Sweltering
-  aliases:
-    - Heat Exposure
-description: "Sustained weariness from prolonged heat exposure short of heat injury."
 shortcode: swltr
+name: {full: Sweltering, aliases: [Heat Exposure]}
 type: trauma
-data:
-  icon: sleepy
-  templatePriority: 0
-  packFolder: fatigue
 subType: fatigue
-sohl:
-  kbcat: fatigue
-  system:
-    category: weariness
-    levelBase: 1
-    healingRateBase: 3
+description: "Sustained weariness from prolonged heat exposure short of heat injury."
+tags: []
+data: {icon: sleepy, templatePriority: 0, packFolder: fatigue}
+sohl: {kbcat: fatigue, system: {category: weariness, levelBase: 1, healingRateBase: 3}}
 ---
 
 Sweltering weariness is the slow exhaustion of prolonged heat exposure short of true heat injury — the soldier in armor on a summer afternoon, the porter in the noonday sun, the traveler crossing the desert at the wrong hours. The body burns reserves to keep cool, and the burn shows up as weariness rather than as the privation of heat fatigue, exhaustion, or stroke. 5–10 fatigue per four hours of exposure.

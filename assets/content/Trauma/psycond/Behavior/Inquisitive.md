@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Inquisitive
-  aliases: []
 shortcode: inqstv
+name: {full: Inquisitive, aliases: []}
 type: trauma
-data:
-  icon: battlegear
-  templatePriority: 0
-  packFolder: quirks
 subType: psycond
-sohl:
-  kbcat: psybehavior
-  system:
-    category: quirk
+tags: []
+data: {icon: battlegear, templatePriority: 0, packFolder: quirks}
+sohl: {kbcat: psybehavior, system: {category: quirk}}
 ---
 
 Inquisitive refers to an individual's natural curiosity and desire to seek out knowledge, ask questions, and explore new ideas or experiences. An inquisitive person is often eager to learn, driven by a strong interest in understanding the world around them. While curiosity is generally seen as a positive and valuable trait, leading to intellectual growth and problem-solving, an excessive focus on questioning can become intrusive or overwhelming to others, especially if it leads to a disregard for boundaries or an inability to focus on practical matters.

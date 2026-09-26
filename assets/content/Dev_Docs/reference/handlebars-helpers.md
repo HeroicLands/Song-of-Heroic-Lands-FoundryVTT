@@ -1,14 +1,10 @@
 ---
+shortcode: handlebarshelpers
+name: {full: Handlebars Template Helpers, aliases: []}
 type: doc
 subType: reference
-name:
-  full: Handlebars Template Helpers
-  aliases: []
-shortcode: handlebarshelpers
-data:
-  pack: none
-sohl:
-  kbcat: devdocs
+data: {pack: none}
+sohl: {kbcat: devdocs}
 ---
 
 # Handlebars Template Helpers

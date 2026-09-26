@@ -1,16 +1,11 @@
 ---
-tags: []
-name:
-  full: Mineralogy
-  aliases: []
-description: "Identifying minerals, ores, and deposits for mining and building projects."
 shortcode: mnrl
+name: {full: Mineralogy, aliases: []}
 type: skill
-data:
-  icon: miner
-  templatePriority: 0
-  packFolder: nature
 subType: nature
+description: "Identifying minerals, ores, and deposits for mining and building projects."
+tags: []
+data: {icon: miner, templatePriority: 0, packFolder: nature}
 sohl:
   kbcat: nature
   system:
@@ -19,9 +14,7 @@ sohl:
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 0
-    impairedByRoles:
-      - core
-      - vital
+    impairedByRoles: [core, vital]
 ---
 
 Mineralogy is practical earth-knowledge: simple chemistry, geology, prospecting, the working of a mine and the refining of what comes out of it. A character may test Mineralogy to identify an inorganic substance, judge a seam, or price a rough stone. The skill frequently serves as a Secondary Modifier to others — an alchemist's preparations and a weaponsmith's steel both depend on knowing what the material actually is.

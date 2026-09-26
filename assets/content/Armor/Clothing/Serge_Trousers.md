@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Serge Trousers
-  aliases: []
-description: "Twilled serge trousers; practical, versatile everyday leg wear."
 shortcode: sgtrsr
+name: {full: Serge Trousers, aliases: []}
 type: armorgear
-data:
-  icon: trousers
-  templatePriority: 0
-  packFolder: clothing
+description: "Twilled serge trousers; practical, versatile everyday leg wear."
+tags: []
+data: {icon: trousers, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Trousers
   detailMaterial: Serge
@@ -23,20 +16,9 @@ sohl:
     durabilityBase: 7
     material: Cloth
     locations:
-      flexible:
-        - plvisloc
-        - lthghloc
-        - rthghloc
-        - lkneeloc
-        - rkneeloc
-        - lcalfloc
-        - rcalfloc
+      flexible: [plvisloc, lthghloc, rthghloc, lkneeloc, rkneeloc, lcalfloc, rcalfloc]
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

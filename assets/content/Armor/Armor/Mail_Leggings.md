@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Mail Leggings
-  aliases: []
-description: "Metal ring leg coverings providing substantial protection against slashes."
 shortcode: mleg
+name: {full: Mail Leggings, aliases: []}
 type: armorgear
-data:
-  icon: trousers
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Metal ring leg coverings providing substantial protection against slashes."
+tags: []
+data: {icon: trousers, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [mtlc, mnrl]
+  craft: {skill: wpnc, secondary: [mtlc, mnrl]}
   kbcat: mail
   armorType: Leggings
   detailMaterial: Mail
@@ -24,20 +17,8 @@ sohl:
     material: Mail
     locations:
       flexible: []
-      rigid:
-        - lthghloc
-        - rthghloc
-        - lkneeloc
-        - rkneeloc
-        - lcalfloc
-        - rcalfloc
-        - lfootloc
-        - rfootloc
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+      rigid: [lthghloc, rthghloc, lkneeloc, rkneeloc, lcalfloc, rcalfloc, lfootloc, rfootloc]
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 10
     perceptionPenaltyBase: 0
 ---

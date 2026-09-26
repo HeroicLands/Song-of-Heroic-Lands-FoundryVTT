@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Serge Cloak
-  aliases: []
-description: "Durable twilled serge cloak; protective outer garment for all weather."
 shortcode: sgclk
+name: {full: Serge Cloak, aliases: []}
 type: armorgear
-data:
-  icon: cloak
-  templatePriority: 0
-  packFolder: clothing
+description: "Durable twilled serge cloak; protective outer garment for all weather."
+tags: []
+data: {icon: cloak, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Cloak
   detailMaterial: Serge
@@ -37,29 +30,16 @@ sohl:
         - rcalfloc
       rigid: []
       facing:
-        - location: thrxloc
-          side: back
-        - location: abdmnloc
-          side: back
-        - location: plvisloc
-          side: back
-        - location: lthghloc
-          side: back
-        - location: rthghloc
-          side: back
-        - location: lkneeloc
-          side: back
-        - location: rkneeloc
-          side: back
-        - location: lcalfloc
-          side: back
-        - location: rcalfloc
-          side: back
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+        - {location: thrxloc, side: back}
+        - {location: abdmnloc, side: back}
+        - {location: plvisloc, side: back}
+        - {location: lthghloc, side: back}
+        - {location: rthghloc, side: back}
+        - {location: lkneeloc, side: back}
+        - {location: rkneeloc, side: back}
+        - {location: lcalfloc, side: back}
+        - {location: rcalfloc, side: back}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

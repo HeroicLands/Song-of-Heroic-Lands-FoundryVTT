@@ -1,9 +1,6 @@
 ---
-name:
-  full: "Scribe"
 shortcode: scribe
+name: {full: "Scribe"}
 type: folder
-data:
-  parent: miscgear
-  color: "#36454F"
+data: {parent: miscgear, color: "#36454F"}
 ---

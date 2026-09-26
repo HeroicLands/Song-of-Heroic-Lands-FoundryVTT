@@ -1,26 +1,14 @@
 ---
-tags:
-  - food
-name:
-  full: Cherries
-  aliases: []
-description: "Tart dried cherries from summer harvest; flavor game, sweeten puddings."
 shortcode: cherries
+name: {full: Cherries, aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
-  packFolder: food
+description: "Tart dried cherries from summer harvest; flavor game, sweeten puddings."
+tags: [food]
+data: {icon: swapbag, templatePriority: 0, packFolder: food}
 sohl:
-  craft:
-    skill: agri
-    secondary: []
+  craft: {skill: agri, secondary: []}
   kbcat: food
-  system:
-    weightBase: 1
-    valueBase: 0.5
-    qualityBase: 0
-    durabilityBase: 0
+  system: {weightBase: 1, valueBase: 0.5, qualityBase: 0, durabilityBase: 0}
 ---
 
 Tart, dark dried cherries from summer's harvest, shriveled and sweet. A merchant's trade good and a cook's luxury, dried cherries flavor game, sweeten puddings, or are eaten by the handful. Fresh cherries are fleeting market goods; the dried fruit reaches deep into winter, valuable for its color and acidity in dishes where fresh fruit is distant memory.

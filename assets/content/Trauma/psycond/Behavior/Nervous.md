@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Nervous
-  aliases: []
 shortcode: nervous
+name: {full: Nervous, aliases: []}
 type: trauma
-data:
-  icon: battlegear
-  templatePriority: 0
-  packFolder: quirks
 subType: psycond
-sohl:
-  kbcat: psybehavior
-  system:
-    category: quirk
+tags: []
+data: {icon: battlegear, templatePriority: 0, packFolder: quirks}
+sohl: {kbcat: psybehavior, system: {category: quirk}}
 ---
 
 Chronic Nervousness refers to a persistent state of anxiety and unease that affects an individual's ability to engage with tasks, people, or situations without experiencing significant worry or self-doubt. Those with chronic nervousness are frequently on edge, overthinking potential outcomes, and anticipating negative consequences even in relatively low-risk scenarios. While a degree of nervousness can help prepare for challenges, chronic nervousness can lead to indecision, avoidance, and a diminished ability to cope with stress.

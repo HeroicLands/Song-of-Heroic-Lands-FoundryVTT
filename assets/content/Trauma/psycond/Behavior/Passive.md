@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Passive
-  aliases: []
 shortcode: passive
+name: {full: Passive, aliases: []}
 type: trauma
-data:
-  icon: battlegear
-  templatePriority: 0
-  packFolder: disorders
 subType: psycond
-sohl:
-  kbcat: psybehavior
-  system:
-    category: quirk
+tags: []
+data: {icon: battlegear, templatePriority: 0, packFolder: disorders}
+sohl: {kbcat: psybehavior, system: {category: quirk}}
 ---
 
 Passive refers to a personality trait characterized by a tendency to avoid assertiveness, confrontation, or taking active control of situations. A passive individual often prefers to let others make decisions for them, prioritizing peace and minimizing stress. While this can help maintain harmony in some situations, it may also lead to a lack of personal agency, missed opportunities, and frustration. At its extreme, passivity can result in emotional suppression, a desire to withdraw entirely from responsibility, and a loss of self-direction.

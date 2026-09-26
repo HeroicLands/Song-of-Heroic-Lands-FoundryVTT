@@ -1,15 +1,11 @@
 ---
+shortcode: moduledevelopment
+name: {full: Writing Modules for SoHL, aliases: []}
 type: doc
 subType: howto
-name:
-  full: Writing Modules for SoHL
-  aliases: []
-shortcode: moduledevelopment
 description: "Build a Foundry module that extends SoHL without forking."
-data:
-  pack: none
-sohl:
-  kbcat: devdocs
+data: {pack: none}
+sohl: {kbcat: devdocs}
 ---
 
 # Writing Modules for SoHL

@@ -1,11 +1,9 @@
 ---
+shortcode: weapongearug
+name: {full: "Weapon"}
 type: doc
 subType: userguide
-name:
-  full: "Weapon"
-shortcode: weapongearug
-data:
-  packFolder: items
+data: {packFolder: items}
 ---
 
 # What Is a Weapon?

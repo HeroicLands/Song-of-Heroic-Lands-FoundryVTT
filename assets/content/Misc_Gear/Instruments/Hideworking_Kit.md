@@ -1,26 +1,14 @@
 ---
-tags:
-  - instruments
-name:
-  full: Hideworking Kit
-  aliases: []
-description: "Leather roll with scrapers, stretching pegs, fleshing knife; tanners treat raw hides."
 shortcode: hdwkkit
+name: {full: Hideworking Kit, aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
-  packFolder: instruments
+description: "Leather roll with scrapers, stretching pegs, fleshing knife; tanners treat raw hides."
+tags: [instruments]
+data: {icon: swapbag, templatePriority: 0, packFolder: instruments}
 sohl:
-  craft:
-    skill: mtlc
-    secondary: []
+  craft: {skill: mtlc, secondary: []}
   kbcat: instruments
-  system:
-    weightBase: 3
-    valueBase: 24
-    qualityBase: 0
-    durabilityBase: 7
+  system: {weightBase: 3, valueBase: 24, qualityBase: 0, durabilityBase: 7}
 ---
 
 A leather roll containing a tanner's tools: scrapers, stretching pegs, a fleshing knife, and small pots of alum and lime. Tanners, leather-workers, and furriers use such kits to treat raw hides into supple leather for clothing, armor, and gear. The work is foul and patient—scraping, liming, stretching, smoking—and the smell clings to a worker's hands for seasons. Quality leather is a craft few master.

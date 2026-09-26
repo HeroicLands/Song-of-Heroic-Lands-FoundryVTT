@@ -1,16 +1,11 @@
 ---
-tags: []
-name:
-  full: Brewing
-  aliases: []
-description: "Producing ales, wines, meads from ingredients; managing fermentation and aging."
 shortcode: brew
+name: {full: Brewing, aliases: []}
 type: skill
-data:
-  icon: barrel
-  templatePriority: 0
-  packFolder: lore
 subType: lore
+description: "Producing ales, wines, meads from ingredients; managing fermentation and aging."
+tags: []
+data: {icon: barrel, templatePriority: 0, packFolder: lore}
 sohl:
   kbcat: lore
   system:
@@ -19,10 +14,7 @@ sohl:
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 0
-    impairedByRoles:
-      - core
-      - vital
-      - manipulator
+    impairedByRoles: [core, vital, manipulator]
 ---
 
 Brewing is the making of alcoholic drink, and what it produces varies enormously in how far it will travel. Hops are not in general use as a preservative, so ale is drunk within a few days of being made and is therefore a strictly local product. Wine keeps, travels, and is traded at distance; the better vintages are chased. Distilling is a recent and uncommon art, and spirits are usually laid down for a further three to six months after they are made.

@@ -1,22 +1,12 @@
 ---
-tags: []
-name:
-  full: Frostbitten
-  aliases: []
-description: "Tissue freezes in extremities; numbness, waxy skin, blackened flesh."
 shortcode: frost
+name: {full: Frostbitten, aliases: []}
 type: trauma
-data:
-  icon: stomach
-  templatePriority: 0
-  packFolder: privations
 subType: physcond
-sohl:
-  kbcat: physprivations
-  system:
-    category: impediment
-    levelBase: 2
-    healingRateBase: 2
+description: "Tissue freezes in extremities; numbness, waxy skin, blackened flesh."
+tags: []
+data: {icon: stomach, templatePriority: 0, packFolder: privations}
+sohl: {kbcat: physprivations, system: {category: impediment, levelBase: 2, healingRateBase: 2}}
 ---
 
 Frostbite is the local freezing of skin and underlying tissue, most often at the body's extremities — fingers, toes, ears, nose, and cheeks — where circulation is poorest. Unlike hypothermia it is a localized injury rather than a systemic one, but lost tissue does not regrow and severe cases end in amputation.

@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Padded Leggings
-  aliases: []
-description: "Cushioned leg coverings providing warmth for armor wear."
 shortcode: pleg
+name: {full: Padded Leggings, aliases: []}
 type: armorgear
-data:
-  icon: trousers
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Cushioned leg coverings providing warmth for armor wear."
+tags: []
+data: {icon: trousers, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: padded
   armorType: Leggings
   detailMaterial: Padded
@@ -23,21 +16,9 @@ sohl:
     durabilityBase: 10
     material: Padded
     locations:
-      flexible:
-        - lthghloc
-        - rthghloc
-        - lkneeloc
-        - rkneeloc
-        - lcalfloc
-        - rcalfloc
-        - lfootloc
-        - rfootloc
+      flexible: [lthghloc, rthghloc, lkneeloc, rkneeloc, lcalfloc, rcalfloc, lfootloc, rfootloc]
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

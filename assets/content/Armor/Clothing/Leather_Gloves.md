@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Leather Gloves
-  aliases: []
-description: "Lightweight leather hand covering offering style and minor protection."
 shortcode: ltglove
+name: {full: Leather Gloves, aliases: []}
 type: armorgear
-data:
-  icon: gloves
-  templatePriority: 0
-  packFolder: clothing
+description: "Lightweight leather hand covering offering style and minor protection."
+tags: []
+data: {icon: gloves, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: leather
   armorType: Gloves
   detailMaterial: Leather
@@ -22,16 +15,8 @@ sohl:
     valueBase: 40
     durabilityBase: 9
     material: Leather
-    locations:
-      flexible:
-        - lhandloc
-        - rhandloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [lhandloc, rhandloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Jousting Pole
-  aliases: []
-description: "Blunted tournament pole breaks cleanly; knight's horsemanship-testing reach."
 shortcode: jpole
+name: {full: Jousting Pole, aliases: []}
 type: weapongear
-data:
-  icon: cavalry
-  templatePriority: 0
-  packFolder: weapons
+description: "Blunted tournament pole breaks cleanly; knight's horsemanship-testing reach."
+tags: []
+data: {icon: cavalry, templatePriority: 0, packFolder: weapons}
 sohl:
-  craft:
-    skill: wood
-    secondary: []
+  craft: {skill: wood, secondary: []}
   kbcat: polearm
   weaponType: Polearm
   system:
@@ -27,14 +20,8 @@ sohl:
         name: Crush
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 8
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 2
-          aspect: blunt
+        attack: {spread: 8, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 2, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -63,22 +50,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 8
-        defense:
-          blockMod: 0
-          counterstrikeMod: 0
+        defense: {blockMod: 0, counterstrikeMod: 0}
       - shortcode: shaft
         type: melee
         name: Shaft
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 8
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 1
-          aspect: blunt
+        attack: {spread: 8, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 1, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -107,22 +86,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 8
-        defense:
-          blockMod: 0
-          counterstrikeMod: 0
+        defense: {blockMod: 0, counterstrikeMod: 0}
       - shortcode: halfswordshaft
         type: melee
         name: Half-Sword Shaft
         assocSkillCode: melee
         minParts: 2
-        attack:
-          spread: 6
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 0
-          aspect: blunt
+        attack: {spread: 6, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 0, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -151,9 +122,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 8
-        defense:
-          blockMod: 0
-          counterstrikeMod: 0
+        defense: {blockMod: 0, counterstrikeMod: 0}
 ---
 
 A blunted tournament pole with a rondel and coronel rest, the jousting pole is couched for the charge in a controlled arena contest. It breaks cleanly on impact, reducing harm while testing the rider's aim and horsemanship. Knights favor such poles in sanctioned tournaments to display skill without risking lethal wounds.

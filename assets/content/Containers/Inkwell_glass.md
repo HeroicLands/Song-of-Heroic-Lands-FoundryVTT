@@ -1,25 +1,13 @@
 ---
-tags: []
-name:
-  full: "Inkwell, glass"
-  aliases: []
-description: "Fine blown glass inkwell for wealthy scholar or scribe."
 shortcode: inkwellgla
+name: {full: "Inkwell, glass", aliases: []}
 type: containergear
-data:
-  icon: swapbag
-  templatePriority: 0
-  packFolder: containers
+description: "Fine blown glass inkwell for wealthy scholar or scribe."
+tags: []
+data: {icon: swapbag, templatePriority: 0, packFolder: containers}
 sohl:
-  craft:
-    skill: glas
-    secondary: []
-  system:
-    weightBase: 1
-    valueBase: 24
-    qualityBase: 0
-    durabilityBase: 2
-    maxCapacityBase: 0.25
+  craft: {skill: glas, secondary: []}
+  system: {weightBase: 1, valueBase: 24, qualityBase: 0, durabilityBase: 2, maxCapacityBase: 0.25}
 ---
 
 A small inkwell of fine blown glass, pale and nearly transparent, fitted with a ground-glass stopper to seal the ink from air and prevent evaporation. An expensive luxury for the wealthy scribe or scholar working at a desk, it is impractical for travel due to breakage risk. The glass allows the ink level to be seen at a glance and preserves the ink's color and quality better than ceramic or metal vessels.

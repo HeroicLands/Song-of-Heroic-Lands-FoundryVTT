@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Morbus Monstruosus
-  aliases: []
 shortcode: morbusmo
+name: {full: Morbus Monstruosus, aliases: []}
 type: trauma
-data:
-  icon: battlegear
-  templatePriority: 0
-  packFolder: traumaphysical
 subType: physcond
-sohl:
-  kbcat: physfeature
-  system:
-    category: impediment
+tags: []
+data: {icon: battlegear, templatePriority: 0, packFolder: traumaphysical}
+sohl: {kbcat: physfeature, system: {category: impediment}}
 ---
 
 Morbus Monstruosus is a condition marked by the presence of numerous or large neurofibromas, benign tumors that grow from nerve tissue and typically appear as soft lumps on or under the skin. These tumors can grow large and multiply, significantly altering a person's physical appearance, leading to disfigurement. Beyond the aesthetic impact, these tumors may cause discomfort, pain, and interfere with normal bodily functions. The condition often results in social stigma, psychological distress, and physical limitations.

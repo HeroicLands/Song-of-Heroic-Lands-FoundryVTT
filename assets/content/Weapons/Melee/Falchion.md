@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Falchion
-  aliases: []
-description: "Single-edged curved blade favors overhead chop; sailor and soldier's steel."
 shortcode: falcn
+name: {full: Falchion, aliases: []}
 type: weapongear
-data:
-  icon: broadsword
-  templatePriority: 0
-  packFolder: weapons
+description: "Single-edged curved blade favors overhead chop; sailor and soldier's steel."
+tags: []
+data: {icon: broadsword, templatePriority: 0, packFolder: weapons}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [mtlc, mnrl]
+  craft: {skill: wpnc, secondary: [mtlc, mnrl]}
   kbcat: sword
   weaponType: Sword
   system:
@@ -27,14 +20,8 @@ sohl:
         name: Cut
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 6
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 8
-          modifier: 4
-          aspect: edged
+        attack: {spread: 6, modifier: 0}
+        impactBase: {numDice: 1, die: 8, modifier: 4, aspect: edged}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -63,22 +50,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 4
-        defense:
-          blockMod: -5
-          counterstrikeMod: -5
+        defense: {blockMod: -5, counterstrikeMod: -5}
       - shortcode: pommel
         type: melee
         name: Pommel
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 4
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 0
-          aspect: blunt
+        attack: {spread: 4, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 0, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -107,9 +86,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 4
-        defense:
-          blockMod: -5
-          counterstrikeMod: -5
+        defense: {blockMod: -5, counterstrikeMod: -5}
 ---
 
 A single-edged blade curved slightly forward with a blade spine that thickens toward the tip, the falchion splits the difference between saber and cleaver. The weight favors the cutting edge, making it deadly in the overhand chop while retaining enough geometry for a cautious thrust. Soldiers and ships' crews alike carry this steel.

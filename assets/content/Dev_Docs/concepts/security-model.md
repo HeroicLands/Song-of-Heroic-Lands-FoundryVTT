@@ -1,15 +1,11 @@
 ---
+shortcode: securitymodel
+name: {full: Security Model & Guardrails, aliases: []}
 type: doc
 subType: concept
-name:
-  full: Security Model & Guardrails
-  aliases: []
-shortcode: securitymodel
 description: "The threat model and the standing rules every change must respect."
-data:
-  pack: none
-sohl:
-  kbcat: devdocs
+data: {pack: none}
+sohl: {kbcat: devdocs}
 ---
 
 # Security Model & Guardrails

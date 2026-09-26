@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Padded Sleeved Tunic
-  aliases: []
-description: "Cushioned sleeved garment for cold weather or under-armor protection."
 shortcode: pstnc
+name: {full: Padded Sleeved Tunic, aliases: []}
 type: armorgear
-data:
-  icon: shirt
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Cushioned sleeved garment for cold weather or under-armor protection."
+tags: []
+data: {icon: shirt, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: padded
   armorType: Sleeved Tunic
   detailMaterial: Padded
@@ -36,11 +29,7 @@ sohl:
         - abdmnloc
         - plvisloc
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

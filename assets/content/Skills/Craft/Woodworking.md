@@ -1,16 +1,11 @@
 ---
-tags: []
-name:
-  full: Woodworking
-  aliases: []
-description: "Shaping timber into furniture, tools, carts, and decorative carvings."
 shortcode: wood
+name: {full: Woodworking, aliases: []}
 type: skill
-data:
-  icon: handsaw
-  templatePriority: 0
-  packFolder: craft
 subType: craft
+description: "Shaping timber into furniture, tools, carts, and decorative carvings."
+tags: []
+data: {icon: handsaw, templatePriority: 0, packFolder: craft}
 sohl:
   kbcat: craft
   system:
@@ -19,10 +14,7 @@ sohl:
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 0
-    impairedByRoles:
-      - core
-      - vital
-      - manipulator
+    impairedByRoles: [core, vital, manipulator]
 ---
 
 Woodworking is the joiner's and turner's trade: furniture, containers, vehicles, tools, and the decorative carving that distinguishes a chest somebody commissioned from a chest somebody needed. It is the most broadly employed of the crafts, because almost everything that is not stone, cloth or iron is wood.

@@ -1,28 +1,14 @@
 ---
-tags:
-  - instruments
-name:
-  full: Grooming Kit
-  aliases:
-    - Toilet Kit
-    - Personal Grooming Kit
-description: "Leather roll with comb, brush, folding razor, hand mirror, soap, pomade; daily upkeep of hair, beard, and skin."
 shortcode: groomkit
+name: {full: Grooming Kit, aliases: [Toilet Kit, Personal Grooming Kit]}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
-  packFolder: instruments
+description: "Leather roll with comb, brush, folding razor, hand mirror, soap, pomade; daily upkeep of hair, beard, and skin."
+tags: [instruments]
+data: {icon: swapbag, templatePriority: 0, packFolder: instruments}
 sohl:
-  craft:
-    skill: mtlc
-    secondary: []
+  craft: {skill: mtlc, secondary: []}
   kbcat: instruments
-  system:
-    weightBase: 1.5
-    valueBase: 20
-    qualityBase: 0
-    durabilityBase: 5
+  system: {weightBase: 1.5, valueBase: 20, qualityBase: 0, durabilityBase: 5}
 ---
 
 A leather roll or small wooden case fitted with the implements of daily upkeep: a double-sided comb of bone or boxwood (coarse teeth on one side for tangles, fine teeth on the other for nits and dust), a small bristle brush of boar or horsehair in a turned handle, a folding straight razor in a tooled leather sheath with a short strop, a hand-sized polished bronze mirror, a pair of bone tweezers, a horn tongue-scraper, a small pot of beeswax-and-rose pomade, a wrapped cake of scented soap, and a linen hand-towel. The whole rolls tight enough to fit in a belt-pouch or saddlebag. A traveler who keeps his grooming kit in good order is marked as a man (or woman) of station even after weeks on the road; one who lets the bristles go bald and the razor spot with rust is marked as something else.

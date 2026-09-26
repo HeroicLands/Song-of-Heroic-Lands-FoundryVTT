@@ -1,24 +1,14 @@
 ---
-tags: []
-name:
-  full: Reasoning
-  aliases: []
-description: "Logic, memory, and deduction; the foundation of learning and craft."
 shortcode: rea
+name: {full: Reasoning, aliases: []}
 type: attribute
-data:
-  icon: brain
-  templatePriority: 0
-  packFolder: attributes
+description: "Logic, memory, and deduction; the foundation of learning and craft."
+tags: []
+data: {icon: brain, templatePriority: 0, packFolder: attributes}
 sohl:
   system:
     scoreBase: 0
-    valueDesc:
-      - Dim:4
-      - Dull:8
-      - Average:12
-      - Sharp:16
-      - Brilliant:999
+    valueDesc: [Dim:4, Dull:8, Average:12, Sharp:16, Brilliant:999]
     initDiceFormula: 3d6
 ---
 

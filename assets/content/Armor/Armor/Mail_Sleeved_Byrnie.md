@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Mail Sleeved Byrnie
-  aliases: []
-description: "Long sleeved metal ring shirt providing substantial torso and arm protection."
 shortcode: msbyr
+name: {full: Mail Sleeved Byrnie, aliases: []}
 type: armorgear
-data:
-  icon: chainmail
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Long sleeved metal ring shirt providing substantial torso and arm protection."
+tags: []
+data: {icon: chainmail, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [mtlc, mnrl]
+  craft: {skill: wpnc, secondary: [mtlc, mnrl]}
   kbcat: mail
   armorType: Sleeved Byrnie
   detailMaterial: Mail
@@ -35,11 +28,7 @@ sohl:
         - rfraloc
         - thrxloc
         - abdmnloc
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 10
     perceptionPenaltyBase: 0
 ---

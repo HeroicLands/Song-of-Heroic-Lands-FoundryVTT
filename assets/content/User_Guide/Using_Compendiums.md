@@ -1,11 +1,9 @@
 ---
+shortcode: usingpacksug
+name: {full: "Using Compendiums"}
 type: doc
 subType: userguide
-name:
-  full: "Using Compendiums"
-shortcode: usingpacksug
-data:
-  packFolder: userguide
+data: {packFolder: userguide}
 ---
 
 # Overview {#compendium-overview}

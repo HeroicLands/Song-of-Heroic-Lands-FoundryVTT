@@ -1,25 +1,13 @@
 ---
-tags: []
-name:
-  full: "Sack, waxed canvas, sm"
-  aliases: []
-description: "Small waxed canvas sack; keeps the wet out."
 shortcode: sackwcsm
+name: {full: "Sack, waxed canvas, sm", aliases: []}
 type: containergear
-data:
-  icon: swapbag
-  templatePriority: 0
-  packFolder: containers
+description: "Small waxed canvas sack; keeps the wet out."
+tags: []
+data: {icon: swapbag, templatePriority: 0, packFolder: containers}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
-  system:
-    weightBase: 0.4
-    valueBase: 1
-    qualityBase: 0
-    durabilityBase: 3
-    maxCapacityBase: 10
+  craft: {skill: txtl, secondary: []}
+  system: {weightBase: 0.4, valueBase: 1, qualityBase: 0, durabilityBase: 3, maxCapacityBase: 10}
 ---
 
 A small drawstring sack of wax-proofed canvas. It keeps rain off flour or salt on a day's journey, which plain canvas will not, and costs about twice as much for the privilege.

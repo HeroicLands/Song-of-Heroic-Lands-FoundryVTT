@@ -1,26 +1,14 @@
 ---
-tags:
-  - clothing
-name:
-  full: "Russet, per sq yard"
-  aliases: []
-description: "Unfulled cloth of finer thread and better wool; town work, good colours."
 shortcode: russet
+name: {full: "Russet, per sq yard", aliases: []}
 type: miscgear
-data:
-  icon: rolledcloth
-  templatePriority: 0
-  packFolder: textile
+description: "Unfulled cloth of finer thread and better wool; town work, good colours."
+tags: [clothing]
+data: {icon: rolledcloth, templatePriority: 0, packFolder: textile}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
-  system:
-    weightBase: 0.75
-    valueBase: 12
-    qualityBase: 0
-    durabilityBase: 5
+  system: {weightBase: 0.75, valueBase: 12, qualityBase: 0, durabilityBase: 5}
 ---
 
 An unfulled cloth of about the weight of serge but made from finer threads, more of them to the inch, and of better wool. It takes a good variety of colours though rarely strong ones, and is almost exclusively made in towns by guildsmen. It weighs about 12 ounces the square yard. A standard broadcloth is 2 yards by 24, or 48 square yards, so a whole cloth costs 576d.

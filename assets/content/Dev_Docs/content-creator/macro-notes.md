@@ -1,15 +1,11 @@
 ---
+shortcode: macronotes
+name: {full: Authoring a Macro Content Note, aliases: []}
 type: doc
 subType: howto
-name:
-  full: Authoring a Macro Content Note
-  aliases: []
-shortcode: macronotes
 description: "How a `type: macro` note compiles into a Foundry Macro plus its documentation, and what the `{#script}` anchor does."
-data:
-  pack: none
-sohl:
-  kbcat: devdocs
+data: {pack: none}
+sohl: {kbcat: devdocs}
 ---
 
 # Authoring a Macro Content Note

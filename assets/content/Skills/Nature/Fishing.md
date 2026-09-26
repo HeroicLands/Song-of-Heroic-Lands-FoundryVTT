@@ -1,16 +1,11 @@
 ---
-tags: []
-name:
-  full: Fishing
-  aliases: []
-description: "Catching fish using hooks, nets, spears; adapting to local conditions."
 shortcode: fish
+name: {full: Fishing, aliases: []}
 type: skill
-data:
-  icon: fishing
-  templatePriority: 0
-  packFolder: nature
 subType: nature
+description: "Catching fish using hooks, nets, spears; adapting to local conditions."
+tags: []
+data: {icon: fishing, templatePriority: 0, packFolder: nature}
 sohl:
   kbcat: nature
   system:
@@ -19,10 +14,7 @@ sohl:
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 0
-    impairedByRoles:
-      - core
-      - vital
-      - manipulator
+    impairedByRoles: [core, vital, manipulator]
 ---
 
 Fishing is the taking of fish and other water creatures by whatever means the water rewards — hook and line, spear, net, weir, or bare hands. Culture, geography and quarry decide which technique is favoured; the skill covers competence in all of them.

@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Schizophrenia
-  aliases: []
 shortcode: schizop
+name: {full: Schizophrenia, aliases: []}
 type: trauma
-data:
-  icon: battlegear
-  templatePriority: 0
-  packFolder: disorders
 subType: psycond
-sohl:
-  kbcat: psypsychosis
-  system:
-    category: impulse
+tags: []
+data: {icon: battlegear, templatePriority: 0, packFolder: disorders}
+sohl: {kbcat: psypsychosis, system: {category: impulse}}
 ---
 
 Schizophrenic refers to an individual experiencing symptoms associated with schizophrenia, a severe mental disorder that affects how a person thinks, feels, and behaves. Schizophrenia often manifests as delusions, hallucinations, disorganized thinking, and a distorted perception of reality. While symptoms vary in intensity, at its worst, schizophrenia can profoundly disrupt an individual's ability to function, leading to social isolation, paranoia, and emotional instability.

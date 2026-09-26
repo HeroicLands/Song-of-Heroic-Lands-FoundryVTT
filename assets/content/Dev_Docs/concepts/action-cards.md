@@ -1,15 +1,11 @@
 ---
+shortcode: actioncards
+name: {full: Action Cards & the Consent Model, aliases: []}
 type: doc
 subType: concept
-name:
-  full: Action Cards & the Consent Model
-  aliases: []
-shortcode: actioncards
 description: "The universal pattern every automated interaction is built on: self-sufficient actions offered across the chat log, run only at a human's behest."
-data:
-  pack: none
-sohl:
-  kbcat: devdocs
+data: {pack: none}
+sohl: {kbcat: devdocs}
 ---
 
 # Action Cards & the Consent Model

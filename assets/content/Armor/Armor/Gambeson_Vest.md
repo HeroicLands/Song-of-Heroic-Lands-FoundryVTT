@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Gambeson Vest
-  aliases: []
-description: "Padded vest providing protection under or worn standalone."
 shortcode: gvest
+name: {full: Gambeson Vest, aliases: []}
 type: armorgear
-data:
-  icon: leathervest
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Padded vest providing protection under or worn standalone."
+tags: []
+data: {icon: leathervest, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: gambeson
   armorType: Vest
   detailMaterial: Gambeson
@@ -22,17 +15,8 @@ sohl:
     valueBase: 210
     durabilityBase: 11
     material: Gambeson
-    locations:
-      flexible:
-        - neckloc
-      rigid:
-        - thrxloc
-        - abdmnloc
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [neckloc], rigid: [thrxloc, abdmnloc]}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

@@ -1,26 +1,14 @@
 ---
-tags:
-  - jewelry_cash
-name:
-  full: "Jankorez, cut"
-  aliases: []
-description: "Rare pale blue-white gem; clarity rivals diamonds; royal use only."
 shortcode: jankorezcu
+name: {full: "Jankorez, cut", aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
-  packFolder: jewelry
+description: "Rare pale blue-white gem; clarity rivals diamonds; royal use only."
+tags: [jewelry_cash]
+data: {icon: swapbag, templatePriority: 0, packFolder: jewelry}
 sohl:
-  craft:
-    skill: jewl
-    secondary: []
+  craft: {skill: jewl, secondary: []}
   kbcat: jewelry
-  system:
-    weightBase: 0.0004
-    valueBase: 1200
-    qualityBase: 0
-    durabilityBase: 2
+  system: {weightBase: 0.0004, valueBase: 1200, qualityBase: 0, durabilityBase: 2}
 ---
 
 Jankorez, a rare gem of pale blue or white radiance, cut with exquisite precision by master lapidaries. The stone's clarity and brilliance rival even diamonds, making each piece invaluable to those who possess one. These gems rest only in the treasuries of kings and the adornments of the highest nobility.

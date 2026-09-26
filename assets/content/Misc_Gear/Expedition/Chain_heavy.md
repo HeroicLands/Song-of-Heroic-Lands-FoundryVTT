@@ -1,26 +1,14 @@
 ---
-tags:
-  - expedition
-name:
-  full: "Chain, heavy"
-  aliases: []
-description: "Forged iron link chain; secures large goods, hobbles beasts, binds prisoners."
 shortcode: chainheavy
+name: {full: "Chain, heavy", aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
-  packFolder: expedition
+description: "Forged iron link chain; secures large goods, hobbles beasts, binds prisoners."
+tags: [expedition]
+data: {icon: swapbag, templatePriority: 0, packFolder: expedition}
 sohl:
-  craft:
-    skill: mtlc
-    secondary: []
+  craft: {skill: mtlc, secondary: []}
   kbcat: expedition
-  system:
-    weightBase: 4
-    valueBase: 5
-    qualityBase: 0
-    durabilityBase: 10
+  system: {weightBase: 4, valueBase: 5, qualityBase: 0, durabilityBase: 10}
 ---
 
 Heavy chain of forged iron links, welded or riveted and blacksmith-finished for durability. Sold by the foot, heavy chain is used to secure large goods, hobble beasts, or bind a prisoner during transport. The links are thick and resistant to cutting; it is a standard tool for carters, guards, and anyone who needs to restrain something of great strength.

@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Buckram Hat
-  aliases: []
-description: "Stiff buckram hat providing durability and reliable rigid headwear."
 shortcode: bhat
+name: {full: Buckram Hat, aliases: []}
 type: armorgear
-data:
-  icon: pointyhat
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Stiff buckram hat providing durability and reliable rigid headwear."
+tags: []
+data: {icon: pointyhat, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Hat
   detailMaterial: Buckram
@@ -22,15 +15,8 @@ sohl:
     valueBase: 4
     durabilityBase: 10
     material: Cloth
-    locations:
-      flexible:
-        - skullloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [skullloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

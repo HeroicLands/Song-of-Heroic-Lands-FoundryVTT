@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Cloth Hood
-  aliases: []
-description: "Simple cloth hood covering head and neck."
 shortcode: chood
+name: {full: Cloth Hood, aliases: []}
 type: armorgear
-data:
-  icon: hood
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Simple cloth hood covering head and neck."
+tags: []
+data: {icon: hood, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Hood
   detailMaterial: Cloth
@@ -22,16 +15,8 @@ sohl:
     valueBase: 6
     durabilityBase: 10
     material: Cloth
-    locations:
-      flexible:
-        - skullloc
-        - neckloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [skullloc, neckloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

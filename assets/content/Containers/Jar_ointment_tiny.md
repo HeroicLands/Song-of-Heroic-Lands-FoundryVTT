@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: "Jar, ointment, tiny"
-  aliases: []
-description: "Thumb-sized ceramic vessel for precious unguent or poison antidote."
 shortcode: jarointmen4
+name: {full: "Jar, ointment, tiny", aliases: []}
 type: containergear
-data:
-  icon: swapbag
-  templatePriority: 0
-  packFolder: containers
+description: "Thumb-sized ceramic vessel for precious unguent or poison antidote."
+tags: []
+data: {icon: swapbag, templatePriority: 0, packFolder: containers}
 sohl:
-  craft:
-    skill: cmcs
-    secondary: []
+  craft: {skill: cmcs, secondary: []}
   system:
     weightBase: 0.9
     valueBase: 0.5

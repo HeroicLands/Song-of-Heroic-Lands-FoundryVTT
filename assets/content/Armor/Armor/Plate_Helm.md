@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Plate Helm
-  aliases: []
-description: "Plain steel skullcap helm; covers the crown alone and leaves the face open."
 shortcode: phlm
+name: {full: Plate Helm, aliases: []}
 type: armorgear
-data:
-  icon: crestedhelmet
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Plain steel skullcap helm; covers the crown alone and leaves the face open."
+tags: []
+data: {icon: crestedhelmet, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [mtlc, mnrl]
+  craft: {skill: wpnc, secondary: [mtlc, mnrl]}
   kbcat: plate
   armorType: Helm
   detailMaterial: Plate
@@ -22,15 +15,8 @@ sohl:
     valueBase: 80
     durabilityBase: 14
     material: Plate
-    locations:
-      flexible: []
-      rigid:
-        - skullloc
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [], rigid: [skullloc]}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

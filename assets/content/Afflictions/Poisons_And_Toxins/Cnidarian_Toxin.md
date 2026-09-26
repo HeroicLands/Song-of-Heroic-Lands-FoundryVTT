@@ -1,23 +1,14 @@
 ---
-tags: []
-name:
-  full: Cnidarian Toxin
-  aliases: []
-description: "Jellyfish nematocyst toxin; excruciating pain and welts; cardiotoxic in severe cases."
 shortcode: cndntxn
+name: {full: Cnidarian Toxin, aliases: []}
 type: affliction
-data:
-  icon: poisonbottle
-  templatePriority: 0
-  packFolder: poisonsandtoxins
 subType: poisontoxin
+description: "Jellyfish nematocyst toxin; excruciating pain and welts; cardiotoxic in severe cases."
+tags: []
+data: {icon: poisonbottle, templatePriority: 0, packFolder: poisonsandtoxins}
 sohl:
   kbcat: poisontoxin
-  system:
-    levelBase: 1
-    healingRateBase: 3
-    contagionIndexBase: 3
-    transmission: vector
+  system: {levelBase: 1, healingRateBase: 3, contagionIndexBase: 3, transmission: vector}
 ---
 
 Cnidarian toxins, found in creatures like jellyfish, are delivered through specialized cells called cnidocytes. These cells contain nematocysts, which release toxins upon contact with the skin, causing immediate, excruciating pain, welts, and sometimes systemic symptoms like nausea, vomiting, difficulty breathing, muscle spasms, and cardiovascular collapse in severe cases. Some varieties are highly potent and can cause death within minutes due to its cardiotoxic properties, leading to cardiac arrest. The toxins act by targeting the nervous system and dermal tissues, often resulting in severe inflammatory responses and potential necrosis at the site of contact.

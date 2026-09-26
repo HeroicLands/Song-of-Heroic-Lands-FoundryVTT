@@ -1,9 +1,6 @@
 ---
-name:
-  full: "Physical"
 shortcode: physical
+name: {full: "Physical"}
 type: folder
-data:
-  parent: skills
-  color: "#E67E22"
+data: {parent: skills, color: "#E67E22"}
 ---

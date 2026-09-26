@@ -1,26 +1,14 @@
 ---
-tags:
-  - spirits
-name:
-  full: "Brandy, Keg"
-  aliases: []
-description: "Distilled wine spirit in sealed keg; merchant treasure, used sparingly as medicine."
 shortcode: brdykeg
+name: {full: "Brandy, Keg", aliases: []}
 type: miscgear
-data:
-  icon: brandybottle
-  templatePriority: 0
-  packFolder: spirits
+description: "Distilled wine spirit in sealed keg; merchant treasure, used sparingly as medicine."
+tags: [spirits]
+data: {icon: brandybottle, templatePriority: 0, packFolder: spirits}
 sohl:
-  craft:
-    skill: brew
-    secondary: []
+  craft: {skill: brew, secondary: []}
   kbcat: spirits
-  system:
-    weightBase: 85
-    valueBase: 360
-    qualityBase: 0
-    durabilityBase: 0
+  system: {weightBase: 85, valueBase: 360, qualityBase: 0, durabilityBase: 0}
 ---
 
 A keg of distilled brandy—the product of wine heated in a copper still until the spirit rises and condenses. Merchants and noble households prize it; a stopper sealed with wax preserves the volatile spirit for months or years in a cellar. Used sparingly, often as medicine.

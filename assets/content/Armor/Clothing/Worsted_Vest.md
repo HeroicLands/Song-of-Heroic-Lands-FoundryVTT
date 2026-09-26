@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Worsted Vest
-  aliases: []
-description: "Tightly-spun wool vest; durable, practical protective garment."
 shortcode: wvest
+name: {full: Worsted Vest, aliases: []}
 type: armorgear
-data:
-  icon: leathervest
-  templatePriority: 0
-  packFolder: clothing
+description: "Tightly-spun wool vest; durable, practical protective garment."
+tags: []
+data: {icon: leathervest, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Vest
   detailMaterial: Worsted
@@ -22,16 +15,8 @@ sohl:
     valueBase: 60
     durabilityBase: 9
     material: Cloth
-    locations:
-      flexible:
-        - thrxloc
-        - abdmnloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [thrxloc, abdmnloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

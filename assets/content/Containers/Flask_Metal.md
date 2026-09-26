@@ -1,25 +1,13 @@
 ---
-tags: []
-name:
-  full: "Flask, Metal"
-  aliases: []
-description: "Hammered tinned copper flask for carrying liquids at belt."
 shortcode: flaskmetal
+name: {full: "Flask, Metal", aliases: []}
 type: containergear
-data:
-  icon: swapbag
-  templatePriority: 0
-  packFolder: containers
+description: "Hammered tinned copper flask for carrying liquids at belt."
+tags: []
+data: {icon: swapbag, templatePriority: 0, packFolder: containers}
 sohl:
-  craft:
-    skill: mtlc
-    secondary: []
-  system:
-    weightBase: 0
-    valueBase: 3
-    qualityBase: 0
-    durabilityBase: 7
-    maxCapacityBase: 1
+  craft: {skill: mtlc, secondary: []}
+  system: {weightBase: 0, valueBase: 3, qualityBase: 0, durabilityBase: 7, maxCapacityBase: 1}
 ---
 
 A small flask of hammered tinned copper or pewter, shaped for carrying at the belt or in a satchel, stoppered with a cork or wooden plug and sealed with wax or resin. Preferred by soldiers and travelers over glass, as it survives impact and rough camp life without shattering. Used for wine, water, or spirits during long marches and campaigns.

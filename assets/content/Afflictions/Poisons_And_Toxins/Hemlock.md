@@ -1,23 +1,14 @@
 ---
-tags: []
-name:
-  full: Hemlock
-  aliases: []
-description: "Toxic alkaloid plant; muscle paralysis progressing from extremities; respiratory failure."
 shortcode: hemlock
+name: {full: Hemlock, aliases: []}
 type: affliction
-data:
-  icon: poisonbottle
-  templatePriority: 0
-  packFolder: poisonsandtoxins
 subType: poisontoxin
+description: "Toxic alkaloid plant; muscle paralysis progressing from extremities; respiratory failure."
+tags: []
+data: {icon: poisonbottle, templatePriority: 0, packFolder: poisonsandtoxins}
 sohl:
   kbcat: poisontoxin
-  system:
-    levelBase: 1
-    healingRateBase: 3
-    contagionIndexBase: 3
-    transmission: injested
+  system: {levelBase: 1, healingRateBase: 3, contagionIndexBase: 3, transmission: injested}
 ---
 
 Hemlock (Conium maculatum) is a highly toxic plant. All parts of the plant contain toxic alkaloids, but the seeds and root are especially potent.

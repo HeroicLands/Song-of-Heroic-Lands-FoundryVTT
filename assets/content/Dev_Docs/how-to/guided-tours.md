@@ -1,15 +1,11 @@
 ---
+shortcode: guidedtours
+name: {full: Writing Guided Tours, aliases: []}
 type: doc
 subType: howto
-name:
-  full: Writing Guided Tours
-  aliases: []
-shortcode: guidedtours
 description: "The `SohlTour` framework: step kinds, value/action gates, sheet navigation, and how to register a tour."
-data:
-  pack: none
-sohl:
-  kbcat: devdocs
+data: {pack: none}
+sohl: {kbcat: devdocs}
 ---
 
 # Writing Guided Tours

@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Sealskin Cap
-  aliases: []
-description: "Water-resistant seal-fur cap; cold and wet climate protection."
 shortcode: slscap
+name: {full: Sealskin Cap, aliases: []}
 type: armorgear
-data:
-  icon: billedcap
-  templatePriority: 0
-  packFolder: clothing
+description: "Water-resistant seal-fur cap; cold and wet climate protection."
+tags: []
+data: {icon: billedcap, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: leather
   armorType: Cap
   detailMaterial: Sealskin
@@ -22,15 +15,8 @@ sohl:
     valueBase: 50
     durabilityBase: 11
     material: Leather
-    locations:
-      flexible:
-        - skullloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [skullloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

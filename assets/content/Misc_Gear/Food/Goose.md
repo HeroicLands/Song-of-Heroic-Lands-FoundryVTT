@@ -1,26 +1,14 @@
 ---
-tags:
-  - food
-name:
-  full: Goose
-  aliases: []
-description: "Plucked rich waterfowl; dark robust meat, rendered fat serves kitchen and lamp."
 shortcode: goose
+name: {full: Goose, aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
-  packFolder: food
+description: "Plucked rich waterfowl; dark robust meat, rendered fat serves kitchen and lamp."
+tags: [food]
+data: {icon: swapbag, templatePriority: 0, packFolder: food}
 sohl:
-  craft:
-    skill: anmcft
-    secondary: []
+  craft: {skill: anmcft, secondary: []}
   kbcat: food
-  system:
-    weightBase: 1
-    valueBase: 2
-    qualityBase: 0
-    durabilityBase: 0
+  system: {weightBase: 1, valueBase: 2, qualityBase: 0, durabilityBase: 0}
 ---
 
 Plucked and gutted goose, rich with fat, is favored at autumn feasts and keeps well when smoked over hardwood. The meat is darker and more robust than chicken, and the rendered fat serves both kitchen and lamp. A single bird yields enough for a family meal or becomes jerky for weeks of travel.

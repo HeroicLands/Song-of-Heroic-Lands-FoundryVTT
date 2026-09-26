@@ -1,26 +1,14 @@
 ---
-tags:
-  - spirits
-name:
-  full: "Beer, Pint"
-  aliases: []
-description: "Weak cheap small-beer; laborer's drink; safe, ever-present in garrisons."
 shortcode: beerpt
+name: {full: "Beer, Pint", aliases: []}
 type: miscgear
-data:
-  icon: beerstein
-  templatePriority: 0
-  packFolder: spirits
+description: "Weak cheap small-beer; laborer's drink; safe, ever-present in garrisons."
+tags: [spirits]
+data: {icon: beerstein, templatePriority: 0, packFolder: spirits}
 sohl:
-  craft:
-    skill: brew
-    secondary: []
+  craft: {skill: brew, secondary: []}
   kbcat: spirits
-  system:
-    weightBase: 1
-    valueBase: 0.5
-    qualityBase: 0
-    durabilityBase: 0
+  system: {weightBase: 1, valueBase: 0.5, qualityBase: 0, durabilityBase: 0}
 ---
 
 A pint of small-beer in a wooden cup or earthenware bowl. Thin and tangy, it is the laborer's drink—cheap, safe, and ever-present in garrison kitchens and public wells. Served warm or cold, it carries no prestige but much practicality.

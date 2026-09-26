@@ -1,26 +1,14 @@
 ---
-tags:
-  - jewelry_cash
-name:
-  full: "Agate, cut"
-  aliases: []
-description: "Banded stone faceted by the lapidary; modest gem for rings and pendants."
 shortcode: agatecut
+name: {full: "Agate, cut", aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
-  packFolder: jewelry
+description: "Banded stone faceted by the lapidary; modest gem for rings and pendants."
+tags: [jewelry_cash]
+data: {icon: swapbag, templatePriority: 0, packFolder: jewelry}
 sohl:
-  craft:
-    skill: jewl
-    secondary: []
+  craft: {skill: jewl, secondary: []}
   kbcat: jewelry
-  system:
-    weightBase: 0.0004
-    valueBase: 10
-    qualityBase: 0
-    durabilityBase: 2
+  system: {weightBase: 0.0004, valueBase: 10, qualityBase: 0, durabilityBase: 2}
 ---
 
 A small stone of banded or striped composition, cut and polished by the lapidary's wheel into a faceted gem. Agate appears in shades of gray, brown, and rose, often with visible layers or inclusions that distinguish each piece. Jewelers set these modest gems into rings and pendants for minor adornment, and merchants trade them as affordable trinkets.

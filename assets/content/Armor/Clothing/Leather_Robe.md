@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Leather Robe
-  aliases: []
-description: "Rugged outer garment of treated leather for adventurers and wanderers."
 shortcode: ltrobe
+name: {full: Leather Robe, aliases: []}
 type: armorgear
-data:
-  icon: robe
-  templatePriority: 0
-  packFolder: clothing
+description: "Rugged outer garment of treated leather for adventurers and wanderers."
+tags: []
+data: {icon: robe, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: leather
   armorType: Robe
   detailMaterial: Leather
@@ -42,11 +35,7 @@ sohl:
         - lcalfloc
         - rcalfloc
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

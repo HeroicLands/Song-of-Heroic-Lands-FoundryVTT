@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Ermine Shirt
-  aliases: []
-description: "White ermine fur shirt signifying high status and elite prestige."
 shortcode: eshirt
+name: {full: Ermine Shirt, aliases: []}
 type: armorgear
-data:
-  icon: shirt
-  templatePriority: 0
-  packFolder: clothing
+description: "White ermine fur shirt signifying high status and elite prestige."
+tags: []
+data: {icon: shirt, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: leather
   armorType: Shirt
   detailMaterial: Ermine
@@ -22,20 +15,8 @@ sohl:
     valueBase: 795
     durabilityBase: 7
     material: Leather
-    locations:
-      flexible:
-        - lshldloc
-        - rshldloc
-        - lupaloc
-        - rupaloc
-        - thrxloc
-        - abdmnloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [lshldloc, rshldloc, lupaloc, rupaloc, thrxloc, abdmnloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

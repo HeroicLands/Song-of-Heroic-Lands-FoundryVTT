@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Cloth Loincloth
-  aliases: []
-description: "Soft cloth loincloth offering basic coverage and casual comfort."
 shortcode: cloin
+name: {full: Cloth Loincloth, aliases: []}
 type: armorgear
-data:
-  icon: loincloth
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Soft cloth loincloth offering basic coverage and casual comfort."
+tags: []
+data: {icon: loincloth, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Loincloth
   detailMaterial: Cloth
@@ -22,15 +15,8 @@ sohl:
     valueBase: 10
     durabilityBase: 10
     material: Cloth
-    locations:
-      flexible:
-        - plvisloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [plvisloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

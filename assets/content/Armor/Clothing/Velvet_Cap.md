@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Velvet Cap
-  aliases: []
-description: "Soft plush velvet cap; luxury status symbol for formal settings."
 shortcode: vcap
+name: {full: Velvet Cap, aliases: []}
 type: armorgear
-data:
-  icon: billedcap
-  templatePriority: 0
-  packFolder: clothing
+description: "Soft plush velvet cap; luxury status symbol for formal settings."
+tags: []
+data: {icon: billedcap, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Cap
   detailMaterial: Velvet
@@ -22,15 +15,8 @@ sohl:
     valueBase: 14
     durabilityBase: 10
     material: Cloth
-    locations:
-      flexible:
-        - skullloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [skullloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

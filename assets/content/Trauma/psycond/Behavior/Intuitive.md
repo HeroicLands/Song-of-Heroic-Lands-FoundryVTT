@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Intuitive
-  aliases: []
 shortcode: inttv
+name: {full: Intuitive, aliases: []}
 type: trauma
-data:
-  icon: battlegear
-  templatePriority: 0
-  packFolder: quirks
 subType: psycond
-sohl:
-  kbcat: psybehavior
-  system:
-    category: quirk
+tags: []
+data: {icon: battlegear, templatePriority: 0, packFolder: quirks}
+sohl: {kbcat: psybehavior, system: {category: quirk}}
 ---
 
 Intuitive refers to an individual's ability to understand or grasp ideas, situations, or people instinctively, without relying on explicit reasoning or conscious thought. Intuitive individuals often have a strong sense of awareness and can make decisions based on a "gut feeling" or deep internal understanding rather than through analysis or detailed information. While intuition can lead to quick, insightful judgments, excessive reliance on it may cause a person to overlook important details or fail to verify their assumptions.

@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Worsted Hat
-  aliases: []
-description: "Tightly-spun wool hat; durable, stylish head covering."
 shortcode: what
+name: {full: Worsted Hat, aliases: []}
 type: armorgear
-data:
-  icon: pointyhat
-  templatePriority: 0
-  packFolder: clothing
+description: "Tightly-spun wool hat; durable, stylish head covering."
+tags: []
+data: {icon: pointyhat, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Hat
   detailMaterial: Worsted
@@ -22,15 +15,8 @@ sohl:
     valueBase: 10
     durabilityBase: 9
     material: Cloth
-    locations:
-      flexible:
-        - skullloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [skullloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

@@ -1,14 +1,10 @@
 ---
+shortcode: modifiermodel
+name: {full: Modifier Model, aliases: []}
 type: doc
 subType: reference
-name:
-  full: Modifier Model
-  aliases: []
-shortcode: modifiermodel
-data:
-  pack: none
-sohl:
-  kbcat: devdocs
+data: {pack: none}
+sohl: {kbcat: devdocs}
 ---
 
 # Modifier Model

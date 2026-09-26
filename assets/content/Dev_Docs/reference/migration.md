@@ -1,23 +1,14 @@
 ---
-type: doc
-subType: reference
+shortcode: migration
 name:
   full: World Migration Runner
-  aliases:
-    - Migration Runner
-    - World Migration
-    - systemMigrationVersion
-    - sohl.entity.migration
-shortcode: migration
+  aliases: [Migration Runner, World Migration, systemMigrationVersion, sohl.entity.migration]
+type: doc
+subType: reference
 description: For developers who change a persisted schema and need old worlds to upgrade seamlessly on load.
-tags:
-  - core-system
-  - data-model
-  - lifecycle
-data:
-  pack: none
-sohl:
-  kbcat: devdocs
+tags: [core-system, data-model, lifecycle]
+data: {pack: none}
+sohl: {kbcat: devdocs}
 ---
 
 # World Migration Runner

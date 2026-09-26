@@ -1,9 +1,6 @@
 ---
-name:
-  full: "Stone"
 shortcode: stone
+name: {full: "Stone"}
 type: folder
-data:
-  parent: miscgear
-  color: "#95A5A6"
+data: {parent: miscgear, color: "#95A5A6"}
 ---

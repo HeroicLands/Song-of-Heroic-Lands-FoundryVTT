@@ -1,12 +1,9 @@
 ---
+shortcode: shock
+name: {full: Shock, aliases: []}
 type: doc
 subType: rules
-name:
-  full: Shock
-  aliases: []
-shortcode: shock
-data:
-  packFolder: body
+data: {packFolder: body}
 ---
 
 A sudden, overwhelming strain can drive a creature into **shock** — a worsening spiral from disorientation to death. Violent injury and heavy blood loss are the most common causes, but fear and other systemic or psychological forces can bring it on just the same. A creature is always in exactly one **Shock State**, and while in any shock state it **cannot concentrate** until it recovers.

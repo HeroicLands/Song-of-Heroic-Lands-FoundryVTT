@@ -1,12 +1,9 @@
 ---
+shortcode: crafting
+name: {full: Crafting, aliases: []}
 type: doc
 subType: rules
-name:
-  full: Crafting
-  aliases: []
-shortcode: crafting
-data:
-  packFolder: rules
+data: {packFolder: rules}
 ---
 
 **Crafting** is the making of a thing — a blade, a pot, a bow, a lock, a coat. Every trade that produces an article follows the same short routine, and the trades differ only in the detail they hang on it.

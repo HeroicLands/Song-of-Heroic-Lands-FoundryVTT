@@ -1,26 +1,14 @@
 ---
-tags:
-  - jewelry_cash
-name:
-  full: Pence
-  aliases: []
-description: "Alloyed silver coin, everyday currency of trade; worth its face, not its metal."
 shortcode: pence
+name: {full: Pence, aliases: []}
 type: miscgear
-data:
-  icon: coinsbdg
-  templatePriority: 0
-  packFolder: cash
+description: "Alloyed silver coin, everyday currency of trade; worth its face, not its metal."
+tags: [jewelry_cash]
+data: {icon: coinsbdg, templatePriority: 0, packFolder: cash}
 sohl:
-  craft:
-    skill: mtlc
-    secondary: []
+  craft: {skill: mtlc, secondary: []}
   kbcat: cash
-  system:
-    weightBase: 0.0033
-    valueBase: 1
-    qualityBase: 0
-    durabilityBase: 3
+  system: {weightBase: 0.0033, valueBase: 1, qualityBase: 0, durabilityBase: 3}
 ---
 
 A silver coin stamped with the royal mark, the everyday currency of trade in markets and taverns. Smaller than the gold crown but more durable, the pence serves the merchant, farmer, and laborer equally.

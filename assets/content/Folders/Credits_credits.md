@@ -1,8 +1,6 @@
 ---
-name:
-  full: "Credits"
 shortcode: credits
+name: {full: "Credits"}
 type: folder
-data:
-  color: "#007466"
+data: {color: "#007466"}
 ---

@@ -1,26 +1,14 @@
 ---
-tags:
-  - expedition
-name:
-  full: "Cage, wooden, large"
-  aliases: []
-description: "Large slatted wooden cage for livestock or hounds (roughly 27 cubic feet)."
 shortcode: cagewoodlg
+name: {full: "Cage, wooden, large", aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
-  packFolder: expedition
+description: "Large slatted wooden cage for livestock or hounds (roughly 27 cubic feet)."
+tags: [expedition]
+data: {icon: swapbag, templatePriority: 0, packFolder: expedition}
 sohl:
-  craft:
-    skill: wood
-    secondary: []
+  craft: {skill: wood, secondary: []}
   kbcat: expedition
-  system:
-    weightBase: 40
-    valueBase: 15
-    qualityBase: 0
-    durabilityBase: 4
+  system: {weightBase: 40, valueBase: 15, qualityBase: 0, durabilityBase: 4}
 ---
 
 A slatted cage of light battens pegged into a frame, big enough for a hound, a goat, or a dozen fowl. Wood is what a cage is normally made of — iron is for things that would chew through, and costs many times more. Carters stack them on a wagon bed for market day and the slats let the beasts breathe and be seen.

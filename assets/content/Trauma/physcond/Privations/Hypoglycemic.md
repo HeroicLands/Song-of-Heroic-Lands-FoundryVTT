@@ -1,22 +1,12 @@
 ---
-tags: []
-name:
-  full: Hypoglycemic
-  aliases: []
-description: "Blood sugar crashes; tremor, sweating, confusion, collapse."
 shortcode: hypgly
+name: {full: Hypoglycemic, aliases: []}
 type: trauma
-data:
-  icon: stomach
-  templatePriority: 0
-  packFolder: privations
 subType: physcond
-sohl:
-  kbcat: physprivations
-  system:
-    category: impediment
-    levelBase: 2
-    healingRateBase: 5
+description: "Blood sugar crashes; tremor, sweating, confusion, collapse."
+tags: []
+data: {icon: stomach, templatePriority: 0, packFolder: privations}
+sohl: {kbcat: physprivations, system: {category: impediment, levelBase: 2, healingRateBase: 5}}
 ---
 
 Hypoglycemia is the acute crash that follows hard exertion on too little food, particularly in the cold. The body's reserves of quickly available fuel are exhausted faster than fat can be mobilized to replace them, and the brain — which runs almost exclusively on sugar — fails before any other organ. It is the form of starvation that strikes in minutes rather than weeks.

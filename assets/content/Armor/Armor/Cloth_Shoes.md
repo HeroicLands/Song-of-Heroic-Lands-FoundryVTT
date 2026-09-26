@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Cloth Shoes
-  aliases: []
-description: "Breathable cloth footwear for casual, light-duty wear."
 shortcode: cshoe
+name: {full: Cloth Shoes, aliases: []}
 type: armorgear
-data:
-  icon: leatherboot
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Breathable cloth footwear for casual, light-duty wear."
+tags: []
+data: {icon: leatherboot, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Shoes
   detailMaterial: Cloth
@@ -22,16 +15,8 @@ sohl:
     valueBase: 7
     durabilityBase: 10
     material: Cloth
-    locations:
-      flexible:
-        - lfootloc
-        - rfootloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [lfootloc, rfootloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

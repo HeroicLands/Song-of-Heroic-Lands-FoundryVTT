@@ -1,16 +1,11 @@
 ---
-tags: []
-name:
-  full: Survival
-  aliases: []
-description: "Enduring wilderness through shelter, water, foraging, and hazard navigation."
 shortcode: srvl
+name: {full: Survival, aliases: []}
 type: skill
-data:
-  icon: campfire
-  templatePriority: 0
-  packFolder: nature
 subType: nature
+description: "Enduring wilderness through shelter, water, foraging, and hazard navigation."
+tags: []
+data: {icon: campfire, templatePriority: 0, packFolder: nature}
 sohl:
   kbcat: nature
   system:
@@ -19,11 +14,7 @@ sohl:
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 1
-    impairedByRoles:
-      - core
-      - vital
-      - locomotor
-      - manipulator
+    impairedByRoles: [core, vital, locomotor, manipulator]
 ---
 
 Survival is wilderness competence: travelling through country nobody maintains, finding or building shelter, finding water, and knowing the wild animals of a region — what they are, what they do, and where they will be. A great many livelihoods develop it, and anyone at all may attempt it untrained on the strength of common sense, though not very well.

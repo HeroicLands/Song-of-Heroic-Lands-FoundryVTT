@@ -1,26 +1,14 @@
 ---
-tags:
-  - jewelry_cash
-name:
-  full: "Ring, copper"
-  aliases: []
-description: "Cheap copper band; stains the finger green, sold at every fair and festival."
 shortcode: ringcopper
+name: {full: "Ring, copper", aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
-  packFolder: jewelry
+description: "Cheap copper band; stains the finger green, sold at every fair and festival."
+tags: [jewelry_cash]
+data: {icon: swapbag, templatePriority: 0, packFolder: jewelry}
 sohl:
-  craft:
-    skill: jewl
-    secondary: [mtlc]
+  craft: {skill: jewl, secondary: [mtlc]}
   kbcat: jewelry
-  system:
-    weightBase: 0.03
-    valueBase: 6
-    qualityBase: 0
-    durabilityBase: 3
+  system: {weightBase: 0.03, valueBase: 6, qualityBase: 0, durabilityBase: 3}
 ---
 
 A copper band, the cheapest metal ring a pedlar carries and the one sold by the tray at fairs and festivals. Copper is soft and works easily, so a village smith can turn out a dozen in an afternoon, but it greens with wear and leaves a stain on the finger beneath. Some hold that the stain draws off aches from the joints, and old folk wear one on that account.

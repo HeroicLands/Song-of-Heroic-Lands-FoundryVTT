@@ -1,26 +1,14 @@
 ---
-tags:
-  - instruments
-name:
-  full: Weaponsmith's Kit
-  aliases: []
-description: "Oiled leather roll with files, polishing stones, peening hammer, hilt drifts, grip wrap; weapon finishing and maintenance."
 shortcode: wpnsmkit
+name: {full: Weaponsmith's Kit, aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
-  packFolder: instruments
+description: "Oiled leather roll with files, polishing stones, peening hammer, hilt drifts, grip wrap; weapon finishing and maintenance."
+tags: [instruments]
+data: {icon: swapbag, templatePriority: 0, packFolder: instruments}
 sohl:
-  craft:
-    skill: mtlc
-    secondary: []
+  craft: {skill: mtlc, secondary: []}
   kbcat: instruments
-  system:
-    weightBase: 12
-    valueBase: 120
-    qualityBase: 0
-    durabilityBase: 8
+  system: {weightBase: 12, valueBase: 120, qualityBase: 0, durabilityBase: 8}
 ---
 
 An oiled leather roll holding a weaponsmith's finishing tools: needle and bastard files in graded cuts, polishing stones from coarse sandstone to fine slate, a peening hammer and rivet set for refitting pommels and tang pins, hilt drifts, a small draw-knife for dressing grips, lengths of cord and tanned leather for wrapping, tempering gauges, and stoppered flasks of linseed oil and beeswax. Unlike the blacksmith's kit, the weaponsmith's trade begins where the forge leaves off — the stock is already sword, spearhead, or axehead when it reaches these tools, and the work is in edge, balance, fit, and finish. A master's roll is quiet proof of decades at the bench; a journeyman's is half-built and growing with each commission.

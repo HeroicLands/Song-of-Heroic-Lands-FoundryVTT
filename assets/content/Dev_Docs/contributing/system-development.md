@@ -1,15 +1,11 @@
 ---
+shortcode: systemdevelopment
+name: {full: System Development, aliases: []}
 type: doc
 subType: howto
-name:
-  full: System Development
-  aliases: []
-shortcode: systemdevelopment
 description: "Standards, the rules of development, and how to submit a change."
-data:
-  pack: none
-sohl:
-  kbcat: devdocs
+data: {pack: none}
+sohl: {kbcat: devdocs}
 ---
 
 # System Development

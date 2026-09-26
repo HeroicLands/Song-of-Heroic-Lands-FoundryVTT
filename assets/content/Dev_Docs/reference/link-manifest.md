@@ -1,15 +1,11 @@
 ---
+shortcode: linkmanifest
+name: {full: The Link Manifest, aliases: []}
 type: doc
 subType: reference
-name:
-  full: The Link Manifest
-  aliases: []
-shortcode: linkmanifest
 description: "The cross-package index: canonical addresses, Foundry UUIDs and anchors, and what a consuming build must do with them."
-data:
-  pack: none
-sohl:
-  kbcat: devdocs
+data: {pack: none}
+sohl: {kbcat: devdocs}
 ---
 
 # The Link Manifest

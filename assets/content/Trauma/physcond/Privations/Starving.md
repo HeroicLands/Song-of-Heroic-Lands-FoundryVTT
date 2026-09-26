@@ -1,22 +1,12 @@
 ---
-tags: []
-name:
-  full: Starving
-  aliases: []
-description: "Prolonged absence of food; wasting, weakness, organ failure."
 shortcode: starv
+name: {full: Starving, aliases: []}
 type: trauma
-data:
-  icon: stomach
-  templatePriority: 0
-  packFolder: privations
 subType: physcond
-sohl:
-  kbcat: physprivations
-  system:
-    category: debility
-    levelBase: 4
-    healingRateBase: 1
+description: "Prolonged absence of food; wasting, weakness, organ failure."
+tags: []
+data: {icon: stomach, templatePriority: 0, packFolder: privations}
+sohl: {kbcat: physprivations, system: {category: debility, levelBase: 4, healingRateBase: 1}}
 ---
 
 Starvation is the systemic consequence of prolonged calorie deficit, during which the body first consumes stored fat and then dismantles its own muscle and organ tissue for fuel. Unlike dehydration it unfolds over weeks rather than hours, and damage from late-stage starvation persists long after a normal diet is resumed.

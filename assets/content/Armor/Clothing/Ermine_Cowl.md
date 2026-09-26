@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Ermine Cowl
-  aliases: []
-description: "Soft white ermine cowl signifying nobility and wealth."
 shortcode: ecowl
+name: {full: Ermine Cowl, aliases: []}
 type: armorgear
-data:
-  icon: hood
-  templatePriority: 0
-  packFolder: clothing
+description: "Soft white ermine cowl signifying nobility and wealth."
+tags: []
+data: {icon: hood, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: leather
   armorType: Cowl
   detailMaterial: Ermine
@@ -22,16 +15,8 @@ sohl:
     valueBase: 145
     durabilityBase: 7
     material: Leather
-    locations:
-      flexible:
-        - skullloc
-        - neckloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [skullloc, neckloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

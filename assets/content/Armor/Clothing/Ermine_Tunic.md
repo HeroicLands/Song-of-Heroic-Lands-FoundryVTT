@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Ermine Tunic
-  aliases: []
-description: "Ermine-furred tunic; conspicuous wealth worn close."
 shortcode: etunic
+name: {full: Ermine Tunic, aliases: []}
 type: armorgear
-data:
-  icon: shirt
-  templatePriority: 0
-  packFolder: clothing
+description: "Ermine-furred tunic; conspicuous wealth worn close."
+tags: []
+data: {icon: shirt, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: leather
   armorType: Tunic
   detailMaterial: Ermine
@@ -34,11 +27,7 @@ sohl:
         - abdmnloc
         - plvisloc
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

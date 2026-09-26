@@ -1,16 +1,11 @@
 ---
-tags: []
-name:
-  full: Acrobatics
-  aliases: []
-description: "Vaulting, balance, tumbling; recovers gracefully from perilous falls."
 shortcode: acro
+name: {full: Acrobatics, aliases: []}
 type: skill
-data:
-  icon: cartwheel
-  templatePriority: 0
-  packFolder: physical
 subType: physical
+description: "Vaulting, balance, tumbling; recovers gracefully from perilous falls."
+tags: []
+data: {icon: cartwheel, templatePriority: 0, packFolder: physical}
 sohl:
   kbcat: physical
   system:
@@ -19,11 +14,7 @@ sohl:
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 0
-    impairedByRoles:
-      - core
-      - vital
-      - locomotor
-      - manipulator
+    impairedByRoles: [core, vital, locomotor, manipulator]
 ---
 
 Acrobatics is the trained body used deliberately: balance held where there is nothing to hold onto, and tumbling — vaults, somersaults, handsprings — performed on purpose rather than survived by accident. It asks for coordination and wind in equal measure, and unlike most physical skills it is almost never picked up casually. Someone either has spent years on it or has not.

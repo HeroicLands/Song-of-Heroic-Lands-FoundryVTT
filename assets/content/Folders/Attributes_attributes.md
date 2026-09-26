@@ -1,9 +1,6 @@
 ---
-name:
-  full: "Attributes"
 shortcode: attributes
+name: {full: "Attributes"}
 type: folder
-data:
-  parent: characteristics
-  color: "#FF8C00"
+data: {parent: characteristics, color: "#FF8C00"}
 ---

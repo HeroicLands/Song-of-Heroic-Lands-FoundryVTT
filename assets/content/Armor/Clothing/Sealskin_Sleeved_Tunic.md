@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Sealskin Sleeved Tunic
-  aliases: []
-description: "Water-resistant seal-fur tunic; full arm-and-torso coverage."
 shortcode: slsstnc
+name: {full: Sealskin Sleeved Tunic, aliases: []}
 type: armorgear
-data:
-  icon: shirt
-  templatePriority: 0
-  packFolder: clothing
+description: "Water-resistant seal-fur tunic; full arm-and-torso coverage."
+tags: []
+data: {icon: shirt, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: leather
   armorType: Sleeved Tunic
   detailMaterial: Sealskin
@@ -36,11 +29,7 @@ sohl:
         - abdmnloc
         - plvisloc
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

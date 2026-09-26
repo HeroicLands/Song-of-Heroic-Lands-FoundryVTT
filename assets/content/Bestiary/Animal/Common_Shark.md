@@ -1,16 +1,10 @@
 ---
-tags:
-  - animal
-  - creature
-name:
-  full: Common Shark
-  aliases: []
-description: "A sleek oceanic predator honed for efficient killing, cruising warm and temperate seas and tracking prey through acute senses."
 shortcode: cmmnshrk
+name: {full: Common Shark, aliases: []}
 type: being
-data:
-  icon: sharkjaws
-  templatePriority: 0
+description: "A sleek oceanic predator honed for efficient killing, cruising warm and temperate seas and tracking prey through acute senses."
+tags: [animal, creature]
+data: {icon: sharkjaws, templatePriority: 0}
 sohl:
   kbcat: animal
   attrRollFormula:
@@ -24,21 +18,21 @@ sohl:
     rea: 1d4+3
     cre: 1d4+2
   items:
-    - { model: attribute-str, system: { scoreBase: 15 } }
-    - { model: attribute-end, system: { scoreBase: 13 } }
-    - { model: attribute-dex, system: { scoreBase: 11 } }
-    - { model: attribute-agl, system: { scoreBase: 14 } }
-    - { model: attribute-per, system: { scoreBase: 15 } }
-    - { model: attribute-aur, system: { scoreBase: 10 } }
-    - { model: attribute-wil, system: { scoreBase: 12 } }
-    - { model: attribute-rea, system: { scoreBase: 6 } }
-    - { model: attribute-cre, system: { scoreBase: 5 } }
-    - { model: skill-awar, system: { masteryLevelBase: 70 } }
-    - { model: skill-stlth, system: { masteryLevelBase: 65 } }
-    - { model: mysticalability-sprt, system: { masteryLevelBase: 33 } }
-    - { model: skill-init, system: { masteryLevelBase: 36 } }
-    - { model: skill-dge, system: { masteryLevelBase: 56 } }
-    - { model: skill-shok, system: { masteryLevelBase: 35 } }
+    - {model: attribute-str, system: {scoreBase: 15}}
+    - {model: attribute-end, system: {scoreBase: 13}}
+    - {model: attribute-dex, system: {scoreBase: 11}}
+    - {model: attribute-agl, system: {scoreBase: 14}}
+    - {model: attribute-per, system: {scoreBase: 15}}
+    - {model: attribute-aur, system: {scoreBase: 10}}
+    - {model: attribute-wil, system: {scoreBase: 12}}
+    - {model: attribute-rea, system: {scoreBase: 6}}
+    - {model: attribute-cre, system: {scoreBase: 5}}
+    - {model: skill-awar, system: {masteryLevelBase: 70}}
+    - {model: skill-stlth, system: {masteryLevelBase: 65}}
+    - {model: mysticalability-sprt, system: {masteryLevelBase: 33}}
+    - {model: skill-init, system: {masteryLevelBase: 36}}
+    - {model: skill-dge, system: {masteryLevelBase: 56}}
+    - {model: skill-shok, system: {masteryLevelBase: 35}}
     - name: Bite
       type: skill
       system:
@@ -46,35 +40,20 @@ sohl:
         subType: combattechnique
         masteryLevelBase: 63
         combatCategory: melee
-        impairedByRoles:
-          - manipulator
+        impairedByRoles: [manipulator]
         strikeMode:
           type: melee
           shortcode: bite
           name: Bite
           minParts: 1
           assocSkillCode: null
-          attack:
-            disabled: false
-            spread: 2
-            modifier: 0
-          impactBase:
-            numDice: 1
-            die: 6
-            modifier: 3
-            aspect: piercing
+          attack: {disabled: false, spread: 2, modifier: 0}
+          impactBase: {numDice: 1, die: 6, modifier: 3, aspect: piercing}
           lengthBase: 1
           defense:
-            block:
-              disabled: true
-              modifier: 0
-              successLevelMod: 0
-            counterstrike:
-              disabled: false
-              modifier: 0
-              successLevelMod: 0
-          traits:
-            noBlock: true
+            block: {disabled: true, modifier: 0, successLevelMod: 0}
+            counterstrike: {disabled: false, modifier: 0, successLevelMod: 0}
+          traits: {noBlock: true}
     - name: Tail Strike
       type: skill
       system:
@@ -82,35 +61,20 @@ sohl:
         subType: combattechnique
         masteryLevelBase: 53
         combatCategory: melee
-        impairedByRoles:
-          - locomotor
+        impairedByRoles: [locomotor]
         strikeMode:
           type: melee
           shortcode: tail
           name: Tail Strike
           minParts: 1
           assocSkillCode: null
-          attack:
-            disabled: false
-            spread: 4
-            modifier: 0
-          impactBase:
-            numDice: 1
-            die: 6
-            modifier: 0
-            aspect: blunt
+          attack: {disabled: false, spread: 4, modifier: 0}
+          impactBase: {numDice: 1, die: 6, modifier: 0, aspect: blunt}
           lengthBase: 2
           defense:
-            block:
-              disabled: true
-              modifier: 0
-              successLevelMod: 0
-            counterstrike:
-              disabled: false
-              modifier: 0
-              successLevelMod: 0
-          traits:
-            noBlock: true
+            block: {disabled: true, modifier: 0, successLevelMod: 0}
+            counterstrike: {disabled: false, modifier: 0, successLevelMod: 0}
+          traits: {noBlock: true}
     - name: Ram
       type: skill
       system:
@@ -118,83 +82,56 @@ sohl:
         subType: combattechnique
         masteryLevelBase: 53
         combatCategory: melee
-        impairedByRoles:
-          - core
+        impairedByRoles: [core]
         strikeMode:
           type: melee
           shortcode: ram
           name: Ram
           minParts: 1
           assocSkillCode: null
-          attack:
-            disabled: false
-            spread: 4
-            modifier: 0
-          impactBase:
-            numDice: 1
-            die: 6
-            modifier: 2
-            aspect: blunt
+          attack: {disabled: false, spread: 4, modifier: 0}
+          impactBase: {numDice: 1, die: 6, modifier: 2, aspect: blunt}
           lengthBase: 1
           defense:
-            block:
-              disabled: true
-              modifier: 0
-              successLevelMod: 0
-            counterstrike:
-              disabled: false
-              modifier: 0
-              successLevelMod: 0
-          traits:
-            noBlock: true
+            block: {disabled: true, modifier: 0, successLevelMod: 0}
+            counterstrike: {disabled: false, modifier: 0, successLevelMod: 0}
+          traits: {noBlock: true}
   system:
     body:
       structure:
         zones:
-          - name: Head
-            shortcode: headzone
-            probWeight: 3
-          - name: Body
-            shortcode: torsozone
-            probWeight: 5
-          - name: Tail
-            shortcode: tailzone
-            probWeight: 2
+          - {name: Head, shortcode: headzone, probWeight: 3}
+          - {name: Body, shortcode: torsozone, probWeight: 5}
+          - {name: Tail, shortcode: tailzone, probWeight: 2}
         parts:
           - name: Head
             shortcode: headpart
             bodyZoneCode: headzone
-            roles:
-              - vital
-              - manipulator
+            roles: [vital, manipulator]
             canHoldItem: false
             probWeight: 10
           - name: Body
             shortcode: torsopart
             bodyZoneCode: torsozone
-            roles:
-              - core
+            roles: [core]
             canHoldItem: false
             probWeight: 10
           - name: Left Fin
             shortcode: lfinpart
             bodyZoneCode: torsozone
-            roles:
-              - locomotor
+            roles: [locomotor]
             canHoldItem: false
             probWeight: 2
           - name: Right Fin
             shortcode: rfinpart
             bodyZoneCode: torsozone
-            roles:
-              - locomotor
+            roles: [locomotor]
             canHoldItem: false
             probWeight: 2
           - name: Tail
             shortcode: tailpart
             bodyZoneCode: tailzone
-            roles:
-              - locomotor
+            roles: [locomotor]
             canHoldItem: false
             probWeight: 10
         locations:
@@ -205,11 +142,7 @@ sohl:
             amputability: none
             shockValue: 5
             probWeight: 6
-            protectionBase:
-              blunt: 5
-              edged: 4
-              piercing: 3
-              fire: 5
+            protectionBase: {blunt: 5, edged: 4, piercing: 3, fire: 5}
           - name: Gills
             shortcode: gillloc
             bodyPartCode: headpart
@@ -217,11 +150,7 @@ sohl:
             amputability: low
             shockValue: 5
             probWeight: 4
-            protectionBase:
-              blunt: 5
-              edged: 4
-              piercing: 3
-              fire: 5
+            protectionBase: {blunt: 5, edged: 4, piercing: 3, fire: 5}
           - name: Body
             shortcode: bodyloc
             bodyPartCode: torsopart
@@ -229,11 +158,7 @@ sohl:
             amputability: none
             shockValue: 4
             probWeight: 6
-            protectionBase:
-              blunt: 5
-              edged: 4
-              piercing: 3
-              fire: 5
+            protectionBase: {blunt: 5, edged: 4, piercing: 3, fire: 5}
           - name: Underbelly
             shortcode: underbellyloc
             bodyPartCode: torsopart
@@ -241,11 +166,7 @@ sohl:
             amputability: none
             shockValue: 4
             probWeight: 4
-            protectionBase:
-              blunt: 5
-              edged: 4
-              piercing: 3
-              fire: 5
+            protectionBase: {blunt: 5, edged: 4, piercing: 3, fire: 5}
           - name: Left Fin
             shortcode: lfinloc
             bodyPartCode: lfinpart
@@ -253,11 +174,7 @@ sohl:
             amputability: medium
             shockValue: 2
             probWeight: 10
-            protectionBase:
-              blunt: 5
-              edged: 4
-              piercing: 3
-              fire: 5
+            protectionBase: {blunt: 5, edged: 4, piercing: 3, fire: 5}
           - name: Right Fin
             shortcode: rfinloc
             bodyPartCode: rfinpart
@@ -265,11 +182,7 @@ sohl:
             amputability: medium
             shockValue: 2
             probWeight: 10
-            protectionBase:
-              blunt: 5
-              edged: 4
-              piercing: 3
-              fire: 5
+            protectionBase: {blunt: 5, edged: 4, piercing: 3, fire: 5}
           - name: Tail
             shortcode: tailloc
             bodyPartCode: tailpart
@@ -277,14 +190,8 @@ sohl:
             amputability: medium
             shockValue: 2
             probWeight: 10
-            protectionBase:
-              blunt: 5
-              edged: 4
-              piercing: 3
-              fire: 5
-      weight:
-        base: 400
-        calc: "400"
+            protectionBase: {blunt: 5, edged: 4, piercing: 3, fire: 5}
+      weight: {base: 400, calc: "400"}
       reachBase: 0
       bodyScaleBase: 1.22
       personalFatigue: enc + 5

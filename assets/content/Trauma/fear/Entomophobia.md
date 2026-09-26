@@ -1,20 +1,11 @@
 ---
-tags: []
-name:
-  full: Entomophobia
-  aliases: []
 shortcode: entmphb
+name: {full: Entomophobia, aliases: []}
 type: trauma
-data:
-  icon: dread
-  templatePriority: 0
-  packFolder: phobias
 subType: fear
-sohl:
-  kbcat: phobias
-  system:
-    category: none
-    levelBase: 0
+tags: []
+data: {icon: dread, templatePriority: 0, packFolder: phobias}
+sohl: {kbcat: phobias, system: {category: none, levelBase: 0}}
 ---
 
 Entomophobia is an intense, irrational fear of insects. People with entomophobia may experience a range of symptoms when they think about, see, or are near insects.

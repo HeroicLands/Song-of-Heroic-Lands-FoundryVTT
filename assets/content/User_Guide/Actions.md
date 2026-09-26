@@ -1,11 +1,9 @@
 ---
+shortcode: actionsug
+name: {full: "Actions"}
 type: doc
 subType: userguide
-name:
-  full: "Actions"
-shortcode: actionsug
-data:
-  packFolder: userguide
+data: {packFolder: userguide}
 ---
 
 An Action is an executable procedure attached to an actor or nested within another item. Actions represent things a character can actively do — making a skill test, performing a special maneuver, activating a unique ability, or triggering any other defined procedure. Actions provide buttons on the actor sheet that players and GMs can click to initiate the procedure, streamlining gameplay by packaging complex rule sequences into a single click.

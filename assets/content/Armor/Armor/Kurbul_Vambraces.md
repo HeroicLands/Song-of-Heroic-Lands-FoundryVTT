@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Kûrbúl Vambraces
-  aliases: []
-description: "Leather forearm guards with intricate designs providing function and style."
 shortcode: kvamb
+name: {full: Kûrbúl Vambraces, aliases: []}
 type: armorgear
-data:
-  icon: bracer
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Leather forearm guards with intricate designs providing function and style."
+tags: []
+data: {icon: bracer, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [hide]
+  craft: {skill: wpnc, secondary: [hide]}
   kbcat: kurbul
   armorType: Vambraces
   detailMaterial: Kûrbúl
@@ -22,16 +15,8 @@ sohl:
     valueBase: 25
     durabilityBase: 13
     material: Kûrbúl
-    locations:
-      flexible: []
-      rigid:
-        - lfraloc
-        - rfraloc
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [], rigid: [lfraloc, rfraloc]}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     encumbranceGroup: arm
     perceptionPenaltyBase: 0

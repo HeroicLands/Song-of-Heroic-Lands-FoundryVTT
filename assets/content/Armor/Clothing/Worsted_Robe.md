@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Worsted Robe
-  aliases: []
-description: "Tightly-spun wool robe; durable, practical versatile garment."
 shortcode: wrobe
+name: {full: Worsted Robe, aliases: []}
 type: armorgear
-data:
-  icon: robe
-  templatePriority: 0
-  packFolder: clothing
+description: "Tightly-spun wool robe; durable, practical versatile garment."
+tags: []
+data: {icon: robe, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Robe
   detailMaterial: Worsted
@@ -42,11 +35,7 @@ sohl:
         - lcalfloc
         - rcalfloc
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

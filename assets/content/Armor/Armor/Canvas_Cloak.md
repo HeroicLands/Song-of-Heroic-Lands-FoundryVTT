@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Canvas Cloak
-  aliases: []
-description: "Heavy hemp-weave cloak shedding wind and wear on the road."
 shortcode: cvcloak
+name: {full: Canvas Cloak, aliases: []}
 type: armorgear
-data:
-  icon: cloak
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Heavy hemp-weave cloak shedding wind and wear on the road."
+tags: []
+data: {icon: cloak, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Cloak
   detailMaterial: Canvas
@@ -37,29 +30,16 @@ sohl:
         - rcalfloc
       rigid: []
       facing:
-        - location: thrxloc
-          side: back
-        - location: abdmnloc
-          side: back
-        - location: plvisloc
-          side: back
-        - location: lthghloc
-          side: back
-        - location: rthghloc
-          side: back
-        - location: lkneeloc
-          side: back
-        - location: rkneeloc
-          side: back
-        - location: lcalfloc
-          side: back
-        - location: rcalfloc
-          side: back
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+        - {location: thrxloc, side: back}
+        - {location: abdmnloc, side: back}
+        - {location: plvisloc, side: back}
+        - {location: lthghloc, side: back}
+        - {location: rthghloc, side: back}
+        - {location: lkneeloc, side: back}
+        - {location: rkneeloc, side: back}
+        - {location: lcalfloc, side: back}
+        - {location: rcalfloc, side: back}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

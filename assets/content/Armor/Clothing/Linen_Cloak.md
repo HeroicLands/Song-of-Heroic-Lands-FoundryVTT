@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Linen Cloak
-  aliases: []
-description: "Breathable outer garment protecting from sun without causing overheating."
 shortcode: lclk
+name: {full: Linen Cloak, aliases: []}
 type: armorgear
-data:
-  icon: cloak
-  templatePriority: 0
-  packFolder: clothing
+description: "Breathable outer garment protecting from sun without causing overheating."
+tags: []
+data: {icon: cloak, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Cloak
   detailMaterial: Linen
@@ -37,29 +30,16 @@ sohl:
         - rcalfloc
       rigid: []
       facing:
-        - location: thrxloc
-          side: back
-        - location: abdmnloc
-          side: back
-        - location: plvisloc
-          side: back
-        - location: lthghloc
-          side: back
-        - location: rthghloc
-          side: back
-        - location: lkneeloc
-          side: back
-        - location: rkneeloc
-          side: back
-        - location: lcalfloc
-          side: back
-        - location: rcalfloc
-          side: back
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+        - {location: thrxloc, side: back}
+        - {location: abdmnloc, side: back}
+        - {location: plvisloc, side: back}
+        - {location: lthghloc, side: back}
+        - {location: rthghloc, side: back}
+        - {location: lkneeloc, side: back}
+        - {location: rkneeloc, side: back}
+        - {location: lcalfloc, side: back}
+        - {location: rcalfloc, side: back}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

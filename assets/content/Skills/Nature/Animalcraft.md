@@ -1,16 +1,11 @@
 ---
-tags: []
-name:
-  full: Animalcraft
-  aliases: []
-description: "Domesticating, breeding, caring for animals; training and veterinary expertise."
 shortcode: anmcft
+name: {full: Animalcraft, aliases: []}
 type: skill
-data:
-  icon: pawbdg
-  templatePriority: 0
-  packFolder: nature
 subType: nature
+description: "Domesticating, breeding, caring for animals; training and veterinary expertise."
+tags: []
+data: {icon: pawbdg, templatePriority: 0, packFolder: nature}
 sohl:
   kbcat: nature
   system:
@@ -19,11 +14,7 @@ sohl:
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 0
-    impairedByRoles:
-      - core
-      - vital
-      - locomotor
-      - manipulator
+    impairedByRoles: [core, vital, locomotor, manipulator]
 ---
 
 Animalcraft is the domestication, breeding, keeping and handling of animals, droving and driving included. Individual livelihoods specialise, but the skill applies across all the domesticated animals of a culture — in temperate country, four broad groups: birds, dogs, horses, and livestock, the last taking in sheep, goats, oxen, cattle, pigs, chickens, ducks and geese. Other cultures add their own.

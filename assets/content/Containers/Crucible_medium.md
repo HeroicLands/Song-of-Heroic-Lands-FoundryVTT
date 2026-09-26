@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: "Crucible, medium"
-  aliases: []
-description: "Moderate thin-walled ceramic crucible."
 shortcode: cruciblemd
+name: {full: "Crucible, medium", aliases: []}
 type: containergear
-data:
-  icon: cookingpot
-  templatePriority: 0
-  packFolder: containers
+description: "Moderate thin-walled ceramic crucible."
+tags: []
+data: {icon: cookingpot, templatePriority: 0, packFolder: containers}
 sohl:
-  craft:
-    skill: cmcs
-    secondary: []
+  craft: {skill: cmcs, secondary: []}
   system:
     weightBase: 0.8
     valueBase: 18

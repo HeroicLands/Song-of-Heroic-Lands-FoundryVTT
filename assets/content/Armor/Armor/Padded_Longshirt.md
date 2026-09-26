@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Padded Longshirt
-  aliases: []
-description: "Cushioned long-sleeved garment for under-armor padding or standalone wear."
 shortcode: plgsht
+name: {full: Padded Longshirt, aliases: []}
 type: armorgear
-data:
-  icon: shirt
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Cushioned long-sleeved garment for under-armor padding or standalone wear."
+tags: []
+data: {icon: shirt, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: padded
   armorType: Longshirt
   detailMaterial: Padded
@@ -23,20 +16,9 @@ sohl:
     durabilityBase: 10
     material: Padded
     locations:
-      flexible:
-        - lshldloc
-        - rshldloc
-        - lupaloc
-        - rupaloc
-        - thrxloc
-        - abdmnloc
-        - plvisloc
+      flexible: [lshldloc, rshldloc, lupaloc, rupaloc, thrxloc, abdmnloc, plvisloc]
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

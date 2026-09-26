@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Quilted Sleeved Tunic
-  aliases: []
-description: "Padded sleeved tunic; cold-weather garment with full-arm coverage."
 shortcode: qstnc
+name: {full: Quilted Sleeved Tunic, aliases: []}
 type: armorgear
-data:
-  icon: shirt
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Padded sleeved tunic; cold-weather garment with full-arm coverage."
+tags: []
+data: {icon: shirt, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: quilted
   armorType: Sleeved Tunic
   detailMaterial: Quilted
@@ -36,11 +29,7 @@ sohl:
         - abdmnloc
         - plvisloc
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 5
     perceptionPenaltyBase: 0
 ---

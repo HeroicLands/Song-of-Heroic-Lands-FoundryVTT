@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Serge Shirt
-  aliases: []
-description: "Twilled serge shirt; practical, versatile garment for various activities."
 shortcode: sgshirt
+name: {full: Serge Shirt, aliases: []}
 type: armorgear
-data:
-  icon: shirt
-  templatePriority: 0
-  packFolder: clothing
+description: "Twilled serge shirt; practical, versatile garment for various activities."
+tags: []
+data: {icon: shirt, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Shirt
   detailMaterial: Serge
@@ -22,20 +15,8 @@ sohl:
     valueBase: 20
     durabilityBase: 7
     material: Cloth
-    locations:
-      flexible:
-        - lshldloc
-        - rshldloc
-        - lupaloc
-        - rupaloc
-        - thrxloc
-        - abdmnloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [lshldloc, rshldloc, lupaloc, rupaloc, thrxloc, abdmnloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

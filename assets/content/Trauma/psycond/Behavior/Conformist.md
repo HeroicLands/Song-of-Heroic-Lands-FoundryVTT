@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Conformist
-  aliases: []
 shortcode: cnfrmst
+name: {full: Conformist, aliases: []}
 type: trauma
-data:
-  icon: battlegear
-  templatePriority: 0
-  packFolder: disorders
 subType: psycond
-sohl:
-  kbcat: psybehavior
-  system:
-    category: impulse
+tags: []
+data: {icon: battlegear, templatePriority: 0, packFolder: disorders}
+sohl: {kbcat: psybehavior, system: {category: impulse}}
 ---
 
 The **Conformist** is characterized by a strong desire to fit in with social norms, group behaviors, and the expectations of others. Individuals with this personality type often prioritize harmony, acceptance, and approval over personal preferences or beliefs. While conformity can help maintain social cohesion, excessive conformism can lead to a loss of individuality, difficulty in making independent decisions, and vulnerability to peer pressure.

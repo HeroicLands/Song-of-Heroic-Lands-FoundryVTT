@@ -1,9 +1,6 @@
 ---
-name:
-  full: "Textile"
 shortcode: textile
+name: {full: "Textile"}
 type: folder
-data:
-  parent: miscgear
-  color: "#C71585"
+data: {parent: miscgear, color: "#C71585"}
 ---

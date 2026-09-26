@@ -1,18 +1,10 @@
 ---
-tags:
-  - animal
-  - creature
-  - image-needed
-name:
-  full: Crane
-  aliases:
-    - Celestial Crane
-description: "A tall, elegant wading bird of temperate wetlands, so revered in imperial culture that harming one carries legal punishment."
 shortcode: crane
+name: {full: Crane, aliases: [Celestial Crane]}
 type: being
-data:
-  icon: pawprint
-  templatePriority: 0
+description: "A tall, elegant wading bird of temperate wetlands, so revered in imperial culture that harming one carries legal punishment."
+tags: [animal, creature, image-needed]
+data: {icon: pawprint, templatePriority: 0}
 sohl:
   kbcat: animal
   attrRollFormula:
@@ -26,21 +18,21 @@ sohl:
     rea: 1d4+4
     cre: 1d4+3
   items:
-    - { model: attribute-str, system: { scoreBase: 5 } }
-    - { model: attribute-end, system: { scoreBase: 8 } }
-    - { model: attribute-dex, system: { scoreBase: 14 } }
-    - { model: attribute-agl, system: { scoreBase: 15 } }
-    - { model: attribute-per, system: { scoreBase: 15 } }
-    - { model: attribute-aur, system: { scoreBase: 13 } }
-    - { model: attribute-wil, system: { scoreBase: 9 } }
-    - { model: attribute-rea, system: { scoreBase: 7 } }
-    - { model: attribute-cre, system: { scoreBase: 6 } }
-    - { model: skill-awar, system: { masteryLevelBase: 60 } }
-    - { model: skill-stlth, system: { masteryLevelBase: 60 } }
-    - { model: mysticalability-sprt, system: { masteryLevelBase: 33 } }
-    - { model: skill-init, system: { masteryLevelBase: 32 } }
-    - { model: skill-dge, system: { masteryLevelBase: 60 } }
-    - { model: skill-shok, system: { masteryLevelBase: 18 } }
+    - {model: attribute-str, system: {scoreBase: 5}}
+    - {model: attribute-end, system: {scoreBase: 8}}
+    - {model: attribute-dex, system: {scoreBase: 14}}
+    - {model: attribute-agl, system: {scoreBase: 15}}
+    - {model: attribute-per, system: {scoreBase: 15}}
+    - {model: attribute-aur, system: {scoreBase: 13}}
+    - {model: attribute-wil, system: {scoreBase: 9}}
+    - {model: attribute-rea, system: {scoreBase: 7}}
+    - {model: attribute-cre, system: {scoreBase: 6}}
+    - {model: skill-awar, system: {masteryLevelBase: 60}}
+    - {model: skill-stlth, system: {masteryLevelBase: 60}}
+    - {model: mysticalability-sprt, system: {masteryLevelBase: 33}}
+    - {model: skill-init, system: {masteryLevelBase: 32}}
+    - {model: skill-dge, system: {masteryLevelBase: 60}}
+    - {model: skill-shok, system: {masteryLevelBase: 18}}
     - name: Beak Stab
       type: skill
       system:
@@ -48,35 +40,20 @@ sohl:
         subType: combattechnique
         masteryLevelBase: 52
         combatCategory: melee
-        impairedByRoles:
-          - manipulator
+        impairedByRoles: [manipulator]
         strikeMode:
           type: melee
           shortcode: beak
           name: Beak Stab
           minParts: 1
           assocSkillCode: null
-          attack:
-            disabled: false
-            spread: 1
-            modifier: 0
-          impactBase:
-            numDice: 1
-            die: 6
-            modifier: -2
-            aspect: piercing
+          attack: {disabled: false, spread: 1, modifier: 0}
+          impactBase: {numDice: 1, die: 6, modifier: -2, aspect: piercing}
           lengthBase: 0
           defense:
-            block:
-              disabled: true
-              modifier: 0
-              successLevelMod: 0
-            counterstrike:
-              disabled: false
-              modifier: 0
-              successLevelMod: 0
-          traits:
-            noBlock: true
+            block: {disabled: true, modifier: 0, successLevelMod: 0}
+            counterstrike: {disabled: false, modifier: 0, successLevelMod: 0}
+          traits: {noBlock: true}
     - name: Wing Buffet
       type: skill
       system:
@@ -84,92 +61,62 @@ sohl:
         subType: combattechnique
         masteryLevelBase: 45
         combatCategory: melee
-        impairedByRoles:
-          - core
+        impairedByRoles: [core]
         strikeMode:
           type: melee
           shortcode: ram
           name: Wing Buffet
           minParts: 1
           assocSkillCode: null
-          attack:
-            disabled: false
-            spread: 2
-            modifier: 0
-          impactBase:
-            numDice: 1
-            die: 6
-            modifier: -3
-            aspect: blunt
+          attack: {disabled: false, spread: 2, modifier: 0}
+          impactBase: {numDice: 1, die: 6, modifier: -3, aspect: blunt}
           lengthBase: 0
           defense:
-            block:
-              disabled: true
-              modifier: 0
-              successLevelMod: 0
-            counterstrike:
-              disabled: false
-              modifier: 0
-              successLevelMod: 0
-          traits:
-            noBlock: true
+            block: {disabled: true, modifier: 0, successLevelMod: 0}
+            counterstrike: {disabled: false, modifier: 0, successLevelMod: 0}
+          traits: {noBlock: true}
   system:
     body:
       structure:
         zones:
-          - name: Head
-            shortcode: headzone
-            probWeight: 1
-          - name: Body
-            shortcode: torsozone
-            probWeight: 1
-          - name: Hindquarters
-            shortcode: hindqtrzone
-            probWeight: 1
+          - {name: Head, shortcode: headzone, probWeight: 1}
+          - {name: Body, shortcode: torsozone, probWeight: 1}
+          - {name: Hindquarters, shortcode: hindqtrzone, probWeight: 1}
         parts:
           - name: Head
             shortcode: headpart
             bodyZoneCode: headzone
-            roles:
-              - vital
-              - manipulator
+            roles: [vital, manipulator]
             canHoldItem: false
             probWeight: 10
           - name: Left Wing
             shortcode: lwingpart
             bodyZoneCode: headzone
-            roles:
-              - locomotor
+            roles: [locomotor]
             canHoldItem: false
             probWeight: 10
           - name: Body
             shortcode: torsopart
             bodyZoneCode: torsozone
-            roles:
-              - core
+            roles: [core]
             canHoldItem: false
             probWeight: 10
           - name: Right Wing
             shortcode: rwingpart
             bodyZoneCode: hindqtrzone
-            roles:
-              - locomotor
+            roles: [locomotor]
             canHoldItem: false
             probWeight: 10
           - name: Left Leg
             shortcode: llegpart
             bodyZoneCode: hindqtrzone
-            roles:
-              - locomotor
-              - manipulator
+            roles: [locomotor, manipulator]
             canHoldItem: false
             probWeight: 3
           - name: Right Leg
             shortcode: rlegpart
             bodyZoneCode: hindqtrzone
-            roles:
-              - locomotor
-              - manipulator
+            roles: [locomotor, manipulator]
             canHoldItem: false
             probWeight: 3
           - name: Tail
@@ -186,11 +133,7 @@ sohl:
             amputability: none
             shockValue: 5
             probWeight: 3
-            protectionBase:
-              blunt: -1
-              edged: -2
-              piercing: -3
-              fire: -1
+            protectionBase: {blunt: -1, edged: -2, piercing: -3, fire: -1}
           - name: Neck
             shortcode: neckloc
             bodyPartCode: headpart
@@ -198,11 +141,7 @@ sohl:
             amputability: low
             shockValue: 5
             probWeight: 2
-            protectionBase:
-              blunt: -1
-              edged: -2
-              piercing: -3
-              fire: -1
+            protectionBase: {blunt: -1, edged: -2, piercing: -3, fire: -1}
           - name: Left Wing
             shortcode: lwingloc
             bodyPartCode: lwingpart
@@ -210,11 +149,7 @@ sohl:
             amputability: medium
             shockValue: 1
             probWeight: 10
-            protectionBase:
-              blunt: -1
-              edged: -2
-              piercing: -3
-              fire: -1
+            protectionBase: {blunt: -1, edged: -2, piercing: -3, fire: -1}
           - name: Thorax
             shortcode: thoraxloc
             bodyPartCode: torsopart
@@ -222,11 +157,7 @@ sohl:
             amputability: none
             shockValue: 4
             probWeight: 6
-            protectionBase:
-              blunt: -1
-              edged: -2
-              piercing: -3
-              fire: -1
+            protectionBase: {blunt: -1, edged: -2, piercing: -3, fire: -1}
           - name: Abdomen
             shortcode: abdloc
             bodyPartCode: torsopart
@@ -234,11 +165,7 @@ sohl:
             amputability: none
             shockValue: 4
             probWeight: 4
-            protectionBase:
-              blunt: -1
-              edged: -2
-              piercing: -3
-              fire: -1
+            protectionBase: {blunt: -1, edged: -2, piercing: -3, fire: -1}
           - name: Right Wing
             shortcode: rwingloc
             bodyPartCode: rwingpart
@@ -246,11 +173,7 @@ sohl:
             amputability: medium
             shockValue: 1
             probWeight: 10
-            protectionBase:
-              blunt: -1
-              edged: -2
-              piercing: -3
-              fire: -1
+            protectionBase: {blunt: -1, edged: -2, piercing: -3, fire: -1}
           - name: Left Leg
             shortcode: llegloc
             bodyPartCode: llegpart
@@ -258,11 +181,7 @@ sohl:
             amputability: medium
             shockValue: 2
             probWeight: 10
-            protectionBase:
-              blunt: -1
-              edged: -2
-              piercing: -3
-              fire: -1
+            protectionBase: {blunt: -1, edged: -2, piercing: -3, fire: -1}
           - name: Right Leg
             shortcode: rlegloc
             bodyPartCode: rlegpart
@@ -270,11 +189,7 @@ sohl:
             amputability: medium
             shockValue: 2
             probWeight: 10
-            protectionBase:
-              blunt: -1
-              edged: -2
-              piercing: -3
-              fire: -1
+            protectionBase: {blunt: -1, edged: -2, piercing: -3, fire: -1}
           - name: Tail
             shortcode: tailloc
             bodyPartCode: tailpart
@@ -282,14 +197,8 @@ sohl:
             amputability: high
             shockValue: 1
             probWeight: 10
-            protectionBase:
-              blunt: -1
-              edged: -2
-              piercing: -3
-              fire: -1
-      weight:
-        base: 12
-        calc: "12"
+            protectionBase: {blunt: -1, edged: -2, piercing: -3, fire: -1}
+      weight: {base: 12, calc: "12"}
       reachBase: 0
       bodyScaleBase: 0.6
       personalFatigue: enc + 5

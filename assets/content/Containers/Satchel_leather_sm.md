@@ -1,25 +1,13 @@
 ---
-tags: []
-name:
-  full: "Satchel, leather, sm"
-  aliases: []
-description: "Small leather shoulder bag with a buckled flap."
 shortcode: satchltsm
+name: {full: "Satchel, leather, sm", aliases: []}
 type: containergear
-data:
-  icon: knapsack
-  templatePriority: 0
-  packFolder: containers
+description: "Small leather shoulder bag with a buckled flap."
+tags: []
+data: {icon: knapsack, templatePriority: 0, packFolder: containers}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
-  system:
-    weightBase: 0.8
-    valueBase: 3
-    qualityBase: 0
-    durabilityBase: 8
-    maxCapacityBase: 10
+  craft: {skill: hide, secondary: []}
+  system: {weightBase: 0.8, valueBase: 3, qualityBase: 0, durabilityBase: 8, maxCapacityBase: 10}
 ---
 
 A stitched leather bag on a shoulder strap, closed by a buckled flap rather than a tie. It costs several times what the canvas equivalent does and will outlast three of them, which is the whole of the argument for it.

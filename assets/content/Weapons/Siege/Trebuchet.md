@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Trebuchet
-  aliases: []
-description: "Counterweight stone-thrower; the heaviest engine there is, and the only one that breaks a curtain wall."
 shortcode: trebch
+name: {full: Trebuchet, aliases: []}
 type: weapongear
-data:
-  icon: stonesphere
-  templatePriority: 0
-  packFolder: weapons
+description: "Counterweight stone-thrower; the heaviest engine there is, and the only one that breaks a curtain wall."
+tags: []
+data: {icon: stonesphere, templatePriority: 0, packFolder: weapons}
 sohl:
-  craft:
-    skill: wood
-    secondary: []
+  craft: {skill: wood, secondary: []}
   kbcat: siege
   weaponType: Siege
   system:
@@ -27,14 +20,8 @@ sohl:
         name: Shoot
         assocSkillCode: slng
         minParts: 2
-        attack:
-          spread: 0
-          modifier: 0
-        impactBase:
-          numDice: 0
-          die: null
-          modifier: 45
-          aspect: blunt
+        attack: {spread: 0, modifier: 0}
+        impactBase: {numDice: 0, die: null, modifier: 45, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0

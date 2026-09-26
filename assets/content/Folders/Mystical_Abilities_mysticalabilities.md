@@ -1,8 +1,6 @@
 ---
-name:
-  full: "Mystical Abilities"
 shortcode: mysticalabilities
+name: {full: "Mystical Abilities"}
 type: folder
-data:
-  parent: esoteric
+data: {parent: esoteric}
 ---

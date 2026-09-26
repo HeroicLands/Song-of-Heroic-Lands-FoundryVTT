@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Staff, Long
-  aliases: []
-description: "Nine-foot hardwood pole; sweeping reach for pike-levies holding ground."
 shortcode: lstf
+name: {full: "Staff, Long", aliases: []}
 type: weapongear
-data:
-  icon: halberd
-  templatePriority: 0
-  packFolder: weapons
+description: "Nine-foot hardwood pole; sweeping reach for pike-levies holding ground."
+tags: []
+data: {icon: halberd, templatePriority: 0, packFolder: weapons}
 sohl:
-  craft:
-    skill: wood
-    secondary: []
+  craft: {skill: wood, secondary: []}
   kbcat: polearm
   weaponType: Polearm
   system:
@@ -27,14 +20,8 @@ sohl:
         name: Crush
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 8
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 3
-          aspect: blunt
+        attack: {spread: 8, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 3, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -63,22 +50,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 8
-        defense:
-          blockMod: 0
-          counterstrikeMod: 0
+        defense: {blockMod: 0, counterstrikeMod: 0}
       - shortcode: shaft
         type: melee
         name: Shaft
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 8
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 1
-          aspect: blunt
+        attack: {spread: 8, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 1, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -107,22 +86,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 8
-        defense:
-          blockMod: 0
-          counterstrikeMod: 0
+        defense: {blockMod: 0, counterstrikeMod: 0}
       - shortcode: halfswordshaft
         type: melee
         name: Half-Sword Shaft
         assocSkillCode: melee
         minParts: 2
-        attack:
-          spread: 4
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 1
-          aspect: blunt
+        attack: {spread: 4, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 1, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -151,9 +122,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 8
-        defense:
-          blockMod: 0
-          counterstrikeMod: 0
+        defense: {blockMod: 0, counterstrikeMod: 0}
 ---
 
 A lengthy pole of ashwood or other hardwood, nine or more feet in length, offering tremendous reach and sweeping power at the cost of speed and maneuverability. Gripped in the middle or near the base, it clears a space with each swing and can be held with two hands to block cavalry or polearm-infantry. The weapon of pike-trained levies and those who must hold ground against greater numbers.

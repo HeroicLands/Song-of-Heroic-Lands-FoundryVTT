@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Perfectionist
-  aliases: []
 shortcode: prfctnst
+name: {full: Perfectionist, aliases: []}
 type: trauma
-data:
-  icon: battlegear
-  templatePriority: 0
-  packFolder: disorders
 subType: psycond
-sohl:
-  kbcat: psybehavior
-  system:
-    category: quirk
+tags: []
+data: {icon: battlegear, templatePriority: 0, packFolder: disorders}
+sohl: {kbcat: psybehavior, system: {category: quirk}}
 ---
 
 Perfectionist refers to an individual who strives for flawlessness and sets exceedingly high standards for themselves or their work. A perfectionist is often meticulous, detail-oriented, and highly critical of their own performance, seeking to avoid any mistakes or imperfections. While striving for excellence can lead to impressive achievements, perfectionism can become unhealthy when it leads to stress, anxiety, procrastination, or an inability to accept anything less than perfect, resulting in emotional and practical difficulties.

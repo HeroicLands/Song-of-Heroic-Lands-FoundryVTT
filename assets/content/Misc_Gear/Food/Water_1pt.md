@@ -1,26 +1,14 @@
 ---
-tags:
-  - food
-name:
-  full: "Water, 1pt."
-  aliases: []
-description: "Fresh-drawn well water, sustains traveler for light day, precious rationed."
 shortcode: wtr1pt
+name: {full: "Water, 1pt.", aliases: []}
 type: miscgear
-data:
-  icon: roundpotion
-  templatePriority: 0
-  packFolder: food
+description: "Fresh-drawn well water, sustains traveler for light day, precious rationed."
+tags: [food]
+data: {icon: roundpotion, templatePriority: 0, packFolder: food}
 sohl:
-  craft:
-    skill: srvl
-    secondary: []
+  craft: {skill: srvl, secondary: []}
   kbcat: food
-  system:
-    weightBase: 1
-    valueBase: 0
-    qualityBase: 0
-    durabilityBase: 0
+  system: {weightBase: 1, valueBase: 0, qualityBase: 0, durabilityBase: 0}
 
 # hmk:
 #   name: "Water, 1pt."

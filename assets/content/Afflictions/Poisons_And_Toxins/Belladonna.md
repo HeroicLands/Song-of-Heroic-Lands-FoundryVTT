@@ -1,23 +1,14 @@
 ---
-tags: []
-name:
-  full: Belladonna
-  aliases: []
-description: "Tropane alkaloids; visual disturbances and delirium; often ingested secretly."
 shortcode: bldna
+name: {full: Belladonna, aliases: []}
 type: affliction
-data:
-  icon: poisonbottle
-  templatePriority: 0
-  packFolder: poisonsandtoxins
 subType: poisontoxin
+description: "Tropane alkaloids; visual disturbances and delirium; often ingested secretly."
+tags: []
+data: {icon: poisonbottle, templatePriority: 0, packFolder: poisonsandtoxins}
 sohl:
   kbcat: poisontoxin
-  system:
-    levelBase: 1
-    healingRateBase: 3
-    contagionIndexBase: 3
-    transmission: injested
+  system: {levelBase: 1, healingRateBase: 3, contagionIndexBase: 3, transmission: injested}
 ---
 
 Belladonna contains tropane alkaloids such as atropine and scopolamine. It is used for poisoning and as a cosmetic to dilate pupils. Both the berries and leaves are extremely toxic.

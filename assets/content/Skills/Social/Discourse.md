@@ -1,16 +1,11 @@
 ---
-tags: []
-name:
-  full: Discourse
-  aliases: []
-description: "Convincing through reasoned argument, evidence, and rhetorical skill."
 shortcode: dscr
+name: {full: Discourse, aliases: []}
 type: skill
-data:
-  icon: facetoface
-  templatePriority: 0
-  packFolder: social
 subType: social
+description: "Convincing through reasoned argument, evidence, and rhetorical skill."
+tags: []
+data: {icon: facetoface, templatePriority: 0, packFolder: social}
 sohl:
   kbcat: social
   system:
@@ -19,8 +14,7 @@ sohl:
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 2
-    impairedByRoles:
-      - vital
+    impairedByRoles: [vital]
 ---
 
 Discourse is persuasion by argument: evidence marshalled, objections anticipated, a conclusion built where the listener can watch it being built. It is the slowest of the persuasion skills and the most durable, because a listener who has been argued into a position generally stays there — and unlike Charm or Guile, it works on people who are actively suspicious of the speaker.

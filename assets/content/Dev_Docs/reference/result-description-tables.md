@@ -1,14 +1,10 @@
 ---
+shortcode: resultdescriptiontables
+name: {full: Result-description tables, aliases: []}
 type: doc
 subType: reference
-name:
-  full: Result-description tables
-  aliases: []
-shortcode: resultdescriptiontables
-data:
-  pack: none
-sohl:
-  kbcat: devdocs
+data: {pack: none}
+sohl: {kbcat: devdocs}
 ---
 
 # Result-description tables

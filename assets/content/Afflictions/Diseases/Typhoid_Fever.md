@@ -1,23 +1,14 @@
 ---
-tags: []
-name:
-  full: Typhoid Fever
-  aliases: []
-description: "Salmonella via contaminated water; prolonged fever and abdominal pain."
 shortcode: typhfvr
+name: {full: Typhoid Fever, aliases: []}
 type: affliction
-data:
-  icon: virus
-  templatePriority: 0
-  packFolder: diseases
 subType: disease
+description: "Salmonella via contaminated water; prolonged fever and abdominal pain."
+tags: []
+data: {icon: virus, templatePriority: 0, packFolder: diseases}
 sohl:
   kbcat: diseases
-  system:
-    levelBase: 1
-    healingRateBase: 3
-    contagionIndexBase: 3
-    transmission: injested
+  system: {levelBase: 1, healingRateBase: 3, contagionIndexBase: 3, transmission: injested}
 ---
 
 Typhoid fever is a life-threatening bacterial infection caused by _Salmonella typhi_, often spread through contaminated water or food. The symptoms include prolonged high fever, fatigue, headache, abdominal pain, loss of appetite, and sometimes a distinctive rash of flat, rose-colored spots. Without treatment, the disease can cause serious complications such as intestinal perforation and hemorrhage, leading to septicemia and potentially death. Typhoid fever is particularly prevalent in areas with poor sanitation and limited clean water access.

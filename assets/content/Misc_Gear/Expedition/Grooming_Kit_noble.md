@@ -1,26 +1,14 @@
 ---
-tags:
-  - instruments
-name:
-  full: "Grooming Kit, noble"
-  aliases: []
-description: "Fitted case with an ivory comb, silver hand-mirror, fine perfume and silver implements; a great house's upkeep."
 shortcode: groomkitnob
+name: {full: "Grooming Kit, noble", aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
-  packFolder: instruments
+description: "Fitted case with an ivory comb, silver hand-mirror, fine perfume and silver implements; a great house's upkeep."
+tags: [instruments]
+data: {icon: swapbag, templatePriority: 0, packFolder: instruments}
 sohl:
-  craft:
-    skill: mtlc
-    secondary: []
+  craft: {skill: mtlc, secondary: []}
   kbcat: instruments
-  system:
-    weightBase: 2
-    valueBase: 240
-    qualityBase: 0
-    durabilityBase: 5
+  system: {weightBase: 2, valueBase: 240, qualityBase: 0, durabilityBase: 5}
 ---
 
 A fitted case of tooled leather over a wooden frame, lined with velvet and closing on a silver hasp. Within: a double-sided comb of carved ivory, a hand-mirror backed in silver, a folding razor with a silver-mounted haft and its own strop, silver tweezers and ear-scoop, a horn tongue-scraper, a phial of fine perfume, a pot of rose-and-beeswax pomade, and a square of fine linen.

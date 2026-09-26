@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Spontaneous
-  aliases: []
 shortcode: spntns
+name: {full: Spontaneous, aliases: []}
 type: trauma
-data:
-  icon: battlegear
-  templatePriority: 0
-  packFolder: quirks
 subType: psycond
-sohl:
-  kbcat: psybehavior
-  system:
-    category: quirk
+tags: []
+data: {icon: battlegear, templatePriority: 0, packFolder: quirks}
+sohl: {kbcat: psybehavior, system: {category: quirk}}
 ---
 
 Spontaneity is the tendency to act on impulse, without lengthy deliberation or planning. A spontaneous person does not spend their life mapping every path before they walk it; they move, they feel, they decide in the moment, riding the wave of what seems right or exciting in the immediate instant. In a world of rigid hierarchy and careful tradition, such people often bring color and unpredictability to the gray cloth of daily life.

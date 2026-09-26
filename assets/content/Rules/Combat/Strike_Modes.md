@@ -1,12 +1,9 @@
 ---
+shortcode: strkmds
+name: {full: Strike Modes, aliases: []}
 type: doc
 subType: rules
-name:
-  full: Strike Modes
-  aliases: []
-shortcode: strkmds
-data:
-  packFolder: rulescombat
+data: {packFolder: rulescombat}
 ---
 
 A **strike mode** is a specific way an attack can be delivered. It bundles together everything needed to resolve one kind of blow — which skill governs it, how the attack is rolled, how much impact it inflicts and of what aspect, and (for close combat) how it can defend. Strike modes are the common language of every attack, whether it comes from a wielded weapon or from a character's own trained technique.

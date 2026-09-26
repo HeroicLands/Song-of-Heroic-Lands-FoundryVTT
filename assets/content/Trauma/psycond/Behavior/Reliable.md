@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Reliable
-  aliases: []
 shortcode: reliable
+name: {full: Reliable, aliases: []}
 type: trauma
-data:
-  icon: battlegear
-  templatePriority: 0
-  packFolder: quirks
 subType: psycond
-sohl:
-  kbcat: psybehavior
-  system:
-    category: quirk
+tags: []
+data: {icon: battlegear, templatePriority: 0, packFolder: quirks}
+sohl: {kbcat: psybehavior, system: {category: quirk}}
 ---
 
 Reliable refers to an individual's consistent ability to fulfill their duties, keep promises, and meet expectations. A reliable person can be trusted to perform tasks and responsibilities without needing constant supervision or reminders. They are dependable, ensuring that others can count on them to do what is required, often going above and beyond to ensure their commitments are met. While reliability builds trust and stability, an overly reliable person may sometimes take on too much, risking burnout in their effort to be dependable.

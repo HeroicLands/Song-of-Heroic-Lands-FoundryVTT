@@ -1,26 +1,14 @@
 ---
-tags:
-  - religious
-name:
-  full: "Holy Symbol, silver"
-  aliases: []
-description: "Silver sign of a god, chased by a jeweller; a cleric's badge of office."
 shortcode: holysymsilver
+name: {full: "Holy Symbol, silver", aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
-  packFolder: religious
+description: "Silver sign of a god, chased by a jeweller; a cleric's badge of office."
+tags: [religious]
+data: {icon: swapbag, templatePriority: 0, packFolder: religious}
 sohl:
-  craft:
-    skill: jewl
-    secondary: [mtlc]
+  craft: {skill: jewl, secondary: [mtlc]}
   kbcat: religious
-  system:
-    weightBase: 0.1
-    valueBase: 150
-    qualityBase: 0
-    durabilityBase: 3
+  system: {weightBase: 0.1, valueBase: 150, qualityBase: 0, durabilityBase: 3}
 ---
 
 The sign of a god worked in silver by a jeweller, an ounce and a half of it, chased and finished to be seen at a distance across a hall. This is not the pilgrim's token but the badge of someone who speaks for the temple: an ordained cleric, a lay officer of standing, or a wealthy patron who has endowed something worth remembering. Silver is kept bright as a matter of observance, and a tarnished symbol on a cleric is read as a statement about the cleric.

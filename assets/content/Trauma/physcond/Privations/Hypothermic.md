@@ -1,22 +1,12 @@
 ---
-tags: []
-name:
-  full: Hypothermic
-  aliases: []
-description: "Core body temperature drops; shivering, slurred speech, stupor, death."
 shortcode: hypth
+name: {full: Hypothermic, aliases: []}
 type: trauma
-data:
-  icon: stomach
-  templatePriority: 0
-  packFolder: privations
 subType: physcond
-sohl:
-  kbcat: physprivations
-  system:
-    category: debility
-    levelBase: 3
-    healingRateBase: 2
+description: "Core body temperature drops; shivering, slurred speech, stupor, death."
+tags: []
+data: {icon: stomach, templatePriority: 0, packFolder: privations}
+sohl: {kbcat: physprivations, system: {category: debility, levelBase: 3, healingRateBase: 2}}
 ---
 
 Hypothermia is the systemic cooling of the body below the temperature its organs can function at. It strikes far above freezing whenever the body loses heat faster than it generates it — wet clothing in a brisk wind is enough — and the impairment of judgment it causes makes its victims poor stewards of their own survival.

@@ -1,11 +1,9 @@
 ---
+shortcode: cohortug
+name: {full: "Cohort"}
 type: doc
 subType: userguide
-name:
-  full: "Cohort"
-shortcode: cohortug
-data:
-  packFolder: actors
+data: {packFolder: actors}
 ---
 
 # What Is a Cohort?

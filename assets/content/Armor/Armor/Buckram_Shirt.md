@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Buckram Shirt
-  aliases: []
-description: "Stiff buckram shirt providing durability and reliable rigid fit."
 shortcode: bshirt
+name: {full: Buckram Shirt, aliases: []}
 type: armorgear
-data:
-  icon: shirt
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Stiff buckram shirt providing durability and reliable rigid fit."
+tags: []
+data: {icon: shirt, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Shirt
   detailMaterial: Buckram
@@ -22,20 +15,8 @@ sohl:
     valueBase: 35
     durabilityBase: 10
     material: Cloth
-    locations:
-      flexible:
-        - lshldloc
-        - rshldloc
-        - lupaloc
-        - rupaloc
-        - thrxloc
-        - abdmnloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [lshldloc, rshldloc, lupaloc, rupaloc, thrxloc, abdmnloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

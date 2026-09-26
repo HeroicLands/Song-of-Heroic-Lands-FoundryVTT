@@ -1,16 +1,10 @@
 ---
-tags:
-  - animal
-  - creature
-name:
-  full: Woolly Rhino
-  aliases: []
-description: "A massive shaggy grazer of frozen tundra and cold steppe, peaceful yet fiercely territorial and devastating when defending its range."
 shortcode: wllyrhn
+name: {full: Woolly Rhino, aliases: []}
 type: being
-data:
-  icon: rhinoceroshorn
-  templatePriority: 0
+description: "A massive shaggy grazer of frozen tundra and cold steppe, peaceful yet fiercely territorial and devastating when defending its range."
+tags: [animal, creature]
+data: {icon: rhinoceroshorn, templatePriority: 0}
 sohl:
   kbcat: animal
   attrRollFormula:
@@ -24,21 +18,21 @@ sohl:
     rea: 1d4+3
     cre: 1d4+2
   items:
-    - { model: attribute-str, system: { scoreBase: 17 } }
-    - { model: attribute-end, system: { scoreBase: 16 } }
-    - { model: attribute-dex, system: { scoreBase: 10 } }
-    - { model: attribute-agl, system: { scoreBase: 9 } }
-    - { model: attribute-per, system: { scoreBase: 11 } }
-    - { model: attribute-aur, system: { scoreBase: 9 } }
-    - { model: attribute-wil, system: { scoreBase: 13 } }
-    - { model: attribute-rea, system: { scoreBase: 6 } }
-    - { model: attribute-cre, system: { scoreBase: 5 } }
-    - { model: skill-awar, system: { masteryLevelBase: 60 } }
-    - { model: skill-stlth, system: { masteryLevelBase: 55 } }
-    - { model: mysticalability-sprt, system: { masteryLevelBase: 33 } }
-    - { model: skill-init, system: { masteryLevelBase: 40 } }
-    - { model: skill-dge, system: { masteryLevelBase: 40 } }
-    - { model: skill-shok, system: { masteryLevelBase: 43 } }
+    - {model: attribute-str, system: {scoreBase: 17}}
+    - {model: attribute-end, system: {scoreBase: 16}}
+    - {model: attribute-dex, system: {scoreBase: 10}}
+    - {model: attribute-agl, system: {scoreBase: 9}}
+    - {model: attribute-per, system: {scoreBase: 11}}
+    - {model: attribute-aur, system: {scoreBase: 9}}
+    - {model: attribute-wil, system: {scoreBase: 13}}
+    - {model: attribute-rea, system: {scoreBase: 6}}
+    - {model: attribute-cre, system: {scoreBase: 5}}
+    - {model: skill-awar, system: {masteryLevelBase: 60}}
+    - {model: skill-stlth, system: {masteryLevelBase: 55}}
+    - {model: mysticalability-sprt, system: {masteryLevelBase: 33}}
+    - {model: skill-init, system: {masteryLevelBase: 40}}
+    - {model: skill-dge, system: {masteryLevelBase: 40}}
+    - {model: skill-shok, system: {masteryLevelBase: 43}}
     - name: Horn Charge
       type: skill
       system:
@@ -46,35 +40,20 @@ sohl:
         subType: combattechnique
         masteryLevelBase: 55
         combatCategory: melee
-        impairedByRoles:
-          - manipulator
+        impairedByRoles: [manipulator]
         strikeMode:
           type: melee
           shortcode: gore
           name: Horn Charge
           minParts: 1
           assocSkillCode: null
-          attack:
-            disabled: false
-            spread: 8
-            modifier: 0
-          impactBase:
-            numDice: 1
-            die: 6
-            modifier: 4
-            aspect: piercing
+          attack: {disabled: false, spread: 8, modifier: 0}
+          impactBase: {numDice: 1, die: 6, modifier: 4, aspect: piercing}
           lengthBase: 4
           defense:
-            block:
-              disabled: true
-              modifier: 0
-              successLevelMod: 0
-            counterstrike:
-              disabled: false
-              modifier: 0
-              successLevelMod: 0
-          traits:
-            noBlock: true
+            block: {disabled: true, modifier: 0, successLevelMod: 0}
+            counterstrike: {disabled: false, modifier: 0, successLevelMod: 0}
+          traits: {noBlock: true}
     - name: Trampling Stomp
       type: skill
       system:
@@ -82,65 +61,39 @@ sohl:
         subType: combattechnique
         masteryLevelBase: 48
         combatCategory: melee
-        impairedByRoles:
-          - locomotor
+        impairedByRoles: [locomotor]
         strikeMode:
           type: melee
           shortcode: kick
           name: Trampling Stomp
           minParts: 1
           assocSkillCode: null
-          attack:
-            disabled: false
-            spread: 16
-            modifier: 0
-          impactBase:
-            numDice: 1
-            die: 6
-            modifier: 1
-            aspect: blunt
+          attack: {disabled: false, spread: 16, modifier: 0}
+          impactBase: {numDice: 1, die: 6, modifier: 1, aspect: blunt}
           lengthBase: 5
           defense:
-            block:
-              disabled: true
-              modifier: 0
-              successLevelMod: 0
-            counterstrike:
-              disabled: false
-              modifier: 0
-              successLevelMod: 0
-          traits:
-            noBlock: true
+            block: {disabled: true, modifier: 0, successLevelMod: 0}
+            counterstrike: {disabled: false, modifier: 0, successLevelMod: 0}
+          traits: {noBlock: true}
   system:
     body:
       structure:
         zones:
-          - name: Head
-            shortcode: headzone
-            probWeight: 8
-          - name: Forelegs
-            shortcode: forelegszone
-            probWeight: 4
-          - name: Torso
-            shortcode: torsozone
-            probWeight: 16
-          - name: Hindquarters
-            shortcode: hindqtrzone
-            probWeight: 12
+          - {name: Head, shortcode: headzone, probWeight: 8}
+          - {name: Forelegs, shortcode: forelegszone, probWeight: 4}
+          - {name: Torso, shortcode: torsozone, probWeight: 16}
+          - {name: Hindquarters, shortcode: hindqtrzone, probWeight: 12}
         parts:
           - name: Head
             shortcode: headpart
             bodyZoneCode: headzone
-            roles:
-              - vital
-              - manipulator
+            roles: [vital, manipulator]
             canHoldItem: false
             probWeight: 10
           - name: Left Foreleg
             shortcode: lforelegpart
             bodyZoneCode: forelegszone
-            roles: &a1
-              - locomotor
+            roles: &a1 [locomotor]
             canHoldItem: false
             probWeight: 1
           - name: Right Foreleg
@@ -152,22 +105,19 @@ sohl:
           - name: Torso
             shortcode: torsopart
             bodyZoneCode: torsozone
-            roles:
-              - core
+            roles: [core]
             canHoldItem: false
             probWeight: 10
           - name: Left Hind Leg
             shortcode: lhindlegpart
             bodyZoneCode: hindqtrzone
-            roles:
-              - locomotor
+            roles: [locomotor]
             canHoldItem: false
             probWeight: 9
           - name: Right Hind Leg
             shortcode: rhindlegpart
             bodyZoneCode: hindqtrzone
-            roles:
-              - locomotor
+            roles: [locomotor]
             canHoldItem: false
             probWeight: 9
           - name: Tail
@@ -184,11 +134,7 @@ sohl:
             amputability: none
             shockValue: 5
             probWeight: 4
-            protectionBase:
-              blunt: 8
-              edged: 7
-              piercing: 6
-              fire: 8
+            protectionBase: {blunt: 8, edged: 7, piercing: 6, fire: 8}
           - name: Neck
             shortcode: neckloc
             bodyPartCode: headpart
@@ -196,11 +142,7 @@ sohl:
             amputability: low
             shockValue: 5
             probWeight: 6
-            protectionBase:
-              blunt: 8
-              edged: 7
-              piercing: 6
-              fire: 8
+            protectionBase: {blunt: 8, edged: 7, piercing: 6, fire: 8}
           - name: Left Foreleg
             shortcode: lforelegloc
             bodyPartCode: lforelegpart
@@ -208,11 +150,7 @@ sohl:
             amputability: medium
             shockValue: 2
             probWeight: 10
-            protectionBase:
-              blunt: 8
-              edged: 7
-              piercing: 6
-              fire: 8
+            protectionBase: {blunt: 8, edged: 7, piercing: 6, fire: 8}
           - name: Right Foreleg
             shortcode: rforelegloc
             bodyPartCode: rforelegpart
@@ -220,11 +158,7 @@ sohl:
             amputability: medium
             shockValue: 2
             probWeight: 10
-            protectionBase:
-              blunt: 8
-              edged: 7
-              piercing: 6
-              fire: 8
+            protectionBase: {blunt: 8, edged: 7, piercing: 6, fire: 8}
           - name: Flank
             shortcode: flkloc
             bodyPartCode: torsopart
@@ -232,11 +166,7 @@ sohl:
             amputability: none
             shockValue: 4
             probWeight: 6
-            protectionBase:
-              blunt: 8
-              edged: 7
-              piercing: 6
-              fire: 8
+            protectionBase: {blunt: 8, edged: 7, piercing: 6, fire: 8}
           - name: Abdomen
             shortcode: abdloc
             bodyPartCode: torsopart
@@ -244,11 +174,7 @@ sohl:
             amputability: none
             shockValue: 4
             probWeight: 4
-            protectionBase:
-              blunt: 8
-              edged: 7
-              piercing: 6
-              fire: 8
+            protectionBase: {blunt: 8, edged: 7, piercing: 6, fire: 8}
           - name: Left Quarter
             shortcode: lqtrloc
             bodyPartCode: lhindlegpart
@@ -256,11 +182,7 @@ sohl:
             amputability: none
             shockValue: 3
             probWeight: 5
-            protectionBase:
-              blunt: 8
-              edged: 7
-              piercing: 6
-              fire: 8
+            protectionBase: {blunt: 8, edged: 7, piercing: 6, fire: 8}
           - name: Left Hind Leg
             shortcode: lhindlegloc
             bodyPartCode: lhindlegpart
@@ -268,11 +190,7 @@ sohl:
             amputability: medium
             shockValue: 2
             probWeight: 4
-            protectionBase:
-              blunt: 8
-              edged: 7
-              piercing: 6
-              fire: 8
+            protectionBase: {blunt: 8, edged: 7, piercing: 6, fire: 8}
           - name: Right Quarter
             shortcode: rqtrloc
             bodyPartCode: rhindlegpart
@@ -280,11 +198,7 @@ sohl:
             amputability: none
             shockValue: 3
             probWeight: 5
-            protectionBase:
-              blunt: 8
-              edged: 7
-              piercing: 6
-              fire: 8
+            protectionBase: {blunt: 8, edged: 7, piercing: 6, fire: 8}
           - name: Right Hind Leg
             shortcode: rhindlegloc
             bodyPartCode: rhindlegpart
@@ -292,11 +206,7 @@ sohl:
             amputability: medium
             shockValue: 2
             probWeight: 4
-            protectionBase:
-              blunt: 8
-              edged: 7
-              piercing: 6
-              fire: 8
+            protectionBase: {blunt: 8, edged: 7, piercing: 6, fire: 8}
           - name: Tail
             shortcode: tailloc
             bodyPartCode: tailpart
@@ -304,14 +214,8 @@ sohl:
             amputability: high
             shockValue: 1
             probWeight: 10
-            protectionBase:
-              blunt: 8
-              edged: 7
-              piercing: 6
-              fire: 8
-      weight:
-        base: 4000
-        calc: "4000"
+            protectionBase: {blunt: 8, edged: 7, piercing: 6, fire: 8}
+      weight: {base: 4000, calc: "4000"}
       reachBase: 0
       bodyScaleBase: 1.33
       personalFatigue: enc + 5

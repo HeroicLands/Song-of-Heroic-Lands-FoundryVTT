@@ -1,22 +1,12 @@
 ---
-tags: []
-name:
-  full: Malnutrition
-  aliases: []
-description: "Long-term weakness from depleted nutritional reserves."
 shortcode: mlntxn
+name: {full: Malnutrition, aliases: []}
 type: trauma
-data:
-  icon: sleepy
-  templatePriority: 0
-  packFolder: fatigue
 subType: fatigue
-sohl:
-  kbcat: fatigue
-  system:
-    category: weakness
-    levelBase: 1
-    healingRateBase: 1
+description: "Long-term weakness from depleted nutritional reserves."
+tags: []
+data: {icon: sleepy, templatePriority: 0, packFolder: fatigue}
+sohl: {kbcat: fatigue, system: {category: weakness, levelBase: 1, healingRateBase: 1}}
 ---
 
 Malnutrition is the long-tail bodily cost of insufficient or unbalanced nourishment — distinct from the privation Malnourished, which is the active deficit, this is the depleted body that carries it. Where the privation describes what is currently lacking, the weakness describes what has already been lost: muscle, immune function, healing capacity, simple reserve. 5–10 fatigue per ongoing malnutrition instance.

@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Ring Gauntlets
-  aliases: []
-description: "Leather gloves with ring-reinforced back and fingers."
 shortcode: rmtn
+name: {full: Ring Gauntlets, aliases: []}
 type: armorgear
-data:
-  icon: mailedfist
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Leather gloves with ring-reinforced back and fingers."
+tags: []
+data: {icon: mailedfist, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [mtlc, mnrl]
+  craft: {skill: wpnc, secondary: [mtlc, mnrl]}
   kbcat: ring
   armorType: Gauntlets
   detailMaterial: Ring
@@ -22,16 +15,8 @@ sohl:
     valueBase: 70
     durabilityBase: 13
     material: Ring
-    locations:
-      flexible: []
-      rigid:
-        - lhandloc
-        - rhandloc
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [], rigid: [lhandloc, rhandloc]}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     encumbranceGroup: arm
     perceptionPenaltyBase: 0

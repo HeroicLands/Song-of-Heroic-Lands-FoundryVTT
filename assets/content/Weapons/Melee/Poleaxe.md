@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Poleaxe
-  aliases: []
-description: "Axe-head, hammer, and spike combination; armored melee knight's versatile reach."
 shortcode: paxe
+name: {full: Poleaxe, aliases: []}
 type: weapongear
-data:
-  icon: halberd
-  templatePriority: 0
-  packFolder: weapons
+description: "Axe-head, hammer, and spike combination; armored melee knight's versatile reach."
+tags: []
+data: {icon: halberd, templatePriority: 0, packFolder: weapons}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [mtlc, mnrl]
+  craft: {skill: wpnc, secondary: [mtlc, mnrl]}
   kbcat: polearm
   weaponType: Polearm
   system:
@@ -27,14 +20,8 @@ sohl:
         name: Cut
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 8
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 8
-          modifier: 7
-          aspect: edged
+        attack: {spread: 8, modifier: 0}
+        impactBase: {numDice: 1, die: 8, modifier: 7, aspect: edged}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -63,22 +50,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 6
-        defense:
-          blockMod: -10
-          counterstrikeMod: -10
+        defense: {blockMod: -10, counterstrikeMod: -10}
       - shortcode: impale
         type: melee
         name: Impale
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 8
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 8
-          modifier: 4
-          aspect: piercing
+        attack: {spread: 8, modifier: 0}
+        impactBase: {numDice: 1, die: 8, modifier: 4, aspect: piercing}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -107,22 +86,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 6
-        defense:
-          blockMod: 0
-          counterstrikeMod: 0
+        defense: {blockMod: 0, counterstrikeMod: 0}
       - shortcode: crush
         type: melee
         name: Crush
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 8
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 5
-          aspect: blunt
+        attack: {spread: 8, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 5, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -151,22 +122,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 6
-        defense:
-          blockMod: -10
-          counterstrikeMod: -10
+        defense: {blockMod: -10, counterstrikeMod: -10}
       - shortcode: shaft
         type: melee
         name: Shaft
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 8
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 1
-          aspect: blunt
+        attack: {spread: 8, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 1, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -195,22 +158,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 6
-        defense:
-          blockMod: -10
-          counterstrikeMod: -10
+        defense: {blockMod: -10, counterstrikeMod: -10}
       - shortcode: halfswordshaft
         type: melee
         name: Half-Sword Shaft
         assocSkillCode: melee
         minParts: 2
-        attack:
-          spread: 6
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 0
-          aspect: blunt
+        attack: {spread: 6, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 0, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -239,22 +194,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 6
-        defense:
-          blockMod: -10
-          counterstrikeMod: -10
+        defense: {blockMod: -10, counterstrikeMod: -10}
       - shortcode: halfswordimpale
         type: melee
         name: Half-Sword Impale
         assocSkillCode: melee
         minParts: 2
-        attack:
-          spread: 6
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 8
-          modifier: 4
-          aspect: piercing
+        attack: {spread: 6, modifier: 0}
+        impactBase: {numDice: 1, die: 8, modifier: 4, aspect: piercing}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -283,9 +230,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 6
-        defense:
-          blockMod: 0
-          counterstrikeMod: 0
+        defense: {blockMod: 0, counterstrikeMod: 0}
 ---
 
 A six-foot shaft topped with an axe-blade, a hammer, and a spike or hook, giving the wielder three ways to strike or bind. The poleaxe excels against armored men-at-arms in melee or mounted combat, the hammer for crushing plate, the spike for between-joint thrusts. A weapon of knights unmounted and professional soldiers, requiring long training and both hands.

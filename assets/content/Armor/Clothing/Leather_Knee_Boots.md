@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Leather Knee Boots
-  aliases: []
-description: "Durable leather foot coverings extending above the knee for flexible footwear."
 shortcode: ltkboot
+name: {full: Leather Knee Boots, aliases: []}
 type: armorgear
-data:
-  icon: leatherboot
-  templatePriority: 0
-  packFolder: clothing
+description: "Durable leather foot coverings extending above the knee for flexible footwear."
+tags: []
+data: {icon: leatherboot, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: leather
   armorType: Knee Boots
   detailMaterial: Leather
@@ -22,20 +15,8 @@ sohl:
     valueBase: 180
     durabilityBase: 9
     material: Leather
-    locations:
-      flexible:
-        - lkneeloc
-        - rkneeloc
-        - lcalfloc
-        - rcalfloc
-        - lfootloc
-        - rfootloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [lkneeloc, rkneeloc, lcalfloc, rcalfloc, lfootloc, rfootloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

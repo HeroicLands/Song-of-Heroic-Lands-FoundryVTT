@@ -1,26 +1,14 @@
 ---
-tags:
-  - music
-name:
-  full: Lyre
-  aliases: []
-description: "Ancient wooden frame, curved arms and strings; bright voice for hymns."
 shortcode: lyre
+name: {full: Lyre, aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
-  packFolder: music
+description: "Ancient wooden frame, curved arms and strings; bright voice for hymns."
+tags: [music]
+data: {icon: swapbag, templatePriority: 0, packFolder: music}
 sohl:
-  craft:
-    skill: wood
-    secondary: []
+  craft: {skill: wood, secondary: []}
   kbcat: music
-  system:
-    weightBase: 3
-    valueBase: 120
-    qualityBase: 0
-    durabilityBase: 3
+  system: {weightBase: 3, valueBase: 120, qualityBase: 0, durabilityBase: 3}
 ---
 
 A small stringed instrument of ancient design, consisting of a wooden frame with curved arms and a crossbar strung with gut strings. The lyre sits in the player's lap or cradles against the chest; the left hand dampens strings while the right plucks or strums them with a plectrum. Its bright, crystalline voice suits hymns, sacred music, and storytelling—bards and temple musicians value it for its clarity and ethereal resonance.

@@ -1,15 +1,10 @@
 ---
-tags: []
-name:
-  full: Morality
-  aliases: []
-description: "Ethical conscience, and the willingness to act on it under temptation."
 shortcode: mor
+name: {full: Morality, aliases: []}
 type: attribute
-data:
-  icon: scales
-  templatePriority: 0
-  packFolder: attributes
+description: "Ethical conscience, and the willingness to act on it under temptation."
+tags: []
+data: {icon: scales, templatePriority: 0, packFolder: attributes}
 sohl:
   system:
     scoreBase: 0

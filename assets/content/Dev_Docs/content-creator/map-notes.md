@@ -1,15 +1,11 @@
 ---
+shortcode: mapnotes
+name: {full: Map Notes, aliases: []}
 type: doc
 subType: howto
-name:
-  full: Map Notes
-  aliases: []
-shortcode: mapnotes
 description: "Authoring a Foundry Scene as a markdown note: the `battlemap` / `localmap` / `regionalmap` schema, the two unit conventions, regions and their behaviours, and how a map is packaged."
-data:
-  pack: none
-sohl:
-  kbcat: devdocs
+data: {pack: none}
+sohl: {kbcat: devdocs}
 ---
 
 # Map Notes

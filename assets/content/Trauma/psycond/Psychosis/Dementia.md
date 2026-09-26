@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Dementia
-  aliases: []
 shortcode: dementia
+name: {full: Dementia, aliases: []}
 type: trauma
-data:
-  icon: battlegear
-  templatePriority: 0
-  packFolder: disorders
 subType: psycond
-sohl:
-  kbcat: psypsychosis
-  system:
-    category: impulse
+tags: []
+data: {icon: battlegear, templatePriority: 0, packFolder: disorders}
+sohl: {kbcat: psypsychosis, system: {category: impulse}}
 ---
 
 Dementia is a condition characterized by a decline in cognitive function, affecting memory, thinking, and behavior. Individuals with dementia may experience difficulties with everyday tasks, struggle to recall recent events, or have trouble recognizing familiar people or places. The condition progressively impairs their ability to live independently and can lead to significant emotional distress. Dementia is often associated with aging and can manifest in various forms, such as Alzheimer’s disease or vascular dementia.

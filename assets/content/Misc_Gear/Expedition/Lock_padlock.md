@@ -1,26 +1,14 @@
 ---
-tags:
-  - expedition
-name:
-  full: "Lock, padlock"
-  aliases: []
-description: "Small iron padlock with U-shackle for securing cargo and tent flaps."
 shortcode: lockpadloc2
+name: {full: "Lock, padlock", aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
-  packFolder: expedition
+description: "Small iron padlock with U-shackle for securing cargo and tent flaps."
+tags: [expedition]
+data: {icon: swapbag, templatePriority: 0, packFolder: expedition}
 sohl:
-  craft:
-    skill: lock
-    secondary: [mtlc]
+  craft: {skill: lock, secondary: [mtlc]}
   kbcat: expedition
-  system:
-    weightBase: 0.5
-    valueBase: 35
-    qualityBase: 0
-    durabilityBase: 7
+  system: {weightBase: 0.5, valueBase: 35, qualityBase: 0, durabilityBase: 7}
 ---
 
 A portable iron padlock, its U-shaped shackle hinged through a cylindrical body, small enough to hang from a belt or saddle. Merchants use them to secure cargo chests and tent flaps during night camps; the warded mechanism resists casual picking but not a determined thief with proper tools.

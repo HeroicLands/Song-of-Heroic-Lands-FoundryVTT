@@ -1,24 +1,14 @@
 ---
-tags: []
-name:
-  full: Creativity
-  aliases: []
-description: "Imagination: seeing new connections and forging original solutions."
 shortcode: cre
+name: {full: Creativity, aliases: []}
 type: attribute
-data:
-  icon: lightbulb
-  templatePriority: 0
-  packFolder: attributes
+description: "Imagination: seeing new connections and forging original solutions."
+tags: []
+data: {icon: lightbulb, templatePriority: 0, packFolder: attributes}
 sohl:
   system:
     scoreBase: 0
-    valueDesc:
-      - Banal:4
-      - Predictable:8
-      - Average:12
-      - Innovative:16
-      - Visionary:999
+    valueDesc: [Banal:4, Predictable:8, Average:12, Innovative:16, Visionary:999]
     initDiceFormula: 3d6
 ---
 

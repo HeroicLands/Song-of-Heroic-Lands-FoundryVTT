@@ -1,9 +1,6 @@
 ---
-name:
-  full: "Disorders"
 shortcode: disorders
+name: {full: "Disorders"}
 type: folder
-data:
-  parent: psychological
-  color: "#800000"
+data: {parent: psychological, color: "#800000"}
 ---

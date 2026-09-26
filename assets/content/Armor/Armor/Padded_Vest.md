@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Padded Vest
-  aliases: []
-description: "Quilted linen vest; inner padding offers warmth and under-armor cushioning."
 shortcode: pvest
+name: {full: Padded Vest, aliases: []}
 type: armorgear
-data:
-  icon: leathervest
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Quilted linen vest; inner padding offers warmth and under-armor cushioning."
+tags: []
+data: {icon: leathervest, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: padded
   armorType: Vest
   detailMaterial: Padded
@@ -22,16 +15,8 @@ sohl:
     valueBase: 50
     durabilityBase: 10
     material: Padded
-    locations:
-      flexible:
-        - thrxloc
-        - abdmnloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [thrxloc, abdmnloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

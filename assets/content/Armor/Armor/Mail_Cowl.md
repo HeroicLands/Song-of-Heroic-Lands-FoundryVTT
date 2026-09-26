@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Mail Cowl
-  aliases: []
-description: "Metal ring head and neck armor providing substantial combat protection."
 shortcode: mcwl
+name: {full: Mail Cowl, aliases: []}
 type: armorgear
-data:
-  icon: hood
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Metal ring head and neck armor providing substantial combat protection."
+tags: []
+data: {icon: hood, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [mtlc, mnrl]
+  craft: {skill: wpnc, secondary: [mtlc, mnrl]}
   kbcat: mail
   armorType: Cowl
   detailMaterial: Mail
@@ -22,16 +15,8 @@ sohl:
     valueBase: 90
     durabilityBase: 13
     material: Mail
-    locations:
-      flexible: []
-      rigid:
-        - skullloc
-        - neckloc
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [], rigid: [skullloc, neckloc]}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: -5
 ---

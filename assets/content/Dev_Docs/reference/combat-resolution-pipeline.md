@@ -1,20 +1,12 @@
 ---
+shortcode: combatresolutionpipeline
+name: {full: Combat Resolution Pipeline, aliases: []}
 type: doc
 subType: reference
-name:
-  full: Combat Resolution Pipeline
-  aliases: []
-shortcode: combatresolutionpipeline
 description: For SoHL maintainers extending tests, opposed rolls, or combat outcomes.
-tags:
-  - rules
-  - core-system
-  - combat
-  - injury
-data:
-  pack: none
-sohl:
-  kbcat: devdocs
+tags: [rules, core-system, combat, injury]
+data: {pack: none}
+sohl: {kbcat: devdocs}
 ---
 
 # Combat Resolution Pipeline

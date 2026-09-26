@@ -1,12 +1,9 @@
 ---
+shortcode: sccssvlt
+name: {full: Success Value Tests, aliases: []}
 type: doc
 subType: rules
-name:
-  full: Success Value Tests
-  aliases: []
-shortcode: sccssvlt
-data:
-  packFolder: resolution
+data: {packFolder: resolution}
 ---
 
 # Success Value Tests {#success-value-test}

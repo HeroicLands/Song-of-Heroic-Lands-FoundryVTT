@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Leather Mantle
-  aliases: []
-description: "Rugged leather outer garment protecting against elements for travelers."
 shortcode: ltmntl
+name: {full: Leather Mantle, aliases: []}
 type: armorgear
-data:
-  icon: cape
-  templatePriority: 0
-  packFolder: clothing
+description: "Rugged leather outer garment protecting against elements for travelers."
+tags: []
+data: {icon: cape, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: leather
   armorType: Mantle
   detailMaterial: Leather
@@ -22,19 +15,8 @@ sohl:
     valueBase: 170
     durabilityBase: 9
     material: Leather
-    locations:
-      flexible:
-        - lshldloc
-        - rshldloc
-        - lupaloc
-        - rupaloc
-        - thrxloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [lshldloc, rshldloc, lupaloc, rupaloc, thrxloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

@@ -1,11 +1,9 @@
 ---
+shortcode: beingug
+name: {full: "Being"}
 type: doc
 subType: userguide
-name:
-  full: "Being"
-shortcode: beingug
-data:
-  packFolder: actors
+data: {packFolder: actors}
 ---
 
 # What Is a Being?

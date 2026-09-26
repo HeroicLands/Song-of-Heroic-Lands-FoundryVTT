@@ -1,22 +1,12 @@
 ---
-tags: []
-name:
-  full: Spirit
-  aliases: []
-description: "A discrete act carried out through an allied spirit, governed by its Spirit Power."
 shortcode: sprt
+name: {full: Spirit, aliases: []}
 type: mysticalability
-data:
-  icon: psychicwaves
-  templatePriority: 0
-  packFolder: spiritaction
 subType: spiritaction
-sohl:
-  kbcat: spiritaction
-  system:
-    assocSkillCode: spirit
-    masteryLevelBase: 0
-    levelBase: 0
+description: "A discrete act carried out through an allied spirit, governed by its Spirit Power."
+tags: []
+data: {icon: psychicwaves, templatePriority: 0, packFolder: spiritaction}
+sohl: {kbcat: spiritaction, system: {assocSkillCode: spirit, masteryLevelBase: 0, levelBase: 0}}
 
 # hmk:
 #   name: ""

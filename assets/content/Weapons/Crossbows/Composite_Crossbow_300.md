@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Composite Crossbow 300
-  aliases: []
-description: "Three-hundred pound windlass-spanned arbalest; wall-breach devastating volley."
 shortcode: ccxbw300
+name: {full: Composite Crossbow 300, aliases: []}
 type: weapongear
-data:
-  icon: crossbow
-  templatePriority: 0
-  packFolder: weapons
+description: "Three-hundred pound windlass-spanned arbalest; wall-breach devastating volley."
+tags: []
+data: {icon: crossbow, templatePriority: 0, packFolder: weapons}
 sohl:
-  craft:
-    skill: fltch
-    secondary: [wood, timb]
+  craft: {skill: fltch, secondary: [wood, timb]}
   kbcat: crossbow
   weaponType: Crossbow
   system:
@@ -27,14 +20,8 @@ sohl:
         name: Ranged
         assocSkillCode: archery
         minParts: 2
-        attack:
-          spread: 0
-          modifier: 0
-        impactBase:
-          numDice: 0
-          die: null
-          modifier: 6
-          aspect: piercing
+        attack: {spread: 0, modifier: 0}
+        impactBase: {numDice: 0, die: null, modifier: 6, aspect: piercing}
         traits:
           meleeMod: 0
           blockSLMod: 0

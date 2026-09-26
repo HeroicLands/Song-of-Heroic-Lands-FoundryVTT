@@ -1,16 +1,11 @@
 ---
-tags: []
-name:
-  full: Charm
-  aliases: []
-description: "Winning trust and favor through warmth, wit, and emotional persuasion."
 shortcode: chrm
+name: {full: Charm, aliases: []}
 type: skill
-data:
-  icon: charm
-  templatePriority: 0
-  packFolder: social
 subType: social
+description: "Winning trust and favor through warmth, wit, and emotional persuasion."
+tags: []
+data: {icon: charm, templatePriority: 0, packFolder: social}
 sohl:
   kbcat: social
   system:
@@ -19,9 +14,7 @@ sohl:
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 3
-    impairedByRoles:
-      - core
-      - vital
+    impairedByRoles: [core, vital]
 ---
 
 Charm is persuasion by feeling. The character does not argue a case or issue an order; they make the other party _want_ to agree — through warmth, wit, flattery, attention, desire, or simple presence. It leans on how a person looks and on how well they read the mood in front of them, which is why it is at once the most natural of the persuasion skills and the least reliable: what works on one listener is exactly what closes another off.

@@ -1,22 +1,12 @@
 ---
-tags: []
-name:
-  full: Tarotry
-  aliases: []
-description: "Laying cards in a spread and reading the human situation they describe."
 shortcode: tarot
+name: {full: Tarotry, aliases: []}
 type: mysticalability
-data:
-  icon: cardrandom
-  templatePriority: 0
-  packFolder: divination
 subType: divination
-sohl:
-  kbcat: divination
-  system:
-    assocSkillCode: ""
-    masteryLevelBase: 0
-    levelBase: 0
+description: "Laying cards in a spread and reading the human situation they describe."
+tags: []
+data: {icon: cardrandom, templatePriority: 0, packFolder: divination}
+sohl: {kbcat: divination, system: {assocSkillCode: "", masteryLevelBase: 0, levelBase: 0}}
 ---
 
 Tarotry is divination by cards, laid out in a prescribed spread and read by their meanings and by their positions relative to one another. Each card carries a settled significance; what a reading turns on is which cards fall where, and what they say about each other.

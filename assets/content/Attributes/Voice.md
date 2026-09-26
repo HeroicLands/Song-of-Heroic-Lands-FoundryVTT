@@ -1,24 +1,14 @@
 ---
-tags: []
-name:
-  full: Voice
-  aliases: []
-description: "The musical quality of speech: timbre, pitch, and natural resonance."
 shortcode: voi
+name: {full: Voice, aliases: []}
 type: attribute
-data:
-  icon: sing
-  templatePriority: 0
-  packFolder: attributes
+description: "The musical quality of speech: timbre, pitch, and natural resonance."
+tags: []
+data: {icon: sing, templatePriority: 0, packFolder: attributes}
 sohl:
   system:
     scoreBase: 0
-    valueDesc:
-      - Jarring:4
-      - Tuneless:8
-      - Average:12
-      - Melodious:16
-      - Dulcet:999
+    valueDesc: [Jarring:4, Tuneless:8, Average:12, Melodious:16, Dulcet:999]
     initDiceFormula: 3d6
 ---
 

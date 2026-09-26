@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Adventurous
-  aliases: []
 shortcode: advs
+name: {full: Adventurous, aliases: []}
 type: trauma
-data:
-  icon: battlegear
-  templatePriority: 0
-  packFolder: quirks
 subType: psycond
-sohl:
-  kbcat: psybehavior
-  system:
-    category: quirk
+tags: []
+data: {icon: battlegear, templatePriority: 0, packFolder: quirks}
+sohl: {kbcat: psybehavior, system: {category: quirk}}
 ---
 
 Adventurous refers to an individual’s willingness to take risks, explore new experiences, and embrace the unknown with enthusiasm. An adventurous person is open to trying new things, whether it be physical challenges, unfamiliar environments, or bold ideas. This trait is often associated with curiosity, courage, and a desire for discovery. However, extreme adventurousness can lead to reckless behavior or a disregard for safety and responsibility, causing potential harm or instability.

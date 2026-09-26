@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Overachiever
-  aliases: []
 shortcode: ovrchvr
+name: {full: Overachiever, aliases: []}
 type: trauma
-data:
-  icon: battlegear
-  templatePriority: 0
-  packFolder: disorders
 subType: psycond
-sohl:
-  kbcat: psybehavior
-  system:
-    category: quirk
+tags: []
+data: {icon: battlegear, templatePriority: 0, packFolder: disorders}
+sohl: {kbcat: psybehavior, system: {category: quirk}}
 ---
 
 Overachiever refers to an individual who consistently strives to perform at a level beyond what is expected or required. Overachievers often push themselves to excel in their work, studies, or personal goals, frequently setting high standards for success. While this ambition can lead to significant accomplishments, it may also result in stress, burnout, and an imbalance between personal and professional life as the individual struggles to maintain their heightened expectations.

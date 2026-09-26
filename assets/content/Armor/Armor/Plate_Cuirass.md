@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Plate Cuirass
-  aliases: []
-description: "Shaped steel plates protecting torso and ribs."
 shortcode: plcui
+name: {full: Plate Cuirass, aliases: []}
 type: armorgear
-data:
-  icon: breastplate
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Shaped steel plates protecting torso and ribs."
+tags: []
+data: {icon: breastplate, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [mtlc, mnrl]
+  craft: {skill: wpnc, secondary: [mtlc, mnrl]}
   kbcat: plate
   armorType: Cuirass
   detailMaterial: Plate
@@ -22,16 +15,8 @@ sohl:
     valueBase: 480
     durabilityBase: 14
     material: Plate
-    locations:
-      flexible: []
-      rigid:
-        - thrxloc
-        - abdmnloc
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [], rigid: [thrxloc, abdmnloc]}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 5
     perceptionPenaltyBase: 0
 ---

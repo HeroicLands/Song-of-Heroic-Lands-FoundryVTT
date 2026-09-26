@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Mail Byrnie
-  aliases: []
-description: "Metal ring shirt providing significant protection against slashes and thrusts."
 shortcode: mbyr
+name: {full: Mail Byrnie, aliases: []}
 type: armorgear
-data:
-  icon: chainmail
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Metal ring shirt providing significant protection against slashes and thrusts."
+tags: []
+data: {icon: chainmail, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [mtlc, mnrl]
+  craft: {skill: wpnc, secondary: [mtlc, mnrl]}
   kbcat: mail
   armorType: Byrnie
   detailMaterial: Mail
@@ -22,20 +15,8 @@ sohl:
     valueBase: 495
     durabilityBase: 13
     material: Mail
-    locations:
-      flexible: []
-      rigid:
-        - lshldloc
-        - rshldloc
-        - lupaloc
-        - rupaloc
-        - thrxloc
-        - abdmnloc
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [], rigid: [lshldloc, rshldloc, lupaloc, rupaloc, thrxloc, abdmnloc]}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 5
     perceptionPenaltyBase: 0
 ---

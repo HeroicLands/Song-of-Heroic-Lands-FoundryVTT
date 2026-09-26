@@ -1,16 +1,11 @@
 ---
-tags: []
-name:
-  full: Melee
-  aliases: []
-description: "Close combat with hand-held weapons; positioning, technique, and tactical awareness."
 shortcode: melee
+name: {full: Melee, aliases: []}
 type: skill
-data:
-  icon: crossedswords
-  templatePriority: 0
-  packFolder: combat
 subType: combat
+description: "Close combat with hand-held weapons; positioning, technique, and tactical awareness."
+tags: []
+data: {icon: crossedswords, templatePriority: 0, packFolder: combat}
 sohl:
   kbcat: combat
   system:
@@ -19,11 +14,7 @@ sohl:
     combatCategory: melee
     parentSkillCode: ""
     initSkillMult: 2
-    impairedByRoles:
-      - core
-      - vital
-      - manipulator
-      - locomotor
+    impairedByRoles: [core, vital, manipulator, locomotor]
 ---
 
 Melee is fighting at arm's length, armed or not. It is hand coordination and whole-body control, and it measures **precision** — where the blow goes and whether it arrives. How hard it lands when it does is Strength's business, not the skill's. Even the untrained express some of it when desperation requires, and Melee may be used untrained.

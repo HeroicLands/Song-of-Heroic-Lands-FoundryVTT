@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Padded Cowl
-  aliases: []
-description: "Cushioned head and shoulder covering providing warmth and helmet compatibility."
 shortcode: pcwl
+name: {full: Padded Cowl, aliases: []}
 type: armorgear
-data:
-  icon: hood
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Cushioned head and shoulder covering providing warmth and helmet compatibility."
+tags: []
+data: {icon: hood, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: padded
   armorType: Cowl
   detailMaterial: Padded
@@ -22,16 +15,8 @@ sohl:
     valueBase: 12
     durabilityBase: 10
     material: Padded
-    locations:
-      flexible:
-        - skullloc
-        - neckloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [skullloc, neckloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: -5
 ---

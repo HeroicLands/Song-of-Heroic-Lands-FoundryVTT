@@ -1,9 +1,6 @@
 ---
-name:
-  full: "Divination"
 shortcode: divination
+name: {full: "Divination"}
 type: folder
-data:
-  parent: mysticalabilities
-  color: "#4682B4"
+data: {parent: mysticalabilities, color: "#4682B4"}
 ---

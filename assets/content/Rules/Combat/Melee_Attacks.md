@@ -1,12 +1,9 @@
 ---
+shortcode: mlattcks
+name: {full: Melee Attacks, aliases: []}
 type: doc
 subType: rules
-name:
-  full: Melee Attacks
-  aliases: []
-shortcode: mlattcks
-data:
-  packFolder: rulescombat
+data: {packFolder: rulescombat}
 ---
 
 # Melee Attacks {#melee-attacks}

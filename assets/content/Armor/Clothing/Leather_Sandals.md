@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Leather Sandals
-  aliases: []
-description: "Lightweight leather foot covering combining comfort with rugged charm."
 shortcode: ltsndls
+name: {full: Leather Sandals, aliases: []}
 type: armorgear
-data:
-  icon: flipflops
-  templatePriority: 0
-  packFolder: clothing
+description: "Lightweight leather foot covering combining comfort with rugged charm."
+tags: []
+data: {icon: flipflops, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: leather
   armorType: Sandals
   detailMaterial: Leather
@@ -22,16 +15,8 @@ sohl:
     valueBase: 60
     durabilityBase: 9
     material: Leather
-    locations:
-      flexible:
-        - lfootloc
-        - rfootloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [lfootloc, rfootloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

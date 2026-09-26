@@ -1,26 +1,14 @@
 ---
-tags:
-  - scribe
-name:
-  full: "Ink, Red"
-  aliases: []
-description: "Vermilion or madder-root; reserved for titles, rubrication, illuminated capitals."
 shortcode: inkred
+name: {full: "Ink, Red", aliases: []}
 type: miscgear
-data:
-  icon: inkswirl
-  templatePriority: 0
-  packFolder: scribe
+description: "Vermilion or madder-root; reserved for titles, rubrication, illuminated capitals."
+tags: [scribe]
+data: {icon: inkswirl, templatePriority: 0, packFolder: scribe}
 sohl:
-  craft:
-    skill: herb
-    secondary: []
+  craft: {skill: herb, secondary: []}
   kbcat: scribe
-  system:
-    weightBase: 2
-    valueBase: 12
-    qualityBase: 0
-    durabilityBase: 0
+  system: {weightBase: 2, valueBase: 12, qualityBase: 0, durabilityBase: 0}
 ---
 
 Vermilion or madder-root ink, costly and bright, reserved for titles, opening capitals, and rubrication in illuminated manuscripts. A scribe begins each chapter in red—hence "rubric"—to mark hierarchy and break the flow of black text. The pigment is mordanted with alum for permanence.

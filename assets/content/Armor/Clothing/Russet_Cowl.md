@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Russet Cowl
-  aliases: []
-description: "Reddish-brown wool hood; practical head and neck covering."
 shortcode: rcowl
+name: {full: Russet Cowl, aliases: []}
 type: armorgear
-data:
-  icon: hood
-  templatePriority: 0
-  packFolder: clothing
+description: "Reddish-brown wool hood; practical head and neck covering."
+tags: []
+data: {icon: hood, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Cowl
   detailMaterial: Russet
@@ -22,16 +15,8 @@ sohl:
     valueBase: 7
     durabilityBase: 7
     material: Cloth
-    locations:
-      flexible:
-        - skullloc
-        - neckloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [skullloc, neckloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

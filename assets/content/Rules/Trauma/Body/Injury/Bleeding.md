@@ -1,12 +1,9 @@
 ---
+shortcode: bleeding
+name: {full: Bleeding, aliases: []}
 type: doc
 subType: rules
-name:
-  full: Bleeding
-  aliases: []
-shortcode: bleeding
-data:
-  packFolder: injury
+data: {packFolder: injury}
 ---
 
 A physical [[doc-injrylvl|Injury]] marked as **bleeding** is losing blood in a life-threatening way. Left unchecked, a bleeder will likely kill the character within **10–15 minutes** unless the bleeding is staunched.

@@ -1,9 +1,6 @@
 ---
-name:
-  full: "Expedition"
 shortcode: expedition
+name: {full: "Expedition"}
 type: folder
-data:
-  parent: miscgear
-  color: "#2A9D8F"
+data: {parent: miscgear, color: "#2A9D8F"}
 ---

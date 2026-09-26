@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Mace, Wood Handle
-  aliases: []
-description: "Flanged iron head on wooden shaft; footman and guard's bone-cracker."
 shortcode: wdmce
+name: {full: "Mace, Wood Handle", aliases: []}
 type: weapongear
-data:
-  icon: flangedmace
-  templatePriority: 0
-  packFolder: weapons
+description: "Flanged iron head on wooden shaft; footman and guard's bone-cracker."
+tags: []
+data: {icon: flangedmace, templatePriority: 0, packFolder: weapons}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [mtlc, mnrl]
+  craft: {skill: wpnc, secondary: [mtlc, mnrl]}
   kbcat: club
   weaponType: Club
   system:
@@ -27,14 +20,8 @@ sohl:
         name: Crush
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 8
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 3
-          aspect: blunt
+        attack: {spread: 8, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 3, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -63,22 +50,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 4
-        defense:
-          blockMod: -5
-          counterstrikeMod: -5
+        defense: {blockMod: -5, counterstrikeMod: -5}
       - shortcode: pommel
         type: melee
         name: Pommel
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 4
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 0
-          aspect: blunt
+        attack: {spread: 4, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 0, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -107,9 +86,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 4
-        defense:
-          blockMod: -5
-          counterstrikeMod: -5
+        defense: {blockMod: -5, counterstrikeMod: -5}
 ---
 
 A flanged or spiked iron head lashed to a wooden haft with leather and iron bindings, this is the common mace of footmen, fyrdsmen, and city guards. Lighter than its steel-handled cousin and easier to maintain, it nonetheless delivers bone-cracking force to crush shields and helm. The wood shaft flexes slightly on impact, distributing shock upward through the wielder's arms.

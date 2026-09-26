@@ -1,26 +1,14 @@
 ---
-tags:
-  - instruments
-name:
-  full: Fishing Kit
-  aliases: []
-description: "Cloth pouch with hooks, sinker, horsehair line, bone needle for riverside hunting."
 shortcode: fishgkit
+name: {full: Fishing Kit, aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
-  packFolder: instruments
+description: "Cloth pouch with hooks, sinker, horsehair line, bone needle for riverside hunting."
+tags: [instruments]
+data: {icon: swapbag, templatePriority: 0, packFolder: instruments}
 sohl:
-  craft:
-    skill: mtlc
-    secondary: []
+  craft: {skill: mtlc, secondary: []}
   kbcat: instruments
-  system:
-    weightBase: 0.2
-    valueBase: 6
-    qualityBase: 0
-    durabilityBase: 7
+  system: {weightBase: 0.2, valueBase: 6, qualityBase: 0, durabilityBase: 7}
 ---
 
 A cloth pouch holding a fistful of fishhooks, a bone sinker, lengths of braided horsehair and gut line, and a small bone needle for threading bait. Riverside folk—ferrymen, riverside mill-tenders, and wanderers—keep such kits at hand when a meal is scarce and water runs deep. A steady hand and patience matter more than fine equipment; a bent hook and stale bread will feed a person as well as a master's assortment.

@@ -1,16 +1,11 @@
 ---
-tags: []
-name:
-  full: Shock
-  aliases: []
-description: "Physiological resilience to absorb violent blows without incapacitation."
 shortcode: shok
+name: {full: Shock, aliases: []}
 type: skill
-data:
-  icon: lightningarc
-  templatePriority: 0
-  packFolder: combat
 subType: combat
+description: "Physiological resilience to absorb violent blows without incapacitation."
+tags: []
+data: {icon: lightningarc, templatePriority: 0, packFolder: combat}
 sohl:
   kbcat: combat
   system:
@@ -19,9 +14,7 @@ sohl:
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 3
-    impairedByRoles:
-      - core
-      - vital
+    impairedByRoles: [core, vital]
 ---
 
 Shock is the body's answer to being badly hurt: whether a wound simply hurts or actually stops the character who took it. It is a subskill of Initiative, sharing that skill's Skill Multiple but resting on its own Skill Base of Strength and Endurance — mass and conditioning, which is honestly most of what decides the question.

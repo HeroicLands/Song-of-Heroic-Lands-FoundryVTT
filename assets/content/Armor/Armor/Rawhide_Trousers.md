@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Rawhide Trousers
-  aliases: []
-description: "Thick untanned hide leg-wear for rough labor and harsh climates."
 shortcode: rhtrsr
+name: {full: Rawhide Trousers, aliases: []}
 type: armorgear
-data:
-  icon: trousers
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Thick untanned hide leg-wear for rough labor and harsh climates."
+tags: []
+data: {icon: trousers, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: leather
   armorType: Trousers
   detailMaterial: Rawhide
@@ -23,20 +16,9 @@ sohl:
     durabilityBase: 11
     material: Leather
     locations:
-      flexible:
-        - plvisloc
-        - lthghloc
-        - rthghloc
-        - lkneeloc
-        - rkneeloc
-        - lcalfloc
-        - rcalfloc
+      flexible: [plvisloc, lthghloc, rthghloc, lkneeloc, rkneeloc, lcalfloc, rcalfloc]
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

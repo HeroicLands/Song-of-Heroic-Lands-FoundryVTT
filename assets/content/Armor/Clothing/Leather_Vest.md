@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Leather Vest
-  aliases: []
-description: "Lightweight styled leather sleeveless garment offering minimal protection and edge."
 shortcode: ltvest
+name: {full: Leather Vest, aliases: []}
 type: armorgear
-data:
-  icon: leathervest
-  templatePriority: 0
-  packFolder: clothing
+description: "Lightweight styled leather sleeveless garment offering minimal protection and edge."
+tags: []
+data: {icon: leathervest, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: leather
   armorType: Vest
   detailMaterial: Leather
@@ -22,16 +15,8 @@ sohl:
     valueBase: 195
     durabilityBase: 9
     material: Leather
-    locations:
-      flexible:
-        - thrxloc
-        - abdmnloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [thrxloc, abdmnloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

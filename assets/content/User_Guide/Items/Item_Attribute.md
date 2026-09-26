@@ -1,11 +1,9 @@
 ---
+shortcode: attributeug
+name: {full: "Attribute"}
 type: doc
 subType: userguide
-name:
-  full: "Attribute"
-shortcode: attributeug
-data:
-  packFolder: items
+data: {packFolder: items}
 ---
 
 # What Is an Attribute?

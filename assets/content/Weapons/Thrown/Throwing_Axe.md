@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Throwing Axe
-  aliases: []
-description: "Balanced head tumbling end-over-end to break skirmish formation."
 shortcode: shkn
+name: {full: Throwing Axe, aliases: []}
 type: weapongear
-data:
-  icon: battleaxe
-  templatePriority: 0
-  packFolder: weapons
+description: "Balanced head tumbling end-over-end to break skirmish formation."
+tags: []
+data: {icon: battleaxe, templatePriority: 0, packFolder: weapons}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [mtlc, mnrl]
+  craft: {skill: wpnc, secondary: [mtlc, mnrl]}
   kbcat: axe
   weaponType: Axe
   system:
@@ -27,14 +20,8 @@ sohl:
         name: Cut
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 8
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 8
-          modifier: 4
-          aspect: edged
+        attack: {spread: 8, modifier: 0}
+        impactBase: {numDice: 1, die: 8, modifier: 4, aspect: edged}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -63,22 +50,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 5
-        defense:
-          blockMod: -5
-          counterstrikeMod: -5
+        defense: {blockMod: -5, counterstrikeMod: -5}
       - shortcode: pommel
         type: melee
         name: Pommel
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 4
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 0
-          aspect: blunt
+        attack: {spread: 4, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 0, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -107,22 +86,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 5
-        defense:
-          blockMod: -5
-          counterstrikeMod: -5
+        defense: {blockMod: -5, counterstrikeMod: -5}
       - shortcode: thrown
         type: missile
         name: Thrown
         assocSkillCode: thro
         minParts: 1
-        attack:
-          spread: 4
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 8
-          modifier: 4
-          aspect: edged
+        attack: {spread: 4, modifier: 0}
+        impactBase: {numDice: 1, die: 8, modifier: 4, aspect: edged}
         traits:
           meleeMod: 0
           blockSLMod: 0

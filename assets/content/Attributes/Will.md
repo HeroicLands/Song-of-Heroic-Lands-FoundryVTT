@@ -1,24 +1,14 @@
 ---
-tags: []
-name:
-  full: Will
-  aliases: []
-description: "Determination and self-mastery; holding a course despite hardship or fear."
 shortcode: wil
+name: {full: Will, aliases: []}
 type: attribute
-data:
-  icon: meditation
-  templatePriority: 0
-  packFolder: attributes
+description: "Determination and self-mastery; holding a course despite hardship or fear."
+tags: []
+data: {icon: meditation, templatePriority: 0, packFolder: attributes}
 sohl:
   system:
     scoreBase: 0
-    valueDesc:
-      - Submissive:4
-      - Indecisive:8
-      - Average:12
-      - Resolute:16
-      - Implacable:999
+    valueDesc: [Submissive:4, Indecisive:8, Average:12, Resolute:16, Implacable:999]
     initDiceFormula: 3d6
 ---
 

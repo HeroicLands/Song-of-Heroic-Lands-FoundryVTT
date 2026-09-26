@@ -1,26 +1,14 @@
 ---
-tags:
-  - expedition
-name:
-  full: "Buttons, pack of 4 (matching)"
-  aliases: []
-description: "Four identical bone, horn, or metal buttons; for garment fastening and repairs."
 shortcode: buttonspac
+name: {full: "Buttons, pack of 4 (matching)", aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
-  packFolder: expedition
+description: "Four identical bone, horn, or metal buttons; for garment fastening and repairs."
+tags: [expedition]
+data: {icon: swapbag, templatePriority: 0, packFolder: expedition}
 sohl:
-  craft:
-    skill: mtlc
-    secondary: []
+  craft: {skill: mtlc, secondary: []}
   kbcat: expedition
-  system:
-    weightBase: 0
-    valueBase: 0.75
-    qualityBase: 0
-    durabilityBase: 3
+  system: {weightBase: 0, valueBase: 0.75, qualityBase: 0, durabilityBase: 3}
 ---
 
 Four identical buttons of bone, horn, or cast metal, ready to sew onto a garment or repair. Buttons are fasteners for cloaks, tunics, and jerkins and vary in size and material by quality and cost. A traveler or soldier carries spare buttons for field repairs; a set of matching ones is preferable to odd replacements, which mark a garment as repeatedly mended.

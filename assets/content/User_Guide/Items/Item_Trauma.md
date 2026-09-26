@@ -1,11 +1,9 @@
 ---
+shortcode: traumaug
+name: {full: "Trauma"}
 type: doc
 subType: userguide
-name:
-  full: "Trauma"
-shortcode: traumaug
-data:
-  packFolder: items
+data: {packFolder: items}
 ---
 
 # What Is a Trauma?

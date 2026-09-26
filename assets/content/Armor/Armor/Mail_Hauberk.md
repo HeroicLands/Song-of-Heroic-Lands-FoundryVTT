@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Mail Hauberk
-  aliases: []
-description: "Long metal ring shirt providing substantial protection for mounted and foot soldiers."
 shortcode: mhbk
+name: {full: Mail Hauberk, aliases: []}
 type: armorgear
-data:
-  icon: chainmail
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Long metal ring shirt providing substantial protection for mounted and foot soldiers."
+tags: []
+data: {icon: chainmail, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [mtlc, mnrl]
+  craft: {skill: wpnc, secondary: [mtlc, mnrl]}
   kbcat: mail
   armorType: Hauberk
   detailMaterial: Mail
@@ -38,11 +31,7 @@ sohl:
         - plvisloc
         - lthghloc
         - rthghloc
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 15
     perceptionPenaltyBase: 0
 ---

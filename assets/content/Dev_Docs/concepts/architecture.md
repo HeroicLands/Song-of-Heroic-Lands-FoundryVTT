@@ -1,15 +1,11 @@
 ---
+shortcode: architecture
+name: {full: SoHL Architecture, aliases: []}
 type: doc
 subType: concept
-name:
-  full: SoHL Architecture
-  aliases: []
-shortcode: architecture
 description: "The mental model and a map of the `src/` tree."
-data:
-  pack: none
-sohl:
-  kbcat: devdocs
+data: {pack: none}
+sohl: {kbcat: devdocs}
 ---
 
 # SoHL Architecture

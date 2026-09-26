@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Canvas Cowl
-  aliases: []
-description: "Coarse canvas cowl giving hard-wearing head and shoulder cover."
 shortcode: cvcowl
+name: {full: Canvas Cowl, aliases: []}
 type: armorgear
-data:
-  icon: hood
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Coarse canvas cowl giving hard-wearing head and shoulder cover."
+tags: []
+data: {icon: hood, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Cowl
   detailMaterial: Canvas
@@ -22,16 +15,8 @@ sohl:
     valueBase: 5
     durabilityBase: 11
     material: Cloth
-    locations:
-      flexible:
-        - skullloc
-        - neckloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [skullloc, neckloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

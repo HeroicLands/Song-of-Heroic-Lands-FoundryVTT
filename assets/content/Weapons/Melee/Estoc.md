@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Estoc
-  aliases: []
-description: "Narrow rigid blade for plate seams; knight's piercing thrust."
 shortcode: estc
+name: {full: Estoc, aliases: []}
 type: weapongear
-data:
-  icon: broadsword
-  templatePriority: 0
-  packFolder: weapons
+description: "Narrow rigid blade for plate seams; knight's piercing thrust."
+tags: []
+data: {icon: broadsword, templatePriority: 0, packFolder: weapons}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [mtlc, mnrl]
+  craft: {skill: wpnc, secondary: [mtlc, mnrl]}
   kbcat: sword
   weaponType: Sword
   system:
@@ -27,14 +20,8 @@ sohl:
         name: Impale
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 6
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 8
-          modifier: 3
-          aspect: piercing
+        attack: {spread: 6, modifier: 0}
+        impactBase: {numDice: 1, die: 8, modifier: 3, aspect: piercing}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -63,22 +50,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 5
-        defense:
-          blockMod: 0
-          counterstrikeMod: 0
+        defense: {blockMod: 0, counterstrikeMod: 0}
       - shortcode: pommel
         type: melee
         name: Pommel
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 4
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 0
-          aspect: blunt
+        attack: {spread: 4, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 0, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -107,22 +86,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 5
-        defense:
-          blockMod: 0
-          counterstrikeMod: 0
+        defense: {blockMod: 0, counterstrikeMod: 0}
       - shortcode: halfswordimpale
         type: melee
         name: Half-Sword Impale
         assocSkillCode: melee
         minParts: 2
-        attack:
-          spread: 4
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 8
-          modifier: 3
-          aspect: piercing
+        attack: {spread: 4, modifier: 0}
+        impactBase: {numDice: 1, die: 8, modifier: 3, aspect: piercing}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -151,9 +122,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 5
-        defense:
-          blockMod: 0
-          counterstrikeMod: 0
+        defense: {blockMod: 0, counterstrikeMod: 0}
 ---
 
 A stiff, narrow blade tapering to a rigid point, the estoc seeks the seams and gaps of plate without mercy. The blade often lacks sharp edges—a thrusting weapon entire—and is hilted for the controlled lunge. Knights in full harness favor this steel for the way it pierces where broader swords would shatter against tempered joints.

@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Leather Hat
-  aliases: []
-description: "Rugged leather head covering providing basic weather protection with adventurer charm."
 shortcode: lthat
+name: {full: Leather Hat, aliases: []}
 type: armorgear
-data:
-  icon: pointyhat
-  templatePriority: 0
-  packFolder: clothing
+description: "Rugged leather head covering providing basic weather protection with adventurer charm."
+tags: []
+data: {icon: pointyhat, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: leather
   armorType: Hat
   detailMaterial: Leather
@@ -22,15 +15,8 @@ sohl:
     valueBase: 35
     durabilityBase: 9
     material: Leather
-    locations:
-      flexible:
-        - skullloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [skullloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

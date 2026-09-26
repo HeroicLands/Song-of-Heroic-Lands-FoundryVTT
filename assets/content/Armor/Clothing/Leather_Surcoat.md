@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Leather Surcoat
-  aliases: []
-description: "Rugged styled leather outer layer offering minimal protection and flexibility."
 shortcode: ltscoat
+name: {full: Leather Surcoat, aliases: []}
 type: armorgear
-data:
-  icon: shirt
-  templatePriority: 0
-  packFolder: clothing
+description: "Rugged styled leather outer layer offering minimal protection and flexibility."
+tags: []
+data: {icon: shirt, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: leather
   armorType: Surcoat
   detailMaterial: Leather
@@ -34,11 +27,7 @@ sohl:
         - lkneeloc
         - rkneeloc
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

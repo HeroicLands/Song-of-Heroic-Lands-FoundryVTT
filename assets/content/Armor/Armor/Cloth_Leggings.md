@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Cloth Leggings
-  aliases: []
-description: "Simple cloth leg-wear offering comfort and warmth for everyday wear."
 shortcode: cleg
+name: {full: Cloth Leggings, aliases: []}
 type: armorgear
-data:
-  icon: trousers
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Simple cloth leg-wear offering comfort and warmth for everyday wear."
+tags: []
+data: {icon: trousers, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Leggings
   detailMaterial: Cloth
@@ -23,21 +16,9 @@ sohl:
     durabilityBase: 10
     material: Cloth
     locations:
-      flexible:
-        - lthghloc
-        - rthghloc
-        - lkneeloc
-        - rkneeloc
-        - lcalfloc
-        - rcalfloc
-        - lfootloc
-        - rfootloc
+      flexible: [lthghloc, rthghloc, lkneeloc, rkneeloc, lcalfloc, rcalfloc, lfootloc, rfootloc]
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

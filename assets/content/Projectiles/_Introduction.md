@@ -1,10 +1,8 @@
 ---
+shortcode: projectilegear
+name: {full: Projectiles, aliases: []}
 type: doc
 subType: reference
-name:
-  full: Projectiles
-  aliases: []
-shortcode: projectilegear
 description: "Projectiles - arrows, stones, bolts, etc."
 ---
 

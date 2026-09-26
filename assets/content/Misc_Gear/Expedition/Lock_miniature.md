@@ -1,26 +1,14 @@
 ---
-tags:
-  - expedition
-name:
-  full: "Lock, miniature"
-  aliases: []
-description: "Finger-length iron lock for jewelry boxes and caskets; master locksmith's fine craft."
 shortcode: lockminiat
+name: {full: "Lock, miniature", aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
-  packFolder: expedition
+description: "Finger-length iron lock for jewelry boxes and caskets; master locksmith's fine craft."
+tags: [expedition]
+data: {icon: swapbag, templatePriority: 0, packFolder: expedition}
 sohl:
-  craft:
-    skill: lock
-    secondary: [mtlc]
+  craft: {skill: lock, secondary: [mtlc]}
   kbcat: expedition
-  system:
-    weightBase: 0.25
-    valueBase: 90
-    qualityBase: 0
-    durabilityBase: 5
+  system: {weightBase: 0.25, valueBase: 90, qualityBase: 0, durabilityBase: 5}
 ---
 
 A delicate iron lock for jewelry boxes and document caskets, barely a finger's length, yet intricately warded by a master locksmith's hand. Wealthy merchants and scribes prize them for securing small valuables; their cost reflects the extreme skill and fine tools required to cut such tight wards.

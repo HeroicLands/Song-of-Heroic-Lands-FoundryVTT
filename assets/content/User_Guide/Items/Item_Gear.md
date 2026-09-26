@@ -1,11 +1,9 @@
 ---
+shortcode: gearug
+name: {full: "Gear"}
 type: doc
 subType: userguide
-name:
-  full: "Gear"
-shortcode: gearug
-data:
-  packFolder: items
+data: {packFolder: items}
 ---
 
 # What is Gear?

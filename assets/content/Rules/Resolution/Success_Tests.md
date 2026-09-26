@@ -1,12 +1,9 @@
 ---
+shortcode: sccsstst
+name: {full: Success Tests, aliases: []}
 type: doc
 subType: rules
-name:
-  full: Success Tests
-  aliases: []
-shortcode: sccsstst
-data:
-  packFolder: resolution
+data: {packFolder: resolution}
 ---
 
 # Success Tests {#success-test}

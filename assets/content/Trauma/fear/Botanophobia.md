@@ -1,20 +1,11 @@
 ---
-tags: []
-name:
-  full: Botanophobia
-  aliases: []
 shortcode: btnphb
+name: {full: Botanophobia, aliases: []}
 type: trauma
-data:
-  icon: dread
-  templatePriority: 0
-  packFolder: phobias
 subType: fear
-sohl:
-  kbcat: phobias
-  system:
-    category: none
-    levelBase: 0
+tags: []
+data: {icon: dread, templatePriority: 0, packFolder: phobias}
+sohl: {kbcat: phobias, system: {category: none, levelBase: 0}}
 ---
 
 Botanophobia is an intense, irrational fear of plants. People with botanophobia may experience a range of symptoms when they think about, see, or are near plants.

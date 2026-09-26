@@ -1,26 +1,14 @@
 ---
-tags:
-  - stone
-name:
-  full: "Chalk, bulk"
-  aliases: []
-description: "Soft quarried chalk block; masons' plaster, scribes' pouncing, shepherd marking stock."
 shortcode: chalkbulk
+name: {full: "Chalk, bulk", aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
-  packFolder: stone
+description: "Soft quarried chalk block; masons' plaster, scribes' pouncing, shepherd marking stock."
+tags: [stone]
+data: {icon: swapbag, templatePriority: 0, packFolder: stone}
 sohl:
-  craft:
-    skill: mnrl
-    secondary: []
+  craft: {skill: mnrl, secondary: []}
   kbcat: stone
-  system:
-    weightBase: 1
-    valueBase: 1
-    qualityBase: 0
-    durabilityBase: 1
+  system: {weightBase: 1, valueBase: 1, qualityBase: 0, durabilityBase: 1}
 ---
 
 A quarried block of soft, porous chalk dug from ancient seabeds, sold by the cubic foot and left unworked for the quarryman's craft. Chalk is prized by masons for interior plaster, by scribes for pouncing, and by shepherds for marking sheep. It is soft enough to be broken by hand and light enough to carry; larger quantities serve as building filler beneath stone facings.

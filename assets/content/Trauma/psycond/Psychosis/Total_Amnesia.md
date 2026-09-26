@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Total Amnesia
-  aliases: []
 shortcode: amnsttl
+name: {full: Total Amnesia, aliases: []}
 type: trauma
-data:
-  icon: battlegear
-  templatePriority: 0
-  packFolder: disorders
 subType: psycond
-sohl:
-  kbcat: psypsychosis
-  system:
-    category: disorder
+tags: []
+data: {icon: battlegear, templatePriority: 0, packFolder: disorders}
+sohl: {kbcat: psypsychosis, system: {category: disorder}}
 ---
 
 Total Amnesia involves the complete loss of all personal memories, including one’s identity, past experiences, and knowledge of one’s life. The profound loss of memory creates a sense of deep disorientation and confusion, as they struggle to rebuild a life without any foundation of personal identity. While they may retain certain skills or talents, these abilities feel foreign to them, as they are disconnected from the context of the individual's life. The inability to remember even basic details of their past can lead to feelings of isolation, fear, and vulnerability. They may experience emotional distress as they navigate the world with no sense of self, unable to connect with others on a personal level. Trust becomes difficult, both for the individual and for those around them, as the lack of personal history leaves others uncertain of their true nature. The mystery of retained skills only deepens the psychological strain, as the person is left questioning how they can perform tasks that their mind cannot remember learning.

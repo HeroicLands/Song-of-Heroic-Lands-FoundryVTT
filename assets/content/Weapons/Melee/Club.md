@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Club
-  aliases: []
-description: "Iron-bound wooden bludgeon; garrison guard and desperate levy weapon."
 shortcode: clb
+name: {full: Club, aliases: []}
 type: weapongear
-data:
-  icon: club
-  templatePriority: 0
-  packFolder: weapons
+description: "Iron-bound wooden bludgeon; garrison guard and desperate levy weapon."
+tags: []
+data: {icon: club, templatePriority: 0, packFolder: weapons}
 sohl:
-  craft:
-    skill: wood
-    secondary: []
+  craft: {skill: wood, secondary: []}
   kbcat: club
   weaponType: Club
   system:
@@ -27,14 +20,8 @@ sohl:
         name: Crush
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 6
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 1
-          aspect: blunt
+        attack: {spread: 6, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 1, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -63,22 +50,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 4
-        defense:
-          blockMod: 0
-          counterstrikeMod: 0
+        defense: {blockMod: 0, counterstrikeMod: 0}
       - shortcode: pommel
         type: melee
         name: Pommel
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 4
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 0
-          aspect: blunt
+        attack: {spread: 4, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 0, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -107,9 +86,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 4
-        defense:
-          blockMod: 0
-          counterstrikeMod: 0
+        defense: {blockMod: 0, counterstrikeMod: 0}
 ---
 
 A weighted wooden truncheon bound with iron, the simplest of all bludgeons. Whether turned or hewn from a single piece of heartwood or grafted from a thicker branch fitted to a shorter haft, it swings with enough weight to break bone and crush the breath from a man's chest. Cheap to make and found in the hands of garrison guards, city watch, and desperate levies.

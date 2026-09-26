@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Waxed Canvas Tunic
-  aliases: []
-description: "Waxed canvas tunic proofed against rain and sea spray."
 shortcode: wxcvtunic
+name: {full: Waxed Canvas Tunic, aliases: []}
 type: armorgear
-data:
-  icon: shirt
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Waxed canvas tunic proofed against rain and sea spray."
+tags: []
+data: {icon: shirt, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Tunic
   detailMaterial: Waxed Canvas
@@ -34,11 +27,7 @@ sohl:
         - abdmnloc
         - plvisloc
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

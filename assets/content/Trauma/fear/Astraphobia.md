@@ -1,20 +1,11 @@
 ---
-tags: []
-name:
-  full: Astraphobia
-  aliases: []
 shortcode: astrphb
+name: {full: Astraphobia, aliases: []}
 type: trauma
-data:
-  icon: dread
-  templatePriority: 0
-  packFolder: phobias
 subType: fear
-sohl:
-  kbcat: phobias
-  system:
-    category: none
-    levelBase: 0
+tags: []
+data: {icon: dread, templatePriority: 0, packFolder: phobias}
+sohl: {kbcat: phobias, system: {category: none, levelBase: 0}}
 ---
 
 Astraphobia is an intense, irrational fear of thunder and lightning. People with astraphobia may experience a range of symptoms when they think about, see, or hear thunder and lightning.

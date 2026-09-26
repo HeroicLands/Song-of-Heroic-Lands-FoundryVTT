@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Cloth Gauntlets
-  aliases: []
-description: "Soft cloth hand coverings offering basic protection for light work."
 shortcode: cgntl
+name: {full: Cloth Gauntlets, aliases: []}
 type: armorgear
-data:
-  icon: gloves
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Soft cloth hand coverings offering basic protection for light work."
+tags: []
+data: {icon: gloves, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Gauntlets
   detailMaterial: Cloth
@@ -22,16 +15,8 @@ sohl:
     valueBase: 5
     durabilityBase: 10
     material: Cloth
-    locations:
-      flexible:
-        - lhandloc
-        - rhandloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [lhandloc, rhandloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

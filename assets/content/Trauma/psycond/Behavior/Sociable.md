@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Sociable
-  aliases: []
 shortcode: sociable
+name: {full: Sociable, aliases: []}
 type: trauma
-data:
-  icon: battlegear
-  templatePriority: 0
-  packFolder: quirks
 subType: psycond
-sohl:
-  kbcat: psybehavior
-  system:
-    category: quirk
+tags: []
+data: {icon: battlegear, templatePriority: 0, packFolder: quirks}
+sohl: {kbcat: psybehavior, system: {category: quirk}}
 ---
 
 Sociability is the natural draw toward others, the ease of mind that comes in company and conversation. A sociable person finds energy in gatherings, derives pleasure from exchange, and moves comfortably among strangers. They remember names, sense when someone needs a kind word, and can talk at length on a dozen topics. In the tight-knit world of village and town, where news and trade flow through face-to-face meeting, the sociable person becomes a vital thread in the community's fabric.

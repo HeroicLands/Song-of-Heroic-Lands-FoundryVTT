@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Mail Shirt
-  aliases: []
-description: "Metal ring torso and upper arm protection with excellent defense."
 shortcode: mshirt
+name: {full: Mail Shirt, aliases: []}
 type: armorgear
-data:
-  icon: mailshirt
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Metal ring torso and upper arm protection with excellent defense."
+tags: []
+data: {icon: mailshirt, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [mtlc, mnrl]
+  craft: {skill: wpnc, secondary: [mtlc, mnrl]}
   kbcat: mail
   armorType: Shirt
   detailMaterial: Mail
@@ -22,20 +15,8 @@ sohl:
     valueBase: 495
     durabilityBase: 13
     material: Mail
-    locations:
-      flexible: []
-      rigid:
-        - lshldloc
-        - rshldloc
-        - lupaloc
-        - rupaloc
-        - thrxloc
-        - abdmnloc
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [], rigid: [lshldloc, rshldloc, lupaloc, rupaloc, thrxloc, abdmnloc]}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

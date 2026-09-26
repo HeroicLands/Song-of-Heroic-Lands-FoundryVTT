@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Machiavellian
-  aliases: []
 shortcode: mchvlln
+name: {full: Machiavellian, aliases: []}
 type: trauma
-data:
-  icon: battlegear
-  templatePriority: 0
-  packFolder: disorders
 subType: psycond
-sohl:
-  kbcat: psybehavior
-  system:
-    category: impulse
+tags: []
+data: {icon: battlegear, templatePriority: 0, packFolder: disorders}
+sohl: {kbcat: psybehavior, system: {category: impulse}}
 ---
 
 Machiavellian refers to an individual’s tendency to manipulate, deceive, or exploit others for personal gain, often disregarding morality or ethics. Machiavellian individuals are strategic and cunning, using others as tools to achieve their goals. This behavior becomes more harmful as it intensifies, leading to broken relationships, mistrust, and isolation.

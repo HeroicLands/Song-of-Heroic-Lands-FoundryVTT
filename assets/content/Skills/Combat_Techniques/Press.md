@@ -1,16 +1,11 @@
 ---
-tags: []
-name:
-  full: Press
-  aliases: []
-description: "A shove: putting an opponent where you want them, and sometimes on the ground."
 shortcode: press
+name: {full: Press, aliases: []}
 type: skill
-data:
-  icon: shieldbash
-  templatePriority: 0
-  packFolder: combat
 subType: combattechnique
+description: "A shove: putting an opponent where you want them, and sometimes on the ground."
+tags: []
+data: {icon: shieldbash, templatePriority: 0, packFolder: combat}
 sohl:
   kbcat: unarmed
   strikeMode:
@@ -19,25 +14,12 @@ sohl:
     name: Press
     minParts: 1
     assocSkillCode: melee
-    attack:
-      disabled: false
-      spread: 0
-      modifier: 0
-    impactBase:
-      numDice: 0
-      die: null
-      modifier: 0
-      aspect: blunt
+    attack: {disabled: false, spread: 0, modifier: 0}
+    impactBase: {numDice: 0, die: null, modifier: 0, aspect: blunt}
     lengthBase: 1
     defense:
-      block:
-        disabled: true
-        modifier: 0
-        successLevelMod: 0
-      counterstrike:
-        disabled: false
-        modifier: 0
-        successLevelMod: 0
+      block: {disabled: true, modifier: 0, successLevelMod: 0}
+      counterstrike: {disabled: false, modifier: 0, successLevelMod: 0}
     traits:
       meleeMod: 0
       blockSLMod: 0
@@ -72,8 +54,7 @@ sohl:
     combatCategory: melee
     parentSkillCode: ""
     initSkillMult: 2
-    impairedByRoles:
-      - core
+    impairedByRoles: [core]
 ---
 
 A press is not an attack on the body but on the footing — a shoulder or both hands driven into an opponent to move them off their line. It wounds nobody. What it does is break a shield wall, shove a spearman off a bridge, or open the ground between you and a doorway.

@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Linen Cowl
-  aliases: []
-description: "Breathable head and shoulder covering providing sun protection without overheating."
 shortcode: lcowl
+name: {full: Linen Cowl, aliases: []}
 type: armorgear
-data:
-  icon: hood
-  templatePriority: 0
-  packFolder: clothing
+description: "Breathable head and shoulder covering providing sun protection without overheating."
+tags: []
+data: {icon: hood, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Cowl
   detailMaterial: Linen
@@ -22,16 +15,8 @@ sohl:
     valueBase: 3
     durabilityBase: 5
     material: Cloth
-    locations:
-      flexible:
-        - skullloc
-        - neckloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [skullloc, neckloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

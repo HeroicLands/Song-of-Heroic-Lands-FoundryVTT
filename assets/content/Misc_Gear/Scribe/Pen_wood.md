@@ -1,26 +1,14 @@
 ---
-tags:
-  - scribe
-name:
-  full: "Pen, wood"
-  aliases: []
-description: "Fruitwood or ash charred tip; cheap disposable; suits paper, cloth, tallies."
 shortcode: penwood
+name: {full: "Pen, wood", aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
-  packFolder: scribe
+description: "Fruitwood or ash charred tip; cheap disposable; suits paper, cloth, tallies."
+tags: [scribe]
+data: {icon: swapbag, templatePriority: 0, packFolder: scribe}
 sohl:
-  craft:
-    skill: wood
-    secondary: []
+  craft: {skill: wood, secondary: []}
   kbcat: scribe
-  system:
-    weightBase: 0.1
-    valueBase: 1
-    qualityBase: 0
-    durabilityBase: 3
+  system: {weightBase: 0.1, valueBase: 1, qualityBase: 0, durabilityBase: 3}
 ---
 
 A stick of hardwood—fruitwood or ash—sharpened to a point and charred at the tip for use with chalk or charcoal. Wood pens suit paper and cloth, leaving a marks fit for draft, sketch, and rough tally. They are cheap and disposable, favored by accountants and builders on site.

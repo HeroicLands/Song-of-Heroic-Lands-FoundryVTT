@@ -1,19 +1,12 @@
 ---
-tags: []
-name:
-  full: Quilted Mantle
-  aliases: []
-description: "Layered shoulder-wrap; insulates without restriction."
 shortcode: qmntl
+name: {full: Quilted Mantle, aliases: []}
 type: armorgear
-data:
-  icon: cape
-  templatePriority: 0
-  packFolder: armorarmor
+description: "Layered shoulder-wrap; insulates without restriction."
+tags: []
+data: {icon: cape, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: quilted
   armorType: Mantle
   detailMaterial: Quilted
@@ -22,19 +15,8 @@ sohl:
     valueBase: 85
     durabilityBase: 11
     material: Quilted
-    locations:
-      flexible:
-        - lshldloc
-        - rshldloc
-        - lupaloc
-        - rupaloc
-        - thrxloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [lshldloc, rshldloc, lupaloc, rupaloc, thrxloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---
