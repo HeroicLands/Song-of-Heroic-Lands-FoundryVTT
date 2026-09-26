@@ -690,7 +690,8 @@ subType: userguide
 name:
     full: "Icon Legend"
 shortcode: ${PAGE_SHORTCODE}
-packFolder: ${PAGE_PACK_FOLDER}
+data:
+  packFolder: ${PAGE_PACK_FOLDER}
 ---
 
 # Icon Legend

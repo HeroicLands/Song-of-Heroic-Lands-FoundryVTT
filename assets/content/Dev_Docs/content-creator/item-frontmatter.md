@@ -26,19 +26,22 @@ The tables are rendered from the declaration that _builds_ each document, not fr
 
 ## affiliation
 
-| Field       | Shape                                   | Required | Default | Description                                                            |
-| ----------- | --------------------------------------- | -------- | ------- | ---------------------------------------------------------------------- |
-| `subType`   | string                                  | **yes**  | —       | Which kind of affiliation this is — the society's character.           |
-| `society`   | string                                  | no       | `""`    | The body a member belongs to.                                          |
-| `office`    | string                                  | no       | `""`    | The post a member holds within it.                                     |
-| `title`     | string                                  | no       | `""`    | The style of address the office carries.                               |
-| `level`     | number                                  | no       | `0`     | Standing within the society.                                           |
-| `relations` | map of affiliation shortcode → standing | no       | `{}`    | How this society regards others: aligned, unaligned, rival or nemesis. |
-| `parents`   | list of shortcodes                      | no       | `[]`    | Affiliations this one is subordinate to, by shortcode.                 |
-| `seat`      | as authored, blank is unset             | no       | `null`  | Where the affiliation's authority sits, by place shortcode.            |
-| `domains`   | list of shortcodes                      | no       | `[]`    | Places this affiliation holds sway over, by shortcode.                 |
+| Field            | Shape                                 | Required | Default | Description                                                            |
+| ---------------- | ------------------------------------- | -------- | ------- | ---------------------------------------------------------------------- |
+| `subType`        | string                                | **yes**  | —       | Which kind of affiliation this is — the society's character.           |
+| `society`        | string                                | no       | `""`    | The body a member belongs to.                                          |
+| `office`         | string                                | no       | `""`    | The post a member holds within it.                                     |
+| `title`          | string                                | no       | `""`    | The style of address the office carries.                               |
+| `level`          | number                                | no       | `0`     | Standing within the society.                                           |
+| `commonSkills`   | list of addresses                     | no       | `[]`    | Native SoHL skill Items common among members, by address.              |
+| `data.relations` | map of affiliation address → standing | no       | `{}`    | How this society regards others: aligned, unaligned, rival or nemesis. |
+| `data.parents`   | list of addresses                     | no       | `[]`    | Affiliations this one is subordinate to, by address.                   |
+| `data.seat`      | as authored, blank is unset           | no       | `null`  | Where the affiliation's authority sits, by place address.              |
+| `data.domains`   | list of addresses                     | no       | `[]`    | Places this affiliation holds sway over, by address.                   |
 
 **`title` is not read from the note's top level.** There it means the note's own title — the heading its page is published under, which has nothing to do with the style of address an office carries. Author this on the membership instead: `sohl.system.title` on the item, or the `system.title` of the entry in a being's `sohl.items`.
+
+**`commonSkills` is not read from the note's top level.** There it means Common skills belong to the SoHL affiliation item.
 
 ```markdown
 ---
@@ -56,22 +59,22 @@ The prose here compiles into the item's documentation.
 
 ## affliction
 
-| Field                         | Shape                                      | Required | Default   | Description                                                                                                |
-| ----------------------------- | ------------------------------------------ | -------- | --------- | ---------------------------------------------------------------------------------------------------------- |
-| `subType`                     | string                                     | **yes**  | —         | What kind of affliction it is.                                                                             |
-| `category`                    | as authored                                | no       | `""`      | The grouping it belongs to within its subtype.                                                             |
-| `levelBase`                   | number                                     | no       | `0`       | Severity, before any modifier.                                                                             |
-| `healingRateBase`             | number                                     | no       | `0`       | How readily the host throws it off.                                                                        |
-| `contagionIndex`              | number                                     | no       | `0`       | How readily it passes to someone else.                                                                     |
-| `transmission`                | as authored                                | no       | `none`    | The route by which it spreads.                                                                             |
-| `onsetFormula`                | as authored, blank is unset                | no       | `null`    | Days from contracting to onset, rolled by the receiving actor. Unset means no incubation.                  |
-| `outcome`                     | as authored, blank is the default          | no       | `cured`   | What running the course to the end does to the host: `death`, or the benign default `cured`.               |
-| `onsetDurationFormula`        | roll formula, or a whole number of seconds | no       | _omitted_ | Interval from contracting the affliction to the start of onset. Omitted when unset, leaving no incubation. |
-| `onsetDurationBase`           | whole number of seconds                    | no       | _omitted_ | The onset interval in seconds, standing in for a roll of the formula. Omitted when unset.                  |
-| `healingCheckDurationFormula` | roll formula, or a whole number of seconds | no       | _omitted_ | Interval between healing checks, once the affliction is symptomatic. Omitted when unset.                   |
-| `healingCheckDurationBase`    | whole number of seconds                    | no       | _omitted_ | The healing-check interval in seconds, standing in for a roll of the formula. Omitted when unset.          |
-| `resolutionDurationFormula`   | roll formula, or a whole number of seconds | no       | _omitted_ | Interval from onset to the affliction running its course. Omitted when unset.                              |
-| `resolutionDurationBase`      | whole number of seconds                    | no       | _omitted_ | The resolution interval in seconds, standing in for a roll of the formula. Omitted when unset.             |
+| Field                              | Shape                                      | Required | Default   | Description                                                                                                |
+| ---------------------------------- | ------------------------------------------ | -------- | --------- | ---------------------------------------------------------------------------------------------------------- |
+| `subType`                          | string                                     | **yes**  | —         | What kind of affliction it is.                                                                             |
+| `category`                         | as authored                                | no       | `""`      | The grouping it belongs to within its subtype.                                                             |
+| `levelBase`                        | number                                     | no       | `0`       | Severity, before any modifier.                                                                             |
+| `healingRateBase`                  | number                                     | no       | `0`       | How readily the host throws it off.                                                                        |
+| `data.contagionIndex`              | number                                     | no       | `0`       | How readily it passes to someone else.                                                                     |
+| `data.transmission`                | as authored                                | no       | `none`    | The route by which it spreads.                                                                             |
+| `onsetFormula`                     | as authored, blank is unset                | no       | `null`    | Days from contracting to onset, rolled by the receiving actor. Unset means no incubation.                  |
+| `data.outcome`                     | as authored, blank is the default          | no       | `cured`   | What running the course to the end does to the host: `death`, or the benign default `cured`.               |
+| `data.onsetDurationFormula`        | roll formula, or a whole number of seconds | no       | _omitted_ | Interval from contracting the affliction to the start of onset. Omitted when unset, leaving no incubation. |
+| `data.onsetDurationBase`           | whole number of seconds                    | no       | _omitted_ | The onset interval in seconds, standing in for a roll of the formula. Omitted when unset.                  |
+| `data.healingCheckDurationFormula` | roll formula, or a whole number of seconds | no       | _omitted_ | Interval between healing checks, once the affliction is symptomatic. Omitted when unset.                   |
+| `data.healingCheckDurationBase`    | whole number of seconds                    | no       | _omitted_ | The healing-check interval in seconds, standing in for a roll of the formula. Omitted when unset.          |
+| `data.resolutionDurationFormula`   | roll formula, or a whole number of seconds | no       | _omitted_ | Interval from onset to the affliction running its course. Omitted when unset.                              |
+| `data.resolutionDurationBase`      | whole number of seconds                    | no       | _omitted_ | The resolution interval in seconds, standing in for a roll of the formula. Omitted when unset.             |
 
 **Never authored.** These fields are part of the document and are written during play, so a note that declares one fails the build. Left out of the compiled document entirely, they carry the data model's own initial value until play writes them.
 
@@ -98,10 +101,10 @@ The prose here compiles into the item's documentation.
 
 | Field                   | Shape                             | Required | Default | Description                                                                                                                          |
 | ----------------------- | --------------------------------- | -------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| `weight`                | as authored                       | no       | `0`     | Weight of one, in pounds.                                                                                                            |
-| `value`                 | as authored                       | no       | `0`     | Worth of one, in pence.                                                                                                              |
-| `quality`               | as authored                       | no       | `0`     | Craftsmanship, as a modifier to what the article does.                                                                               |
-| `durability`            | as authored                       | no       | `0`     | How much punishment the article takes before it fails.                                                                               |
+| `data.weight`           | as authored                       | no       | `0`     | Weight of one, in pounds.                                                                                                            |
+| `data.value`            | as authored                       | no       | `0`     | Worth of one, in pence.                                                                                                              |
+| `data.quality`          | as authored                       | no       | `0`     | Craftsmanship, as a modifier to what the article does.                                                                               |
+| `data.durability`       | as authored                       | no       | `0`     | How much punishment the article takes before it fails.                                                                               |
 | `material`              | as authored                       | no       | `""`    | What the article is made of.                                                                                                         |
 | `flexloc`               | as authored, blank is the default | no       | `[]`    | Body locations the article covers flexibly, by location shortcode.                                                                   |
 | `rigidloc`              | as authored, blank is the default | no       | `[]`    | Body locations the article covers rigidly, by location shortcode.                                                                    |
@@ -151,15 +154,15 @@ The prose here compiles into the item's documentation.
 
 ## concoctiongear
 
-| Field        | Shape       | Required | Default         | Description                                            |
-| ------------ | ----------- | -------- | --------------- | ------------------------------------------------------ |
-| `weight`     | as authored | no       | `0`             | Weight of one, in pounds.                              |
-| `value`      | as authored | no       | `0`             | Worth of one, in pence.                                |
-| `quality`    | as authored | no       | `0`             | Craftsmanship, as a modifier to what the article does. |
-| `durability` | as authored | no       | `0`             | How much punishment the article takes before it fails. |
-| `subType`    | string      | **yes**  | —               | What kind of concoction it is.                         |
-| `potency`    | as authored | no       | `notApplicable` | How concentrated the preparation is.                   |
-| `strength`   | number      | no       | `0`             | How strongly it acts when it does.                     |
+| Field             | Shape       | Required | Default         | Description                                            |
+| ----------------- | ----------- | -------- | --------------- | ------------------------------------------------------ |
+| `data.weight`     | as authored | no       | `0`             | Weight of one, in pounds.                              |
+| `data.value`      | as authored | no       | `0`             | Worth of one, in pence.                                |
+| `data.quality`    | as authored | no       | `0`             | Craftsmanship, as a modifier to what the article does. |
+| `data.durability` | as authored | no       | `0`             | How much punishment the article takes before it fails. |
+| `subType`         | string      | **yes**  | —               | What kind of concoction it is.                         |
+| `potency`         | as authored | no       | `notApplicable` | How concentrated the preparation is.                   |
+| `strength`        | number      | no       | `0`             | How strongly it acts when it does.                     |
 
 ```markdown
 ---
@@ -177,13 +180,13 @@ The prose here compiles into the item's documentation.
 
 ## containergear
 
-| Field         | Shape       | Required | Default | Description                                            |
-| ------------- | ----------- | -------- | ------- | ------------------------------------------------------ |
-| `weight`      | as authored | no       | `0`     | Weight of one, in pounds.                              |
-| `value`       | as authored | no       | `0`     | Worth of one, in pence.                                |
-| `quality`     | as authored | no       | `0`     | Craftsmanship, as a modifier to what the article does. |
-| `durability`  | as authored | no       | `0`     | How much punishment the article takes before it fails. |
-| `maxCapacity` | number      | no       | `0`     | How much the container holds, in pounds.               |
+| Field             | Shape       | Required | Default | Description                                            |
+| ----------------- | ----------- | -------- | ------- | ------------------------------------------------------ |
+| `data.weight`     | as authored | no       | `0`     | Weight of one, in pounds.                              |
+| `data.value`      | as authored | no       | `0`     | Worth of one, in pence.                                |
+| `data.quality`    | as authored | no       | `0`     | Craftsmanship, as a modifier to what the article does. |
+| `data.durability` | as authored | no       | `0`     | How much punishment the article takes before it fails. |
+| `maxCapacity`     | number      | no       | `0`     | How much the container holds, in pounds.               |
 
 ```markdown
 ---
@@ -200,12 +203,12 @@ The prose here compiles into the item's documentation.
 
 ## miscgear
 
-| Field        | Shape       | Required | Default | Description                                            |
-| ------------ | ----------- | -------- | ------- | ------------------------------------------------------ |
-| `weight`     | as authored | no       | `0`     | Weight of one, in pounds.                              |
-| `value`      | as authored | no       | `0`     | Worth of one, in pence.                                |
-| `quality`    | as authored | no       | `0`     | Craftsmanship, as a modifier to what the article does. |
-| `durability` | as authored | no       | `0`     | How much punishment the article takes before it fails. |
+| Field             | Shape       | Required | Default | Description                                            |
+| ----------------- | ----------- | -------- | ------- | ------------------------------------------------------ |
+| `data.weight`     | as authored | no       | `0`     | Weight of one, in pounds.                              |
+| `data.value`      | as authored | no       | `0`     | Worth of one, in pence.                                |
+| `data.quality`    | as authored | no       | `0`     | Craftsmanship, as a modifier to what the article does. |
+| `data.durability` | as authored | no       | `0`     | How much punishment the article takes before it fails. |
 
 ```markdown
 ---
@@ -228,8 +231,8 @@ The prose here compiles into the item's documentation.
 | `assocSkillCode`       | as authored, blank is unset                 | no       | `null`                      | Shortcode of the skill the mystery is tested against.                                                           |
 | `assocAffiliationCode` | as authored, blank is unset                 | no       | `null`                      | Shortcode of the affiliation whose standing confers the mystery — a religion, school, or ancestor/totem/spirit. |
 | `levelBase`            | number                                      | no       | `0`                         | The mystery's level before any modifier.                                                                        |
-| `skillAptitudes`       | map of skill selector → whole number        | no       | `{}`                        | Aptitude the mystery grants, per skill selector.                                                                |
-| `charges`              | `{value, max}`, both whole numbers or unset | no       | `{"value":null,"max":null}` | Uses available and the pool's size. A blank maximum means the mystery does not use charges.                     |
+| `data.skillAptitudes`  | map of skill selector → whole number        | no       | `{}`                        | Aptitude the mystery grants, per skill selector.                                                                |
+| `data.charges`         | `{value, max}`, both whole numbers or unset | no       | `{"value":null,"max":null}` | Uses available and the pool's size. A blank maximum means the mystery does not use charges.                     |
 
 ```markdown
 ---
@@ -255,7 +258,7 @@ The prose here compiles into the item's documentation.
 | `masteryLevelBase`     | number                                      | no       | `0`                         | Mastery in the ability before any modifier.                                                                     |
 | `improveFlag`          | boolean                                     | no       | `false`                     | Whether it is flagged for improvement.                                                                          |
 | `levelBase`            | number                                      | no       | `0`                         | The ability's level before any modifier.                                                                        |
-| `charges`              | `{value, max}`, both whole numbers or unset | no       | `{"value":null,"max":null}` | Uses available and the pool's size. A blank maximum means the ability does not use charges.                     |
+| `data.charges`         | `{value, max}`, both whole numbers or unset | no       | `{"value":null,"max":null}` | Uses available and the pool's size. A blank maximum means the ability does not use charges.                     |
 
 ```markdown
 ---
@@ -275,10 +278,10 @@ The prose here compiles into the item's documentation.
 
 | Field             | Shape                             | Required | Default    | Description                                            |
 | ----------------- | --------------------------------- | -------- | ---------- | ------------------------------------------------------ |
-| `weight`          | as authored                       | no       | `0`        | Weight of one, in pounds.                              |
-| `value`           | as authored                       | no       | `0`        | Worth of one, in pence.                                |
-| `quality`         | as authored                       | no       | `0`        | Craftsmanship, as a modifier to what the article does. |
-| `durability`      | as authored                       | no       | `0`        | How much punishment the article takes before it fails. |
+| `data.weight`     | as authored                       | no       | `0`        | Weight of one, in pounds.                              |
+| `data.value`      | as authored                       | no       | `0`        | Worth of one, in pence.                                |
+| `data.quality`    | as authored                       | no       | `0`        | Craftsmanship, as a modifier to what the article does. |
+| `data.durability` | as authored                       | no       | `0`        | How much punishment the article takes before it fails. |
 | `subType`         | string                            | **yes**  | —          | What kind of projectile it is.                         |
 | `impact.die`      | number                            | no       | `0`        | The impact die's size.                                 |
 | `impact.modifier` | number                            | no       | `0`        | Flat addition to the impact roll.                      |
@@ -327,20 +330,20 @@ The prose here compiles into the item's documentation.
 
 ## trauma
 
-| Field                             | Shape                                      | Required | Default   | Description                                                                                                               |
-| --------------------------------- | ------------------------------------------ | -------- | --------- | ------------------------------------------------------------------------------------------------------------------------- |
-| `subType`                         | string                                     | **yes**  | —         | What kind of trauma it is.                                                                                                |
-| `category`                        | as authored                                | no       | `null`    | The grouping it belongs to within its subtype.                                                                            |
-| `levelBase`                       | number or unset                            | no       | `null`    | Injury level. Unset on a descriptive condition, which has no level.                                                       |
-| `healingRateBase`                 | number                                     | no       | `0`       | How readily it heals.                                                                                                     |
-| `aspect`                          | as authored                                | no       | `null`    | How the injury was inflicted. Unset on a descriptive condition.                                                           |
-| `bodyLocationCode`                | as authored                                | no       | `null`    | Shortcode of the body location injured. Unset on a descriptive condition.                                                 |
-| `healingCheckDurationFormula`     | roll formula, or a whole number of seconds | no       | _omitted_ | Interval between healing checks. Omitted when unset, leaving the world's configured interval to apply.                    |
-| `healingCheckDurationBase`        | whole number of seconds                    | no       | _omitted_ | The healing-check interval in seconds, standing in for a roll of the formula. Omitted when unset.                         |
-| `bloodLossAdvanceDurationFormula` | roll formula, or a whole number of seconds | no       | _omitted_ | Interval between blood-loss advances. Omitted when unset, leaving the world's configured interval to apply.               |
-| `bloodLossAdvanceDurationBase`    | whole number of seconds                    | no       | _omitted_ | The blood-loss interval in seconds. Setting it is what makes the wound bleed; omitted when unset, and the wound does not. |
-| `courseDurationFormula`           | roll formula, or a whole number of seconds | no       | _omitted_ | Interval between course tests, for a condition that runs one — shock, coma, infection. Omitted when unset.                |
-| `courseDurationBase`              | whole number of seconds                    | no       | _omitted_ | The course-test interval in seconds, standing in for a roll of the formula. Omitted when unset.                           |
+| Field                                  | Shape                                      | Required | Default   | Description                                                                                                               |
+| -------------------------------------- | ------------------------------------------ | -------- | --------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `subType`                              | string                                     | **yes**  | —         | What kind of trauma it is.                                                                                                |
+| `category`                             | as authored                                | no       | `null`    | The grouping it belongs to within its subtype.                                                                            |
+| `levelBase`                            | number or unset                            | no       | `null`    | Injury level. Unset on a descriptive condition, which has no level.                                                       |
+| `healingRateBase`                      | number                                     | no       | `0`       | How readily it heals.                                                                                                     |
+| `aspect`                               | as authored                                | no       | `null`    | How the injury was inflicted. Unset on a descriptive condition.                                                           |
+| `bodyLocationCode`                     | as authored                                | no       | `null`    | Shortcode of the body location injured. Unset on a descriptive condition.                                                 |
+| `data.healingCheckDurationFormula`     | roll formula, or a whole number of seconds | no       | _omitted_ | Interval between healing checks. Omitted when unset, leaving the world's configured interval to apply.                    |
+| `data.healingCheckDurationBase`        | whole number of seconds                    | no       | _omitted_ | The healing-check interval in seconds, standing in for a roll of the formula. Omitted when unset.                         |
+| `data.bloodLossAdvanceDurationFormula` | roll formula, or a whole number of seconds | no       | _omitted_ | Interval between blood-loss advances. Omitted when unset, leaving the world's configured interval to apply.               |
+| `data.bloodLossAdvanceDurationBase`    | whole number of seconds                    | no       | _omitted_ | The blood-loss interval in seconds. Setting it is what makes the wound bleed; omitted when unset, and the wound does not. |
+| `data.courseDurationFormula`           | roll formula, or a whole number of seconds | no       | _omitted_ | Interval between course tests, for a condition that runs one — shock, coma, infection. Omitted when unset.                |
+| `data.courseDurationBase`              | whole number of seconds                    | no       | _omitted_ | The course-test interval in seconds, standing in for a roll of the formula. Omitted when unset.                           |
 
 **Never authored.** These fields are part of the document and are written during play, so a note that declares one fails the build. Left out of the compiled document entirely, they carry the data model's own initial value until play writes them.
 
@@ -363,15 +366,15 @@ The prose here compiles into the item's documentation.
 
 ## weapongear
 
-| Field         | Shape                                                | Required | Default | Description                                            |
-| ------------- | ---------------------------------------------------- | -------- | ------- | ------------------------------------------------------ |
-| `weight`      | as authored                                          | no       | `0`     | Weight of one, in pounds.                              |
-| `value`       | as authored                                          | no       | `0`     | Worth of one, in pence.                                |
-| `quality`     | as authored                                          | no       | `0`     | Craftsmanship, as a modifier to what the article does. |
-| `durability`  | as authored                                          | no       | `0`     | How much punishment the article takes before it fails. |
-| `encumbrance` | number                                               | no       | `0`     | What carrying it costs in encumbrance.                 |
-| `heft`        | number                                               | no       | `0`     | How unwieldy it is in the hand.                        |
-| `strikeModes` | list of strike modes, each with a unique `shortcode` | no       | `[]`    | The ways the weapon can be used to strike.             |
+| Field             | Shape                                                | Required | Default | Description                                            |
+| ----------------- | ---------------------------------------------------- | -------- | ------- | ------------------------------------------------------ |
+| `data.weight`     | as authored                                          | no       | `0`     | Weight of one, in pounds.                              |
+| `data.value`      | as authored                                          | no       | `0`     | Worth of one, in pence.                                |
+| `data.quality`    | as authored                                          | no       | `0`     | Craftsmanship, as a modifier to what the article does. |
+| `data.durability` | as authored                                          | no       | `0`     | How much punishment the article takes before it fails. |
+| `encumbrance`     | number                                               | no       | `0`     | What carrying it costs in encumbrance.                 |
+| `heft`            | number                                               | no       | `0`     | How unwieldy it is in the hand.                        |
+| `strikeModes`     | list of strike modes, each with a unique `shortcode` | no       | `[]`    | The ways the weapon can be used to strike.             |
 
 ```markdown
 ---
