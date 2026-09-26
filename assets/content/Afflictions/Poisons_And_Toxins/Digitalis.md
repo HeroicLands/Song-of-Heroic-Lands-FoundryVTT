@@ -1,23 +1,14 @@
 ---
-tags: []
-name:
-  full: Digitalis
-  aliases: []
-description: "Foxglove cardiac glycoside; nausea, visual disturbances, severe cardiac effects."
 shortcode: dgtls
+name: {full: Digitalis, aliases: []}
 type: affliction
-data:
-  icon: poisonbottle
-  templatePriority: 0
 subType: poisontoxin
+description: "Foxglove cardiac glycoside; nausea, visual disturbances, severe cardiac effects."
+tags: []
+data: {icon: poisonbottle, templatePriority: 0, packFolder: poisonsandtoxins}
 sohl:
   kbcat: poisontoxin
-  system:
-    levelBase: 1
-    healingRateBase: 3
-    contagionIndexBase: 3
-    transmission: injested
-packFolder: poisonsandtoxins
+  system: {levelBase: 1, healingRateBase: 3, contagionIndexBase: 3, transmission: injested}
 ---
 
 Digitalis is derived from the foxglove plant and contains cardiac glycosides. It is used in various formulas for poisoning and can be administered covertly due to its potency even in small amounts.

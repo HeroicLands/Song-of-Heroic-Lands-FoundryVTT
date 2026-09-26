@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Vigilant
-  aliases: []
 shortcode: vigilant
+name: {full: Vigilant, aliases: []}
 type: trauma
-data:
-  icon: battlegear
-  templatePriority: 0
 subType: psycond
-sohl:
-  kbcat: psybehavior
-  system:
-    category: quirk
-packFolder: quirks
+tags: []
+data: {icon: battlegear, templatePriority: 0, packFolder: quirks}
+sohl: {kbcat: psybehavior, system: {category: quirk}}
 ---
 
 Vigilance is the habit of watchful attentiveness to potential dangers and problems before they arise. A vigilant person does not sleepwalk through the day; they attend to the small signs that others miss—the fraying rope, the horse that limps, the stranger whose questions seem too knowing. In a world where bandits waylay the careless and a single overlooked detail can turn fortune to ruin, vigilance is a gift that often saves lives.

@@ -1,26 +1,14 @@
 ---
-tags:
-  - stone
-name:
-  full: "Stone, Fine"
-  aliases: []
-description: "Squared dressed stone blocks; smooth facing, precise joints; churches, fortifications."
 shortcode: stonefine
+name: {full: "Stone, Fine", aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
+description: "Squared dressed stone blocks; smooth facing, precise joints; churches, fortifications."
+tags: [stone]
+data: {icon: swapbag, templatePriority: 0, packFolder: stone}
 sohl:
-  craft:
-    skill: mnrl
-    secondary: []
+  craft: {skill: mnrl, secondary: []}
   kbcat: stone
-  system:
-    weightBase: 400
-    valueBase: 1
-    qualityBase: 0
-    durabilityBase: 7
-packFolder: stone
+  system: {weightBase: 400, valueBase: 1, qualityBase: 0, durabilityBase: 7}
 ---
 
 Quarried and squared stone blocks of consistent grain and fit, cut for skilled mason's work. Fine stone is dressed smooth on the facing surface and has clean, flat joints; it is used for important buildings, churches, and fortifications where precise fit and uniformity matter. Sold by the cubic foot and hauled to the building site by cart or sled.

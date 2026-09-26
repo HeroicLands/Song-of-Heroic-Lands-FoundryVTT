@@ -1,20 +1,11 @@
 ---
-tags: []
-name:
-  full: Barophobia
-  aliases: []
 shortcode: barophb
+name: {full: Barophobia, aliases: []}
 type: trauma
-data:
-  icon: dread
-  templatePriority: 0
 subType: fear
-sohl:
-  kbcat: phobias
-  system:
-    category: none
-    levelBase: 0
-packFolder: phobias
+tags: []
+data: {icon: dread, templatePriority: 0, packFolder: phobias}
+sohl: {kbcat: phobias, system: {category: none, levelBase: 0}}
 ---
 
 Barophobia is an intense, irrational fear of gravity or the effects of gravity. People with barophobia may experience a range of symptoms when they think about, feel, or are in situations where they believe gravity might affect them negatively.

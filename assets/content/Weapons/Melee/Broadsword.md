@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Broadsword
-  aliases: []
-description: "Wide flat double-edged blade excels at choppy cuts; footman's reliable steel."
 shortcode: brdswd
+name: {full: Broadsword, aliases: []}
 type: weapongear
-data:
-  icon: broadsword
-  templatePriority: 0
+description: "Wide flat double-edged blade excels at choppy cuts; footman's reliable steel."
+tags: []
+data: {icon: broadsword, templatePriority: 0, packFolder: weapons}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [mtlc, mnrl]
+  craft: {skill: wpnc, secondary: [mtlc, mnrl]}
   kbcat: sword
   weaponType: Sword
   system:
@@ -26,14 +20,8 @@ sohl:
         name: Cut
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 6
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 10
-          modifier: 3
-          aspect: edged
+        attack: {spread: 6, modifier: 0}
+        impactBase: {numDice: 1, die: 10, modifier: 3, aspect: edged}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -62,22 +50,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 5
-        defense:
-          blockMod: 0
-          counterstrikeMod: 0
+        defense: {blockMod: 0, counterstrikeMod: 0}
       - shortcode: impale
         type: melee
         name: Impale
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 6
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 8
-          modifier: 1
-          aspect: piercing
+        attack: {spread: 6, modifier: 0}
+        impactBase: {numDice: 1, die: 8, modifier: 1, aspect: piercing}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -106,22 +86,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 5
-        defense:
-          blockMod: 0
-          counterstrikeMod: 0
+        defense: {blockMod: 0, counterstrikeMod: 0}
       - shortcode: pommel
         type: melee
         name: Pommel
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 4
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 0
-          aspect: blunt
+        attack: {spread: 4, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 0, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -150,22 +122,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 5
-        defense:
-          blockMod: 0
-          counterstrikeMod: 0
+        defense: {blockMod: 0, counterstrikeMod: 0}
       - shortcode: halfswordimpale
         type: melee
         name: Half-Sword Impale
         assocSkillCode: melee
         minParts: 2
-        attack:
-          spread: 4
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 8
-          modifier: 1
-          aspect: piercing
+        attack: {spread: 4, modifier: 0}
+        impactBase: {numDice: 1, die: 8, modifier: 1, aspect: piercing}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -194,10 +158,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 5
-        defense:
-          blockMod: 0
-          counterstrikeMod: 0
-packFolder: weapons
+        defense: {blockMod: 0, counterstrikeMod: 0}
 ---
 
 A wide, flat blade sharpened on both edges and hilted simply for a single strong grip, the broadsword excels at the chopping cut. Its broad face sheds water and grime alike, and the heft concentrates force in the slashing stroke. Footmen prize this blade for its reliability and the way it bites through lightly armored flesh.

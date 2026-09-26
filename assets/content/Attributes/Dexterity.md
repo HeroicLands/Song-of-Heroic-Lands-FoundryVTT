@@ -1,26 +1,15 @@
 ---
-tags: []
-name:
-  full: Dexterity
-  aliases: []
-description: "Hand-and-eye coordination, steadiness of grip, and precision of touch."
 shortcode: dex
+name: {full: Dexterity, aliases: []}
 type: attribute
-data:
-  icon: juggler
-  templatePriority: 0
+description: "Hand-and-eye coordination, steadiness of grip, and precision of touch."
+tags: []
+data: {icon: juggler, templatePriority: 0, packFolder: attributes}
 sohl:
   system:
     scoreBase: 0
-    valueDesc:
-      - Uncoordinated:4
-      - Awkward:8
-      - Average:12
-      - Deft:16
-      - Adroit:999
+    valueDesc: [Uncoordinated:4, Awkward:8, Average:12, Deft:16, Adroit:999]
     initDiceFormula: 3d6
-sort: 30
-packFolder: attributes
 ---
 
 Dexterity measures the coordination between hand and eye, the steadiness of grip, and the reflexive quickness with which a person's limbs respond to intention. It is the difference between a fletcher who can split a quill lengthwise without shaking and one whose hands betray every tremor. High dexterity enables feats of precision; low dexterity makes clumsy havoc of delicate work.

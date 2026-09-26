@@ -1,26 +1,14 @@
 ---
-tags:
-  - expedition
-name:
-  full: Scabbard
-  aliases: []
-description: "Leather sheath with wooden core; protects blade and user from rust."
 shortcode: scabbard
+name: {full: Scabbard, aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
+description: "Leather sheath with wooden core; protects blade and user from rust."
+tags: [expedition]
+data: {icon: swapbag, templatePriority: 0, packFolder: expedition}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: expedition
-  system:
-    weightBase: 1
-    valueBase: 48
-    qualityBase: 0
-    durabilityBase: 8
-packFolder: expedition
+  system: {weightBase: 1, valueBase: 48, qualityBase: 0, durabilityBase: 8}
 ---
 
 A leather sheath stitched around a wooden core, fitted to hold a sword close to the body or across the back. The swordsmith's apprentice sews scabbards from the same leather scraps used for armor, treated with beeswax and hardened to protect the blade's edge. A well-made scabbard keeps the steel from rust and the wielder from scar.

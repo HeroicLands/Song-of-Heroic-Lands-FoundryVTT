@@ -1,23 +1,12 @@
 ---
-tags: []
-name:
-  full: Astrology
-  aliases: []
-description: "Charting the heavens to read the influences bearing on a life or a venture."
 shortcode: astr
+name: {full: Astrology, aliases: []}
 type: mysticalability
-data:
-  icon: starswirl
-  templatePriority: 0
 subType: divination
-sohl:
-  kbcat: divination
-  system:
-    assocSkillCode: ""
-    masteryLevelBase: 0
-    levelBase: 0
-
-packFolder: divination
+description: "Charting the heavens to read the influences bearing on a life or a venture."
+tags: []
+data: {icon: starswirl, templatePriority: 0, packFolder: divination}
+sohl: {kbcat: divination, system: {assocSkillCode: "", masteryLevelBase: 0, levelBase: 0}}
 ---
 
 Astrology is the reading of the heavens. The astrologer observes the stars and the wandering lights, sets what they see against tables built up over generations, and casts from them a chart of the influences bearing on a person, a place, or an undertaking. It is the most learned of the divinatory arts and the least immediate — mathematics as much as mystery, and useless in a hurry.

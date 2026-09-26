@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Canvas Surcoat
-  aliases: []
-description: "Hard-wearing canvas surcoat worn over gear on the march."
 shortcode: cvscoat
+name: {full: Canvas Surcoat, aliases: []}
 type: armorgear
-data:
-  icon: shirt
-  templatePriority: 0
+description: "Hard-wearing canvas surcoat worn over gear on the march."
+tags: []
+data: {icon: shirt, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Surcoat
   detailMaterial: Canvas
@@ -33,16 +27,9 @@ sohl:
         - lkneeloc
         - rkneeloc
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 48.6
-origWeight: 3.4
 ---
 
 The Canvas Surcoat is worn over other clothing or armour to take the wear of the road. Heavy hemp cloth sheds dust and rain reasonably well and can be scrubbed hard without falling apart.

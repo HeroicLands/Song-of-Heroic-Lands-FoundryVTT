@@ -1,23 +1,12 @@
 ---
-tags: []
-name:
-  full: Hauling
-  aliases:
-    - Digging / Lifting
-description: "Acute windedness from heavy physical labor — digging, lifting, hauling loads."
 shortcode: haul
+name: {full: Hauling, aliases: [Digging / Lifting]}
 type: trauma
-data:
-  icon: sleepy
-  templatePriority: 0
 subType: fatigue
-sohl:
-  kbcat: fatigue
-  system:
-    category: windedness
-    levelBase: 1
-    healingRateBase: 5
-packFolder: fatigue
+description: "Acute windedness from heavy physical labor — digging, lifting, hauling loads."
+tags: []
+data: {icon: sleepy, templatePriority: 0, packFolder: fatigue}
+sohl: {kbcat: fatigue, system: {category: windedness, levelBase: 1, healingRateBase: 5}}
 ---
 
 Hauling fatigue accrues from sustained heavy physical labor — digging trenches, hoisting stones, mucking out stables, breaking ground for a road, lifting and stacking heavy goods. Where climbing taxes the chest and arms, hauling taxes the back, legs, and core. Both deplete the same windedness pool, but the muscle groups involved recover at different rates. PF accrues per five minutes of active labor.

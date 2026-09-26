@@ -1,23 +1,14 @@
 ---
-tags: []
-name:
-  full: Hemotoxin
-  aliases: []
-description: "Venom that destroys red blood cells; severe tissue damage and bleeding."
 shortcode: hemotxn
+name: {full: Hemotoxin, aliases: []}
 type: affliction
-data:
-  icon: poisonbottle
-  templatePriority: 0
 subType: poisontoxin
+description: "Venom that destroys red blood cells; severe tissue damage and bleeding."
+tags: []
+data: {icon: poisonbottle, templatePriority: 0, packFolder: poisonsandtoxins}
 sohl:
   kbcat: poisontoxin
-  system:
-    levelBase: 1
-    healingRateBase: 3
-    contagionIndexBase: 3
-    transmission: vector
-packFolder: poisonsandtoxins
+  system: {levelBase: 1, healingRateBase: 3, contagionIndexBase: 3, transmission: vector}
 ---
 
 Hemotoxins are toxins that destroy red blood cells, disrupt blood clotting, and cause tissue damage. These toxins lead to symptoms including severe pain, swelling, bruising, and internal bleeding. The destructive effect on blood components and tissues can cause complications such as kidney failure and disseminated intravascular coagulation, where blood clots form throughout the bloodstream. Hemotoxins act by breaking down cell membranes and proteins, making the affected area necrotic, and causing extensive damage that requires immediate medical attention.

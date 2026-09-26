@@ -1,10 +1,9 @@
 ---
+shortcode: tokenug
+name: {full: "Token"}
 type: doc
 subType: userguide
-name:
-  full: "Token"
-shortcode: tokenug
-packFolder: userguide
+data: {packFolder: userguide}
 ---
 
 # Overview

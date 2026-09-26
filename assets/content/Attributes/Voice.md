@@ -1,26 +1,15 @@
 ---
-tags: []
-name:
-  full: Voice
-  aliases: []
-description: "The musical quality of speech: timbre, pitch, and natural resonance."
 shortcode: voi
+name: {full: Voice, aliases: []}
 type: attribute
-data:
-  icon: sing
-  templatePriority: 0
+description: "The musical quality of speech: timbre, pitch, and natural resonance."
+tags: []
+data: {icon: sing, templatePriority: 0, packFolder: attributes}
 sohl:
   system:
     scoreBase: 0
-    valueDesc:
-      - Jarring:4
-      - Tuneless:8
-      - Average:12
-      - Melodious:16
-      - Dulcet:999
+    valueDesc: [Jarring:4, Tuneless:8, Average:12, Melodious:16, Dulcet:999]
     initDiceFormula: 3d6
-sort: 130
-packFolder: attributes
 ---
 
 Voice is the musical quality of a person's speech—the timbre, pitch, and natural resonance of the throat and lungs. A pleasant voice draws listeners in and makes words seem wise; a harsh or grating voice undermines even truth. Beyond mere pleasantness, voice carries character: the husky contralto of a weathered sea-captain, the clear soprano of a chapel singer, or the booming bellow of a blacksmith in his forge.

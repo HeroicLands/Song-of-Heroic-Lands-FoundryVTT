@@ -1,11 +1,9 @@
 ---
+shortcode: ugactors
+name: {full: Actors, aliases: []}
 type: doc
 subType: userguide
-name:
-  full: Actors
-  aliases: []
-shortcode: ugactors
-packFolder: actors
+data: {packFolder: actors}
 ---
 
 # Actors {#actors}

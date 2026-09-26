@@ -1,22 +1,12 @@
 ---
-tags: []
-name:
-  full: Melee Fighting
-  aliases: []
-description: "Acute windedness from armed close combat."
 shortcode: fight
+name: {full: Melee Fighting, aliases: []}
 type: trauma
-data:
-  icon: sleepy
-  templatePriority: 0
 subType: fatigue
-sohl:
-  kbcat: fatigue
-  system:
-    category: windedness
-    levelBase: 1
-    healingRateBase: 5
-packFolder: fatigue
+description: "Acute windedness from armed close combat."
+tags: []
+data: {icon: sleepy, templatePriority: 0, packFolder: fatigue}
+sohl: {kbcat: fatigue, system: {category: windedness, levelBase: 1, healingRateBase: 5}}
 ---
 
 Melee fatigue is the cost of armed combat at close quarters — the strain of armored movement, the cumulative effort of strikes and parries, the strangulation of held breath through an exchange. A character in a long fight accrues windedness fast; in a fight protracted across multiple exchanges, the slower combatant is the one whose windedness reaches its ceiling first. PF accrues per five minutes of active melee.

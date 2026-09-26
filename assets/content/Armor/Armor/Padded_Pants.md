@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Padded Pants
-  aliases: []
-description: "Cushioned leg covering providing warmth under armor or standalone."
 shortcode: ppant
+name: {full: Padded Pants, aliases: []}
 type: armorgear
-data:
-  icon: trousers
-  templatePriority: 0
+description: "Cushioned leg covering providing warmth under armor or standalone."
+tags: []
+data: {icon: trousers, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: padded
   armorType: Pants
   detailMaterial: Padded
@@ -22,25 +16,11 @@ sohl:
     durabilityBase: 10
     material: Padded
     locations:
-      flexible:
-        - plvisloc
-        - lthghloc
-        - rthghloc
-        - lkneeloc
-        - rkneeloc
-        - lcalfloc
-        - rcalfloc
+      flexible: [plvisloc, lthghloc, rthghloc, lkneeloc, rkneeloc, lcalfloc, rcalfloc]
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 78
-origWeight: 3.1
 ---
 
 Padded Pants offer cushioning and warmth, ideal for wear under other armor or on their own. They provide comfort and added protection, suitable for both combat and everyday use.

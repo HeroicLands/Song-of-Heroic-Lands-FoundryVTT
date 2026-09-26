@@ -1,15 +1,11 @@
 ---
-tags: []
-name:
-  full: Tracking
-  aliases: []
-description: "Reading footprints, vegetation, and signs of passage through environments."
 shortcode: trak
+name: {full: Tracking, aliases: []}
 type: skill
-data:
-  icon: footprint
-  templatePriority: 0
 subType: nature
+description: "Reading footprints, vegetation, and signs of passage through environments."
+tags: []
+data: {icon: footprint, templatePriority: 0, packFolder: nature}
 sohl:
   kbcat: nature
   system:
@@ -18,12 +14,7 @@ sohl:
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 0
-    impairedByRoles:
-      - core
-      - vital
-      - locomotor
-      - manipulator
-packFolder: nature
+    impairedByRoles: [core, vital, locomotor, manipulator]
 ---
 
 Tracking is finding a trail and staying on it — prints and their spacing, bruised vegetation, disturbed stone, droppings, blood, and the shape of the interval between one sign and the next. A tracker reads not only that something passed but how many, how fast, how long ago, and whether it knew it was being followed.

@@ -1,9 +1,6 @@
 ---
-name:
-  full: "Jewelry"
 shortcode: jewelry
+name: {full: "Jewelry"}
 type: folder
-data:
-  parent: jewelrycash
-  color: "#FFD700"
+data: {parent: jewelrycash, color: "#FFD700"}
 ---

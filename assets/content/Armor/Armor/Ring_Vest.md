@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Ring Vest
-  aliases: []
-description: "Sleeveless ring-reinforced leather vest; light-duty torso armor."
 shortcode: rnvest
+name: {full: Ring Vest, aliases: []}
 type: armorgear
-data:
-  icon: leathervest
-  templatePriority: 0
+description: "Sleeveless ring-reinforced leather vest; light-duty torso armor."
+tags: []
+data: {icon: leathervest, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [mtlc, mnrl]
+  craft: {skill: wpnc, secondary: [mtlc, mnrl]}
   kbcat: ring
   armorType: Vest
   detailMaterial: Ring
@@ -21,21 +15,10 @@ sohl:
     valueBase: 325
     durabilityBase: 13
     material: Ring
-    locations:
-      flexible: []
-      rigid:
-        - thrxloc
-        - abdmnloc
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [], rigid: [thrxloc, abdmnloc]}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 324
-origWeight: 13
 ---
 
 A sleeveless leather vest reinforced with strategically placed metal rings, providing lightweight torso protection.

@@ -1,26 +1,14 @@
 ---
-tags:
-  - instruments
-name:
-  full: "Hourglass"
-  aliases: []
-description: "Paired glass bulbs and graded sand in a wooden frame; measures a fixed interval."
 shortcode: hourglass
+name: {full: "Hourglass", aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
+description: "Paired glass bulbs and graded sand in a wooden frame; measures a fixed interval."
+tags: [instruments]
+data: {icon: swapbag, templatePriority: 0, packFolder: instruments}
 sohl:
-  craft:
-    skill: glas
-    secondary: []
+  craft: {skill: glas, secondary: []}
   kbcat: instruments
-  system:
-    weightBase: 0.3
-    valueBase: 150
-    qualityBase: 0
-    durabilityBase: 2
-packFolder: instruments
+  system: {weightBase: 0.3, valueBase: 150, qualityBase: 0, durabilityBase: 2}
 ---
 
 Two blown bulbs joined at a narrow waist, filled with graded sand and set in a turned wooden frame. The glassworker's difficulty is the waist: too wide and the glass runs fast and unevenly, too narrow and damp sand stops it altogether. A good hourglass is calibrated against a sundial over many turnings, and is worth more than most of what stands in the room with it. Watch-keepers, navigators, and preachers all rely on one.

@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Spear
-  aliases: []
-description: "Sharpened point on wood; universal polearm for thrust and formation."
 shortcode: spr
+name: {full: Spear, aliases: []}
 type: weapongear
-data:
-  icon: spears
-  templatePriority: 0
+description: "Sharpened point on wood; universal polearm for thrust and formation."
+tags: []
+data: {icon: spears, templatePriority: 0, packFolder: weapons}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [mtlc, mnrl]
+  craft: {skill: wpnc, secondary: [mtlc, mnrl]}
   kbcat: polearm
   weaponType: Polearm
   system:
@@ -26,14 +20,8 @@ sohl:
         name: Impale
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 8
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 8
-          modifier: 5
-          aspect: piercing
+        attack: {spread: 8, modifier: 0}
+        impactBase: {numDice: 1, die: 8, modifier: 5, aspect: piercing}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -62,22 +50,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 7
-        defense:
-          blockMod: 0
-          counterstrikeMod: 0
+        defense: {blockMod: 0, counterstrikeMod: 0}
       - shortcode: shaft
         type: melee
         name: Shaft
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 8
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 1
-          aspect: blunt
+        attack: {spread: 8, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 1, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -106,22 +86,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 7
-        defense:
-          blockMod: 0
-          counterstrikeMod: 0
+        defense: {blockMod: 0, counterstrikeMod: 0}
       - shortcode: halfswordshaft
         type: melee
         name: Half-Sword Shaft
         assocSkillCode: melee
         minParts: 2
-        attack:
-          spread: 6
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 0
-          aspect: blunt
+        attack: {spread: 6, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 0, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -150,22 +122,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 7
-        defense:
-          blockMod: 0
-          counterstrikeMod: 0
+        defense: {blockMod: 0, counterstrikeMod: 0}
       - shortcode: halfswordimpale
         type: melee
         name: Half-Sword Impale
         assocSkillCode: melee
         minParts: 2
-        attack:
-          spread: 6
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 8
-          modifier: 5
-          aspect: piercing
+        attack: {spread: 6, modifier: 0}
+        impactBase: {numDice: 1, die: 8, modifier: 5, aspect: piercing}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -194,22 +158,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 7
-        defense:
-          blockMod: 0
-          counterstrikeMod: 0
+        defense: {blockMod: 0, counterstrikeMod: 0}
       - shortcode: thrown
         type: missile
         name: Thrown
         assocSkillCode: thro
         minParts: 1
-        attack:
-          spread: 4
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 8
-          modifier: 5
-          aspect: piercing
+        attack: {spread: 4, modifier: 0}
+        impactBase: {numDice: 1, die: 8, modifier: 5, aspect: piercing}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -241,7 +197,6 @@ sohl:
         maxVolleyMult: 2
         baseRangeBase: 40
         drawBase: 0
-packFolder: weapons
 ---
 
 The most ancient and versatile polearm, a spear joins a sharpened point to a length of wood, suited for thrusting, throwing, or receiving a charge in tight formation. Light infantry and skirmishers favor it for speed and reach; heavier infantry lock spears in ranks to repel cavalry and hold ground.

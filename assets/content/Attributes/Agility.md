@@ -1,26 +1,15 @@
 ---
-tags: []
-name:
-  full: Agility
-  aliases: []
-description: "Quickness, balance, and fluidity of whole-body movement."
 shortcode: agl
+name: {full: Agility, aliases: []}
 type: attribute
-data:
-  icon: cartwheel
-  templatePriority: 0
+description: "Quickness, balance, and fluidity of whole-body movement."
+tags: []
+data: {icon: cartwheel, templatePriority: 0, packFolder: attributes}
 sohl:
   system:
     scoreBase: 0
-    valueDesc:
-      - Blundering:4
-      - Clumsy:8
-      - Average:12
-      - Nimble:16
-      - Graceful:999
+    valueDesc: [Blundering:4, Clumsy:8, Average:12, Nimble:16, Graceful:999]
     initDiceFormula: 3d6
-sort: 40
-packFolder: attributes
 ---
 
 Agility is the quickness and fluidity of bodily movement—the capacity to move swiftly, to dodge, and to maintain balance and control. It differs from dexterity, which concerns hand-and-eye coordination, and from strength, which measures power. Agility is what allows a person to move through a crowded marketplace without stumbling, to survive a fall from a horse, and to strike quickly and smoothly.

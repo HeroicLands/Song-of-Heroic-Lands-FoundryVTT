@@ -1,15 +1,11 @@
 ---
-tags: []
-name:
-  full: Heraldry
-  aliases: []
-description: "Interpreting coats of arms, crests, badges; revealing lineage and history."
 shortcode: hrld
+name: {full: Heraldry, aliases: []}
 type: skill
-data:
-  icon: shieldbdg
-  templatePriority: 0
 subType: lore
+description: "Interpreting coats of arms, crests, badges; revealing lineage and history."
+tags: []
+data: {icon: shieldbdg, templatePriority: 0, packFolder: lore}
 sohl:
   kbcat: lore
   system:
@@ -18,9 +14,7 @@ sohl:
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 0
-    impairedByRoles:
-      - vital
-packFolder: lore
+    impairedByRoles: [vital]
 ---
 
 Heraldry is the knowledge of arms and of the rules governing them: what may be borne, by whom, in what combination, and what a difference in the field or a change in the crest is announcing to anyone who can read it. A Heraldry test not only interprets an achievement but frequently reveals the history behind it — a marriage, an inheritance, a bastardy, an attainder.

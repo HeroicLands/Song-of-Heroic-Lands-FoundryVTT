@@ -1,23 +1,14 @@
 ---
-tags: []
-name:
-  full: Measles
-  aliases: []
-description: "Viral infection; fever, cough, characteristic red rash; highly contagious."
 shortcode: measles
+name: {full: Measles, aliases: []}
 type: affliction
-data:
-  icon: virus
-  templatePriority: 0
 subType: disease
+description: "Viral infection; fever, cough, characteristic red rash; highly contagious."
+tags: []
+data: {icon: virus, templatePriority: 0, packFolder: diseases}
 sohl:
   kbcat: diseases
-  system:
-    levelBase: 1
-    healingRateBase: 3
-    contagionIndexBase: 3
-    transmission: airborne
-packFolder: diseases
+  system: {levelBase: 1, healingRateBase: 3, contagionIndexBase: 3, transmission: airborne}
 ---
 
 Measles is a highly contagious viral infection caused by the measles virus. It begins with high fever, cough, runny nose, and red eyes, followed by the appearance of Koplik spots inside the mouth and a red, blotchy rash that starts on the face and spreads to the rest of the body. Complications can include ear infections, severe diarrhea, pneumonia, encephalitis, and death, particularly in young children and immunocompromised individuals. Vaccination with the measles, mumps, and rubella (MMR) vaccine is highly effective in preventing the disease.

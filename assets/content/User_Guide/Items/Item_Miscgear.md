@@ -1,10 +1,9 @@
 ---
+shortcode: miscgearug
+name: {full: "Misc Gear"}
 type: doc
 subType: userguide
-name:
-  full: "Misc Gear"
-shortcode: miscgearug
-packFolder: items
+data: {packFolder: items}
 ---
 
 # What Is Miscellaneous Gear?

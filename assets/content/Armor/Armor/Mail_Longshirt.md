@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Mail Longshirt
-  aliases: []
-description: "Metal ring torso and upper arm garment providing substantial protection."
 shortcode: mlshirt
+name: {full: Mail Longshirt, aliases: []}
 type: armorgear
-data:
-  icon: chainmail
-  templatePriority: 0
+description: "Metal ring torso and upper arm garment providing substantial protection."
+tags: []
+data: {icon: chainmail, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [mtlc, mnrl]
+  craft: {skill: wpnc, secondary: [mtlc, mnrl]}
   kbcat: mail
   armorType: Longshirt
   detailMaterial: Mail
@@ -23,24 +17,10 @@ sohl:
     material: Mail
     locations:
       flexible: []
-      rigid:
-        - lshldloc
-        - rshldloc
-        - lupaloc
-        - rupaloc
-        - thrxloc
-        - abdmnloc
-        - plvisloc
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+      rigid: [lshldloc, rshldloc, lupaloc, rupaloc, thrxloc, abdmnloc, plvisloc]
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 5
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 645
-origWeight: 19.4
 ---
 
 The Mail Longshirt features interlinked metal rings, providing substantial protection for the torso and upper arms. It offers excellent defense against slashes while maintaining flexibility.

@@ -1,13 +1,10 @@
 ---
+shortcode: sohlapi
+name: {full: The SoHL API, aliases: []}
 type: doc
 subType: concept
-name:
-  full: The SoHL API
-  aliases: []
-shortcode: sohlapi
-pack: none
-sohl:
-  kbcat: devdocs
+data: {pack: none}
+sohl: {kbcat: devdocs}
 ---
 
 # The SoHL API

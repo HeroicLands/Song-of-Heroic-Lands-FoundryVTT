@@ -1,15 +1,11 @@
 ---
-tags: []
-name:
-  full: Lockcraft
-  aliases: []
-description: "Designing locks; picking or bypassing mechanical locking mechanisms."
 shortcode: lock
+name: {full: Lockcraft, aliases: []}
 type: skill
-data:
-  icon: lock
-  templatePriority: 0
 subType: craft
+description: "Designing locks; picking or bypassing mechanical locking mechanisms."
+tags: []
+data: {icon: lock, templatePriority: 0, packFolder: craft}
 sohl:
   kbcat: craft
   system:
@@ -18,11 +14,7 @@ sohl:
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 0
-    impairedByRoles:
-      - core
-      - vital
-      - manipulator
-packFolder: craft
+    impairedByRoles: [core, vital, manipulator]
 ---
 
 Lockcraft is knowledge of locks and of small, close-tolerance mechanisms generally — which means the same hands that make a strongbox secure are the hands that open somebody else's. Every such device carries a **Complexity from 1 to 9**, and a character may test Lockcraft simply to judge what they are looking at before deciding whether to try it.

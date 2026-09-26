@@ -1,24 +1,14 @@
 ---
-type: doc
-subType: reference
+shortcode: bodystructure
 name:
   full: Body Structure
-  aliases:
-    - Body Parts
-    - Body Locations
-    - Hit Location
-    - Anatomy
-    - Strike Spread
-shortcode: bodystructure
+  aliases: [Body Parts, Body Locations, Hit Location, Anatomy, Strike Spread]
+type: doc
+subType: reference
 description: For developers and content authors defining creature anatomy.
-tags:
-  - rules
-  - core-system
-  - combat
-  - injury
-pack: none
-sohl:
-  kbcat: devdocs
+tags: [rules, core-system, combat, injury]
+data: {pack: none}
+sohl: {kbcat: devdocs}
 ---
 
 # Body Structure

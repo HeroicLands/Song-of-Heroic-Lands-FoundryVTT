@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Rawhide Knee Boots
-  aliases: []
-description: "Rugged hide boots; leg protection in harsh terrain."
 shortcode: rhkboot
+name: {full: Rawhide Knee Boots, aliases: []}
 type: armorgear
-data:
-  icon: leatherboot
-  templatePriority: 0
+description: "Rugged hide boots; leg protection in harsh terrain."
+tags: []
+data: {icon: leatherboot, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: leather
   armorType: Knee Boots
   detailMaterial: Rawhide
@@ -21,25 +15,10 @@ sohl:
     valueBase: 90
     durabilityBase: 11
     material: Leather
-    locations:
-      flexible:
-        - lkneeloc
-        - rkneeloc
-        - lcalfloc
-        - rcalfloc
-        - lfootloc
-        - rfootloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [lkneeloc, rkneeloc, lcalfloc, rcalfloc, lfootloc, rfootloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 88
-origWeight: 3.5
 ---
 
 Rawhide Knee Boots are thick and rugged, providing excellent leg protection. Ideal for harsh environments or combat scenarios, they offer a durable and reliable option for those needing sturdy footwear.

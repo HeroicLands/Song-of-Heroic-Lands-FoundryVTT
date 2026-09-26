@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Impaired Smell
-  aliases: []
 shortcode: impaire2
+name: {full: Impaired Smell, aliases: []}
 type: trauma
-data:
-  icon: battlegear
-  templatePriority: 0
 subType: physcond
-sohl:
-  kbcat: physdisability
-  system:
-    category: impediment
-packFolder: traumaphysical
+tags: []
+data: {icon: battlegear, templatePriority: 0, packFolder: traumaphysical}
+sohl: {kbcat: physdisability, system: {category: impediment}}
 ---
 
 Impaired Smell is a diminished ability to detect and perceive odors, often believed to be a sign of imbalance in the body's humors. Those afflicted may find their sense of smell dulled, reducing their ability to fully experience the world around them.

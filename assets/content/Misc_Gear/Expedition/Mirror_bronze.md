@@ -1,26 +1,14 @@
 ---
-tags:
-  - expedition
-name:
-  full: "Mirror, bronze"
-  aliases: []
-description: "Hand-sized bronze mirror for signaling, grooming, and spotting pursuers."
 shortcode: mirrorbron
+name: {full: "Mirror, bronze", aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
+description: "Hand-sized bronze mirror for signaling, grooming, and spotting pursuers."
+tags: [expedition]
+data: {icon: swapbag, templatePriority: 0, packFolder: expedition}
 sohl:
-  craft:
-    skill: mtlc
-    secondary: []
+  craft: {skill: mtlc, secondary: []}
   kbcat: expedition
-  system:
-    weightBase: 2
-    valueBase: 12
-    qualityBase: 0
-    durabilityBase: 4
-packFolder: expedition
+  system: {weightBase: 2, valueBase: 12, qualityBase: 0, durabilityBase: 4}
 ---
 
 A hand-sized mirror cast from bronze, its face polished to a soft sheen and backed with tin-plate to hold the reflection. Soldiers and travelers use it to signal across distance, to check for beard and dirt, and to spot pursuers around corners.

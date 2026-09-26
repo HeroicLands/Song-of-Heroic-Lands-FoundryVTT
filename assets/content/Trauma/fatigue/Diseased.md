@@ -1,23 +1,12 @@
 ---
-tags: []
-name:
-  full: Diseased
-  aliases:
-    - Disease
-description: "Long-term weakness from carrying an active disease."
 shortcode: disd
+name: {full: Diseased, aliases: [Disease]}
 type: trauma
-data:
-  icon: sleepy
-  templatePriority: 0
 subType: fatigue
-sohl:
-  kbcat: fatigue
-  system:
-    category: weakness
-    levelBase: 1
-    healingRateBase: 1
-packFolder: fatigue
+description: "Long-term weakness from carrying an active disease."
+tags: []
+data: {icon: sleepy, templatePriority: 0, packFolder: fatigue}
+sohl: {kbcat: fatigue, system: {category: weakness, levelBase: 1, healingRateBase: 1}}
 ---
 
 Diseased weakness is the cumulative drag a character carries while sick — distinct from the disease itself, which is treated as its own affliction. Where the disease describes symptoms, progression, and contagion, the weakness it produces is the simple cost of doing anything while ill. 5–10 fatigue per disease the character carries, scaled by severity.

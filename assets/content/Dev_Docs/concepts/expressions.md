@@ -1,14 +1,11 @@
 ---
+shortcode: expressions
+name: {full: Expressions and Scripts, aliases: []}
 type: doc
 subType: concept
-name:
-  full: Expressions and Scripts
-  aliases: []
-shortcode: expressions
 description: "The ways author-supplied logic runs: `SafeExpression`, Macros, and the Expression Library."
-pack: none
-sohl:
-  kbcat: devdocs
+data: {pack: none}
+sohl: {kbcat: devdocs}
 ---
 
 # Expressions and Scripts

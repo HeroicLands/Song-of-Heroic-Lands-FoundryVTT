@@ -1,20 +1,11 @@
 ---
-tags: []
-name:
-  full: Chromophobia
-  aliases: []
 shortcode: chrmphb
+name: {full: Chromophobia, aliases: []}
 type: trauma
-data:
-  icon: dread
-  templatePriority: 0
 subType: fear
-sohl:
-  kbcat: phobias
-  system:
-    category: none
-    levelBase: 0
-packFolder: phobias
+tags: []
+data: {icon: dread, templatePriority: 0, packFolder: phobias}
+sohl: {kbcat: phobias, system: {category: none, levelBase: 0}}
 ---
 
 Chromophobia is an intense, irrational fear of colors or a specific color. People with chromophobia may experience a range of symptoms when they think about, see, or are near certain colors.

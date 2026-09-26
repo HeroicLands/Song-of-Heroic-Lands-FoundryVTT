@@ -1,11 +1,9 @@
 ---
+shortcode: character
+name: {full: Characters Introduction, aliases: []}
 type: doc
 subType: rules
-name:
-  full: Characters Introduction
-  aliases: []
-packFolder: rules
-shortcode: character
+data: {packFolder: rules}
 ---
 
 A **character** is described by what they are made of and what condition it is in: the anatomy that decides where a blow lands and what it costs, the health that tracks the toll of injury and privation, and the gear carried into play.

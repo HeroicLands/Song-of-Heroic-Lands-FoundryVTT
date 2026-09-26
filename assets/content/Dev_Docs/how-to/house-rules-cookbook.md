@@ -1,13 +1,10 @@
 ---
+shortcode: houserulescookbook
+name: {full: House Rules Cookbook, aliases: []}
 type: doc
 subType: howto
-name:
-  full: House Rules Cookbook
-  aliases: []
-shortcode: houserulescookbook
-pack: none
-sohl:
-  kbcat: devdocs
+data: {pack: none}
+sohl: {kbcat: devdocs}
 ---
 
 # House Rules Cookbook

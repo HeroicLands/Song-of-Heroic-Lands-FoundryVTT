@@ -1,26 +1,14 @@
 ---
-tags:
-  - instruments
-name:
-  full: Fletcher's Kit
-  aliases: []
-description: "Wooden case with feather shears, binding silk, glue pot, nocking jig, shaft plane for arrows."
 shortcode: fletchkit
+name: {full: Fletcher's Kit, aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
+description: "Wooden case with feather shears, binding silk, glue pot, nocking jig, shaft plane for arrows."
+tags: [instruments]
+data: {icon: swapbag, templatePriority: 0, packFolder: instruments}
 sohl:
-  craft:
-    skill: mtlc
-    secondary: []
+  craft: {skill: mtlc, secondary: []}
   kbcat: instruments
-  system:
-    weightBase: 2
-    valueBase: 30
-    qualityBase: 0
-    durabilityBase: 5
-packFolder: instruments
+  system: {weightBase: 2, valueBase: 30, qualityBase: 0, durabilityBase: 5}
 ---
 
 A small wooden case lined with cloth, holding the tools of the fletcher's trade: fine shears for cutting feather vanes, spools of waxed silk and split sinew for binding, a sealed pot of fish glue, a nocking jig of turned boxwood, a shaft plane and gauge for truing the wood, a small whetstone, and a tin of assorted heads for fitting. A skilled fletcher will dress a dozen arrows in an afternoon, each balanced to the bow that will shoot it; a careless one will fletch them crooked and send a hunter home empty-handed.

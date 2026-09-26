@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Wood Axe
-  aliases: []
-description: "Heavy felling tool; slow-swinging militia arm pressed into service."
 shortcode: waxe
+name: {full: Wood Axe, aliases: []}
 type: weapongear
-data:
-  icon: battleaxe
-  templatePriority: 0
+description: "Heavy felling tool; slow-swinging militia arm pressed into service."
+tags: []
+data: {icon: battleaxe, templatePriority: 0, packFolder: weapons}
 sohl:
-  craft:
-    skill: mtlc
-    secondary: [wood]
+  craft: {skill: mtlc, secondary: [wood]}
   kbcat: axe
   weaponType: Axe
   system:
@@ -26,14 +20,8 @@ sohl:
         name: Cut
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 8
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 8
-          modifier: 6
-          aspect: edged
+        attack: {spread: 8, modifier: 0}
+        impactBase: {numDice: 1, die: 8, modifier: 6, aspect: edged}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -62,22 +50,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 5
-        defense:
-          blockMod: -10
-          counterstrikeMod: -10
+        defense: {blockMod: -10, counterstrikeMod: -10}
       - shortcode: pommel
         type: melee
         name: Pommel
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 8
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 0
-          aspect: blunt
+        attack: {spread: 8, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 0, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -106,10 +86,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 5
-        defense:
-          blockMod: -10
-          counterstrikeMod: -10
-packFolder: weapons
+        defense: {blockMod: -10, counterstrikeMod: -10}
 ---
 
 A felling tool of five to seven pounds, hafted five feet long with a broad, heavy blade for cleaving wood-grain and bone alike. Built for the woodsman's day-labor but pressed into service by militia and soldiers who have no other arm. The wood axe swings slow and hard, lethal against men but cumbersome on horseback or in close press.

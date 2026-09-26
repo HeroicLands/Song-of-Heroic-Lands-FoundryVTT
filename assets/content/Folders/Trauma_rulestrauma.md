@@ -1,9 +1,6 @@
 ---
-name:
-  full: "Trauma"
 shortcode: rulestrauma
+name: {full: "Trauma"}
 type: folder
-data:
-  parent: rules
-  color: "#6c4801"
+data: {parent: rules, color: "#6c4801"}
 ---

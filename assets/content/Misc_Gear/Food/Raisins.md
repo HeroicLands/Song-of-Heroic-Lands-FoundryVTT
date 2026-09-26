@@ -1,26 +1,14 @@
 ---
-tags:
-  - food
-name:
-  full: Raisins
-  aliases: []
-description: "Dried grapes, chewy and portable, quick energy for soldiers and travelers."
 shortcode: raisins
+name: {full: Raisins, aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
+description: "Dried grapes, chewy and portable, quick energy for soldiers and travelers."
+tags: [food]
+data: {icon: swapbag, templatePriority: 0, packFolder: food}
 sohl:
-  craft:
-    skill: agri
-    secondary: []
+  craft: {skill: agri, secondary: []}
   kbcat: food
-  system:
-    weightBase: 1
-    valueBase: 1.5
-    qualityBase: 0
-    durabilityBase: 0
-packFolder: food
+  system: {weightBase: 1, valueBase: 1.5, qualityBase: 0, durabilityBase: 0}
 ---
 
 Raisins are grapes dried on the vine or in the sun, wrinkled and chewy, traveling easily from southern lands. They keep for years in cloth sacks, resisting mold and rot. Soldiers, merchants, and pilgrims carry handfuls as quick energy; bakers mix them into bread and cakes. A small handful provides sweetness and sustenance without needing fire or water.

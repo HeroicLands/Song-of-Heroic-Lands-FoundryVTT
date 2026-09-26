@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Plate Coudes
-  aliases: []
-description: "Steel elbow-caps; joint-guard for armed combat or labor."
 shortcode: plcou
+name: {full: Plate Coudes, aliases: []}
 type: armorgear
-data:
-  icon: elbowpad
-  templatePriority: 0
+description: "Steel elbow-caps; joint-guard for armed combat or labor."
+tags: []
+data: {icon: elbowpad, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [mtlc, mnrl]
+  craft: {skill: wpnc, secondary: [mtlc, mnrl]}
   kbcat: plate
   armorType: Coudes
   detailMaterial: Plate
@@ -21,22 +15,11 @@ sohl:
     valueBase: 40
     durabilityBase: 14
     material: Plate
-    locations:
-      flexible: []
-      rigid:
-        - lelbloc
-        - relbloc
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [], rigid: [lelbloc, relbloc]}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     encumbranceGroup: arm
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 40
-origWeight: 0.8
 ---
 
 Made from solid steel, Plate Coudes offer maximum elbow protection. They are essential components of knightly armor, designed to deflect and withstand powerful strikes while ensuring the joint remains mobile.

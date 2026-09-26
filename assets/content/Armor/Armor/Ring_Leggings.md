@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Ring Leggings
-  aliases: []
-description: "Leather leggings studded with rings; thigh and shin protection."
 shortcode: rnleg
+name: {full: Ring Leggings, aliases: []}
 type: armorgear
-data:
-  icon: trousers
-  templatePriority: 0
+description: "Leather leggings studded with rings; thigh and shin protection."
+tags: []
+data: {icon: trousers, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [mtlc, mnrl]
+  craft: {skill: wpnc, secondary: [mtlc, mnrl]}
   kbcat: ring
   armorType: Leggings
   detailMaterial: Ring
@@ -23,25 +17,10 @@ sohl:
     material: Ring
     locations:
       flexible: []
-      rigid:
-        - lthghloc
-        - rthghloc
-        - lkneeloc
-        - rkneeloc
-        - lcalfloc
-        - rcalfloc
-        - lfootloc
-        - rfootloc
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+      rigid: [lthghloc, rthghloc, lkneeloc, rkneeloc, lcalfloc, rcalfloc, lfootloc, rfootloc]
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 10
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 486
-origWeight: 19.4
 ---
 
 Leather leggings reinforced with rows of metal rings, shielding the thighs and lower legs from harm.

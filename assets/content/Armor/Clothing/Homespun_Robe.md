@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Homespun Robe
-  aliases: []
-description: "Simple homemade robe providing comfort and warmth for everyday."
 shortcode: hsrobe
+name: {full: Homespun Robe, aliases: []}
 type: armorgear
-data:
-  icon: robe
-  templatePriority: 0
+description: "Simple homemade robe providing comfort and warmth for everyday."
+tags: []
+data: {icon: robe, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Robe
   detailMaterial: Homespun
@@ -41,16 +35,9 @@ sohl:
         - lcalfloc
         - rcalfloc
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 79
-origWeight: 4
 ---
 
 A simple, practical Homespun Robe made from homemade fabric, providing basic comfort and warmth. Suitable for everyday wear by common folk, it's perfect for those who need a reliable and no-frills garment.

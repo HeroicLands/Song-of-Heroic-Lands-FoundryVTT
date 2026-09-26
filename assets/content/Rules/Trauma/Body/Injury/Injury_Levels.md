@@ -1,11 +1,9 @@
 ---
+shortcode: injrylvl
+name: {full: Injury Levels, aliases: []}
 type: doc
 subType: rules
-name:
-  full: Injury Levels
-  aliases: []
-packFolder: injury
-shortcode: injrylvl
+data: {packFolder: injury}
 ---
 
 The **Injury Level (IL)** is a number from **1 to 5** measuring the severity of a wound. Severity bands group the levels:

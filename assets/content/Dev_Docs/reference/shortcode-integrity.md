@@ -1,13 +1,10 @@
 ---
+shortcode: shortcodeintegrity
+name: {full: Shortcode Integrity, aliases: []}
 type: doc
 subType: reference
-name:
-  full: Shortcode Integrity
-  aliases: []
-shortcode: shortcodeintegrity
-pack: none
-sohl:
-  kbcat: devdocs
+data: {pack: none}
+sohl: {kbcat: devdocs}
 ---
 
 # Shortcode Integrity

@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Trident
-  aliases: []
-description: "Three-pronged fork binding and piercing; favored by pit-fighters."
 shortcode: tri
+name: {full: Trident, aliases: []}
 type: weapongear
-data:
-  icon: trident
-  templatePriority: 0
+description: "Three-pronged fork binding and piercing; favored by pit-fighters."
+tags: []
+data: {icon: trident, templatePriority: 0, packFolder: weapons}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [mtlc, mnrl]
+  craft: {skill: wpnc, secondary: [mtlc, mnrl]}
   kbcat: polearm
   weaponType: Polearm
   system:
@@ -26,14 +20,8 @@ sohl:
         name: Impale
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 8
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 8
-          modifier: 5
-          aspect: piercing
+        attack: {spread: 8, modifier: 0}
+        impactBase: {numDice: 1, die: 8, modifier: 5, aspect: piercing}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -62,22 +50,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 6
-        defense:
-          blockMod: 5
-          counterstrikeMod: 5
+        defense: {blockMod: 5, counterstrikeMod: 5}
       - shortcode: shaft
         type: melee
         name: Shaft
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 8
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 1
-          aspect: blunt
+        attack: {spread: 8, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 1, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -106,22 +86,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 6
-        defense:
-          blockMod: 5
-          counterstrikeMod: 5
+        defense: {blockMod: 5, counterstrikeMod: 5}
       - shortcode: halfswordshaft
         type: melee
         name: Half-Sword Shaft
         assocSkillCode: melee
         minParts: 2
-        attack:
-          spread: 6
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 0
-          aspect: blunt
+        attack: {spread: 6, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 0, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -150,22 +122,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 6
-        defense:
-          blockMod: 5
-          counterstrikeMod: 5
+        defense: {blockMod: 5, counterstrikeMod: 5}
       - shortcode: halfswordimpale
         type: melee
         name: Half-Sword Impale
         assocSkillCode: melee
         minParts: 2
-        attack:
-          spread: 6
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 8
-          modifier: 5
-          aspect: piercing
+        attack: {spread: 6, modifier: 0}
+        impactBase: {numDice: 1, die: 8, modifier: 5, aspect: piercing}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -194,10 +158,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 6
-        defense:
-          blockMod: 5
-          counterstrikeMod: 5
-packFolder: weapons
+        defense: {blockMod: 5, counterstrikeMod: 5}
 ---
 
 A three-pronged thrusting fork hafted to a pole, the trident catches and binds as well as pierces. Its spread tines allow the wielder to hook weapons and limbs, making it favored by skirmishers and pit-fighters for both binding and striking; also prized by fisherfolk for netting work.

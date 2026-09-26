@@ -1,25 +1,13 @@
 ---
-tags: []
-name:
-  full: "Lantern, metal"
-  aliases: []
-description: "Tinned copper lantern with horn panels; protects flame from wind and rain."
 shortcode: lanternmet
+name: {full: "Lantern, metal", aliases: []}
 type: containergear
-data:
-  icon: swapbag
-  templatePriority: 0
+description: "Tinned copper lantern with horn panels; protects flame from wind and rain."
+tags: []
+data: {icon: swapbag, templatePriority: 0, packFolder: containers}
 sohl:
-  craft:
-    skill: mtlc
-    secondary: []
-  system:
-    weightBase: 1
-    valueBase: 15
-    qualityBase: 0
-    durabilityBase: 7
-    maxCapacityBase: 0.125
-packFolder: containers
+  craft: {skill: mtlc, secondary: []}
+  system: {weightBase: 1, valueBase: 15, qualityBase: 0, durabilityBase: 7, maxCapacityBase: 0.125}
 ---
 
 A metal lantern of hammered tinned copper or pewter with glass or horn side panels that enclose the flame and protect the wick from wind and rain. The metal frame is lighter than a fully enclosed wooden lantern and corrodes slowly, making it practical for sailors, soldiers, and anyone who carries light through uncertain weather. A hooked bail at the top allows hanging from belt or pack.

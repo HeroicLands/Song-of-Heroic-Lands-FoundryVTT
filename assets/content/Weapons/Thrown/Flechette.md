@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Fléchette
-  aliases: []
-description: "Small aerodynamic dart thrown in volleys; skirmisher's ranged harassment."
 shortcode: flch
+name: {full: Fléchette, aliases: []}
 type: weapongear
-data:
-  icon: dart
-  templatePriority: 0
+description: "Small aerodynamic dart thrown in volleys; skirmisher's ranged harassment."
+tags: []
+data: {icon: dart, templatePriority: 0, packFolder: weapons}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [mtlc, mnrl]
+  craft: {skill: wpnc, secondary: [mtlc, mnrl]}
   kbcat: thrown
   weaponType: Special
   system:
@@ -26,14 +20,8 @@ sohl:
         name: Thrown
         assocSkillCode: thro
         minParts: 1
-        attack:
-          spread: 6
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 8
-          modifier: 1
-          aspect: piercing
+        attack: {spread: 6, modifier: 0}
+        impactBase: {numDice: 1, die: 8, modifier: 1, aspect: piercing}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -65,7 +53,6 @@ sohl:
         maxVolleyMult: 2
         baseRangeBase: 15
         drawBase: 0
-packFolder: weapons
 ---
 
 A small pointed iron dart, slim and aerodynamic, the flechette is thrown in volleys to harass and pierce. Lighter than a javelin but deadlier than a stone, it favors skirmishers and archers seeking ranged harassment before melee. Soldiers carry many, making sustained throwing practical; each flies true against lightly armored targets or exposed flesh.

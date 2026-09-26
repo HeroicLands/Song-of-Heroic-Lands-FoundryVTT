@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Scale Habergeon
-  aliases: []
-description: "Scaled sleeveless jerkin; overlapping metal scales without sleeves."
 shortcode: shabg
+name: {full: Scale Habergeon, aliases: []}
 type: armorgear
-data:
-  icon: scalemail
-  templatePriority: 0
+description: "Scaled sleeveless jerkin; overlapping metal scales without sleeves."
+tags: []
+data: {icon: scalemail, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [hide, mtlc]
+  craft: {skill: wpnc, secondary: [hide, mtlc]}
   kbcat: scale
   armorType: Habergeon
   detailMaterial: Scale
@@ -23,26 +17,10 @@ sohl:
     material: Scale
     locations:
       flexible: []
-      rigid:
-        - lshldloc
-        - rshldloc
-        - lupaloc
-        - rupaloc
-        - lelbloc
-        - relbloc
-        - thrxloc
-        - abdmnloc
-        - plvisloc
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+      rigid: [lshldloc, rshldloc, lupaloc, rupaloc, lelbloc, relbloc, thrxloc, abdmnloc, plvisloc]
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 15
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 450
-origWeight: 24.8
 ---
 
 The Scale Habergeon consists of overlapping metal scales sewn onto a fabric or leather backing, providing strong protection and reasonable mobility, suitable for various combat situations.

@@ -1,26 +1,15 @@
 ---
-tags: []
-name:
-  full: Endurance
-  aliases: []
-description: "Stamina and constitutional health: hardship borne without collapse."
 shortcode: end
+name: {full: Endurance, aliases: []}
 type: attribute
-data:
-  icon: mountainclimbing
-  templatePriority: 0
+description: "Stamina and constitutional health: hardship borne without collapse."
+tags: []
+data: {icon: mountainclimbing, templatePriority: 0, packFolder: attributes}
 sohl:
   system:
     scoreBase: 0
-    valueDesc:
-      - Frail:4
-      - Unfit:8
-      - Average:12
-      - Robust:16
-      - Hardy:999
+    valueDesc: [Frail:4, Unfit:8, Average:12, Robust:16, Hardy:999]
     initDiceFormula: 3d6
-sort: 20
-packFolder: attributes
 ---
 
 Endurance quantifies a person's physical stamina and constitutional health—the capacity to withstand hardship, resist disease, and labor without collapse. It is the accumulated vigor of body and blood. Those with keen endurance can work a harvest from dawn to dusk, march a week without rest, and survive wounds that would fell others. Those lacking it are fragile, susceptible to sickness, and quickly exhausted.

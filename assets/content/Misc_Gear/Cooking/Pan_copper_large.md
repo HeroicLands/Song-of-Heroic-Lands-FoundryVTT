@@ -1,26 +1,14 @@
 ---
-tags:
-  - cooking
-name:
-  full: "Pan, copper, large"
-  aliases: []
-description: "Wide tinned copper pan with iron handle; fries and sautés multiple portions."
 shortcode: pancopperl
+name: {full: "Pan, copper, large", aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
+description: "Wide tinned copper pan with iron handle; fries and sautés multiple portions."
+tags: [cooking]
+data: {icon: swapbag, templatePriority: 0, packFolder: cooking}
 sohl:
-  craft:
-    skill: mtlc
-    secondary: []
+  craft: {skill: mtlc, secondary: []}
   kbcat: cooking
-  system:
-    weightBase: 3
-    valueBase: 12
-    qualityBase: 0
-    durabilityBase: 4
-packFolder: cooking
+  system: {weightBase: 3, valueBase: 12, qualityBase: 0, durabilityBase: 4}
 ---
 
 A wide, shallow copper pan tinned inside and fitted with a long iron handle, used for frying and sautéing at a cook's hearth. The large size allows the cook to move several portions at once, and the copper conducts heat evenly without scorching. Such pans are expensive enough to be kept in a prosperous household's kitchen, suspended from a rack or returned to its hooks after each meal, and hand-washed rather than scoured.

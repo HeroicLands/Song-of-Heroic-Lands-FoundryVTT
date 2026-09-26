@@ -1,16 +1,10 @@
 ---
-tags:
-  - animal
-  - creature
-name:
-  full: Eagle
-  aliases: []
-description: "A solitary apex raptor of high ridges and passes, patrolling vast territory to snatch small mammals and fish with sudden violence."
 shortcode: eagle
+name: {full: Eagle, aliases: []}
 type: being
-data:
-  icon: eaglehead
-  templatePriority: 0
+description: "A solitary apex raptor of high ridges and passes, patrolling vast territory to snatch small mammals and fish with sudden violence."
+tags: [animal, creature]
+data: {icon: eaglehead, templatePriority: 0}
 sohl:
   kbcat: animal
   attrRollFormula:
@@ -24,21 +18,21 @@ sohl:
     rea: 1d4+6
     cre: 1d4+6
   items:
-    - { model: attribute-str, system: { scoreBase: 4 } }
-    - { model: attribute-end, system: { scoreBase: 10 } }
-    - { model: attribute-agl, system: { scoreBase: 10 } }
-    - { model: attribute-per, system: { scoreBase: 26 } }
-    - { model: attribute-snt, system: { scoreBase: 3 } }
-    - { model: attribute-aur, system: { scoreBase: 5 } }
-    - { model: attribute-wil, system: { scoreBase: 10 } }
-    - { model: attribute-rea, system: { scoreBase: 8 } }
-    - { model: attribute-cre, system: { scoreBase: 8 } }
-    - { model: skill-awar, system: { masteryLevelBase: 90 } }
-    - { model: skill-stlth, system: { masteryLevelBase: 72 } }
-    - { model: mysticalability-sprt, system: { masteryLevelBase: 21 } }
-    - { model: skill-init, system: { masteryLevelBase: 36 } }
-    - { model: skill-dge, system: { masteryLevelBase: 72 } }
-    - { model: skill-shok, system: { masteryLevelBase: 28 } }
+    - {model: attribute-str, system: {scoreBase: 4}}
+    - {model: attribute-end, system: {scoreBase: 10}}
+    - {model: attribute-agl, system: {scoreBase: 10}}
+    - {model: attribute-per, system: {scoreBase: 26}}
+    - {model: attribute-snt, system: {scoreBase: 3}}
+    - {model: attribute-aur, system: {scoreBase: 5}}
+    - {model: attribute-wil, system: {scoreBase: 10}}
+    - {model: attribute-rea, system: {scoreBase: 8}}
+    - {model: attribute-cre, system: {scoreBase: 8}}
+    - {model: skill-awar, system: {masteryLevelBase: 90}}
+    - {model: skill-stlth, system: {masteryLevelBase: 72}}
+    - {model: mysticalability-sprt, system: {masteryLevelBase: 21}}
+    - {model: skill-init, system: {masteryLevelBase: 36}}
+    - {model: skill-dge, system: {masteryLevelBase: 72}}
+    - {model: skill-shok, system: {masteryLevelBase: 28}}
     - name: Talon
       type: skill
       system:
@@ -46,35 +40,20 @@ sohl:
         subType: combattechnique
         masteryLevelBase: 50
         combatCategory: melee
-        impairedByRoles:
-          - locomotor
+        impairedByRoles: [locomotor]
         strikeMode:
           type: melee
           shortcode: talon
           name: Talon
           minParts: 1
           assocSkillCode: null
-          attack:
-            disabled: false
-            spread: 2
-            modifier: 0
-          impactBase:
-            numDice: 1
-            die: 10
-            modifier: -5
-            aspect: edged
+          attack: {disabled: false, spread: 2, modifier: 0}
+          impactBase: {numDice: 1, die: 10, modifier: -5, aspect: edged}
           lengthBase: 0
           defense:
-            block:
-              disabled: true
-              modifier: 0
-              successLevelMod: 0
-            counterstrike:
-              disabled: false
-              modifier: 0
-              successLevelMod: 0
-          traits:
-            noBlock: true
+            block: {disabled: true, modifier: 0, successLevelMod: 0}
+            counterstrike: {disabled: false, modifier: 0, successLevelMod: 0}
+          traits: {noBlock: true}
     - name: Beak
       type: skill
       system:
@@ -82,98 +61,64 @@ sohl:
         subType: combattechnique
         masteryLevelBase: 40
         combatCategory: melee
-        impairedByRoles:
-          - manipulator
+        impairedByRoles: [manipulator]
         strikeMode:
           type: melee
           shortcode: beak
           name: Beak
           minParts: 1
           assocSkillCode: null
-          attack:
-            disabled: false
-            spread: 1
-            modifier: 0
-          impactBase:
-            numDice: 1
-            die: 6
-            modifier: -4
-            aspect: piercing
+          attack: {disabled: false, spread: 1, modifier: 0}
+          impactBase: {numDice: 1, die: 6, modifier: -4, aspect: piercing}
           lengthBase: 0
           defense:
-            block:
-              disabled: true
-              modifier: 0
-              successLevelMod: 0
-            counterstrike:
-              disabled: false
-              modifier: 0
-              successLevelMod: 0
-          traits:
-            noBlock: true
+            block: {disabled: true, modifier: 0, successLevelMod: 0}
+            counterstrike: {disabled: false, modifier: 0, successLevelMod: 0}
+          traits: {noBlock: true}
   system:
     body:
       structure:
         zones:
-          - name: Head
-            shortcode: headzone
-            probWeight: 1
-          - name: Left Wing
-            shortcode: lwingzone
-            probWeight: 1
-          - name: Body
-            shortcode: torsozone
-            probWeight: 2
-          - name: Right Wing
-            shortcode: rwingzone
-            probWeight: 1
-          - name: Hindquarters
-            shortcode: hindqtrzone
-            probWeight: 1
+          - {name: Head, shortcode: headzone, probWeight: 1}
+          - {name: Left Wing, shortcode: lwingzone, probWeight: 1}
+          - {name: Body, shortcode: torsozone, probWeight: 2}
+          - {name: Right Wing, shortcode: rwingzone, probWeight: 1}
+          - {name: Hindquarters, shortcode: hindqtrzone, probWeight: 1}
         parts:
           - name: Head
             shortcode: headpart
             bodyZoneCode: headzone
-            roles:
-              - vital
-              - manipulator
+            roles: [vital, manipulator]
             canHoldItem: false
             probWeight: 10
           - name: Left Wing
             shortcode: lwingpart
             bodyZoneCode: lwingzone
-            roles:
-              - locomotor
+            roles: [locomotor]
             canHoldItem: false
             probWeight: 10
           - name: Body
             shortcode: torsopart
             bodyZoneCode: torsozone
-            roles:
-              - core
+            roles: [core]
             canHoldItem: false
             probWeight: 10
           - name: Right Wing
             shortcode: rwingpart
             bodyZoneCode: rwingzone
-            roles:
-              - locomotor
+            roles: [locomotor]
             canHoldItem: false
             probWeight: 10
           - name: Left Leg
             shortcode: llegpart
             bodyZoneCode: hindqtrzone
-            roles:
-              - locomotor
-              - manipulator
+            roles: [locomotor, manipulator]
             canHoldItem: false
             probWeight: 5
           - name: Right Leg
             shortcode: rlegpart
             bodyZoneCode: hindqtrzone
-            roles:
-              - locomotor
-              - manipulator
+            roles: [locomotor, manipulator]
             canHoldItem: false
             probWeight: 5
           - name: Tail
@@ -190,11 +135,7 @@ sohl:
             amputability: none
             shockValue: 5
             probWeight: 4
-            protectionBase:
-              blunt: -2
-              edged: -3
-              piercing: -4
-              fire: -2
+            protectionBase: {blunt: -2, edged: -3, piercing: -4, fire: -2}
           - name: Neck
             shortcode: neckloc
             bodyPartCode: headpart
@@ -202,11 +143,7 @@ sohl:
             amputability: low
             shockValue: 5
             probWeight: 6
-            protectionBase:
-              blunt: -2
-              edged: -3
-              piercing: -4
-              fire: -2
+            protectionBase: {blunt: -2, edged: -3, piercing: -4, fire: -2}
           - name: Left Wing
             shortcode: lwingloc
             bodyPartCode: lwingpart
@@ -214,11 +151,7 @@ sohl:
             amputability: medium
             shockValue: 1
             probWeight: 10
-            protectionBase:
-              blunt: -2
-              edged: -3
-              piercing: -4
-              fire: -2
+            protectionBase: {blunt: -2, edged: -3, piercing: -4, fire: -2}
           - name: Thorax
             shortcode: thoraxloc
             bodyPartCode: torsopart
@@ -226,11 +159,7 @@ sohl:
             amputability: none
             shockValue: 4
             probWeight: 6
-            protectionBase:
-              blunt: -2
-              edged: -3
-              piercing: -4
-              fire: -2
+            protectionBase: {blunt: -2, edged: -3, piercing: -4, fire: -2}
           - name: Abdomen
             shortcode: abdloc
             bodyPartCode: torsopart
@@ -238,11 +167,7 @@ sohl:
             amputability: none
             shockValue: 4
             probWeight: 4
-            protectionBase:
-              blunt: -2
-              edged: -3
-              piercing: -4
-              fire: -2
+            protectionBase: {blunt: -2, edged: -3, piercing: -4, fire: -2}
           - name: Right Wing
             shortcode: rwingloc
             bodyPartCode: rwingpart
@@ -250,11 +175,7 @@ sohl:
             amputability: medium
             shockValue: 1
             probWeight: 10
-            protectionBase:
-              blunt: -2
-              edged: -3
-              piercing: -4
-              fire: -2
+            protectionBase: {blunt: -2, edged: -3, piercing: -4, fire: -2}
           - name: Left Leg
             shortcode: llegloc
             bodyPartCode: llegpart
@@ -262,11 +183,7 @@ sohl:
             amputability: medium
             shockValue: 2
             probWeight: 10
-            protectionBase:
-              blunt: -2
-              edged: -3
-              piercing: -4
-              fire: -2
+            protectionBase: {blunt: -2, edged: -3, piercing: -4, fire: -2}
           - name: Right Leg
             shortcode: rlegloc
             bodyPartCode: rlegpart
@@ -274,11 +191,7 @@ sohl:
             amputability: medium
             shockValue: 2
             probWeight: 10
-            protectionBase:
-              blunt: -2
-              edged: -3
-              piercing: -4
-              fire: -2
+            protectionBase: {blunt: -2, edged: -3, piercing: -4, fire: -2}
           - name: Tail
             shortcode: tailloc
             bodyPartCode: tailpart
@@ -286,14 +199,8 @@ sohl:
             amputability: high
             shockValue: 1
             probWeight: 10
-            protectionBase:
-              blunt: -2
-              edged: -3
-              piercing: -4
-              fire: -2
-      weight:
-        base: 20
-        calc: "20"
+            protectionBase: {blunt: -2, edged: -3, piercing: -4, fire: -2}
+      weight: {base: 20, calc: "20"}
       reachBase: 0
       bodyScaleBase: 0.52
       personalFatigue: enc + 5

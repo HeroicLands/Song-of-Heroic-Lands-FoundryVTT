@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Right Dominance
-  aliases: []
 shortcode: rdmnc
+name: {full: Right Dominance, aliases: []}
 type: trauma
-data:
-  icon: hand
-  templatePriority: 0
 subType: physcond
-sohl:
-  kbcat: physfeature
-  system:
-    category: trait
-packFolder: traumaphysical
+tags: []
+data: {icon: hand, templatePriority: 0, packFolder: traumaphysical}
+sohl: {kbcat: physfeature, system: {category: trait}}
 ---
 
 Right Dominance is the natural favoring of the right side of the body — not the hand alone, but the whole side working in concert: the right hand grips and strikes, the right arm bears and throws, the right leg leads and balances, the right eye aims. It is the common condition of most folk, so unremarkable that it is rarely noticed until injury or training forces the off-side into service. A person with Right Dominance stands in orthodox fighting stance, reaches instinctively with the right, and plants the right foot forward when set to act.

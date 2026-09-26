@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Whip, Reksyni
-  aliases: []
-description: "Sinew-and-leather tribal lash; barbed, heavy, breaking mounted formations."
 shortcode: rwhp
+name: {full: "Whip, Reksyni", aliases: []}
 type: weapongear
-data:
-  icon: whip
-  templatePriority: 0
+description: "Sinew-and-leather tribal lash; barbed, heavy, breaking mounted formations."
+tags: []
+data: {icon: whip, templatePriority: 0, packFolder: weapons}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: whip
   weaponType: Flail
   system:
@@ -26,14 +20,8 @@ sohl:
         name: Lash
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 10
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 8
-          modifier: 1
-          aspect: edged
+        attack: {spread: 10, modifier: 0}
+        impactBase: {numDice: 1, die: 8, modifier: 1, aspect: edged}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -62,22 +50,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 10
-        defense:
-          blockMod: -20
-          counterstrikeMod: -20
+        defense: {blockMod: -20, counterstrikeMod: -20}
       - shortcode: pommel
         type: melee
         name: Pommel
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 4
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 0
-          aspect: blunt
+        attack: {spread: 4, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 0, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -106,10 +86,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 10
-        defense:
-          blockMod: -20
-          counterstrikeMod: -20
-packFolder: weapons
+        defense: {blockMod: -20, counterstrikeMod: -20}
 ---
 
 The Reksyni whip is a tribal variant favored by the Reksyni peoples of the high grasslands, woven from sinew and leather strips to achieve greater weight and cutting edge than the standard lash. Twisted with barbed cord along its length, it tears flesh and carries more momentum for shock tactics. Nomadic raiders prize it for breaking loose formations and entangling mounted foes.

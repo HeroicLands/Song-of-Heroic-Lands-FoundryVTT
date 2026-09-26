@@ -1,26 +1,14 @@
 ---
-tags:
-  - instruments
-name:
-  full: "Grooming Kit, common"
-  aliases: []
-description: "Cloth roll with a wooden comb, bristle brush, soap and a linen handkerchief; a poor man's upkeep."
 shortcode: groomkitcom
+name: {full: "Grooming Kit, common", aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
+description: "Cloth roll with a wooden comb, bristle brush, soap and a linen handkerchief; a poor man's upkeep."
+tags: [instruments]
+data: {icon: swapbag, templatePriority: 0, packFolder: instruments}
 sohl:
-  craft:
-    skill: mtlc
-    secondary: []
+  craft: {skill: mtlc, secondary: []}
   kbcat: instruments
-  system:
-    weightBase: 0.5
-    valueBase: 12
-    qualityBase: 0
-    durabilityBase: 5
-packFolder: instruments
+  system: {weightBase: 0.5, valueBase: 12, qualityBase: 0, durabilityBase: 5}
 ---
 
 A strip of coarse cloth rolled around what a labouring household can manage: a double-sided comb whittled from boxwood or beech, a small brush of boar bristle set in a turned handle, a cake of plain soap wrapped in waxed cloth, and a linen handkerchief that doubles as a hand-towel. There is no mirror and no razor — a man who needs shaving goes to the barber on market day, and a woman judges her hair by touch or by the water-butt.

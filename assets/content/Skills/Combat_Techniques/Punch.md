@@ -1,16 +1,11 @@
 ---
-tags: []
-name:
-  full: Folk Punch
-  aliases:
-    - Punch
-description: "A closed fist — the plainest thing a person can do in a fight, and the weakest."
 shortcode: bflkpunch
+name: {full: Folk Punch, aliases: [Punch]}
 type: skill
-data:
-  icon: punchblast
-  templatePriority: 0
 subType: combattechnique
+description: "A closed fist — the plainest thing a person can do in a fight, and the weakest."
+tags: []
+data: {icon: punchblast, templatePriority: 0, packFolder: combat}
 sohl:
   kbcat: unarmed
   strikeMode:
@@ -19,25 +14,12 @@ sohl:
     name: Punch
     minParts: 1
     assocSkillCode: melee
-    attack:
-      disabled: false
-      spread: 4
-      modifier: 0
-    impactBase:
-      numDice: 1
-      die: 6
-      modifier: -3
-      aspect: blunt
+    attack: {disabled: false, spread: 4, modifier: 0}
+    impactBase: {numDice: 1, die: 6, modifier: -3, aspect: blunt}
     lengthBase: 1
     defense:
-      block:
-        disabled: true
-        modifier: 0
-        successLevelMod: 0
-      counterstrike:
-        disabled: false
-        modifier: 0
-        successLevelMod: 0
+      block: {disabled: true, modifier: 0, successLevelMod: 0}
+      counterstrike: {disabled: false, modifier: 0, successLevelMod: 0}
     traits:
       meleeMod: 0
       blockSLMod: 0
@@ -72,9 +54,7 @@ sohl:
     combatCategory: melee
     parentSkillCode: ""
     initSkillMult: 2
-    impairedByRoles:
-      - manipulator
-packFolder: combat
+    impairedByRoles: [manipulator]
 ---
 
 The plainest attack there is, and the feeblest on the table: a bare fist does little against anything padded and rather less against anything rigid, and a hand is a poor instrument for hitting hard things with. Boxers wrap their hands for a reason.

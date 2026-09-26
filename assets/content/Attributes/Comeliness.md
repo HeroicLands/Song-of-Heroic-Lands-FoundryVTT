@@ -1,26 +1,15 @@
 ---
-tags: []
-name:
-  full: Comeliness
-  aliases: []
-description: "How far a person's physical form pleases the eye."
 shortcode: cml
+name: {full: Comeliness, aliases: []}
 type: attribute
-data:
-  icon: charm
-  templatePriority: 0
+description: "How far a person's physical form pleases the eye."
+tags: []
+data: {icon: charm, templatePriority: 0, packFolder: attributes}
 sohl:
   system:
     scoreBase: 0
-    valueDesc:
-      - Ugly:4
-      - Unattractive:8
-      - Plain:12
-      - Attractive:16
-      - Striking:999
+    valueDesc: [Ugly:4, Unattractive:8, Plain:12, Attractive:16, Striking:999]
     initDiceFormula: 3d6
-sort: 60
-packFolder: attributes
 ---
 
 Comeliness is the degree to which a person's physical form pleases the eye. It is more than mere health or vigor; it encompasses proportion, symmetry, and the indefinable grace that makes others wish to look upon a face or form. In taverns and courts alike, comeliness shapes first impressions and opens doors that plainer folk must knock upon more persistently.

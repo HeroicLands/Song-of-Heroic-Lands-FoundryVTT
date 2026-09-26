@@ -1,26 +1,14 @@
 ---
-tags:
-  - instruments
-name:
-  full: Tack & Grooming Kit
-  aliases: []
-description: "Leather satchel with currycomb, brushes, hoof pick, bridle awl, strap stock, oil; mount care and tack repair."
 shortcode: tackkit
+name: {full: Tack & Grooming Kit, aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
+description: "Leather satchel with currycomb, brushes, hoof pick, bridle awl, strap stock, oil; mount care and tack repair."
+tags: [instruments]
+data: {icon: swapbag, templatePriority: 0, packFolder: instruments}
 sohl:
-  craft:
-    skill: mtlc
-    secondary: []
+  craft: {skill: mtlc, secondary: []}
   kbcat: instruments
-  system:
-    weightBase: 5
-    valueBase: 20
-    qualityBase: 0
-    durabilityBase: 6
-packFolder: instruments
+  system: {weightBase: 5, valueBase: 20, qualityBase: 0, durabilityBase: 6}
 ---
 
 A leather satchel holding the daily tools of mount care: an iron currycomb, a stiff dandy brush and a soft body brush, a hoof pick on a turned handle, a mane-and-tail comb of carved horn, a sweat scraper, a bridle awl with spare waxed thread, two or three lengths of spare strap leather, a small tin of hoof oil, a bar of saddle soap, and a folded rag. Ostlers, drovers, and any cavalryman who has spent a winter on the road carry such kits; a horse that is curried daily works longer and sounder than one that is not, and a saddle kept oiled outlasts one left to salt-sweat and rain.

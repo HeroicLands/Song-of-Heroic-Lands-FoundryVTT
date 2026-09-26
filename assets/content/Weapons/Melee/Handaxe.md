@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Handaxe
-  aliases: []
-description: "Light ash-haft axe; foot-soldier's main arm or cavalry sidearm."
 shortcode: haxe
+name: {full: Handaxe, aliases: []}
 type: weapongear
-data:
-  icon: battleaxe
-  templatePriority: 0
+description: "Light ash-haft axe; foot-soldier's main arm or cavalry sidearm."
+tags: []
+data: {icon: battleaxe, templatePriority: 0, packFolder: weapons}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [mtlc, mnrl]
+  craft: {skill: wpnc, secondary: [mtlc, mnrl]}
   kbcat: axe
   weaponType: Axe
   system:
@@ -26,14 +20,8 @@ sohl:
         name: Cut
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 8
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 8
-          modifier: 5
-          aspect: edged
+        attack: {spread: 8, modifier: 0}
+        impactBase: {numDice: 1, die: 8, modifier: 5, aspect: edged}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -62,22 +50,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 5
-        defense:
-          blockMod: -10
-          counterstrikeMod: -10
+        defense: {blockMod: -10, counterstrikeMod: -10}
       - shortcode: pommel
         type: melee
         name: Pommel
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 4
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 0
-          aspect: blunt
+        attack: {spread: 4, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 0, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -106,10 +86,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 5
-        defense:
-          blockMod: -10
-          counterstrikeMod: -10
-packFolder: weapons
+        defense: {blockMod: -10, counterstrikeMod: -10}
 ---
 
 A light axe head of five to seven pounds on a five-foot ash haft, balanced for a single-hand swing or a two-hand chop, equally at home as a thrown weapon or a melee tool. Lighter than a battleaxe but heavier than a hatchet, the handaxe serves as a foot-soldier's main arm or a cavalry sidearm. Often carried with a shield or spear.

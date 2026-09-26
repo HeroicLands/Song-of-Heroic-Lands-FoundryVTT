@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Reticent
-  aliases: []
 shortcode: reticent
+name: {full: Reticent, aliases: []}
 type: trauma
-data:
-  icon: battlegear
-  templatePriority: 0
 subType: psycond
-sohl:
-  kbcat: psybehavior
-  system:
-    category: quirk
-packFolder: quirks
+tags: []
+data: {icon: battlegear, templatePriority: 0, packFolder: quirks}
+sohl: {kbcat: psybehavior, system: {category: quirk}}
 ---
 
 Reticence is the virtue of restraint in speech—the habit of measuring words before they leave the tongue. A reticent person does not scatter opinions like seed corn or seek the ear of every listener. Instead, they speak thoughtfully, sparingly, and only when they judge their words will serve some purpose. In a world of gossip and court intrigue, such quiet is often mistaken for wisdom.

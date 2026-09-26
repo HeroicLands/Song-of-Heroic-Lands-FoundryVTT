@@ -1,15 +1,11 @@
 ---
-tags: []
-name:
-  full: Seamanship
-  aliases: []
-description: "Operating sailing vessels on open water through sails, weather, and crew management."
 shortcode: smsh
+name: {full: Seamanship, aliases: []}
 type: skill
-data:
-  icon: anchor
-  templatePriority: 0
 subType: nature
+description: "Operating sailing vessels on open water through sails, weather, and crew management."
+tags: []
+data: {icon: anchor, templatePriority: 0, packFolder: nature}
 sohl:
   kbcat: nature
   system:
@@ -18,12 +14,7 @@ sohl:
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 0
-    impairedByRoles:
-      - core
-      - vital
-      - locomotor
-      - manipulator
-packFolder: nature
+    impairedByRoles: [core, vital, locomotor, manipulator]
 ---
 
 Seamanship is the handling of a vessel — sails, sheets, oars, ground tackle, cargo and the thousand pieces of ropework that keep all of it working — together with a practical knowledge of the sea's animals and plants. It is the crew's skill, where Piloting is the navigator's.

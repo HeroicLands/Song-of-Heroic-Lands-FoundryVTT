@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Kûrbúl Halfhelm
-  aliases: []
-description: "Leather helm covering head and jawline with styled design and reduced weight."
 shortcode: khlfhelm
+name: {full: Kûrbúl Halfhelm, aliases: []}
 type: armorgear
-data:
-  icon: barbute
-  templatePriority: 0
+description: "Leather helm covering head and jawline with styled design and reduced weight."
+tags: []
+data: {icon: barbute, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [hide]
+  craft: {skill: wpnc, secondary: [hide]}
   kbcat: kurbul
   armorType: Halfhelm
   detailMaterial: Kûrbúl
@@ -23,25 +17,10 @@ sohl:
     material: Kûrbúl
     locations:
       flexible: []
-      rigid:
-        - skullloc
-        - jawloc
-        - lcheekloc
-        - rcheekloc
-        - learloc
-        - rearloc
-        - mouthloc
-        - noseloc
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+      rigid: [skullloc, jawloc, lcheekloc, rcheekloc, learloc, rearloc, mouthloc, noseloc]
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 35
-origWeight: 2.7
 ---
 
 The Kûrbúl Halfhelm, made from treated leather, covers the top of the head and down to the jawline, offering moderate protection and reduced weight. It is decorated with intricate designs, combining function with a stylish appearance.

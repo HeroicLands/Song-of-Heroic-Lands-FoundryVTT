@@ -1,9 +1,6 @@
 ---
-name:
-  full: "Quirks"
 shortcode: quirks
+name: {full: "Quirks"}
 type: folder
-data:
-  parent: psychological
-  color: "#DAA520"
+data: {parent: psychological, color: "#DAA520"}
 ---

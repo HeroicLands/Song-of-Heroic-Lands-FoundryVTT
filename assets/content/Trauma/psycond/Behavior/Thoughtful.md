@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Thoughtful
-  aliases: []
 shortcode: thghtfl
+name: {full: Thoughtful, aliases: []}
 type: trauma
-data:
-  icon: battlegear
-  templatePriority: 0
 subType: psycond
-sohl:
-  kbcat: psybehavior
-  system:
-    category: quirk
-packFolder: quirks
+tags: []
+data: {icon: battlegear, templatePriority: 0, packFolder: quirks}
+sohl: {kbcat: psybehavior, system: {category: quirk}}
 ---
 
 Thoughtfulness is the habit of considering consequences before acting, of holding others' feelings and circumstances in mind before speaking or deciding. A thoughtful person pauses; they reflect on their words, anticipate how others might be affected, and take care in their dealings. In a world where rash action can bring ruin and harsh words can wound for years, thoughtfulness is a virtue—yet when it becomes excessive, it can paralyze.

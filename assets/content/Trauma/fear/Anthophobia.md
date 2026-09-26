@@ -1,20 +1,11 @@
 ---
-tags: []
-name:
-  full: Anthophobia
-  aliases: []
 shortcode: anthphb
+name: {full: Anthophobia, aliases: []}
 type: trauma
-data:
-  icon: dread
-  templatePriority: 0
 subType: fear
-sohl:
-  kbcat: phobias
-  system:
-    category: none
-    levelBase: 0
-packFolder: phobias
+tags: []
+data: {icon: dread, templatePriority: 0, packFolder: phobias}
+sohl: {kbcat: phobias, system: {category: none, levelBase: 0}}
 ---
 
 Anthophobia is an intense, irrational fear of flowers. People with anthophobia may experience a range of symptoms when they think about, see, or are near flowers.

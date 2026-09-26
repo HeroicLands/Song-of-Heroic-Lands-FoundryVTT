@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Syndactyly
-  aliases: []
 shortcode: syndacty
+name: {full: Syndactyly, aliases: []}
 type: trauma
-data:
-  icon: battlegear
-  templatePriority: 0
 subType: physcond
-sohl:
-  kbcat: physfeature
-  system:
-    category: trait
-packFolder: traumaphysical
+tags: []
+data: {icon: battlegear, templatePriority: 0, packFolder: traumaphysical}
+sohl: {kbcat: physfeature, system: {category: trait}}
 ---
 
 Syndactyly is a condition of the flesh wherein two or more digits are bound together, their bones and skin fused as if by a hand other than nature's own. This webbing may be partial, binding only the flesh betwixt the digits while the bones remain distinct, or complete, fusing bone with bone such that the digits move as one. To the superstitious, a webbed hand is a mark of aquatic ancestry, a sign of blessing by water-spirits, or a curse of divine punishment—interpretations that vary wildly from realm to realm.

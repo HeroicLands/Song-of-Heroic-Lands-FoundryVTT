@@ -1,26 +1,14 @@
 ---
-tags:
-  - jewelry_cash
-name:
-  full: "Diamond, cut"
-  aliases: []
-description: "Hardest stone, brilliant-cut gem refracting light into rainbow fire; marks extraordinary wealth."
 shortcode: diamondcut
+name: {full: "Diamond, cut", aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
+description: "Hardest stone, brilliant-cut gem refracting light into rainbow fire; marks extraordinary wealth."
+tags: [jewelry_cash]
+data: {icon: swapbag, templatePriority: 0, packFolder: jewelry}
 sohl:
-  craft:
-    skill: jewl
-    secondary: []
+  craft: {skill: jewl, secondary: []}
   kbcat: jewelry
-  system:
-    weightBase: 0.0004
-    valueBase: 800
-    qualityBase: 0
-    durabilityBase: 2
-packFolder: jewelry
+  system: {weightBase: 0.0004, valueBase: 800, qualityBase: 0, durabilityBase: 2}
 ---
 
 Diamond, the hardest of all stones, cut and faceted into a brilliant gem that refracts light into rainbow fire. The lapidary's work is exacting and slow, requiring years of skill to unlock the stone's full brilliance. These gems rest in noble rings and crowns, held as heirlooms and marks of extraordinary wealth.

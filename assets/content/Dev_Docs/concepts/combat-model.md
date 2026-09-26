@@ -1,14 +1,11 @@
 ---
+shortcode: combatmodel
+name: {full: Combat Model, aliases: []}
 type: doc
 subType: concept
-name:
-  full: Combat Model
-  aliases: []
-shortcode: combatmodel
 description: "Assisted vs. automated combat, and how the combat flow is wired programmatically (combatants, the exchange workflow, resolution)."
-pack: none
-sohl:
-  kbcat: devdocs
+data: {pack: none}
+sohl: {kbcat: devdocs}
 ---
 
 # Combat Model

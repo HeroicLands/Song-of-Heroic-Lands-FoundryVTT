@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Ermine Cloak
-  aliases: []
-description: "White ermine cloak; status symbol of nobility and high prestige."
 shortcode: ecloak
+name: {full: Ermine Cloak, aliases: []}
 type: armorgear
-data:
-  icon: cloak
-  templatePriority: 0
+description: "White ermine cloak; status symbol of nobility and high prestige."
+tags: []
+data: {icon: cloak, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: leather
   armorType: Cloak
   detailMaterial: Ermine
@@ -36,34 +30,18 @@ sohl:
         - rcalfloc
       rigid: []
       facing:
-        - location: thrxloc
-          side: back
-        - location: abdmnloc
-          side: back
-        - location: plvisloc
-          side: back
-        - location: lthghloc
-          side: back
-        - location: rthghloc
-          side: back
-        - location: lkneeloc
-          side: back
-        - location: rkneeloc
-          side: back
-        - location: lcalfloc
-          side: back
-        - location: rcalfloc
-          side: back
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+        - {location: thrxloc, side: back}
+        - {location: abdmnloc, side: back}
+        - {location: plvisloc, side: back}
+        - {location: lthghloc, side: back}
+        - {location: rthghloc, side: back}
+        - {location: lkneeloc, side: back}
+        - {location: rkneeloc, side: back}
+        - {location: lcalfloc, side: back}
+        - {location: rcalfloc, side: back}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 282.3
-origWeight: 1.2
 ---
 
 The Ermine Cloak, made from the soft white fur of the ermine, is a status symbol of nobility and wealth. Highly insulating and visually striking, it is perfect for the elite who require both warmth and a show of prestige.

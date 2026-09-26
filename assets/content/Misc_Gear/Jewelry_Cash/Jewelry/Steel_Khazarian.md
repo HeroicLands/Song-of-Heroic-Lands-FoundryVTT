@@ -1,26 +1,14 @@
 ---
-tags:
-  - jewelry_cash
-name:
-  full: Steel, Khazárian
-  aliases: []
-description: "Crucible steel of Khazárian make; far dearer than common steel, and far better."
 shortcode: stlkhzr
+name: {full: "Steel, Khazárian", aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
+description: "Crucible steel of Khazárian make; far dearer than common steel, and far better."
+tags: [jewelry_cash]
+data: {icon: swapbag, templatePriority: 0, packFolder: jewelry}
 sohl:
-  craft:
-    skill: mnrl
-    secondary: []
+  craft: {skill: mnrl, secondary: []}
   kbcat: jewelry
-  system:
-    weightBase: 1
-    valueBase: 20
-    qualityBase: 0
-    durabilityBase: 3
-packFolder: jewelry
+  system: {weightBase: 1, valueBase: 20, qualityBase: 0, durabilityBase: 3}
 ---
 
 Steel of Khazárian make, won by a crucible process the smiths of that people do not share. It is uniform where

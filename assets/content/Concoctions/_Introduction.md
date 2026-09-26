@@ -1,10 +1,8 @@
 ---
+shortcode: concoctiongear
+name: {full: Concoctions, aliases: []}
 type: doc
 subType: reference
-name:
-  full: Concoctions
-  aliases: []
-shortcode: concoctiongear
 description: "Infusions, potions, elixirs, polutices, etc."
 ---
 

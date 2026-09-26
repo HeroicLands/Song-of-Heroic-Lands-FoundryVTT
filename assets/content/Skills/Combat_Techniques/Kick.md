@@ -1,16 +1,11 @@
 ---
-tags: []
-name:
-  full: Folk Kick
-  aliases:
-    - Kick
-description: "A boot driven out — the longest reach a person has without a weapon."
 shortcode: bflkkick
+name: {full: Folk Kick, aliases: [Kick]}
 type: skill
-data:
-  icon: foottrip
-  templatePriority: 0
 subType: combattechnique
+description: "A boot driven out — the longest reach a person has without a weapon."
+tags: []
+data: {icon: foottrip, templatePriority: 0, packFolder: combat}
 sohl:
   kbcat: unarmed
   strikeMode:
@@ -19,25 +14,12 @@ sohl:
     name: Kick
     minParts: 1
     assocSkillCode: melee
-    attack:
-      disabled: false
-      spread: 4
-      modifier: 0
-    impactBase:
-      numDice: 1
-      die: 6
-      modifier: -2
-      aspect: blunt
+    attack: {disabled: false, spread: 4, modifier: 0}
+    impactBase: {numDice: 1, die: 6, modifier: -2, aspect: blunt}
     lengthBase: 2
     defense:
-      block:
-        disabled: true
-        modifier: 0
-        successLevelMod: 0
-      counterstrike:
-        disabled: false
-        modifier: 0
-        successLevelMod: 0
+      block: {disabled: true, modifier: 0, successLevelMod: 0}
+      counterstrike: {disabled: false, modifier: 0, successLevelMod: 0}
     traits:
       meleeMod: 0
       blockSLMod: 0
@@ -72,9 +54,7 @@ sohl:
     combatCategory: melee
     parentSkillCode: ""
     initSkillMult: 2
-    impairedByRoles:
-      - locomotor
-packFolder: combat
+    impairedByRoles: [locomotor]
 ---
 
 A kick reaches twice as far as a punch and carries the weight of the leg and hip behind it, which makes it the strongest opening an unarmed fighter has against someone who has not closed yet.

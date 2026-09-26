@@ -1,26 +1,14 @@
 ---
-tags:
-  - expedition
-name:
-  full: "Oil, myrtle"
-  aliases: []
-description: "Clean astringent myrtle oil for perfumery and wound washes."
 shortcode: oilmyrtle
+name: {full: "Oil, myrtle", aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
+description: "Clean astringent myrtle oil for perfumery and wound washes."
+tags: [expedition]
+data: {icon: swapbag, templatePriority: 0, packFolder: expedition}
 sohl:
-  craft:
-    skill: pfmy
-    secondary: []
+  craft: {skill: pfmy, secondary: []}
   kbcat: expedition
-  system:
-    weightBase: 0.0625
-    valueBase: 25
-    qualityBase: 0
-    durabilityBase: 0
-packFolder: expedition
+  system: {weightBase: 0.0625, valueBase: 25, qualityBase: 0, durabilityBase: 0}
 ---
 
 A clear oil pressed and distilled from myrtle leaf, clean and slightly astringent. It is a perfumer's middle note and, being cheaper than the imported oils, does a great deal of quiet work in blends that name something more impressive on the label. Herbalists also wash wounds with it, on the reasoning that what smells clean is clean.

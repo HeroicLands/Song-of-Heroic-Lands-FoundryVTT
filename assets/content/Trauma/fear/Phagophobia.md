@@ -1,20 +1,11 @@
 ---
-tags: []
-name:
-  full: Phagophobia
-  aliases: []
 shortcode: phagophb
+name: {full: Phagophobia, aliases: []}
 type: trauma
-data:
-  icon: dread
-  templatePriority: 0
 subType: fear
-sohl:
-  kbcat: phobias
-  system:
-    category: none
-    levelBase: 0
-packFolder: phobias
+tags: []
+data: {icon: dread, templatePriority: 0, packFolder: phobias}
+sohl: {kbcat: phobias, system: {category: none, levelBase: 0}}
 ---
 
 Phagophobia is an intense, irrational fear of swallowing or choking. People with phagophobia may experience a range of symptoms when they think about, see, or are in situations where they need to swallow.

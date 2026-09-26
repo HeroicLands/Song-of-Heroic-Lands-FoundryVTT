@@ -1,26 +1,14 @@
 ---
-tags:
-  - instruments
-name:
-  full: Sewing Kit
-  aliases: []
-description: "Small cloth roll with bone and iron needles, linen and silk thread, thimble, shears, awl, beeswax; seamstresses mend and sew."
 shortcode: sewkit
+name: {full: Sewing Kit, aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
+description: "Small cloth roll with bone and iron needles, linen and silk thread, thimble, shears, awl, beeswax; seamstresses mend and sew."
+tags: [instruments]
+data: {icon: swapbag, templatePriority: 0, packFolder: instruments}
 sohl:
-  craft:
-    skill: mtlc
-    secondary: []
+  craft: {skill: mtlc, secondary: []}
   kbcat: instruments
-  system:
-    weightBase: 0.5
-    valueBase: 22
-    qualityBase: 0
-    durabilityBase: 2
-packFolder: instruments
+  system: {weightBase: 0.5, valueBase: 22, qualityBase: 0, durabilityBase: 2}
 ---
 
 A small cloth roll or wooden box holding a seamstress's working tools: a packet of bone and iron needles of varying sizes, from fine enough to pierce linen to robust enough for leather and sail-cloth, spools of linen thread in plain and dyed colors, a twist of silk for fine work, a brass thimble, a pair of small scissors or bronze shears, a stitching awl for leather and canvas, a cake of beeswax for dressing thread, and a pincushion stuffed with wool to keep needles close to hand. Seamstresses, tailors, sail-menders, armorers, and campaign followers keep such kits at hand for mending clothing, stitching wounds in canvas and leather, and repairing torn gear on the march.

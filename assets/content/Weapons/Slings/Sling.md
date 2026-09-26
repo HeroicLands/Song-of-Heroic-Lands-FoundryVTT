@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Sling
-  aliases: []
-description: "Leather cradle on cords; low-cost ranged arm for skirmishers."
 shortcode: slng
+name: {full: Sling, aliases: []}
 type: weapongear
-data:
-  icon: sling
-  templatePriority: 0
+description: "Leather cradle on cords; low-cost ranged arm for skirmishers."
+tags: []
+data: {icon: sling, templatePriority: 0, packFolder: weapons}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: sling
   weaponType: Sling
   system:
@@ -26,14 +20,8 @@ sohl:
         name: Ranged
         assocSkillCode: slng
         minParts: 2
-        attack:
-          spread: 0
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 10
-          modifier: 0
-          aspect: blunt
+        attack: {spread: 0, modifier: 0}
+        impactBase: {numDice: 1, die: 10, modifier: 0, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -65,7 +53,6 @@ sohl:
         maxVolleyMult: 4
         baseRangeBase: 180
         drawBase: 0
-packFolder: weapons
 ---
 
 A leather cradle on two hand-cords, loaded with stone or lead bullet and whirled overhead before release. Shepherds and skirmishers favor it for its range, low cost, and readiness; bullets are gathered from battlefields or streams. Trained slingers deliver crushing blows at surprising distance, though weather and skill shape accuracy.

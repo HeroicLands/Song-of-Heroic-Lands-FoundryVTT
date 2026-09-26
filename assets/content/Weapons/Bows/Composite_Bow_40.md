@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Composite Bow 40
-  aliases: []
-description: "Light forty-pound scout's composite; training bow or child's reach."
 shortcode: cbw40
+name: {full: Composite Bow 40, aliases: []}
 type: weapongear
-data:
-  icon: pocketbow
-  templatePriority: 0
+description: "Light forty-pound scout's composite; training bow or child's reach."
+tags: []
+data: {icon: pocketbow, templatePriority: 0, packFolder: weapons}
 sohl:
-  craft:
-    skill: fltch
-    secondary: [wood, hide]
+  craft: {skill: fltch, secondary: [wood, hide]}
   kbcat: bow
   weaponType: Bow
   system:
@@ -26,14 +20,8 @@ sohl:
         name: Crush
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 6
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 0
-          aspect: blunt
+        attack: {spread: 6, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 0, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -62,22 +50,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 4
-        defense:
-          blockMod: 0
-          counterstrikeMod: 0
+        defense: {blockMod: 0, counterstrikeMod: 0}
       - shortcode: ranged
         type: missile
         name: Ranged
         assocSkillCode: archery
         minParts: 2
-        attack:
-          spread: 0
-          modifier: 0
-        impactBase:
-          numDice: 0
-          die: null
-          modifier: 1
-          aspect: piercing
+        attack: {spread: 0, modifier: 0}
+        impactBase: {numDice: 0, die: null, modifier: 1, aspect: piercing}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -109,7 +89,6 @@ sohl:
         maxVolleyMult: 4
         baseRangeBase: 150
         drawBase: 40
-packFolder: weapons
 ---
 
 A short bow of laminated wood, horn, and sinew, strung tight and drawn easily by a scout or boy. With only forty pounds of pull, it is a light scout's bow or a child's training piece, favored by those who range ahead of the main column.

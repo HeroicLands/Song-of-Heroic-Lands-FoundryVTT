@@ -1,25 +1,13 @@
 ---
-tags: []
-name:
-  full: "Cauldron, Iron"
-  aliases: []
-description: "Heavy cast-iron pot for communal cooking or laundry."
 shortcode: cauldronir
+name: {full: "Cauldron, Iron", aliases: []}
 type: containergear
-data:
-  icon: swapbag
-  templatePriority: 0
+description: "Heavy cast-iron pot for communal cooking or laundry."
+tags: []
+data: {icon: swapbag, templatePriority: 0, packFolder: containers}
 sohl:
-  craft:
-    skill: mtlc
-    secondary: []
-  system:
-    weightBase: 30
-    valueBase: 72
-    qualityBase: 0
-    durabilityBase: 10
-    maxCapacityBase: 80
-packFolder: containers
+  craft: {skill: mtlc, secondary: []}
+  system: {weightBase: 30, valueBase: 72, qualityBase: 0, durabilityBase: 10, maxCapacityBase: 80}
 ---
 
 A heavy iron pot cast in a single piece with an iron handle or chain, sized for communal cooking over a cookfire or for laundry work—a substantial and expensive village heirloom often passed down through households. Its weight and durability make it nearly indestructible; rust must be prevented by regular seasoning or oiling. The cauldron's great capacity serves an entire household or small group for weeks of provision cooking.

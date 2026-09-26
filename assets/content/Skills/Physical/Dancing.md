@@ -1,15 +1,11 @@
 ---
-tags: []
-name:
-  full: Dancing
-  aliases: []
-description: "Performing formal and folk dances; elevating social gatherings with grace."
 shortcode: dnce
+name: {full: Dancing, aliases: []}
 type: skill
-data:
-  icon: ballerinashoes
-  templatePriority: 0
 subType: physical
+description: "Performing formal and folk dances; elevating social gatherings with grace."
+tags: []
+data: {icon: ballerinashoes, templatePriority: 0, packFolder: physical}
 sohl:
   kbcat: physical
   system:
@@ -18,11 +14,7 @@ sohl:
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 2
-    impairedByRoles:
-      - core
-      - vital
-      - locomotor
-packFolder: physical
+    impairedByRoles: [core, vital, locomotor]
 ---
 
 Dancing is command of the forms current in one's own culture and station — the figures of a hall, the rounds of a village green, the processional steps of a feast day. What it measures is not whether the character completes the dance but how they looked doing it, which in the right room is a matter of some consequence.

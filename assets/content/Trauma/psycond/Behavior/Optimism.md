@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Optimism
-  aliases: []
 shortcode: optimism
+name: {full: Optimism, aliases: []}
 type: trauma
-data:
-  icon: battlegear
-  templatePriority: 0
 subType: psycond
-sohl:
-  kbcat: psybehavior
-  system:
-    category: quirk
-packFolder: disorders
+tags: []
+data: {icon: battlegear, templatePriority: 0, packFolder: disorders}
+sohl: {kbcat: psybehavior, system: {category: quirk}}
 ---
 
 Optimism is a positive outlook on life, characterized by the expectation that good things will happen and that challenges can be overcome. While generally seen as a healthy and beneficial trait, optimism can vary in intensity and, in extreme cases, can lead to unrealistic expectations and poor decision-making.

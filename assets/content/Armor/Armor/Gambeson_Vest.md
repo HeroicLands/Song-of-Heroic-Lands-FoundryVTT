@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Gambeson Vest
-  aliases: []
-description: "Padded vest providing protection under or worn standalone."
 shortcode: gvest
+name: {full: Gambeson Vest, aliases: []}
 type: armorgear
-data:
-  icon: leathervest
-  templatePriority: 0
+description: "Padded vest providing protection under or worn standalone."
+tags: []
+data: {icon: leathervest, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: gambeson
   armorType: Vest
   detailMaterial: Gambeson
@@ -21,22 +15,10 @@ sohl:
     valueBase: 210
     durabilityBase: 11
     material: Gambeson
-    locations:
-      flexible:
-        - neckloc
-      rigid:
-        - thrxloc
-        - abdmnloc
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [neckloc], rigid: [thrxloc, abdmnloc]}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 208
-origWeight: 7.3
 ---
 
 The Gambeson Vest provides padded protection, often worn under armor or as standalone defense. It offers excellent insulation and cushioning, making it perfect for both combat and daily use.

@@ -1,10 +1,9 @@
 ---
+shortcode: sklltestug
+name: {full: "Skill Tests and Opposed Tests"}
 type: doc
 subType: userguide
-name:
-  full: "Skill Tests and Opposed Tests"
-shortcode: sklltestug
-packFolder: userguide
+data: {packFolder: userguide}
 ---
 
 # Overview {#tests-overview}

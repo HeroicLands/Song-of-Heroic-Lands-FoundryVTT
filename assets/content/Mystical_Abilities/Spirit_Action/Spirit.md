@@ -1,24 +1,15 @@
 ---
-tags: []
-name:
-  full: Spirit
-  aliases: []
-description: "A discrete act carried out through an allied spirit, governed by its Spirit Power."
 shortcode: sprt
+name: {full: Spirit, aliases: []}
 type: mysticalability
-data:
-  icon: psychicwaves
-  templatePriority: 0
 subType: spiritaction
-sohl:
-  kbcat: spiritaction
-  system:
-    assocSkillCode: spirit
-    masteryLevelBase: 0
-    levelBase: 0
-hmk:
-  name: ""
-packFolder: spiritaction
+description: "A discrete act carried out through an allied spirit, governed by its Spirit Power."
+tags: []
+data: {icon: psychicwaves, templatePriority: 0, packFolder: spiritaction}
+sohl: {kbcat: spiritaction, system: {assocSkillCode: spirit, masteryLevelBase: 0, levelBase: 0}}
+
+# hmk:
+#   name: ""
 ---
 
 A Spirit Action is a discrete supernatural act carried out through an allied or bound spirit — the spirit-world counterpart of an everyday deed. Roaming the spirit world, sensing across it, and communing with what dwells in it are the typical examples; this entry is the general form from which a particular action is made.

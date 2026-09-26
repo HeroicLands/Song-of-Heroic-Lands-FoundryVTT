@@ -1,10 +1,9 @@
 ---
+shortcode: mystclpwug
+name: {full: Mystical Powers}
 type: doc
 subType: userguide
-name:
-  full: Mystical Powers
-shortcode: mystclpwug
-packFolder: userguide
+data: {packFolder: userguide}
 ---
 
 # Overview

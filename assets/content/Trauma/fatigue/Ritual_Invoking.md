@@ -1,22 +1,12 @@
 ---
-tags: []
-name:
-  full: Ritual Invoking
-  aliases: []
-description: "Acute windedness from channeling power through ritual invocation."
 shortcode: invk
+name: {full: Ritual Invoking, aliases: []}
 type: trauma
-data:
-  icon: sleepy
-  templatePriority: 0
 subType: fatigue
-sohl:
-  kbcat: fatigue
-  system:
-    category: windedness
-    levelBase: 1
-    healingRateBase: 5
-packFolder: fatigue
+description: "Acute windedness from channeling power through ritual invocation."
+tags: []
+data: {icon: sleepy, templatePriority: 0, packFolder: fatigue}
+sohl: {kbcat: fatigue, system: {category: windedness, levelBase: 1, healingRateBase: 5}}
 ---
 
 Ritual invoking fatigue is the cost of channeling divine or mystical power through ritual prayer, mantra, or formal invocation. Each invocation draws on the channeler's body as a conduit — the body warms, breath quickens, awareness sharpens then dulls — and the cost compounds across consecutive invocations within the same ritual. 0–10 fatigue per invocation, depending on the rite's demand.

@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Slingshot
-  aliases: []
-description: "Y-framed pouch-cord; concealed, silent, favored by hunters and footpads."
 shortcode: slngsht
+name: {full: Slingshot, aliases: []}
 type: weapongear
-data:
-  icon: slingshot
-  templatePriority: 0
+description: "Y-framed pouch-cord; concealed, silent, favored by hunters and footpads."
+tags: []
+data: {icon: slingshot, templatePriority: 0, packFolder: weapons}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: thrown
   weaponType: Sling
   system:
@@ -26,14 +20,8 @@ sohl:
         name: Crush
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 4
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 4
-          modifier: 0
-          aspect: blunt
+        attack: {spread: 4, modifier: 0}
+        impactBase: {numDice: 1, die: 4, modifier: 0, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -62,22 +50,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 1
-        defense:
-          blockMod: 0
-          counterstrikeMod: 0
+        defense: {blockMod: 0, counterstrikeMod: 0}
       - shortcode: ranged
         type: missile
         name: Ranged
         assocSkillCode: archery
         minParts: 2
-        attack:
-          spread: 0
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 0
-          aspect: blunt
+        attack: {spread: 0, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 0, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -109,7 +89,6 @@ sohl:
         maxVolleyMult: 3
         baseRangeBase: 120
         drawBase: 60
-packFolder: weapons
 ---
 
 A Y-shaped frame of wood with cord or leather cord stretched between the upper arms, held at the base and drawn back with a pouch at the fork. Hunters and footpads favor it for its ease of make and concealment; a child can fashion one from a branch and cord. Quick-draw and silent, though lacking range of its larger cousins.

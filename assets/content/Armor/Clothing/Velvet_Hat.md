@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Velvet Hat
-  aliases: []
-description: "Soft plush velvet hat; luxury status symbol for formal occasions."
 shortcode: vhat
+name: {full: Velvet Hat, aliases: []}
 type: armorgear
-data:
-  icon: pointyhat
-  templatePriority: 0
+description: "Soft plush velvet hat; luxury status symbol for formal occasions."
+tags: []
+data: {icon: pointyhat, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Hat
   detailMaterial: Velvet
@@ -21,20 +15,10 @@ sohl:
     valueBase: 14
     durabilityBase: 10
     material: Cloth
-    locations:
-      flexible:
-        - skullloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [skullloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 14
-origWeight: 0.2
 ---
 
 Soft and plush, the Velvet Hat exudes luxury. While not particularly durable, its rich texture and appearance make it perfect for formal settings and high-status individuals.

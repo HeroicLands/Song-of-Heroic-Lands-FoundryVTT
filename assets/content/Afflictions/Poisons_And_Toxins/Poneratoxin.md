@@ -1,23 +1,14 @@
 ---
-tags: []
-name:
-  full: Poneratoxin
-  aliases: []
-description: "Ant venom neurotoxin; the most painful insect sting imaginable; lasts 24 hours."
 shortcode: ponrtxn
+name: {full: Poneratoxin, aliases: []}
 type: affliction
-data:
-  icon: poisonbottle
-  templatePriority: 0
 subType: poisontoxin
+description: "Ant venom neurotoxin; the most painful insect sting imaginable; lasts 24 hours."
+tags: []
+data: {icon: poisonbottle, templatePriority: 0, packFolder: poisonsandtoxins}
 sohl:
   kbcat: poisontoxin
-  system:
-    levelBase: 1
-    healingRateBase: 3
-    contagionIndexBase: 3
-    transmission: vector
-packFolder: poisonsandtoxins
+  system: {levelBase: 1, healingRateBase: 3, contagionIndexBase: 3, transmission: vector}
 ---
 
 Poneratoxin is a powerful neurotoxic peptide. It affects voltage-gated sodium channels in nerve cells, leading to overexcitement of the nerves and excessive pain transmission. A sting delivers this toxin, resulting in an immediate, intense, and prolonged pain that can last up to 24 hours. The pain is often described as one of the most painful insect stings in the world. Though not typically fatal, the venom can cause significant local swelling, redness, and systemic reactions such as nausea, vomiting, and dizziness. The potent effects of poneratoxin make the sting a severe and memorable experience, often used in traditional initiation rites in some cultures.

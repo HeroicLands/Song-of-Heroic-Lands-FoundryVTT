@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Diligent
-  aliases: []
 shortcode: diligent
+name: {full: Diligent, aliases: []}
 type: trauma
-data:
-  icon: battlegear
-  templatePriority: 0
 subType: psycond
-sohl:
-  kbcat: psybehavior
-  system:
-    category: quirk
-packFolder: quirks
+tags: []
+data: {icon: battlegear, templatePriority: 0, packFolder: quirks}
+sohl: {kbcat: psybehavior, system: {category: quirk}}
 ---
 
 Diligent refers to an individual's consistent and careful effort in their work or responsibilities. A diligent person is dedicated, thorough, and persistent, ensuring tasks are completed with precision and care. This trait often leads to high-quality results and reliability, as diligent individuals take pride in doing things properly. However, excessive diligence can sometimes lead to perfectionism, overwork, or a lack of flexibility when things don’t go as planned.

@@ -1,22 +1,12 @@
 ---
-tags: []
-name:
-  full: Burden
-  aliases: []
-description: "Sustained weariness from carrying a heavy load."
 shortcode: burden
+name: {full: Burden, aliases: []}
 type: trauma
-data:
-  icon: sleepy
-  templatePriority: 0
 subType: fatigue
-sohl:
-  kbcat: fatigue
-  system:
-    category: weariness
-    levelBase: 1
-    healingRateBase: 3
-packFolder: fatigue
+description: "Sustained weariness from carrying a heavy load."
+tags: []
+data: {icon: sleepy, templatePriority: 0, packFolder: fatigue}
+sohl: {kbcat: fatigue, system: {category: weariness, levelBase: 1, healingRateBase: 3}}
 ---
 
 Burden fatigue is the weariness produced by carrying a load — whether walking under it, standing watch in it, or simply sleeping in armor too heavy to shed. The body pays the weight every hour, scaled by effective Encumbrance after the Strength modifier. A character bearing nothing pays nothing; a character bearing much pays much, even at rest. ENC fatigue per hour.

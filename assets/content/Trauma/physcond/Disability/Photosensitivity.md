@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Photosensitivity
-  aliases: []
 shortcode: photosen
+name: {full: Photosensitivity, aliases: []}
 type: trauma
-data:
-  icon: battlegear
-  templatePriority: 0
 subType: physcond
-sohl:
-  kbcat: physdisability
-  system:
-    category: trait
-packFolder: traumaphysical
+tags: []
+data: {icon: battlegear, templatePriority: 0, packFolder: traumaphysical}
+sohl: {kbcat: physdisability, system: {category: trait}}
 ---
 
 Photosensitivity refers to an abnormal sensitivity to light, typically sunlight, which causes discomfort, pain, or other adverse reactions when exposed to light. Individuals with photosensitivity may experience a range of symptoms, from mild discomfort to severe reactions such as rashes, burning sensations, or even eye pain. In a time with limited medical understanding and treatments, such a condition could be particularly distressing, as people may not understand the cause of their symptoms and have little recourse for relief beyond avoiding sunlight.

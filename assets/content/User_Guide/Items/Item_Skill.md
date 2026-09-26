@@ -1,10 +1,9 @@
 ---
+shortcode: skillug
+name: {full: "Skill"}
 type: doc
 subType: userguide
-name:
-  full: "Skill"
-shortcode: skillug
-packFolder: items
+data: {packFolder: items}
 ---
 
 # What Is a Skill?

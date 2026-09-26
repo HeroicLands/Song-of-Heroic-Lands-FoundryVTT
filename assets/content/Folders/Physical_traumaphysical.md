@@ -1,9 +1,6 @@
 ---
-name:
-  full: "Physical"
 shortcode: traumaphysical
+name: {full: "Physical"}
 type: folder
-data:
-  parent: trauma
-  color: "#B22222"
+data: {parent: trauma, color: "#B22222"}
 ---

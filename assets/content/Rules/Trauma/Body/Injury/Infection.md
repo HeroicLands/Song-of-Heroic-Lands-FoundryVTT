@@ -1,11 +1,9 @@
 ---
+shortcode: infctn
+name: {full: Infection, aliases: []}
 type: doc
 subType: rules
-name:
-  full: Infection
-  aliases: []
-packFolder: injury
-shortcode: infctn
+data: {packFolder: injury}
 ---
 
 Some injuries can become **infected**. When such an injury's [[doc-hlngtst|Injury Healing Test]] comes up a [[doc-sccsstst#success-level|Critical Failure]], a new infection takes hold. An infection starts with a **Healing Rate one step higher than the injury it came from** (originating injury HR + 1).

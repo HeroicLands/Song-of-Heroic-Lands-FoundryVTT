@@ -1,11 +1,9 @@
 ---
+shortcode: msslattc
+name: {full: Missile Attacks, aliases: []}
 type: doc
 subType: rules
-name:
-  full: Missile Attacks
-  aliases: []
-packFolder: rulescombat
-shortcode: msslattc
+data: {packFolder: rulescombat}
 ---
 
 # Missile Attacks {#missile-attacks}

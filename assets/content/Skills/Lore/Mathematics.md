@@ -1,15 +1,11 @@
 ---
-tags: []
-name:
-  full: Mathematics
-  aliases: []
-description: "Numerical calculation, geometry, and reasoning for engineering and commerce."
 shortcode: math
+name: {full: Mathematics, aliases: []}
 type: skill
-data:
-  icon: abacus
-  templatePriority: 0
 subType: lore
+description: "Numerical calculation, geometry, and reasoning for engineering and commerce."
+tags: []
+data: {icon: abacus, templatePriority: 0, packFolder: lore}
 sohl:
   kbcat: lore
   system:
@@ -18,9 +14,7 @@ sohl:
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 0
-    impairedByRoles:
-      - vital
-packFolder: lore
+    impairedByRoles: [vital]
 ---
 
 Mathematics is calculation and formal reasoning. A Reasoning test suffices for counting and for feats of memory; Mathematics is what solves an actual problem, and a Mathematics Success Value test establishes how far up the ladder of complexity the character can reach.

@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Quilted Surcoat
-  aliases: []
-description: "Stitched outer garment; layered insulation over other dress."
 shortcode: qscoat
+name: {full: Quilted Surcoat, aliases: []}
 type: armorgear
-data:
-  icon: shirt
-  templatePriority: 0
+description: "Stitched outer garment; layered insulation over other dress."
+tags: []
+data: {icon: shirt, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: quilted
   armorType: Surcoat
   detailMaterial: Quilted
@@ -33,16 +27,9 @@ sohl:
         - lkneeloc
         - rkneeloc
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 216
-origWeight: 9.7
 ---
 
 The Quilted Surcoat, featuring layers of fabric sewn together, offers excellent insulation and comfort. Suitable for colder climates, it provides warmth and a bit of extra protection.

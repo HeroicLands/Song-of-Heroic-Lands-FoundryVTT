@@ -1,15 +1,11 @@
 ---
-tags: []
-name:
-  full: Limb Block
-  aliases: []
-description: "Warding a blow with a limb — desperate bare-armed, deliberate in a mail sleeve."
 shortcode: limbblock
+name: {full: Limb Block, aliases: []}
 type: skill
-data:
-  icon: armbandage
-  templatePriority: 0
 subType: combattechnique
+description: "Warding a blow with a limb — desperate bare-armed, deliberate in a mail sleeve."
+tags: []
+data: {icon: armbandage, templatePriority: 0, packFolder: combat}
 sohl:
   kbcat: unarmed
   strikeMode:
@@ -18,25 +14,12 @@ sohl:
     name: Limb Block
     minParts: 1
     assocSkillCode: melee
-    attack:
-      disabled: true
-      spread: 0
-      modifier: 0
-    impactBase:
-      numDice: 0
-      die: null
-      modifier: 0
-      aspect: blunt
+    attack: {disabled: true, spread: 0, modifier: 0}
+    impactBase: {numDice: 0, die: null, modifier: 0, aspect: blunt}
     lengthBase: 1
     defense:
-      block:
-        disabled: false
-        modifier: 0
-        successLevelMod: 0
-      counterstrike:
-        disabled: true
-        modifier: 0
-        successLevelMod: 0
+      block: {disabled: false, modifier: 0, successLevelMod: 0}
+      counterstrike: {disabled: true, modifier: 0, successLevelMod: 0}
     traits:
       meleeMod: 0
       blockSLMod: 0
@@ -71,9 +54,7 @@ sohl:
     combatCategory: melee
     parentSkillCode: ""
     initSkillMult: 2
-    impairedByRoles:
-      - manipulator
-packFolder: combat
+    impairedByRoles: [manipulator]
 ---
 
 The defence of last resort: no weapon in hand, no shield on the arm, and something already coming at you. An unarmed Block, made by putting a forearm, a shin or a shoulder in the way.

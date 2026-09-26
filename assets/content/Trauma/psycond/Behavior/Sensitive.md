@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Sensitive
-  aliases: []
 shortcode: snstv
+name: {full: Sensitive, aliases: []}
 type: trauma
-data:
-  icon: battlegear
-  templatePriority: 0
 subType: psycond
-sohl:
-  kbcat: psybehavior
-  system:
-    category: quirk
-packFolder: quirks
+tags: []
+data: {icon: battlegear, templatePriority: 0, packFolder: quirks}
+sohl: {kbcat: psybehavior, system: {category: quirk}}
 ---
 
 Sensitivity is an openness to feeling—one's own emotions and those of others register acutely, with little filtering. A sensitive person resonates with the moods and sorrows of those around them; they weep readily, feel joy sharply, and are moved by beauty or cruelty in equal measure. In a harsh, demanding world, this trait can be a gift—it builds compassion and insight—but it can also become a burden, making one's path through life fraught with hurt and exhaustion.

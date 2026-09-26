@@ -1,23 +1,12 @@
 ---
-tags: []
-name:
-  full: Marching
-  aliases:
-    - Walking
-description: "Sustained weariness from long-distance walking at travel pace."
 shortcode: march
+name: {full: Marching, aliases: [Walking]}
 type: trauma
-data:
-  icon: sleepy
-  templatePriority: 0
 subType: fatigue
-sohl:
-  kbcat: fatigue
-  system:
-    category: weariness
-    levelBase: 1
-    healingRateBase: 3
-packFolder: fatigue
+description: "Sustained weariness from long-distance walking at travel pace."
+tags: []
+data: {icon: sleepy, templatePriority: 0, packFolder: fatigue}
+sohl: {kbcat: fatigue, system: {category: weariness, levelBase: 1, healingRateBase: 3}}
 ---
 
 Marching fatigue is the cumulative weariness of long-distance walking at a sustainable pace — the daily fifteen miles of an army on the move, the trader's slow plod between markets, the pilgrim's long road. The body can do this indefinitely with proper rest and food, but neglect of either turns the march from sustainable into a slow erosion of capacity. 5 fatigue per four hours of walking.

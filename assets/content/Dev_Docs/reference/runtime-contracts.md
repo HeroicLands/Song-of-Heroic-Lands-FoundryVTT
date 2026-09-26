@@ -1,13 +1,10 @@
 ---
+shortcode: runtimecontracts
+name: {full: Runtime Contracts, aliases: []}
 type: doc
 subType: reference
-name:
-  full: Runtime Contracts
-  aliases: []
-shortcode: runtimecontracts
-pack: none
-sohl:
-  kbcat: devdocs
+data: {pack: none}
+sohl: {kbcat: devdocs}
 ---
 
 # Runtime Contracts

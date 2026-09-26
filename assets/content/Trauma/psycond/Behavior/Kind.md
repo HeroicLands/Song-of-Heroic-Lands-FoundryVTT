@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Kind
-  aliases: []
 shortcode: kind
+name: {full: Kind, aliases: []}
 type: trauma
-data:
-  icon: battlegear
-  templatePriority: 0
 subType: psycond
-sohl:
-  kbcat: psybehavior
-  system:
-    category: quirk
-packFolder: quirks
+tags: []
+data: {icon: battlegear, templatePriority: 0, packFolder: quirks}
+sohl: {kbcat: psybehavior, system: {category: quirk}}
 ---
 
 Kind refers to an individual's natural inclination to be compassionate, caring, and considerate towards others. A kind person often goes out of their way to help, support, and show empathy, even in situations where there is no direct benefit to themselves. Kindness fosters positive relationships and creates a sense of trust and community. However, excessive kindness can sometimes lead to self-sacrifice, allowing others to take advantage of the individual, or the neglect of personal needs.

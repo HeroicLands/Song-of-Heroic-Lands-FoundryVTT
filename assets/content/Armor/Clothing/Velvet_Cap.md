@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Velvet Cap
-  aliases: []
-description: "Soft plush velvet cap; luxury status symbol for formal settings."
 shortcode: vcap
+name: {full: Velvet Cap, aliases: []}
 type: armorgear
-data:
-  icon: billedcap
-  templatePriority: 0
+description: "Soft plush velvet cap; luxury status symbol for formal settings."
+tags: []
+data: {icon: billedcap, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Cap
   detailMaterial: Velvet
@@ -21,20 +15,10 @@ sohl:
     valueBase: 14
     durabilityBase: 10
     material: Cloth
-    locations:
-      flexible:
-        - skullloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [skullloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 4
-origWeight: 0.2
 ---
 
 A Velvet Cap provides a touch of luxury with its soft, plush fabric. It is more of a status symbol than practical wear, perfect for formal settings and special occasions.

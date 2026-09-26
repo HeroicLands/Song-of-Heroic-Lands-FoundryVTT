@@ -1,22 +1,12 @@
 ---
-tags: []
-name:
-  full: Malnourished
-  aliases: []
-description: "Chronic shortage of nutrients; poor healing, scurvy-like signs."
 shortcode: malnut
+name: {full: Malnourished, aliases: []}
 type: trauma
-data:
-  icon: stomach
-  templatePriority: 0
 subType: physcond
-sohl:
-  kbcat: physprivations
-  system:
-    category: impediment
-    levelBase: 2
-    healingRateBase: 2
-packFolder: privations
+description: "Chronic shortage of nutrients; poor healing, scurvy-like signs."
+tags: []
+data: {icon: stomach, templatePriority: 0, packFolder: privations}
+sohl: {kbcat: physprivations, system: {category: impediment, levelBase: 2, healingRateBase: 2}}
 ---
 
 Malnutrition is the slow accumulation of deficiencies that develop on a diet sufficient in bulk but lacking in essential nutrients — the long monotony of ship's biscuit and salt pork, the winter months on stored grain, the prisoner on bread and water. Where starvation kills by emptiness, malnutrition disables by imbalance, and its damage may take months to surface and as long to repair.

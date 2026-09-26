@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Playful
-  aliases: []
 shortcode: playful
+name: {full: Playful, aliases: []}
 type: trauma
-data:
-  icon: battlegear
-  templatePriority: 0
 subType: psycond
-sohl:
-  kbcat: psybehavior
-  system:
-    category: impulse
-packFolder: quirks
+tags: []
+data: {icon: battlegear, templatePriority: 0, packFolder: quirks}
+sohl: {kbcat: psybehavior, system: {category: impulse}}
 ---
 
 Playful refers to an individual's lighthearted, fun-loving nature, often marked by a sense of humor, spontaneity, and a desire to bring joy to others. A playful person approaches life with a sense of fun, not taking things too seriously and using humor to ease tensions or brighten the mood. While playfulness can create a positive and lively atmosphere, excessive playfulness may be seen as a lack of seriousness, especially in situations that require focus or discipline.

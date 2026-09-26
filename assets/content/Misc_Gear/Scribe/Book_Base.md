@@ -1,26 +1,14 @@
 ---
-tags:
-  - scribe
-name:
-  full: "Book, Base"
-  aliases: []
-description: "Unbound quires with oak boards and bronze clasps; ready for binding."
 shortcode: bookbase
+name: {full: "Book, Base", aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
+description: "Unbound quires with oak boards and bronze clasps; ready for binding."
+tags: [scribe]
+data: {icon: swapbag, templatePriority: 0, packFolder: scribe}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: scribe
-  system:
-    weightBase: 1
-    valueBase: 10
-    qualityBase: 0
-    durabilityBase: 5
-packFolder: scribe
+  system: {weightBase: 1, valueBase: 10, qualityBase: 0, durabilityBase: 5}
 ---
 
 An unbound gathering of quires—stacked and sewn signatures—ready for the scribe's work. Oak boards form the covers, tooled in leather and clasped with bronze. This base awaits text, needing pages parchment, vellum, or paper added at the binder's stage. Monks and magistrates commission such blanks as vessels for record and deed.

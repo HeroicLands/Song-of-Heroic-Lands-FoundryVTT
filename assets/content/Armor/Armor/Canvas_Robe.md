@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Canvas Robe
-  aliases: []
-description: "Full-length canvas robe favouring durability over comfort."
 shortcode: cvrobe
+name: {full: Canvas Robe, aliases: []}
 type: armorgear
-data:
-  icon: robe
-  templatePriority: 0
+description: "Full-length canvas robe favouring durability over comfort."
+tags: []
+data: {icon: robe, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Robe
   detailMaterial: Canvas
@@ -41,16 +35,9 @@ sohl:
         - lcalfloc
         - rcalfloc
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 71.1
-origWeight: 5
 ---
 
 The Canvas Robe is a plain, full-length garment of heavy hemp weave. It hangs stiffly and takes weeks to soften, but it outlasts several woollen robes and is cheap to replace.

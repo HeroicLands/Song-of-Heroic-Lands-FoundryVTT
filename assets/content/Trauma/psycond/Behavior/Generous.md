@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Generous
-  aliases: []
 shortcode: generous
+name: {full: Generous, aliases: []}
 type: trauma
-data:
-  icon: battlegear
-  templatePriority: 0
 subType: psycond
-sohl:
-  kbcat: psybehavior
-  system:
-    category: quirk
-packFolder: quirks
+tags: []
+data: {icon: battlegear, templatePriority: 0, packFolder: quirks}
+sohl: {kbcat: psybehavior, system: {category: quirk}}
 ---
 
 Generous refers to an individual's willingness to give or share resources, time, or care with others without expecting anything in return. A generous person acts with kindness, often putting others' needs ahead of their own. While generosity is typically seen as a positive and admirable trait, excessive generosity can sometimes lead to self-neglect or being taken advantage of by others.

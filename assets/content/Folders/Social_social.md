@@ -1,9 +1,6 @@
 ---
-name:
-  full: "Social"
 shortcode: social
+name: {full: "Social"}
 type: folder
-data:
-  parent: skills
-  color: "#FF69B4"
+data: {parent: skills, color: "#FF69B4"}
 ---

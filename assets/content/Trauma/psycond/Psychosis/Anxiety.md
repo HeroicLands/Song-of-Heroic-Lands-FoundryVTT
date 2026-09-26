@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Anxiety
-  aliases: []
 shortcode: anxiety
+name: {full: Anxiety, aliases: []}
 type: trauma
-data:
-  icon: battlegear
-  templatePriority: 0
 subType: psycond
-sohl:
-  kbcat: psypsychosis
-  system:
-    category: impulse
-packFolder: disorders
+tags: []
+data: {icon: battlegear, templatePriority: 0, packFolder: disorders}
+sohl: {kbcat: psypsychosis, system: {category: impulse}}
 ---
 
 Anxiety is a condition characterized by excessive worry, fear, or nervousness that can significantly impact an individual's daily life. This heightened state of alertness and apprehension often arises in response to perceived threats or stressful situations, even when there is little or no actual danger. Anxiety can manifest both mentally and physically, leading to a range of symptoms that vary in intensity from mild discomfort to overwhelming panic.

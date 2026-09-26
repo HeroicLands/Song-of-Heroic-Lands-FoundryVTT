@@ -1,26 +1,14 @@
 ---
-tags:
-  - food
-name:
-  full: Trout
-  aliases: []
-description: "Swift stream fish, delicate pink flesh, best cooked whole or smoked."
 shortcode: trout
+name: {full: Trout, aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
+description: "Swift stream fish, delicate pink flesh, best cooked whole or smoked."
+tags: [food]
+data: {icon: swapbag, templatePriority: 0, packFolder: food}
 sohl:
-  craft:
-    skill: fish
-    secondary: []
+  craft: {skill: fish, secondary: []}
   kbcat: food
-  system:
-    weightBase: 1
-    valueBase: 1
-    qualityBase: 0
-    durabilityBase: 0
-packFolder: food
+  system: {weightBase: 1, valueBase: 1, qualityBase: 0, durabilityBase: 0}
 ---
 
 Trout is a swift stream fish with delicate pink flesh and small bones, netted or trapped in swift waters. Fresh trout is best cooked whole over a fire, its skin crisping and flesh steaming. Smoked trout is prized by fishermen and mountaineers; salted trout requires careful handling to prevent the delicate meat from turning to mush. Rare enough that it remains a treat rather than a staple food.

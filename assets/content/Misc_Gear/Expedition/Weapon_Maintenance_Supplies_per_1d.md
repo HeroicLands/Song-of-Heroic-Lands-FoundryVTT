@@ -1,26 +1,14 @@
 ---
-tags:
-  - expedition
-name:
-  full: "Weapon Maintenance Supplies, per 1d"
-  aliases: []
-description: "Oil, wax, whetstone chips, cord, rivets, wire; one pence buys one pence of weapon upkeep."
 shortcode: wpnsup
+name: {full: "Weapon Maintenance Supplies, per 1d", aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
+description: "Oil, wax, whetstone chips, cord, rivets, wire; one pence buys one pence of weapon upkeep."
+tags: [expedition]
+data: {icon: swapbag, templatePriority: 0, packFolder: expedition}
 sohl:
-  craft:
-    skill: mtlc
-    secondary: []
+  craft: {skill: mtlc, secondary: []}
   kbcat: expedition
-  system:
-    weightBase: 0.02
-    valueBase: 1
-    qualityBase: 0
-    durabilityBase: 2
-packFolder: expedition
+  system: {weightBase: 0.02, valueBase: 1, qualityBase: 0, durabilityBase: 2}
 ---
 
 A standing stock of the small consumables that keep edged steel, hafted iron, and bow-wood in fighting condition: flasks of linseed and olive oil, cakes of beeswax, snapped-off whetstone chips, waxed hemp cord, peening rivets, iron and copper wire, spare bowstrings, and scraps of tanned strap for rebinding grips. Sold in any town of reasonable size by the pence, replenished by soldiers, archers, and huntsmen whenever they pass a smith.

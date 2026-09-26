@@ -1,26 +1,14 @@
 ---
-tags:
-  - expedition
-name:
-  full: Fine Talc
-  aliases: []
-description: "Fine mineral powder; dries sweat, prevents chafing, dusts wounds, and gives grip to the climber's or wrestler's hands."
 shortcode: talc
+name: {full: Fine Talc, aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
+description: "Fine mineral powder; dries sweat, prevents chafing, dusts wounds, and gives grip to the climber's or wrestler's hands."
+tags: [expedition]
+data: {icon: swapbag, templatePriority: 0, packFolder: expedition}
 sohl:
-  craft:
-    skill: mnrl
-    secondary: []
+  craft: {skill: mnrl, secondary: []}
   kbcat: expedition
-  system:
-    weightBase: 0.0625
-    valueBase: 10
-    qualityBase: 0
-    durabilityBase: 0
-packFolder: expedition
+  system: {weightBase: 0.0625, valueBase: 10, qualityBase: 0, durabilityBase: 0}
 ---
 
 A fine mineral powder, soft and absorbent, ground from talc stone quarried in mountain seams. Travelers and soldiers keep a pouch for drying sweat, preventing chafing, and tending minor skin complaints; physicians use it to dust wounds and reduce weeping.

@@ -1,15 +1,11 @@
 ---
-tags: []
-name:
-  full: Swimming
-  aliases: []
-description: "Moving through water across rivers, during shipwrecks, or beneath surfaces."
 shortcode: swim
+name: {full: Swimming, aliases: []}
 type: skill
-data:
-  icon: swimfins
-  templatePriority: 0
 subType: physical
+description: "Moving through water across rivers, during shipwrecks, or beneath surfaces."
+tags: []
+data: {icon: swimfins, templatePriority: 0, packFolder: physical}
 sohl:
   kbcat: physical
   system:
@@ -18,12 +14,7 @@ sohl:
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 1
-    impairedByRoles:
-      - core
-      - vital
-      - locomotor
-      - manipulator
-packFolder: physical
+    impairedByRoles: [core, vital, locomotor, manipulator]
 ---
 
 Swimming covers staying up, getting somewhere, and going under on purpose. What makes it dangerous is rarely the water itself but the state of it: a character makes a Swimming Success Value test once per minute, and the Success Value is then modified by how exposed the water is and how hard the wind is blowing across it.

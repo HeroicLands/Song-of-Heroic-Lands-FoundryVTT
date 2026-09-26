@@ -1,13 +1,10 @@
 ---
+shortcode: extensionpoints
+name: {full: Extension Points (Developer Guide), aliases: []}
 type: doc
 subType: howto
-name:
-  full: Extension Points (Developer Guide)
-  aliases: []
-shortcode: extensionpoints
-pack: none
-sohl:
-  kbcat: devdocs
+data: {pack: none}
+sohl: {kbcat: devdocs}
 ---
 
 # Extension Points (Developer Guide)

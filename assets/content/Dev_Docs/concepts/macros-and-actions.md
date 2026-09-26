@@ -1,13 +1,10 @@
 ---
+shortcode: macrosandactions
+name: {full: Macros and Actions, aliases: []}
 type: doc
 subType: concept
-name:
-  full: Macros and Actions
-  aliases: []
-shortcode: macrosandactions
-pack: none
-sohl:
-  kbcat: devdocs
+data: {pack: none}
+sohl: {kbcat: devdocs}
 ---
 
 # Macros and Actions

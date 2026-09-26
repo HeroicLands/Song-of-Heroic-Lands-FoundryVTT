@@ -1,9 +1,6 @@
 ---
-name:
-  full: "Containers"
 shortcode: containers
+name: {full: "Containers"}
 type: folder
-data:
-  parent: possessions
-  color: "#B8860B"
+data: {parent: possessions, color: "#B8860B"}
 ---

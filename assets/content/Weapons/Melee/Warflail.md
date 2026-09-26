@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Warflail
-  aliases: []
-description: "Spiked chain-joined heads bypassing guard; armor-defeating reach for professionals."
 shortcode: wfl
+name: {full: Warflail, aliases: []}
 type: weapongear
-data:
-  icon: flail
-  templatePriority: 0
+description: "Spiked chain-joined heads bypassing guard; armor-defeating reach for professionals."
+tags: []
+data: {icon: flail, templatePriority: 0, packFolder: weapons}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [mtlc, mnrl]
+  craft: {skill: wpnc, secondary: [mtlc, mnrl]}
   kbcat: flail
   weaponType: Flail
   system:
@@ -26,14 +20,8 @@ sohl:
         name: Crush
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 8
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 6
-          aspect: blunt
+        attack: {spread: 8, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 6, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -62,22 +50,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 6
-        defense:
-          blockMod: 0
-          counterstrikeMod: 0
+        defense: {blockMod: 0, counterstrikeMod: 0}
       - shortcode: pommel
         type: melee
         name: Pommel
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 4
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 0
-          aspect: blunt
+        attack: {spread: 4, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 0, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -106,10 +86,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 6
-        defense:
-          blockMod: 0
-          counterstrikeMod: 0
-packFolder: weapons
+        defense: {blockMod: 0, counterstrikeMod: 0}
 ---
 
 A combat evolution of the agricultural flail, the warflail pairs a wooden haft with two or three spiked iron heads joined by lengths of heavy chain. The chain's play allows the heads to swing past a defender's guard and strike from unexpected angles. Popular among professional soldiers for its armor-defeating reach, it demands room to swing and a steady grip.

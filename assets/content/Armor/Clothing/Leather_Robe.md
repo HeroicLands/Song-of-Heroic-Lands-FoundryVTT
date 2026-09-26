@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Leather Robe
-  aliases: []
-description: "Rugged outer garment of treated leather for adventurers and wanderers."
 shortcode: ltrobe
+name: {full: Leather Robe, aliases: []}
 type: armorgear
-data:
-  icon: robe
-  templatePriority: 0
+description: "Rugged outer garment of treated leather for adventurers and wanderers."
+tags: []
+data: {icon: robe, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: leather
   armorType: Robe
   detailMaterial: Leather
@@ -41,16 +35,9 @@ sohl:
         - lcalfloc
         - rcalfloc
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 632
-origWeight: 7.9
 ---
 
 A Leather Robe combines a touch of rugged style with moderate protection. It’s a unique choice for adventurers and free spirits who need an outer garment that can withstand the elements while making a statement.

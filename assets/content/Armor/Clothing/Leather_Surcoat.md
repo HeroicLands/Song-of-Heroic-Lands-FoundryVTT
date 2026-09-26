@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Leather Surcoat
-  aliases: []
-description: "Rugged styled leather outer layer offering minimal protection and flexibility."
 shortcode: ltscoat
+name: {full: Leather Surcoat, aliases: []}
 type: armorgear
-data:
-  icon: shirt
-  templatePriority: 0
+description: "Rugged styled leather outer layer offering minimal protection and flexibility."
+tags: []
+data: {icon: shirt, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: leather
   armorType: Surcoat
   detailMaterial: Leather
@@ -33,16 +27,9 @@ sohl:
         - lkneeloc
         - rkneeloc
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 432
-origWeight: 5.4
 ---
 
 A Leather Surcoat combines rugged style with minimal protection. Lightweight and comfortable, it’s suitable for everyday wear or light adventuring, adding a touch of edge to the wearer’s attire.

@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Buckram Shirt
-  aliases: []
-description: "Stiff buckram shirt providing durability and reliable rigid fit."
 shortcode: bshirt
+name: {full: Buckram Shirt, aliases: []}
 type: armorgear
-data:
-  icon: shirt
-  templatePriority: 0
+description: "Stiff buckram shirt providing durability and reliable rigid fit."
+tags: []
+data: {icon: shirt, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Shirt
   detailMaterial: Buckram
@@ -21,25 +15,10 @@ sohl:
     valueBase: 35
     durabilityBase: 10
     material: Cloth
-    locations:
-      flexible:
-        - lshldloc
-        - rshldloc
-        - lupaloc
-        - rupaloc
-        - thrxloc
-        - abdmnloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [lshldloc, rshldloc, lupaloc, rupaloc, thrxloc, abdmnloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 33
-origWeight: 1.7
 ---
 
 The Buckram Shirt is stiff and structured, crafted from coarse cloth stiffened with glue. It offers durability and a reliable fit, suitable for tasks requiring a more rigid garment.

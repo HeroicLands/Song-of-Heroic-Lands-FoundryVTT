@@ -1,15 +1,11 @@
 ---
-tags: []
-name:
-  full: Masonry
-  aliases: []
-description: "Quarrying, cutting, and laying stone for walls, buildings, and fortifications."
 shortcode: masn
+name: {full: Masonry, aliases: []}
 type: skill
-data:
-  icon: brickwall
-  templatePriority: 0
 subType: craft
+description: "Quarrying, cutting, and laying stone for walls, buildings, and fortifications."
+tags: []
+data: {icon: brickwall, templatePriority: 0, packFolder: craft}
 sohl:
   kbcat: craft
   system:
@@ -18,11 +14,7 @@ sohl:
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 0
-    impairedByRoles:
-      - core
-      - vital
-      - manipulator
-packFolder: craft
+    impairedByRoles: [core, vital, manipulator]
 ---
 
 Masonry is quarrying, dressing and laying stone — from a field wall or a carved plaque up to a keep, a bridge or a gatehouse, and the quarry and the scaffold that any of them needs.

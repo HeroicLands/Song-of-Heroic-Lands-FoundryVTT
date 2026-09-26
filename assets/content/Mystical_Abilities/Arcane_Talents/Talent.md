@@ -1,23 +1,12 @@
 ---
-tags: []
-name:
-  full: Talent
-  aliases: []
-description: "An untaught arcane knack, invoked directly and free of the incantation penalty."
 shortcode: tlnt
+name: {full: Talent, aliases: []}
 type: mysticalability
-data:
-  icon: psychicwaves
-  templatePriority: 0
 subType: arcanetalent
-sohl:
-  kbcat: arcanetalent
-  system:
-    assocSkillCode: ""
-    masteryLevelBase: 0
-    levelBase: 0
-
-packFolder: arcanetalents
+description: "An untaught arcane knack, invoked directly and free of the incantation penalty."
+tags: []
+data: {icon: psychicwaves, templatePriority: 0, packFolder: arcanetalents}
+sohl: {kbcat: arcanetalent, system: {assocSkillCode: "", masteryLevelBase: 0, levelBase: 0}}
 ---
 
 A Talent is an arcane knack possessed without formal training — a natural facility for one particular effect. Where an Arcane Incantation is studied, taught, and invoked by learned word and gesture, a Talent is simply _had_. It may surface unbidden in childhood, and what it demands afterwards is practice to control rather than instruction to acquire.

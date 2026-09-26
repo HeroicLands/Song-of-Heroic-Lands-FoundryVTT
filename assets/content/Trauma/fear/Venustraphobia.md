@@ -1,20 +1,11 @@
 ---
-tags: []
-name:
-  full: Venustraphobia
-  aliases: []
 shortcode: vnstrphb
+name: {full: Venustraphobia, aliases: []}
 type: trauma
-data:
-  icon: dread
-  templatePriority: 0
 subType: fear
-sohl:
-  kbcat: phobias
-  system:
-    category: none
-    levelBase: 0
-packFolder: phobias
+tags: []
+data: {icon: dread, templatePriority: 0, packFolder: phobias}
+sohl: {kbcat: phobias, system: {category: none, levelBase: 0}}
 ---
 
 Venustraphobia is an intense, irrational fear of beautiful women. People with venustraphobia may experience a range of symptoms when they think about, see, or are near attractive women.

@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Confident
-  aliases: []
 shortcode: cnfdnt
+name: {full: Confident, aliases: []}
 type: trauma
-data:
-  icon: battlegear
-  templatePriority: 0
 subType: psycond
-sohl:
-  kbcat: psybehavior
-  system:
-    category: quirk
-packFolder: quirks
+tags: []
+data: {icon: battlegear, templatePriority: 0, packFolder: quirks}
+sohl: {kbcat: psybehavior, system: {category: quirk}}
 ---
 
 Confidence refers to an individual's belief in their abilities, decisions, and judgment. A confident person trusts themselves and their capabilities, often taking on challenges with assurance and composure. Confidence allows individuals to handle difficult situations effectively and maintain a strong sense of self-worth. However, overconfidence can sometimes lead to rash decisions or an inflated sense of one's abilities, resulting in mistakes or strained relationships.

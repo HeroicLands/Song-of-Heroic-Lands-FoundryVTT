@@ -1,11 +1,9 @@
 ---
+shortcode: fatigue
+name: {full: Fatigue, aliases: []}
 type: doc
 subType: rules
-name:
-  full: Fatigue
-  aliases: []
-packFolder: body
-shortcode: fatigue
+data: {packFolder: body}
 ---
 
 **Fatigue** is a form of physical [[doc-traumaintro|Trauma]], measured in **Fatigue Levels (FL)**. Unlike an injury it has no Healing Rate and needs no treatment; instead each instance recovers by its own special rules.

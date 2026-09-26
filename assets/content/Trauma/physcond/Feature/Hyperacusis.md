@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Hyperacusis
-  aliases: []
 shortcode: hyprcss
+name: {full: Hyperacusis, aliases: []}
 type: trauma
-data:
-  icon: battlegear
-  templatePriority: 0
 subType: physcond
-sohl:
-  kbcat: physfeature
-  system:
-    category: impediment
-packFolder: traumaphysical
+tags: []
+data: {icon: battlegear, templatePriority: 0, packFolder: traumaphysical}
+sohl: {kbcat: physfeature, system: {category: impediment}}
 ---
 
 Hyperacusis is a condition characterized by an increased sensitivity to normal environmental sounds, where everyday noises become unbearably loud or painful. Those afflicted with hyperacusis must seek quiet environments and avoid noisy situations to manage their symptoms.

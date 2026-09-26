@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Tabûri
-  aliases: []
-description: "Short tapered blade; southern thrusting dagger worn at belt."
 shortcode: taburi
+name: {full: Tabûri, aliases: []}
 type: weapongear
-data:
-  icon: broaddagger
-  templatePriority: 0
+description: "Short tapered blade; southern thrusting dagger worn at belt."
+tags: []
+data: {icon: broaddagger, templatePriority: 0, packFolder: weapons}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [mtlc, mnrl]
+  craft: {skill: wpnc, secondary: [mtlc, mnrl]}
   kbcat: knife
   weaponType: Knife
   system:
@@ -26,14 +20,8 @@ sohl:
         name: Impale
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 4
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 8
-          modifier: 2
-          aspect: piercing
+        attack: {spread: 4, modifier: 0}
+        impactBase: {numDice: 1, die: 8, modifier: 2, aspect: piercing}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -62,22 +50,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 2
-        defense:
-          blockMod: -10
-          counterstrikeMod: -10
+        defense: {blockMod: -10, counterstrikeMod: -10}
       - shortcode: pommel
         type: melee
         name: Pommel
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 4
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 0
-          aspect: blunt
+        attack: {spread: 4, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 0, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -106,22 +86,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 2
-        defense:
-          blockMod: -10
-          counterstrikeMod: -10
+        defense: {blockMod: -10, counterstrikeMod: -10}
       - shortcode: thrown
         type: missile
         name: Thrown
         assocSkillCode: thro
         minParts: 1
-        attack:
-          spread: 4
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 8
-          modifier: 2
-          aspect: piercing
+        attack: {spread: 4, modifier: 0}
+        impactBase: {numDice: 1, die: 8, modifier: 2, aspect: piercing}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -153,7 +125,6 @@ sohl:
         maxVolleyMult: 2
         baseRangeBase: 30
         drawBase: 0
-packFolder: weapons
 ---
 
 A short blade worn at the belt, tapered to a fine point for thrusting and finishing work. The tabûri of the southern peoples is equally at home in the hand or thrown at close quarters; simple but sharp, it serves hunter and fighter alike in camp or ambush.

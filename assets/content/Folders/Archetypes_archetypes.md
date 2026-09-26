@@ -1,8 +1,6 @@
 ---
-name:
-  full: "Archetypes"
 shortcode: archetypes
+name: {full: "Archetypes"}
 type: folder
-data:
-  color: "#8B4513"
+data: {color: "#8B4513"}
 ---

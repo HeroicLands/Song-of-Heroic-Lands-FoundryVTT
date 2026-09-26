@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Rawhide Skirt
-  aliases: []
-description: "Tough hide garment; leg coverage for hard labor."
 shortcode: rhskirt
+name: {full: Rawhide Skirt, aliases: []}
 type: armorgear
-data:
-  icon: skirt
-  templatePriority: 0
+description: "Tough hide garment; leg coverage for hard labor."
+tags: []
+data: {icon: skirt, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: leather
   armorType: Skirt
   detailMaterial: Rawhide
@@ -22,25 +16,11 @@ sohl:
     durabilityBase: 11
     material: Leather
     locations:
-      flexible:
-        - plvisloc
-        - lthghloc
-        - rthghloc
-        - lkneeloc
-        - rkneeloc
-        - lcalfloc
-        - rcalfloc
+      flexible: [plvisloc, lthghloc, rthghloc, lkneeloc, rkneeloc, lcalfloc, rcalfloc]
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 156
-origWeight: 6.2
 ---
 
 The Rawhide Skirt is thick and rugged, offering substantial protection and durability. Ideal for harsh environments, it provides a sturdy and reliable garment for those needing extra toughness.

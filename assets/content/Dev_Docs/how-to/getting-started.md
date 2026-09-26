@@ -1,13 +1,10 @@
 ---
+shortcode: gettingstarted
+name: {full: Getting Started (New Developer Guide), aliases: []}
 type: doc
 subType: howto
-name:
-  full: Getting Started (New Developer Guide)
-  aliases: []
-shortcode: gettingstarted
-pack: none
-sohl:
-  kbcat: devdocs
+data: {pack: none}
+sohl: {kbcat: devdocs}
 ---
 
 # Getting Started (New Developer Guide)

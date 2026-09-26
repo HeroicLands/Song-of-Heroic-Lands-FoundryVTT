@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Composite Bow 100
-  aliases: []
-description: "Horn-and-sinew composite at one-hundred pound draw; cavalry archer standard."
 shortcode: cbw100
+name: {full: Composite Bow 100, aliases: []}
 type: weapongear
-data:
-  icon: pocketbow
-  templatePriority: 0
+description: "Horn-and-sinew composite at one-hundred pound draw; cavalry archer standard."
+tags: []
+data: {icon: pocketbow, templatePriority: 0, packFolder: weapons}
 sohl:
-  craft:
-    skill: fltch
-    secondary: [wood, hide]
+  craft: {skill: fltch, secondary: [wood, hide]}
   kbcat: bow
   weaponType: Bow
   system:
@@ -26,14 +20,8 @@ sohl:
         name: Crush
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 6
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 0
-          aspect: blunt
+        attack: {spread: 6, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 0, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -62,22 +50,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 4
-        defense:
-          blockMod: 0
-          counterstrikeMod: 0
+        defense: {blockMod: 0, counterstrikeMod: 0}
       - shortcode: ranged
         type: missile
         name: Ranged
         assocSkillCode: archery
         minParts: 2
-        attack:
-          spread: 0
-          modifier: 0
-        impactBase:
-          numDice: 0
-          die: null
-          modifier: 4
-          aspect: piercing
+        attack: {spread: 0, modifier: 0}
+        impactBase: {numDice: 0, die: null, modifier: 4, aspect: piercing}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -109,7 +89,6 @@ sohl:
         maxVolleyMult: 4
         baseRangeBase: 240
         drawBase: 100
-packFolder: weapons
 ---
 
 A well-crafted composite bow of laminated horn, wood, and sinew, with a hundred-pound pull. A trained war-archer's composite—compact yet powerful, it strikes at range with force that pierces armored cavalry. Favored by skilled light-horsemen and elite mounted archery units of the realms.

@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Cloth Calf Boots
-  aliases: []
-description: "Light, breathable cloth boots for casual wear and comfort."
 shortcode: ccboot
+name: {full: Cloth Calf Boots, aliases: []}
 type: armorgear
-data:
-  icon: leatherboot
-  templatePriority: 0
+description: "Light, breathable cloth boots for casual wear and comfort."
+tags: []
+data: {icon: leatherboot, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Calf Boots
   detailMaterial: Cloth
@@ -21,23 +15,10 @@ sohl:
     valueBase: 19
     durabilityBase: 10
     material: Cloth
-    locations:
-      flexible:
-        - lcalfloc
-        - rcalfloc
-        - lfootloc
-        - rfootloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [lcalfloc, rcalfloc, lfootloc, rfootloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 19
-origWeight: 1
 ---
 
 Cloth Calf Boots are light and breathable, made from various fabrics. They offer minimal protection but are extremely comfortable, ideal for casual wear or non-combat activities.

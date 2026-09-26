@@ -1,14 +1,11 @@
 ---
+shortcode: actornotes
+name: {full: Actor Notes, aliases: []}
 type: doc
 subType: howto
-name:
-  full: Actor Notes
-  aliases: []
-shortcode: actornotes
 description: "Authoring a `being`, and the `(type, shortcode)` address space its embedded items resolve through."
-pack: none
-sohl:
-  kbcat: devdocs
+data: {pack: none}
+sohl: {kbcat: devdocs}
 ---
 
 # Actor Notes

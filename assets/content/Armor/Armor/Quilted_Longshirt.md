@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Quilted Longshirt
-  aliases: []
-description: "Long stitched tunic; warmth and light padding for cold seasons."
 shortcode: qlgsht
+name: {full: Quilted Longshirt, aliases: []}
 type: armorgear
-data:
-  icon: shirt
-  templatePriority: 0
+description: "Long stitched tunic; warmth and light padding for cold seasons."
+tags: []
+data: {icon: shirt, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: quilted
   armorType: Longshirt
   detailMaterial: Quilted
@@ -22,25 +16,11 @@ sohl:
     durabilityBase: 11
     material: Quilted
     locations:
-      flexible:
-        - lshldloc
-        - rshldloc
-        - lupaloc
-        - rupaloc
-        - thrxloc
-        - abdmnloc
-        - plvisloc
+      flexible: [lshldloc, rshldloc, lupaloc, rupaloc, thrxloc, abdmnloc, plvisloc]
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 172
-origWeight: 7.7
 ---
 
 The Quilted Longshirt, made with layers of fabric sewn together, offers excellent insulation and comfort. It’s suitable for colder climates, providing both warmth and a bit of extra protection.

@@ -1,10 +1,9 @@
 ---
+shortcode: cmbtntug
+name: {full: "Combatant"}
 type: doc
 subType: userguide
-name:
-  full: "Combatant"
-shortcode: cmbtntug
-packFolder: userguide
+data: {packFolder: userguide}
 ---
 
 A **Combatant** is a character's entry in the **combat tracker** — the row that appears when you add a token to an encounter. It is not a sheet you fill in and keep; it lives only as long as the encounter does, and it holds what the fight needs to know about that character: which combat **group** it belongs to, the **computed move** shown on its row, whether it has acted this turn, and the strike modes it last attacked and blocked with (so those default sensibly next time within the same fight).

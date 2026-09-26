@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Truncheon
-  aliases: []
-description: "Wooden club; town watch tool enforcing order without obvious intent."
 shortcode: trunch
+name: {full: Truncheon, aliases: []}
 type: weapongear
-data:
-  icon: club
-  templatePriority: 0
+description: "Wooden club; town watch tool enforcing order without obvious intent."
+tags: []
+data: {icon: club, templatePriority: 0, packFolder: weapons}
 sohl:
-  craft:
-    skill: wood
-    secondary: []
+  craft: {skill: wood, secondary: []}
   kbcat: club
   weaponType: Club
   system:
@@ -26,14 +20,8 @@ sohl:
         name: Crush
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 6
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 1
-          aspect: blunt
+        attack: {spread: 6, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 1, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -62,22 +50,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 4
-        defense:
-          blockMod: 0
-          counterstrikeMod: 0
+        defense: {blockMod: 0, counterstrikeMod: 0}
       - shortcode: pommel
         type: melee
         name: Pommel
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 4
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 0
-          aspect: blunt
+        attack: {spread: 4, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 0, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -106,10 +86,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 4
-        defense:
-          blockMod: 0
-          counterstrikeMod: 0
-packFolder: weapons
+        defense: {blockMod: 0, counterstrikeMod: 0}
 ---
 
 A stout wooden club tapered to a grip, favored by town watch and garrison sergeants who must enforce order without killing—or, at least, without appearing to intend it. Handy and quick to draw, it cracks skulls and breaks bones with a swiftness that discourages further trouble. The weapon of constables and the tool of authority applied at the point.

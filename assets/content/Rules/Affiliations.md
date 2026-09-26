@@ -1,11 +1,9 @@
 ---
+shortcode: affiliation
+name: {full: Affiliations, aliases: []}
 type: doc
 subType: rules
-name:
-  full: Affiliations
-  aliases: []
-packFolder: rules
-shortcode: affiliation
+data: {packFolder: rules}
 ---
 
 An **affiliation** is a character's standing with some body of people: a religion or one of its sects, an arcane school or convocation, a craft guild, a criminal syndicate, a knightly order, a household, a war-band. It records not what a character can do but who will vouch for them, and how far.

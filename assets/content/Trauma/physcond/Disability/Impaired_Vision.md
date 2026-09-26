@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Impaired Vision
-  aliases: []
 shortcode: imprdvsn
+name: {full: Impaired Vision, aliases: []}
 type: trauma
-data:
-  icon: battlegear
-  templatePriority: 0
 subType: physcond
-sohl:
-  kbcat: physdisability
-  system:
-    category: impediment
-packFolder: traumaphysical
+tags: []
+data: {icon: battlegear, templatePriority: 0, packFolder: traumaphysical}
+sohl: {kbcat: physdisability, system: {category: impediment}}
 ---
 
 Impaired Vision is a condition where one's ability to see clearly is reduced, causing difficulties in performing everyday tasks. Without the availability of modern corrective lenses or treatments, those afflicted must rely on natural adaptations and assistance from others to manage their impaired sight.

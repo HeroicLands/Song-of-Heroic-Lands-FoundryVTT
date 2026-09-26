@@ -1,20 +1,11 @@
 ---
-tags: []
-name:
-  full: Indigiphobia
-  aliases: []
 shortcode: indgphb
+name: {full: Indigiphobia, aliases: []}
 type: trauma
-data:
-  icon: dread
-  templatePriority: 0
 subType: fear
-sohl:
-  kbcat: phobias
-  system:
-    category: none
-    levelBase: 0
-packFolder: phobias
+tags: []
+data: {icon: dread, templatePriority: 0, packFolder: phobias}
+sohl: {kbcat: phobias, system: {category: none, levelBase: 0}}
 ---
 
 Indigiphobia is an intense, irrational fear of indigenous people, driven by the perception that they are savage barbarians bent on causing harm or destruction. People with indigiphobia may experience a range of symptoms when they think about, see, or are near indigenous people or areas associated with them.

@@ -1,15 +1,11 @@
 ---
-tags: []
-name:
-  full: Sling
-  aliases: []
-description: "Hurling stones and lead bullets from a sling with accuracy and force."
 shortcode: slng
+name: {full: Sling, aliases: []}
 type: skill
-data:
-  icon: sling
-  templatePriority: 0
 subType: combat
+description: "Hurling stones and lead bullets from a sling with accuracy and force."
+tags: []
+data: {icon: sling, templatePriority: 0, packFolder: combat}
 sohl:
   kbcat: combat
   system:
@@ -18,11 +14,7 @@ sohl:
     combatCategory: missile
     parentSkillCode: ""
     initSkillMult: 0
-    impairedByRoles:
-      - core
-      - vital
-      - manipulator
-packFolder: combat
+    impairedByRoles: [core, vital, manipulator]
 ---
 
 The sling is a cord and a pouch, and in the hands of someone raised to it a stone from one arrives with an authority out of all proportion to the equipment. Sling covers both the shepherd's sling, whirled from the hand, and the staff sling, whose lever arm trades accuracy for range and lets a heavier missile be lobbed over an obstacle or a shield wall.

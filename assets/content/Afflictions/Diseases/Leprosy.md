@@ -1,23 +1,14 @@
 ---
-tags: []
-name:
-  full: Leprosy
-  aliases: []
-description: "Chronic bacterial infection; skin patches and nerve damage causing permanent disfigurement."
 shortcode: leprosy
+name: {full: Leprosy, aliases: []}
 type: affliction
-data:
-  icon: virus
-  templatePriority: 0
 subType: disease
+description: "Chronic bacterial infection; skin patches and nerve damage causing permanent disfigurement."
+tags: []
+data: {icon: virus, templatePriority: 0, packFolder: diseases}
 sohl:
   kbcat: diseases
-  system:
-    levelBase: 1
-    healingRateBase: 3
-    contagionIndexBase: 1
-    transmission: contact
-packFolder: diseases
+  system: {levelBase: 1, healingRateBase: 3, contagionIndexBase: 1, transmission: contact}
 ---
 
 Leprosy, or Hansen’s disease, is a chronic infectious disease caused by the bacterium _Mycobacterium leprae_. This disease primarily affects the skin, peripheral nerves, mucosal surfaces of the upper respiratory tract, and the eyes. Early symptoms include light or dark skin patches with loss of sensation, as well as muscle weakness. If left untreated, it can lead to severe nerve damage, resulting in debilitating complications like muscle wasting, paralysis, and deformities. Leprosy is not highly contagious, but prolonged, close contact with untreated cases can lead to transmission.

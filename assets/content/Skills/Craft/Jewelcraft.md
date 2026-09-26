@@ -1,15 +1,11 @@
 ---
-tags: []
-name:
-  full: Jewelcraft
-  aliases: []
-description: "Gem-cutting, goldsmithing, creating fine ornamental metalwork and jewelry."
 shortcode: jewl
+name: {full: Jewelcraft, aliases: []}
 type: skill
-data:
-  icon: gems
-  templatePriority: 0
 subType: craft
+description: "Gem-cutting, goldsmithing, creating fine ornamental metalwork and jewelry."
+tags: []
+data: {icon: gems, templatePriority: 0, packFolder: craft}
 sohl:
   kbcat: craft
   system:
@@ -18,11 +14,7 @@ sohl:
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 0
-    impairedByRoles:
-      - core
-      - vital
-      - manipulator
-packFolder: craft
+    impairedByRoles: [core, vital, manipulator]
 ---
 
 Jewelcraft is gem-cutting, goldsmithing and silversmithing, and the fine metalwork that surrounds both — a ring, an amulet, a torc, a brooch, a chain, and more rarely a diadem or a small figure. Cut stones are traded on their own account as well as set into work.

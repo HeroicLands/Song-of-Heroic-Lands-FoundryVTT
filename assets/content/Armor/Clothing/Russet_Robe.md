@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Russet Robe
-  aliases: []
-description: "Reddish-brown wool robe; everyday garment for cooler weather."
 shortcode: rrobe
+name: {full: Russet Robe, aliases: []}
 type: armorgear
-data:
-  icon: robe
-  templatePriority: 0
+description: "Reddish-brown wool robe; everyday garment for cooler weather."
+tags: []
+data: {icon: robe, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Robe
   detailMaterial: Russet
@@ -41,16 +35,9 @@ sohl:
         - lcalfloc
         - rcalfloc
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 79
-origWeight: 4
 ---
 
 Made from coarse wool dyed reddish-brown, the Russet Robe offers warmth and durability. It's practical for colder climates and rougher environments, providing reliable coverage for various activities.

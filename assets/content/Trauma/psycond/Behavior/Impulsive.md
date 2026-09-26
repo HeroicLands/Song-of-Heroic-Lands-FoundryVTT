@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Impulsive
-  aliases: []
 shortcode: implsv
+name: {full: Impulsive, aliases: []}
 type: trauma
-data:
-  icon: battlegear
-  templatePriority: 0
 subType: psycond
-sohl:
-  kbcat: psybehavior
-  system:
-    category: quirk
-packFolder: disorders
+tags: []
+data: {icon: battlegear, templatePriority: 0, packFolder: disorders}
+sohl: {kbcat: psybehavior, system: {category: quirk}}
 ---
 
 Impulsive refers to an individual’s tendency to act on immediate urges, desires, or emotions without considering the long-term consequences of their actions. Impulsive individuals often make decisions quickly and react spontaneously, sometimes leading to excitement or boldness, but also resulting in recklessness, poor judgment, or unintended harm. While occasional impulsivity can bring spontaneity or creativity, excessive impulsiveness can cause personal and social challenges.

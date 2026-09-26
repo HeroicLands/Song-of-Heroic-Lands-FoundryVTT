@@ -1,15 +1,11 @@
 ---
-tags: []
-name:
-  full: Engineering
-  aliases: []
-description: "Designing bridges, mills, siegeworks; managing stress, leverage, materials."
 shortcode: eng
+name: {full: Engineering, aliases: []}
 type: skill
-data:
-  icon: gears
-  templatePriority: 0
 subType: lore
+description: "Designing bridges, mills, siegeworks; managing stress, leverage, materials."
+tags: []
+data: {icon: gears, templatePriority: 0, packFolder: lore}
 sohl:
   kbcat: lore
   system:
@@ -18,10 +14,7 @@ sohl:
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 0
-    impairedByRoles:
-      - core
-      - vital
-packFolder: lore
+    impairedByRoles: [core, vital]
 ---
 
 Engineering is the design of buildings and of large, uncommon machinery — mills, siege engines, the pumps and props and headgear of a mine. The engineer does not build; the actual construction tests the appropriate craft skills, chiefly Masonry and Woodworking but often also Ceramics, Glassworking, Lockcraft, Metalcraft and Mineralogy. What the engineer supplies is the thing being built, and whether it will stand up.

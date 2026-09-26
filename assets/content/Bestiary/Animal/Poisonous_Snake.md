@@ -1,16 +1,10 @@
 ---
-tags:
-  - animal
-  - creature
-name:
-  full: Poisonous Snake
-  aliases: []
-description: "An efficient ambush predator armed with a specialized venom delivery system, striking swiftly from forests, badlands, and diverse patient-hunting niches."
 shortcode: psnssnk
+name: {full: Poisonous Snake, aliases: []}
 type: being
-data:
-  icon: snake
-  templatePriority: 0
+description: "An efficient ambush predator armed with a specialized venom delivery system, striking swiftly from forests, badlands, and diverse patient-hunting niches."
+tags: [animal, creature]
+data: {icon: snake, templatePriority: 0}
 sohl:
   kbcat: animal
   attrRollFormula:
@@ -24,21 +18,21 @@ sohl:
     rea: 1d4
     cre: 1d4
   items:
-    - { model: attribute-str, system: { scoreBase: 4 } }
-    - { model: attribute-end, system: { scoreBase: 10 } }
-    - { model: attribute-agl, system: { scoreBase: 14 } }
-    - { model: attribute-per, system: { scoreBase: 10 } }
-    - { model: attribute-snt, system: { scoreBase: 4 } }
-    - { model: attribute-aur, system: { scoreBase: 2 } }
-    - { model: attribute-wil, system: { scoreBase: 8 } }
-    - { model: attribute-rea, system: { scoreBase: 2 } }
-    - { model: attribute-cre, system: { scoreBase: 2 } }
-    - { model: skill-awar, system: { masteryLevelBase: 45 } }
-    - { model: skill-stlth, system: { masteryLevelBase: 48 } }
-    - { model: mysticalability-sprt, system: { masteryLevelBase: 15 } }
-    - { model: skill-init, system: { masteryLevelBase: 20 } }
-    - { model: skill-dge, system: { masteryLevelBase: 44 } }
-    - { model: skill-shok, system: { masteryLevelBase: 28 } }
+    - {model: attribute-str, system: {scoreBase: 4}}
+    - {model: attribute-end, system: {scoreBase: 10}}
+    - {model: attribute-agl, system: {scoreBase: 14}}
+    - {model: attribute-per, system: {scoreBase: 10}}
+    - {model: attribute-snt, system: {scoreBase: 4}}
+    - {model: attribute-aur, system: {scoreBase: 2}}
+    - {model: attribute-wil, system: {scoreBase: 8}}
+    - {model: attribute-rea, system: {scoreBase: 2}}
+    - {model: attribute-cre, system: {scoreBase: 2}}
+    - {model: skill-awar, system: {masteryLevelBase: 45}}
+    - {model: skill-stlth, system: {masteryLevelBase: 48}}
+    - {model: mysticalability-sprt, system: {masteryLevelBase: 15}}
+    - {model: skill-init, system: {masteryLevelBase: 20}}
+    - {model: skill-dge, system: {masteryLevelBase: 44}}
+    - {model: skill-shok, system: {masteryLevelBase: 28}}
     - name: Bite
       type: skill
       system:
@@ -46,79 +40,50 @@ sohl:
         subType: combattechnique
         masteryLevelBase: 62
         combatCategory: melee
-        impairedByRoles:
-          - manipulator
+        impairedByRoles: [manipulator]
         strikeMode:
           type: melee
           shortcode: bite
           name: Bite
           minParts: 1
           assocSkillCode: null
-          attack:
-            disabled: false
-            spread: 1
-            modifier: 0
-          impactBase:
-            numDice: 1
-            die: 8
-            modifier: -2
-            aspect: piercing
+          attack: {disabled: false, spread: 1, modifier: 0}
+          impactBase: {numDice: 1, die: 8, modifier: -2, aspect: piercing}
           lengthBase: 1
           defense:
-            block:
-              disabled: true
-              modifier: 0
-              successLevelMod: 0
-            counterstrike:
-              disabled: false
-              modifier: 0
-              successLevelMod: 0
-          traits:
-            noBlock: true
-            poison: true
+            block: {disabled: true, modifier: 0, successLevelMod: 0}
+            counterstrike: {disabled: false, modifier: 0, successLevelMod: 0}
+          traits: {noBlock: true, poison: true}
   system:
     body:
       structure:
         zones:
-          - name: Head
-            shortcode: headzone
-            probWeight: 1
-          - name: Forebody
-            shortcode: torsozone
-            probWeight: 3
-          - name: Hindbody
-            shortcode: hindbodyzone
-            probWeight: 2
+          - {name: Head, shortcode: headzone, probWeight: 1}
+          - {name: Forebody, shortcode: torsozone, probWeight: 3}
+          - {name: Hindbody, shortcode: hindbodyzone, probWeight: 2}
         parts:
           - name: Head
             shortcode: headpart
             bodyZoneCode: headzone
-            roles:
-              - vital
-              - manipulator
+            roles: [vital, manipulator]
             canHoldItem: false
             probWeight: 10
           - name: Forebody
             shortcode: forebodypart
             bodyZoneCode: torsozone
-            roles:
-              - core
-              - locomotor
+            roles: [core, locomotor]
             canHoldItem: false
             probWeight: 10
           - name: Hindbody
             shortcode: hindbodypart
             bodyZoneCode: hindbodyzone
-            roles:
-              - core
-              - locomotor
+            roles: [core, locomotor]
             canHoldItem: false
             probWeight: 6
           - name: Tail
             shortcode: tailpart
             bodyZoneCode: hindbodyzone
-            roles:
-              - locomotor
+            roles: [locomotor]
             canHoldItem: false
             probWeight: 4
         locations:
@@ -129,11 +94,7 @@ sohl:
             amputability: none
             shockValue: 5
             probWeight: 4
-            protectionBase:
-              blunt: -2
-              edged: 0
-              piercing: -1
-              fire: -2
+            protectionBase: {blunt: -2, edged: 0, piercing: -1, fire: -2}
           - name: Neck
             shortcode: neckloc
             bodyPartCode: headpart
@@ -141,11 +102,7 @@ sohl:
             amputability: low
             shockValue: 5
             probWeight: 6
-            protectionBase:
-              blunt: -2
-              edged: 0
-              piercing: -1
-              fire: -2
+            protectionBase: {blunt: -2, edged: 0, piercing: -1, fire: -2}
           - name: Thorax
             shortcode: thoraxloc
             bodyPartCode: forebodypart
@@ -153,11 +110,7 @@ sohl:
             amputability: none
             shockValue: 4
             probWeight: 10
-            protectionBase:
-              blunt: -2
-              edged: 0
-              piercing: -1
-              fire: -2
+            protectionBase: {blunt: -2, edged: 0, piercing: -1, fire: -2}
           - name: Abdomen
             shortcode: abdloc
             bodyPartCode: hindbodypart
@@ -165,11 +118,7 @@ sohl:
             amputability: none
             shockValue: 4
             probWeight: 10
-            protectionBase:
-              blunt: -2
-              edged: 0
-              piercing: -1
-              fire: -2
+            protectionBase: {blunt: -2, edged: 0, piercing: -1, fire: -2}
           - name: Tail
             shortcode: tailloc
             bodyPartCode: tailpart
@@ -177,14 +126,8 @@ sohl:
             amputability: high
             shockValue: 1
             probWeight: 10
-            protectionBase:
-              blunt: -2
-              edged: 0
-              piercing: -1
-              fire: -2
-      weight:
-        base: 10
-        calc: "10"
+            protectionBase: {blunt: -2, edged: 0, piercing: -1, fire: -2}
+      weight: {base: 10, calc: "10"}
       reachBase: 0
       bodyScaleBase: 0.52
       personalFatigue: enc + 5

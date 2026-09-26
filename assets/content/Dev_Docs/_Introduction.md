@@ -1,13 +1,10 @@
 ---
+shortcode: devdocs
+name: {full: SoHL Developer & API Documentation, aliases: []}
 type: doc
 subType: reference
-name:
-  full: SoHL Developer & API Documentation
-  aliases: []
-shortcode: devdocs
-pack: none
-sohl:
-  kbcat: devdocs
+data: {pack: none}
+sohl: {kbcat: devdocs}
 ---
 
 # SoHL Developer & API Documentation

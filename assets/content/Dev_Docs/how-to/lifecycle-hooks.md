@@ -1,13 +1,10 @@
 ---
+shortcode: lifecyclehooks
+name: {full: Lifecycle Hooks, aliases: []}
 type: doc
 subType: howto
-name:
-  full: Lifecycle Hooks
-  aliases: []
-shortcode: lifecyclehooks
-pack: none
-sohl:
-  kbcat: devdocs
+data: {pack: none}
+sohl: {kbcat: devdocs}
 ---
 
 # Lifecycle Hooks

@@ -1,26 +1,14 @@
 ---
-tags:
-  - instruments
-name:
-  full: Climber's Kit
-  aliases: []
-description: "Harness, climbing hammer, chalk, padded gloves, knee & elbow pads; the climber's working gear (pitons and grappling hook bought separately)."
 shortcode: climbkit
+name: {full: Climber's Kit, aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
+description: "Harness, climbing hammer, chalk, padded gloves, knee & elbow pads; the climber's working gear (pitons and grappling hook bought separately)."
+tags: [instruments]
+data: {icon: swapbag, templatePriority: 0, packFolder: instruments}
 sohl:
-  craft:
-    skill: mtlc
-    secondary: []
+  craft: {skill: mtlc, secondary: []}
   kbcat: instruments
-  system:
-    weightBase: 5
-    valueBase: 15
-    qualityBase: 0
-    durabilityBase: 6
-packFolder: instruments
+  system: {weightBase: 5, valueBase: 15, qualityBase: 0, durabilityBase: 6}
 ---
 
 A looped harness of tanned strap and iron rings, from which hangs a climber's working gear: a short climbing hammer with a pick end for driving pitons and cleaning cracks, a pouch of [[miscgear-talc|Fine Talc]] for the hands, a braided line for lashing the kit into place, a pair of padded leather gloves, and a set of knee and elbow pads of rawhide. Steeplejacks, tower watchmen, mountain scouts, and the occasional burglar of well-appointed houses all carry some version of the kit; climbing rope proper is bulky enough to be a separate load and is usually carried coiled over the shoulder rather than on the harness.

@@ -1,26 +1,14 @@
 ---
-tags:
-  - food
-name:
-  full: Pike
-  aliases: []
-description: "Freshwater predator with firm white flaky flesh, salts and smokes well."
 shortcode: pike
+name: {full: Pike, aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
+description: "Freshwater predator with firm white flaky flesh, salts and smokes well."
+tags: [food]
+data: {icon: swapbag, templatePriority: 0, packFolder: food}
 sohl:
-  craft:
-    skill: fish
-    secondary: []
+  craft: {skill: fish, secondary: []}
   kbcat: food
-  system:
-    weightBase: 1
-    valueBase: 1
-    qualityBase: 0
-    durabilityBase: 0
-packFolder: food
+  system: {weightBase: 1, valueBase: 1, qualityBase: 0, durabilityBase: 0}
 ---
 
 Pike is a freshwater predator with firm white flesh, netted from slow rivers and lakes. The large bony head is discarded; the fileted body yields flaky meat that takes salt and smoke well. Fishmongers sell pike whole or gutted; travelers carry smoked pike on long journeys, or salt-cured fillets that last months but require soaking before cooking.

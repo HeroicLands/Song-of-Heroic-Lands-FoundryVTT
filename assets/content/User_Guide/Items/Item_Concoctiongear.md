@@ -1,11 +1,10 @@
 ---
+shortcode: concoctiongearug
+name: {full: "Concoction"}
 type: doc
 subType: userguide
-name:
-  full: "Concoction"
-shortcode: concoctiongearug
 
-packFolder: items
+data: {packFolder: items}
 ---
 
 # What are Concoctions?

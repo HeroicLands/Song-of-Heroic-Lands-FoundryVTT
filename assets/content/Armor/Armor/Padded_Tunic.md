@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Padded Tunic
-  aliases: []
-description: "Cushioned garment providing warmth and protection for various activities."
 shortcode: ptnc
+name: {full: Padded Tunic, aliases: []}
 type: armorgear
-data:
-  icon: shirt
-  templatePriority: 0
+description: "Cushioned garment providing warmth and protection for various activities."
+tags: []
+data: {icon: shirt, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: padded
   armorType: Tunic
   detailMaterial: Padded
@@ -33,16 +27,9 @@ sohl:
         - abdmnloc
         - plvisloc
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 90
-origWeight: 3.6
 ---
 
 The Padded Tunic offers warmth and cushioning, perfect for cold weather or added under-armor protection. It provides both comfort and defense, suitable for various activities.

@@ -1,22 +1,12 @@
 ---
-tags: []
-name:
-  full: Trance
-  aliases: []
-description: "Loosening soul from body in deep meditation to perceive and cross into the spirit world."
 shortcode: trnc
+name: {full: Trance, aliases: []}
 type: mysticalability
-data:
-  icon: meditation
-  templatePriority: 0
 subType: spiritaction
-sohl:
-  kbcat: spiritaction
-  system:
-    assocSkillCode: ""
-    masteryLevelBase: 0
-    levelBase: 0
-packFolder: spiritaction
+description: "Loosening soul from body in deep meditation to perceive and cross into the spirit world."
+tags: []
+data: {icon: meditation, templatePriority: 0, packFolder: spiritaction}
+sohl: {kbcat: spiritaction, system: {assocSkillCode: "", masteryLevelBase: 0, levelBase: 0}}
 ---
 
 Trance is the deliberate entry into a meditative state deep enough to open the practitioner's perception onto the spirit world. Controlled breathing, focused visualisation, and long discipline loosen the bond between soul and body — far enough for heightened intuition at the shallow end, far enough to perceive from outside the body at the deep end.

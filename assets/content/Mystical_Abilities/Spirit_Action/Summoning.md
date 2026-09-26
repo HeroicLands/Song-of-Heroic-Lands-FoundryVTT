@@ -1,22 +1,12 @@
 ---
-tags: []
-name:
-  full: Summoning
-  aliases: []
-description: "Calling a spirit or other entity, and binding or bargaining it into service."
 shortcode: summ
+name: {full: Summoning, aliases: []}
 type: mysticalability
-data:
-  icon: enrage
-  templatePriority: 0
 subType: spiritaction
-sohl:
-  kbcat: spiritaction
-  system:
-    assocSkillCode: ""
-    masteryLevelBase: 0
-    levelBase: 0
-packFolder: spiritaction
+description: "Calling a spirit or other entity, and binding or bargaining it into service."
+tags: []
+data: {icon: enrage, templatePriority: 0, packFolder: spiritaction}
+sohl: {kbcat: spiritaction, system: {assocSkillCode: "", masteryLevelBase: 0, levelBase: 0}}
 ---
 
 Summoning calls an entity from beyond the physical world — a spirit, an elemental force, or something worse — and compels or bargains it into service. It is two acts, not one, and the second is the hard part: bringing a thing across is a matter of the correct invocation, while holding it to terms once it has arrived is a matter of what the summoner brought to the bargain.

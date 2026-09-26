@@ -1,11 +1,9 @@
 ---
+shortcode: psychlgc
+name: {full: Psychological Condition, aliases: []}
 type: doc
 subType: rules
-name:
-  full: Psychological Condition
-  aliases: []
-packFolder: mind
-shortcode: psychlgc
+data: {packFolder: mind}
 ---
 
 A **psychological condition** is a [[doc-traumaintro|Trauma]] of the mind — a quirk, impulse, or disorder that colors behavior. Just as bodily harm is rated in Injury Levels, mental strain is rated in **Psyche Stress Levels (PSY)**.

@@ -1,9 +1,6 @@
 ---
-name:
-  full: "Alchemy"
 shortcode: alchemy
+name: {full: "Alchemy"}
 type: folder
-data:
-  parent: mysticalabilities
-  color: "#696969"
+data: {parent: mysticalabilities, color: "#696969"}
 ---

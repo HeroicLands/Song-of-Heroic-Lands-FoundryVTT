@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Mail Vest
-  aliases: []
-description: "Metal ring torso armor offering substantial protection and flexibility."
 shortcode: mvest
+name: {full: Mail Vest, aliases: []}
 type: armorgear
-data:
-  icon: leathervest
-  templatePriority: 0
+description: "Metal ring torso armor offering substantial protection and flexibility."
+tags: []
+data: {icon: leathervest, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [mtlc, mnrl]
+  craft: {skill: wpnc, secondary: [mtlc, mnrl]}
   kbcat: mail
   armorType: Vest
   detailMaterial: Mail
@@ -21,21 +15,10 @@ sohl:
     valueBase: 360
     durabilityBase: 13
     material: Mail
-    locations:
-      flexible: []
-      rigid:
-        - thrxloc
-        - abdmnloc
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [], rigid: [thrxloc, abdmnloc]}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 240
-origWeight: 13.2
 ---
 
 A Mail Vest, crafted from interlinked metal rings, covers the torso, offering substantial protection. It provides excellent defense against slashes while maintaining flexibility, essential for combat scenarios.

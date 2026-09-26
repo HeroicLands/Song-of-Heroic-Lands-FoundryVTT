@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Linen Robe
-  aliases: []
-description: "Light breathable long garment perfect for warm weather wear."
 shortcode: lrobe
+name: {full: Linen Robe, aliases: []}
 type: armorgear
-data:
-  icon: robe
-  templatePriority: 0
+description: "Light breathable long garment perfect for warm weather wear."
+tags: []
+data: {icon: robe, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Robe
   detailMaterial: Linen
@@ -41,16 +35,9 @@ sohl:
         - lcalfloc
         - rcalfloc
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 79
-origWeight: 4
 ---
 
 Light and breathable, the Linen Robe is perfect for warm weather. It offers comfort and ease of movement, ideal for casual or light-duty wear.

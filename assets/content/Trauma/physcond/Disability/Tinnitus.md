@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Tinnitus
-  aliases: []
 shortcode: tinnitus
+name: {full: Tinnitus, aliases: []}
 type: trauma
-data:
-  icon: battlegear
-  templatePriority: 0
 subType: physcond
-sohl:
-  kbcat: physdisability
-  system:
-    category: trait
-packFolder: traumaphysical
+tags: []
+data: {icon: battlegear, templatePriority: 0, packFolder: traumaphysical}
+sohl: {kbcat: physdisability, system: {category: trait}}
 ---
 
 Tinnitus is the perception of sound, such as ringing, buzzing, or whistling, in the ears without any external sound source. The condition can be mild, but it often worsens over time, becoming a constant and distracting presence in an individual's life. Tinnitus may result from various causes, including prolonged exposure to loud noises, ear infections, age-related hearing loss, or injuries to the ear or head. In environments with limited medical knowledge and treatments, such as a medieval setting, tinnitus might be misunderstood, leaving individuals to suffer without relief.

@@ -1,8 +1,6 @@
 ---
-name:
-  full: "Rules"
 shortcode: rules
+name: {full: "Rules"}
 type: folder
-data:
-  color: "#d35400"
+data: {color: "#d35400"}
 ---

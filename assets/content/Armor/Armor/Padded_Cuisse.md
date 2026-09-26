@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Padded Cuisse
-  aliases: []
-description: "Cushioned thigh protection ideal for wear under heavier armor."
 shortcode: pcuis
+name: {full: Padded Cuisse, aliases: []}
 type: armorgear
-data:
-  icon: trousers
-  templatePriority: 0
+description: "Cushioned thigh protection ideal for wear under heavier armor."
+tags: []
+data: {icon: trousers, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: padded
   armorType: Cuisse
   detailMaterial: Padded
@@ -21,23 +15,10 @@ sohl:
     valueBase: 35
     durabilityBase: 10
     material: Padded
-    locations:
-      flexible:
-        - lthghloc
-        - rthghloc
-        - lkneeloc
-        - rkneeloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [lthghloc, rthghloc, lkneeloc, rkneeloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 34
-origWeight: 1.4
 ---
 
 The Padded Cuisse offers cushioning for the thighs, ideal for use under heavier armor or on its own. It provides comfort and protection, suitable for both combat and everyday wear.

@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Knife
-  aliases: []
-description: "Single-edged blade for camp work and brawl alike."
 shortcode: kni
+name: {full: Knife, aliases: []}
 type: weapongear
-data:
-  icon: plaindagger
-  templatePriority: 0
+description: "Single-edged blade for camp work and brawl alike."
+tags: []
+data: {icon: plaindagger, templatePriority: 0, packFolder: weapons}
 sohl:
-  craft:
-    skill: mtlc
-    secondary: [wood]
+  craft: {skill: mtlc, secondary: [wood]}
   kbcat: knife
   weaponType: Knife
   system:
@@ -26,14 +20,8 @@ sohl:
         name: Impale
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 4
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 8
-          modifier: 2
-          aspect: piercing
+        attack: {spread: 4, modifier: 0}
+        impactBase: {numDice: 1, die: 8, modifier: 2, aspect: piercing}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -62,22 +50,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 2
-        defense:
-          blockMod: -10
-          counterstrikeMod: -10
+        defense: {blockMod: -10, counterstrikeMod: -10}
       - shortcode: cut
         type: melee
         name: Cut
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 4
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 10
-          modifier: 0
-          aspect: edged
+        attack: {spread: 4, modifier: 0}
+        impactBase: {numDice: 1, die: 10, modifier: 0, aspect: edged}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -106,22 +86,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 2
-        defense:
-          blockMod: -10
-          counterstrikeMod: -10
+        defense: {blockMod: -10, counterstrikeMod: -10}
       - shortcode: pommel
         type: melee
         name: Pommel
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 4
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 0
-          aspect: blunt
+        attack: {spread: 4, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 0, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -150,10 +122,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 2
-        defense:
-          blockMod: -10
-          counterstrikeMod: -10
-packFolder: weapons
+        defense: {blockMod: -10, counterstrikeMod: -10}
 ---
 
 A single-edged blade of four to seven inches, fitted to a simple handle for cutting cord, meat, and leather equally. Useful in camp, kitchen, and hand, the knife is a cheap and widespread tool that finds its way into a brawl when need arises. Worn openly or hidden by anyone who might need to cut.

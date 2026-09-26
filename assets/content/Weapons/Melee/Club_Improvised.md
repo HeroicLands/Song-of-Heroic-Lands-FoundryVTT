@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Club, Improvised
-  aliases: []
-description: "Branch or timber wrenched to hand; widow-maker of necessity."
 shortcode: clbimp
+name: {full: "Club, Improvised", aliases: []}
 type: weapongear
-data:
-  icon: club
-  templatePriority: 0
+description: "Branch or timber wrenched to hand; widow-maker of necessity."
+tags: []
+data: {icon: club, templatePriority: 0, packFolder: weapons}
 sohl:
-  craft:
-    skill: wood
-    secondary: []
+  craft: {skill: wood, secondary: []}
   kbcat: club
   weaponType: Club
   system:
@@ -26,14 +20,8 @@ sohl:
         name: Crush
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 6
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 1
-          aspect: blunt
+        attack: {spread: 6, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 1, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -62,22 +50,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 4
-        defense:
-          blockMod: 0
-          counterstrikeMod: 0
+        defense: {blockMod: 0, counterstrikeMod: 0}
       - shortcode: pommel
         type: melee
         name: Pommel
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 4
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 0
-          aspect: blunt
+        attack: {spread: 4, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 0, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -106,10 +86,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 4
-        defense:
-          blockMod: 0
-          counterstrikeMod: 0
-packFolder: weapons
+        defense: {blockMod: 0, counterstrikeMod: 0}
 ---
 
 A branch torn from a tree, a table leg wrenched from its frame, a length of roof-timber—whatever comes to hand in the moment of need. Unbalanced and crude, held because there is no other choice, it swings with desperation rather than skill. In a tavern brawl or sudden ambush it may suffice; on a true battlefield it is a widow-maker for the man who carries it.

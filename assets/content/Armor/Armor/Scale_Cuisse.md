@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Scale Cuisse
-  aliases: []
-description: "Fabric-backed metal scales covering thighs; flexible leg armor."
 shortcode: scui
+name: {full: Scale Cuisse, aliases: []}
 type: armorgear
-data:
-  icon: scalemail
-  templatePriority: 0
+description: "Fabric-backed metal scales covering thighs; flexible leg armor."
+tags: []
+data: {icon: scalemail, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [hide, mtlc]
+  craft: {skill: wpnc, secondary: [hide, mtlc]}
   kbcat: scale
   armorType: Cuisse
   detailMaterial: Scale
@@ -21,23 +15,10 @@ sohl:
     valueBase: 170
     durabilityBase: 14
     material: Scale
-    locations:
-      flexible: []
-      rigid:
-        - lthghloc
-        - rthghloc
-        - lkneeloc
-        - rkneeloc
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [], rigid: [lthghloc, rthghloc, lkneeloc, rkneeloc]}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 5
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 170
-origWeight: 9.4
 ---
 
 Scale Cuisse consists of small, overlapping metal scales sewn onto a fabric or leather backing. It offers strong protection while maintaining flexibility, suitable for various combat scenarios.

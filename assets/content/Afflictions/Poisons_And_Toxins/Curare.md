@@ -1,23 +1,14 @@
 ---
-tags: []
-name:
-  full: Curare
-  aliases: []
-description: "Plant toxin; neuromuscular paralysis progressing from extremities inward; respiratory failure."
 shortcode: curare
+name: {full: Curare, aliases: []}
 type: affliction
-data:
-  icon: poisonbottle
-  templatePriority: 0
 subType: poisontoxin
+description: "Plant toxin; neuromuscular paralysis progressing from extremities inward; respiratory failure."
+tags: []
+data: {icon: poisonbottle, templatePriority: 0, packFolder: poisonsandtoxins}
 sohl:
   kbcat: poisontoxin
-  system:
-    levelBase: 1
-    healingRateBase: 3
-    contagionIndexBase: 3
-    transmission: vector
-packFolder: poisonsandtoxins
+  system: {levelBase: 1, healingRateBase: 3, contagionIndexBase: 3, transmission: vector}
 ---
 
 Curare is a plant-derived toxin used by indigenous tribes for its potent paralyzing effect, often used on arrow tips.

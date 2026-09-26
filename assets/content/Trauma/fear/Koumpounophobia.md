@@ -1,20 +1,11 @@
 ---
-tags: []
-name:
-  full: Koumpounophobia
-  aliases: []
 shortcode: kmpnphb
+name: {full: Koumpounophobia, aliases: []}
 type: trauma
-data:
-  icon: dread
-  templatePriority: 0
 subType: fear
-sohl:
-  kbcat: phobias
-  system:
-    category: none
-    levelBase: 0
-packFolder: phobias
+tags: []
+data: {icon: dread, templatePriority: 0, packFolder: phobias}
+sohl: {kbcat: phobias, system: {category: none, levelBase: 0}}
 ---
 
 Koumpounophobia is an intense, irrational fear of buttons. People with koumpounophobia may experience a range of symptoms when they think about, see, or are near buttons.

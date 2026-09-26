@@ -1,26 +1,14 @@
 ---
-tags:
-  - food
-name:
-  full: Flax
-  aliases: []
-description: "Dried stalks; raw material of linen, seeds press for oil and meal."
 shortcode: flax
+name: {full: Flax, aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
+description: "Dried stalks; raw material of linen, seeds press for oil and meal."
+tags: [food]
+data: {icon: swapbag, templatePriority: 0, packFolder: food}
 sohl:
-  craft:
-    skill: agri
-    secondary: []
+  craft: {skill: agri, secondary: []}
   kbcat: food
-  system:
-    weightBase: 60
-    valueBase: 3
-    qualityBase: 0
-    durabilityBase: 0
-packFolder: food
+  system: {weightBase: 60, valueBase: 3, qualityBase: 0, durabilityBase: 0}
 ---
 
 A bushel of dried flax stalks, woody and fibrous, ready for retting or scutching by a fiber-worker. Flax is the raw material of linen; a merchant trades the harvest by weight to weavers and rope-makers. The seeds are also valuable for oil and meal, pressed by a chandler or miller and used in cooking, lamps, and as a purgative tonic.

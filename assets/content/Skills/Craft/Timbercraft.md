@@ -1,15 +1,11 @@
 ---
-tags: []
-name:
-  full: Timbercraft
-  aliases: []
-description: "Forest knowledge for selecting timber and managing woodland for sustainable yield."
 shortcode: timb
+name: {full: Timbercraft, aliases: []}
 type: skill
-data:
-  icon: woodpile
-  templatePriority: 0
 subType: nature
+description: "Forest knowledge for selecting timber and managing woodland for sustainable yield."
+tags: []
+data: {icon: woodpile, templatePriority: 0, packFolder: craft}
 sohl:
   kbcat: craft
   system:
@@ -18,12 +14,7 @@ sohl:
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 0
-    impairedByRoles:
-      - core
-      - vital
-      - manipulator
-      - locomotor
-packFolder: craft
+    impairedByRoles: [core, vital, manipulator, locomotor]
 ---
 
 Timbercraft is tree lore and the axe work that follows from it: knowing the species, judging a standing tree's health and soundness, planting and managing a wood for yield decades out, and then felling, limbing and bucking what is ready. It is the skill that decides whether a bow stave is worth cutting, and the skill that keeps a wood producing instead of being mined out in a generation.

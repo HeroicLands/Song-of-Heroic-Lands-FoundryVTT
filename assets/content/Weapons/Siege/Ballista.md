@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Ballista
-  aliases: []
-description: "Heavy torsion bolt-thrower; four-crew engine that spits a shaft through shield, mail and man."
 shortcode: ballsta
+name: {full: Ballista, aliases: []}
 type: weapongear
-data:
-  icon: aerodynamicharpoon
-  templatePriority: 0
+description: "Heavy torsion bolt-thrower; four-crew engine that spits a shaft through shield, mail and man."
+tags: []
+data: {icon: aerodynamicharpoon, templatePriority: 0, packFolder: weapons}
 sohl:
-  craft:
-    skill: wood
-    secondary: []
+  craft: {skill: wood, secondary: []}
   kbcat: siege
   weaponType: Siege
   system:
@@ -26,14 +20,8 @@ sohl:
         name: Shoot
         assocSkillCode: archery
         minParts: 2
-        attack:
-          spread: 0
-          modifier: 0
-        impactBase:
-          numDice: 0
-          die: null
-          modifier: 22
-          aspect: piercing
+        attack: {spread: 0, modifier: 0}
+        impactBase: {numDice: 0, die: null, modifier: 22, aspect: piercing}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -65,7 +53,6 @@ sohl:
         maxVolleyMult: 4
         baseRangeBase: 200
         drawBase: 0
-packFolder: weapons
 ---
 
 The heavy bolt-thrower, built on the same principle as the springald and three times the weight of it: two torsion skeins, a heavy stock, and a windlass that four crew turn to span. It looses an iron-headed shaft the length of a man's leg with force enough to carry through a shield, the man behind it, and a second man behind him. Field armies bring them for gates and engines; garrisons keep them for anything that comes over a wall. It is the lightest thing in an arsenal that can mark a hide no sword will cut.

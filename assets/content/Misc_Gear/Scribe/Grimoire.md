@@ -1,26 +1,14 @@
 ---
-tags:
-  - scribe
-name:
-  full: Grimoire
-  aliases: []
-description: "Leather-bound vellum tome for spells, catalogs, heraldry, scripture."
 shortcode: grimoire
+name: {full: Grimoire, aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
+description: "Leather-bound vellum tome for spells, catalogs, heraldry, scripture."
+tags: [scribe]
+data: {icon: swapbag, templatePriority: 0, packFolder: scribe}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: scribe
-  system:
-    weightBase: 18
-    valueBase: 300
-    qualityBase: 0
-    durabilityBase: 7
-packFolder: scribe
+  system: {weightBase: 18, valueBase: 300, qualityBase: 0, durabilityBase: 7}
 ---
 
 A large, weighty tome, about twelve inches square and several thick, bound between heavy oak boards and wrapped in tooled leather. Some eighty sheets of calf-skin vellum are sewn into the spine in carefully ordered signatures, often edged in painted borders or rubricated capitals. Brass or bronze corners, clasps, and sometimes a central boss protect the cover; finer examples bear stamped arms, inlaid motifs, or gold leaf on the spine. A grimoire is as much a piece of art as a vessel of information—a statement of the maker's craft and the owner's station.

@@ -1,20 +1,11 @@
 ---
-tags: []
-name:
-  full: Eosophobia
-  aliases: []
 shortcode: eosophb
+name: {full: Eosophobia, aliases: []}
 type: trauma
-data:
-  icon: dread
-  templatePriority: 0
 subType: fear
-sohl:
-  kbcat: phobias
-  system:
-    category: none
-    levelBase: 0
-packFolder: phobias
+tags: []
+data: {icon: dread, templatePriority: 0, packFolder: phobias}
+sohl: {kbcat: phobias, system: {category: none, levelBase: 0}}
 ---
 
 Eosophobia is an intense, irrational fear of dawn or daylight. People with eosophobia may experience a range of symptoms when they think about, see, or are exposed to dawn or early daylight.

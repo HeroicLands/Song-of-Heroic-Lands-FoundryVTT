@@ -1,9 +1,6 @@
 ---
-name:
-  full: "Esoterica"
 shortcode: esoterica
+name: {full: "Esoterica"}
 type: folder
-data:
-  parent: rules
-  color: "#8e44ad"
+data: {parent: rules, color: "#8e44ad"}
 ---

@@ -1,26 +1,14 @@
 ---
-tags:
-  - instruments
-name:
-  full: Herbalist's Kit
-  aliases: []
-description: "Leather satchel with mortar and pestle, pruning knife, vials, filter cloth, drying frame."
 shortcode: herbkit
+name: {full: Herbalist's Kit, aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
+description: "Leather satchel with mortar and pestle, pruning knife, vials, filter cloth, drying frame."
+tags: [instruments]
+data: {icon: swapbag, templatePriority: 0, packFolder: instruments}
 sohl:
-  craft:
-    skill: mtlc
-    secondary: []
+  craft: {skill: mtlc, secondary: []}
   kbcat: instruments
-  system:
-    weightBase: 3
-    valueBase: 35
-    qualityBase: 0
-    durabilityBase: 5
-packFolder: instruments
+  system: {weightBase: 3, valueBase: 35, qualityBase: 0, durabilityBase: 5}
 ---
 
 A leather satchel holding a herbalist's working tools: a stone mortar and pestle small enough to carry, a curved pruning knife for cutting cleanly without bruising, a folding drying frame of thin willow, rolls of linen filter cloth, stoppered glass vials for tinctures and distillates, twine for bundling, a small brass mesh sieve, and a wax-tight tin for the finest powders. Village wise-women, monastery infirmarians, and hedge-witches all carry some version of the kit; the contents vary with the season and the country, since a herbalist in the Byzarian hills works with different leaves than one in the northern marches.

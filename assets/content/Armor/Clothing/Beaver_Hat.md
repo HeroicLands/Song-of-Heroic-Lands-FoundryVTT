@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Beaver Hat
-  aliases: []
-description: "Beaver fur hat combining warmth and opulent comfort for winter months."
 shortcode: bvhat
+name: {full: Beaver Hat, aliases: []}
 type: armorgear
-data:
-  icon: pointyhat
-  templatePriority: 0
+description: "Beaver fur hat combining warmth and opulent comfort for winter months."
+tags: []
+data: {icon: pointyhat, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: leather
   armorType: Hat
   detailMaterial: Beaver
@@ -21,20 +15,10 @@ sohl:
     valueBase: 50
     durabilityBase: 9
     material: Leather
-    locations:
-      flexible:
-        - skullloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [skullloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 48
-origWeight: 0.5
 ---
 
 The Beaver Hat, made from dense beaver fur, offers excellent warmth and a luxurious feel. It’s perfect for cold weather, providing both comfort and a touch of opulence.

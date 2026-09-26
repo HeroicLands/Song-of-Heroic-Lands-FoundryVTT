@@ -1,20 +1,11 @@
 ---
-tags: []
-name:
-  full: Agoraphobia
-  aliases: []
 shortcode: agorphb
+name: {full: Agoraphobia, aliases: []}
 type: trauma
-data:
-  icon: dread
-  templatePriority: 0
 subType: fear
-sohl:
-  kbcat: phobias
-  system:
-    category: none
-    levelBase: 0
-packFolder: phobias
+tags: []
+data: {icon: dread, templatePriority: 0, packFolder: phobias}
+sohl: {kbcat: phobias, system: {category: none, levelBase: 0}}
 ---
 
 Agoraphobia is an intense, irrational fear of open or crowded spaces where escape might be difficult. People with agoraphobia may experience a range of symptoms when they are in settings such as markets, public transportation, or wide-open areas.

@@ -1,10 +1,6 @@
 ---
-name:
-  full: "Esoteric"
 shortcode: esoteric
+name: {full: "Esoteric"}
 type: folder
-data:
-  parent:
-    default: ~
-    journals: descriptions
+data: {parent: {default: ~, journals: descriptions}}
 ---

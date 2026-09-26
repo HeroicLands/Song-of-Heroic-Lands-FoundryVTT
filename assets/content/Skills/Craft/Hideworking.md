@@ -1,15 +1,11 @@
 ---
-tags: []
-name:
-  full: Hideworking
-  aliases: []
-description: "Tanning furs and hides into leather goods; producing armor and equipment."
 shortcode: hide
+name: {full: Hideworking, aliases: []}
 type: skill
-data:
-  icon: animalhide
-  templatePriority: 0
 subType: craft
+description: "Tanning furs and hides into leather goods; producing armor and equipment."
+tags: []
+data: {icon: animalhide, templatePriority: 0, packFolder: craft}
 sohl:
   kbcat: craft
   system:
@@ -18,11 +14,7 @@ sohl:
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 0
-    impairedByRoles:
-      - core
-      - vital
-      - manipulator
-packFolder: craft
+    impairedByRoles: [core, vital, manipulator]
 ---
 
 Hideworking is the whole passage from a raw skin to a finished article: fleshing, liming, tanning or tawing, currying, and then the cutting and stitching that turns the leather into something. It is filthy, protracted work, and tanneries stand downwind of everywhere for good reason.

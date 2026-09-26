@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Homespun Leggings
-  aliases: []
-description: "Simple homemade leggings offering coverage and warmth."
 shortcode: hsleg
+name: {full: Homespun Leggings, aliases: []}
 type: armorgear
-data:
-  icon: trousers
-  templatePriority: 0
+description: "Simple homemade leggings offering coverage and warmth."
+tags: []
+data: {icon: trousers, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Leggings
   detailMaterial: Homespun
@@ -22,26 +16,11 @@ sohl:
     durabilityBase: 5
     material: Cloth
     locations:
-      flexible:
-        - lthghloc
-        - rthghloc
-        - lkneeloc
-        - rkneeloc
-        - lcalfloc
-        - rcalfloc
-        - lfootloc
-        - rfootloc
+      flexible: [lthghloc, rthghloc, lkneeloc, rkneeloc, lcalfloc, rcalfloc, lfootloc, rfootloc]
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 36
-origWeight: 1.8
 ---
 
 Homespun Leggings are simple, practical garments woven from homemade fabric. They provide basic coverage and warmth, ideal for everyday wear by common folk.

@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Sealskin Tunic
-  aliases: []
-description: "Waterproof seal-fur tunic; sleeved torso garment for wet climates."
 shortcode: slstunic
+name: {full: Sealskin Tunic, aliases: []}
 type: armorgear
-data:
-  icon: shirt
-  templatePriority: 0
+description: "Waterproof seal-fur tunic; sleeved torso garment for wet climates."
+tags: []
+data: {icon: shirt, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: leather
   armorType: Tunic
   detailMaterial: Sealskin
@@ -33,16 +27,9 @@ sohl:
         - abdmnloc
         - plvisloc
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 540
-origWeight: 8
 ---
 
 Water-resistant and warm, the Sealskin Tunic is ideal for harsh, wet, and cold environments. It offers excellent protection against the elements while providing comfort for seafaring folk or those in extreme conditions.

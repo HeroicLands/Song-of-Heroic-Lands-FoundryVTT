@@ -1,9 +1,6 @@
 ---
-name:
-  full: "Natural"
 shortcode: natural
+name: {full: "Natural"}
 type: folder
-data:
-  parent: miscgear
-  color: "#9ACD32"
+data: {parent: miscgear, color: "#9ACD32"}
 ---

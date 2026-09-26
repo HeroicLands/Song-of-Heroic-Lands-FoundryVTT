@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Quilted Coat
-  aliases: []
-description: "Stitched-layer coat; warms without heavy weight or bulk."
 shortcode: qcoat
+name: {full: Quilted Coat, aliases: []}
 type: armorgear
-data:
-  icon: shirt
-  templatePriority: 0
+description: "Stitched-layer coat; warms without heavy weight or bulk."
+tags: []
+data: {icon: shirt, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: quilted
   armorType: Coat
   detailMaterial: Quilted
@@ -37,16 +31,9 @@ sohl:
         - lthghloc
         - rthghloc
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 5
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 256
-origWeight: 11.5
 ---
 
 Layers of fabric stitched together create the Quilted Coat, providing excellent insulation and warmth. It’s suitable for colder climates, offering both comfort and protection from harsh weather.

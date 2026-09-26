@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Russet Hat
-  aliases: []
-description: "Reddish-brown wool hat; hardy and practical."
 shortcode: rhat
+name: {full: Russet Hat, aliases: []}
 type: armorgear
-data:
-  icon: pointyhat
-  templatePriority: 0
+description: "Reddish-brown wool hat; hardy and practical."
+tags: []
+data: {icon: pointyhat, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Hat
   detailMaterial: Russet
@@ -21,20 +15,10 @@ sohl:
     valueBase: 5
     durabilityBase: 7
     material: Cloth
-    locations:
-      flexible:
-        - skullloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [skullloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 4.8
-origWeight: 0.1
 ---
 
 Made from coarse wool dyed reddish-brown, the Russet Hat offers warmth and durability. It is practical for colder climates and rougher outdoor environments.

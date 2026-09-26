@@ -1,28 +1,14 @@
 ---
-tags:
-  - expedition
-name:
-  full: Piton
-  aliases:
-    - "Piton, iron"
-    - "Piton, iron, looped"
-description: "Iron spike with looped eye; ~1 per 10 ft of vertical climb. Consumable — usually left in the rock."
 shortcode: piton
+name: {full: Piton, aliases: ["Piton, iron", "Piton, iron, looped"]}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
+description: "Iron spike with looped eye; ~1 per 10 ft of vertical climb. Consumable — usually left in the rock."
+tags: [expedition]
+data: {icon: swapbag, templatePriority: 0, packFolder: expedition}
 sohl:
-  craft:
-    skill: mtlc
-    secondary: []
+  craft: {skill: mtlc, secondary: []}
   kbcat: expedition
-  system:
-    weightBase: 0.5
-    valueBase: 1
-    qualityBase: 0
-    durabilityBase: 8
-packFolder: expedition
+  system: {weightBase: 0.5, valueBase: 1, qualityBase: 0, durabilityBase: 8}
 ---
 
 A hand-forged iron spike the length of a man's hand, tapered to a chisel point and finished with a looped eye at the head. A climber drives it into a crack, seam, or mortar joint with a climbing hammer, then clips a carabineer or threads a short sling through the eye to anchor rope or handhold. The steel bears the weight of a full-grown man under sudden strain; quality pieces ring when struck and seat cleanly, while a poorly-forged piton rings dull and may shear under load.

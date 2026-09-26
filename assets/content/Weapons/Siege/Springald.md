@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Springald
-  aliases: []
-description: "Light torsion bolt-thrower; two-crew wall-top engine for picking men off a rampart."
 shortcode: sprngld
+name: {full: Springald, aliases: []}
 type: weapongear
-data:
-  icon: spearhook
-  templatePriority: 0
+description: "Light torsion bolt-thrower; two-crew wall-top engine for picking men off a rampart."
+tags: []
+data: {icon: spearhook, templatePriority: 0, packFolder: weapons}
 sohl:
-  craft:
-    skill: wood
-    secondary: []
+  craft: {skill: wood, secondary: []}
   kbcat: siege
   weaponType: Siege
   system:
@@ -26,14 +20,8 @@ sohl:
         name: Shoot
         assocSkillCode: archery
         minParts: 2
-        attack:
-          spread: 0
-          modifier: 0
-        impactBase:
-          numDice: 0
-          die: null
-          modifier: 14
-          aspect: piercing
+        attack: {spread: 0, modifier: 0}
+        impactBase: {numDice: 0, die: null, modifier: 14, aspect: piercing}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -65,7 +53,6 @@ sohl:
         maxVolleyMult: 4
         baseRangeBase: 120
         drawBase: 0
-packFolder: weapons
 ---
 
 A torsion engine of two skeins of twisted sinew driving a pair of stiff arms, spanned by a windlass and loosing a yard-long bolt. Light enough to be carried up a stair and mounted on a wall-top or a tower platform, and worked by two. Against a formation it punches through a file of men; against a gate it does nothing worth the name. Its virtue is that it is aimed rather than lobbed, so a crew that can see a target can hit it.

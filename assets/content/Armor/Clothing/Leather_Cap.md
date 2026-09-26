@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Leather Cap
-  aliases: []
-description: "Simple lightweight leather cap offering basic elemental protection and rugged charm."
 shortcode: ltcap
+name: {full: Leather Cap, aliases: []}
 type: armorgear
-data:
-  icon: billedcap
-  templatePriority: 0
+description: "Simple lightweight leather cap offering basic elemental protection and rugged charm."
+tags: []
+data: {icon: billedcap, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: leather
   armorType: Cap
   detailMaterial: Leather
@@ -21,20 +15,10 @@ sohl:
     valueBase: 35
     durabilityBase: 9
     material: Leather
-    locations:
-      flexible:
-        - skullloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [skullloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 16
-origWeight: 0.6
 ---
 
 A simple yet stylish Leather Cap, made from lightweight leather, provides basic protection from the elements. It’s suitable for everyday wear, offering both comfort and a touch of rugged charm.

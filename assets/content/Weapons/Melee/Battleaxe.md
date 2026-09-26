@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Battleaxe
-  aliases: []
-description: "Massive double-bladed ash-haft for two-handed cleaves; line-breaker."
 shortcode: baxe
+name: {full: Battleaxe, aliases: []}
 type: weapongear
-data:
-  icon: battleaxe
-  templatePriority: 0
+description: "Massive double-bladed ash-haft for two-handed cleaves; line-breaker."
+tags: []
+data: {icon: battleaxe, templatePriority: 0, packFolder: weapons}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [mtlc, mnrl]
+  craft: {skill: wpnc, secondary: [mtlc, mnrl]}
   kbcat: axe
   weaponType: Axe
   system:
@@ -26,14 +20,8 @@ sohl:
         name: Cut
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 8
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 8
-          modifier: 7
-          aspect: edged
+        attack: {spread: 8, modifier: 0}
+        impactBase: {numDice: 1, die: 8, modifier: 7, aspect: edged}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -62,22 +50,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 6
-        defense:
-          blockMod: -10
-          counterstrikeMod: -10
+        defense: {blockMod: -10, counterstrikeMod: -10}
       - shortcode: shaft
         type: melee
         name: Shaft
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 8
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 1
-          aspect: blunt
+        attack: {spread: 8, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 1, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -106,10 +86,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 6
-        defense:
-          blockMod: -10
-          counterstrikeMod: -10
-packFolder: weapons
+        defense: {blockMod: -10, counterstrikeMod: -10}
 ---
 
 A massive single or double-bladed head of forged steel, socketed onto a haft of ash or hickory six feet long, built for two-handed cleaving strokes that will split shield rim and shoulder-joint. The weight and reach make it a weapon of line-infantry and dismounted knights, swung in wide arcs to break formations. A warrior's arm must be strong and trained to wield one all day.

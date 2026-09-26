@@ -1,20 +1,11 @@
 ---
-tags: []
-name:
-  full: Ptochophobia
-  aliases: []
 shortcode: ptchphb
+name: {full: Ptochophobia, aliases: []}
 type: trauma
-data:
-  icon: dread
-  templatePriority: 0
 subType: fear
-sohl:
-  kbcat: phobias
-  system:
-    category: none
-    levelBase: 0
-packFolder: phobias
+tags: []
+data: {icon: dread, templatePriority: 0, packFolder: phobias}
+sohl: {kbcat: phobias, system: {category: none, levelBase: 0}}
 ---
 
 Ptochophobia is an intense, irrational fear of poverty or becoming poor. People with ptochophobia may experience a range of symptoms when they think about, see, or are in situations related to poverty.

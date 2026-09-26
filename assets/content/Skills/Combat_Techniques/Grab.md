@@ -1,15 +1,11 @@
 ---
-tags: []
-name:
-  full: Grab
-  aliases: []
-description: "Seize a limb — to take the weapon out of it, or to hold it still."
 shortcode: bflkgrab
+name: {full: Grab, aliases: []}
 type: skill
-data:
-  icon: grab
-  templatePriority: 0
 subType: combattechnique
+description: "Seize a limb — to take the weapon out of it, or to hold it still."
+tags: []
+data: {icon: grab, templatePriority: 0, packFolder: combat}
 sohl:
   kbcat: unarmed
   strikeMode:
@@ -18,25 +14,12 @@ sohl:
     name: Grab
     minParts: 1
     assocSkillCode: melee
-    attack:
-      disabled: false
-      spread: 4
-      modifier: 0
-    impactBase:
-      numDice: 0
-      die: null
-      modifier: 0
-      aspect: blunt
+    attack: {disabled: false, spread: 4, modifier: 0}
+    impactBase: {numDice: 0, die: null, modifier: 0, aspect: blunt}
     lengthBase: 1
     defense:
-      block:
-        disabled: true
-        modifier: 0
-        successLevelMod: 0
-      counterstrike:
-        disabled: false
-        modifier: 0
-        successLevelMod: 0
+      block: {disabled: true, modifier: 0, successLevelMod: 0}
+      counterstrike: {disabled: false, modifier: 0, successLevelMod: 0}
     traits:
       meleeMod: 0
       blockSLMod: 0
@@ -71,9 +54,7 @@ sohl:
     combatCategory: melee
     parentSkillCode: ""
     initSkillMult: 2
-    impairedByRoles:
-      - manipulator
-packFolder: combat
+    impairedByRoles: [manipulator]
 ---
 
 A grab is the opening of a wrestle rather than a blow, and the grabber declares which of two things they are attempting before any roll is made:

@@ -1,11 +1,9 @@
 ---
+shortcode: atkreslv
+name: {full: Attack Resolution, aliases: []}
 type: doc
 subType: rules
-name:
-  full: Attack Resolution
-  aliases: []
-packFolder: rulescombat
-shortcode: atkreslv
+data: {packFolder: rulescombat}
 ---
 
 # Resolving an Attack {#resolving-an-attack}

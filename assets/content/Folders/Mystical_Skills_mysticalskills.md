@@ -1,9 +1,6 @@
 ---
-name:
-  full: "Mystical Skills"
 shortcode: mysticalskills
+name: {full: "Mystical Skills"}
 type: folder
-data:
-  parent: esoteric
-  color: "#BA55D3"
+data: {parent: esoteric, color: "#BA55D3"}
 ---

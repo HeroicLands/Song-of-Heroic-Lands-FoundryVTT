@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Buckram Coat
-  aliases: []
-description: "Stiff buckram coat offering durable, reliable outer protection."
 shortcode: bcoat
+name: {full: Buckram Coat, aliases: []}
 type: armorgear
-data:
-  icon: shirt
-  templatePriority: 0
+description: "Stiff buckram coat offering durable, reliable outer protection."
+tags: []
+data: {icon: shirt, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Coat
   detailMaterial: Buckram
@@ -37,16 +31,9 @@ sohl:
         - lthghloc
         - rthghloc
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 64
-origWeight: 3.2
 ---
 
 The Buckram Coat is stiff and structured, offering a durable, reliable outer layer. Made from coarse cloth stiffened with glue, it’s suitable for activities requiring a more rigid garment.

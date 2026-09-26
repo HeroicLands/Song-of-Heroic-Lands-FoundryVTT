@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Calm
-  aliases: []
 shortcode: calm
+name: {full: Calm, aliases: []}
 type: trauma
-data:
-  icon: battlegear
-  templatePriority: 0
 subType: psycond
-sohl:
-  kbcat: psybehavior
-  system:
-    category: quirk
-packFolder: quirks
+tags: []
+data: {icon: battlegear, templatePriority: 0, packFolder: quirks}
+sohl: {kbcat: psybehavior, system: {category: quirk}}
 ---
 
 Calm refers to an individual's ability to remain composed, steady, and peaceful in the face of stress, conflict, or adversity. A calm person is able to handle difficult situations with poise and patience, rarely reacting impulsively or emotionally. This trait allows them to think clearly and make rational decisions, even under pressure. However, extreme calmness can sometimes lead to emotional detachment or a lack of urgency when action is needed.

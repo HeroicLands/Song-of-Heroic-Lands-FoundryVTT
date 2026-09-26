@@ -1,26 +1,14 @@
 ---
-tags:
-  - natural
-name:
-  full: "Leather, Tanned, per sq yard"
-  aliases: []
-description: "Finished vegetable-tanned stock sold by the yard for cordwainers and saddlers."
 shortcode: leathertan
+name: {full: "Leather, Tanned, per sq yard", aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
+description: "Finished vegetable-tanned stock sold by the yard for cordwainers and saddlers."
+tags: [natural]
+data: {icon: swapbag, templatePriority: 0, packFolder: natural}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: natural
-  system:
-    weightBase: 1.2
-    valueBase: 20
-    qualityBase: 0
-    durabilityBase: 5
-packFolder: natural
+  system: {weightBase: 1.2, valueBase: 20, qualityBase: 0, durabilityBase: 5}
 ---
 
 Finished leather—vegetable-tanned and dressed, sold by the square yard to tailors and leatherworkers. The tanner's craft yields a range of thicknesses and finishes; cordwainers, saddlers, and armor-liners each select stock suited to their trade. Quality varies with the source hide.

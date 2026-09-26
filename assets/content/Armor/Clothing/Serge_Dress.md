@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Serge Dress
-  aliases: []
-description: "Durable twilled serge dress for everyday activities and general wear."
 shortcode: sgdress
+name: {full: Serge Dress, aliases: []}
 type: armorgear
-data:
-  icon: dress
-  templatePriority: 0
+description: "Durable twilled serge dress for everyday activities and general wear."
+tags: []
+data: {icon: dress, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Dress
   detailMaterial: Serge
@@ -41,16 +35,9 @@ sohl:
         - lcalfloc
         - rcalfloc
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 47.2
-origWeight: 2.1
 ---
 
 Made from durable, twilled fabric, the Serge Dress provides both comfort and resilience. It’s an everyday garment that can withstand wear and tear, ideal for a range of activities.

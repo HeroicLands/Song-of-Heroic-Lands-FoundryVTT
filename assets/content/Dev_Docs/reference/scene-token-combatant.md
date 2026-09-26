@@ -1,13 +1,10 @@
 ---
+shortcode: scenetokencombatant
+name: {full: "Scene, Token, and Combatant Systems", aliases: []}
 type: doc
 subType: reference
-name:
-  full: Scene, Token, and Combatant Systems
-  aliases: []
-shortcode: scenetokencombatant
-pack: none
-sohl:
-  kbcat: devdocs
+data: {pack: none}
+sohl: {kbcat: devdocs}
 ---
 
 # Scene, Token, and Combatant Systems

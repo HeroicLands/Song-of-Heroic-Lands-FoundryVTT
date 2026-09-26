@@ -1,11 +1,9 @@
 ---
+shortcode: morale
+name: {full: Morale, aliases: []}
 type: doc
 subType: rules
-name:
-  full: Morale
-  aliases: []
-packFolder: mind
-shortcode: morale
+data: {packFolder: mind}
 ---
 
 **Morale** is a fighter's nerve — their willingness to stay in the fight. Most combatants lose heart before their bodies give out, so morale tracks the moment resolve cracks rather than the moment flesh fails.

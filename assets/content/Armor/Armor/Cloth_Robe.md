@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Cloth Robe
-  aliases: []
-description: "Simple cloth robe providing comfort and warmth for practical wear."
 shortcode: crobe
+name: {full: Cloth Robe, aliases: []}
 type: armorgear
-data:
-  icon: robe
-  templatePriority: 0
+description: "Simple cloth robe providing comfort and warmth for practical wear."
+tags: []
+data: {icon: robe, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Robe
   detailMaterial: Cloth
@@ -41,16 +35,9 @@ sohl:
         - lcalfloc
         - rcalfloc
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 79
-origWeight: 4
 ---
 
 Simple and versatile, the Cloth Robe is made from various soft fabrics, providing basic comfort and warmth. Suitable for everyday activities and casual wear, it’s a practical and adaptable garment.

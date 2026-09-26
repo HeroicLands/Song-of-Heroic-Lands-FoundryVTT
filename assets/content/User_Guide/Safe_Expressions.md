@@ -1,10 +1,9 @@
 ---
+shortcode: sfexprssug
+name: {full: "Safe Expressions"}
 type: doc
 subType: userguide
-name:
-  full: "Safe Expressions"
-shortcode: sfexprssug
-packFolder: userguide
+data: {packFolder: userguide}
 ---
 
 # Overview

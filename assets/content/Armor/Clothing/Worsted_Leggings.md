@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Worsted Leggings
-  aliases: []
-description: "Tightly-spun wool leggings; warm, durable leg coverage."
 shortcode: wleg
+name: {full: Worsted Leggings, aliases: []}
 type: armorgear
-data:
-  icon: trousers
-  templatePriority: 0
+description: "Tightly-spun wool leggings; warm, durable leg coverage."
+tags: []
+data: {icon: trousers, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Leggings
   detailMaterial: Worsted
@@ -22,26 +16,11 @@ sohl:
     durabilityBase: 9
     material: Cloth
     locations:
-      flexible:
-        - lthghloc
-        - rthghloc
-        - lkneeloc
-        - rkneeloc
-        - lcalfloc
-        - rcalfloc
-        - lfootloc
-        - rfootloc
+      flexible: [lthghloc, rthghloc, lkneeloc, rkneeloc, lcalfloc, rcalfloc, lfootloc, rfootloc]
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 86.6
-origWeight: 1.8
 ---
 
 Worsted Leggings, made from tightly-spun wool fibers, offer both warmth and durability. They are versatile and suitable for various activities and weather conditions.

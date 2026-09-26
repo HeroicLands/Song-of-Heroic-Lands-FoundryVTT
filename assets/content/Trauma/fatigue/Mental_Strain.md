@@ -1,22 +1,12 @@
 ---
-tags: []
-name:
-  full: Mental Strain
-  aliases: []
-description: "Sustained weariness from prolonged mental effort — reading, scribing, calculation, deep focus."
 shortcode: mentstn
+name: {full: Mental Strain, aliases: []}
 type: trauma
-data:
-  icon: sleepy
-  templatePriority: 0
 subType: fatigue
-sohl:
-  kbcat: fatigue
-  system:
-    category: weariness
-    levelBase: 1
-    healingRateBase: 3
-packFolder: fatigue
+description: "Sustained weariness from prolonged mental effort — reading, scribing, calculation, deep focus."
+tags: []
+data: {icon: sleepy, templatePriority: 0, packFolder: fatigue}
+sohl: {kbcat: fatigue, system: {category: weariness, levelBase: 1, healingRateBase: 3}}
 ---
 
 Mental strain fatigue is the weariness produced by sustained mental work — long hours of reading and notation, careful scribing or copying, focused calculation, or the patient deciphering of a difficult text. The body sits still while the mind labors, and the cost is real even though no muscle has moved. 5 fatigue per four hours of focused study.

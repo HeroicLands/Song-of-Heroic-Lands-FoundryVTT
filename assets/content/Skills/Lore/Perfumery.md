@@ -1,15 +1,11 @@
 ---
-tags: []
-name:
-  full: Perfumery
-  aliases: []
-description: "Blending herbs, flowers, and essences into scents and aromatic preparations."
 shortcode: pfmy
+name: {full: Perfumery, aliases: []}
 type: skill
-data:
-  icon: perfumebottle
-  templatePriority: 0
 subType: lore
+description: "Blending herbs, flowers, and essences into scents and aromatic preparations."
+tags: []
+data: {icon: perfumebottle, templatePriority: 0, packFolder: lore}
 sohl:
   kbcat: lore
   system:
@@ -18,10 +14,7 @@ sohl:
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 0
-    impairedByRoles:
-      - core
-      - vital
-packFolder: lore
+    impairedByRoles: [core, vital]
 ---
 
 Perfumery is the blending of herbal and mineral ingredients into scent — perfumes, oils, soaps and incense. It is a luxury trade and a devotional one at once, since a great deal of what is compounded is burned in temples rather than worn.

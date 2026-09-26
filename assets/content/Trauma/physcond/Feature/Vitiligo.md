@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Vitiligo
-  aliases: []
 shortcode: vitiligo
+name: {full: Vitiligo, aliases: []}
 type: trauma
-data:
-  icon: battlegear
-  templatePriority: 0
 subType: physcond
-sohl:
-  kbcat: physfeature
-  system:
-    category: trait
-packFolder: traumaphysical
+tags: []
+data: {icon: battlegear, templatePriority: 0, packFolder: traumaphysical}
+sohl: {kbcat: physfeature, system: {category: trait}}
 ---
 
 Vitiligo is a skin condition characterized by the loss of pigment in patches, resulting in irregular white spots on different areas of the body. This occurs when melanocytes, the cells responsible for producing melanin (the pigment that gives skin its color) are destroyed. The affected areas can spread over time, with the extent and rate of color loss varying from person to person. Vitiligo can affect any part of the body, including the skin, hair, and mucous membranes.

@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Longbow 75
-  aliases: []
-description: "Seventy-five pound village hunter's reliable bow; skirmish-worthy."
 shortcode: lbw75
+name: {full: Longbow 75, aliases: []}
 type: weapongear
-data:
-  icon: pocketbow
-  templatePriority: 0
+description: "Seventy-five pound village hunter's reliable bow; skirmish-worthy."
+tags: []
+data: {icon: pocketbow, templatePriority: 0, packFolder: weapons}
 sohl:
-  craft:
-    skill: fltch
-    secondary: [wood, timb]
+  craft: {skill: fltch, secondary: [wood, timb]}
   kbcat: bow
   weaponType: Bow
   system:
@@ -26,14 +20,8 @@ sohl:
         name: Crush
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 8
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 0
-          aspect: blunt
+        attack: {spread: 8, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 0, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -62,22 +50,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 5
-        defense:
-          blockMod: 0
-          counterstrikeMod: 0
+        defense: {blockMod: 0, counterstrikeMod: 0}
       - shortcode: ranged
         type: missile
         name: Ranged
         assocSkillCode: archery
         minParts: 2
-        attack:
-          spread: 0
-          modifier: 0
-        impactBase:
-          numDice: 0
-          die: null
-          modifier: 2
-          aspect: piercing
+        attack: {spread: 0, modifier: 0}
+        impactBase: {numDice: 0, die: null, modifier: 2, aspect: piercing}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -109,7 +89,6 @@ sohl:
         maxVolleyMult: 4
         baseRangeBase: 180
         drawBase: 75
-packFolder: weapons
 ---
 
 A tall self-bow of seasoned yew or ash, drawn to chin height with a steady seventy-five pound pull — a stave any strong yeoman or seasoned huntsman can manage, though not yet the warbow of a muster archer. It is the village hunter's bow, reliable for deer and boar at moderate range, and sturdy enough for skirmish, road-defense, or an ambush from the hedgerows when the militia is called to muster.

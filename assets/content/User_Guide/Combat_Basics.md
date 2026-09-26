@@ -1,10 +1,9 @@
 ---
+shortcode: cmbtbscsug
+name: {full: "Combat Basics"}
 type: doc
 subType: userguide
-name:
-  full: "Combat Basics"
-shortcode: cmbtbscsug
-packFolder: userguide
+data: {packFolder: userguide}
 ---
 
 # Overview

@@ -1,8 +1,6 @@
 ---
-name:
-  full: "Pregens"
 shortcode: pregens
+name: {full: "Pregens"}
 type: folder
-data:
-  color: "#8B4513"
+data: {color: "#8B4513"}
 ---

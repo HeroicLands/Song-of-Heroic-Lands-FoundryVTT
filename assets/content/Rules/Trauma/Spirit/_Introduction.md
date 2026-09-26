@@ -1,11 +1,9 @@
 ---
+shortcode: sprttraumaintro
+name: {full: Spirit Trauma Introduction, aliases: []}
 type: doc
 subType: rules
-name:
-  full: Spirit Trauma Introduction
-  aliases: []
-packFolder: spirit
-shortcode: sprttraumaintro
+data: {packFolder: spirit}
 ---
 
 - [[doc-arlshck|Aural Shock]]

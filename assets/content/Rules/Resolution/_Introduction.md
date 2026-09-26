@@ -1,11 +1,9 @@
 ---
+shortcode: resolutionintro
+name: {full: Resolution, aliases: []}
 type: doc
 subType: rules
-name:
-  full: Resolution
-  aliases: []
-packFolder: resolution
-shortcode: resolutionintro
+data: {packFolder: resolution}
 ---
 
 Most of what a character does needs no dice. They walk down the road, they mend the fence, they greet the innkeeper. Dice come out only when the outcome is genuinely uncertain and the answer matters — and when they do, one small set of procedures answers every such question in the game.

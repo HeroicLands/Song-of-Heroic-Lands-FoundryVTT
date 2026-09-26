@@ -1,20 +1,11 @@
 ---
-tags: []
-name:
-  full: Nosocomephobia
-  aliases: []
 shortcode: nscmphb
+name: {full: Nosocomephobia, aliases: []}
 type: trauma
-data:
-  icon: dread
-  templatePriority: 0
 subType: fear
-sohl:
-  kbcat: phobias
-  system:
-    category: none
-    levelBase: 0
-packFolder: phobias
+tags: []
+data: {icon: dread, templatePriority: 0, packFolder: phobias}
+sohl: {kbcat: phobias, system: {category: none, levelBase: 0}}
 ---
 
 Nosocomephobia is an intense, irrational fear of sick people or being around those who are ill. People with nosocomephobia may experience a range of symptoms when they think about, see, or are near individuals who are sick or environments associated with illness, such as hospitals.

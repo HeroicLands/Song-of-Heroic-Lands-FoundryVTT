@@ -1,26 +1,14 @@
 ---
-tags:
-  - food
-name:
-  full: Cheese
-  aliases: []
-description: "Aged or fresh curd rounds; soft or hard, keeps weeks traveling safely."
 shortcode: cheese
+name: {full: Cheese, aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
+description: "Aged or fresh curd rounds; soft or hard, keeps weeks traveling safely."
+tags: [food]
+data: {icon: swapbag, templatePriority: 0, packFolder: food}
 sohl:
-  craft:
-    skill: anmcft
-    secondary: []
+  craft: {skill: anmcft, secondary: []}
   kbcat: food
-  system:
-    weightBase: 1
-    valueBase: 1
-    qualityBase: 0
-    durabilityBase: 0
-packFolder: food
+  system: {weightBase: 1, valueBase: 1, qualityBase: 0, durabilityBase: 0}
 ---
 
 Aged or fresh cheese made from curd and whey, ranging from soft and creamy to hard and crumbly, wrapped in cloth or herb-dusted rind. A cheesemaker produces rounds for household use and market; cheese feeds travelers, soldiers, and laborers well, keeping fresh for weeks and traveling without spoilage. Hard cheese is grated, soft cheese spread on bread, and both are carried on long journeys.

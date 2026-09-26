@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Russet Tunic
-  aliases: []
-description: "Reddish-brown wool tunic; everyday wear for rough labor."
 shortcode: rtunic
+name: {full: Russet Tunic, aliases: []}
 type: armorgear
-data:
-  icon: shirt
-  templatePriority: 0
+description: "Reddish-brown wool tunic; everyday wear for rough labor."
+tags: []
+data: {icon: shirt, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Tunic
   detailMaterial: Russet
@@ -33,16 +27,9 @@ sohl:
         - abdmnloc
         - plvisloc
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 45
-origWeight: 2.3
 ---
 
 Crafted from coarse wool dyed reddish-brown, the Russet Tunic provides warmth and durability. Practical for colder weather and rougher environments, it offers reliable coverage and comfort.

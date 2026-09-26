@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Warhammer
-  aliases: []
-description: "Flat-faced hammer with spike; one-handed armor-breaker for knights."
 shortcode: whmr
+name: {full: Warhammer, aliases: []}
 type: weapongear
-data:
-  icon: warhammer
-  templatePriority: 0
+description: "Flat-faced hammer with spike; one-handed armor-breaker for knights."
+tags: []
+data: {icon: warhammer, templatePriority: 0, packFolder: weapons}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [mtlc, mnrl]
+  craft: {skill: wpnc, secondary: [mtlc, mnrl]}
   kbcat: axe
   weaponType: Axe
   system:
@@ -26,14 +20,8 @@ sohl:
         name: Crush
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 8
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 4
-          aspect: blunt
+        attack: {spread: 8, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 4, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -62,22 +50,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 5
-        defense:
-          blockMod: -10
-          counterstrikeMod: -10
+        defense: {blockMod: -10, counterstrikeMod: -10}
       - shortcode: impale
         type: melee
         name: Impale
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 8
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 8
-          modifier: 3
-          aspect: piercing
+        attack: {spread: 8, modifier: 0}
+        impactBase: {numDice: 1, die: 8, modifier: 3, aspect: piercing}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -106,22 +86,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 5
-        defense:
-          blockMod: -10
-          counterstrikeMod: -10
+        defense: {blockMod: -10, counterstrikeMod: -10}
       - shortcode: shaft
         type: melee
         name: Shaft
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 8
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 1
-          aspect: blunt
+        attack: {spread: 8, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 1, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -150,10 +122,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 5
-        defense:
-          blockMod: -10
-          counterstrikeMod: -10
-packFolder: weapons
+        defense: {blockMod: -10, counterstrikeMod: -10}
 ---
 
 A short-hafted hammer with a flat striking face on one end and a sharp spike on the other, the warhammer is the armor-breaker's choice. The hammer face crushes ribs and shoulders through plate and mail; the spike seeks the gaps—slit of the visor, inner edge of the pauldron, seam at the throat. Wielded one-handed by armored knights and cavalry, it is as much tool as weapon.

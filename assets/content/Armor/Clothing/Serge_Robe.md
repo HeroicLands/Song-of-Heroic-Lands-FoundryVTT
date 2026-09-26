@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Serge Robe
-  aliases: []
-description: "Twilled serge robe; practical, versatile everyday garment."
 shortcode: sgrobe
+name: {full: Serge Robe, aliases: []}
 type: armorgear
-data:
-  icon: robe
-  templatePriority: 0
+description: "Twilled serge robe; practical, versatile everyday garment."
+tags: []
+data: {icon: robe, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Robe
   detailMaterial: Serge
@@ -41,16 +35,9 @@ sohl:
         - lcalfloc
         - rcalfloc
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 79
-origWeight: 4
 ---
 
 The Serge Robe is crafted from durable twilled fabric, offering both comfort and resilience. Suitable for everyday wear, it provides a practical and versatile garment perfect for a range of activities.

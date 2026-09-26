@@ -1,15 +1,11 @@
 ---
-tags: []
-name:
-  full: Jumping
-  aliases: []
-description: "Leaping horizontally and vertically; reaching above normal reach."
 shortcode: jump
+name: {full: Jumping, aliases: []}
 type: skill
-data:
-  icon: jumpacross
-  templatePriority: 0
 subType: physical
+description: "Leaping horizontally and vertically; reaching above normal reach."
+tags: []
+data: {icon: jumpacross, templatePriority: 0, packFolder: physical}
 sohl:
   kbcat: physical
   system:
@@ -18,11 +14,7 @@ sohl:
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 3
-    impairedByRoles:
-      - core
-      - vital
-      - locomotor
-packFolder: physical
+    impairedByRoles: [core, vital, locomotor]
 ---
 
 Jumping is deliberate leaping — across a gap, over an obstacle, up at a ledge just out of reach — and the distance covered is read straight off a Jumping Success Value test.

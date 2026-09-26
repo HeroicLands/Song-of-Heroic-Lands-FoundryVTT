@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Limb Weakness
-  aliases: []
 shortcode: lmbwknss
+name: {full: Limb Weakness, aliases: []}
 type: trauma
-data:
-  icon: battlegear
-  templatePriority: 0
 subType: physcond
-sohl:
-  kbcat: physdisability
-  system:
-    category: impediment
-packFolder: traumaphysical
+tags: []
+data: {icon: battlegear, templatePriority: 0, packFolder: traumaphysical}
+sohl: {kbcat: physdisability, system: {category: impediment}}
 ---
 
 Limb Weakness is a condition characterized by a partial loss of strength or control in one or more limbs. This weakness can make it difficult to perform everyday tasks and may cause a sense of heaviness or fatigue in the affected limb. Those afflicted must rely on rest, physical therapy, and adaptive strategies to manage their symptoms.

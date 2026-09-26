@@ -1,23 +1,14 @@
 ---
-tags: []
-name:
-  full: Protein Toxin
-  aliases: []
-description: "Marine spine venom; intense pain and tissue necrosis; cardiovascular distress."
 shortcode: prottxn
+name: {full: Protein Toxin, aliases: []}
 type: affliction
-data:
-  icon: poisonbottle
-  templatePriority: 0
 subType: poisontoxin
+description: "Marine spine venom; intense pain and tissue necrosis; cardiovascular distress."
+tags: []
+data: {icon: poisonbottle, templatePriority: 0, packFolder: poisonsandtoxins}
 sohl:
   kbcat: poisontoxin
-  system:
-    levelBase: 1
-    healingRateBase: 3
-    contagionIndexBase: 3
-    transmission: vector
-packFolder: poisonsandtoxins
+  system: {levelBase: 1, healingRateBase: 3, contagionIndexBase: 3, transmission: vector}
 ---
 
 Toxins from marine animals contain potent protein toxins that cause severe pain, swelling, and tissue necrosis. Contact with venomous spines results in the injection of these proteins, leading to immediate and intense pain that can radiate and intensify, potentially lasting for hours to days. The toxins disrupt cell membranes and interfere with cellular metabolism, causing localized tissue damage and systemic symptoms like fever, muscle weakness, and cardiovascular distress. Severe cases may involve shock and death if the venom spreads rapidly through the bloodstream. The excruciating pain and possible tissue necrosis necessitate prompt and effective first aid measures, such as hot water immersion, to denature the toxins.

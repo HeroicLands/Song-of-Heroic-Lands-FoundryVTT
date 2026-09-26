@@ -1,10 +1,9 @@
 ---
+shortcode: mysteryug
+name: {full: "Mystery"}
 type: doc
 subType: userguide
-name:
-  full: "Mystery"
-shortcode: mysteryug
-packFolder: items
+data: {packFolder: items}
 ---
 
 # What Is a Mystery?

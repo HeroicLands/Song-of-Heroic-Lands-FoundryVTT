@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Beaver Robe
-  aliases: []
-description: "Full-length beaver fur robe; heavy warmth and quiet status."
 shortcode: bvrobe
+name: {full: Beaver Robe, aliases: []}
 type: armorgear
-data:
-  icon: robe
-  templatePriority: 0
+description: "Full-length beaver fur robe; heavy warmth and quiet status."
+tags: []
+data: {icon: robe, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: leather
   armorType: Robe
   detailMaterial: Beaver
@@ -41,16 +35,9 @@ sohl:
         - lcalfloc
         - rcalfloc
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 948
-origWeight: 9.6
 ---
 
 The Beaver Robe is dense, water-shedding fur running the full length of the body. It is heavy to wear and slow to soak, and it marks a person of means without the outright display of ermine.

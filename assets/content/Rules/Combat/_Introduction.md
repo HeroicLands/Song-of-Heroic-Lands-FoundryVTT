@@ -1,11 +1,9 @@
 ---
+shortcode: combatintro
+name: {full: Combat Introduction, aliases: []}
 type: doc
 subType: rules
-name:
-  full: Combat Introduction
-  aliases: []
-packFolder: rulescombat
-shortcode: combatintro
+data: {packFolder: rulescombat}
 ---
 
 # Combat {#combat}

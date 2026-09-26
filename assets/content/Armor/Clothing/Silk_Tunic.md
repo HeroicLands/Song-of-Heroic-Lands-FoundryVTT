@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Silk Tunic
-  aliases: []
-description: "Elegant silk tunic; luxurious, refined garment for formal occasions."
 shortcode: slktunic
+name: {full: Silk Tunic, aliases: []}
 type: armorgear
-data:
-  icon: shirt
-  templatePriority: 0
+description: "Elegant silk tunic; luxurious, refined garment for formal occasions."
+tags: []
+data: {icon: shirt, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Tunic
   detailMaterial: Silk
@@ -33,16 +27,9 @@ sohl:
         - abdmnloc
         - plvisloc
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 45
-origWeight: 2.3
 ---
 
 Exuding elegance and sophistication, the Silk Tunic is a luxurious, lightweight garment. Perfect for formal occasions and high-status events, it adds a touch of refinement to any outfit.

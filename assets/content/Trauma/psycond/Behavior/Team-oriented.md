@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Team-oriented
-  aliases: []
 shortcode: tmrntd
+name: {full: Team-oriented, aliases: []}
 type: trauma
-data:
-  icon: battlegear
-  templatePriority: 0
 subType: psycond
-sohl:
-  kbcat: psybehavior
-  system:
-    category: quirk
-packFolder: quirks
+tags: []
+data: {icon: battlegear, templatePriority: 0, packFolder: quirks}
+sohl: {kbcat: psybehavior, system: {category: quirk}}
 ---
 
 Team-orientation is the natural bent toward cooperation and collective endeavor. A team-oriented person does not hoard glory or compete for status at the expense of the group. They see the strength in combined effort and take genuine pleasure in the success of those around them. In a world where a village survives harvest only through shared labor, such people are the sinew that binds community together.

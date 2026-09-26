@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Innovative
-  aliases: []
 shortcode: innvtv
+name: {full: Innovative, aliases: []}
 type: trauma
-data:
-  icon: battlegear
-  templatePriority: 0
 subType: psycond
-sohl:
-  kbcat: psybehavior
-  system:
-    category: quirk
-packFolder: quirks
+tags: []
+data: {icon: battlegear, templatePriority: 0, packFolder: quirks}
+sohl: {kbcat: psybehavior, system: {category: quirk}}
 ---
 
 Innovative refers to an individual's ability to generate new ideas, approaches, or solutions to problems. An innovative person is creative, resourceful, and often looks for ways to improve existing methods or create something entirely new. While innovation is typically a valuable trait that drives progress and creativity, an excessive focus on innovation can lead to impractical ideas, constant disruption of established processes, or a failure to follow through on plans due to a relentless pursuit of newness.

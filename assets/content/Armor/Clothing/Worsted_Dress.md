@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Worsted Dress
-  aliases: []
-description: "Tightly-spun wool dress; durable, versatile garment for activities."
 shortcode: wdress
+name: {full: Worsted Dress, aliases: []}
 type: armorgear
-data:
-  icon: dress
-  templatePriority: 0
+description: "Tightly-spun wool dress; durable, versatile garment for activities."
+tags: []
+data: {icon: dress, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Dress
   detailMaterial: Worsted
@@ -41,16 +35,9 @@ sohl:
         - lcalfloc
         - rcalfloc
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 79
-origWeight: 4
 ---
 
 Made from tightly-spun wool fibers, the Worsted Dress offers both style and durability. It’s a versatile garment providing warmth and resilience, suitable for various activities and weather conditions.

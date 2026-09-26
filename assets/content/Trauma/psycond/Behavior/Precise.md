@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Precise
-  aliases: []
 shortcode: precise
+name: {full: Precise, aliases: []}
 type: trauma
-data:
-  icon: battlegear
-  templatePriority: 0
 subType: psycond
-sohl:
-  kbcat: psybehavior
-  system:
-    category: quirk
-packFolder: quirks
+tags: []
+data: {icon: battlegear, templatePriority: 0, packFolder: quirks}
+sohl: {kbcat: psybehavior, system: {category: quirk}}
 ---
 
 Precise refers to an individual's ability to work with great accuracy and attention to detail, ensuring that every aspect of their task is exact and carefully measured. A precise person takes care to avoid mistakes, valuing thoroughness and correctness in their work. This trait is essential in fields where exact measurements and careful planning are crucial to success. While precision ensures high-quality outcomes, excessive focus on it can sometimes lead to perfectionism or delays.

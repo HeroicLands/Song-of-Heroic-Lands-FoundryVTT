@@ -1,11 +1,9 @@
 ---
+shortcode: ugitems
+name: {full: Items, aliases: []}
 type: doc
 subType: userguide
-name:
-  full: Items
-  aliases: []
-shortcode: ugitems
-packFolder: items
+data: {packFolder: items}
 ---
 
 # Items {#items}

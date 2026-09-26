@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Aggressive
-  aliases: []
 shortcode: aggr
+name: {full: Aggressive, aliases: []}
 type: trauma
-data:
-  icon: battlegear
-  templatePriority: 0
 subType: psycond
-sohl:
-  kbcat: psybehavior
-  system:
-    category: quirk
-packFolder: disorders
+tags: []
+data: {icon: battlegear, templatePriority: 0, packFolder: disorders}
+sohl: {kbcat: psybehavior, system: {category: quirk}}
 ---
 
 Aggressive refers to a person’s tendency to respond to challenges, conflicts, or frustrations with hostility, dominance, or intimidation. Aggressive individuals often seek to assert control or power over others, sometimes through intimidation or force. While this trait can sometimes help them navigate difficult situations, it also risks alienating others and leading to conflict. In its most severe form, aggression can result in harmful actions and broken relationships.

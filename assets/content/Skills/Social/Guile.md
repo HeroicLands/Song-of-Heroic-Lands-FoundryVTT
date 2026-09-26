@@ -1,15 +1,11 @@
 ---
-tags: []
-name:
-  full: Guile
-  aliases: []
-description: "Deliberate deception; distorting facts while appearing truthful oneself."
 shortcode: guil
+name: {full: Guile, aliases: []}
 type: skill
-data:
-  icon: imp
-  templatePriority: 0
 subType: social
+description: "Deliberate deception; distorting facts while appearing truthful oneself."
+tags: []
+data: {icon: imp, templatePriority: 0, packFolder: social}
 sohl:
   kbcat: social
   system:
@@ -18,9 +14,7 @@ sohl:
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 3
-    impairedByRoles:
-      - vital
-packFolder: social
+    impairedByRoles: [vital]
 ---
 
 Guile is deliberate deception: convincing a listener of something the speaker knows to be untrue. It is close kin to Theatrics but differs in what is being falsified — a character using Guile misrepresents the _facts_ while remaining entirely themselves, where a character using Theatrics misrepresents _who they are_.

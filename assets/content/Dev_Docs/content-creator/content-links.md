@@ -1,14 +1,11 @@
 ---
+shortcode: contentlinks
+name: {full: Linking Between Content Notes, aliases: []}
 type: doc
 subType: howto
-name:
-  full: Linking Between Content Notes
-  aliases: []
-shortcode: contentlinks
 description: "Wikilinks for content authors: the three forms, and why an item and its documentation need two different addresses."
-pack: none
-sohl:
-  kbcat: devdocs
+data: {pack: none}
+sohl: {kbcat: devdocs}
 ---
 
 # Linking Between Content Notes

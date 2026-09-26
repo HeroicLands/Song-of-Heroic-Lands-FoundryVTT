@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Leather Tunic
-  aliases: []
-description: "Rugged styled leather garment providing minimal protection and style."
 shortcode: lttunic
+name: {full: Leather Tunic, aliases: []}
 type: armorgear
-data:
-  icon: shirt
-  templatePriority: 0
+description: "Rugged styled leather garment providing minimal protection and style."
+tags: []
+data: {icon: shirt, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: leather
   armorType: Tunic
   detailMaterial: Leather
@@ -33,16 +27,9 @@ sohl:
         - abdmnloc
         - plvisloc
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 360
-origWeight: 4.5
 ---
 
 A Leather Tunic offers a rugged look with minimal protection. Lightweight and comfortable, it’s suitable for everyday wear or light adventuring, adding a bit of edge to the wearer’s attire.

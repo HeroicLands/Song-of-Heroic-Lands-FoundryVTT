@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Linen Dress
-  aliases: []
-description: "Light breathable torso garment perfect for warm weather activities."
 shortcode: ldress
+name: {full: Linen Dress, aliases: []}
 type: armorgear
-data:
-  icon: dress
-  templatePriority: 0
+description: "Light breathable torso garment perfect for warm weather activities."
+tags: []
+data: {icon: dress, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Dress
   detailMaterial: Linen
@@ -41,16 +35,9 @@ sohl:
         - lcalfloc
         - rcalfloc
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 39.8
-origWeight: 1
 ---
 
 The Linen Dress is light and breathable, perfect for warm weather. It offers comfort and ease of movement, suitable for day-to-day activities or casual outings.

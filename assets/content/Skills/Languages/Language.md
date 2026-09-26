@@ -1,15 +1,11 @@
 ---
-tags: []
-name:
-  full: Language
-  aliases: []
-description: "Proficiency in some particular tongue — the generic skill used wherever a named-language entry would overspecify."
 shortcode: lang
+name: {full: Language, aliases: []}
 type: skill
-data:
-  icon: conversation
-  templatePriority: 0
 subType: language
+description: "Proficiency in some particular tongue — the generic skill used wherever a named-language entry would overspecify."
+tags: []
+data: {icon: conversation, templatePriority: 0, packFolder: language}
 sohl:
   kbcat: languages
   system:
@@ -18,9 +14,7 @@ sohl:
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 0
-    impairedByRoles:
-      - vital
-packFolder: language
+    impairedByRoles: [vital]
 ---
 
 Language is fluency and comprehension in one particular tongue; each language is a separate skill with its own Mastery Level.

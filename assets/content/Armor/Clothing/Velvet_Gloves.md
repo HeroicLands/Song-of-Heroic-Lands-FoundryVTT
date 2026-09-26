@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Velvet Gloves
-  aliases: []
-description: "Plush velvet gloves; opulent garment for high-status formal occasions."
 shortcode: vglv
+name: {full: Velvet Gloves, aliases: []}
 type: armorgear
-data:
-  icon: gloves
-  templatePriority: 0
+description: "Plush velvet gloves; opulent garment for high-status formal occasions."
+tags: []
+data: {icon: gloves, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Gloves
   detailMaterial: Velvet
@@ -21,21 +15,10 @@ sohl:
     valueBase: 18
     durabilityBase: 10
     material: Cloth
-    locations:
-      flexible:
-        - lhandloc
-        - rhandloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [lhandloc, rhandloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 17.5
-origWeight: 0.3
 ---
 
 The Velvet Gloves are plush and opulent, ideal for high-status individuals. While not particularly durable, their rich texture and appearance make them perfect for formal settings.

@@ -1,26 +1,14 @@
 ---
-tags:
-  - expedition
-name:
-  full: "Armor Maintenance Supplies, per 1d"
-  aliases: []
-description: "Rings, rivets, straps, buckles, waxed thread, patches, polish; one pence buys one pence of armor upkeep."
 shortcode: armrsup
+name: {full: "Armor Maintenance Supplies, per 1d", aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
+description: "Rings, rivets, straps, buckles, waxed thread, patches, polish; one pence buys one pence of armor upkeep."
+tags: [expedition]
+data: {icon: swapbag, templatePriority: 0, packFolder: expedition}
 sohl:
-  craft:
-    skill: mtlc
-    secondary: []
+  craft: {skill: mtlc, secondary: []}
   kbcat: expedition
-  system:
-    weightBase: 0.05
-    valueBase: 1
-    qualityBase: 0
-    durabilityBase: 2
-packFolder: expedition
+  system: {weightBase: 0.05, valueBase: 1, qualityBase: 0, durabilityBase: 2}
 ---
 
 A standing stock of the small parts that keep a suit of armor fit to wear: loose rings of drawn wire for mail, peening rivets and washers, spare strap stock and buckles, waxed linen thread, cotton wadding and canvas patches for padded garments, oiled felt for lining, and a small jar of tallow-and-abrasive polish for bright steel. Heavier and bulkier than weapon supplies of the same value, since so much of it is iron; sold by the pence at any town where armorers work.

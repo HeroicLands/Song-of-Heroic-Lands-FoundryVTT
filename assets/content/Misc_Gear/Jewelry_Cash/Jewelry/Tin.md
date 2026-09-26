@@ -1,26 +1,14 @@
 ---
-tags:
-  - jewelry_cash
-name:
-  full: Tin
-  aliases: []
-description: "Soft white metal; alloyed with copper for bronze and with lead for pewter."
 shortcode: tin
+name: {full: Tin, aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
+description: "Soft white metal; alloyed with copper for bronze and with lead for pewter."
+tags: [jewelry_cash]
+data: {icon: swapbag, templatePriority: 0, packFolder: jewelry}
 sohl:
-  craft:
-    skill: mnrl
-    secondary: []
+  craft: {skill: mnrl, secondary: []}
   kbcat: jewelry
-  system:
-    weightBase: 1
-    valueBase: 3.5
-    qualityBase: 0
-    durabilityBase: 3
-packFolder: jewelry
+  system: {weightBase: 1, valueBase: 3.5, qualityBase: 0, durabilityBase: 3}
 ---
 
 Tin, won from streamworks and cast into ingots. Too soft to be useful alone, it is valued as the lesser part of bronze and the greater part of pewter, and is traded by weight wherever founders and pewterers work.

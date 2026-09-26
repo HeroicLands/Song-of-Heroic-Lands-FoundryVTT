@@ -1,14 +1,11 @@
 ---
+shortcode: contenttables
+name: {full: Generated Content Tables, aliases: []}
 type: doc
 subType: howto
-name:
-  full: Generated Content Tables
-  aliases: []
-shortcode: contenttables
 description: "SQL queries that tabulate content notes from their frontmatter."
-pack: none
-sohl:
-  kbcat: devdocs
+data: {pack: none}
+sohl: {kbcat: devdocs}
 ---
 
 # Generated Content Tables

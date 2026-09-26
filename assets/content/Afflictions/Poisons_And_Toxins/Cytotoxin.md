@@ -1,23 +1,14 @@
 ---
-tags: []
-name:
-  full: Cytotoxin
-  aliases: []
-description: "Cell-destroying toxin; intense pain and necrosis at injection site."
 shortcode: cytotxn
+name: {full: Cytotoxin, aliases: []}
 type: affliction
-data:
-  icon: poisonbottle
-  templatePriority: 0
 subType: poisontoxin
+description: "Cell-destroying toxin; intense pain and necrosis at injection site."
+tags: []
+data: {icon: poisonbottle, templatePriority: 0, packFolder: poisonsandtoxins}
 sohl:
   kbcat: poisontoxin
-  system:
-    levelBase: 1
-    healingRateBase: 3
-    contagionIndexBase: 3
-    transmission: vector
-packFolder: poisonsandtoxins
+  system: {levelBase: 1, healingRateBase: 3, contagionIndexBase: 3, transmission: vector}
 ---
 
 Cytotoxins are toxins that cause cell death and tissue damage at the site of the injection. These toxins destroy cell membranes and lead to localized necrosis, resulting in ulceration and other severe skin lesions. Symptoms include intense pain, redness, and swelling at the injection site, which can progress to large, necrotic wounds. Systemic effects may include fever, chills, and muscle aches, and if untreated, infection and sepsis can set in. The tissue damage caused by cytotoxins often requires surgical intervention to remove dead tissue and to promote healing.

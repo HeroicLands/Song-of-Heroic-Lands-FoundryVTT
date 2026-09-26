@@ -1,13 +1,10 @@
 ---
+shortcode: effectsintegration
+name: {full: Effects Integration, aliases: []}
 type: doc
 subType: reference
-name:
-  full: Effects Integration
-  aliases: []
-shortcode: effectsintegration
-pack: none
-sohl:
-  kbcat: devdocs
+data: {pack: none}
+sohl: {kbcat: devdocs}
 ---
 
 # Effects Integration

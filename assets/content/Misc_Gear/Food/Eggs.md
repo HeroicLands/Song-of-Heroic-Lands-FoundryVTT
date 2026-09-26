@@ -1,26 +1,14 @@
 ---
-tags:
-  - food
-name:
-  full: Eggs
-  aliases: []
-description: "Chicken, duck, or goose eggs; kept cool and eaten within days."
 shortcode: eggs
+name: {full: Eggs, aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
+description: "Chicken, duck, or goose eggs; kept cool and eaten within days."
+tags: [food]
+data: {icon: swapbag, templatePriority: 0, packFolder: food}
 sohl:
-  craft:
-    skill: anmcft
-    secondary: []
+  craft: {skill: anmcft, secondary: []}
   kbcat: food
-  system:
-    weightBase: 1.35
-    valueBase: 1
-    qualityBase: 0
-    durabilityBase: 0
-packFolder: food
+  system: {weightBase: 1.35, valueBase: 1, qualityBase: 0, durabilityBase: 0}
 ---
 
 Chicken, duck, or goose eggs collected fresh from the nest, kept cool and eaten within days of laying. A cook uses eggs beaten into sauces, boiled for breakfast, or baked into bread and custards; they are a staple of household cooking. Preserved eggs are buried in ash or salt, kept for months but with changed flavor and texture; fresh eggs are always preferred.

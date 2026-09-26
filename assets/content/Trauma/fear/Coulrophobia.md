@@ -1,20 +1,11 @@
 ---
-tags: []
-name:
-  full: Coulrophobia
-  aliases: []
 shortcode: clrphb
+name: {full: Coulrophobia, aliases: []}
 type: trauma
-data:
-  icon: dread
-  templatePriority: 0
 subType: fear
-sohl:
-  kbcat: phobias
-  system:
-    category: none
-    levelBase: 0
-packFolder: phobias
+tags: []
+data: {icon: dread, templatePriority: 0, packFolder: phobias}
+sohl: {kbcat: phobias, system: {category: none, levelBase: 0}}
 ---
 
 Coulrophobia is an intense, irrational fear of clowns. People with coulrophobia may experience a range of symptoms when they think about, see, or are near clowns.

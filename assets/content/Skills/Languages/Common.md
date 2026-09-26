@@ -1,15 +1,11 @@
 ---
-tags: []
-name:
-  full: Common
-  aliases: []
-description: "The shared trade tongue that carries a traveler across realms — broad in reach, thin in nuance."
 shortcode: common
+name: {full: Common, aliases: []}
 type: skill
-data:
-  icon: conversation
-  templatePriority: 0
 subType: language
+description: "The shared trade tongue that carries a traveler across realms — broad in reach, thin in nuance."
+tags: []
+data: {icon: conversation, templatePriority: 0, packFolder: language}
 sohl:
   kbcat: languages
   system:
@@ -18,9 +14,7 @@ sohl:
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 0
-    impairedByRoles:
-      - vital
-packFolder: language
+    impairedByRoles: [vital]
 ---
 
 Common is the trade tongue — the mongrel dialect of ports, markets, garrisons and roads, assembled out of whatever the traffic of a region brought together and belonging properly to nobody. It is nobody's first language and almost everybody's second, which is precisely what makes it useful.

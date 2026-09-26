@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Chronic Fatigue Syndrome
-  aliases: []
 shortcode: cfs
+name: {full: Chronic Fatigue Syndrome, aliases: []}
 type: trauma
-data:
-  icon: battlegear
-  templatePriority: 0
 subType: physcond
-sohl:
-  kbcat: physdisability
-  system:
-    category: impediment
-packFolder: traumaphysical
+tags: []
+data: {icon: battlegear, templatePriority: 0, packFolder: traumaphysical}
+sohl: {kbcat: physdisability, system: {category: impediment}}
 ---
 
 Chronic Fatigue Syndrome (CFS) is a debilitating condition characterized by persistent and overwhelming fatigue that is not relieved by rest. Those afflicted find even simple tasks exhausting, and their energy levels are constantly depleted.

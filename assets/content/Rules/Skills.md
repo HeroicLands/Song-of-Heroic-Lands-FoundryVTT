@@ -1,11 +1,9 @@
 ---
+shortcode: skills
+name: {full: Skills Introduction, aliases: []}
 type: doc
 subType: rules
-name:
-  full: Skills Introduction
-  aliases: []
-packFolder: rules
-shortcode: skills
+data: {packFolder: rules}
 ---
 
 A **skill** represents a character's trained ability at some activity — a weapon, a craft, a lore, a social art. Each skill is rated by a [[doc-mstrylvl#mastery-level|Mastery Level (ML)]], derived from a [[doc-mstrylvl#skill-base|Skill Base]] that the character's attributes decide; whenever the outcome of using a skill is uncertain, the character makes a test against it.

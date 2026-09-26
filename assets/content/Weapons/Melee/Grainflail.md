@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Grainflail
-  aliases: []
-description: "Threshing-floor flail for rapid unpredictable arc; militia's accessible reach."
 shortcode: grnfl
+name: {full: Grainflail, aliases: []}
 type: weapongear
-data:
-  icon: flail
-  templatePriority: 0
+description: "Threshing-floor flail for rapid unpredictable arc; militia's accessible reach."
+tags: []
+data: {icon: flail, templatePriority: 0, packFolder: weapons}
 sohl:
-  craft:
-    skill: mtlc
-    secondary: [wood]
+  craft: {skill: mtlc, secondary: [wood]}
   kbcat: flail
   weaponType: Flail
   system:
@@ -26,14 +20,8 @@ sohl:
         name: Crush
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 8
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 2
-          aspect: blunt
+        attack: {spread: 8, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 2, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -62,22 +50,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 5
-        defense:
-          blockMod: 0
-          counterstrikeMod: 0
+        defense: {blockMod: 0, counterstrikeMod: 0}
       - shortcode: pommel
         type: melee
         name: Pommel
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 4
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 0
-          aspect: blunt
+        attack: {spread: 4, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 0, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -106,10 +86,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 5
-        defense:
-          blockMod: 0
-          counterstrikeMod: 0
-packFolder: weapons
+        defense: {blockMod: 0, counterstrikeMod: 0}
 ---
 
 A wooden flail adapted from the threshing-floor—two sticks joined by a leather strap or short chain. Farmers and militia press the grainflail into service as a combat weapon, swinging it to deliver rapid strikes with unpredictable arc. Light and accessible, it favors skirmishers and levy troops who lack coin for proper arms.

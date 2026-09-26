@@ -1,23 +1,14 @@
 ---
-tags: []
-name:
-  full: Tuberculosis
-  aliases: []
-description: "Contagious lung infection; persistent bloody cough, fever, wasting; airborne spread."
 shortcode: tbclos
+name: {full: Tuberculosis, aliases: []}
 type: affliction
-data:
-  icon: virus
-  templatePriority: 0
 subType: disease
+description: "Contagious lung infection; persistent bloody cough, fever, wasting; airborne spread."
+tags: []
+data: {icon: virus, templatePriority: 0, packFolder: diseases}
 sohl:
   kbcat: diseases
-  system:
-    levelBase: 1
-    healingRateBase: 3
-    contagionIndexBase: 3
-    transmission: airborne
-packFolder: diseases
+  system: {levelBase: 1, healingRateBase: 3, contagionIndexBase: 3, transmission: airborne}
 ---
 
 Tuberculosis (TB) is a contagious bacterial infection caused by _Mycobacterium tuberculosis_, primarily affecting the lungs but can spread to other organs. Symptoms include a persistent cough that may produce blood-tinged sputum, chest pain, night sweats, fever, weight loss, and fatigue. TB spreads through airborne droplets when an infected person coughs or sneezes. If untreated, it can cause extensive lung damage, respiratory failure, and death. Multi-drug resistant TB is a growing concern, making early detection and consistent treatment critical for controlling the disease.

@@ -1,23 +1,14 @@
 ---
-tags: []
-name:
-  full: Neurotoxin
-  aliases: []
-description: "Nerve toxin; paralysis and convulsions; disrupts neurotransmission leading to respiratory failure."
 shortcode: nrotxn
+name: {full: Neurotoxin, aliases: []}
 type: affliction
-data:
-  icon: poisonbottle
-  templatePriority: 0
 subType: poisontoxin
+description: "Nerve toxin; paralysis and convulsions; disrupts neurotransmission leading to respiratory failure."
+tags: []
+data: {icon: poisonbottle, templatePriority: 0, packFolder: poisonsandtoxins}
 sohl:
   kbcat: poisontoxin
-  system:
-    levelBase: 1
-    healingRateBase: 3
-    contagionIndexBase: 3
-    transmission: vector
-packFolder: poisonsandtoxins
+  system: {levelBase: 1, healingRateBase: 3, contagionIndexBase: 3, transmission: vector}
 ---
 
 Neurotoxins are a class of toxins that specifically target the nervous system, leading to paralysis, convulsions, and potentially death. Neurotoxins work by interfering with the transmission of nerve signals, either by blocking neurotransmitter release or by disrupting ion channels, which results in muscle paralysis and respiratory failure. Symptoms start with localized pain, numbness, and tingling, progressing to more severe systemic effects like muscle weakness, difficulty breathing, and, in severe cases, death if respiratory muscles are paralyzed.

@@ -1,26 +1,15 @@
 ---
-tags: []
-name:
-  full: Perception
-  aliases: []
-description: "Acuity of the senses taken together: eye, ear, and nose."
 shortcode: per
+name: {full: Perception, aliases: []}
 type: attribute
-data:
-  icon: awareness
-  templatePriority: 0
+description: "Acuity of the senses taken together: eye, ear, and nose."
+tags: []
+data: {icon: awareness, templatePriority: 0, packFolder: attributes}
 sohl:
   system:
     scoreBase: 0
-    valueDesc:
-      - Impaired:4
-      - Dulled:8
-      - Average:12
-      - Sharp:16
-      - Acute:999
+    valueDesc: [Impaired:4, Dulled:8, Average:12, Sharp:16, Acute:999]
     initDiceFormula: 3d6
-sort: 50
-packFolder: attributes
 ---
 
 Perception is the acuity of the senses—the keenness of eye, sharpness of ear, and sensitivity of nose. It determines who sees the hawk circling above when others see only sky, who hears the footstep on soft grass when others hear silence, and whose nose catches the scent of rot in the granary. A person with keen perception is difficult to surprise and deadly in the hunt.

@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Club, Large
-  aliases: []
-description: "Two-handed wooden bludgeon for shattering shields; giant's breach weapon."
 shortcode: clblg
+name: {full: "Club, Large", aliases: []}
 type: weapongear
-data:
-  icon: club
-  templatePriority: 0
+description: "Two-handed wooden bludgeon for shattering shields; giant's breach weapon."
+tags: []
+data: {icon: club, templatePriority: 0, packFolder: weapons}
 sohl:
-  craft:
-    skill: wood
-    secondary: []
+  craft: {skill: wood, secondary: []}
   kbcat: club
   weaponType: Club
   system:
@@ -26,14 +20,8 @@ sohl:
         name: Crush
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 8
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 2
-          aspect: blunt
+        attack: {spread: 8, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 2, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -62,22 +50,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 5
-        defense:
-          blockMod: 0
-          counterstrikeMod: 0
+        defense: {blockMod: 0, counterstrikeMod: 0}
       - shortcode: shaft
         type: melee
         name: Shaft
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 8
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 1
-          aspect: blunt
+        attack: {spread: 8, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 1, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -106,10 +86,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 5
-        defense:
-          blockMod: 0
-          counterstrikeMod: 0
-packFolder: weapons
+        defense: {blockMod: 0, counterstrikeMod: 0}
 ---
 
 A two-handed wooden bludgeon, thicker and heavier than a common club, swung by men of considerable strength. The broad clubbed head delivers devastating blows that can splinter shields and shatter limbs—the reach and weight are worth the clumsiness. Often used in the hands of giants and ogres, or by the strongest human warriors in desperate defenses or breach assaults.

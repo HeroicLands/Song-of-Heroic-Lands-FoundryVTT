@@ -1,14 +1,11 @@
 ---
+shortcode: issuereporting
+name: {full: Issue Reporting, aliases: []}
 type: doc
 subType: howto
-name:
-  full: Issue Reporting
-  aliases: []
-shortcode: issuereporting
 description: "How issues are typed, prioritized, labeled, and tied to capability milestones."
-pack: none
-sohl:
-  kbcat: devdocs
+data: {pack: none}
+sohl: {kbcat: devdocs}
 ---
 
 # Issue Reporting

@@ -1,20 +1,11 @@
 ---
-tags: []
-name:
-  full: Equinophobia
-  aliases: []
 shortcode: eqnphb
+name: {full: Equinophobia, aliases: []}
 type: trauma
-data:
-  icon: dread
-  templatePriority: 0
 subType: fear
-sohl:
-  kbcat: phobias
-  system:
-    category: none
-    levelBase: 0
-packFolder: phobias
+tags: []
+data: {icon: dread, templatePriority: 0, packFolder: phobias}
+sohl: {kbcat: phobias, system: {category: none, levelBase: 0}}
 ---
 
 Equinophobia is an intense, irrational fear of horses. People with equinophobia may experience a range of symptoms when they think about, see, or are near horses.

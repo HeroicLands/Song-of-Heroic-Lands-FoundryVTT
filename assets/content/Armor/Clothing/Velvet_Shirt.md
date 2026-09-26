@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Velvet Shirt
-  aliases: []
-description: "Soft plush velvet shirt; luxurious garment for formal occasions and status."
 shortcode: vshirt
+name: {full: Velvet Shirt, aliases: []}
 type: armorgear
-data:
-  icon: shirt
-  templatePriority: 0
+description: "Soft plush velvet shirt; luxurious garment for formal occasions and status."
+tags: []
+data: {icon: shirt, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Shirt
   detailMaterial: Velvet
@@ -21,25 +15,10 @@ sohl:
     valueBase: 120
     durabilityBase: 10
     material: Cloth
-    locations:
-      flexible:
-        - lshldloc
-        - rshldloc
-        - lupaloc
-        - rupaloc
-        - thrxloc
-        - abdmnloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [lshldloc, rshldloc, lupaloc, rupaloc, thrxloc, abdmnloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 33
-origWeight: 1.7
 ---
 
 Soft and plush, the Velvet Shirt symbolizes opulence. While it may not be particularly durable, its rich texture and appearance make it perfect for formal settings and high-status individuals.

@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Russet Sleeved Tunic
-  aliases: []
-description: "Reddish-brown wool tunic; full-arm coverage for warmth."
 shortcode: rstnc
+name: {full: Russet Sleeved Tunic, aliases: []}
 type: armorgear
-data:
-  icon: shirt
-  templatePriority: 0
+description: "Reddish-brown wool tunic; full-arm coverage for warmth."
+tags: []
+data: {icon: shirt, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Sleeved Tunic
   detailMaterial: Russet
@@ -35,16 +29,9 @@ sohl:
         - abdmnloc
         - plvisloc
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 50
-origWeight: 2.5
 ---
 
 Crafted from coarse wool dyed reddish-brown, the Russet Sleeved Tunic offers warmth and durability. It is practical for colder weather and rougher environments, providing reliable coverage.

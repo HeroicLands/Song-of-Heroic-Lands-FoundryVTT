@@ -1,20 +1,11 @@
 ---
-tags: []
-name:
-  full: Chemophobia
-  aliases: []
 shortcode: chemophb
+name: {full: Chemophobia, aliases: []}
 type: trauma
-data:
-  icon: dread
-  templatePriority: 0
 subType: fear
-sohl:
-  kbcat: phobias
-  system:
-    category: none
-    levelBase: 0
-packFolder: phobias
+tags: []
+data: {icon: dread, templatePriority: 0, packFolder: phobias}
+sohl: {kbcat: phobias, system: {category: none, levelBase: 0}}
 ---
 
 Chemophobia is an intense, irrational fear of chemicals or chemical compounds. People with chemophobia may experience a range of symptoms when they think about, see, or are near chemicals.

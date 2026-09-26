@@ -1,20 +1,11 @@
 ---
-tags: []
-name:
-  full: Cardiophobia
-  aliases: []
 shortcode: crdphb
+name: {full: Cardiophobia, aliases: []}
 type: trauma
-data:
-  icon: dread
-  templatePriority: 0
 subType: fear
-sohl:
-  kbcat: phobias
-  system:
-    category: none
-    levelBase: 0
-packFolder: phobias
+tags: []
+data: {icon: dread, templatePriority: 0, packFolder: phobias}
+sohl: {kbcat: phobias, system: {category: none, levelBase: 0}}
 ---
 
 Cardiophobia is an intense, irrational fear of heart-related issues. People with cardiophobia may experience a range of symptoms when they think about, hear, or read about heart problems.

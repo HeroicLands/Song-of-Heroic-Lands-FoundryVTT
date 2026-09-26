@@ -1,22 +1,12 @@
 ---
-tags: []
-name:
-  full: Heatstruck
-  aliases: []
-description: "Catastrophic heat injury; dry hot skin, confusion, seizure, death."
 shortcode: htstrk
+name: {full: Heatstruck, aliases: []}
 type: trauma
-data:
-  icon: stomach
-  templatePriority: 0
 subType: physcond
-sohl:
-  kbcat: physprivations
-  system:
-    category: debility
-    levelBase: 4
-    healingRateBase: 1
-packFolder: privations
+description: "Catastrophic heat injury; dry hot skin, confusion, seizure, death."
+tags: []
+data: {icon: stomach, templatePriority: 0, packFolder: privations}
+sohl: {kbcat: physprivations, system: {category: debility, levelBase: 4, healingRateBase: 1}}
 ---
 
 Heat stroke is the catastrophic failure of the body's heat regulation. Sweating stops, the skin grows hot and dry, the core temperature climbs beyond what tissues can survive, and the brain begins to cook within its skull. It is a true emergency — every minute of delay multiplies the chance of death or permanent damage — and even successful treatment may leave lasting impairment.

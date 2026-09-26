@@ -1,16 +1,11 @@
 ---
-tags: []
-name:
-  full: Folk Bite
-  aliases:
-    - Bite
-description: "Teeth, at the range where nothing else will reach; small, precise, and it draws blood."
 shortcode: bflkbite
+name: {full: Folk Bite, aliases: [Bite]}
 type: skill
-data:
-  icon: fangs
-  templatePriority: 0
 subType: combattechnique
+description: "Teeth, at the range where nothing else will reach; small, precise, and it draws blood."
+tags: []
+data: {icon: fangs, templatePriority: 0, packFolder: combat}
 sohl:
   kbcat: unarmed
   strikeMode:
@@ -19,25 +14,12 @@ sohl:
     name: Bite
     minParts: 1
     assocSkillCode: melee
-    attack:
-      disabled: false
-      spread: 2
-      modifier: 0
-    impactBase:
-      numDice: 1
-      die: 4
-      modifier: 0
-      aspect: piercing
+    attack: {disabled: false, spread: 2, modifier: 0}
+    impactBase: {numDice: 1, die: 4, modifier: 0, aspect: piercing}
     lengthBase: 0
     defense:
-      block:
-        disabled: true
-        modifier: 0
-        successLevelMod: 0
-      counterstrike:
-        disabled: false
-        modifier: 0
-        successLevelMod: 0
+      block: {disabled: true, modifier: 0, successLevelMod: 0}
+      counterstrike: {disabled: false, modifier: 0, successLevelMod: 0}
     traits:
       meleeMod: 0
       blockSLMod: 0
@@ -72,9 +54,7 @@ sohl:
     combatCategory: melee
     parentSkillCode: ""
     initSkillMult: 2
-    impairedByRoles:
-      - vital
-packFolder: combat
+    impairedByRoles: [vital]
 ---
 
 Biting is what remains when both arms are held and the head is not — in a grapple, on the ground, pinned under a shield. It reaches no distance whatever: the target must already be pressed against you, which is why it never appears in an opening exchange and often decides a closing one.

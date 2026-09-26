@@ -1,20 +1,11 @@
 ---
-tags: []
-name:
-  full: Sociophobia
-  aliases: []
 shortcode: sociophb
+name: {full: Sociophobia, aliases: []}
 type: trauma
-data:
-  icon: dread
-  templatePriority: 0
 subType: fear
-sohl:
-  kbcat: phobias
-  system:
-    category: none
-    levelBase: 0
-packFolder: phobias
+tags: []
+data: {icon: dread, templatePriority: 0, packFolder: phobias}
+sohl: {kbcat: phobias, system: {category: none, levelBase: 0}}
 ---
 
 Sociophobia, also known as social phobia or social anxiety disorder, is an intense, irrational fear of social situations. People with sociophobia may experience a range of symptoms when they think about, see, or are in social settings.

@@ -1,11 +1,9 @@
 ---
+shortcode: bodytrmaintro
+name: {full: Body Trauma Introduction, aliases: []}
 type: doc
 subType: rules
-name:
-  full: Body Trauma Introduction
-  aliases: []
-packFolder: body
-shortcode: bodytrmaintro
+data: {packFolder: body}
 ---
 
 - [[doc-injintro|Injuries]]

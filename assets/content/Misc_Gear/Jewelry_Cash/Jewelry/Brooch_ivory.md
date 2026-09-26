@@ -1,26 +1,14 @@
 ---
-tags:
-  - jewelry_cash
-name:
-  full: "Brooch, ivory"
-  aliases: []
-description: "A pin and catch worked into a plate, worn to fasten a cloak at the shoulder, in carved ivory."
 shortcode: broochivory
+name: {full: "Brooch, ivory", aliases: []}
 type: miscgear
-data:
-  icon: gempendant
-  templatePriority: 0
+description: "A pin and catch worked into a plate, worn to fasten a cloak at the shoulder, in carved ivory."
+tags: [jewelry_cash]
+data: {icon: gempendant, templatePriority: 0, packFolder: jewelry}
 sohl:
-  craft:
-    skill: jewl
-    secondary: []
+  craft: {skill: jewl, secondary: []}
   kbcat: jewelry
-  system:
-    weightBase: 0.05
-    valueBase: 19
-    qualityBase: 0
-    durabilityBase: 3
-packFolder: jewelry
+  system: {weightBase: 0.05, valueBase: 19, qualityBase: 0, durabilityBase: 3}
 ---
 
 A pin and catch worked into a plate, worn to fasten a cloak at the shoulder. This one is carved ivory — the tooth of beasts from far off, not the horn of any beast bred at home — 0.8 ounces of it, and reckons 1 day at the bench.

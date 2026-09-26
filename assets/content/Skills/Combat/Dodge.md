@@ -1,15 +1,11 @@
 ---
-tags: []
-name:
-  full: Dodge
-  aliases: []
-description: "Evading attacks by shifting body; instinctive defense in combat."
 shortcode: dge
+name: {full: Dodge, aliases: []}
 type: skill
-data:
-  icon: dodge
-  templatePriority: 0
 subType: combat
+description: "Evading attacks by shifting body; instinctive defense in combat."
+tags: []
+data: {icon: dodge, templatePriority: 0, packFolder: combat}
 sohl:
   kbcat: combat
   system:
@@ -18,11 +14,7 @@ sohl:
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 2
-    impairedByRoles:
-      - core
-      - vital
-      - locomotor
-packFolder: combat
+    impairedByRoles: [core, vital, locomotor]
 ---
 
 Dodge is the body simply not being where the weapon arrives — a drop of the shoulder, a step off the line, a lean that costs nothing but the moment it took. It is a subskill of Melee, carrying its own Skill Base but developing at Melee's Skill Multiple, because it is learned in the same place and at the same time as everything else about fighting.

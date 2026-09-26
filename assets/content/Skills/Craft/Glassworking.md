@@ -1,15 +1,11 @@
 ---
-tags: []
-name:
-  full: Glassworking
-  aliases: []
-description: "Shaping molten glass into bottles, goblets, vials, windows, lenses."
 shortcode: glas
+name: {full: Glassworking, aliases: []}
 type: skill
-data:
-  icon: roundbottomflask
-  templatePriority: 0
 subType: craft
+description: "Shaping molten glass into bottles, goblets, vials, windows, lenses."
+tags: []
+data: {icon: roundbottomflask, templatePriority: 0, packFolder: craft}
 sohl:
   kbcat: craft
   system:
@@ -18,11 +14,7 @@ sohl:
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 0
-    impairedByRoles:
-      - core
-      - vital
-      - manipulator
-packFolder: craft
+    impairedByRoles: [core, vital, manipulator]
 ---
 
 Glassworking is the winning of vessels and panes out of a substance that is only workable while it is dangerously hot and unforgiving the moment it is not. Bottles, flasks, phials, goblets, beads, window quarries and — for the very few with the patience and the ground stone — lenses.

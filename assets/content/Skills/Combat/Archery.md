@@ -1,15 +1,11 @@
 ---
-tags: []
-name:
-  full: Archery
-  aliases: []
-description: "Striking distant targets with bows and crossbows; reading windage and elevation."
 shortcode: archery
+name: {full: Archery, aliases: []}
 type: skill
-data:
-  icon: pocketbow
-  templatePriority: 0
 subType: combat
+description: "Striking distant targets with bows and crossbows; reading windage and elevation."
+tags: []
+data: {icon: pocketbow, templatePriority: 0, packFolder: combat}
 sohl:
   kbcat: combat
   system:
@@ -18,11 +14,7 @@ sohl:
     combatCategory: melee
     parentSkillCode: ""
     initSkillMult: 1
-    impairedByRoles:
-      - core
-      - vital
-      - manipulator
-packFolder: combat
+    impairedByRoles: [core, vital, manipulator]
 ---
 
 Archery is the use of hand-drawn, stringed missile weapons — bows of every construction and crossbows alike. It rests on eyesight and on touch, and with most such weapons it is not a thing that can be improvised: the bow that a strong beginner can barely bend is the bow an archer looses forty times in an afternoon.

@@ -1,15 +1,11 @@
 ---
-tags: []
-name:
-  full: Climbing
-  aliases: []
-description: "Scaling cliffs, walls, trees using handholds, ropes, body technique."
 shortcode: clmb
+name: {full: Climbing, aliases: []}
 type: skill
-data:
-  icon: mountainclimbing
-  templatePriority: 0
 subType: physical
+description: "Scaling cliffs, walls, trees using handholds, ropes, body technique."
+tags: []
+data: {icon: mountainclimbing, templatePriority: 0, packFolder: physical}
 sohl:
   kbcat: physical
   system:
@@ -18,12 +14,7 @@ sohl:
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 3
-    impairedByRoles:
-      - core
-      - vital
-      - locomotor
-      - manipulator
-packFolder: physical
+    impairedByRoles: [core, vital, locomotor, manipulator]
 ---
 
 Climbing covers everything from swinging up into a tree to working a sheer rock face on fingertips. What separates the two is not effort but resolution: an easy climb is folded into ordinary movement, while a hard one is fought a minute at a time.

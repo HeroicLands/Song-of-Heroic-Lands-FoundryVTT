@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Velvet Robe
-  aliases: []
-description: "Soft plush velvet robe; opulent garment for formal settings and grandeur."
 shortcode: vrobe
+name: {full: Velvet Robe, aliases: []}
 type: armorgear
-data:
-  icon: robe
-  templatePriority: 0
+description: "Soft plush velvet robe; opulent garment for formal settings and grandeur."
+tags: []
+data: {icon: robe, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Robe
   detailMaterial: Velvet
@@ -41,16 +35,9 @@ sohl:
         - lcalfloc
         - rcalfloc
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 79
-origWeight: 4
 ---
 
 Soft and plush, the Velvet Robe is a symbol of opulence. It offers modest insulation and is perfect for formal settings, helping high-status individuals make a grand impression.

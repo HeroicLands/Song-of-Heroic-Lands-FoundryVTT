@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Wooden Crossbow 160
-  aliases: []
-description: "Heavy prod spanning by cranequin; castle-wall and convoy suppression weapon."
 shortcode: wcxbw160
+name: {full: Wooden Crossbow 160, aliases: []}
 type: weapongear
-data:
-  icon: crossbow
-  templatePriority: 0
+description: "Heavy prod spanning by cranequin; castle-wall and convoy suppression weapon."
+tags: []
+data: {icon: crossbow, templatePriority: 0, packFolder: weapons}
 sohl:
-  craft:
-    skill: fltch
-    secondary: [wood, timb]
+  craft: {skill: fltch, secondary: [wood, timb]}
   kbcat: crossbow
   weaponType: Crossbow
   system:
@@ -26,14 +20,8 @@ sohl:
         name: Ranged
         assocSkillCode: archery
         minParts: 2
-        attack:
-          spread: 0
-          modifier: 0
-        impactBase:
-          numDice: 0
-          die: null
-          modifier: 3
-          aspect: piercing
+        attack: {spread: 0, modifier: 0}
+        impactBase: {numDice: 0, die: null, modifier: 3, aspect: piercing}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -65,7 +53,6 @@ sohl:
         maxVolleyMult: 4
         baseRangeBase: 240
         drawBase: 160
-packFolder: weapons
 ---
 
 A heavy wooden-prod crossbow drawing one hundred and sixty pounds, spanned by cranequin or windlass-lever and mounted on castle walls or convoy wagons. Its longer range and deeper penetration suit defense against massed charge or suppression of distant targets; the spanning mechanism is slow but robust enough for field service when protection is paramount.

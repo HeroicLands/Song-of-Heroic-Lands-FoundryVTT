@@ -1,26 +1,15 @@
 ---
-tags: []
-name:
-  full: Creativity
-  aliases: []
-description: "Imagination: seeing new connections and forging original solutions."
 shortcode: cre
+name: {full: Creativity, aliases: []}
 type: attribute
-data:
-  icon: lightbulb
-  templatePriority: 0
+description: "Imagination: seeing new connections and forging original solutions."
+tags: []
+data: {icon: lightbulb, templatePriority: 0, packFolder: attributes}
 sohl:
   system:
     scoreBase: 0
-    valueDesc:
-      - Banal:4
-      - Predictable:8
-      - Average:12
-      - Innovative:16
-      - Visionary:999
+    valueDesc: [Banal:4, Predictable:8, Average:12, Innovative:16, Visionary:999]
     initDiceFormula: 3d6
-sort: 100
-packFolder: attributes
 ---
 
 Creativity is the power of imagination—the capacity to perceive new connections, generate novel ideas, and forge original solutions to problems. It is what distinguishes the talented craftsperson from the merely competent, the visionary leader from the plodding administrator, the inspired poet from the mere versifier. Those with keen creativity see possibilities where others see only what is.

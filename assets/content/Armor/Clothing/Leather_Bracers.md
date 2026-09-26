@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Leather Bracers
-  aliases: []
-description: "Lightweight leather arm guards allowing full flexibility and movement."
 shortcode: ltbrcr
+name: {full: Leather Bracers, aliases: []}
 type: armorgear
-data:
-  icon: bracer
-  templatePriority: 0
+description: "Lightweight leather arm guards allowing full flexibility and movement."
+tags: []
+data: {icon: bracer, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: leather
   armorType: Bracers
   detailMaterial: Leather
@@ -21,21 +15,10 @@ sohl:
     valueBase: 40
     durabilityBase: 9
     material: Leather
-    locations:
-      flexible:
-        - lfraloc
-        - rfraloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [lfraloc, rfraloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 20
-origWeight: 0.8
 ---
 
 Leather Bracers provide a stylish and functional choice for arm protection. Made from lightweight leather, they offer some defense against minor injuries while allowing for full flexibility and movement.

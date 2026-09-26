@@ -1,13 +1,10 @@
 ---
+shortcode: cssarchitecture
+name: {full: CSS Architecture & Styleguide, aliases: []}
 type: doc
 subType: concept
-name:
-  full: CSS Architecture & Styleguide
-  aliases: []
-shortcode: cssarchitecture
-pack: none
-sohl:
-  kbcat: devdocs
+data: {pack: none}
+sohl: {kbcat: devdocs}
 ---
 
 # CSS Architecture & Styleguide

@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Whip
-  aliases: []
-description: "Leather lash reaching beyond guard; reaches, entangles, intimidates and wounds."
 shortcode: whp
+name: {full: Whip, aliases: []}
 type: weapongear
-data:
-  icon: whip
-  templatePriority: 0
+description: "Leather lash reaching beyond guard; reaches, entangles, intimidates and wounds."
+tags: []
+data: {icon: whip, templatePriority: 0, packFolder: weapons}
 sohl:
-  craft:
-    skill: hide
-    secondary: []
+  craft: {skill: hide, secondary: []}
   kbcat: whip
   weaponType: Flail
   system:
@@ -26,14 +20,8 @@ sohl:
         name: Lash
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 10
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 0
-          aspect: edged
+        attack: {spread: 10, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 0, aspect: edged}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -62,22 +50,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 10
-        defense:
-          blockMod: -20
-          counterstrikeMod: -20
+        defense: {blockMod: -20, counterstrikeMod: -20}
       - shortcode: pommel
         type: melee
         name: Pommel
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 4
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 0
-          aspect: blunt
+        attack: {spread: 4, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 0, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -106,10 +86,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 10
-        defense:
-          blockMod: -20
-          counterstrikeMod: -20
-packFolder: weapons
+        defense: {blockMod: -20, counterstrikeMod: -20}
 ---
 
 A long leather lash bound to a wooden grip, the whip cracks to deliver stinging cuts and sharp shocks that sting even through armor. It reaches beyond a sword's guard and entangles limbs or weapons to distract and wound. Circus performers, duelists, and intimidators favor it—it demands practice and open space, but offers reach and psychological bite.

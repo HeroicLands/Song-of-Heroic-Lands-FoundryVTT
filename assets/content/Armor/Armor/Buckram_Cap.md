@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Buckram Cap
-  aliases: []
-description: "Stiff buckram cap holding shape well; durable and reliable headwear."
 shortcode: bcap
+name: {full: Buckram Cap, aliases: []}
 type: armorgear
-data:
-  icon: billedcap
-  templatePriority: 0
+description: "Stiff buckram cap holding shape well; durable and reliable headwear."
+tags: []
+data: {icon: billedcap, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Cap
   detailMaterial: Buckram
@@ -21,20 +15,10 @@ sohl:
     valueBase: 4
     durabilityBase: 10
     material: Cloth
-    locations:
-      flexible:
-        - skullloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [skullloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 4
-origWeight: 0.2
 ---
 
 The Buckram Cap is stiff and structured, made from coarse cloth stiffened with glue. It offers a durable, reliable head covering that holds its shape well.

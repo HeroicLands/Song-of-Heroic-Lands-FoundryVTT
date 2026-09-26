@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Absent-Minded
-  aliases: []
 shortcode: absntmd
+name: {full: Absent-Minded, aliases: []}
 type: trauma
-data:
-  icon: battlegear
-  templatePriority: 0
 subType: psycond
-sohl:
-  kbcat: psybehavior
-  system:
-    category: quirk
-packFolder: quirks
+tags: []
+data: {icon: battlegear, templatePriority: 0, packFolder: quirks}
+sohl: {kbcat: psybehavior, system: {category: quirk}}
 ---
 
 Absent-minded refers to an individual who is often forgetful, distracted, or lost in thought. An absent-minded person may have difficulty focusing on tasks at hand, forget appointments, or appear detached from their surroundings due to daydreaming or preoccupation with their thoughts. While this trait can sometimes be harmless or even charming, excessive absent-mindedness can lead to neglect of responsibilities, misunderstandings, or frustration in social and professional contexts.

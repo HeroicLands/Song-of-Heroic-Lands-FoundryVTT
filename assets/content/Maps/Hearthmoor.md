@@ -1,13 +1,11 @@
 ---
-tags: []
-name:
-  full: Hearthmoor
-  aliases: []
-description: "The open moor the road crosses, a day's walk end to end."
 shortcode: hearthmoor
+name: {full: Hearthmoor, aliases: []}
 type: map
-packFolder: regionalmaps
 subType: regionalmap
+description: "The open moor the road crosses, a day's walk end to end."
+tags: []
+data: {bgImage: sohl-none-image-parchment, packFolder: regionalmaps}
 sohl:
   kbcat: map
   dimensions: [512, 512]
@@ -16,14 +14,8 @@ sohl:
   regions:
     bog:
       name: The Sink
-      shapes:
-        - polygon: [128, 192, 288, 160, 352, 288, 224, 352]
-      behaviors:
-        wading:
-          modifyMovementCost:
-            difficulties: { walk: 3 }
-data:
-  bgImage: sohl-none-image-parchment
+      shapes: [{polygon: [128, 192, 288, 160, 352, 288, 224, 352]}]
+      behaviors: {wading: {modifyMovementCost: {difficulties: {walk: 3}}}}
 ---
 
 Heather and standing water from edge to edge, crossed by one road and no

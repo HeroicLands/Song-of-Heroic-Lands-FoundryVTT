@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Longbow 100
-  aliases: []
-description: "Hundred-pound yew warbow; footman archer's competent field standard."
 shortcode: lbw100
+name: {full: Longbow 100, aliases: []}
 type: weapongear
-data:
-  icon: pocketbow
-  templatePriority: 0
+description: "Hundred-pound yew warbow; footman archer's competent field standard."
+tags: []
+data: {icon: pocketbow, templatePriority: 0, packFolder: weapons}
 sohl:
-  craft:
-    skill: fltch
-    secondary: [wood, timb]
+  craft: {skill: fltch, secondary: [wood, timb]}
   kbcat: bow
   weaponType: Bow
   system:
@@ -26,14 +20,8 @@ sohl:
         name: Crush
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 8
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 0
-          aspect: blunt
+        attack: {spread: 8, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 0, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -62,22 +50,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 6
-        defense:
-          blockMod: 0
-          counterstrikeMod: 0
+        defense: {blockMod: 0, counterstrikeMod: 0}
       - shortcode: ranged
         type: missile
         name: Ranged
         assocSkillCode: archery
         minParts: 2
-        attack:
-          spread: 0
-          modifier: 0
-        impactBase:
-          numDice: 0
-          die: null
-          modifier: 3
-          aspect: piercing
+        attack: {spread: 0, modifier: 0}
+        impactBase: {numDice: 0, die: null, modifier: 3, aspect: piercing}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -109,7 +89,6 @@ sohl:
         maxVolleyMult: 4
         baseRangeBase: 210
         drawBase: 100
-packFolder: weapons
 ---
 
 A tall, well-crafted self-bow of yew or ash, drawn to the ear with a hundred-pound pull. This is the competent archer's warbow—the standard issue of muster-trained footmen and border garrison archers, capable of striking at armored targets at considerable range.

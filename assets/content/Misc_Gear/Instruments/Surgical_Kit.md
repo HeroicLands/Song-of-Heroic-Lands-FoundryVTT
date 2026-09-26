@@ -1,26 +1,14 @@
 ---
-tags:
-  - instruments
-name:
-  full: Surgical Kit
-  aliases: []
-description: "Oiled-leather case with lancets, bone saw, forceps, scalpels, probes; physicians for grave wounds."
 shortcode: surgkit
+name: {full: Surgical Kit, aliases: []}
 type: miscgear
-data:
-  icon: scalpel
-  templatePriority: 0
+description: "Oiled-leather case with lancets, bone saw, forceps, scalpels, probes; physicians for grave wounds."
+tags: [instruments]
+data: {icon: scalpel, templatePriority: 0, packFolder: instruments}
 sohl:
-  craft:
-    skill: mtlc
-    secondary: []
+  craft: {skill: mtlc, secondary: []}
   kbcat: instruments
-  system:
-    weightBase: 6
-    valueBase: 120
-    qualityBase: 0
-    durabilityBase: 4
-packFolder: instruments
+  system: {weightBase: 6, valueBase: 120, qualityBase: 0, durabilityBase: 4}
 ---
 
 A fitted case of oiled leather holding a physician's working instruments: a set of lancets in graded widths for opening abscesses and venesection, a curved bone saw for amputation, a fine-toothed trephine for skull work, long-handled forceps and tooth-pullers, scalpels of drawn steel, slender silver probes, an arrow spoon for drawing out embedded points without widening the wound, a pair of wound retractors, cauterizing irons, a tourniquet of waxed cord, and a small brass basin. The steel is drawn thin and hardened by a smith who understands the craft; the edges must be honed on stone between uses, and the whole case is boiled in water or wiped with spirits before serious work. Such instruments are expensive, and their loss is grave; a surgeon will not lend them casually, and an apprentice handles them with the reverence owed to tools on which lives turn.

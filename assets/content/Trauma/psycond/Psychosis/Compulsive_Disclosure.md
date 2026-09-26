@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Compulsive Disclosure
-  aliases: []
 shortcode: cmpldsr
+name: {full: Compulsive Disclosure, aliases: []}
 type: trauma
-data:
-  icon: battlegear
-  templatePriority: 0
 subType: psycond
-sohl:
-  kbcat: psypsychosis
-  system:
-    category: impulse
-packFolder: disorders
+tags: []
+data: {icon: battlegear, templatePriority: 0, packFolder: disorders}
+sohl: {kbcat: psypsychosis, system: {category: impulse}}
 ---
 
 Compulsive Disclosure is a behavioral condition where an individual feels an uncontrollable urge to share personal, private, or sensitive information with others, often in inappropriate or unnecessary contexts. While they may sometimes recognize that they have overshared and feel embarrassed by their actions, individuals with more severe forms of this condition can be oblivious to the social consequences of their behavior. This lack of awareness can lead to repeated episodes of oversharing, resulting in damaged relationships, social isolation, and a decline in self-esteem.

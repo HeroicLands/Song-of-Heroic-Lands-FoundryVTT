@@ -1,9 +1,6 @@
 ---
-name:
-  full: "Cooking"
 shortcode: cooking
+name: {full: "Cooking"}
 type: folder
-data:
-  parent: miscgear
-  color: "#E63946"
+data: {parent: miscgear, color: "#E63946"}
 ---

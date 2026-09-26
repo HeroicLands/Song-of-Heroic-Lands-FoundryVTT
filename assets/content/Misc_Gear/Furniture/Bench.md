@@ -1,26 +1,14 @@
 ---
-tags:
-  - furniture
-name:
-  full: "Bench"
-  aliases: []
-description: "Long backless wooden seat for a table, hall, or workshop."
 shortcode: bench
+name: {full: "Bench", aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
+description: "Long backless wooden seat for a table, hall, or workshop."
+tags: [furniture]
+data: {icon: swapbag, templatePriority: 0, packFolder: furniture}
 sohl:
-  craft:
-    skill: wood
-    secondary: []
+  craft: {skill: wood, secondary: []}
   kbcat: furniture
-  system:
-    weightBase: 22
-    valueBase: 18
-    qualityBase: 0
-    durabilityBase: 6
-packFolder: furniture
+  system: {weightBase: 22, valueBase: 18, qualityBase: 0, durabilityBase: 6}
 ---
 
 A plank seat on splayed legs, long enough for three or four to sit at a table. Benches, not chairs, are what people actually sit on: they are cheap, they take whoever arrives, and they push under the table out of the way. In a hall the bench a person is seated on says precisely where they stand, which is why the word for the furniture and the word for the rank are so often the same.

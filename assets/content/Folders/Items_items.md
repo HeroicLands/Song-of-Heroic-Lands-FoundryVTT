@@ -1,8 +1,6 @@
 ---
-name:
-  full: "Items"
 shortcode: items
+name: {full: "Items"}
 type: folder
-data:
-  parent: userguide
+data: {parent: userguide}
 ---

@@ -1,10 +1,9 @@
 ---
+shortcode: syssetngug
+name: {full: "System Settings"}
 type: doc
 subType: userguide
-name:
-  full: "System Settings"
-shortcode: syssetngug
-packFolder: userguide
+data: {packFolder: userguide}
 ---
 
 # System Settings Overview {#SettingsOverview}

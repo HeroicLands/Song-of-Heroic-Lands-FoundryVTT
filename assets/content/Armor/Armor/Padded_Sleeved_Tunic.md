@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Padded Sleeved Tunic
-  aliases: []
-description: "Cushioned sleeved garment for cold weather or under-armor protection."
 shortcode: pstnc
+name: {full: Padded Sleeved Tunic, aliases: []}
 type: armorgear
-data:
-  icon: shirt
-  templatePriority: 0
+description: "Cushioned sleeved garment for cold weather or under-armor protection."
+tags: []
+data: {icon: shirt, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: padded
   armorType: Sleeved Tunic
   detailMaterial: Padded
@@ -35,16 +29,9 @@ sohl:
         - abdmnloc
         - plvisloc
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 100
-origWeight: 4
 ---
 
 The Padded Sleeved Tunic offers warmth and cushioning, perfect for cold weather or added under-armor protection. It provides both comfort and defense, suitable for a variety of activities.

@@ -1,15 +1,11 @@
 ---
-tags: []
-name:
-  full: Milling
-  aliases: []
-description: "Processing grain into flour and meal using mill mechanics and stone-dressing."
 shortcode: mill
+name: {full: Milling, aliases: []}
 type: skill
-data:
-  icon: watermill
-  templatePriority: 0
 subType: craft
+description: "Processing grain into flour and meal using mill mechanics and stone-dressing."
+tags: []
+data: {icon: watermill, templatePriority: 0, packFolder: craft}
 sohl:
   kbcat: craft
   system:
@@ -18,11 +14,7 @@ sohl:
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 0
-    impairedByRoles:
-      - core
-      - vital
-      - manipulator
-packFolder: craft
+    impairedByRoles: [core, vital, manipulator]
 ---
 
 Milling is grinding grain and, in most communities, baking what comes of it. Folk in temperate country take something like three quarters of their calories from grain — wheat, rye and barley chiefly — and a single mill serves a manor of around twenty households. Five adults and children need roughly **36 bushels** a year, so the miller is grinding on the order of **40,000 pounds** annually and everyone in the settlement is waiting on him.

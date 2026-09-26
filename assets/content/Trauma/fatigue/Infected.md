@@ -1,22 +1,12 @@
 ---
-tags: []
-name:
-  full: Infected
-  aliases: []
-description: "Long-term weakness from septic injury or contaminated wound."
 shortcode: infect
+name: {full: Infected, aliases: []}
 type: trauma
-data:
-  icon: sleepy
-  templatePriority: 0
 subType: fatigue
-sohl:
-  kbcat: fatigue
-  system:
-    category: weakness
-    levelBase: 1
-    healingRateBase: 1
-packFolder: fatigue
+description: "Long-term weakness from septic injury or contaminated wound."
+tags: []
+data: {icon: sleepy, templatePriority: 0, packFolder: fatigue}
+sohl: {kbcat: fatigue, system: {category: weakness, levelBase: 1, healingRateBase: 1}}
 ---
 
 Infection weakness is the systemic cost of a wound or injury gone septic. Where disease arises from a contagious agent, infection arises in tissue already damaged — a wound that did not close cleanly, a burn that turned foul, a surgery that introduced contamination. The weakness compounds with the underlying injury, and the two together kill far more often than either alone. 5–10 fatigue per infection.

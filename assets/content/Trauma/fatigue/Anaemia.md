@@ -1,22 +1,12 @@
 ---
-tags: []
-name:
-  full: Anaemia
-  aliases: []
-description: "Long-term weakness from depleted blood reserves."
 shortcode: anaemia
+name: {full: Anaemia, aliases: []}
 type: trauma
-data:
-  icon: sleepy
-  templatePriority: 0
 subType: fatigue
-sohl:
-  kbcat: fatigue
-  system:
-    category: weakness
-    levelBase: 1
-    healingRateBase: 1
-packFolder: fatigue
+description: "Long-term weakness from depleted blood reserves."
+tags: []
+data: {icon: sleepy, templatePriority: 0, packFolder: fatigue}
+sohl: {kbcat: fatigue, system: {category: weakness, levelBase: 1, healingRateBase: 1}}
 ---
 
 Anaemia weakness is the lingering debility of a character whose blood reserves have been depleted by injury, surgery, prolonged bleeding, or systemic illness. Where active bleeding describes the loss itself, anaemia describes the body's reduced capacity afterward — less oxygen carried, less reserve available, every action just slightly more costly than it should be. 5 fatigue per Blood Loss Point (BP) not yet recovered.

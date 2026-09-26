@@ -1,10 +1,9 @@
 ---
+shortcode: crtngactitemug
+name: {full: "Creating Actors and Items"}
 type: doc
 subType: userguide
-name:
-  full: "Creating Actors and Items"
-shortcode: crtngactitemug
-packFolder: userguide
+data: {packFolder: userguide}
 ---
 
 # Overview {#creating-overview}

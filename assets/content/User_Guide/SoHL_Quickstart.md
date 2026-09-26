@@ -1,11 +1,9 @@
 ---
+shortcode: quickstartug
+name: {full: Song of Heroic Lands Quickstart, alises: []}
 type: doc
 subType: userguide
-name:
-  full: Song of Heroic Lands Quickstart
-  alises: []
-shortcode: quickstartug
-packFolder: userguide
+data: {packFolder: userguide}
 ---
 
 This quickstart gets a user from install to first roll with Song of Heroic Lands (SoHL).

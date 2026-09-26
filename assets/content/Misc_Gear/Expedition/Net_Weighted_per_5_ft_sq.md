@@ -1,26 +1,14 @@
 ---
-tags:
-  - expedition
-name:
-  full: "Net, Weighted, per 5 ft sq."
-  aliases: []
-description: "Hempen fishing net with lead weights for casting and sinking."
 shortcode: netweighte
+name: {full: "Net, Weighted, per 5 ft sq.", aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
+description: "Hempen fishing net with lead weights for casting and sinking."
+tags: [expedition]
+data: {icon: swapbag, templatePriority: 0, packFolder: expedition}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: expedition
-  system:
-    weightBase: 4.5
-    valueBase: 48
-    qualityBase: 0
-    durabilityBase: 5
-packFolder: expedition
+  system: {weightBase: 4.5, valueBase: 48, qualityBase: 0, durabilityBase: 5}
 ---
 
 A fishing net woven from hempen cord with lead weights sewn into the lower edge to sink it in fresh water or stream. The weighted design allows a single fisherman to cast and quickly sink the net around schools of fish; worn nets are cut apart and retied by riverside traders.

@@ -1,26 +1,14 @@
 ---
-tags:
-  - natural
-name:
-  full: "Hide, Horse"
-  aliases: []
-description: "Supple durable horsehide; favored for saddles and armor linings by cavalry outposts. Price is for one whole skin."
 shortcode: hidehorse
+name: {full: "Hide, Horse", aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
+description: "Supple durable horsehide; favored for saddles and armor linings by cavalry outposts. Price is for one whole skin."
+tags: [natural]
+data: {icon: swapbag, templatePriority: 0, packFolder: natural}
 sohl:
-  craft:
-    skill: anmcft
-    secondary: []
+  craft: {skill: anmcft, secondary: []}
   kbcat: natural
-  system:
-    weightBase: 10
-    valueBase: 10
-    qualityBase: 0
-    durabilityBase: 3
-packFolder: natural
+  system: {weightBase: 10, valueBase: 10, qualityBase: 0, durabilityBase: 3}
 ---
 
 A horsehide—large, supple, and durable—salted and rolled for the tanner. Saddlers and armor-lining workers prefer it for its strength and finish; cavalry outposts buy hides in bulk. The hide is heavier than cattle but less dense, making it favored for flexible, water-resistant leather.

@@ -1,10 +1,9 @@
 ---
+shortcode: iconlgndug
+name: {full: "Icon Legend"}
 type: doc
 subType: userguide
-name:
-  full: "Icon Legend"
-shortcode: iconlgndug
-packFolder: userguide
+data: {packFolder: userguide}
 ---
 
 # Icon Legend

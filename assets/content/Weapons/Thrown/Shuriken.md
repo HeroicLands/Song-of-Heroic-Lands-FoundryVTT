@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Shuriken
-  aliases: []
-description: "Iron star-spikes thrown for distraction and wound; assassin's surprise reach."
 shortcode: shrkn
+name: {full: Shuriken, aliases: []}
 type: weapongear
-data:
-  icon: shurikendrkz
-  templatePriority: 0
+description: "Iron star-spikes thrown for distraction and wound; assassin's surprise reach."
+tags: []
+data: {icon: shurikendrkz, templatePriority: 0, packFolder: weapons}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [mtlc, mnrl]
+  craft: {skill: wpnc, secondary: [mtlc, mnrl]}
   kbcat: thrown
   weaponType: Knife
   system:
@@ -26,14 +20,8 @@ sohl:
         name: Cut
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 4
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 2
-          aspect: edged
+        attack: {spread: 4, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 2, aspect: edged}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -62,22 +50,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 3
-        defense:
-          blockMod: 0
-          counterstrikeMod: 0
+        defense: {blockMod: 0, counterstrikeMod: 0}
       - shortcode: thrown
         type: missile
         name: Thrown
         assocSkillCode: thro
         minParts: 1
-        attack:
-          spread: 4
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 2
-          aspect: edged
+        attack: {spread: 4, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 2, aspect: edged}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -109,7 +89,6 @@ sohl:
         maxVolleyMult: 2
         baseRangeBase: 25
         drawBase: 0
-packFolder: weapons
 ---
 
 Small iron stars or spikes forged with flat or pointed arms, shuriken are thrown at close range to distract and wound. Lightweight and easy to hide, they favor assassins, footpads, and duelists seeking surprise advantage. Few soldiers carry them; their effect is more psychological than devastating, but a shuriken in the eye buys time to flee or close.

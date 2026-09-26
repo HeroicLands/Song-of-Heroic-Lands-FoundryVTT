@@ -1,11 +1,9 @@
 ---
+shortcode: scndryms
+name: {full: Secondary Mastery, aliases: []}
 type: doc
 subType: rules
-name:
-  full: Secondary Mastery
-  aliases: []
-shortcode: scndryms
-packFolder: resolution
+data: {packFolder: resolution}
 ---
 
 # Secondary Mastery {#secondary-mastery}

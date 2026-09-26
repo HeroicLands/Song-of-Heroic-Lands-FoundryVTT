@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Mail Long Hauberk
-  aliases: []
-description: "Lengthy metal ring torso armor for extended leg protection."
 shortcode: mlhbk
+name: {full: Mail Long Hauberk, aliases: []}
 type: armorgear
-data:
-  icon: chainmail
-  templatePriority: 0
+description: "Lengthy metal ring torso armor for extended leg protection."
+tags: []
+data: {icon: chainmail, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [mtlc, mnrl]
+  craft: {skill: wpnc, secondary: [mtlc, mnrl]}
   kbcat: mail
   armorType: Long Hauberk
   detailMaterial: Mail
@@ -37,16 +31,9 @@ sohl:
         - plvisloc
         - lthghloc
         - rthghloc
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 20
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 960
-origWeight: 28.8
 ---
 
 The Mail Long Hauberk is a lengthy chainmail shirt offering significant protection for the torso and upper legs. Its interlinked metal rings provide excellent defense against slashes and thrusts while maintaining flexibility.

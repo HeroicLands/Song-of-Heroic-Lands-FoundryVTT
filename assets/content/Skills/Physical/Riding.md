@@ -1,15 +1,11 @@
 ---
-tags: []
-name:
-  full: Riding
-  aliases: []
-description: "Controlling mounted animals through communication and empathic connection."
 shortcode: ridg
+name: {full: Riding, aliases: []}
 type: skill
-data:
-  icon: cavalry
-  templatePriority: 0
 subType: physical
+description: "Controlling mounted animals through communication and empathic connection."
+tags: []
+data: {icon: cavalry, templatePriority: 0, packFolder: physical}
 sohl:
   kbcat: physical
   system:
@@ -18,11 +14,7 @@ sohl:
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 1
-    impairedByRoles:
-      - core
-      - vital
-      - manipulator
-packFolder: physical
+    impairedByRoles: [core, vital, manipulator]
 ---
 
 Almost anyone can sit a walking horse. Riding measures what is needed beyond that: the empathy to know what the animal is about to do and the balance to still be aboard when it does it — in a press of bodies, under noise, over ground the horse would rather not cross.

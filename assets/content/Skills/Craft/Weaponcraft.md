@@ -1,15 +1,11 @@
 ---
-tags: []
-name:
-  full: Weaponcraft
-  aliases: []
-description: "Forging swords, axes, and weapons with superior balance and performance."
 shortcode: wpnc
+name: {full: Weaponcraft, aliases: []}
 type: skill
-data:
-  icon: swordsmithing
-  templatePriority: 0
 subType: craft
+description: "Forging swords, axes, and weapons with superior balance and performance."
+tags: []
+data: {icon: swordsmithing, templatePriority: 0, packFolder: craft}
 sohl:
   kbcat: craft
   system:
@@ -18,11 +14,7 @@ sohl:
     combatCategory: none
     parentSkillCode: ""
     initSkillMult: 0
-    impairedByRoles:
-      - core
-      - vital
-      - manipulator
-packFolder: craft
+    impairedByRoles: [core, vital, manipulator]
 ---
 
 Weaponcraft is the making and repair of arms and armour. It is the most exacting of the metal trades because the product is expected to survive being used as intended, and the difference between a sound blade and a brittle one is invisible until somebody is depending on it.

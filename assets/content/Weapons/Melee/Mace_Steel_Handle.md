@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Mace, Steel Handle
-  aliases: []
-description: "Flanged iron head on steel haft; armored knight's shock-weapon."
 shortcode: stlmce
+name: {full: "Mace, Steel Handle", aliases: []}
 type: weapongear
-data:
-  icon: flangedmace
-  templatePriority: 0
+description: "Flanged iron head on steel haft; armored knight's shock-weapon."
+tags: []
+data: {icon: flangedmace, templatePriority: 0, packFolder: weapons}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [mtlc, mnrl]
+  craft: {skill: wpnc, secondary: [mtlc, mnrl]}
   kbcat: club
   weaponType: Club
   system:
@@ -26,14 +20,8 @@ sohl:
         name: Crush
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 8
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 4
-          aspect: blunt
+        attack: {spread: 8, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 4, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -62,22 +50,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 4
-        defense:
-          blockMod: -5
-          counterstrikeMod: -5
+        defense: {blockMod: -5, counterstrikeMod: -5}
       - shortcode: pommel
         type: melee
         name: Pommel
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 4
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 0
-          aspect: blunt
+        attack: {spread: 4, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 0, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -106,10 +86,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 4
-        defense:
-          blockMod: -5
-          counterstrikeMod: -5
-packFolder: weapons
+        defense: {blockMod: -5, counterstrikeMod: -5}
 ---
 
 A flanged or spiked iron head crowned atop a steel haft, this is the mace of choice for armored knights and heavy infantry. The steel handle resists splintering and adds durability, while the broad flanged head or radiating spikes channel impact across a wide striking surface—ideal for driving through shield bosses and crumpling plate over the collarbone. A weapon of shock and refinement.

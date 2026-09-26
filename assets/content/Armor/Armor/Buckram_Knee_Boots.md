@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Buckram Knee Boots
-  aliases: []
-description: "Stiff buckram knee boots offering durability and structured leg protection."
 shortcode: bboot
+name: {full: Buckram Knee Boots, aliases: []}
 type: armorgear
-data:
-  icon: leatherboot
-  templatePriority: 0
+description: "Stiff buckram knee boots offering durability and structured leg protection."
+tags: []
+data: {icon: leatherboot, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Knee Boots
   detailMaterial: Buckram
@@ -21,25 +15,10 @@ sohl:
     valueBase: 25
     durabilityBase: 10
     material: Cloth
-    locations:
-      flexible:
-        - lkneeloc
-        - rkneeloc
-        - lcalfloc
-        - rcalfloc
-        - lfootloc
-        - rfootloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [lkneeloc, rkneeloc, lcalfloc, rcalfloc, lfootloc, rfootloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 22
-origWeight: 1.1
 ---
 
 Buckram Knee Boots provide a stiff and structured fit, made from coarse cloth stiffened with glue. They offer durability and reliable protection for the legs, suitable for tasks requiring a more rigid boot.

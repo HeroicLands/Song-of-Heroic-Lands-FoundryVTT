@@ -1,19 +1,11 @@
 ---
-tags: []
-name:
-  full: Clubfoot
-  aliases: []
 shortcode: clubfoot
+name: {full: Clubfoot, aliases: []}
 type: trauma
-data:
-  icon: battlegear
-  templatePriority: 0
 subType: physcond
-sohl:
-  kbcat: physfeature
-  system:
-    category: impediment
-packFolder: traumaphysical
+tags: []
+data: {icon: battlegear, templatePriority: 0, packFolder: traumaphysical}
+sohl: {kbcat: physfeature, system: {category: impediment}}
 ---
 
 Clubfoot is a congenital malformation in which one or both feet twist inward or take on an unnatural shape from birth onward, or from infancy. The foot may turn sharply toward the midline, the sole face upward, or the whole member become rigid and painful. Those born with this deformity must walk upon the side or edge of the foot rather than the heel and ball, resulting in an uneven, labored gait. In a world where most livelihoods demand ease of movement—shepherding, trading, warcraft—this condition can severely constrain a person's place in society and their own sense of dignity.

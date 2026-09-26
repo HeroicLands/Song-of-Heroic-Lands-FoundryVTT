@@ -1,26 +1,14 @@
 ---
-tags:
-  - jewelry_cash
-name:
-  full: "Necklace, bronze"
-  aliases: []
-description: "Heavy bronze torc or chain; hard-wearing, and old among the tribal peoples."
 shortcode: necklacebronze
+name: {full: "Necklace, bronze", aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
+description: "Heavy bronze torc or chain; hard-wearing, and old among the tribal peoples."
+tags: [jewelry_cash]
+data: {icon: swapbag, templatePriority: 0, packFolder: jewelry}
 sohl:
-  craft:
-    skill: jewl
-    secondary: [mtlc]
+  craft: {skill: jewl, secondary: [mtlc]}
   kbcat: jewelry
-  system:
-    weightBase: 0.25
-    valueBase: 31
-    qualityBase: 0
-    durabilityBase: 4
-packFolder: jewelry
+  system: {weightBase: 0.25, valueBase: 31, qualityBase: 0, durabilityBase: 4}
 ---
 
 A heavy bronze torc or chain, four ounces at the neck and hard enough to take years of it. Among the tribal peoples a bronze neck-ring is a mark of standing rather than a trinket, worn open at the front and bent to fit; in the towns it turns up as cheap chain sold by weight. Old bronze goes a deep green and is often left that way deliberately.

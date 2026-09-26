@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Buckram Robe
-  aliases: []
-description: "Stiff buckram robe offering durability and reliable rigid coverage."
 shortcode: brobe
+name: {full: Buckram Robe, aliases: []}
 type: armorgear
-data:
-  icon: robe
-  templatePriority: 0
+description: "Stiff buckram robe offering durability and reliable rigid coverage."
+tags: []
+data: {icon: robe, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Robe
   detailMaterial: Buckram
@@ -41,16 +35,9 @@ sohl:
         - lcalfloc
         - rcalfloc
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 79
-origWeight: 4
 ---
 
 The Buckram Robe is stiff and structured, made from coarse cloth stiffened with glue. It offers durability and reliable coverage, suitable for tasks requiring a more rigid and dependable garment.

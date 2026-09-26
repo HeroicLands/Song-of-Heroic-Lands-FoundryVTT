@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Linen Shirt
-  aliases: []
-description: "Light breathable torso covering for warm weather and everyday activity."
 shortcode: lshirt
+name: {full: Linen Shirt, aliases: []}
 type: armorgear
-data:
-  icon: shirt
-  templatePriority: 0
+description: "Light breathable torso covering for warm weather and everyday activity."
+tags: []
+data: {icon: shirt, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Shirt
   detailMaterial: Linen
@@ -21,25 +15,10 @@ sohl:
     valueBase: 17
     durabilityBase: 5
     material: Cloth
-    locations:
-      flexible:
-        - lshldloc
-        - rshldloc
-        - lupaloc
-        - rupaloc
-        - thrxloc
-        - abdmnloc
-      rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [lshldloc, rshldloc, lupaloc, rupaloc, thrxloc, abdmnloc], rigid: []}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 33
-origWeight: 1.7
 ---
 
 A Linen Shirt is light and breathable, perfect for warm climates. It offers comfort and ease of movement, making it ideal for casual wear and everyday activities.

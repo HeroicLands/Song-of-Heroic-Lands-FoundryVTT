@@ -1,10 +1,8 @@
 ---
+shortcode: containergear
+name: {full: Containers, aliases: []}
 type: doc
 subType: reference
-name:
-  full: Containers
-  aliases: []
-shortcode: containergear
 description: "Sacks, packs, pouches, and other carriers."
 ---
 

@@ -1,11 +1,9 @@
 ---
+shortcode: credits
+name: {full: "Credits & Attributions", aliases: []}
 type: doc
 subType: reference
-name:
-  full: "Credits & Attributions"
-  aliases: []
-shortcode: credits
-packFolder: credits
+data: {packFolder: credits}
 ---
 
 _Song of Heroic Lands_ is built on the work of a great many people who gave their

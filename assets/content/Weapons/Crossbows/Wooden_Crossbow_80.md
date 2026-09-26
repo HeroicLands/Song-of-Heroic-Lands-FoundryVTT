@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Wooden Crossbow 80
-  aliases: []
-description: "Light wooden-prod crossbow; hunter's arm for unarmoured targets."
 shortcode: wcxbw80
+name: {full: Wooden Crossbow 80, aliases: []}
 type: weapongear
-data:
-  icon: crossbow
-  templatePriority: 0
+description: "Light wooden-prod crossbow; hunter's arm for unarmoured targets."
+tags: []
+data: {icon: crossbow, templatePriority: 0, packFolder: weapons}
 sohl:
-  craft:
-    skill: fltch
-    secondary: [wood, timb]
+  craft: {skill: fltch, secondary: [wood, timb]}
   kbcat: crossbow
   weaponType: Crossbow
   system:
@@ -26,14 +20,8 @@ sohl:
         name: Ranged
         assocSkillCode: archery
         minParts: 2
-        attack:
-          spread: 0
-          modifier: 0
-        impactBase:
-          numDice: 0
-          die: null
-          modifier: 1
-          aspect: piercing
+        attack: {spread: 0, modifier: 0}
+        impactBase: {numDice: 0, die: null, modifier: 1, aspect: piercing}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -65,7 +53,6 @@ sohl:
         maxVolleyMult: 4
         baseRangeBase: 180
         drawBase: 80
-packFolder: weapons
 ---
 
 A light wooden crossbow with an eighty-pound prod, spanned by hand or a simple lever. Used by hunters and scouts for small game and short-range scouting, this weapon trades power for speed and portability. The prod is plain wooden stave, sturdy enough for unarmoured targets and soft game at moderate distance.

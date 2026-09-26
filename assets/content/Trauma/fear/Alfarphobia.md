@@ -1,20 +1,11 @@
 ---
-tags: []
-name:
-  full: Alfarphobia
-  aliases: []
 shortcode: alfrphb
+name: {full: Alfarphobia, aliases: []}
 type: trauma
-data:
-  icon: dread
-  templatePriority: 0
 subType: fear
-sohl:
-  kbcat: phobias
-  system:
-    category: none
-    levelBase: 0
-packFolder: phobias
+tags: []
+data: {icon: dread, templatePriority: 0, packFolder: phobias}
+sohl: {kbcat: phobias, system: {category: none, levelBase: 0}}
 ---
 
 Alfarphobia is an intense, irrational fear of elves, particularly those depicted in folklore and mythology. These beings, known for their ethereal beauty, longevity, and magical abilities, can evoke awe in many, but individuals with Alfarphobia experience overwhelming anxiety at the thought or presence of these creatures. Whether or not elves truly exist, the fear manifests when these beings are mentioned in stories, seen in depictions, or imagined in forests or mystical places associated with folklore.

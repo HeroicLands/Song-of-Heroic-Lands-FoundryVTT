@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Ring Byrnie
-  aliases: []
-description: "Leather tunic reinforced with overlapping metal rings; upper-body defense."
 shortcode: rbyr
+name: {full: Ring Byrnie, aliases: []}
 type: armorgear
-data:
-  icon: chainmail
-  templatePriority: 0
+description: "Leather tunic reinforced with overlapping metal rings; upper-body defense."
+tags: []
+data: {icon: chainmail, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: wpnc
-    secondary: [mtlc, mnrl]
+  craft: {skill: wpnc, secondary: [mtlc, mnrl]}
   kbcat: ring
   armorType: Byrnie
   detailMaterial: Ring
@@ -21,25 +15,10 @@ sohl:
     valueBase: 450
     durabilityBase: 13
     material: Ring
-    locations:
-      flexible: []
-      rigid:
-        - lshldloc
-        - rshldloc
-        - lupaloc
-        - rupaloc
-        - thrxloc
-        - abdmnloc
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    locations: {flexible: [], rigid: [lshldloc, rshldloc, lupaloc, rupaloc, thrxloc, abdmnloc]}
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 5
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 445.5
-origWeight: 17.8
 ---
 
 A short-sleeved leather tunic reinforced with overlapping metal rings, offering extended protection to the upper body.

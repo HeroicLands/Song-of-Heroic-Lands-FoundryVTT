@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Padded Coat
-  aliases: []
-description: "Cushioned outer layer providing warmth for cold weather conditions."
 shortcode: pcoat
+name: {full: Padded Coat, aliases: []}
 type: armorgear
-data:
-  icon: shirt
-  templatePriority: 0
+description: "Cushioned outer layer providing warmth for cold weather conditions."
+tags: []
+data: {icon: shirt, templatePriority: 0, packFolder: armorarmor}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: padded
   armorType: Coat
   detailMaterial: Padded
@@ -37,16 +31,9 @@ sohl:
         - lthghloc
         - rthghloc
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 128
-origWeight: 5.1
 ---
 
 The Padded Coat provides warmth and cushioning, perfect for cold weather or as additional under-armor padding. It offers comfort and a bit of extra protection where needed.

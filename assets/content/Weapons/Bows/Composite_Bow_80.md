@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Composite Bow 80
-  aliases: []
-description: "Eighty-pound cavalry bow for charged volleys from saddle."
 shortcode: cbw80
+name: {full: Composite Bow 80, aliases: []}
 type: weapongear
-data:
-  icon: pocketbow
-  templatePriority: 0
+description: "Eighty-pound cavalry bow for charged volleys from saddle."
+tags: []
+data: {icon: pocketbow, templatePriority: 0, packFolder: weapons}
 sohl:
-  craft:
-    skill: fltch
-    secondary: [wood, hide]
+  craft: {skill: fltch, secondary: [wood, hide]}
   kbcat: bow
   weaponType: Bow
   system:
@@ -26,14 +20,8 @@ sohl:
         name: Crush
         assocSkillCode: melee
         minParts: 1
-        attack:
-          spread: 6
-          modifier: 0
-        impactBase:
-          numDice: 1
-          die: 6
-          modifier: 0
-          aspect: blunt
+        attack: {spread: 6, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 0, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -62,22 +50,14 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 4
-        defense:
-          blockMod: 0
-          counterstrikeMod: 0
+        defense: {blockMod: 0, counterstrikeMod: 0}
       - shortcode: ranged
         type: missile
         name: Ranged
         assocSkillCode: archery
         minParts: 2
-        attack:
-          spread: 0
-          modifier: 0
-        impactBase:
-          numDice: 0
-          die: null
-          modifier: 3
-          aspect: piercing
+        attack: {spread: 0, modifier: 0}
+        impactBase: {numDice: 0, die: null, modifier: 3, aspect: piercing}
         traits:
           meleeMod: 0
           blockSLMod: 0
@@ -109,7 +89,6 @@ sohl:
         maxVolleyMult: 4
         baseRangeBase: 210
         drawBase: 80
-packFolder: weapons
 ---
 
 A sturdy composite bow of laminated horn, wood, and sinew, with an eighty-pound pull. The cavalry warrior's standard bow—strong enough for charged volleys from horseback and compact enough to manage from the saddle during raid or maneuvre. Well-suited to both massed formation and solo mounted action.

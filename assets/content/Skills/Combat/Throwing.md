@@ -1,15 +1,11 @@
 ---
-tags: []
-name:
-  full: Throwing
-  aliases: []
-description: "Hurling daggers, axes, javelins, and projectiles with accuracy and force."
 shortcode: thro
+name: {full: Throwing, aliases: []}
 type: skill
-data:
-  icon: throwingball
-  templatePriority: 0
 subType: combat
+description: "Hurling daggers, axes, javelins, and projectiles with accuracy and force."
+tags: []
+data: {icon: throwingball, templatePriority: 0, packFolder: combat}
 sohl:
   kbcat: combat
   system:
@@ -18,11 +14,7 @@ sohl:
     combatCategory: missile
     parentSkillCode: ""
     initSkillMult: 2
-    impairedByRoles:
-      - core
-      - vital
-      - manipulator
-packFolder: combat
+    impairedByRoles: [core, vital, manipulator]
 ---
 
 Throwing covers weapons and objects sent by the arm alone — daggers, hand axes, javelins, rocks, a lit pot of pitch — whether flung flat at something in view or lobbed for distance at something that is not. Each item carries its own base range, volley multiplier and impact characteristics, and throws are resolved through the missile sequence.

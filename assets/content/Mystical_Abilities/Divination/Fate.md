@@ -1,25 +1,14 @@
 ---
-tags: []
-name:
-  full: Fate
-  aliases: []
-description: "A thread of destiny held and spent to raise a roll that has already settled."
 shortcode: fate
+name: {full: Fate, aliases: []}
 type: mysticalability
-data:
-  icon: crystalball
-  templatePriority: 0
 subType: divination
+description: "A thread of destiny held and spent to raise a roll that has already settled."
+tags: []
+data: {icon: crystalball, templatePriority: 0, packFolder: divination}
 sohl:
   kbcat: divination
-  system:
-    assocSkillCode: ""
-    masteryLevelBase: 50
-    levelBase: 0
-    charges:
-      value: 5
-      max: 5
-packFolder: divination
+  system: {assocSkillCode: "", masteryLevelBase: 50, levelBase: 0, charges: {value: 5, max: 5}}
 ---
 
 Fate is counted among the divinatory arts and is the odd one out in every respect. The other divinations read something outside the diviner — the sky, the cards, a beast's liver, a still surface. Fate reads the character's **own thread**: they reach for the strand of destiny they were born holding, find the moment they are living through, and pull.

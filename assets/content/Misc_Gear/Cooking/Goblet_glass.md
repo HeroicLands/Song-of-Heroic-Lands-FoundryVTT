@@ -1,26 +1,14 @@
 ---
-tags:
-  - cooking
-name:
-  full: "Goblet, glass"
-  aliases: []
-description: "Stemmed glass goblet; rare and costly for formal feasts and display."
 shortcode: gobletglas
+name: {full: "Goblet, glass", aliases: []}
 type: miscgear
-data:
-  icon: swapbag
-  templatePriority: 0
+description: "Stemmed glass goblet; rare and costly for formal feasts and display."
+tags: [cooking]
+data: {icon: swapbag, templatePriority: 0, packFolder: cooking}
 sohl:
-  craft:
-    skill: glas
-    secondary: []
+  craft: {skill: glas, secondary: []}
   kbcat: cooking
-  system:
-    weightBase: 0.5
-    valueBase: 48
-    qualityBase: 0
-    durabilityBase: 2
-packFolder: cooking
+  system: {weightBase: 0.5, valueBase: 48, qualityBase: 0, durabilityBase: 2}
 ---
 
 A drinking goblet of clear or light-colored glass, blown by a glasswright into a stemmed form and finished with a flared rim. Glass is rare and costly, prized by nobles and merchants for display and for formal feasts where the beauty of wine can be appreciated. The material is fragile—chips and breaks with careless handling—and replacing one requires commission from a glassworking guild. Such vessels are kept carefully wrapped and brought out for honored guests.

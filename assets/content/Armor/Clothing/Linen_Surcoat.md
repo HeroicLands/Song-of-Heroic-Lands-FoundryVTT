@@ -1,18 +1,12 @@
 ---
-tags: []
-name:
-  full: Linen Surcoat
-  aliases: []
-description: "Light breathable outer layer suitable for warm weather casual wear."
 shortcode: lscoat
+name: {full: Linen Surcoat, aliases: []}
 type: armorgear
-data:
-  icon: shirt
-  templatePriority: 0
+description: "Light breathable outer layer suitable for warm weather casual wear."
+tags: []
+data: {icon: shirt, templatePriority: 0, packFolder: clothing}
 sohl:
-  craft:
-    skill: txtl
-    secondary: []
+  craft: {skill: txtl, secondary: []}
   kbcat: cloth
   armorType: Surcoat
   detailMaterial: Linen
@@ -33,16 +27,9 @@ sohl:
         - lkneeloc
         - rkneeloc
       rigid: []
-    protectionBase:
-      blunt: 4
-      edged: 8
-      piercing: 5
-      fire: 5
+    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 54
-origWeight: 2.7
 ---
 
 Light and breathable, the Linen Surcoat is perfect for warm weather. It offers comfort and ease of movement, suitable for casual wear and outdoor activities.

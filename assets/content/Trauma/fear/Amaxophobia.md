@@ -1,20 +1,11 @@
 ---
-tags: []
-name:
-  full: Amaxophobia
-  aliases: []
 shortcode: amaxphb
+name: {full: Amaxophobia, aliases: []}
 type: trauma
-data:
-  icon: dread
-  templatePriority: 0
 subType: fear
-sohl:
-  kbcat: phobias
-  system:
-    category: none
-    levelBase: 0
-packFolder: phobias
+tags: []
+data: {icon: dread, templatePriority: 0, packFolder: phobias}
+sohl: {kbcat: phobias, system: {category: none, levelBase: 0}}
 ---
 
 Amaxophobia is an intense, irrational fear of driving or being in a cart, wagon, or other vehicle. People with amaxophobia may experience a range of symptoms when they think about, see, or are inside vehicles.

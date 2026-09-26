@@ -1,11 +1,9 @@
 ---
+shortcode: astrlgy
+name: {full: Astrology, aliases: []}
 type: doc
 subType: rules
-name:
-  full: Astrology
-  aliases: []
-shortcode: astrlgy
-packFolder: mysticalabilitiesdivination
+data: {packFolder: mysticalabilitiesdivination}
 ---
 
 The reading of the heavens. An astrologer observes the positions of the stars and the wandering lights, sets them against tables built up over generations, and casts from them a chart of the influences bearing on a person, a place, or an undertaking. It is the most learned of the divinatory arts and the least immediate: mathematics as much as mystery, and useless in a hurry.
