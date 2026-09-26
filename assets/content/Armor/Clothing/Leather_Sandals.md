@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: flipflops
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: hide
@@ -33,9 +34,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 56
-origWeight: 0.7
 ---
 
 Leather Sandals combine style and moderate protection, providing lightweight and comfortable footwear. Suitable for casual outings or light adventuring, they offer a touch of rugged charm.

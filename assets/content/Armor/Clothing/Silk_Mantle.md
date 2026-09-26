@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: cape
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -36,9 +37,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 21
-origWeight: 1.1
 ---
 
 Exuding elegance and sophistication, the Silk Mantle is a luxurious, lightweight cloak designed for high-status occasions. While it offers minimal protection, its smooth texture and graceful drape make it ideal for formal events.

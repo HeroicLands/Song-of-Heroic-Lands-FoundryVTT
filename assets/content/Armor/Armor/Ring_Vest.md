@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: leathervest
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: wpnc
@@ -33,9 +34,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 324
-origWeight: 13
 ---
 
 A sleeveless leather vest reinforced with strategically placed metal rings, providing lightweight torso protection.

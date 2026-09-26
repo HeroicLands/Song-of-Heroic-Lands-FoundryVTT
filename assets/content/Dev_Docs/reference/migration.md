@@ -14,7 +14,8 @@ tags:
   - core-system
   - data-model
   - lifecycle
-pack: none
+data:
+  pack: none
 sohl:
   kbcat: devdocs
 ---

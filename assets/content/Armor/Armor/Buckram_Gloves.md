@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: gloves
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: txtl
@@ -33,9 +34,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 5
-origWeight: 0.3
 ---
 
 Buckram Gloves, made from coarse cloth stiffened with glue, offer a stiff and structured fit. They are suitable for tasks requiring a more rigid hand covering.

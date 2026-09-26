@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: billedcap
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: hide
@@ -32,9 +33,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 16
-origWeight: 0.6
 ---
 
 A simple yet stylish Leather Cap, made from lightweight leather, provides basic protection from the elements. It’s suitable for everyday wear, offering both comfort and a touch of rugged charm.

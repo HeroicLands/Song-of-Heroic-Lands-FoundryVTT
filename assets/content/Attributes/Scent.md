@@ -9,6 +9,7 @@ type: attribute
 data:
   icon: snout
   templatePriority: 0
+  packFolder: attributes
 sohl:
   system:
     scoreBase: 0
@@ -21,8 +22,6 @@ sohl:
       - Preternatural:22
       - Uncanny:999
     initDiceFormula: 3d6
-sort: 55
-packFolder: attributes
 ---
 
 Scent is a specialized facet of Perception concerned solely with the sense of smell—the capacity to detect, distinguish, and follow odors carried on the air. In most people it is a modest sense, easily overlooked, but among animals it is often the sharpest gate to the world, keener by far than sight or hearing. A strong Scent lets its bearer read the recent history of a place, tell one creature from another by smell alone, and follow a trail long after the eye has lost it—reaching, at its heights, across miles of open air or water.

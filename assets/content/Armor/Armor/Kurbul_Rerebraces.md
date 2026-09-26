@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: dorsalscales
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: wpnc
@@ -36,9 +37,6 @@ sohl:
     encumbrance: 0
     encumbranceGroup: arm
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 40
-origWeight: 3
 ---
 
 The Kûrbúl Rerebraces are treated leather upper arm guards offering moderate protection and flexibility. Decorated with intricate designs, they provide both function and visual appeal for those needing lightweight upper arm armor.

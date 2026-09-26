@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: breastplate
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: wpnc
@@ -33,9 +34,6 @@ sohl:
       fire: 5
     encumbrance: 5
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 480
-origWeight: 9.1
 ---
 
 A Plate Cuirass provides maximum protection for the torso, crafted from solid steel plates. Essential for knights and heavily armored warriors, it’s designed to deflect blows and prevent penetration from weapons, though it restricts mobility.

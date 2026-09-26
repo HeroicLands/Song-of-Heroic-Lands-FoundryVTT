@@ -5,7 +5,8 @@ name:
   full: Extension Points (Developer Guide)
   aliases: []
 shortcode: extensionpoints
-pack: none
+data:
+  pack: none
 sohl:
   kbcat: devdocs
 ---

@@ -5,7 +5,8 @@ name:
   full: Injury Introduction
   aliases: []
 shortcode: injintro
-packFolder: injury
+data:
+  packFolder: injury
 ---
 
 - [[doc-hlngbs|Healing Base]]

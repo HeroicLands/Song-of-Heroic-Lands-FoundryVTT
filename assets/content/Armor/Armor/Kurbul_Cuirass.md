@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: breastplate
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: wpnc
@@ -33,9 +34,6 @@ sohl:
       fire: 5
     encumbrance: 5
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 120
-origWeight: 9.1
 ---
 
 The Kûrbúl Cuirass is a torso armor made from specially treated leather, offering moderate protection with a lighter weight. Decorated with intricate designs, it caters to those needing agility without sacrificing too much defense.

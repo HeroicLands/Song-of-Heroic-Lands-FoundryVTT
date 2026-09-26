@@ -9,6 +9,7 @@ type: containergear
 data:
   icon: knapsack
   templatePriority: 0
+  packFolder: containers
 sohl:
   craft:
     skill: txtl
@@ -19,7 +20,6 @@ sohl:
     qualityBase: 0
     durabilityBase: 8
     maxCapacityBase: 25
-packFolder: containers
 ---
 
 A frameless hemp-canvas pack with cloth straps and a flap secured by ties. It carries a load off both shoulders rather than one, which matters over a long day, and costs a fraction of the leather version.

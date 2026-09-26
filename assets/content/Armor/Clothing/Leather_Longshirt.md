@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: shirt
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: hide
@@ -38,9 +39,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 344
-origWeight: 4.3
 ---
 
 The Leather Longshirt is a stylish and practical garment offering minimal protection. It provides a bit more coverage than a standard shirt, suitable for light adventuring or everyday wear.

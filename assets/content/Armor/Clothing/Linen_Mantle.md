@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: cape
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -36,9 +37,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 21
-origWeight: 1.1
 ---
 
 Light and breathable, the Linen Mantle is perfect for warmer climates. It offers a comfortable layer of sun protection without causing overheating, suitable for casual outdoor activities.

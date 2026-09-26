@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: pointyhat
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -32,9 +33,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 2
-origWeight: 0.1
 ---
 
 A Linen Hat is light and breathable, perfect for warm climates. It provides sun protection and comfort, suitable for everyday wear or light-duty tasks.

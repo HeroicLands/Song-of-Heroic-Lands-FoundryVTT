@@ -8,13 +8,13 @@ type: trauma
 data:
   icon: dread
   templatePriority: 0
+  packFolder: phobias
 subType: fear
 sohl:
   kbcat: phobias
   system:
     category: none
     levelBase: 0
-packFolder: phobias
 ---
 
 Barophobia is an intense, irrational fear of gravity or the effects of gravity. People with barophobia may experience a range of symptoms when they think about, feel, or are in situations where they believe gravity might affect them negatively.

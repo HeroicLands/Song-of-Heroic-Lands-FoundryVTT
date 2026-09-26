@@ -9,6 +9,7 @@ type: skill
 data:
   icon: cloakdagger
   templatePriority: 0
+  packFolder: social
 subType: social
 sohl:
   kbcat: social
@@ -20,7 +21,6 @@ sohl:
     initSkillMult: 3
     impairedByRoles:
       - vital
-packFolder: social
 ---
 
 Intrigue is the sense for motive — why a person is saying this, to this listener, now — and the practical knack for conspiracy that follows from it. It rests on emotional and rational reading in equal parts, and it operates at two quite different scales.

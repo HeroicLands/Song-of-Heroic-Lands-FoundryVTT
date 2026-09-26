@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: cooking
 sohl:
   craft:
     skill: wood
@@ -20,7 +21,6 @@ sohl:
     valueBase: 9
     qualityBase: 0
     durabilityBase: 5
-packFolder: cooking
 ---
 
 A tapered wooden or bronze spigot, fitted into a hole drilled or burned in a barrel, keg, or large wooden vessel to control the flow of ale, mead, wine, or oil. A cooper fits the spigot to match the vessel's construction, hammering it tight and sealing with pitch or resin if needed. Tavern-keepers depend on a reliable spigot to serve patrons from the main cask, and merchants use them to dispense goods from storage vessels without full emptying.

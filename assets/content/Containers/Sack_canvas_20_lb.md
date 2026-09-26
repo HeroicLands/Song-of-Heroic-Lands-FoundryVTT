@@ -9,6 +9,7 @@ type: containergear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: containers
 sohl:
   craft:
     skill: txtl
@@ -19,7 +20,6 @@ sohl:
     qualityBase: 0
     durabilityBase: 3
     maxCapacityBase: 20
-packFolder: containers
 ---
 
 A plain canvas sack, seamed up two sides and open at the top, tied with a cord. Sacks are the universal container of the countryside — grain to the mill, flour back, roots out of the field — and are counted, tallied, and stolen as a unit of measure in their own right. 20 pound capacity.

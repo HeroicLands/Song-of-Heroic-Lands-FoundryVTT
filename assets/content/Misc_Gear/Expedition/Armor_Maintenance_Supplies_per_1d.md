@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: expedition
 sohl:
   craft:
     skill: mtlc
@@ -20,7 +21,6 @@ sohl:
     valueBase: 1
     qualityBase: 0
     durabilityBase: 2
-packFolder: expedition
 ---
 
 A standing stock of the small parts that keep a suit of armor fit to wear: loose rings of drawn wire for mail, peening rivets and washers, spare strap stock and buckles, waxed linen thread, cotton wadding and canvas patches for padded garments, oiled felt for lining, and a small jar of tallow-and-abrasive polish for bright steel. Heavier and bulkier than weapon supplies of the same value, since so much of it is iron; sold by the pence at any town where armorers work.

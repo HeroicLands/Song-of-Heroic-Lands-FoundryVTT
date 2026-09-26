@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: natural
 sohl:
   craft:
     skill: srvl
@@ -20,7 +21,6 @@ sohl:
     valueBase: 24
     qualityBase: 0
     durabilityBase: 3
-packFolder: natural
 ---
 
 A coastal seal's hide—oiled and salted by maritime hunters—dense, waterproof, and flexible. Tanners soften it into supple leather for sea-voyagers' boots and deck coats; sailors value the seal skin's resistance to cold salt spray. Coastal trading posts stock these hides regularly.

@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: dress
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -48,9 +49,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 79
-origWeight: 4
 ---
 
 Soft and plush, the Velvet Dress is a symbol of luxury and status. While not particularly durable, its rich texture and appearance make it perfect for high-status gatherings.

@@ -9,6 +9,7 @@ type: skill
 data:
   icon: shieldbash
   templatePriority: 0
+  packFolder: combat
 subType: combattechnique
 sohl:
   kbcat: unarmed
@@ -73,7 +74,6 @@ sohl:
     initSkillMult: 2
     impairedByRoles:
       - core
-packFolder: combat
 ---
 
 A press is not an attack on the body but on the footing — a shoulder or both hands driven into an opponent to move them off their line. It wounds nobody. What it does is break a shield wall, shove a spearman off a bridge, or open the ground between you and a doorway.

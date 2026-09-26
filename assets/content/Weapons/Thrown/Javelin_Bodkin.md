@@ -9,6 +9,7 @@ type: weapongear
 data:
   icon: spears
   templatePriority: 0
+  packFolder: weapons
 sohl:
   craft:
     skill: wpnc
@@ -241,7 +242,6 @@ sohl:
         maxVolleyMult: 2
         baseRangeBase: 60
         drawBase: 0
-packFolder: weapons
 ---
 
 A light spear with a small, square-sectioned bodkin head, the bodkin javelin is forged to penetrate mail and plate. Designed for throwing against armored cavalry, its narrow point punches through with little waste. Soldiers carry several and throw them to wound mounted knights before closing; it favors disciplined troops who expect armored opponents.

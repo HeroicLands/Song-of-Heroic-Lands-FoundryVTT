@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: leatherboot
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: hide
@@ -37,9 +38,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 88
-origWeight: 3.5
 ---
 
 Rawhide Knee Boots are thick and rugged, providing excellent leg protection. Ideal for harsh environments or combat scenarios, they offer a durable and reliable option for those needing sturdy footwear.

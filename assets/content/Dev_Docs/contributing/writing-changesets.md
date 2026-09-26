@@ -6,7 +6,8 @@ name:
   aliases: []
 shortcode: writingchangesets
 description: "Record a change for the changelog and release notes."
-pack: none
+data:
+  pack: none
 sohl:
   kbcat: devdocs
 ---

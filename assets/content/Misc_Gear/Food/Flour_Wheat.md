@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: food
 sohl:
   craft:
     skill: mill
@@ -20,7 +21,6 @@ sohl:
     valueBase: 0.5
     qualityBase: 0
     durabilityBase: 0
-packFolder: food
 ---
 
 Fine, pale flour milled from wheat grain, light and perfect for fine breads, pastries, and sauces. A baker prefers wheat flour for its gluten and pale crumb; a merchant's wife uses it for sweetened cakes for the table. Wheat flour is dearer than rye and barley, so it is reserved for those who can afford finer bread and for dishes where its lightness matters.

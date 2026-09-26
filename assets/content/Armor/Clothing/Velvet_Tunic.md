@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: shirt
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -40,9 +41,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 45
-origWeight: 2.3
 ---
 
 Soft and plush, the Velvet Tunic symbolizes opulence. While not exceptionally durable, its rich texture and appearance make it perfect for formal settings and high-status individuals.

@@ -8,12 +8,12 @@ type: trauma
 data:
   icon: battlegear
   templatePriority: 0
+  packFolder: disorders
 subType: psycond
 sohl:
   kbcat: psybehavior
   system:
     category: quirk
-packFolder: disorders
 ---
 
 Antisocial refers to an individual’s tendency to avoid or withdraw from social interaction, preferring solitude over company. While antisocial behavior can be benign and reflect a preference for independence or quiet time, it can also intensify into impulsive avoidance of social situations or, in severe cases, a deep disregard for social norms and the well-being of others. This trait can evolve into disorderly behavior, manifesting as a lack of empathy and involvement in harmful or deceitful actions.

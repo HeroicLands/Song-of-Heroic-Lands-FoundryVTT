@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: shirt
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -44,9 +45,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 64
-origWeight: 3.2
 ---
 
 A Homespun Coat is a basic, utilitarian outer garment woven from homemade fabric. It provides warmth and a simple layer of protection, ideal for everyday use by common folk.

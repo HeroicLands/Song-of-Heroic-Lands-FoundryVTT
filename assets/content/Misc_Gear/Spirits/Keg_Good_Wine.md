@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: winebottle
   templatePriority: 0
+  packFolder: spirits
 sohl:
   craft:
     skill: brew
@@ -20,7 +21,6 @@ sohl:
     valueBase: 360
     qualityBase: 0
     durabilityBase: 0
-packFolder: spirits
 ---
 
 A keg of aged wine—fuller and sweeter than common tavern fare. Wealthy merchants and lords keep one or two in their cellars; when shared at feast or negotiation, the quality marks respect. Worth a craftsman's annual wages.

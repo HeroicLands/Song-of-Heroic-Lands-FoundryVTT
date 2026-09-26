@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: gloves
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: hide
@@ -33,9 +34,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 60
-origWeight: 0.6
 ---
 
 Beaver Gloves, made from dense beaver fur, offer excellent warmth and a luxurious feel. They are perfect for cold weather, providing both comfort and a touch of opulence.

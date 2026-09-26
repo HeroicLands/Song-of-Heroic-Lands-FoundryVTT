@@ -9,6 +9,7 @@ type: skill
 data:
   icon: pencilbdg
   templatePriority: 0
+  packFolder: craft
 subType: craft
 sohl:
   kbcat: craft
@@ -22,7 +23,6 @@ sohl:
       - core
       - vital
       - manipulator
-packFolder: craft
 ---
 
 Drawing is the making of a likeness — in pigment on a panel, in wet plaster, in ink on vellum — and the conventions of what a likeness ought to look like vary sharply by culture. Anyone can make marks. What the skill measures is whether the marks do the work asked of them: move a viewer, in the case of a picture, or tell the truth, in the case of a map or a plan.

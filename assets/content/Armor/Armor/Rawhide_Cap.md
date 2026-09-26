@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: billedcap
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: hide
@@ -32,9 +33,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 16
-origWeight: 0.6
 ---
 
 The Rawhide Cap is thick and rugged, providing substantial protection. It’s ideal for tough environments where a more durable head covering is necessary.

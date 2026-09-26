@@ -8,12 +8,12 @@ type: trauma
 data:
   icon: battlegear
   templatePriority: 0
+  packFolder: disorders
 subType: psycond
 sohl:
   kbcat: psybehavior
   system:
     category: quirk
-packFolder: disorders
 ---
 
 Dramatic refers to an individual’s tendency to express emotions or react to situations in an exaggerated or theatrical manner. A dramatic person often amplifies emotions, gestures, and responses, seeking attention or making situations appear more intense or significant than they actually are. While being expressive and passionate can bring energy to social interactions, excessive dramatization can lead to conflicts, misunderstandings, or emotional exhaustion for both the individual and those around them.

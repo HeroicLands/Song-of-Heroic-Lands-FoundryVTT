@@ -8,12 +8,12 @@ type: trauma
 data:
   icon: battlegear
   templatePriority: 0
+  packFolder: quirks
 subType: psycond
 sohl:
   kbcat: psypsychosis
   system:
     category: impulse
-packFolder: quirks
 ---
 
 Hypochondriasis, also known as health anxiety or illness anxiety disorder, is a condition characterized by an excessive preoccupation with the belief that one is seriously ill, despite having little or no medical evidence to support this belief. Individuals with hypochondriasis often misinterpret normal bodily sensations as symptoms of a severe illness. This constant worry can interfere with daily life, relationships, and overall well-being, as the individual becomes consumed with fear of illness.

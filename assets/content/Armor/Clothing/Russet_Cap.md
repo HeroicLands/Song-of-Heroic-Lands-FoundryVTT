@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: billedcap
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -32,9 +33,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 4
-origWeight: 0.2
 ---
 
 A Russet Cap is made from coarse wool dyed reddish-brown. It offers warmth and durability, making it a practical choice for colder climates and rougher settings.

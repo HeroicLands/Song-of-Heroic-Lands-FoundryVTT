@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: robe
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: hide
@@ -48,9 +49,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 948
-origWeight: 9.6
 ---
 
 The Beaver Robe is dense, water-shedding fur running the full length of the body. It is heavy to wear and slow to soak, and it marks a person of means without the outright display of ermine.

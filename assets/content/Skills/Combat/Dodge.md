@@ -9,6 +9,7 @@ type: skill
 data:
   icon: dodge
   templatePriority: 0
+  packFolder: combat
 subType: combat
 sohl:
   kbcat: combat
@@ -22,7 +23,6 @@ sohl:
       - core
       - vital
       - locomotor
-packFolder: combat
 ---
 
 Dodge is the body simply not being where the weapon arrives — a drop of the shoulder, a step off the line, a lean that costs nothing but the moment it took. It is a subskill of Melee, carrying its own Skill Base but developing at Melee's Skill Multiple, because it is learned in the same place and at the same time as everything else about fighting.

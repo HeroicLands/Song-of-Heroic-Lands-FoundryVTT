@@ -9,6 +9,7 @@ type: containergear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: containers
 sohl:
   craft:
     skill: txtl
@@ -19,7 +20,6 @@ sohl:
     qualityBase: 0
     durabilityBase: 3
     maxCapacityBase: 50
-packFolder: containers
 ---
 
 A heavy canvas sack of the size a porter shoulders and a miller reckons in. Fifty pounds is about as much as one person carries any distance, so the sack is a measure as much as a container — dockers and millers are paid by it. The bottom seam is doubled, since that is where a full sack always goes.

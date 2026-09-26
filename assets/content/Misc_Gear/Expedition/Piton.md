@@ -12,6 +12,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: expedition
 sohl:
   craft:
     skill: mtlc
@@ -22,7 +23,6 @@ sohl:
     valueBase: 1
     qualityBase: 0
     durabilityBase: 8
-packFolder: expedition
 ---
 
 A hand-forged iron spike the length of a man's hand, tapered to a chisel point and finished with a looped eye at the head. A climber drives it into a crack, seam, or mortar joint with a climbing hammer, then clips a carabineer or threads a short sling through the eye to anchor rope or handhold. The steel bears the weight of a full-grown man under sudden strain; quality pieces ring when struck and seat cleanly, while a poorly-forged piton rings dull and may shear under load.

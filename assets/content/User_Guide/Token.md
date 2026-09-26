@@ -4,7 +4,8 @@ subType: userguide
 name:
   full: "Token"
 shortcode: tokenug
-packFolder: userguide
+data:
+  packFolder: userguide
 ---
 
 # Overview

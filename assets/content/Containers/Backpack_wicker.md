@@ -9,6 +9,7 @@ type: containergear
 data:
   icon: basket
   templatePriority: 0
+  packFolder: containers
 sohl:
   craft:
     skill: wood
@@ -19,7 +20,6 @@ sohl:
     qualityBase: 0
     durabilityBase: 5
     maxCapacityBase: 25
-packFolder: containers
 ---
 
 A pack woven from willow withies, framed by its own construction rather than by anything sewn in. It is the cheapest pack there is and the least comfortable — the weave presses through a thin shirt — but it holds its shape when set down and will not sag onto its contents.

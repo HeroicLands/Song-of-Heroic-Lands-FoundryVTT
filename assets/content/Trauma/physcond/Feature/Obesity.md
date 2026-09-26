@@ -8,12 +8,12 @@ type: trauma
 data:
   icon: battlegear
   templatePriority: 0
+  packFolder: traumaphysical
 subType: physcond
 sohl:
   kbcat: physfeature
   system:
     category: trait
-packFolder: traumaphysical
 ---
 
 Obesity is a medical condition characterized by an excessive accumulation of body fat that poses significant health risks. The condition often results from a combination of factors, including genetic predispositions, overconsumption of high-calorie foods, a sedentary lifestyle, and cultural influences. Obesity is associated with an increased risk of various health problems, such as heart disease, diabetes, joint pain, and respiratory issues. The way obesity is perceived varies across cultures—while some view it as a sign of poor health and lack of discipline, others regard it as a symbol of wealth, prosperity, and social status.

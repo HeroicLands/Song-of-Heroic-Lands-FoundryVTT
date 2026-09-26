@@ -9,6 +9,7 @@ type: containergear
 data:
   icon: cookingpot
   templatePriority: 0
+  packFolder: containers
 sohl:
   craft:
     skill: mtlc
@@ -19,7 +20,6 @@ sohl:
     qualityBase: 0
     durabilityBase: 4
     maxCapacityBase: 40
-packFolder: containers
 ---
 
 A large copper alembic, too heavy to lift onto a furnace when charged and normally built into one. A vessel this size yields perhaps a gallon of spirit from a full charge, and rather less of anything requiring care.

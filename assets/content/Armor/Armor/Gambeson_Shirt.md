@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: shirt
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: txtl
@@ -38,9 +39,6 @@ sohl:
       fire: 5
     encumbrance: 5
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 280
-origWeight: 9.8
 ---
 
 The Gambeson Shirt is padded for protection, often worn under armor or as standalone defense. It provides excellent insulation and cushioning, perfect for both combat and daily use.

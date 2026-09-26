@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: hood
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: hide
@@ -33,9 +34,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 144
-origWeight: 0.6
 ---
 
 The Ermine Cowl is made from soft white ermine fur, signifying nobility and wealth. It offers excellent insulation and a plush texture, ideal for the elite needing both warmth and a show of prestige.

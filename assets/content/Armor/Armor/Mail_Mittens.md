@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: mailedfist
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: wpnc
@@ -34,9 +35,6 @@ sohl:
     encumbrance: 0
     encumbranceGroup: arm
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 75
-origWeight: 2.3
 ---
 
 Mail Mittens, composed of interlinked metal rings, offer substantial protection for the hands. They provide excellent defense against slashes and are essential for combat scenarios.

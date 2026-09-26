@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: expedition
 sohl:
   craft:
     skill: txtl
@@ -20,7 +21,6 @@ sohl:
     valueBase: 144
     qualityBase: 0
     durabilityBase: 6
-packFolder: expedition
 ---
 
 A long ridge-pole tent with a pitched roof supported by two upright posts, the ends closed and the sides staked. Oiled linen walls shed water; a small door at one end closes with cord. Merchants and soldiers favor the larger ridged tents for parties of two or three; the streamlined design balances protection with pack-weight.

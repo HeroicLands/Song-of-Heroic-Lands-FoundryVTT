@@ -9,6 +9,7 @@ type: containergear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: containers
 sohl:
   craft:
     skill: wood
@@ -19,7 +20,6 @@ sohl:
     qualityBase: 0
     durabilityBase: 4
     maxCapacityBase: 24
-packFolder: containers
 ---
 
 A small coopered vessel of staves and hoops with an iron bail across the top, made by the same craft and to the same principles as a barrel. Wooden buckets swell tight when kept wet and leak like a sieve if left to dry out in a loft, which is why they are stored with an inch of water in the bottom. 3 gallon capacity.

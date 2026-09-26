@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: stone
 sohl:
   craft:
     skill: mnrl
@@ -20,7 +21,6 @@ sohl:
     valueBase: 3
     qualityBase: 0
     durabilityBase: 5
-packFolder: stone
 ---
 
 A banded metamorphic stone quarried and squared for the finest construction. Marble is costly, hard, and beautiful—favored for altars, memorials, and noble halls where durability and grandeur speak of wealth and piety. A quarryman's crew may spend weeks wresting a single block from the seam; it is dressed smooth by hand-chisels and sold by the cubic foot to magnates and temples.

@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: skirt
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -38,9 +39,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 93.8
-origWeight: 1.6
 ---
 
 The Worsted Skirt, made from tightly-spun wool fibers, offers both style and durability. It is a versatile garment that provides good insulation and resilience, suitable for a wide range of activities and weather conditions.

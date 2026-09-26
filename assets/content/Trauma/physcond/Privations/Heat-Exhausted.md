@@ -9,6 +9,7 @@ type: trauma
 data:
   icon: stomach
   templatePriority: 0
+  packFolder: privations
 subType: physcond
 sohl:
   kbcat: physprivations
@@ -16,7 +17,6 @@ sohl:
     category: impediment
     levelBase: 2
     healingRateBase: 3
-packFolder: privations
 ---
 
 Heat exhaustion is the intermediate stage of heat injury, in which the body's cooling and circulation begin to fail under the combined load of high temperature and dehydration. Unlike heat fatigue it impairs function in real and obvious ways, and unlike heat stroke it remains reversible — but only if the victim is taken out of the heat at once.

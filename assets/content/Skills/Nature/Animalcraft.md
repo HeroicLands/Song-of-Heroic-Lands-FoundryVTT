@@ -9,6 +9,7 @@ type: skill
 data:
   icon: pawbdg
   templatePriority: 0
+  packFolder: nature
 subType: nature
 sohl:
   kbcat: nature
@@ -23,7 +24,6 @@ sohl:
       - vital
       - locomotor
       - manipulator
-packFolder: nature
 ---
 
 Animalcraft is the domestication, breeding, keeping and handling of animals, droving and driving included. Individual livelihoods specialise, but the skill applies across all the domesticated animals of a culture — in temperate country, four broad groups: birds, dogs, horses, and livestock, the last taking in sheep, goats, oxen, cattle, pigs, chickens, ducks and geese. Other cultures add their own.

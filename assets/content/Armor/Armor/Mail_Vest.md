@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: leathervest
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: wpnc
@@ -33,9 +34,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 240
-origWeight: 13.2
 ---
 
 A Mail Vest, crafted from interlinked metal rings, covers the torso, offering substantial protection. It provides excellent defense against slashes while maintaining flexibility, essential for combat scenarios.

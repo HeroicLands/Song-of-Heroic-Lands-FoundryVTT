@@ -9,6 +9,7 @@ type: mysticalability
 data:
   icon: psychicwaves
   templatePriority: 0
+  packFolder: spiritaction
 subType: spiritaction
 sohl:
   kbcat: spiritaction
@@ -16,9 +17,9 @@ sohl:
     assocSkillCode: spirit
     masteryLevelBase: 0
     levelBase: 0
-hmk:
-  name: ""
-packFolder: spiritaction
+
+# hmk:
+#   name: ""
 ---
 
 A Spirit Action is a discrete supernatural act carried out through an allied or bound spirit — the spirit-world counterpart of an everyday deed. Roaming the spirit world, sensing across it, and communing with what dwells in it are the typical examples; this entry is the general form from which a particular action is made.

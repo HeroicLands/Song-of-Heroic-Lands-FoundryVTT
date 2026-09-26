@@ -8,12 +8,12 @@ type: trauma
 data:
   icon: battlegear
   templatePriority: 0
+  packFolder: quirks
 subType: psycond
 sohl:
   kbcat: psybehavior
   system:
     category: impulse
-packFolder: quirks
 ---
 
 Chronic Anger is a condition where an individual experiences prolonged, persistent anger that affects their daily life and relationships. This type of anger may simmer beneath the surface, causing irritability and frustration, or it may erupt into frequent outbursts. While the individual may still function in society, their heightened sensitivity to perceived slights or frustrations often leads to strained relationships and increasing isolation. Over time, this condition can escalate into severe anger, with devastating consequences for personal and social well-being.

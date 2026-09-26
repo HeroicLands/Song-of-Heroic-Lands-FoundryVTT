@@ -9,6 +9,7 @@ type: containergear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: containers
 sohl:
   craft:
     skill: cmcs
@@ -19,7 +20,6 @@ sohl:
     qualityBase: 0
     durabilityBase: 3
     maxCapacityBase: 0.125
-packFolder: containers
 ---
 
 A modestly sized ceramic ointment vessel with a wide mouth and a press-in wooden or waxed lid, suitable for creams, tinctures, and salves of moderate quantity. Smaller than its larger cousin but still practical for an apothecary's shelves or a healer's traveling kit, it balances capacity with portability.

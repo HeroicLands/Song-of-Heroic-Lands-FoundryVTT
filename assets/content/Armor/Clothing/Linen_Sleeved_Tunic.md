@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: shirt
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -42,9 +43,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 50
-origWeight: 2.5
 ---
 
 Light and breathable, the Linen Sleeved Tunic is perfect for warm weather. It offers comfort and ease of movement, making it ideal for casual outings and everyday activities.

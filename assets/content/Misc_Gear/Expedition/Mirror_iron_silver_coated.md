@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: expedition
 sohl:
   craft:
     skill: mtlc
@@ -20,7 +21,6 @@ sohl:
     valueBase: 20
     qualityBase: 0
     durabilityBase: 5
-packFolder: expedition
 ---
 
 A flat iron mirror backed and edged with hammered silver, its surface mirror-bright and harder-wearing than bronze. Noble ladies favor them for their superior reflection; soldiers and scouts value the sturdier construction for field use.

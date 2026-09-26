@@ -6,7 +6,8 @@ name:
   aliases: []
 shortcode: assetconventions
 description: "Where art files live, how `img:` resolves to a shipped path, image and SVG standards, and default item art."
-pack: none
+data:
+  pack: none
 sohl:
   kbcat: devdocs
 ---

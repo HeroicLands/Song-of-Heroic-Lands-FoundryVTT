@@ -9,6 +9,7 @@ type: skill
 data:
   icon: sling
   templatePriority: 0
+  packFolder: combat
 subType: combat
 sohl:
   kbcat: combat
@@ -22,7 +23,6 @@ sohl:
       - core
       - vital
       - manipulator
-packFolder: combat
 ---
 
 The boomerang is a shaped throwing stick, flung flat rather than end over end, and it exists in two quite different forms. The heavy non-returning kind is a hunting and fighting weapon — a hardwood club thrown at a running animal or a standing man, and thrown to stay where it lands. The light returning kind is the specialist's tool, curved and cambered so that a miss comes back to the hand, useful for driving birds into nets and for the sort of display that makes a reputation at a gathering.

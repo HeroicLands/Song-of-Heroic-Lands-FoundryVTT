@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: beerstein
   templatePriority: 0
+  packFolder: spirits
 sohl:
   craft:
     skill: brew
@@ -20,7 +21,6 @@ sohl:
     valueBase: 16
     qualityBase: 0
     durabilityBase: 0
-packFolder: spirits
 ---
 
 A stave-built keg of pale, malty ale brewed for keeping. The cooper's work is sound and tarred within to prevent leakage, while the vessel itself rests on an iron-banded frame. A publican or innkeeper keeps several on hand, tapped in turn to supply steady customers; a military company might purchase one for a fortnight's provisioning.

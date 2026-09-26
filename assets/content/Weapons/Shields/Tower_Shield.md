@@ -9,6 +9,7 @@ type: weapongear
 data:
   icon: shieldbdg
   templatePriority: 0
+  packFolder: weapons
 sohl:
   craft:
     skill: wpnc
@@ -65,7 +66,6 @@ sohl:
         defense:
           blockMod: 0
           counterstrikeMod: 0
-packFolder: weapons
 ---
 
 A large standing shield, tall as a man and wide as an ox, the tower shield provides nearly total cover when braced or planted. Crossbowmen and siege troops plant these to form walls against arrow storms; foot-archers shelter behind them to reload and return fire.

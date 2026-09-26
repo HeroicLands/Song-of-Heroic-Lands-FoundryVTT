@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: pointyhat
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -32,9 +33,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 14
-origWeight: 0.2
 ---
 
 Soft and plush, the Velvet Hat exudes luxury. While not particularly durable, its rich texture and appearance make it perfect for formal settings and high-status individuals.

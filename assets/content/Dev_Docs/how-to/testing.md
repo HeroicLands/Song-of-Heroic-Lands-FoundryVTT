@@ -5,7 +5,8 @@ name:
   full: Testing
   aliases: []
 shortcode: testing
-pack: none
+data:
+  pack: none
 sohl:
   kbcat: devdocs
 ---

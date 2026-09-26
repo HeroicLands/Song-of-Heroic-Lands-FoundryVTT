@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: skirt
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -38,9 +39,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 23.3
-origWeight: 1
 ---
 
 The Serge Skirt, crafted from durable twilled fabric, offers both comfort and resilience. Suitable for everyday wear, it provides a practical and versatile garment for various activities.

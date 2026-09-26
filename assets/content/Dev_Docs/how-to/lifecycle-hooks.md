@@ -5,7 +5,8 @@ name:
   full: Lifecycle Hooks
   aliases: []
 shortcode: lifecyclehooks
-pack: none
+data:
+  pack: none
 sohl:
   kbcat: devdocs
 ---

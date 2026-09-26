@@ -9,6 +9,7 @@ type: skill
 data:
   icon: trip
   templatePriority: 0
+  packFolder: combat
 subType: combattechnique
 sohl:
   kbcat: unarmed
@@ -73,7 +74,6 @@ sohl:
     initSkillMult: 2
     impairedByRoles:
       - locomotor
-packFolder: combat
 ---
 
 A hooked ankle, a swept shin, a leg behind the knee. Like the press it does no harm of itself; what it does is put an opponent on the ground, and a prone fighter is a fighter at everyone's mercy — slow to rise, penalised while down, and unable to run.

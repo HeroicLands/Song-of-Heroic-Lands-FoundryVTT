@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: trousers
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -38,9 +39,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 39
-origWeight: 2
 ---
 
 Light and breathable, Linen Trousers are ideal for warm weather. They provide comfort and ease of movement, making them suitable for casual wear or light-duty activities.

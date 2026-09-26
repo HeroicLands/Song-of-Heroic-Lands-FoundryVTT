@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: expedition
 sohl:
   craft:
     skill: lock
@@ -20,7 +21,6 @@ sohl:
     valueBase: 50
     qualityBase: 0
     durabilityBase: 9
-packFolder: expedition
 ---
 
 A heavy padlock with a reinforced U-shackle and triple-warded body, crafted to endure years of use in rough camps and on merchant roads. Larger than a standard padlock and proportionately heavier, it secures the most valuable cargo or the strongbox of a master trader.

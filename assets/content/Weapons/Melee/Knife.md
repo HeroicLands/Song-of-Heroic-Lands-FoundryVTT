@@ -9,6 +9,7 @@ type: weapongear
 data:
   icon: plaindagger
   templatePriority: 0
+  packFolder: weapons
 sohl:
   craft:
     skill: mtlc
@@ -153,7 +154,6 @@ sohl:
         defense:
           blockMod: -10
           counterstrikeMod: -10
-packFolder: weapons
 ---
 
 A single-edged blade of four to seven inches, fitted to a simple handle for cutting cord, meat, and leather equally. Useful in camp, kitchen, and hand, the knife is a cheap and widespread tool that finds its way into a brawl when need arises. Worn openly or hidden by anyone who might need to cut.

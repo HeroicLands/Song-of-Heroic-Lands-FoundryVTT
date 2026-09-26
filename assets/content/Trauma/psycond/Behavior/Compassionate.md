@@ -8,12 +8,12 @@ type: trauma
 data:
   icon: battlegear
   templatePriority: 0
+  packFolder: quirks
 subType: psycond
 sohl:
   kbcat: psybehavior
   system:
     category: quirk
-packFolder: quirks
 ---
 
 Compassionate refers to an individual's deep empathy and genuine concern for the well-being of others. A compassionate person goes out of their way to help those in need, offering emotional support, care, and kindness. They are attuned to the suffering of others and are often motivated to alleviate that suffering, even at a personal cost. While compassion fosters strong relationships and a caring environment, extreme compassion can sometimes lead to self-neglect or burnout as the individual prioritizes others' needs over their own.

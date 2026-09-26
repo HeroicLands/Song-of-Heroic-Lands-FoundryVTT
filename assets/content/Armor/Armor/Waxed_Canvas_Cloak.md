@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: cloak
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: txtl
@@ -61,9 +62,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 45
-origWeight: 2.6
 ---
 
 The Waxed Canvas Cloak is heavy hemp cloth worked through with wax and oil until it turns water. Sailors and long-road travellers prize it in foul weather. It is heavier and dearer than plain canvas, and it takes light readily — a hazard near open flame.

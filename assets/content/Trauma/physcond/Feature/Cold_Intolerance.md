@@ -8,12 +8,12 @@ type: trauma
 data:
   icon: battlegear
   templatePriority: 0
+  packFolder: traumaphysical
 subType: physcond
 sohl:
   kbcat: physfeature
   system:
     category: trait
-packFolder: traumaphysical
 ---
 
 Cold intolerance is a condition where an individual is unusually sensitive to cold temperatures, reacting more severely than others when exposed to cooler environments. While most people feel uncomfortable in cold weather, individuals with cold intolerance experience much greater physical discomfort and may find it difficult to tolerate even mild cold. This heightened sensitivity can affect daily life, leading the person to take extra precautions to avoid cold environments and social activities. Though not life-threatening, cold intolerance can cause significant emotional and physical distress as it worsens.

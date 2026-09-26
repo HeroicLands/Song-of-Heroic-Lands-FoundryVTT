@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: leathervest
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: txtl
@@ -33,9 +34,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 24
-origWeight: 1.2
 ---
 
 The Buckram Vest is stiff and structured, offering a durable and reliable fit. Made from coarse cloth stiffened with glue, it’s suitable for activities requiring a more rigid garment.

@@ -5,7 +5,8 @@ name:
   full: Items
   aliases: []
 shortcode: ugitems
-packFolder: items
+data:
+  packFolder: items
 ---
 
 # Items {#items}

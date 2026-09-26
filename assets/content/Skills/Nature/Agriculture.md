@@ -9,6 +9,7 @@ type: skill
 data:
   icon: wheat
   templatePriority: 0
+  packFolder: nature
 subType: nature
 sohl:
   kbcat: nature
@@ -23,7 +24,6 @@ sohl:
       - vital
       - locomotor
       - manipulator
-packFolder: nature
 ---
 
 Agriculture is the knowledge of growing crops and of managing everything on a holding that is not under the plough — pasture, orchard, coppice and wood. A character knows the plants native to their own country, can judge the condition of land and equipment, and can put a price on a standing crop.

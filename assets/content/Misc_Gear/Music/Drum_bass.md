@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: music
 sohl:
   craft:
     skill: wood
@@ -20,7 +21,6 @@ sohl:
     valueBase: 50
     qualityBase: 0
     durabilityBase: 5
-packFolder: music
 ---
 
 A large cylindrical frame of oak or ash, with two ox-hide heads laced or nailed tight across the top and bottom. Struck with wooden mallets or hard sticks, a bass drum produces a deep, booming thud that carries across a square or battlefield. Armies employ bass drummers to mark marching cadence and signal maneuvers; minstrels use smaller versions to anchor the rhythm of a band.

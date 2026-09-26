@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: leatherboot
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: txtl
@@ -37,9 +38,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 22
-origWeight: 1.1
 ---
 
 Cloth Knee Boots, made from various soft and breathable fabrics, offer basic comfort and minimal protection. They are suitable for casual wear or light-duty activities.

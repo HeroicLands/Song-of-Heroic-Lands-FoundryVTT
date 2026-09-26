@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: expedition
 sohl:
   craft:
     skill: mtlc
@@ -20,7 +21,6 @@ sohl:
     valueBase: 48
     qualityBase: 0
     durabilityBase: 10
-packFolder: expedition
 ---
 
 A small iron cage suitable for confining a bird, rabbit, or other small animal, light enough to be carried or lashed to a saddle. Falconers use small iron cages to house hunting hawks; merchants carry them to transport valuable creatures like songbirds or ferrets. The bars are close-spaced and strong enough to prevent any creature inside from warping or breaking them free.

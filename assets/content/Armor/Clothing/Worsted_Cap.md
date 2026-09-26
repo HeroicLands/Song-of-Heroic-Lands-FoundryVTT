@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: billedcap
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -32,9 +33,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 4
-origWeight: 0.2
 ---
 
 The Worsted Cap combines style and durability with its tight wool fabric. It’s a versatile choice, offering good protection and comfort for a range of activities and settings.

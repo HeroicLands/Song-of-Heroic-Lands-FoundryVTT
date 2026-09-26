@@ -8,12 +8,12 @@ type: trauma
 data:
   icon: battlegear
   templatePriority: 0
+  packFolder: disorders
 subType: psycond
 sohl:
   kbcat: psybehavior
   system:
     category: impulse
-packFolder: disorders
 ---
 
 Codependency is a behavioral condition where an individual has an excessive emotional or psychological reliance on another person, typically one who requires support due to an illness, addiction, or disability. The codependent person often places the needs and well-being of the other above their own, leading to an unhealthy, one-sided relationship dynamic. While caring for others is a natural and positive trait, codependency can escalate into patterns of self-neglect and enabling behaviors.

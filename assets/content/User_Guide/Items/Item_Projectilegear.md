@@ -4,7 +4,8 @@ subType: userguide
 name:
   full: "Projectile"
 shortcode: projectilegearug
-packFolder: items
+data:
+  packFolder: items
 ---
 
 # What are Projectiles?

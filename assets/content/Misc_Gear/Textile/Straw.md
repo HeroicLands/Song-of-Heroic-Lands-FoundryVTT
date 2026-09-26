@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: rolledcloth
   templatePriority: 0
+  packFolder: textile
 sohl:
   craft:
     skill: txtl
@@ -20,7 +21,6 @@ sohl:
     valueBase: 3
     qualityBase: 0
     durabilityBase: 3
-packFolder: textile
 ---
 
 Straw plaited into narrow braids and stitched together into sheet — the material of every field hat, and of the lighter summer wear and coarse matting besides. It weighs about 6 ounces the square yard. It is not woven on a loom and comes in no standard bolt: the plait is made by the fathom and worked up as needed, so it is bought by the square yard at 3d.

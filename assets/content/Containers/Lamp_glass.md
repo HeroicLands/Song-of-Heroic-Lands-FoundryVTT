@@ -9,6 +9,7 @@ type: containergear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: containers
 sohl:
   craft:
     skill: glas
@@ -19,7 +20,6 @@ sohl:
     qualityBase: 0
     durabilityBase: 2
     maxCapacityBase: 0.125
-packFolder: containers
 ---
 
 A simple but costly lamp of hand-blown glass with an open reservoir for tallow, oil, or grease and a protruding wick tube. The clear glass allows the user to gauge fuel level at a glance, and the open design means it can be quickly refilled or relit. Most often kept indoors on a table or shelf, as the exposed flame offers little protection from wind or water.

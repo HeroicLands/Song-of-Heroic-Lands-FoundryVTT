@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: leatherboot
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: hide
@@ -33,9 +34,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 56
-origWeight: 1.1
 ---
 
 Leather Shoes provide lightweight and comfortable footwear, perfect for everyday wear. They offer a touch of rugged charm and minimal protection, suitable for casual activities and light adventuring.

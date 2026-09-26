@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: instruments
 sohl:
   craft:
     skill: mtlc
@@ -20,7 +21,6 @@ sohl:
     valueBase: 140
     qualityBase: 0
     durabilityBase: 9
-packFolder: instruments
 ---
 
 A heavy canvas roll, bound with leather straps and nearly as weighty as a mail shirt itself, holding an armorer's hand tools: two pairs of mail pliers for opening and closing rings, a ring-closing form, a brace of steel dollies and stakes in graded curves for dressing plate, raising and planishing hammers, an armorer's knife, several awls for pricking through leather and linen, a rivet set with drift and snap, tanned strap stock, spare buckles, a bundle of ring wire, and a tin of linseed oil and wax. A village armorer works from his own bench; this kit is what a retained armorer takes into the field with a retinue, and a fighting man who can afford to keep one does so without hesitation.

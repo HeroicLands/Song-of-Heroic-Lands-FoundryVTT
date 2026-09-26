@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: hood
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: txtl
@@ -33,9 +34,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: -5
-packFolder: armorarmor
-origValue: 24
-origWeight: 1.1
 ---
 
 A Quilted Cowl offers excellent insulation with its layers of fabric sewn together. Suitable for cold weather, it provides both warmth and comfort.

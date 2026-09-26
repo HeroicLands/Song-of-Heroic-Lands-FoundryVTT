@@ -9,6 +9,7 @@ type: weapongear
 data:
   icon: broadsword
   templatePriority: 0
+  packFolder: weapons
 sohl:
   craft:
     skill: wpnc
@@ -197,7 +198,6 @@ sohl:
         defense:
           blockMod: 0
           counterstrikeMod: 0
-packFolder: weapons
 ---
 
 A curved single-edged blade suited to the mounted charge, the scimitar rewards the practiced slash over the careful thrust. The curve of the steel allows the cutting edge to stay in contact longer through the swing, biting deep with each pass. Cavalry and foot soldiers of the southern realms alike rely on this saber's efficiency.

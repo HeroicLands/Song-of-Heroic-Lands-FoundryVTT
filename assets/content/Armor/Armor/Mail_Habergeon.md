@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: chainmail
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: wpnc
@@ -40,9 +41,6 @@ sohl:
       fire: 5
     encumbrance: 10
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 675
-origWeight: 20.3
 ---
 
 The Mail Habergeon is a mid-length chainmail shirt offering substantial protection. Its interlinked metal rings provide excellent defense against slashes and thrusts while maintaining flexibility.

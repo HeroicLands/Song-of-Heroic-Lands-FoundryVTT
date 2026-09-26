@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: shirt
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -44,9 +45,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 64
-origWeight: 3.2
 ---
 
 Light and breathable, the Linen Coat is suitable for warmer weather. It offers a bit of protection while remaining comfortable, perfect for casual or light-duty wear.

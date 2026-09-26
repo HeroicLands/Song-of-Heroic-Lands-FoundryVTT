@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: cooking
 sohl:
   craft:
     skill: mtlc
@@ -20,7 +21,6 @@ sohl:
     valueBase: 6
     qualityBase: 0
     durabilityBase: 4
-packFolder: cooking
 ---
 
 A shallow copper bowl, its interior tinned to prevent verdigris and the acrid taste that bare copper imparts to food and drink. Smiths hammer-shape these from sheet copper, burnishing the seams and then applying the tin coating. Cooks use them for mixing dough, serving soup, or holding grain, and such bowls are common in kitchens where the householder can afford copper's cost. Repeated heating and cooling can eventually crack the tin coating, but the bowl itself endures for decades.

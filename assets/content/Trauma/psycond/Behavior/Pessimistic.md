@@ -8,12 +8,12 @@ type: trauma
 data:
   icon: battlegear
   templatePriority: 0
+  packFolder: quirks
 subType: psycond
 sohl:
   kbcat: psybehavior
   system:
     category: quirk
-packFolder: quirks
 ---
 
 Pessimism refers to an individual's tendency to expect negative outcomes or focus on the worst possible scenarios. A pessimistic person often anticipates difficulties or failure and may view challenges with a sense of defeat before even attempting to overcome them. While pessimism can sometimes help avoid unnecessary risks by preparing for potential problems, it often leads to missed opportunities, discouragement, and a tendency to overlook positive possibilities.

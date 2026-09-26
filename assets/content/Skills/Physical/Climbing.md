@@ -9,6 +9,7 @@ type: skill
 data:
   icon: mountainclimbing
   templatePriority: 0
+  packFolder: physical
 subType: physical
 sohl:
   kbcat: physical
@@ -23,7 +24,6 @@ sohl:
       - vital
       - locomotor
       - manipulator
-packFolder: physical
 ---
 
 Climbing covers everything from swinging up into a tree to working a sheer rock face on fingertips. What separates the two is not effort but resolution: an easy climb is folded into ordinary movement, while a hard one is fought a minute at a time.

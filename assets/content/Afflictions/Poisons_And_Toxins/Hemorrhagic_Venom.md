@@ -9,6 +9,7 @@ type: affliction
 data:
   icon: poisonbottle
   templatePriority: 0
+  packFolder: poisonsandtoxins
 subType: poisontoxin
 sohl:
   kbcat: poisontoxin
@@ -17,7 +18,6 @@ sohl:
     healingRateBase: 3
     contagionIndexBase: 3
     transmission: vector
-packFolder: poisonsandtoxins
 ---
 
 Hemorrhagic venom causes widespread bleeding and disrupts the body's ability to clot blood. These toxins lead to extensive internal and external bleeding due to their effect on blood vessel integrity and platelet function. Initial symptoms include severe pain and swelling at the injection site, rapidly followed by bruising and bleeding from gums, nose, and other mucous membranes. Hemorrhagic venom can lead to hemorrhagic shock, organ failure, and death if not treated promptly. The toxins damage capillaries and blood vessels, causing a loss of blood and plasma, and impair clotting mechanisms, leading to disseminated intravascular coagulation.

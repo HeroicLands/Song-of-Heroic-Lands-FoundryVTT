@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: shirt
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -42,9 +43,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 50
-origWeight: 2.5
 ---
 
 A simple, practical Homespun Sleeved Tunic made from homemade fabric, providing basic comfort and warmth. It is suitable for everyday wear by common folk, offering a reliable and no-frills garment.

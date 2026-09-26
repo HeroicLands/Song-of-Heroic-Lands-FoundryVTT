@@ -4,7 +4,8 @@ subType: userguide
 name:
   full: "The Fate System"
 shortcode: thftsystug
-packFolder: userguide
+data:
+  packFolder: userguide
 ---
 
 # Overview {#fate-overview}

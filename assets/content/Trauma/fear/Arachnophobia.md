@@ -8,13 +8,13 @@ type: trauma
 data:
   icon: dread
   templatePriority: 0
+  packFolder: phobias
 subType: fear
 sohl:
   kbcat: phobias
   system:
     category: none
     levelBase: 0
-packFolder: phobias
 ---
 
 Arachnophobia is an intense, irrational fear of spiders. People with arachnophobia may experience a range of symptoms when they think about, see, or are near spiders.

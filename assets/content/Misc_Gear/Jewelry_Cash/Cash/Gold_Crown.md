@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: coinsbdg
   templatePriority: 0
+  packFolder: cash
 sohl:
   craft:
     skill: mtlc
@@ -20,7 +21,6 @@ sohl:
     valueBase: 35
     qualityBase: 0
     durabilityBase: 7
-packFolder: cash
 ---
 
 A gold coin stamped with the royal seal, the currency of commerce and of any payment too large to count out in silver. It is the preferred exchange of merchants, nobles, and the crown itself, and counterfeiters face swift justice.

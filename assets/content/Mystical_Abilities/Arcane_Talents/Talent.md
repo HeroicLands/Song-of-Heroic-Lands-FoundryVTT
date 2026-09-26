@@ -9,6 +9,7 @@ type: mysticalability
 data:
   icon: psychicwaves
   templatePriority: 0
+  packFolder: arcanetalents
 subType: arcanetalent
 sohl:
   kbcat: arcanetalent
@@ -16,8 +17,6 @@ sohl:
     assocSkillCode: ""
     masteryLevelBase: 0
     levelBase: 0
-
-packFolder: arcanetalents
 ---
 
 A Talent is an arcane knack possessed without formal training — a natural facility for one particular effect. Where an Arcane Incantation is studied, taught, and invoked by learned word and gesture, a Talent is simply _had_. It may surface unbidden in childhood, and what it demands afterwards is practice to control rather than instruction to acquire.

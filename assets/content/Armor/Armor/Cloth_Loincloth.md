@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: loincloth
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: txtl
@@ -32,9 +33,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 10
-origWeight: 0.5
 ---
 
 A Cloth Loincloth, made from various soft fabrics, offers basic coverage and comfort. It is suitable for casual wear or light-duty tasks, providing minimal protection.

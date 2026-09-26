@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: trousers
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -39,9 +40,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 36
-origWeight: 1.8
 ---
 
 The Velvet Leggings are plush and opulent, ideal for high-status individuals. While not exceptionally durable, their rich texture makes them perfect for formal settings.

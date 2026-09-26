@@ -9,6 +9,7 @@ type: affliction
 data:
   icon: virus
   templatePriority: 0
+  packFolder: diseases
 subType: disease
 sohl:
   kbcat: diseases
@@ -17,7 +18,6 @@ sohl:
     healingRateBase: 3
     contagionIndexBase: 3
     transmission: airborne
-packFolder: diseases
 ---
 
 Tuberculosis (TB) is a contagious bacterial infection caused by _Mycobacterium tuberculosis_, primarily affecting the lungs but can spread to other organs. Symptoms include a persistent cough that may produce blood-tinged sputum, chest pain, night sweats, fever, weight loss, and fatigue. TB spreads through airborne droplets when an infected person coughs or sneezes. If untreated, it can cause extensive lung damage, respiratory failure, and death. Multi-drug resistant TB is a growing concern, making early detection and consistent treatment critical for controlling the disease.

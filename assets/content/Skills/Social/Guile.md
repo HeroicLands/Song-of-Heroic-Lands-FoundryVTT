@@ -9,6 +9,7 @@ type: skill
 data:
   icon: imp
   templatePriority: 0
+  packFolder: social
 subType: social
 sohl:
   kbcat: social
@@ -20,7 +21,6 @@ sohl:
     initSkillMult: 3
     impairedByRoles:
       - vital
-packFolder: social
 ---
 
 Guile is deliberate deception: convincing a listener of something the speaker knows to be untrue. It is close kin to Theatrics but differs in what is being falsified — a character using Guile misrepresents the _facts_ while remaining entirely themselves, where a character using Theatrics misrepresents _who they are_.

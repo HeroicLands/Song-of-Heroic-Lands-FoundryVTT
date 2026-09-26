@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: food
 sohl:
   craft:
     skill: agri
@@ -20,7 +21,6 @@ sohl:
     valueBase: 0.5
     qualityBase: 0
     durabilityBase: 0
-packFolder: food
 ---
 
 Pears, dried in the autumn sun, become hard and sweet—a traveler's treat and a child's prize. A crate of dried pears lasts through winter, softening in broth or eaten plain as a sweetness. Orchards near towns dry more than they can sell fresh, feeding both family stores and market stalls.

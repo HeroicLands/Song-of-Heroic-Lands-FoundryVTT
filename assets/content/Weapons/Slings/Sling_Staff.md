@@ -9,6 +9,7 @@ type: weapongear
 data:
   icon: sling
   templatePriority: 0
+  packFolder: weapons
 sohl:
   craft:
     skill: hide
@@ -109,7 +110,6 @@ sohl:
         maxVolleyMult: 3
         baseRangeBase: 240
         drawBase: 0
-packFolder: weapons
 ---
 
 A sling mounted at the end of a five-foot pole, giving lever-arm reach that multiplies force and range. Farmhand militia swing and release the cradle with the pole's rotation, achieving range and power near that of a weak bow without the training time. Effective for massed peasant levy and garrison defense when archers are scarce.

@@ -5,7 +5,8 @@ name:
   full: Scene, Token, and Combatant Systems
   aliases: []
 shortcode: scenetokencombatant
-pack: none
+data:
+  pack: none
 sohl:
   kbcat: devdocs
 ---

@@ -8,12 +8,12 @@ type: trauma
 data:
   icon: battlegear
   templatePriority: 0
+  packFolder: quirks
 subType: psycond
 sohl:
   kbcat: psybehavior
   system:
     category: quirk
-packFolder: quirks
 ---
 
 Enthusiasm refers to an individual's lively, eager, and energetic attitude toward tasks, ideas, or experiences. An enthusiastic person approaches life with excitement and passion, often motivating and inspiring others around them. Their positive energy can drive progress and foster a joyful environment, though unchecked enthusiasm may sometimes lead to impulsive decisions or a lack of focus on important details.

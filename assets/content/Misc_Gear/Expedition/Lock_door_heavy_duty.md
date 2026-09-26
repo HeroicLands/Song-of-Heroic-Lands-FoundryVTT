@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: expedition
 sohl:
   craft:
     skill: lock
@@ -20,7 +21,6 @@ sohl:
     valueBase: 30
     qualityBase: 0
     durabilityBase: 8
-packFolder: expedition
 ---
 
 A heavy iron deadbolt, its mechanism hardened and triple-warded to resist picking, fitted into a reinforced keeper plate. Used to secure vault doors, strongrooms, and the gates of fortified manors—too massive for casual removal but replaceable should the door itself fail.

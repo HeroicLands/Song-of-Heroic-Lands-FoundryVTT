@@ -5,7 +5,8 @@ name:
   full: Runtime Contracts
   aliases: []
 shortcode: runtimecontracts
-pack: none
+data:
+  pack: none
 sohl:
   kbcat: devdocs
 ---

@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: tack
 sohl:
   craft:
     skill: hide
@@ -20,7 +21,6 @@ sohl:
     valueBase: 12
     qualityBase: 0
     durabilityBase: 8
-packFolder: tack
 ---
 
 Leather straps stitched by a saddler and fitted with iron or bronze rings and buckles, designed to fit over a horse's head and guide its direction through reins. The noseband, browband, and cheekpieces are carefully shaped to avoid pinching while allowing the bit to sit properly in the animal's mouth. Cavalry officers, merchants, and any rider who values control carry a bridle suited to their beast.

@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: cape
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: hide
@@ -36,9 +37,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 252
-origWeight: 2.6
 ---
 
 Made from dense beaver fur, the Beaver Mantle offers exceptional warmth and a touch of luxury. It’s perfect for cold climates, combining function and status for those who require both comfort and elegance.

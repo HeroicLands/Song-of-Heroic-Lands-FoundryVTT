@@ -9,6 +9,7 @@ type: weapongear
 data:
   icon: battleaxe
   templatePriority: 0
+  packFolder: weapons
 sohl:
   craft:
     skill: mtlc
@@ -109,7 +110,6 @@ sohl:
         defense:
           blockMod: -10
           counterstrikeMod: -10
-packFolder: weapons
 ---
 
 A felling tool of five to seven pounds, hafted five feet long with a broad, heavy blade for cleaving wood-grain and bone alike. Built for the woodsman's day-labor but pressed into service by militia and soldiers who have no other arm. The wood axe swings slow and hard, lethal against men but cumbersome on horseback or in close press.

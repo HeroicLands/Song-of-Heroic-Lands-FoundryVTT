@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: leathervest
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: txtl
@@ -33,9 +34,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 96
-origWeight: 4.3
 ---
 
 The Quilted Vest, featuring layers of fabric sewn together, offers excellent insulation and warmth. Suitable for cooler climates, it provides both comfort and a bit of extra protection.

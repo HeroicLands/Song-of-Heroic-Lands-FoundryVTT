@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: natural
 sohl:
   craft:
     skill: srvl
@@ -20,7 +21,6 @@ sohl:
     valueBase: 45
     qualityBase: 0
     durabilityBase: 3
-packFolder: natural
 ---
 
 A tiny pelt of ermine or sable—the snow-white winter coat of the stoat or the dark luxuriant fur of the marten—dried and salted whole. Nobles and wealthy merchants commission cloaks and trim from dozens of these pelts; furriers guard good sources. A single skin fits in a pouch.

@@ -9,6 +9,7 @@ type: weapongear
 data:
   icon: pocketbow
   templatePriority: 0
+  packFolder: weapons
 sohl:
   craft:
     skill: fltch
@@ -109,7 +110,6 @@ sohl:
         maxVolleyMult: 4
         baseRangeBase: 210
         drawBase: 80
-packFolder: weapons
 ---
 
 A sturdy composite bow of laminated horn, wood, and sinew, with an eighty-pound pull. The cavalry warrior's standard bow—strong enough for charged volleys from horseback and compact enough to manage from the saddle during raid or maneuvre. Well-suited to both massed formation and solo mounted action.

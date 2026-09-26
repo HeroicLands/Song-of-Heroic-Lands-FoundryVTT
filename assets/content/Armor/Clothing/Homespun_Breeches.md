@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: trousers
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -35,9 +36,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 17
-origWeight: 0.9
 ---
 
 Homespun Breeches are simple, utilitarian trousers made from rough, homemade fabric. They are comfortable and durable for everyday wear, especially practical for laborers and farmers.

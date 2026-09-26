@@ -8,12 +8,12 @@ type: trauma
 data:
   icon: battlegear
   templatePriority: 0
+  packFolder: quirks
 subType: psycond
 sohl:
   kbcat: psybehavior
   system:
     category: quirk
-packFolder: quirks
 ---
 
 Humble is the quality of being modest, unassuming, and respectful of others. A humble individual recognizes their own strengths and weaknesses without seeking praise or placing themselves above others. They are open to feedback and are able to acknowledge their own limitations. While humility is a valued and constructive trait, excessive humility can lead to self-doubt, passivity, or allowing others to take advantage of them.

@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: cape
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -36,9 +37,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 21
-origWeight: 1.1
 ---
 
 The Homespun Mantle is a simple and practical cloak woven from homemade fabric. It provides basic protection against the elements, ideal for everyday wear by common folk who need a reliable outer layer.

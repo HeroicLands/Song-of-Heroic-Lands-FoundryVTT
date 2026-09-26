@@ -5,7 +5,8 @@ name:
   full: Scrying
   aliases: []
 shortcode: scrying
-packFolder: mysticalabilitiesdivination
+data:
+  packFolder: mysticalabilitiesdivination
 ---
 
 Divination by gazing — into still water, a bowl of ink, polished stone or glass, a flame, a mirror kept dark. The scryer does not interpret signs; they **see**. What appears in the surface is a place, a person, or a thing, shown as it is (or as it was, or as it will be) rather than described.

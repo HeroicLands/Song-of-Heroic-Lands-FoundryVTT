@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: expedition
 sohl:
   craft:
     skill: mtlc
@@ -20,7 +21,6 @@ sohl:
     valueBase: 18
     qualityBase: 0
     durabilityBase: 8
-packFolder: expedition
 ---
 
 A wedge of forged steel, thick on one end and tapered to a fine edge, driven between wood grain to cleave a log in two. A woodcutter carries several and strikes them with a maul; used with care they last years without dulling. Split wood dries faster than chopped, and a good splitting wedge saves labor on a long campaign.

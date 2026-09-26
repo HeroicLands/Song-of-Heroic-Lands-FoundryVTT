@@ -9,6 +9,7 @@ type: skill
 data:
   icon: crossedswords
   templatePriority: 0
+  packFolder: combat
 subType: combat
 sohl:
   kbcat: combat
@@ -23,7 +24,6 @@ sohl:
       - vital
       - manipulator
       - locomotor
-packFolder: combat
 ---
 
 Melee is fighting at arm's length, armed or not. It is hand coordination and whole-body control, and it measures **precision** — where the blow goes and whether it arrives. How hard it lands when it does is Strength's business, not the skill's. Even the untrained express some of it when desperation requires, and Melee may be used untrained.

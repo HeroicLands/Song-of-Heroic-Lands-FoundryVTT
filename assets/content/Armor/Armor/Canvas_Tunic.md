@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: shirt
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: txtl
@@ -40,9 +41,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 40.5
-origWeight: 2.9
 ---
 
 The Canvas Tunic is cut generously from heavy hemp weave and is a working garment above all. It chafes when new and wears in slowly, but it survives labour that would ruin finer cloth.

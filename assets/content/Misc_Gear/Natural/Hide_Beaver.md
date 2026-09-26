@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: natural
 sohl:
   craft:
     skill: srvl
@@ -20,7 +21,6 @@ sohl:
     valueBase: 30
     qualityBase: 0
     durabilityBase: 3
-packFolder: natural
 ---
 
 A beaver pelt—scraped, salted, and rolled—prized for its dense underfur and waterproof guard hairs. Furriers seek these skins for cloaks and winter garments, while hatters use them for felting. The hide is heavier than small game but light enough to pack into a trader's inventory.

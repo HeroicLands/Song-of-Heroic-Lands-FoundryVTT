@@ -4,8 +4,9 @@ subType: rules
 name:
   full: Mind Trauma Introduction
   aliases: []
-packFolder: mind
 shortcode: mindtraumaintro
+data:
+  packFolder: mind
 ---
 
 - [[doc-fear|Fear]]

@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: expedition
 sohl:
   craft:
     skill: txtl
@@ -20,7 +21,6 @@ sohl:
     valueBase: 48
     qualityBase: 0
     durabilityBase: 5
-packFolder: expedition
 ---
 
 A fishing net woven from hempen cord with lead weights sewn into the lower edge to sink it in fresh water or stream. The weighted design allows a single fisherman to cast and quickly sink the net around schools of fish; worn nets are cut apart and retied by riverside traders.

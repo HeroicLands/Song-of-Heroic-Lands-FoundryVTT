@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: trousers
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: hide
@@ -35,9 +36,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 136
-origWeight: 1.7
 ---
 
 Leather Breeches are stylish and offer a touch of rugged flair. Lightweight and supple, they allow for a full range of motion while adding a bit of protective value for light adventuring or everyday wear.

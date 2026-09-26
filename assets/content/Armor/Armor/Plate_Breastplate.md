@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: breastplate
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: wpnc
@@ -38,9 +39,6 @@ sohl:
       fire: 5
     encumbrance: 5
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 240
-origWeight: 4.5
 ---
 
 Made from solid steel, the Plate Breastplate provides maximum torso protection. It’s the cornerstone of knightly armor, designed to deflect blows and prevent penetration from weapons, though it sacrifices mobility for defense.

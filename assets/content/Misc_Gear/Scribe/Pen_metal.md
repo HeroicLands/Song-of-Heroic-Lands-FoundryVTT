@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: scribe
 sohl:
   craft:
     skill: mtlc
@@ -20,7 +21,6 @@ sohl:
     valueBase: 4
     qualityBase: 0
     durabilityBase: 5
-packFolder: scribe
 ---
 
 A steel nib, hammered and split, set into a bone or wood handle. Metal pens write a finer, steadier line than quill and resist damage from repeated dipping. They are favored by professional scribes and copyists who work in volume, though they cost more than feather.

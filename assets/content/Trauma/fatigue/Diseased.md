@@ -10,6 +10,7 @@ type: trauma
 data:
   icon: sleepy
   templatePriority: 0
+  packFolder: fatigue
 subType: fatigue
 sohl:
   kbcat: fatigue
@@ -17,7 +18,6 @@ sohl:
     category: weakness
     levelBase: 1
     healingRateBase: 1
-packFolder: fatigue
 ---
 
 Diseased weakness is the cumulative drag a character carries while sick — distinct from the disease itself, which is treated as its own affliction. Where the disease describes symptoms, progression, and contagion, the weakness it produces is the simple cost of doing anything while ill. 5–10 fatigue per disease the character carries, scaled by severity.

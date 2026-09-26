@@ -8,13 +8,13 @@ type: trauma
 data:
   icon: dread
   templatePriority: 0
+  packFolder: phobias
 subType: fear
 sohl:
   kbcat: phobias
   system:
     category: none
     levelBase: 0
-packFolder: phobias
 ---
 
 Catagelophobia is an intense, irrational fear of being ridiculed or humiliated. People with catagelophobia may experience a range of symptoms when they think about, are in, or foresee social situations where they might be made fun of.

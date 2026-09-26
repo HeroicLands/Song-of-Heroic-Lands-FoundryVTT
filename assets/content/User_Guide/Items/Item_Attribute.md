@@ -4,7 +4,8 @@ subType: userguide
 name:
   full: "Attribute"
 shortcode: attributeug
-packFolder: items
+data:
+  packFolder: items
 ---
 
 # What Is an Attribute?

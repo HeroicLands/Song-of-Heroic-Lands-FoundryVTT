@@ -9,6 +9,7 @@ type: containergear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: containers
 sohl:
   craft:
     skill: cmcs
@@ -19,7 +20,6 @@ sohl:
     qualityBase: 0
     durabilityBase: 3
     maxCapacityBase: 2
-packFolder: containers
 ---
 
 A glazed earthenware flask with a narrow neck and a stopper of wood or cork. It keeps water cooler than metal or leather in hot weather through the sweat of its own surface, and it breaks the first time it is dropped on stone.

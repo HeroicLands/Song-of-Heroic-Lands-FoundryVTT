@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: gempendant
   templatePriority: 0
+  packFolder: jewelry
 sohl:
   craft:
     skill: jewl
@@ -20,7 +21,6 @@ sohl:
     valueBase: 32
     qualityBase: 0
     durabilityBase: 3
-packFolder: jewelry
 ---
 
 A chain or strung band worn at the throat. This one is carved horn, 4 ounces of it, and reckons 4 days at the bench.

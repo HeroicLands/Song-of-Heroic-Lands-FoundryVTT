@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: shirt
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: txtl
@@ -44,9 +45,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 64
-origWeight: 3.2
 ---
 
 The Buckram Coat is stiff and structured, offering a durable, reliable outer layer. Made from coarse cloth stiffened with glue, it’s suitable for activities requiring a more rigid garment.

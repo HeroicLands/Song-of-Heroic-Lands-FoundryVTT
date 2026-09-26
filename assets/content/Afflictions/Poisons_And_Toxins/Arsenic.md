@@ -9,6 +9,7 @@ type: affliction
 data:
   icon: poisonbottle
   templatePriority: 0
+  packFolder: poisonsandtoxins
 subType: poisontoxin
 sohl:
   kbcat: poisontoxin
@@ -17,7 +18,6 @@ sohl:
     healingRateBase: 3
     contagionIndexBase: 3
     transmission: injested
-packFolder: poisonsandtoxins
 ---
 
 Arsenic, often referred to as the "king of poisons," is a naturally occurring element that is commonly used for poisoning. It is favored for its potent and insidious effects, often administered secretly in food or drink.

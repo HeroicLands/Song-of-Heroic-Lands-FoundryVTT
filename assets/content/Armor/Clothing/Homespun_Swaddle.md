@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: trousers
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -35,9 +36,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 19
-origWeight: 1
 ---
 
 A simple and practical Homespun Swaddle woven from homemade fabric, offering basic comfort and warmth for infants. It provides a reliable and no-frills garment, ideal for everyday use.

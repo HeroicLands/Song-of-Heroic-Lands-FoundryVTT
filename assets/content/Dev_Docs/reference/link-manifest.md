@@ -6,7 +6,8 @@ name:
   aliases: []
 shortcode: linkmanifest
 description: "The cross-package index: canonical addresses, Foundry UUIDs and anchors, and what a consuming build must do with them."
-pack: none
+data:
+  pack: none
 sohl:
   kbcat: devdocs
 ---

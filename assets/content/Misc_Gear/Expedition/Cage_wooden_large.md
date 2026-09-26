@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: expedition
 sohl:
   craft:
     skill: wood
@@ -20,7 +21,6 @@ sohl:
     valueBase: 15
     qualityBase: 0
     durabilityBase: 4
-packFolder: expedition
 ---
 
 A slatted cage of light battens pegged into a frame, big enough for a hound, a goat, or a dozen fowl. Wood is what a cage is normally made of — iron is for things that would chew through, and costs many times more. Carters stack them on a wagon bed for market day and the slats let the beasts breathe and be seen.

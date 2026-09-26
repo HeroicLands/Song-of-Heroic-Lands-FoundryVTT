@@ -5,7 +5,8 @@ name:
   full: Rune Casting
   aliases: []
 shortcode: rncstng
-packFolder: mysticalabilitiesdivination
+data:
+  packFolder: mysticalabilitiesdivination
 ---
 
 Divination by lots. The caster keeps a set of tokens — staves, tiles, pebbles, knucklebones — each cut with a rune of settled meaning, and casts them onto cloth or bare ground. Which fall face up, how they lie, and how they group is the reading.

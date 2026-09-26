@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: jewelry
 sohl:
   craft:
     skill: mnrl
@@ -20,7 +21,6 @@ sohl:
     valueBase: 20
     qualityBase: 0
     durabilityBase: 3
-packFolder: jewelry
 ---
 
 Steel of Khazárian make, won by a crucible process the smiths of that people do not share. It is uniform where

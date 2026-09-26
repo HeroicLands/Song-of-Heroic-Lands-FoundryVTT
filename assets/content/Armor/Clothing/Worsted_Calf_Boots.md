@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: leatherboot
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -35,9 +36,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 45.7
-origWeight: 0.8
 ---
 
 Worsted Calf Boots are fashioned from tightly-spun wool fabric, offering warmth and comfort. They are practical for cold weather, providing durable and reliable footwear.

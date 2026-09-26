@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: food
 sohl:
   craft:
     skill: anmcft
@@ -20,7 +21,6 @@ sohl:
     valueBase: 2
     qualityBase: 0
     durabilityBase: 0
-packFolder: food
 ---
 
 Golden honey sealed in a glazed clay jar, rendered by beekeepers from wild hives or managed apiaries. A pint of honey sweetens porridge, mead, and wounds alike; it keeps for years in a cool place. The jar itself may crack if frozen and must be resealed with wax to prevent spoilage.

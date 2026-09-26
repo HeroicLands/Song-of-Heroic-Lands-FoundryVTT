@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: billedcap
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: txtl
@@ -32,9 +33,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 4
-origWeight: 0.2
 ---
 
 A Cloth Cap is simple and versatile, made from various soft fabrics. It offers basic comfort and protection, suitable for everyday activities and casual wear.

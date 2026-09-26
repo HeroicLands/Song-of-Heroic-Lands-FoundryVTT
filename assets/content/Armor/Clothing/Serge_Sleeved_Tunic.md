@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: shirt
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -42,9 +43,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 50
-origWeight: 2.5
 ---
 
 The Serge Sleeved Tunic, made from durable twilled fabric, offers both comfort and resilience. Suitable for everyday wear, it provides a practical and versatile garment for various activities.

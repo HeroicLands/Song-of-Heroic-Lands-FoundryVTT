@@ -8,13 +8,13 @@ type: trauma
 data:
   icon: dread
   templatePriority: 0
+  packFolder: phobias
 subType: fear
 sohl:
   kbcat: phobias
   system:
     category: none
     levelBase: 0
-packFolder: phobias
 ---
 
 Hoplophobia is an intense, irrational fear of weapons or armed combat. People with hoplophobia may experience a range of symptoms when they think about, see, or are near situations involving weapons or combat with weapons.

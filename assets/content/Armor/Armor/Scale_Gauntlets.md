@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: gauntlet
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: wpnc
@@ -34,9 +35,6 @@ sohl:
     encumbrance: 0
     encumbranceGroup: arm
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 50
-origWeight: 2.8
 ---
 
 Scale Gauntlets consist of overlapping metal scales sewn onto a fabric or leather backing. They provide excellent protection and flexibility, suitable for various combat scenarios.

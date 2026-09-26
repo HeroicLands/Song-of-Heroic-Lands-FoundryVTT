@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: expedition
 sohl:
   craft:
     skill: txtl
@@ -20,7 +21,6 @@ sohl:
     valueBase: 2
     qualityBase: 0
     durabilityBase: 2
-packFolder: expedition
 ---
 
 A length of twisted twine, coiled and sold by the bundle—thin enough to fit a pocket yet strong enough to bundle firewood or lash a bedroll closed. Fletchers draw string for bowstrings; tailor and seamstress use it to bind seams. A traveler carries a coil of it without thought.

@@ -9,6 +9,7 @@ type: weapongear
 data:
   icon: broaddagger
   templatePriority: 0
+  packFolder: weapons
 sohl:
   craft:
     skill: wpnc
@@ -153,7 +154,6 @@ sohl:
         maxVolleyMult: 2
         baseRangeBase: 30
         drawBase: 0
-packFolder: weapons
 ---
 
 A short blade worn at the belt, tapered to a fine point for thrusting and finishing work. The tabûri of the southern peoples is equally at home in the hand or thrown at close quarters; simple but sharp, it serves hunter and fighter alike in camp or ambush.

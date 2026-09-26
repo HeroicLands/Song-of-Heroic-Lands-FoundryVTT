@@ -6,7 +6,8 @@ name:
   aliases: []
 shortcode: moduledevelopment
 description: "Build a Foundry module that extends SoHL without forking."
-pack: none
+data:
+  pack: none
 sohl:
   kbcat: devdocs
 ---

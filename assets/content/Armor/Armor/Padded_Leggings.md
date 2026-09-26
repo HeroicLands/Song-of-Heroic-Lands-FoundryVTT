@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: trousers
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: txtl
@@ -39,9 +40,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 72
-origWeight: 2.9
 ---
 
 Padded Leggings offer cushioning and warmth, ideal for wear under heavier armor or on their own. They provide comfort and protection, suitable for both combat and daily wear.

@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: shirt
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -40,9 +41,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 54
-origWeight: 2.7
 ---
 
 Exuding elegance and sophistication, the Silk Surcoat is a luxurious, lightweight garment. While not particularly durable, its smooth texture and graceful drape make it perfect for high-status events and formal occasions.

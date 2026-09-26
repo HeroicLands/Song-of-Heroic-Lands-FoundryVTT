@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: food
 sohl:
   craft:
     skill: fish
@@ -20,7 +21,6 @@ sohl:
     valueBase: 1
     qualityBase: 0
     durabilityBase: 0
-packFolder: food
 ---
 
 Dolce seaweed is harvested from shallow coastal waters, dried in the sun, and bundled for trade. The thin fronds rehydrate when soaked, adding iodine and salt to broths and stews. Coastal peoples eat seaweed as a vegetable; inland merchants trade it as a preserved luxury. Dried seaweed smokes over hardwood for deeper umami; salted seaweed keeps for months in sealed vessels.

@@ -8,12 +8,12 @@ type: trauma
 data:
   icon: battlegear
   templatePriority: 0
+  packFolder: quirks
 subType: psycond
 sohl:
   kbcat: psybehavior
   system:
     category: quirk
-packFolder: quirks
 ---
 
 Agreeable refers to an individual's tendency to be cooperative, empathetic, and supportive in social interactions. Agreeable people prioritize harmony, positive relationships, and are often willing to compromise to avoid conflict. They are kind, polite, and considerate of others' feelings, making them well-liked in their communities. However, extreme agreeableness can sometimes lead to the individual suppressing their own needs or opinions in order to maintain peace.

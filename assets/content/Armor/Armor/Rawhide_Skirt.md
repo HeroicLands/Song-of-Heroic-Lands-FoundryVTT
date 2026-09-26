@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: skirt
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: hide
@@ -38,9 +39,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 156
-origWeight: 6.2
 ---
 
 The Rawhide Skirt is thick and rugged, offering substantial protection and durability. Ideal for harsh environments, it provides a sturdy and reliable garment for those needing extra toughness.

@@ -6,7 +6,8 @@ name:
   aliases: []
 shortcode: securitymodel
 description: "The threat model and the standing rules every change must respect."
-pack: none
+data:
+  pack: none
 sohl:
   kbcat: devdocs
 ---

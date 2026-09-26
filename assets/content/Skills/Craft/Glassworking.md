@@ -9,6 +9,7 @@ type: skill
 data:
   icon: roundbottomflask
   templatePriority: 0
+  packFolder: craft
 subType: craft
 sohl:
   kbcat: craft
@@ -22,7 +23,6 @@ sohl:
       - core
       - vital
       - manipulator
-packFolder: craft
 ---
 
 Glassworking is the winning of vessels and panes out of a substance that is only workable while it is dangerously hot and unforgiving the moment it is not. Bottles, flasks, phials, goblets, beads, window quarries and — for the very few with the patience and the ground stone — lenses.

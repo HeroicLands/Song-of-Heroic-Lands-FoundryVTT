@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: trousers
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: txtl
@@ -35,9 +36,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 17
-origWeight: 0.9
 ---
 
 Simple and versatile, Cloth Breeches are made from a variety of softer fabrics for everyday comfort. They provide a basic, practical option for daily tasks, suitable for a wide range of wearers.

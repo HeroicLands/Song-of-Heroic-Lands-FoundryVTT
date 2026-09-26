@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: lighting
 sohl:
   craft:
     skill: wood
@@ -20,7 +21,6 @@ sohl:
     valueBase: 1
     qualityBase: 0
     durabilityBase: 9
-packFolder: lighting
 ---
 
 A split length of oak or ash, thickly wrapped with pitch-soaked rags and bound with twine, carried alight to illuminate passages and courtyards. Torches burn bright and hot, casting sharp shadows; a guard holding a torch can see far but is himself seen clearly. They are cheap, expendable, and commonly carried by watch-wardens, miners, and anyone entering a lightless space for a short time.

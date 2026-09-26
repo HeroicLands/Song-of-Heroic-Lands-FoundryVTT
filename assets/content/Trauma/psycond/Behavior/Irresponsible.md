@@ -8,12 +8,12 @@ type: trauma
 data:
   icon: battlegear
   templatePriority: 0
+  packFolder: disorders
 subType: psycond
 sohl:
   kbcat: psybehavior
   system:
     category: quirk
-packFolder: disorders
 ---
 
 Irresponsible refers to an individual’s tendency to neglect duties, obligations, or consequences in favor of immediate gratification, avoidance, or lack of care. Irresponsible people often fail to fulfill their commitments or make decisions that negatively impact themselves and others due to their lack of consideration. While occasional lapses in responsibility can be harmless, chronic irresponsibility can lead to personal, social, or financial challenges.

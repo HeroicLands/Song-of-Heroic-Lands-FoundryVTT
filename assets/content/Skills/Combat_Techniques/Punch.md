@@ -10,6 +10,7 @@ type: skill
 data:
   icon: punchblast
   templatePriority: 0
+  packFolder: combat
 subType: combattechnique
 sohl:
   kbcat: unarmed
@@ -74,7 +75,6 @@ sohl:
     initSkillMult: 2
     impairedByRoles:
       - manipulator
-packFolder: combat
 ---
 
 The plainest attack there is, and the feeblest on the table: a bare fist does little against anything padded and rather less against anything rigid, and a hand is a poor instrument for hitting hard things with. Boxers wrap their hands for a reason.

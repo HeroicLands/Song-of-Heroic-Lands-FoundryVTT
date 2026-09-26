@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: trousers
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: txtl
@@ -35,9 +36,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 19
-origWeight: 1
 ---
 
 Simple and versatile, the Cloth Swaddle is made from a variety of soft fabrics. It offers basic comfort and warmth, making it suitable for everyday use and providing a reliable, adaptable garment for infants.

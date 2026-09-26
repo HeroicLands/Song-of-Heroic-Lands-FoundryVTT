@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: leathervest
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: hide
@@ -33,9 +34,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 96
-origWeight: 3.6
 ---
 
 The Rawhide Vest is thick and rugged, providing substantial protection and durability. Ideal for harsh environments, it offers a sturdy and reliable garment for those needing extra toughness.

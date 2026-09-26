@@ -9,6 +9,7 @@ type: containergear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: containers
 sohl:
   craft:
     skill: cmcs
@@ -19,7 +20,6 @@ sohl:
     qualityBase: 0
     durabilityBase: 3
     maxCapacityBase: 2
-packFolder: containers
 ---
 
 A moderately sized stoneware jar with a fitted ceramic or wooden lid, sized for everyday household storage of honey, jam, oil, or salt. Smaller than its gallon counterpart but still substantial enough to hold a family's weekly needs, it sits comfortably on a shelf or in a cupboard. The thick walls resist temperature swings, and a snug lid keeps contents dry and protected from pests. 1 quart capacity.

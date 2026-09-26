@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: shirt
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: txtl
@@ -42,9 +43,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 50
-origWeight: 2.5
 ---
 
 Simple and versatile, the Cloth Sleeved Tunic is made from various soft fabrics, offering basic comfort and coverage. It’s suitable for everyday activities and casual wear, providing a practical and adaptable garment.

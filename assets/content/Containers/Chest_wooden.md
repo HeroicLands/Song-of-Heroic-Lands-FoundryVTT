@@ -9,6 +9,7 @@ type: containergear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: containers
 sohl:
   craft:
     skill: wood
@@ -19,7 +20,6 @@ sohl:
     qualityBase: 0
     durabilityBase: 5
     maxCapacityBase: 80
-packFolder: containers
 ---
 
 A storage chest of jointed boards with a flat hinged lid, frequently carved on the front panel — the decorative woodworker's standard commission. A flat lid means it doubles as a bench or a table, which in a one-room cottage matters more than capacity. Better chests have an iron lockplate and a till inside the lid for small valuables.

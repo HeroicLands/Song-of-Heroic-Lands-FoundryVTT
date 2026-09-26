@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: billedcap
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: hide
@@ -32,9 +33,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 16
-origWeight: 0.6
 ---
 
 An Ermine Cap, made from the soft white fur of the ermine, signifies high status and wealth. It offers excellent warmth and a plush, luxurious texture, ideal for nobility.

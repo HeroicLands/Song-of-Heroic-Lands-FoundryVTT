@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: shirt
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -40,9 +41,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 45
-origWeight: 2.3
 ---
 
 Light and breathable, the Linen Tunic is perfect for warm weather. It offers comfort and ease of movement, making it ideal for casual wear and outdoor activities.

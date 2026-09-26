@@ -7,7 +7,6 @@ name:
   given: Brunjár
   clan: Skathhelm
   aliases: []
-packFolder: pregens
 shortcode: brunjarskathhel
 type: being
 data:
@@ -27,11 +26,12 @@ data:
     extra_features:
       - boyish face that makes him look younger than his years
       - fidgets constantly
-social:
-  occupation: null
-  station: null
-  class: null
-  society: null
+  packFolder: pregens
+  social:
+    occupation: null
+    station: null
+    class: null
+    society: null
 sohl:
   kbcat: npc
   items:

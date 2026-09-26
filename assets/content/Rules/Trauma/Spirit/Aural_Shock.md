@@ -4,8 +4,9 @@ subType: rules
 name:
   full: Aural Shock
   aliases: []
-packFolder: spirit
 shortcode: arlshck
+data:
+  packFolder: spirit
 ---
 
 **Aural Shock (AS)** is a temporary severance between a character's soul and body — the aura torn loose from what anchors it. It is the characteristic harm of the mystical world: the backlash of a working that went wrong, the wound left by a hostile spirit, the price of touching something that should not have been touched. The body is untouched; what is hurt is the part of the character that reaches beyond it.

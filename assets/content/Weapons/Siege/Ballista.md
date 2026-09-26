@@ -9,6 +9,7 @@ type: weapongear
 data:
   icon: aerodynamicharpoon
   templatePriority: 0
+  packFolder: weapons
 sohl:
   craft:
     skill: wood
@@ -65,7 +66,6 @@ sohl:
         maxVolleyMult: 4
         baseRangeBase: 200
         drawBase: 0
-packFolder: weapons
 ---
 
 The heavy bolt-thrower, built on the same principle as the springald and three times the weight of it: two torsion skeins, a heavy stock, and a windlass that four crew turn to span. It looses an iron-headed shaft the length of a man's leg with force enough to carry through a shield, the man behind it, and a second man behind him. Field armies bring them for gates and engines; garrisons keep them for anything that comes over a wall. It is the lightest thing in an arsenal that can mark a hide no sword will cut.

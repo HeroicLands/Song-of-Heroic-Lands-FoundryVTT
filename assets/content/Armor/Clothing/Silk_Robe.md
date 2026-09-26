@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: robe
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -48,9 +49,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 79
-origWeight: 4
 ---
 
 A Silk Robe exudes elegance and sophistication, offering a luxurious, lightweight garment. While it’s not particularly durable, its smooth texture and graceful drape make it perfect for formal occasions and high-status appearances.

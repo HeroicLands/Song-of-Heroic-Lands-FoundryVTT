@@ -9,6 +9,7 @@ type: affliction
 data:
   icon: virus
   templatePriority: 0
+  packFolder: diseases
 subType: disease
 sohl:
   kbcat: diseases
@@ -17,7 +18,6 @@ sohl:
     healingRateBase: 3
     contagionIndexBase: 3
     transmission: vector
-packFolder: diseases
 ---
 
 Malaria is a parasitic disease caused by _Plasmodium_ species, transmitted through the bites of infected Anopheles mosquitoes. It presents with cyclical episodes of fever, chills, sweating, headache, nausea, and vomiting. Severe malaria can cause anemia, respiratory distress, cerebral malaria (affecting the brain), multi-organ failure, and death, especially in young children and pregnant women in endemic regions. Prompt medical treatment with antimalarial drugs and preventive measures like mosquito nets and insect repellents are vital for controlling and treating the disease.

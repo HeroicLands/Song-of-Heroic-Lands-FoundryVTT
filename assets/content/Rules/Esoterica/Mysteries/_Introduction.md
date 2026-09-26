@@ -4,8 +4,9 @@ subType: rules
 name:
   full: Mysteries Introduction
   aliases: []
-packFolder: mysteries
 shortcode: mysteryintro
+data:
+  packFolder: mysteries
 ---
 
 - [[doc-brthsgn|Birthsign]]

@@ -9,6 +9,7 @@ type: weapongear
 data:
   icon: club
   templatePriority: 0
+  packFolder: weapons
 sohl:
   craft:
     skill: wood
@@ -109,7 +110,6 @@ sohl:
         defense:
           blockMod: 0
           counterstrikeMod: 0
-packFolder: weapons
 ---
 
 A short, thick-headed bludgeon, often weighted with lead or iron bands driven into its wooden core, the cudgel is favored for close-quarters fighting. Shorter and heavier than a club, it trades reach for concentrated force, and fits easily in a clenched fist or at the belt. Common in the hands of sell-swords, tavern-brawlers, and men who prefer no pretense of civility.

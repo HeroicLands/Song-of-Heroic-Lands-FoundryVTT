@@ -8,12 +8,12 @@ type: trauma
 data:
   icon: battlegear
   templatePriority: 0
+  packFolder: quirks
 subType: psycond
 sohl:
   kbcat: psybehavior
   system:
     category: quirk
-packFolder: quirks
 ---
 
 Practical refers to an individual's focus on realistic, efficient, and functional approaches to problem-solving or daily tasks. A practical person prioritizes what works best in a given situation, often favoring simplicity and utility over abstract thinking or emotional considerations. They are grounded, action-oriented, and focused on tangible results. While practicality can lead to effective solutions, it may sometimes come across as too rigid or dismissive of creative or emotional aspects.

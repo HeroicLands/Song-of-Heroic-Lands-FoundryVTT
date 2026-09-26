@@ -4,8 +4,9 @@ subType: rules
 name:
   full: Prone
   aliases: []
-packFolder: rulescombat
 shortcode: prone
+data:
+  packFolder: rulescombat
 ---
 
 When a being stumbles or falls, it becomes **prone**, with the following effects:

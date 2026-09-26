@@ -4,7 +4,8 @@ subType: userguide
 name:
   full: "Armor"
 shortcode: armorgearug
-packFolder: items
+data:
+  packFolder: items
 ---
 
 # What Is Armor?

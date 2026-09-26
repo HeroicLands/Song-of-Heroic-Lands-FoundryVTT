@@ -9,6 +9,7 @@ type: weapongear
 data:
   icon: broadsword
   templatePriority: 0
+  packFolder: weapons
 sohl:
   craft:
     skill: wpnc
@@ -197,7 +198,6 @@ sohl:
         defense:
           blockMod: 0
           counterstrikeMod: 0
-packFolder: weapons
 ---
 
 A straight double-edged blade hilted with a grip long enough for either hand alone or both hands together, the bastard sword balances reach with control. Knights favor this versatile steel for its capacity to thrust with the full weight of a two-handed grip or cut swift with a shield bearer's lightness. The grip tapers toward a weighted pommel that steadies the blade even in the off-hand.

@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: jewelry
 sohl:
   craft:
     skill: jewl
@@ -20,7 +21,6 @@ sohl:
     valueBase: 12
     qualityBase: 0
     durabilityBase: 3
-packFolder: jewelry
 ---
 
 A disc or plaque of copper, beaten thin and punched with a sign, hung on a cord at the neck. It is the cheap charm — the one bought when a child is sick and there is no coin for a healer — and popular belief credits copper against aches, fevers, and swellings of the joint. The metal greens where it lies against the skin and marks the shirt beneath.

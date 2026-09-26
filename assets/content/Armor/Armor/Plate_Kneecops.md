@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: kneepad
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: wpnc
@@ -33,9 +34,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 60
-origWeight: 1.1
 ---
 
 Plate Kneecops are solid steel coverings for the knees, offering maximum protection. Essential for heavily armored warriors, they are designed to deflect and absorb impacts during combat.

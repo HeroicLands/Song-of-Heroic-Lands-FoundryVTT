@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: shirt
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: txtl
@@ -44,9 +45,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 128
-origWeight: 5.1
 ---
 
 The Padded Coat provides warmth and cushioning, perfect for cold weather or as additional under-armor padding. It offers comfort and a bit of extra protection where needed.

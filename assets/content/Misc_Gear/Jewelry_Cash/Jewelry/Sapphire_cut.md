@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: jewelry
 sohl:
   craft:
     skill: jewl
@@ -20,7 +21,6 @@ sohl:
     valueBase: 900
     qualityBase: 0
     durabilityBase: 2
-packFolder: jewelry
 ---
 
 Sapphire, a brilliant corundum of deep blue, cut and faceted by the finest lapidaries into gemstones of extraordinary luminosity. The stone's intense color and hardness make it second only to diamond in prestige, reserved for the rings of nobility and clergy of the highest rank. Each sapphire takes weeks to cut properly.

@@ -5,7 +5,8 @@ name:
   full: CSS Architecture & Styleguide
   aliases: []
 shortcode: cssarchitecture
-pack: none
+data:
+  pack: none
 sohl:
   kbcat: devdocs
 ---

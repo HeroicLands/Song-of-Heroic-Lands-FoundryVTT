@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: hood
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: txtl
@@ -33,9 +34,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 7.8
-origWeight: 0.5
 ---
 
 The Waxed Canvas Cowl is proofed with wax and oil so that rain beads and runs rather than soaking through. The treatment adds weight and cost, and leaves the garment quick to catch light.

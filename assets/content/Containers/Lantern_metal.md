@@ -9,6 +9,7 @@ type: containergear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: containers
 sohl:
   craft:
     skill: mtlc
@@ -19,7 +20,6 @@ sohl:
     qualityBase: 0
     durabilityBase: 7
     maxCapacityBase: 0.125
-packFolder: containers
 ---
 
 A metal lantern of hammered tinned copper or pewter with glass or horn side panels that enclose the flame and protect the wick from wind and rain. The metal frame is lighter than a fully enclosed wooden lantern and corrodes slowly, making it practical for sailors, soldiers, and anyone who carries light through uncertain weather. A hooked bail at the top allows hanging from belt or pack.

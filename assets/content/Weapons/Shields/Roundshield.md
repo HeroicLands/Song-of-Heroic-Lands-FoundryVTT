@@ -9,6 +9,7 @@ type: weapongear
 data:
   icon: roundshield
   templatePriority: 0
+  packFolder: weapons
 sohl:
   craft:
     skill: wpnc
@@ -65,7 +66,6 @@ sohl:
         defense:
           blockMod: 0
           counterstrikeMod: 0
-packFolder: weapons
 ---
 
 A circular plank shield some two to three feet across, laminated from oak or linden boards, faced with hide or rawhide and rimmed with iron against splitting. It is gripped center-hand behind a domed iron boss that can punch as well as parry, lending itself to the shield-wall of line footmen as readily as to the saddle of a raiding horseman. The common soldier's shield of the realm — cheap to make, quick to replace, and forgiving of hard use.

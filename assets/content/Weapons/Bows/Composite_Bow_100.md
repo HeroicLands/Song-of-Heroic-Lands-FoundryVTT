@@ -9,6 +9,7 @@ type: weapongear
 data:
   icon: pocketbow
   templatePriority: 0
+  packFolder: weapons
 sohl:
   craft:
     skill: fltch
@@ -109,7 +110,6 @@ sohl:
         maxVolleyMult: 4
         baseRangeBase: 240
         drawBase: 100
-packFolder: weapons
 ---
 
 A well-crafted composite bow of laminated horn, wood, and sinew, with a hundred-pound pull. A trained war-archer's composite—compact yet powerful, it strikes at range with force that pierces armored cavalry. Favored by skilled light-horsemen and elite mounted archery units of the realms.

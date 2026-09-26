@@ -9,6 +9,7 @@ type: containergear
 data:
   icon: knapsack
   templatePriority: 0
+  packFolder: containers
 sohl:
   craft:
     skill: hide
@@ -19,7 +20,6 @@ sohl:
     qualityBase: 0
     durabilityBase: 8
     maxCapacityBase: 20
-packFolder: containers
 ---
 
 A large stitched-hide satchel, heavy even when empty and heavier still once loaded. Carried by those who need one bag to hold everything and expect to still be carrying the same bag in ten years.

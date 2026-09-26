@@ -9,6 +9,7 @@ type: weapongear
 data:
   icon: crossbow
   templatePriority: 0
+  packFolder: weapons
 sohl:
   craft:
     skill: fltch
@@ -65,7 +66,6 @@ sohl:
         maxVolleyMult: 4
         baseRangeBase: 300
         drawBase: 300
-packFolder: weapons
 ---
 
 The heaviest arbalest, a horn-and-sinew laminate prod drawing three hundred pounds and spanned only by windlass. Issued to picked crews breaching walls or held in reserve for devastating short-range volleys, this weapon's slow spanning is accepted cost for unmatched penetration against plate and formations. Devastating in close combat at wall-breach and devastating when properly placed.

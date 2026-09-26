@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: shirt
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: txtl
@@ -37,9 +38,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 33
-origWeight: 1.7
 ---
 
 Simple and versatile, the Cloth Shirt is made from various soft fabrics. It offers basic comfort and coverage, suitable for everyday activities and casual wear.

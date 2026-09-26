@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: leatherboot
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: txtl
@@ -35,9 +36,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 19
-origWeight: 1
 ---
 
 Cloth Calf Boots are light and breathable, made from various fabrics. They offer minimal protection but are extremely comfortable, ideal for casual wear or non-combat activities.

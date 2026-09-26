@@ -5,7 +5,8 @@ name:
   full: Macros and Actions
   aliases: []
 shortcode: macrosandactions
-pack: none
+data:
+  pack: none
 sohl:
   kbcat: devdocs
 ---

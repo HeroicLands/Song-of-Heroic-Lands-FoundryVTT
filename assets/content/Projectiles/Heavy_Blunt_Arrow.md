@@ -8,9 +8,9 @@ type: projectilegear
 data:
   icon: broadheadarrow
   templatePriority: 0
+  packFolder: projectiles
 subType: arrow
 shortcode: arwhblt
-easyname: Heavy Blunt
 sohl:
   craft:
     skill: fltch
@@ -27,7 +27,6 @@ sohl:
       die: 6
       modifier: -1
       aspect: piercing
-packFolder: projectiles
 ---
 
 A stouter shaft of seasoned ash, capped with a heavy turned-wood or cast-bronze knob in place of a cutting head. Huntsmen loose them at boar and large fowl where a piercing arrow would spoil the pelt or be lost in the carcass; the weight of the head breaks bone and stuns at close range. Sergeants-at-arms sometimes carry a sheaf for clearing riotous crowds without lethal wound.

@@ -5,7 +5,8 @@ name:
   full: Divination Introduction
   aliases: []
 shortcode: divintro
-packFolder: mysticalabilitiesdivination
+data:
+  packFolder: mysticalabilitiesdivination
 ---
 
 The practice of obtaining hidden knowledge or foreknowledge by mystical means — reading signs, casting lots, scrying, or otherwise drawing aside the veil to foretell what is hidden or to come. Divination most often sits in the arcane tradition, but diviners appear among the divine and the spirit-touched as well. The **Fate** invocation — drawing on a character's Fate mystery — is a form of Divination.

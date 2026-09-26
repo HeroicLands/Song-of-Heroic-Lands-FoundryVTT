@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: robe
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -48,9 +49,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 79
-origWeight: 4
 ---
 
 Soft and plush, the Velvet Robe is a symbol of opulence. It offers modest insulation and is perfect for formal settings, helping high-status individuals make a grand impression.

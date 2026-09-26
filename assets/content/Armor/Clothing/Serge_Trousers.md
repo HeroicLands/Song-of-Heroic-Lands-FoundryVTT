@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: trousers
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -38,9 +39,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 39
-origWeight: 2
 ---
 
 The Serge Trousers are crafted from durable twilled fabric, offering both comfort and resilience. Suitable for everyday wear, they provide a versatile and practical option for a wide range of activities.

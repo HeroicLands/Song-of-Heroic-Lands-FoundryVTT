@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: expedition
 sohl:
   craft:
     skill: mnrl
@@ -20,7 +21,6 @@ sohl:
     valueBase: 10
     qualityBase: 0
     durabilityBase: 0
-packFolder: expedition
 ---
 
 A fine mineral powder, soft and absorbent, ground from talc stone quarried in mountain seams. Travelers and soldiers keep a pouch for drying sweat, preventing chafing, and tending minor skin complaints; physicians use it to dust wounds and reduce weeping.

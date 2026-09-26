@@ -9,6 +9,7 @@ type: weapongear
 data:
   icon: halberd
   templatePriority: 0
+  packFolder: weapons
 sohl:
   craft:
     skill: wpnc
@@ -241,7 +242,6 @@ sohl:
         defense:
           blockMod: 0
           counterstrikeMod: 0
-packFolder: weapons
 ---
 
 A single-edged cleaver hafted to a long pole, the glaive marries the reach of a thrusting spear with the slashing power of a sword blade. Warriors favor it for broad, sweeping cuts that keep foes at distance and shear through both mail and shield. Line infantry employ glaives to receive and break cavalry charges.

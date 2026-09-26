@@ -9,6 +9,7 @@ type: weapongear
 data:
   icon: pocketbow
   templatePriority: 0
+  packFolder: weapons
 sohl:
   craft:
     skill: fltch
@@ -109,7 +110,6 @@ sohl:
         maxVolleyMult: 4
         baseRangeBase: 300
         drawBase: 175
-packFolder: weapons
 ---
 
 A tall self-bow of seasoned yew or ash, a span taller than a standing man, drawn to the ear with a full hundred-seventy-five pound pull. Only archers trained from childhood can draw this champion's warbow—their left shoulders stand noticeably higher than their right from years at the mark. Loosed in massed volleys from behind sharpened stakes, it is the terror of heavy cavalry and the spine of any border muster.

@@ -9,6 +9,7 @@ type: containergear
 data:
   icon: chest
   templatePriority: 0
+  packFolder: containers
 sohl:
   craft:
     skill: wood
@@ -19,7 +20,6 @@ sohl:
     qualityBase: 0
     durabilityBase: 8
     maxCapacityBase: 50
-packFolder: containers
 ---
 
 A light wooden trunk faced in leather with a domed lid to shed water, strapped rather than locked. It is built for the road — light enough to be lifted onto a cart by one person, and cheap enough that its loss is survivable.

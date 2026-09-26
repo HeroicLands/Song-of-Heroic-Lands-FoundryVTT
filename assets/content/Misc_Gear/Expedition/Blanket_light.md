@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: expedition
 sohl:
   craft:
     skill: txtl
@@ -20,7 +21,6 @@ sohl:
     valueBase: 10
     qualityBase: 0
     durabilityBase: 7
-packFolder: expedition
 ---
 
 A thinner woven blanket of linen or light wool, pocketable when rolled. Suitable for mild seasons or layered with other garments, light blankets are popular with travelers and merchants who cannot afford the bulk of heavier bedding. They can serve as a dust-cloth, saddle-pad, or ground-sheet in a pinch, and dry quickly after rain.

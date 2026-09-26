@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: herbsbundle
   templatePriority: 0
+  packFolder: expedition
 sohl:
   craft:
     skill: agri
@@ -20,7 +21,6 @@ sohl:
     valueBase: 2
     qualityBase: 0
     durabilityBase: 0
-packFolder: expedition
 ---
 
 Tobacco leaf, dried and shredded, sold by the ounce in a small cloth pouch or loose bundle. Merchants import it from southern lands; soldiers and common people smoke it to ease fatigue and calm nerves during long watches, though excessive use yellows the teeth and mars the breath.

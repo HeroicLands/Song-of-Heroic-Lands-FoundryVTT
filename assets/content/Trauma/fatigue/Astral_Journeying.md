@@ -9,6 +9,7 @@ type: trauma
 data:
   icon: sleepy
   templatePriority: 0
+  packFolder: fatigue
 subType: fatigue
 sohl:
   kbcat: fatigue
@@ -16,7 +17,6 @@ sohl:
     category: weariness
     levelBase: 1
     healingRateBase: 3
-packFolder: fatigue
 ---
 
 Astral Journeying fatigue is the weariness of travel in the spirit or astral realm — the deep drain produced by carrying consciousness through the spirit-realm and returning to flesh. The cost is paid at reembodiment, when the spirit reassembles itself in physical form; the longer or more arduous the journey, the heavier the toll. 0–20 fatigue per journey, depending on duration and intensity.

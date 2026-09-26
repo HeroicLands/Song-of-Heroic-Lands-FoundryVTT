@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: food
 sohl:
   craft:
     skill: mnrl
@@ -20,7 +21,6 @@ sohl:
     valueBase: 10
     qualityBase: 0
     durabilityBase: 0
-packFolder: food
 ---
 
 A large sack holds bulk salt, a bushel's worth of coarse crystals used by merchants, salters, and provisioning officers. Such quantities are stored in cool cellars where salt will not cake, and parceled out in smaller measures to cooks and curers. A single sack is enough to preserve a dozen fish or a full ham, making it a valuable trade good and hedge against scarcity.

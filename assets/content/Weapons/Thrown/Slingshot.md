@@ -9,6 +9,7 @@ type: weapongear
 data:
   icon: slingshot
   templatePriority: 0
+  packFolder: weapons
 sohl:
   craft:
     skill: hide
@@ -109,7 +110,6 @@ sohl:
         maxVolleyMult: 3
         baseRangeBase: 120
         drawBase: 60
-packFolder: weapons
 ---
 
 A Y-shaped frame of wood with cord or leather cord stretched between the upper arms, held at the base and drawn back with a pouch at the fork. Hunters and footpads favor it for its ease of make and concealment; a child can fashion one from a branch and cord. Quick-draw and silent, though lacking range of its larger cousins.

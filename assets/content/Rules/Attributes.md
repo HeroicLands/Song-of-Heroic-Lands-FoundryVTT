@@ -4,8 +4,9 @@ subType: rules
 name:
   full: Attributes
   aliases: []
-packFolder: rules
 shortcode: attributes
+data:
+  packFolder: rules
 ---
 
 An **attribute** is an innate capacity a character is born with and develops only slowly — the raw material a skill is built on. Where a skill measures training at a particular activity, an attribute measures the underlying faculty that training draws upon.

@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: shirt
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: txtl
@@ -40,9 +41,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 48.6
-origWeight: 3.4
 ---
 
 The Canvas Surcoat is worn over other clothing or armour to take the wear of the road. Heavy hemp cloth sheds dust and rain reasonably well and can be scrubbed hard without falling apart.

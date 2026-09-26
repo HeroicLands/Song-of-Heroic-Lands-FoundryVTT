@@ -4,7 +4,8 @@ subType: userguide
 name:
   full: "Vehicle"
 shortcode: vehicleug
-packFolder: actors
+data:
+  packFolder: actors
 ---
 
 # What Is a Vehicle?

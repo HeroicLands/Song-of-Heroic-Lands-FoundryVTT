@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: leatherboot
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: txtl
@@ -37,9 +38,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 22
-origWeight: 1.1
 ---
 
 Buckram Knee Boots provide a stiff and structured fit, made from coarse cloth stiffened with glue. They offer durability and reliable protection for the legs, suitable for tasks requiring a more rigid boot.

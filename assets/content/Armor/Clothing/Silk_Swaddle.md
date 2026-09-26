@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: trousers
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -35,9 +36,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 19
-origWeight: 1
 ---
 
 A Silk Swaddle is the epitome of luxury for infants, providing a soft and lightweight fabric that’s perfect for special occasions. Though it offers less warmth and durability, its smooth texture makes it ideal for formal events where appearance is key.

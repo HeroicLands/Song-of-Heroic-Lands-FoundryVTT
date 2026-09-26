@@ -9,6 +9,7 @@ type: trauma
 data:
   icon: sleepy
   templatePriority: 0
+  packFolder: fatigue
 subType: fatigue
 sohl:
   kbcat: fatigue
@@ -16,7 +17,6 @@ sohl:
     category: weariness
     levelBase: 2
     healingRateBase: 5
-packFolder: fatigue
 ---
 
 Sleep deprivation is the weariness that accumulates when a character goes too long without rest, degrading thought, judgment, and physical coordination as surely as wounds or hunger. Travelers pushing through the night, sentries on extended watch, and prisoners denied a place to lie down all suffer from it, and unlike windedness it cannot be shaken off with a few minutes of recovery — only actual sleep clears the debt.

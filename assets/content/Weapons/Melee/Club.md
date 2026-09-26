@@ -9,6 +9,7 @@ type: weapongear
 data:
   icon: club
   templatePriority: 0
+  packFolder: weapons
 sohl:
   craft:
     skill: wood
@@ -109,7 +110,6 @@ sohl:
         defense:
           blockMod: 0
           counterstrikeMod: 0
-packFolder: weapons
 ---
 
 A weighted wooden truncheon bound with iron, the simplest of all bludgeons. Whether turned or hewn from a single piece of heartwood or grafted from a thicker branch fitted to a shorter haft, it swings with enough weight to break bone and crush the breath from a man's chest. Cheap to make and found in the hands of garrison guards, city watch, and desperate levies.

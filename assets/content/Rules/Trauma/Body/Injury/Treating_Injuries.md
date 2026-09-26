@@ -5,7 +5,8 @@ name:
   full: Treating Injuries
   aliases: []
 shortcode: trtnginj
-packFolder: injury
+data:
+  packFolder: injury
 ---
 
 A new injury is **untreated**, and healing cannot begin until it is treated. An untreated wound is resolved as though its treatment roll were a **Critical Failure**.

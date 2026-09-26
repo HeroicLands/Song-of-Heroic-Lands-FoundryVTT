@@ -4,8 +4,9 @@ subType: rules
 name:
   full: Impairment
   aliases: []
-packFolder: injury
 shortcode: imprmnt
+data:
+  packFolder: injury
 ---
 
 Injury penalizes actions that use the injured body part. Although an injury sits at a single body location, the **entire body part** containing it suffers the impairment.

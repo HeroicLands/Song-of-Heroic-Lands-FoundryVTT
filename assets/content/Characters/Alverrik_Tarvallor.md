@@ -9,7 +9,6 @@ name:
   home: Solárden
   aliases:
     - Roran Stonefist
-packFolder: pregens
 shortcode: alverriktarvall
 type: being
 data:
@@ -28,21 +27,12 @@ data:
     complexion: olive_toned
     extra_features:
       - a scar on the left shoulder
-social:
-  occupation: null
-  station: null
-  class: null
-  society: null
-gear:
-  weapons:
-    - Heavy mace
-  armor:
-    - Chainmail and leather armor
-  misc:
-    - Large pack for supplies
-    - Shield
-    - basic first aid kit
-    - navigation tools
+  packFolder: pregens
+  social:
+    occupation: null
+    station: null
+    class: null
+    society: null
 sohl:
   kbcat: npc
   items:
@@ -563,6 +553,17 @@ sohl:
         encumbrance: floor(wt/4)
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
+
+# gear:
+#   weapons:
+#     - Heavy mace
+#   armor:
+#     - Chainmail and leather armor
+#   misc:
+#     - Large pack for supplies
+#     - Shield
+#     - basic first aid kit
+#     - navigation tools
 ---
 
 # Appearance {#appearance}

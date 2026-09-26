@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: shirt
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: txtl
@@ -40,9 +41,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 45
-origWeight: 2.3
 ---
 
 The Buckram Tunic is stiff and structured, crafted from coarse cloth stiffened with glue. It offers durability and a reliable fit, suitable for tasks requiring a more rigid garment.

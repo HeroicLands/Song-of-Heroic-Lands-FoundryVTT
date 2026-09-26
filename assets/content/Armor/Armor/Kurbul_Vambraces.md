@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: bracer
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: wpnc
@@ -34,9 +35,6 @@ sohl:
     encumbrance: 0
     encumbranceGroup: arm
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 25
-origWeight: 1.9
 ---
 
 The Kûrbúl Vambraces are treated leather forearm guards offering moderate protection and flexibility. Decorated with intricate designs, they provide both function and visual appeal for those needing lightweight arm armor.

@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: cook
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -36,9 +37,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 115.5
-origWeight: 2
 ---
 
 The Worsted Apron is crafted from tightly-spun wool fibers, offering durability and resistance to moisture. It's ideal for tasks that require both comfort and a bit more resilience than lighter fabrics can provide.

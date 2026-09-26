@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: trousers
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: wpnc
@@ -39,9 +40,6 @@ sohl:
       fire: 5
     encumbrance: 10
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 360
-origWeight: 19.8
 ---
 
 Scale Leggings, consisting of overlapping metal scales sewn onto a fabric or leather backing, offer strong protection and reasonable mobility. They are suitable for various combat scenarios.

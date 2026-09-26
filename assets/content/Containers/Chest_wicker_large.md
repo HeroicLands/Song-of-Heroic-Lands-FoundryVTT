@@ -9,6 +9,7 @@ type: containergear
 data:
   icon: basket
   templatePriority: 0
+  packFolder: containers
 sohl:
   craft:
     skill: wood
@@ -19,7 +20,6 @@ sohl:
     qualityBase: 0
     durabilityBase: 5
     maxCapacityBase: 50
-packFolder: containers
 ---
 
 The largest of the woven chests, wide enough to hold a household's linen. Two people can carry it full where the equivalent in joined oak would need four, which is most of why it exists.

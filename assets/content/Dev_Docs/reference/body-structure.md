@@ -16,7 +16,8 @@ tags:
   - core-system
   - combat
   - injury
-pack: none
+data:
+  pack: none
 sohl:
   kbcat: devdocs
 ---

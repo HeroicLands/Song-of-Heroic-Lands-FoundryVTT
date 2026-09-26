@@ -8,12 +8,12 @@ type: trauma
 data:
   icon: battlegear
   templatePriority: 0
+  packFolder: quirks
 subType: psycond
 sohl:
   kbcat: psybehavior
   system:
     category: quirk
-packFolder: quirks
 ---
 
 Self-sufficiency is the capacity and inclination to provide for oneself without constant reliance upon others. A self-sufficient person masters the practical skills necessary to survive—growing food, mending tools, raising livestock, fashioning shelter. They trust their own judgment, act independently, and take responsibility for their circumstances without casting blame elsewhere. In a medieval world where interdependence is the norm, the self-sufficient person stands apart, valued for their reliability but sometimes regarded with suspicion for their isolation.

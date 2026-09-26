@@ -4,7 +4,8 @@ subType: userguide
 name:
   full: "Using Compendiums"
 shortcode: usingpacksug
-packFolder: userguide
+data:
+  packFolder: userguide
 ---
 
 # Overview {#compendium-overview}

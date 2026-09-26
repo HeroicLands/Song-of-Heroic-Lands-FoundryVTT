@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: leathervest
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -33,9 +34,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 24
-origWeight: 1.2
 ---
 
 Exuding elegance and sophistication, the Silk Vest is a luxurious, lightweight garment. Perfect for formal occasions and high-status events, it adds a touch of refinement to any outfit.

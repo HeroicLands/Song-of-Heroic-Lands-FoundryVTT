@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: cape
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -36,9 +37,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 21
-origWeight: 1.1
 ---
 
 Made from coarse wool dyed reddish-brown, the Russet Mantle offers warmth and durability. It's well-suited for colder weather and rougher outdoor environments, providing reliable coverage for travelers and laborers alike.

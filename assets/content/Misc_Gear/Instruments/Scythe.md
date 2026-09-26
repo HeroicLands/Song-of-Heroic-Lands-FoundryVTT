@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: instruments
 sohl:
   craft:
     skill: mtlc
@@ -20,7 +21,6 @@ sohl:
     valueBase: 36
     qualityBase: 0
     durabilityBase: 7
-packFolder: instruments
 ---
 
 A long curved blade set at an angle into a bent wooden haft with two grips, swung in a flat arc from the hips rather than the arms. A scythe cuts standing hay far faster than a sickle and is the tool of the hay harvest, though it demands room, rhythm, and a blade honed every few minutes with a stone carried at the belt. It is also, in the hands of desperate villagers, the most dangerous thing on a farm.

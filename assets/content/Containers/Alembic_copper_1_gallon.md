@@ -9,6 +9,7 @@ type: containergear
 data:
   icon: cookingpot
   templatePriority: 0
+  packFolder: containers
 sohl:
   craft:
     skill: mtlc
@@ -19,7 +20,6 @@ sohl:
     qualityBase: 0
     durabilityBase: 4
     maxCapacityBase: 8
-packFolder: containers
 ---
 
 The upper vessel of a still, beaten from copper, with a long spout running down to a collection pot. Copper conducts heat evenly and survives being set directly on a furnace, but it taints anything acid enough to attack the metal.

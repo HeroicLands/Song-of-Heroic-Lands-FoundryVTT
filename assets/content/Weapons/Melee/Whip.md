@@ -9,6 +9,7 @@ type: weapongear
 data:
   icon: whip
   templatePriority: 0
+  packFolder: weapons
 sohl:
   craft:
     skill: hide
@@ -109,7 +110,6 @@ sohl:
         defense:
           blockMod: -20
           counterstrikeMod: -20
-packFolder: weapons
 ---
 
 A long leather lash bound to a wooden grip, the whip cracks to deliver stinging cuts and sharp shocks that sting even through armor. It reaches beyond a sword's guard and entangles limbs or weapons to distract and wound. Circus performers, duelists, and intimidators favor it—it demands practice and open space, but offers reach and psychological bite.

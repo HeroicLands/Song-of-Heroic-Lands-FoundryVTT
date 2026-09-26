@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: prayer
   templatePriority: 0
+  packFolder: religious
 sohl:
   craft:
     skill: jewl
@@ -20,7 +21,6 @@ sohl:
     valueBase: 492
     qualityBase: 0
     durabilityBase: 5
-packFolder: religious
 ---
 
 A token of a god worked in gold. At an ounce and a half of metal it is worth more than most men see in a year, and it is not the sort of thing worn openly on the road. It hangs at the neck of a prelate, or is kept in the chapel of a great house and brought out for feast days.

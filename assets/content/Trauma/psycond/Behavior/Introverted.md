@@ -8,12 +8,12 @@ type: trauma
 data:
   icon: battlegear
   templatePriority: 0
+  packFolder: quirks
 subType: psycond
 sohl:
   kbcat: psybehavior
   system:
     category: quirk
-packFolder: quirks
 ---
 
 Introverted refers to an individual's tendency to focus inward and find comfort in solitude or small, intimate social settings. Introverted people often feel more energized by quiet, personal reflection or close interactions, rather than large social gatherings. While introversion is a perfectly healthy personality trait, providing time for deep thinking and personal recharge, excessive introversion can sometimes lead to social withdrawal, isolation, or difficulty forming relationships.

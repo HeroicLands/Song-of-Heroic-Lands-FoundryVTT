@@ -9,6 +9,7 @@ type: skill
 data:
   icon: cavalry
   templatePriority: 0
+  packFolder: physical
 subType: physical
 sohl:
   kbcat: physical
@@ -22,7 +23,6 @@ sohl:
       - core
       - vital
       - manipulator
-packFolder: physical
 ---
 
 Almost anyone can sit a walking horse. Riding measures what is needed beyond that: the empathy to know what the animal is about to do and the balance to still be aboard when it does it — in a press of bodies, under noise, over ground the horse would rather not cross.

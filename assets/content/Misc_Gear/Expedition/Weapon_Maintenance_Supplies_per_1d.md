@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: expedition
 sohl:
   craft:
     skill: mtlc
@@ -20,7 +21,6 @@ sohl:
     valueBase: 1
     qualityBase: 0
     durabilityBase: 2
-packFolder: expedition
 ---
 
 A standing stock of the small consumables that keep edged steel, hafted iron, and bow-wood in fighting condition: flasks of linseed and olive oil, cakes of beeswax, snapped-off whetstone chips, waxed hemp cord, peening rivets, iron and copper wire, spare bowstrings, and scraps of tanned strap for rebinding grips. Sold in any town of reasonable size by the pence, replenished by soldiers, archers, and huntsmen whenever they pass a smith.

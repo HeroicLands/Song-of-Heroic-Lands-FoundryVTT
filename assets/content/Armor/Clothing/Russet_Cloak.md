@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: cloak
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -61,9 +62,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 41.3
-origWeight: 0.9
 ---
 
 Crafted from coarse wool dyed reddish-brown, the Russet Cloak offers warmth and durability. It’s well-suited for colder weather and rougher outdoor environments, providing reliable protection for travelers and laborers alike.

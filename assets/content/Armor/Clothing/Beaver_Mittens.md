@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: gloves
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: hide
@@ -33,9 +34,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 60
-origWeight: 0.6
 ---
 
 Beaver Mittens are crafted from dense beaver fur, providing excellent warmth. They’re perfect for cold weather, offering both comfort and a touch of luxury.

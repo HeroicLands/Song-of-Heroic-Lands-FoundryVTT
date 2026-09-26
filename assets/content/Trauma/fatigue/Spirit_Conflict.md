@@ -9,6 +9,7 @@ type: trauma
 data:
   icon: sleepy
   templatePriority: 0
+  packFolder: fatigue
 subType: fatigue
 sohl:
   kbcat: fatigue
@@ -16,7 +17,6 @@ sohl:
     category: windedness
     levelBase: 1
     healingRateBase: 5
-packFolder: fatigue
 ---
 
 Spirit conflict fatigue is the windedness produced by spiritual struggle — a character contesting a spirit, demon, ghost, or possessor for control of body, soul, or sacred ground. The cost is paid in five-second bursts, each one as draining as a violent moment of physical exertion, and the wrestler cannot retreat between rounds the way a fighter can. 5 fatigue per five-second contest round.

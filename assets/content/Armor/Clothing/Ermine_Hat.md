@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: pointyhat
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: hide
@@ -32,9 +33,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 96
-origWeight: 0.4
 ---
 
 Made from soft white ermine fur, the Ermine Hat signifies high status and wealth. It offers excellent insulation and a plush texture, ideal for the elite needing both warmth and a show of prestige.

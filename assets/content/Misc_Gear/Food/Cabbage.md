@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: food
 sohl:
   craft:
     skill: agri
@@ -20,7 +21,6 @@ sohl:
     valueBase: 0.5
     qualityBase: 0
     durabilityBase: 0
-packFolder: food
 ---
 
 A dense, pale-leafed head of cabbage from the garden or market stall, sweet and tender when fresh, soured and pickled for winter. Cooks slice and boil cabbage into pottage, braise it with salt and fat, or salt it heavily for fermentation. A winter larder holds pickled cabbage; fresh heads last weeks in a cool cellar and travel well packed in straw.

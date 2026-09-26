@@ -8,12 +8,12 @@ type: trauma
 data:
   icon: battlegear
   templatePriority: 0
+  packFolder: traumaphysical
 subType: physcond
 sohl:
   kbcat: physfeature
   system:
     category: trait
-packFolder: traumaphysical
 ---
 
 Eczema (also known as **atopic dermatitis**) is a chronic skin condition characterized by inflammation, itching, dryness, and redness. It can flare up periodically, often triggered by environmental factors such as allergens, stress, or irritants. While the condition can be mild and manageable, in more severe cases, eczema can cause intense discomfort and lead to complications, including infections or significant impacts on daily life and emotional well-being.

@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: shirt
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: hide
@@ -40,9 +41,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 540
-origWeight: 5.5
 ---
 
 A Beaver Tunic, made from dense beaver fur, offers exceptional warmth and a touch of luxury. Perfect for cold climates, it combines function and status, providing both comfort and elegance.

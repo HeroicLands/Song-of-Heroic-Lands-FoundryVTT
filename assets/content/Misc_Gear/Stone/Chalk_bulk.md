@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: stone
 sohl:
   craft:
     skill: mnrl
@@ -20,7 +21,6 @@ sohl:
     valueBase: 1
     qualityBase: 0
     durabilityBase: 1
-packFolder: stone
 ---
 
 A quarried block of soft, porous chalk dug from ancient seabeds, sold by the cubic foot and left unworked for the quarryman's craft. Chalk is prized by masons for interior plaster, by scribes for pouncing, and by shepherds for marking sheep. It is soft enough to be broken by hand and light enough to carry; larger quantities serve as building filler beneath stone facings.

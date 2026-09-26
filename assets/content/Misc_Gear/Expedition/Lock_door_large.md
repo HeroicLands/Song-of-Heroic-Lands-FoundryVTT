@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: expedition
 sohl:
   craft:
     skill: lock
@@ -20,7 +21,6 @@ sohl:
     valueBase: 20
     qualityBase: 0
     durabilityBase: 7
-packFolder: expedition
 ---
 
 An iron deadbolt of standard weight, its wards carefully forged to resist casual tampering, mounted in a keeper plate for main doors of hall or townhouse. Sturdy enough to deter opportunistic thieves, though skilled locksmiths can defeat it given time.

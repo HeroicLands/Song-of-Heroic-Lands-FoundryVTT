@@ -9,6 +9,7 @@ type: containergear
 data:
   icon: chest
   templatePriority: 0
+  packFolder: containers
 sohl:
   craft:
     skill: mtlc
@@ -19,7 +20,6 @@ sohl:
     qualityBase: 0
     durabilityBase: 9
     maxCapacityBase: 30
-packFolder: containers
 ---
 
 A wooden box banded in iron on every face and corner, with a lock set into the lid. It is meant to defeat time rather than force — a thief with an axe and an hour will open it, but not one with a knife and a moment.

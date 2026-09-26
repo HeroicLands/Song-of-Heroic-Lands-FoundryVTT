@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: scalemail
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: wpnc
@@ -35,9 +36,6 @@ sohl:
       fire: 5
     encumbrance: 5
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 170
-origWeight: 9.4
 ---
 
 Scale Cuisse consists of small, overlapping metal scales sewn onto a fabric or leather backing. It offers strong protection while maintaining flexibility, suitable for various combat scenarios.

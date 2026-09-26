@@ -9,6 +9,7 @@ type: weapongear
 data:
   icon: roundshield
   templatePriority: 0
+  packFolder: weapons
 sohl:
   craft:
     skill: wpnc
@@ -65,7 +66,6 @@ sohl:
         defense:
           blockMod: 0
           counterstrikeMod: 0
-packFolder: weapons
 ---
 
 A small round shield held by a central grip or worn on the forearm, the buckler is light and quick. Its narrow face suits rapid parries and punches; duellists and swordsmen favor it for one-handed blade work, using the buckler's weight and rim to deflect cuts and thrust the boss at close range.

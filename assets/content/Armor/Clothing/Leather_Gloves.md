@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: gloves
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: hide
@@ -33,9 +34,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 40
-origWeight: 0.5
 ---
 
 Leather Gloves offer both style and practical protection. Lightweight and flexible, they are suitable for various activities, from light adventuring to everyday wear.

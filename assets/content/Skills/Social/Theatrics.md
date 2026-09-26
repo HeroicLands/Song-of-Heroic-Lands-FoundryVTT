@@ -9,6 +9,7 @@ type: skill
 data:
   icon: dramamasks
   templatePriority: 0
+  packFolder: social
 subType: social
 sohl:
   kbcat: social
@@ -21,7 +22,6 @@ sohl:
     impairedByRoles:
       - core
       - vital
-packFolder: social
 ---
 
 Theatrics is playing a role. The other persuasion skills project the character's own person at a listener, however manipulatively; Theatrics explicitly presents somebody else. Even the untrained can make an awkward attempt at it. Doing it well demands invention and vocal command both.

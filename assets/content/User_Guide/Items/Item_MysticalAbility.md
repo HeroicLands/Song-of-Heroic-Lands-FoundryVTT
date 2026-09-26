@@ -4,7 +4,8 @@ subType: userguide
 name:
   full: "Mystical Ability"
 shortcode: mysticalabilityug
-packFolder: items
+data:
+  packFolder: items
 ---
 
 # What Is a Mystical Ability?

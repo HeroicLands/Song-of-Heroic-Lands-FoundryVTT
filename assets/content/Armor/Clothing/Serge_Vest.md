@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: leathervest
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -33,9 +34,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 24
-origWeight: 1.2
 ---
 
 The Serge Vest is made from durable, twilled fabric, offering both comfort and resilience. Suitable for everyday wear, it provides a practical and versatile garment for a range of activities.

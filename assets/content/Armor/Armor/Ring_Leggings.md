@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: trousers
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: wpnc
@@ -39,9 +40,6 @@ sohl:
       fire: 5
     encumbrance: 10
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 486
-origWeight: 19.4
 ---
 
 Leather leggings reinforced with rows of metal rings, shielding the thighs and lower legs from harm.

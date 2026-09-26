@@ -9,6 +9,7 @@ type: containergear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: containers
 sohl:
   craft:
     skill: glas
@@ -19,7 +20,6 @@ sohl:
     qualityBase: 0
     durabilityBase: 2
     maxCapacityBase: 1
-packFolder: containers
 ---
 
 An aludel blown in glass, four times the price of the earthenware sort and worth it for one reason: the alchemist can see what is happening inside without breaking the column apart to find out.

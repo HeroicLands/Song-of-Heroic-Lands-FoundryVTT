@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: hood
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -33,9 +34,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 6
-origWeight: 0.3
 ---
 
 Light and breathable, the Linen Cowl is ideal for warmer weather. It provides sun protection without causing overheating, making it perfect for casual or light-duty wear.

@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: instruments
 sohl:
   craft:
     skill: glas
@@ -20,7 +21,6 @@ sohl:
     valueBase: 150
     qualityBase: 0
     durabilityBase: 2
-packFolder: instruments
 ---
 
 Two blown bulbs joined at a narrow waist, filled with graded sand and set in a turned wooden frame. The glassworker's difficulty is the waist: too wide and the glass runs fast and unevenly, too narrow and damp sand stops it altogether. A good hourglass is calibrated against a sundial over many turnings, and is worth more than most of what stands in the room with it. Watch-keepers, navigators, and preachers all rely on one.

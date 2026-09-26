@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: furniture
 sohl:
   craft:
     skill: wood
@@ -20,7 +21,6 @@ sohl:
     valueBase: 6
     qualityBase: 0
     durabilityBase: 5
-packFolder: furniture
 ---
 
 Two shaped rails with rungs let into them and pegged, eight feet from foot to top. Every house with a loft has one, and most take it up behind them at night. The rungs are the failure point — a rung that has dried and shrunk in its socket gives way under a heel with no warning at all, which is why a careful owner knocks each one before trusting the ladder to a load.

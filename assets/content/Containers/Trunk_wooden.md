@@ -9,6 +9,7 @@ type: containergear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: containers
 sohl:
   craft:
     skill: wood
@@ -19,7 +20,6 @@ sohl:
     qualityBase: 0
     durabilityBase: 5
     maxCapacityBase: 150
-packFolder: containers
 ---
 
 A large travelling chest of planked wood banded with iron straps, its lid often domed so that rain runs off and nothing is stacked on top of it. A trunk is the possession of someone who moves household — a bride, a scholar taking a post, a merchant's factor sent abroad — and rides on a cart rather than a back. Two people carry it by the end handles, and neither enjoys it.

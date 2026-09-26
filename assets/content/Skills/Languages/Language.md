@@ -9,6 +9,7 @@ type: skill
 data:
   icon: conversation
   templatePriority: 0
+  packFolder: language
 subType: language
 sohl:
   kbcat: languages
@@ -20,7 +21,6 @@ sohl:
     initSkillMult: 0
     impairedByRoles:
       - vital
-packFolder: language
 ---
 
 Language is fluency and comprehension in one particular tongue; each language is a separate skill with its own Mastery Level.

@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: billedcap
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: txtl
@@ -32,9 +33,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 8
-origWeight: 0.3
 ---
 
 The Padded Cap provides cushioning and warmth. It’s ideal for wear under helmets or on its own, offering comfort and protection for both combat and daily use.

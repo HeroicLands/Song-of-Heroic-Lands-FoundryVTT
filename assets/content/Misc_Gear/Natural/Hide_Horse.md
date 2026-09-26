@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: natural
 sohl:
   craft:
     skill: anmcft
@@ -20,7 +21,6 @@ sohl:
     valueBase: 10
     qualityBase: 0
     durabilityBase: 3
-packFolder: natural
 ---
 
 A horsehide—large, supple, and durable—salted and rolled for the tanner. Saddlers and armor-lining workers prefer it for its strength and finish; cavalry outposts buy hides in bulk. The hide is heavier than cattle but less dense, making it favored for flexible, water-resistant leather.

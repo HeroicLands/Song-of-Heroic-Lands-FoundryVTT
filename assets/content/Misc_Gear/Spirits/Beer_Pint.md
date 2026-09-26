@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: beerstein
   templatePriority: 0
+  packFolder: spirits
 sohl:
   craft:
     skill: brew
@@ -20,7 +21,6 @@ sohl:
     valueBase: 0.5
     qualityBase: 0
     durabilityBase: 0
-packFolder: spirits
 ---
 
 A pint of small-beer in a wooden cup or earthenware bowl. Thin and tangy, it is the laborer's drink—cheap, safe, and ever-present in garrison kitchens and public wells. Served warm or cold, it carries no prestige but much practicality.

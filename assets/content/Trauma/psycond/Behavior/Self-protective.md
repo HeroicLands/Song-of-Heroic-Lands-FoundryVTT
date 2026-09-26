@@ -8,12 +8,12 @@ type: trauma
 data:
   icon: battlegear
   templatePriority: 0
+  packFolder: quirks
 subType: psycond
 sohl:
   kbcat: psybehavior
   system:
     category: quirk
-packFolder: quirks
 ---
 
 Self-protectiveness is the habit of guarding oneself—one's goods, one's feelings, one's vulnerability—against harm. A self-protective person does not offer trust freely; they have learned, through experience or temperament, that the world contains threat. They build walls. They keep coins hidden. They reveal little of their inner heart until they have thoroughly tested the character of another.

@@ -9,6 +9,7 @@ type: weapongear
 data:
   icon: club
   templatePriority: 0
+  packFolder: weapons
 sohl:
   craft:
     skill: mtlc
@@ -109,7 +110,6 @@ sohl:
         defense:
           blockMod: 0
           counterstrikeMod: 0
-packFolder: weapons
 ---
 
 An iron pry-bar with a curved claw at one end and a tapered or flat striking end at the other, the crowbar is a carpenter's tool and a thief's friend. In a skirmish, it serves as a crude lever-weapon—the claw can hook and wrench, while the shaft makes a heavy bludgeon. Not a weapon by design, but deadly enough when wielded by a man driven to fight with whatever lies at hand.

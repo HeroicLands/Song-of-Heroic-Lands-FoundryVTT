@@ -9,6 +9,7 @@ type: trauma
 data:
   icon: sleepy
   templatePriority: 0
+  packFolder: fatigue
 subType: fatigue
 sohl:
   kbcat: fatigue
@@ -16,7 +17,6 @@ sohl:
     category: windedness
     levelBase: 1
     healingRateBase: 5
-packFolder: fatigue
 ---
 
 Physical exertion fatigue accrues from all-out physical exertion sustained over more than a few seconds — the urgent, breathless pace of pursuit; melee combat; sprinting; or climbing.

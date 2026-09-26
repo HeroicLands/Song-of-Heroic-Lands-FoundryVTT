@@ -9,6 +9,7 @@ type: affliction
 data:
   icon: poisonbottle
   templatePriority: 0
+  packFolder: poisonsandtoxins
 subType: poisontoxin
 sohl:
   kbcat: poisontoxin
@@ -17,7 +18,6 @@ sohl:
     healingRateBase: 3
     contagionIndexBase: 3
     transmission: vector
-packFolder: poisonsandtoxins
 ---
 
 Melittin is a major component of bee venom, responsible for the pain and inflammation associated with bee stings. It is a powerful anti-inflammatory agent that increases the permeability of cell membranes, leading to the lysis of cells and the release of cellular contents, which causes localized pain, redness, and swelling. In non-allergic individuals, these symptoms are typically mild and resolve within hours. However, in allergic individuals, melittin can trigger systemic reactions, including anaphylaxis, characterized by hives, swelling, difficulty breathing, and potentially, death if untreated.

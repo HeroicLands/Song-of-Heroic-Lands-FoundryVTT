@@ -4,8 +4,9 @@ subType: rules
 name:
   full: Esoterica Introduction
   aliases: []
-packFolder: esoterica
 shortcode: estrcint
+data:
+  packFolder: esoterica
 ---
 
 **Esoterica** gathers the supernatural rules of _Song of Heroic Lands_: the standing mystical conditions a character carries, and the mystical acts they perform. This introduction explains the two kinds of thing the rest of the section is built from, how mystical acts are tested, and the general mysteries that belong to no single tradition. The particular powers themselves are organised by **tradition** — see [[doc-estrcint|Arcane]], [[doc-estrcint|Divine]], and [[doc-estrcint|Spirit]].

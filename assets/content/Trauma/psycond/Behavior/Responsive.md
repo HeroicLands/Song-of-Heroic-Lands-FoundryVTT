@@ -8,12 +8,12 @@ type: trauma
 data:
   icon: battlegear
   templatePriority: 0
+  packFolder: quirks
 subType: psycond
 sohl:
   kbcat: psybehavior
   system:
     category: quirk
-packFolder: quirks
 ---
 
 Responsiveness is the habit of reacting swiftly and favorably to the needs of others or changes in circumstance. In the practical world of smithcraft, soldiering, and governance, a responsive person proves invaluable—quick to sense when aid is needed and quicker still to act. This is not mere haste; it is attentiveness coupled with willingness to bend toward the needs of the moment.

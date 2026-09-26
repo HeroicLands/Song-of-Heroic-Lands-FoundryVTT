@@ -14,7 +14,8 @@ tags:
   - core-system
   - dice
   - testing
-pack: none
+data:
+  pack: none
 sohl:
   kbcat: devdocs
 ---

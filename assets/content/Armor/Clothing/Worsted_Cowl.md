@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: hood
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -33,9 +34,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 6
-origWeight: 0.3
 ---
 
 The Worsted Cowl, made from tightly-spun wool, provides both style and durability. It’s a versatile head covering offering good insulation and resilience, suitable for a wide range of activities and weather conditions.

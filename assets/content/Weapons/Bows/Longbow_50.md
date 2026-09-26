@@ -9,6 +9,7 @@ type: weapongear
 data:
   icon: pocketbow
   templatePriority: 0
+  packFolder: weapons
 sohl:
   craft:
     skill: fltch
@@ -109,7 +110,6 @@ sohl:
         maxVolleyMult: 4
         baseRangeBase: 150
         drawBase: 50
-packFolder: weapons
 ---
 
 A short self-bow of seasoned yew or ash, strung and drawn easily by a boy or slight-framed archer. With only fifty pounds of pull, it suits small-game hunting and practice on the mark, though it has served as a sidearm for foresters and wood-cutters in a pinch.

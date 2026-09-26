@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: expedition
 sohl:
   craft:
     skill: lock
@@ -20,7 +21,6 @@ sohl:
     valueBase: 2
     qualityBase: 0
     durabilityBase: 5
-packFolder: expedition
 ---
 
 Iron keys, cast and filed to match specific locks, hanging together on a leather thong or iron ring. Merchants, innkeepers, and stewards carry a bundle; a single key is portable and easily lost or stolen, making sets both practical and valuable in locked trade.

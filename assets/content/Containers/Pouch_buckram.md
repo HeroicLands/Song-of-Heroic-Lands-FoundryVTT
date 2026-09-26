@@ -9,6 +9,7 @@ type: containergear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: containers
 sohl:
   craft:
     skill: txtl
@@ -19,7 +20,6 @@ sohl:
     qualityBase: 0
     durabilityBase: 3
     maxCapacityBase: 3
-packFolder: containers
 ---
 
 A small drawstring pouch of buckram — coarse cloth stiffened with glue — worn at the belt. It holds its shape like leather at a fraction of the price, which is why most people carry one, and it fails at the drawstring eyelets long before the cloth wears through. A cut purse-string is the commonest way to lose everything one is carrying.

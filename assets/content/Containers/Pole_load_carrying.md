@@ -9,6 +9,7 @@ type: containergear
 data:
   icon: knapsack
   templatePriority: 0
+  packFolder: containers
 sohl:
   craft:
     skill: wood
@@ -19,7 +20,6 @@ sohl:
     qualityBase: 0
     durabilityBase: 5
     maxCapacityBase: 35
-packFolder: containers
 ---
 
 A shaped wooden pole borne across one or both shoulders, with loads slung from each end. It is the simplest carrying device there is and among the most efficient, provided the two ends are balanced and the ground is level.

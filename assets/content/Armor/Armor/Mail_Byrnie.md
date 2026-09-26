@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: chainmail
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: wpnc
@@ -37,9 +38,6 @@ sohl:
       fire: 5
     encumbrance: 5
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 495
-origWeight: 14.9
 ---
 
 The Mail Byrnie is a chainmail shirt offering significant protection. Its interlinked metal rings provide excellent defense against slashes and stabbing attacks while maintaining flexibility.

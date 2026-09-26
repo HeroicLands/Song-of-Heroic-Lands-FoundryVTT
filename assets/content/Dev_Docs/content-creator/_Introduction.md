@@ -6,7 +6,8 @@ name:
   aliases: []
 shortcode: contentcreator
 description: "The section landing: what a content note is, and which page answers which question."
-pack: none
+data:
+  pack: none
 sohl:
   kbcat: devdocs
 ---

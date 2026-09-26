@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: roundpotion
   templatePriority: 0
+  packFolder: textile
 sohl:
   craft:
     skill: herb
@@ -20,7 +21,6 @@ sohl:
     valueBase: 54
     qualityBase: 0
     durabilityBase: 1
-packFolder: textile
 ---
 
 A precious powder of indigo fermented from West or Far Eastern plants, reduced and mordanted to a rich blue that rivals woad in depth but surpasses it in permanence. Indigo requires careful handling—it is set in a vat of urine and wood ash, then the cloth is oxidized in air to fix the color. A small pot serves many dyeing days and is prized by wealthy merchants and court dyers.

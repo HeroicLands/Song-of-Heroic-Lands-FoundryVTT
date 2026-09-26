@@ -8,12 +8,12 @@ type: trauma
 data:
   icon: battlegear
   templatePriority: 0
+  packFolder: traumaphysical
 subType: physcond
 sohl:
   kbcat: physdisability
   system:
     category: debility
-packFolder: traumaphysical
 ---
 
 Deafness is the complete loss of the ability to hear, leaving an individual unable to perceive any sounds. Without the ability to hear, the afflicted person must rely entirely on visual cues, gestures, and written communication to interact with the world.

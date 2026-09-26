@@ -9,6 +9,7 @@ type: containergear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: containers
 sohl:
   craft:
     skill: glas
@@ -19,7 +20,6 @@ sohl:
     qualityBase: 0
     durabilityBase: 2
     maxCapacityBase: 8
-packFolder: containers
 ---
 
 An alembic blown in glass rather than beaten in copper, twice the price and a fraction of the toughness. It is used where the metal would spoil the work — for the strong acids especially, which eat copper and carry the taint into the product.

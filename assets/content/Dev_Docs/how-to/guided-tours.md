@@ -6,7 +6,8 @@ name:
   aliases: []
 shortcode: guidedtours
 description: "The `SohlTour` framework: step kinds, value/action gates, sheet navigation, and how to register a tour."
-pack: none
+data:
+  pack: none
 sohl:
   kbcat: devdocs
 ---

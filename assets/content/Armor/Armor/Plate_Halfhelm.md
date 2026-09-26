@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: barbute
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: wpnc
@@ -39,9 +40,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 140
-origWeight: 2.7
 ---
 
 The Plate Halfhelm is a steel helmet covering the top and sides of the head, leaving the face exposed. It offers moderate protection while allowing for better visibility and airflow compared to a full helm.

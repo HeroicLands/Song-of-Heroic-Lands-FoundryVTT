@@ -6,7 +6,8 @@ name:
   aliases: []
 shortcode: issuereporting
 description: "How issues are typed, prioritized, labeled, and tied to capability milestones."
-pack: none
+data:
+  pack: none
 sohl:
   kbcat: devdocs
 ---

@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: trousers
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -35,9 +36,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 19
-origWeight: 1
 ---
 
 Crafted from coarse wool dyed reddish-brown, the Russet Swaddle offers warmth and durability. It’s practical for cooler climates, providing reliable coverage and coziness for infants.

@@ -6,7 +6,6 @@ name:
 description: "The common room of a roadside shelter: one hearth, one stair, one door."
 shortcode: wayrestground
 type: map
-packFolder: battlemaps
 subType: battlemap
 sohl:
   kbcat: map
@@ -94,6 +93,7 @@ sohl:
             to: { map: wayrestloft, region: stair-head }
 data:
   bgImage: sohl-none-image-parchment
+  packFolder: battlemaps
 ---
 
 A shelter of the commonest kind: a single room with a hearth at one end, a

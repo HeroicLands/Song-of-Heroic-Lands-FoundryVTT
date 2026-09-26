@@ -8,7 +8,6 @@ name:
   clan: Hárvenar
   home: ""
   aliases: []
-packFolder: pregens
 shortcode: aldrikharvenar
 type: being
 data:
@@ -27,25 +26,12 @@ data:
     complexion: weathered
     extra_features:
       - missing tooth
-social:
-  occupation: null
-  station: null
-  class: null
-  society: null
-gear:
-  weapons:
-    - BrdSwd:1
-    - PlBreast:1
-    - Bklr:1
-  armor:
-    - PlBreast:1
-    - LtShirt:1
-    - torch:2
-  misc:
-    - backpk:1
-    - FeRations:7
-    - wtrskin:1
-    - Bandg:3
+  packFolder: pregens
+  social:
+    occupation: null
+    station: null
+    class: null
+    society: null
 sohl:
   kbcat: npc
   items:
@@ -540,6 +526,21 @@ sohl:
         encumbrance: floor(wt/4)
         strMod: -5 * floor((str - 10) / 2)
         disabled: false
+
+# gear:
+#   weapons:
+#     - BrdSwd:1
+#     - PlBreast:1
+#     - Bklr:1
+#   armor:
+#     - PlBreast:1
+#     - LtShirt:1
+#     - torch:2
+#   misc:
+#     - backpk:1
+#     - FeRations:7
+#     - wtrskin:1
+#     - Bandg:3
 ---
 
 # Appearance {#appearance}

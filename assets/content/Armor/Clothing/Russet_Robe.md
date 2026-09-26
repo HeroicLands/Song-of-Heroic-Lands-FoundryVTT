@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: robe
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -48,9 +49,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 79
-origWeight: 4
 ---
 
 Made from coarse wool dyed reddish-brown, the Russet Robe offers warmth and durability. It's practical for colder climates and rougher environments, providing reliable coverage for various activities.

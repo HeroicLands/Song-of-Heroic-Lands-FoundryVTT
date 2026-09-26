@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: pointyhat
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -32,9 +33,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 9.6
-origWeight: 0.2
 ---
 
 The Worsted Hat, made from tightly-spun wool fibers, offers both style and resilience. It provides good insulation and durability, suitable for a wide range of activities and weather conditions.

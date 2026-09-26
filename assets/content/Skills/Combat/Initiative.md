@@ -9,6 +9,7 @@ type: skill
 data:
   icon: sprint
   templatePriority: 0
+  packFolder: combat
 subType: combat
 sohl:
   kbcat: combat
@@ -21,7 +22,6 @@ sohl:
     impairedByRoles:
       - core
       - vital
-packFolder: combat
 ---
 
 Initiative is not speed. Speed lives in Melee, in the hands and feet that Dexterity and Agility supply. Initiative is nerve and judgement under violence — the willingness to commit, the discipline to hold, the clarity to see what is actually happening while it happens. Everyone has some animal instinct for it and may test it untrained, but it grows through training and, far more, through having been in fights.

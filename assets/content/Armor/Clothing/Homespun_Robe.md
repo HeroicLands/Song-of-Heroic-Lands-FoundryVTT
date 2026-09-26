@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: robe
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -48,9 +49,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 79
-origWeight: 4
 ---
 
 A simple, practical Homespun Robe made from homemade fabric, providing basic comfort and warmth. Suitable for everyday wear by common folk, it's perfect for those who need a reliable and no-frills garment.

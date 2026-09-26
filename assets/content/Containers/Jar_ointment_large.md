@@ -9,6 +9,7 @@ type: containergear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: containers
 sohl:
   craft:
     skill: cmcs
@@ -19,7 +20,6 @@ sohl:
     qualityBase: 0
     durabilityBase: 3
     maxCapacityBase: 0.25
-packFolder: containers
 ---
 
 A wide-mouthed ceramic vessel favored by apothecaries and healers for storing unguents, balms, and medicinal salves. The shallow bowl shape allows easy access to the cream without dipping fingers repeatedly, and a press-in wooden or waxed lid keeps the ointment from drying or oxidizing. Standard equipment in a physician's or herbalist's kit.

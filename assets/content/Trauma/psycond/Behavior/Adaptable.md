@@ -8,12 +8,12 @@ type: trauma
 data:
   icon: battlegear
   templatePriority: 0
+  packFolder: quirks
 subType: psycond
 sohl:
   kbcat: psybehavior
   system:
     category: quirk
-packFolder: quirks
 ---
 
 Adaptable refers to an individual's ability to adjust to new situations, challenges, or environments with ease and flexibility. An adaptable person can quickly modify their approach, thoughts, or actions in response to changing circumstances. This trait is often seen as a strength, as it allows individuals to thrive in unpredictable or difficult situations. However, at its extreme, an over-adaptable individual may struggle with maintaining their own identity or convictions, bending too easily to external pressures.

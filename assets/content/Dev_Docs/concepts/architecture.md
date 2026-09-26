@@ -6,7 +6,8 @@ name:
   aliases: []
 shortcode: architecture
 description: "The mental model and a map of the `src/` tree."
-pack: none
+data:
+  pack: none
 sohl:
   kbcat: devdocs
 ---

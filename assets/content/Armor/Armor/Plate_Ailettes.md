@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: dorsalscales
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: wpnc
@@ -34,9 +35,6 @@ sohl:
     encumbrance: 0
     encumbranceGroup: arm
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 60
-origWeight: 1.1
 ---
 
 These Plate Ailettes are crafted from sturdy steel and designed to attach to the shoulders, offering robust protection against strikes. Their flat, broad surfaces make them perfect for displaying heraldic symbols or intricate etchings, blending functionality with a warrior's pride in their lineage.

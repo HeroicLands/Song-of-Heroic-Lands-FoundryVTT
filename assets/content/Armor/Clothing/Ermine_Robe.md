@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: robe
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: hide
@@ -48,9 +49,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 1896
-origWeight: 7.4
 ---
 
 The Ermine Robe carries the fur from shoulder to calf, and few garments in any wardrobe cost more. It is ceremonial dress above all — worn at court, at investiture, and at burial — and it is warm enough to make a winter hall bearable.

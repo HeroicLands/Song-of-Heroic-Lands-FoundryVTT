@@ -9,6 +9,7 @@ type: weapongear
 data:
   icon: battleaxe
   templatePriority: 0
+  packFolder: weapons
 sohl:
   craft:
     skill: wpnc
@@ -153,7 +154,6 @@ sohl:
         maxVolleyMult: 2
         baseRangeBase: 40
         drawBase: 0
-packFolder: weapons
 ---
 
 A balanced head of two to three pounds on a short haft, weighted and shaped to spin in flight and strike hard at twenty to forty paces. The throwing axe buries its edge or flat in shield and bone with equal purpose, tumbling end-over-end so that nearly any aspect of the blow cuts. Carried as a skirmisher's arm, hurled to break formation before the hand-to-hand.

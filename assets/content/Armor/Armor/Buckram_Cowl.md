@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: hood
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: txtl
@@ -33,9 +34,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 6
-origWeight: 0.3
 ---
 
 The Buckram Cowl is stiff and structured, made from coarse cloth stiffened with glue. It offers durability and reliable coverage, suitable for activities requiring a more rigid head and shoulder covering.

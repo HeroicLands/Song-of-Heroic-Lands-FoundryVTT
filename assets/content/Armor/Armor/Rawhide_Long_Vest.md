@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: leatherarmor
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: hide
@@ -36,9 +37,6 @@ sohl:
       fire: 5
     encumbrance: 5
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 148
-origWeight: 6.8
 ---
 
 The Rawhide Long Vest is thick and rugged, providing substantial torso protection. Ideal for tough environments, it’s more about durability and defense than comfort.

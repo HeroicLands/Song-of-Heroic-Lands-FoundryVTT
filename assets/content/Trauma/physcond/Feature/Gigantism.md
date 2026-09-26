@@ -8,12 +8,12 @@ type: trauma
 data:
   icon: battlegear
   templatePriority: 0
+  packFolder: traumaphysical
 subType: physcond
 sohl:
   kbcat: physfeature
   system:
     category: impediment
-packFolder: traumaphysical
 ---
 
 Gigantism is a condition characterized by abnormal and excessive growth due to an overproduction of growth hormone, resulting in a person reaching extraordinary height and size. Those with gigantism possess remarkable physical strength and an imposing presence, often revered in roles that demand power, such as combat or manual labor. However, this great size also brings significant challenges, both physically and socially. While their strength can be an asset, the condition also leads to chronic health issues, such as joint pain, cardiovascular strain, and mobility problems, making daily life difficult.

@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: chainmail
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: wpnc
@@ -35,9 +36,6 @@ sohl:
       fire: 5
     encumbrance: 5
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 255
-origWeight: 7.7
 ---
 
 Mail Cuisse is made from interlinked metal rings to protect the thighs. This piece of armor provides flexibility and decent defense against slashes, essential for mounted and foot soldiers alike.

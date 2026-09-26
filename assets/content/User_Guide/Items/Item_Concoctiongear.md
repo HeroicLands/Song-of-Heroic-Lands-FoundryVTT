@@ -5,7 +5,8 @@ name:
   full: "Concoction"
 shortcode: concoctiongearug
 
-packFolder: items
+data:
+  packFolder: items
 ---
 
 # What are Concoctions?

@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: furniture
 sohl:
   craft:
     skill: wood
@@ -20,7 +21,6 @@ sohl:
     valueBase: 36
     qualityBase: 0
     durabilityBase: 6
-packFolder: furniture
 ---
 
 A heavy board on trestles, which in most houses is dismantled and stood against the wall between meals to clear the floor for work and sleeping. A fixed joined table is a mark of a household with room to spare. The board itself is scrubbed white with sand and takes a generation of knife scars before it needs replacing.

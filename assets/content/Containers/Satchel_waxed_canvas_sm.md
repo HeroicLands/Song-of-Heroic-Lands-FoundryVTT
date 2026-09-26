@@ -9,6 +9,7 @@ type: containergear
 data:
   icon: knapsack
   templatePriority: 0
+  packFolder: containers
 sohl:
   craft:
     skill: txtl
@@ -19,7 +20,6 @@ sohl:
     qualityBase: 0
     durabilityBase: 8
     maxCapacityBase: 10
-packFolder: containers
 ---
 
 Canvas worked through with wax and oil, cut into a small flap-closed shoulder bag. Rain beads and runs off it where plain canvas would soak through, at the cost of some weight, a higher price, and a garment that will take light near a fire.

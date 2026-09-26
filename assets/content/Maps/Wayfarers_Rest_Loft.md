@@ -6,7 +6,6 @@ name:
 description: "The sleeping loft above the common room, reached by one stair."
 shortcode: wayrestloft
 type: map
-packFolder: battlemaps
 subType: battlemap
 sohl:
   kbcat: map
@@ -59,6 +58,7 @@ sohl:
             to: { map: wayrestground, region: stair-foot }
 data:
   bgImage: sohl-none-image-parchment
+  packFolder: battlemaps
 ---
 
 Half a floor, boarded over the common room's east end and open to it on the

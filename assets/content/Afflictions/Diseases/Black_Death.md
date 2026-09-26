@@ -9,6 +9,7 @@ type: affliction
 data:
   icon: virus
   templatePriority: 0
+  packFolder: diseases
 subType: disease
 sohl:
   kbcat: diseases
@@ -17,7 +18,6 @@ sohl:
     healingRateBase: 3
     contagionIndexBase: 3
     transmission: vector
-packFolder: diseases
 ---
 
 The Black Death, also known as the bubonic plague, is an infectious disease caused by the bacterium _Yersinia pestis_. It was responsible for devastating pandemics. Transmitted primarily through the bites of infected fleas on rodents, the disease presents with sudden high fever, chills, headache, muscle aches, and swollen lymph nodes known as buboes, which can become blackened. If untreated, it can progress to septicemic or pneumonic plague, both of which are more deadly. Without timely medical intervention, the mortality rate is exceedingly high.

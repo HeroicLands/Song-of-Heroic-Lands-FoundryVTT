@@ -9,6 +9,7 @@ type: weapongear
 data:
   icon: pocketbow
   templatePriority: 0
+  packFolder: weapons
 sohl:
   craft:
     skill: fltch
@@ -109,7 +110,6 @@ sohl:
         maxVolleyMult: 4
         baseRangeBase: 150
         drawBase: 40
-packFolder: weapons
 ---
 
 A short bow of laminated wood, horn, and sinew, strung tight and drawn easily by a scout or boy. With only forty pounds of pull, it is a light scout's bow or a child's training piece, favored by those who range ahead of the main column.

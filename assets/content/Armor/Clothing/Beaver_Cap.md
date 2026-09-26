@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: billedcap
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: hide
@@ -32,9 +33,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 16
-origWeight: 0.6
 ---
 
 The Beaver Cap is made from beaver fur, offering excellent warmth and a luxurious feel. It’s perfect for cold weather and high-status individuals looking for both comfort and style.

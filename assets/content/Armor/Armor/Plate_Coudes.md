@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: elbowpad
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: wpnc
@@ -34,9 +35,6 @@ sohl:
     encumbrance: 0
     encumbranceGroup: arm
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 40
-origWeight: 0.8
 ---
 
 Made from solid steel, Plate Coudes offer maximum elbow protection. They are essential components of knightly armor, designed to deflect and withstand powerful strikes while ensuring the joint remains mobile.

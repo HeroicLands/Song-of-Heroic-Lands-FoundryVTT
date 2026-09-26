@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: hood
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: hide
@@ -33,9 +34,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 72
-origWeight: 0.7
 ---
 
 The Beaver Cowl, made from dense beaver fur, offers excellent warmth and a luxurious feel. Perfect for cold weather, it provides both comfort and a touch of opulence.

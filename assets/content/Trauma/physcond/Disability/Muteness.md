@@ -8,12 +8,12 @@ type: trauma
 data:
   icon: battlegear
   templatePriority: 0
+  packFolder: traumaphysical
 subType: physcond
 sohl:
   kbcat: physdisability
   system:
     category: debility
-packFolder: traumaphysical
 ---
 
 Muteness is the complete inability to speak, either due to physical, neurological, or psychological factors. Individuals with muteness are unable to produce verbal speech and must rely entirely on alternative methods of communication, such as gestures, written language, or sign language. The loss of speech can lead to profound social isolation, frustration, and emotional distress.

@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: gauntlet
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: txtl
@@ -33,9 +34,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 10
-origWeight: 0.4
 ---
 
 Padded Mittens provide cushioning and warmth, perfect for cold weather or as additional padding beneath other gear. They offer comfort and protection for both combat and daily wear.

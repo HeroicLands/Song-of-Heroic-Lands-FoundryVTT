@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: shirt
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: txtl
@@ -40,9 +41,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 108
-origWeight: 4.3
 ---
 
 The Padded Surcoat offers warmth and cushioning, perfect for cold weather or as additional under-armor padding. Providing both comfort and protection, it's suitable for a variety of activities.

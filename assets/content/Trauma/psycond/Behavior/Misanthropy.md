@@ -8,12 +8,12 @@ type: trauma
 data:
   icon: battlegear
   templatePriority: 0
+  packFolder: disorders
 subType: psycond
 sohl:
   kbcat: psybehavior
   system:
     category: quirk
-packFolder: disorders
 ---
 
 Misanthropy refers to a deep-seated distrust or dislike of humanity, where an individual harbors negative feelings toward people in general. A misanthropic person views human behavior with cynicism and contempt, often isolating themselves or acting out of disdain for society. While misanthropy can intensify into destructive behavior, its benign form may manifest as simple skepticism or detachment from society without actively harming others.

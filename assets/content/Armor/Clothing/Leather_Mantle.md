@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: cape
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: hide
@@ -36,9 +37,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 168
-origWeight: 2.1
 ---
 
 A Leather Mantle combines rugged style with moderate protection against wind and light rain. It’s an excellent choice for adventurers and travelers who need an outer garment that can withstand the elements.

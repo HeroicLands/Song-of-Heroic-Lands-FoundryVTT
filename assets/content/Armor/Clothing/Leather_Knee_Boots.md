@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: leatherboot
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: hide
@@ -37,9 +38,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 176
-origWeight: 2.2
 ---
 
 Leather Knee Boots, made from lightweight yet durable leather, extend up just past the knee. They offer a mix of style and modest protection, suitable for those needing flexible footwear for active pursuits.

@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: scribe
 sohl:
   craft:
     skill: hide
@@ -20,7 +21,6 @@ sohl:
     valueBase: 2
     qualityBase: 0
     durabilityBase: 3
-packFolder: scribe
 ---
 
 Sheepskin split, stretched, and scraped to a thin, cream surface, then pounced with chalk and pumice. Parchment holds ink well and lasts centuries if kept dry. Scribes and clerks prefer it for documents of law and record; it is costlier than paper but more durable and fine.

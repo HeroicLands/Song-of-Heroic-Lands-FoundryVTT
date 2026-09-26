@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: natural
 sohl:
   craft:
     skill: srvl
@@ -20,7 +21,6 @@ sohl:
     valueBase: 16
     qualityBase: 0
     durabilityBase: 3
-packFolder: natural
 ---
 
 A northern herder's reindeer hide—salted and dried, with thick hair and a soft grain beneath. Tanners convert it into warm, water-resistant leather prized for arctic cloaks and boot uppers. Nomadic peoples and northern settlements trade these skins seasonally.

@@ -8,12 +8,12 @@ type: trauma
 data:
   icon: battlegear
   templatePriority: 0
+  packFolder: traumaphysical
 subType: physcond
 sohl:
   kbcat: physfeature
   system:
     category: debility
-packFolder: traumaphysical
 ---
 
 Scoliosis is a condition where the spine curves abnormally to the side, often forming an "S" or "C" shape. This spinal curvature can cause physical discomfort, visible deformity, and, in severe cases, complications with movement, posture, and even breathing. Individuals with scoliosis must manage the condition through physical adaptation and assistance from others.

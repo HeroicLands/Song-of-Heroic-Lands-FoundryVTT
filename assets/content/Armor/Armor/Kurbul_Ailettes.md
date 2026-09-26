@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: dorsalscales
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: wpnc
@@ -34,9 +35,6 @@ sohl:
     encumbrance: 0
     encumbranceGroup: arm
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 15
-origWeight: 1.1
 ---
 
 Kûrbúl Ailettes are lightweight leather shoulder guards treated for added durability. They are decorated with intricate patterns or the wearer's heraldic symbols, making them both protective and ornamental. These ailettes attach to the shoulders, providing an extra layer of defense without adding substantial weight, ideal for agile combatants.

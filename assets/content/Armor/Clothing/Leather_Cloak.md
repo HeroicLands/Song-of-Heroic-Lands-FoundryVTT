@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: cloak
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: hide
@@ -61,9 +62,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 94.1
-origWeight: 1.2
 ---
 
 The Leather Cloak combines rugged style with practical protection against wind and light rain. This cloak is perfect for adventurers and travelers who need an outer garment that can withstand the elements.

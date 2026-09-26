@@ -9,6 +9,7 @@ type: weapongear
 data:
   icon: broadsword
   templatePriority: 0
+  packFolder: weapons
 sohl:
   craft:
     skill: wpnc
@@ -109,7 +110,6 @@ sohl:
         defense:
           blockMod: -5
           counterstrikeMod: -5
-packFolder: weapons
 ---
 
 A single-edged blade curved slightly forward with a blade spine that thickens toward the tip, the falchion splits the difference between saber and cleaver. The weight favors the cutting edge, making it deadly in the overhand chop while retaining enough geometry for a cautious thrust. Soldiers and ships' crews alike carry this steel.

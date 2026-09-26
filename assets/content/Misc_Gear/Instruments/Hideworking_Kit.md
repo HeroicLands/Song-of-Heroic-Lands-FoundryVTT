@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: instruments
 sohl:
   craft:
     skill: mtlc
@@ -20,7 +21,6 @@ sohl:
     valueBase: 24
     qualityBase: 0
     durabilityBase: 7
-packFolder: instruments
 ---
 
 A leather roll containing a tanner's tools: scrapers, stretching pegs, a fleshing knife, and small pots of alum and lime. Tanners, leather-workers, and furriers use such kits to treat raw hides into supple leather for clothing, armor, and gear. The work is foul and patient—scraping, liming, stretching, smoking—and the smell clings to a worker's hands for seasons. Quality leather is a craft few master.

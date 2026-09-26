@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: gloves
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: txtl
@@ -33,9 +34,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 5
-origWeight: 0.3
 ---
 
 Simple and versatile, Cloth Gloves made from various softer fabrics offer basic comfort and protection, suitable for everyday activities and casual wear.

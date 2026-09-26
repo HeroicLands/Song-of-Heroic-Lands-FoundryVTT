@@ -9,6 +9,7 @@ type: weapongear
 data:
   icon: battleaxe
   templatePriority: 0
+  packFolder: weapons
 sohl:
   craft:
     skill: wpnc
@@ -109,7 +110,6 @@ sohl:
         defense:
           blockMod: -10
           counterstrikeMod: -10
-packFolder: weapons
 ---
 
 A massive single or double-bladed head of forged steel, socketed onto a haft of ash or hickory six feet long, built for two-handed cleaving strokes that will split shield rim and shoulder-joint. The weight and reach make it a weapon of line-infantry and dismounted knights, swung in wide arcs to break formations. A warrior's arm must be strong and trained to wield one all day.

@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: hood
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -33,9 +34,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 6
-origWeight: 0.3
 ---
 
 The Serge Cowl is made from durable twilled fabric, offering comfort and resilience. It’s suitable for everyday wear, providing reliable protection and a bit of extra warmth.

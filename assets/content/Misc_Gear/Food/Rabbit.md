@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: food
 sohl:
   craft:
     skill: srvl
@@ -20,7 +21,6 @@ sohl:
     valueBase: 2.5
     qualityBase: 0
     durabilityBase: 0
-packFolder: food
 ---
 
 Rabbit is lean, pale meat from warren-bred or wild-snared animals, favored by hunters and cottagers. The small carcass yields little meat but cooks quickly in a pot with turnips and herbs. Smoked rabbit is prized on campaigns; jerked rabbit strips are chewed like leather, tough but nourishing. The fur is scraped and sold separately to furriers for lining cloaks.

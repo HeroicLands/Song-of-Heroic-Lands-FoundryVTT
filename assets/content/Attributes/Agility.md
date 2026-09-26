@@ -9,6 +9,7 @@ type: attribute
 data:
   icon: cartwheel
   templatePriority: 0
+  packFolder: attributes
 sohl:
   system:
     scoreBase: 0
@@ -19,8 +20,6 @@ sohl:
       - Nimble:16
       - Graceful:999
     initDiceFormula: 3d6
-sort: 40
-packFolder: attributes
 ---
 
 Agility is the quickness and fluidity of bodily movement—the capacity to move swiftly, to dodge, and to maintain balance and control. It differs from dexterity, which concerns hand-and-eye coordination, and from strength, which measures power. Agility is what allows a person to move through a crowded marketplace without stumbling, to survive a fall from a horse, and to strike quickly and smoothly.

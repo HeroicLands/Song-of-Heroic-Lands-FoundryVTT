@@ -9,6 +9,7 @@ type: skill
 data:
   icon: mummyhead
   templatePriority: 0
+  packFolder: lore
 subType: lore
 sohl:
   kbcat: lore
@@ -22,7 +23,6 @@ sohl:
       - core
       - vital
       - manipulator
-packFolder: lore
 ---
 
 Embalming is the preparation of a corpse for burial according to the observances of a particular faith — evisceration, immersion in spirits, wrapping, and the packing of mouth, nose and ears with herbs, spices and cotton. It is priestly work as often as it is a trade, and the techniques differ between religions in ways their practitioners consider anything but cosmetic.

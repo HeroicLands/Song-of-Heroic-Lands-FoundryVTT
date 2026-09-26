@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: food
 sohl:
   craft:
     skill: anmcft
@@ -20,7 +21,6 @@ sohl:
     valueBase: 1
     qualityBase: 0
     durabilityBase: 0
-packFolder: food
 ---
 
 Chicken, duck, or goose eggs collected fresh from the nest, kept cool and eaten within days of laying. A cook uses eggs beaten into sauces, boiled for breakfast, or baked into bread and custards; they are a staple of household cooking. Preserved eggs are buried in ash or salt, kept for months but with changed flavor and texture; fresh eggs are always preferred.

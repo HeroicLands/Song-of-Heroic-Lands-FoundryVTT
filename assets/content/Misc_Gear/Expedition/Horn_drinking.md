@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: expedition
 sohl:
   craft:
     skill: hide
@@ -20,7 +21,6 @@ sohl:
     valueBase: 24
     qualityBase: 0
     durabilityBase: 3
-packFolder: expedition
 ---
 
 A drinking vessel carved from a steer's horn, polished to translucence at its rim and sealed at the wide end with a base of wood or horn held fast by pitch. Soldiers and travelers favor them for their durability; noble tables display larger cups of ram's horn tipped with silver.

@@ -9,6 +9,7 @@ type: affliction
 data:
   icon: virus
   templatePriority: 0
+  packFolder: diseases
 subType: disease
 sohl:
   kbcat: diseases
@@ -17,7 +18,6 @@ sohl:
     healingRateBase: 3
     contagionIndexBase: 3
     transmission: vector
-packFolder: diseases
 ---
 
 River blindness, or onchocerciasis, is a parasitic disease caused by the filarial worm _Onchocerca volvulus_, transmitted through the bites of infected blackflies. The disease results in severe itching, skin rashes, and nodules under the skin. Chronic infection can lead to vision impairment and eventual blindness due to the inflammatory response to dying microfilariae in the eyes.

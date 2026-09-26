@@ -9,6 +9,7 @@ type: skill
 data:
   icon: watermill
   templatePriority: 0
+  packFolder: craft
 subType: craft
 sohl:
   kbcat: craft
@@ -22,7 +23,6 @@ sohl:
       - core
       - vital
       - manipulator
-packFolder: craft
 ---
 
 Milling is grinding grain and, in most communities, baking what comes of it. Folk in temperate country take something like three quarters of their calories from grain — wheat, rye and barley chiefly — and a single mill serves a manor of around twenty households. Five adults and children need roughly **36 bushels** a year, so the miller is grinding on the order of **40,000 pounds** annually and everyone in the settlement is waiting on him.

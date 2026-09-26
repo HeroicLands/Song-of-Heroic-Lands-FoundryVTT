@@ -8,12 +8,12 @@ type: trauma
 data:
   icon: battlegear
   templatePriority: 0
+  packFolder: disorders
 subType: psycond
 sohl:
   kbcat: psypsychosis
   system:
     category: impulse
-packFolder: disorders
 ---
 
 Depression is a mood disorder characterized by persistent feelings of sadness, hopelessness, and a loss of interest in activities that were once enjoyable. Individuals with depression may experience a range of emotional and physical symptoms that can significantly impair their ability to function in daily life. The condition can vary in severity, from mild episodes of sadness to severe, chronic depression that interferes with personal, social, and professional responsibilities.

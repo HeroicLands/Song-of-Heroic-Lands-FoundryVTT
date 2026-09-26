@@ -9,6 +9,7 @@ type: containergear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: containers
 sohl:
   craft:
     skill: cmcs
@@ -19,7 +20,6 @@ sohl:
     qualityBase: 0
     durabilityBase: 3
     maxCapacityBase: 4
-packFolder: containers
 ---
 
 A round-bottomed pot of coarse earthenware, unglazed without and glazed within, made to sit down among the embers rather than hang over them. Ceramic cooks gently and holds its heat long after it is drawn off the fire, which suits pottage and beans; it also cracks if set on cold stone while hot, which every cook learns exactly once. 2 quart capacity.

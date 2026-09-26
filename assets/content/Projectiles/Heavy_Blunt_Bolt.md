@@ -8,9 +8,9 @@ type: projectilegear
 data:
   icon: broadheadarrow
   templatePriority: 0
+  packFolder: projectiles
 subType: bolt
 shortcode: blthblt
-easyname: Heavy Blunt
 sohl:
   craft:
     skill: fltch
@@ -27,7 +27,6 @@ sohl:
       die: 6
       modifier: -1
       aspect: piercing
-packFolder: projectiles
 ---
 
 A heavy quarrel of close-grained hardwood, capped with a weighted turned-wood head or a cast-iron ball in place of a cutting point. Shot at close range, the heavy blunt breaks ribs, collarbones, and helms without drawing blood — useful against livestock, against an adversary the crossbowman wishes taken alive, or for clearing a crowded street at the bailiff's order.

@@ -10,6 +10,7 @@ type: trauma
 data:
   icon: sleepy
   templatePriority: 0
+  packFolder: fatigue
 subType: fatigue
 sohl:
   kbcat: fatigue
@@ -17,7 +18,6 @@ sohl:
     category: weakness
     levelBase: 1
     healingRateBase: 1
-packFolder: fatigue
 ---
 
 Pain weakness is the lingering drag a character carries from unpleasant sensory and emotional experience associated with actual tissue damage — the distress itself, the stiffness, the protective tension in surrounding muscles, the simple unwillingness to use a hurt limb at full strength. Where the wound proper is treated separately, the weakness it produces is the daily cost of moving through it: every action just a little slower, a little more cautious, a little more taxing. 5 fatigue per Injury Level (IL).

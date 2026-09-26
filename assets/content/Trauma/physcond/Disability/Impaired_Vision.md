@@ -8,12 +8,12 @@ type: trauma
 data:
   icon: battlegear
   templatePriority: 0
+  packFolder: traumaphysical
 subType: physcond
 sohl:
   kbcat: physdisability
   system:
     category: impediment
-packFolder: traumaphysical
 ---
 
 Impaired Vision is a condition where one's ability to see clearly is reduced, causing difficulties in performing everyday tasks. Without the availability of modern corrective lenses or treatments, those afflicted must rely on natural adaptations and assistance from others to manage their impaired sight.

@@ -9,6 +9,7 @@ type: affliction
 data:
   icon: virus
   templatePriority: 0
+  packFolder: diseases
 subType: disease
 sohl:
   kbcat: diseases
@@ -17,7 +18,6 @@ sohl:
     healingRateBase: 3
     contagionIndexBase: 3
     transmission: airborne
-packFolder: diseases
 ---
 
 Bronchitis is the inflammation of the bronchial tubes, which carry air to and from the lungs, commonly caused by viral infections like colds and the flu. Symptoms include a persistent cough that produces mucus, wheezing, chest discomfort, shortness of breath, and fatigue. Acute bronchitis is usually self-limiting and resolves within weeks, while chronic bronchitis, typically related to smoking or long-term exposure to irritants, is a form of chronic obstructive pulmonary disease (COPD) that requires ongoing management. Treatment focuses on relieving symptoms and reducing exposure to irritants.

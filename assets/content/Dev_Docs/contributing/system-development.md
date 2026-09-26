@@ -6,7 +6,8 @@ name:
   aliases: []
 shortcode: systemdevelopment
 description: "Standards, the rules of development, and how to submit a change."
-pack: none
+data:
+  pack: none
 sohl:
   kbcat: devdocs
 ---

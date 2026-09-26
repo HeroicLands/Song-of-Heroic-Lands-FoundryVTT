@@ -9,6 +9,7 @@ type: weapongear
 data:
   icon: shieldbdg
   templatePriority: 0
+  packFolder: weapons
 sohl:
   craft:
     skill: wpnc
@@ -65,7 +66,6 @@ sohl:
         defense:
           blockMod: 0
           counterstrikeMod: 0
-packFolder: weapons
 ---
 
 A heater shield carved and painted with a knight's coat of arms, this shield marries heraldic display with practical defense in melee. Its broad face and flat-topped shape suit both mounted and foot combat; a nobleman's mark and battlefield defense in one.

@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: leatherarmor
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: hide
@@ -36,9 +37,6 @@ sohl:
       fire: 5
     encumbrance: 5
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 148
-origWeight: 6.8
 ---
 
 The Leather Long Vest provides a stylish outer layer with minimal protection. Lightweight and comfortable, it’s suitable for everyday wear or light adventuring.

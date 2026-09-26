@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: trousers
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: txtl
@@ -39,9 +40,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 32.4
-origWeight: 2.3
 ---
 
 Canvas Leggings are cut from stout hemp cloth and stitched with a doubled seam at the knee. They resist thorn and abrasion where lighter weaves would tear, and are common among labourers and drovers.

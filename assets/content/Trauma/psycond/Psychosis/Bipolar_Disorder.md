@@ -8,12 +8,12 @@ type: trauma
 data:
   icon: battlegear
   templatePriority: 0
+  packFolder: disorders
 subType: psycond
 sohl:
   kbcat: psypsychosis
   system:
     category: impulse
-packFolder: disorders
 ---
 
 Bipolar is a mental health condition characterized by extreme mood swings that include emotional highs (mania or hypomania) and lows (depression). These mood swings can affect an individual's energy levels, activity, behavior, and ability to function in daily life. The intensity and duration of these episodes can vary, with some individuals experiencing more severe or prolonged symptoms. Without proper treatment, bipolar disorder can lead to significant disruptions in relationships, work, and overall quality of life.

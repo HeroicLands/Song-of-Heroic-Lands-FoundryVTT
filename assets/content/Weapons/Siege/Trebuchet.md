@@ -9,6 +9,7 @@ type: weapongear
 data:
   icon: stonesphere
   templatePriority: 0
+  packFolder: weapons
 sohl:
   craft:
     skill: wood
@@ -65,7 +66,6 @@ sohl:
         maxVolleyMult: 4
         baseRangeBase: 250
         drawBase: 0
-packFolder: weapons
 ---
 
 The great counterweight engine: a pivoted beam with a box of stone or lead at the short arm and a long sling at the other, raised on site over days by a dozen crew and a carpenter who knows the work. Dropping the counterweight whips the sling through better than a half-circle and sends a stone the weight of a man most of a quarter mile. It is slow, it is enormous, and it is the only thing short of sorcery that reliably brings down a curtain wall — or anything standing behind one.

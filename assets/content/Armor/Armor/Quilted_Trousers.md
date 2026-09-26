@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: trousers
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: txtl
@@ -38,9 +39,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 156
-origWeight: 7
 ---
 
 Quilted Trousers are made from layers of fabric sewn together, giving good insulation and a measure of padding down the leg. They are bulky and warm, favoured in cold seasons and worn readily beneath heavier leg armour.

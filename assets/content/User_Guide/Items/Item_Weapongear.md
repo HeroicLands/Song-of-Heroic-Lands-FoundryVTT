@@ -4,7 +4,8 @@ subType: userguide
 name:
   full: "Weapon"
 shortcode: weapongearug
-packFolder: items
+data:
+  packFolder: items
 ---
 
 # What Is a Weapon?

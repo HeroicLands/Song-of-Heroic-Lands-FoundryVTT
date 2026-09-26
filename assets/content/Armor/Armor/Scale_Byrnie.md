@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: scalemail
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: wpnc
@@ -37,9 +38,6 @@ sohl:
       fire: 5
     encumbrance: 10
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 330
-origWeight: 18.2
 ---
 
 The Scale Byrnie consists of small, overlapping metal scales sewn onto a fabric or leather backing. It provides excellent protection and mobility, making it suitable for various combat situations.

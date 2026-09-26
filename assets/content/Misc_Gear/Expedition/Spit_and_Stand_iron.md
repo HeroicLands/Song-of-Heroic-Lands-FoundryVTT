@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: expedition
 sohl:
   craft:
     skill: mtlc
@@ -20,7 +21,6 @@ sohl:
     valueBase: 15
     qualityBase: 0
     durabilityBase: 10
-packFolder: expedition
 ---
 
 A long iron rod fitted to an adjustable stand of wrought iron, used to roast game and bread over a campfire or hearth. The spit turns on a pivot at its base while the stand holds it steady above the coals. A merchant or camp cook would pack such a rig; it is heavy but will outlast a cook's career if kept from rust.

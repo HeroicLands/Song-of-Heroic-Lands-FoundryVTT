@@ -9,6 +9,7 @@ type: weapongear
 data:
   icon: broadsword
   templatePriority: 0
+  packFolder: weapons
 sohl:
   craft:
     skill: wpnc
@@ -153,7 +154,6 @@ sohl:
         defense:
           blockMod: 5
           counterstrikeMod: 5
-packFolder: weapons
 ---
 
 An elongated single-edged or double-edged blade longer than a dagger but shorter than a sword, the longknife extends reach without the weight of a full blade. Fighters favor it as a secondary weapon worn at the belt, drawn when a longer steel meets close quarters or a first blade breaks. Worn by soldiers and rovers alike.

@@ -4,8 +4,9 @@ subType: rules
 name:
   full: Trauma Introduction
   aliases: []
-packFolder: rulestrauma
 shortcode: traumaintro
+data:
+  packFolder: rulestrauma
 ---
 
 A **Trauma** is harm to a character — to the physical **body**, to the **mind**, to the **spirit**, or from the forces of death (**The Pall**). Trauma is the umbrella covering every lasting harm a character carries and the ongoing processes by which they recover from — or succumb to — it.

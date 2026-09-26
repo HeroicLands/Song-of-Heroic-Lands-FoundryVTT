@@ -4,8 +4,9 @@ subType: rules
 name:
   full: Fate Points
   aliases: []
-packFolder: resolution
 shortcode: fatepnts
+data:
+  packFolder: resolution
 ---
 
 # Fate {#fate}

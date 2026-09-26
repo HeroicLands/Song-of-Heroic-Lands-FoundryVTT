@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: natural
 sohl:
   craft:
     skill: hide
@@ -20,7 +21,6 @@ sohl:
     valueBase: 20
     qualityBase: 0
     durabilityBase: 5
-packFolder: natural
 ---
 
 Finished leather—vegetable-tanned and dressed, sold by the square yard to tailors and leatherworkers. The tanner's craft yields a range of thicknesses and finishes; cordwainers, saddlers, and armor-liners each select stock suited to their trade. Quality varies with the source hide.

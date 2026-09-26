@@ -5,7 +5,8 @@ name:
   full: Tasseomancy
   aliases: []
 shortcode: tssmncy
-packFolder: mysticalabilitiesdivination
+data:
+  packFolder: mysticalabilitiesdivination
 ---
 
 Divination by the residue left in a drained cup — tea leaves, grounds, wine lees, the dregs of a broth. The reader takes the cup from the drinker's own hand, turns it, and reads the shapes the residue has settled into.

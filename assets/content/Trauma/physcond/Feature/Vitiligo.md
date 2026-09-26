@@ -8,12 +8,12 @@ type: trauma
 data:
   icon: battlegear
   templatePriority: 0
+  packFolder: traumaphysical
 subType: physcond
 sohl:
   kbcat: physfeature
   system:
     category: trait
-packFolder: traumaphysical
 ---
 
 Vitiligo is a skin condition characterized by the loss of pigment in patches, resulting in irregular white spots on different areas of the body. This occurs when melanocytes, the cells responsible for producing melanin (the pigment that gives skin its color) are destroyed. The affected areas can spread over time, with the extent and rate of color loss varying from person to person. Vitiligo can affect any part of the body, including the skin, hair, and mucous membranes.

@@ -9,6 +9,7 @@ type: containergear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: containers
 sohl:
   craft:
     skill: glas
@@ -19,7 +20,6 @@ sohl:
     qualityBase: 0
     durabilityBase: 2
     maxCapacityBase: 1
-packFolder: containers
 ---
 
 A small flask of blown glass, greenish and slightly bubbly, stoppered with cork or waxed cloth and used by merchants, scholars, and travelers for carrying wine, ink, or medicinal drafts. Glass vessels are prized for clarity and taste-neutrality but demand careful handling in transit; any substantial fall risks breakage. The flask's hand-blown nature gives it slight irregularities and a warm color.

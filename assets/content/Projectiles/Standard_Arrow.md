@@ -8,9 +8,9 @@ type: projectilegear
 data:
   icon: broadheadarrow
   templatePriority: 0
+  packFolder: projectiles
 subType: arrow
 shortcode: arwstd
-easyname: Standard
 sohl:
   craft:
     skill: fltch
@@ -27,7 +27,6 @@ sohl:
       die: 12
       modifier: -1
       aspect: piercing
-packFolder: projectiles
 ---
 
 A workaday arrow of ash or birch, fletched with three trimmed goose feathers bound in sinew and pitch, and tipped with a small socketed iron head suitable for deer, game, or a skirmish at middling range. Archers, scouts, and militia keep quivers of these for common work; a fletcher can turn out a bundle in a morning, and a careful shooter will draw a shaft from the carcass and refletch it for another day's shooting.

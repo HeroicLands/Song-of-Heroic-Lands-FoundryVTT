@@ -9,6 +9,7 @@ type: weapongear
 data:
   icon: broadsword
   templatePriority: 0
+  packFolder: weapons
 sohl:
   craft:
     skill: wpnc
@@ -197,7 +198,6 @@ sohl:
         defense:
           blockMod: 0
           counterstrikeMod: 0
-packFolder: weapons
 ---
 
 A broad, heavy blade forged straight and sharp on both edges, the battlesword speaks of pitched field work. Its weight serves the cutting stroke well when swung from horseback or in solid ranks, and the stout belly of the blade shrugs off parries. Foot soldiers and mounted knights alike rely on this steel for the sweeping cuts that decide wars.

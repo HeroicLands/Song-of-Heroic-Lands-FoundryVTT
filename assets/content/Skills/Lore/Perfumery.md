@@ -9,6 +9,7 @@ type: skill
 data:
   icon: perfumebottle
   templatePriority: 0
+  packFolder: lore
 subType: lore
 sohl:
   kbcat: lore
@@ -21,7 +22,6 @@ sohl:
     impairedByRoles:
       - core
       - vital
-packFolder: lore
 ---
 
 Perfumery is the blending of herbal and mineral ingredients into scent — perfumes, oils, soaps and incense. It is a luxury trade and a devotional one at once, since a great deal of what is compounded is burned in temples rather than worn.

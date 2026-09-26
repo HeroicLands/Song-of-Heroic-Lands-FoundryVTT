@@ -4,7 +4,8 @@ subType: userguide
 name:
   full: "Safe Expressions"
 shortcode: sfexprssug
-packFolder: userguide
+data:
+  packFolder: userguide
 ---
 
 # Overview

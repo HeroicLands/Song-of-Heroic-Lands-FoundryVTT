@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: billedcap
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -32,9 +33,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 4
-origWeight: 0.2
 ---
 
 The Serge Cap, made from durable twilled fabric, provides both comfort and resilience. It’s suitable for everyday use, offering a reliable head covering for various activities.

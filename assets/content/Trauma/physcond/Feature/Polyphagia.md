@@ -8,12 +8,12 @@ type: trauma
 data:
   icon: battlegear
   templatePriority: 0
+  packFolder: traumaphysical
 subType: physcond
 sohl:
   kbcat: physfeature
   system:
     category: trait
-packFolder: traumaphysical
 ---
 
 Polyphagia is an unquenchable hunger that strikes from within the body itself—not the honest hunger of labor or growth, but a gnawing, insatiable craving that accepts no satisfaction. The afflicted person consumes prodigious quantities of food and never feels full. Their belly may stretch with the sheer volume they have taken, yet minutes later the hunger returns, driving them to eat again. In a medieval household where food is counted and budgeted, this condition becomes a burden both to the sufferer and to those obliged to feed them.

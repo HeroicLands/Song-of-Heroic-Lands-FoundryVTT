@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: trousers
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -39,9 +40,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 36
-origWeight: 1.8
 ---
 
 Crafted from coarse wool dyed reddish-brown, Russet Leggings offer warmth and durability. They are practical for colder climates and rougher environments.

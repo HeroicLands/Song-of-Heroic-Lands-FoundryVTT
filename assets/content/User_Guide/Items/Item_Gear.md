@@ -4,7 +4,8 @@ subType: userguide
 name:
   full: "Gear"
 shortcode: gearug
-packFolder: items
+data:
+  packFolder: items
 ---
 
 # What is Gear?

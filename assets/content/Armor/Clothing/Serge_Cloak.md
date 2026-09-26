@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: cloak
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -61,9 +62,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 20.9
-origWeight: 0.9
 ---
 
 The Serge Cloak is made from durable twilled fabric, making it both comfortable and resilient. It’s a versatile outer garment that provides good protection and can withstand the wear and tear of daily use.

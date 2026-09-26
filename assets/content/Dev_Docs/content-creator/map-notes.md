@@ -6,7 +6,8 @@ name:
   aliases: []
 shortcode: mapnotes
 description: "Authoring a Foundry Scene as a markdown note: the `battlemap` / `localmap` / `regionalmap` schema, the two unit conventions, regions and their behaviours, and how a map is packaged."
-pack: none
+data:
+  pack: none
 sohl:
   kbcat: devdocs
 ---
@@ -61,12 +62,13 @@ across, is rejected; so is a location outside the map's grid extent.
 ## Frontmatter
 
 ```yaml
+shortcode: wayrestground
 name:
   full: Wayfarer's Rest, Ground Floor
-description: "The common room of a roadside shelter."
-shortcode: wayrestground
 type: battlemap
-packFolder: battlemaps # the address of a `type: folder` note
+description: "The common room of a roadside shelter."
+data:
+  packFolder: battlemaps # the address of a `type: folder` note
 sohl:
   place: wayfarersrest # optional; groups scenes into one Adventure
   placeName: Wayfarer's Rest # optional; the Adventure's name

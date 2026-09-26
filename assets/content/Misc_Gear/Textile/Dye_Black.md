@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: roundpotion
   templatePriority: 0
+  packFolder: textile
 sohl:
   craft:
     skill: herb
@@ -20,7 +21,6 @@ sohl:
     valueBase: 36
     qualityBase: 0
     durabilityBase: 1
-packFolder: textile
 ---
 
 A fine powder of logwood or iron-tannate mordanted with alum or oak-gall salts, kept in a stoppered earthenware pot. Wool-dyers and linen-workers prize black for mourning cloth and formal wear; it sets fast with a weak acid bath and yields deep, enduring color. Cloth is hand-stirred in the dye-vat over several hours to ensure even saturation.

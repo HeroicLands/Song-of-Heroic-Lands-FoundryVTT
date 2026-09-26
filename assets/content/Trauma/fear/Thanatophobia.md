@@ -8,13 +8,13 @@ type: trauma
 data:
   icon: dread
   templatePriority: 0
+  packFolder: phobias
 subType: fear
 sohl:
   kbcat: phobias
   system:
     category: none
     levelBase: 0
-packFolder: phobias
 ---
 
 Thanatophobia is an intense, irrational fear of mortality or the dying process. People with thanatophobia may experience a range of symptoms when they think about, see, or are in situations related to dying.

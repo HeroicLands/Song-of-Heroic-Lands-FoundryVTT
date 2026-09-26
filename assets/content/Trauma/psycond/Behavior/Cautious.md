@@ -8,12 +8,12 @@ type: trauma
 data:
   icon: battlegear
   templatePriority: 0
+  packFolder: quirks
 subType: psycond
 sohl:
   kbcat: psybehavior
   system:
     category: quirk
-packFolder: quirks
 ---
 
 Cautious refers to an individual's tendency to carefully consider risks and potential outcomes before taking action. A cautious person is thoughtful, deliberate, and often avoids hasty decisions, prioritizing safety and security over speed or spontaneity. While caution can prevent mistakes and ensure stability, excessive caution can lead to missed opportunities, slow progress, or even indecision in critical situations.

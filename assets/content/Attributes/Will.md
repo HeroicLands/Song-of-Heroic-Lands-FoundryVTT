@@ -9,6 +9,7 @@ type: attribute
 data:
   icon: meditation
   templatePriority: 0
+  packFolder: attributes
 sohl:
   system:
     scoreBase: 0
@@ -19,8 +20,6 @@ sohl:
       - Resolute:16
       - Implacable:999
     initDiceFormula: 3d6
-sort: 80
-packFolder: attributes
 ---
 
 Will is the force of determination and self-mastery—the capacity to hold fast to a chosen course despite hardship, temptation, or fear. It governs whether a person falters when challenged or stands firm. Will is not the same as intelligence or strength; a fool may possess it, and a brilliant coward may lack it. It is the inner iron that separates those who bend from those who break.

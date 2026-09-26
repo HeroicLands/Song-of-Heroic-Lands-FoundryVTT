@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: shirt
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: txtl
@@ -38,9 +39,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 86
-origWeight: 3.4
 ---
 
 A Padded Longshirt offers cushioning and warmth, perfect for additional under-armor padding or as a standalone garment. It provides comfort and protection in both combat and everyday use.

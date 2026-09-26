@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: hood
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: wpnc
@@ -33,9 +34,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: -5
-packFolder: armorarmor
-origValue: 60
-origWeight: 3.3
 ---
 
 The Scale Cowl consists of overlapping metal scales sewn onto a fabric or leather backing. It provides excellent protection and mobility, making it suitable for various combat situations.

@@ -9,6 +9,7 @@ type: affliction
 data:
   icon: virus
   templatePriority: 0
+  packFolder: diseases
 subType: disease
 sohl:
   kbcat: diseases
@@ -17,7 +18,6 @@ sohl:
     healingRateBase: 3
     contagionIndexBase: 3
     transmission: airborne
-packFolder: diseases
 ---
 
 Measles is a highly contagious viral infection caused by the measles virus. It begins with high fever, cough, runny nose, and red eyes, followed by the appearance of Koplik spots inside the mouth and a red, blotchy rash that starts on the face and spreads to the rest of the body. Complications can include ear infections, severe diarrhea, pneumonia, encephalitis, and death, particularly in young children and immunocompromised individuals. Vaccination with the measles, mumps, and rubella (MMR) vaccine is highly effective in preventing the disease.

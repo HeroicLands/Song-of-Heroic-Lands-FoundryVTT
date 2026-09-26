@@ -10,8 +10,7 @@ type: miscgear
 data:
   icon: beerstein
   templatePriority: 0
-hmk:
-  name: Hogshead Ale
+  packFolder: spirits
 sohl:
   craft:
     skill: brew
@@ -22,7 +21,9 @@ sohl:
     valueBase: 95
     qualityBase: 0
     durabilityBase: 0
-packFolder: spirits
+
+# hmk:
+#   name: Hogshead Ale
 ---
 
 A hogshead of sound ale—fifty gallons in a stave-built cask. Kept in a cellar or tavern storeroom, it is tapped by day to supply laborers, soldiers, and those who drink for warmth. A garrison or large household drains one in weeks; quartermasters and merchants purchase them by the multiple for camps and convoys.

@@ -9,6 +9,7 @@ type: weapongear
 data:
   icon: fallingboulder
   templatePriority: 0
+  packFolder: weapons
 sohl:
   craft:
     skill: wood
@@ -65,7 +66,6 @@ sohl:
         maxVolleyMult: 4
         baseRangeBase: 175
         drawBase: 0
-packFolder: weapons
 ---
 
 A single throwing arm driven by one great torsion skein, stopped against a padded beam so hard that the whole frame leaps off the ground at each shot — which is how it came by the name of the wild ass. It lobs its stone rather than aiming it, so it is a weapon against walls, roofs and crowds rather than against any one man, and a crew learns a target by walking shots onto it.

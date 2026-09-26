@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: prayer
   templatePriority: 0
+  packFolder: religious
 sohl:
   craft:
     skill: jewl
@@ -20,7 +21,6 @@ sohl:
     valueBase: 15
     qualityBase: 0
     durabilityBase: 5
-packFolder: religious
 ---
 
 A token of a god cast in brass and hung at the neck on a cord. Brass must be founded and finished rather than raised, so it takes a quarter longer at the bench than the same thing in copper, but it keeps its shine and does not green against the skin as readily. It is what a devout townsman wears.

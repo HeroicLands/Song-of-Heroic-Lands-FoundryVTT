@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: trousers
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: txtl
@@ -39,9 +40,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 36
-origWeight: 1.8
 ---
 
 Simple and versatile, Cloth Leggings are made from various softer fabrics, offering basic comfort and warmth. They are suitable for everyday activities and casual wear.

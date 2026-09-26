@@ -8,13 +8,13 @@ type: trauma
 data:
   icon: dread
   templatePriority: 0
+  packFolder: phobias
 subType: fear
 sohl:
   kbcat: phobias
   system:
     category: none
     levelBase: 0
-packFolder: phobias
 ---
 
 Acrophobia is an intense, irrational fear of heights. People with acrophobia may experience a range of symptoms when they are at a high elevation or even thinking about being in a high place.

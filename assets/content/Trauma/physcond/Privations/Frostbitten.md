@@ -9,6 +9,7 @@ type: trauma
 data:
   icon: stomach
   templatePriority: 0
+  packFolder: privations
 subType: physcond
 sohl:
   kbcat: physprivations
@@ -16,7 +17,6 @@ sohl:
     category: impediment
     levelBase: 2
     healingRateBase: 2
-packFolder: privations
 ---
 
 Frostbite is the local freezing of skin and underlying tissue, most often at the body's extremities — fingers, toes, ears, nose, and cheeks — where circulation is poorest. Unlike hypothermia it is a localized injury rather than a systemic one, but lost tissue does not regrow and severe cases end in amputation.

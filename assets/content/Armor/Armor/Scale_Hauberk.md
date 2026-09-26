@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: scalemail
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: wpnc
@@ -44,9 +45,6 @@ sohl:
       fire: 5
     encumbrance: 20
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 640
-origWeight: 35.2
 ---
 
 The Scale Hauberk, made from overlapping metal scales sewn onto a fabric or leather backing, provides strong protection and reasonable mobility, suitable for various combat situations.

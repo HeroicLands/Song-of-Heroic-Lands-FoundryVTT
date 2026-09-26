@@ -9,6 +9,7 @@ type: skill
 data:
   icon: sailboat
   templatePriority: 0
+  packFolder: lore
 subType: lore
 sohl:
   kbcat: lore
@@ -21,7 +22,6 @@ sohl:
     impairedByRoles:
       - core
       - vital
-packFolder: lore
 ---
 
 Shipwright is the building of ships and boats and much of what goes on them, sails included. Construction divides into two traditions, and they are not interchangeable:

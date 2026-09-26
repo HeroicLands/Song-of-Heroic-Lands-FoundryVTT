@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: greaves
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: wpnc
@@ -33,9 +34,6 @@ sohl:
       fire: 5
     encumbrance: 5
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 60
-origWeight: 4.6
 ---
 
 Kûrbúl Greaves are lower leg armor made from specially treated leather, offering moderate protection and flexibility. Decorated with intricate patterns, they are suitable for those needing agility without sacrificing too much defense.

@@ -6,7 +6,8 @@ name:
 shortcode: bestiary
 type: doc
 subType: rules
-packFolder: rules
+data:
+  packFolder: rules
 ---
 
 # Animals

@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: shirt
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: hide
@@ -42,9 +43,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 600
-origWeight: 8.9
 ---
 
 Water-resistant and warm, the Sealskin Sleeved Tunic is ideal for harsh, wet, and cold environments. It offers excellent protection against the elements while providing comfort for seafaring folk or those in extreme conditions.

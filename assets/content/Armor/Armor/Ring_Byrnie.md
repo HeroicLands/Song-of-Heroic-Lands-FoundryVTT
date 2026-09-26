@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: chainmail
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: wpnc
@@ -37,9 +38,6 @@ sohl:
       fire: 5
     encumbrance: 5
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 445.5
-origWeight: 17.8
 ---
 
 A short-sleeved leather tunic reinforced with overlapping metal rings, offering extended protection to the upper body.

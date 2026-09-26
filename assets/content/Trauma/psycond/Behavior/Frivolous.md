@@ -8,12 +8,12 @@ type: trauma
 data:
   icon: battlegear
   templatePriority: 0
+  packFolder: quirks
 subType: psycond
 sohl:
   kbcat: psybehavior
   system:
     category: quirk
-packFolder: quirks
 ---
 
 Frivolous refers to behavior that is lighthearted, superficial, or lacking in seriousness. Individuals who exhibit frivolous tendencies may prioritize fun, entertainment, or fleeting pleasures over more meaningful or responsible actions. While being lighthearted can bring joy, when intensified, frivolity can lead to irresponsibility, neglect of important duties, and a lack of concern for consequences.

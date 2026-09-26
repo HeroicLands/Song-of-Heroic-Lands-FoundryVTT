@@ -6,7 +6,8 @@ name:
   aliases: []
 shortcode: actioncards
 description: "The universal pattern every automated interaction is built on: self-sufficient actions offered across the chat log, run only at a human's behest."
-pack: none
+data:
+  pack: none
 sohl:
   kbcat: devdocs
 ---

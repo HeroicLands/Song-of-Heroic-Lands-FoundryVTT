@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: skirt
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -38,9 +39,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 46.8
-origWeight: 1
 ---
 
 Made from coarse wool dyed reddish-brown, the Russet Skirt offers warmth and durability. It is practical for colder climates and rougher environments, providing reliable coverage.

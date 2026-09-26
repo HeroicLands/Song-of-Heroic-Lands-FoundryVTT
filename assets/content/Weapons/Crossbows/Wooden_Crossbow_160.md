@@ -9,6 +9,7 @@ type: weapongear
 data:
   icon: crossbow
   templatePriority: 0
+  packFolder: weapons
 sohl:
   craft:
     skill: fltch
@@ -65,7 +66,6 @@ sohl:
         maxVolleyMult: 4
         baseRangeBase: 240
         drawBase: 160
-packFolder: weapons
 ---
 
 A heavy wooden-prod crossbow drawing one hundred and sixty pounds, spanned by cranequin or windlass-lever and mounted on castle walls or convoy wagons. Its longer range and deeper penetration suit defense against massed charge or suppression of distant targets; the spanning mechanism is slow but robust enough for field service when protection is paramount.

@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: natural
 sohl:
   craft:
     skill: srvl
@@ -20,7 +21,6 @@ sohl:
     valueBase: 0.25
     qualityBase: 0
     durabilityBase: 4
-packFolder: natural
 ---
 
 Scraps of long bone—ox shank, elk femur, or boar tusk—scraped clean and roughly worked into staves. Bone-carvers, chess makers, comb makers, and flute makers buy these fragments by the pound to trim and finish into their wares. The hardness resists chisels but takes fine detail once seasoned.

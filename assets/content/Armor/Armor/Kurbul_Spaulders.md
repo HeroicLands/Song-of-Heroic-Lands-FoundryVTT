@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: dorsalscales
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: wpnc
@@ -34,9 +35,6 @@ sohl:
     encumbrance: 0
     encumbranceGroup: arm
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 15
-origWeight: 1.1
 ---
 
 Kûrbúl Spaulders are shoulder guards made from specially treated leather, offering moderate protection with reduced weight. Decorated with elaborate patterns, they combine functionality with a stylish appearance.

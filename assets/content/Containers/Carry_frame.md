@@ -9,6 +9,7 @@ type: containergear
 data:
   icon: knapsack
   templatePriority: 0
+  packFolder: containers
 sohl:
   craft:
     skill: wood
@@ -19,7 +20,6 @@ sohl:
     qualityBase: 0
     durabilityBase: 8
     maxCapacityBase: 40
-packFolder: containers
 ---
 
 A light wooden frame with shoulder straps, carried on the back with the load lashed to it rather than enclosed. It carries awkward and rigid burdens no bag would take, and distributes weight far better than any sack over a shoulder.

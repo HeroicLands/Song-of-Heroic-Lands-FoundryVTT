@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: music
 sohl:
   craft:
     skill: wood
@@ -20,7 +21,6 @@ sohl:
     valueBase: 120
     qualityBase: 0
     durabilityBase: 4
-packFolder: music
 ---
 
 A stout instrument of sheepskin stretched tight over a wooden stock with a blowpipe, tenor and baritone drones, and a chanter fed by the piper's arm pressure. Upland and pastoral folk favor the bagpipes for their penetrating wail, bold enough to call across moor and glen during festival and war-march alike. A skilled piper can coax droning harmonies layered beneath the chanter's keen melody, and shepherds often carry a simple traveling set for passing long days afield.

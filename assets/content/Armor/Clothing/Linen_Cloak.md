@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: cloak
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -61,9 +62,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 17.2
-origWeight: 0.4
 ---
 
 Light and breathable, the Linen Cloak is perfect for warmer climates. It offers a bit of sun protection without causing the wearer to overheat, making it ideal for casual strolls or outdoor work during mild weather.

@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: dorsalscales
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: wpnc
@@ -34,9 +35,6 @@ sohl:
     encumbrance: 0
     encumbranceGroup: arm
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 60
-origWeight: 1.1
 ---
 
 Plate Spaulders are solid steel shoulder guards offering maximum protection. Essential for heavily armored warriors, they are designed to deflect and absorb impacts during combat.

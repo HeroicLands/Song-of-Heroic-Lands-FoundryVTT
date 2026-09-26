@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: cook
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: hide
@@ -36,9 +37,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 384
-origWeight: 4.8
 ---
 
 A Leather Apron combines style and a bit of practical protection for craftsmen and artisans. Soft and pliable, it's more about looking the part than offering significant defense against nicks and scrapes.

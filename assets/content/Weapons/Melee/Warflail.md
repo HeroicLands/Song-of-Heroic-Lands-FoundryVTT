@@ -9,6 +9,7 @@ type: weapongear
 data:
   icon: flail
   templatePriority: 0
+  packFolder: weapons
 sohl:
   craft:
     skill: wpnc
@@ -109,7 +110,6 @@ sohl:
         defense:
           blockMod: 0
           counterstrikeMod: 0
-packFolder: weapons
 ---
 
 A combat evolution of the agricultural flail, the warflail pairs a wooden haft with two or three spiked iron heads joined by lengths of heavy chain. The chain's play allows the heads to swing past a defender's guard and strike from unexpected angles. Popular among professional soldiers for its armor-defeating reach, it demands room to swing and a steady grip.

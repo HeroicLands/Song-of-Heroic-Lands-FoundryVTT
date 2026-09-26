@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: trousers
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: hide
@@ -38,9 +39,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 468
-origWeight: 4.8
 ---
 
 Beaver Trousers run from pelvis to calf in dense fur, and they are made for cold that ordinary cloth will not answer. Bulky, expensive and unmistakably warm, they are favoured by those who must travel through a northern winter rather than wait it out.

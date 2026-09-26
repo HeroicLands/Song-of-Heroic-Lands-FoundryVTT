@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: shirt
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: hide
@@ -40,9 +41,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 180
-origWeight: 7.1
 ---
 
 The Rawhide Tunic is thick and rugged, providing substantial protection and durability. Ideal for harsh environments, it offers a sturdy and reliable garment for those needing extra toughness.

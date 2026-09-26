@@ -10,6 +10,7 @@ type: skill
 data:
   icon: foottrip
   templatePriority: 0
+  packFolder: combat
 subType: combattechnique
 sohl:
   kbcat: unarmed
@@ -74,7 +75,6 @@ sohl:
     initSkillMult: 2
     impairedByRoles:
       - locomotor
-packFolder: combat
 ---
 
 A kick reaches twice as far as a punch and carries the weight of the leg and hip behind it, which makes it the strongest opening an unarmed fighter has against someone who has not closed yet.

@@ -9,6 +9,7 @@ type: trauma
 data:
   icon: sleepy
   templatePriority: 0
+  packFolder: fatigue
 subType: fatigue
 sohl:
   kbcat: fatigue
@@ -16,7 +17,6 @@ sohl:
     category: weariness
     levelBase: 1
     healingRateBase: 3
-packFolder: fatigue
 ---
 
 Cold exposure weariness is the slow grind of prolonged cold exposure — the unprotected sentry on a winter watch, the wet traveler in a long rain, the unsheltered camper in a hard frost. The body burns reserves to maintain warmth, and the burn shows up as weariness rather than as the privation of true freezing. 5–10 fatigue per four hours of exposure.

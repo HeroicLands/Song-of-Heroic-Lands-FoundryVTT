@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: chainmail
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: wpnc
@@ -41,9 +42,6 @@ sohl:
       fire: 5
     encumbrance: 10
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 400
-origWeight: 22
 ---
 
 The Mail Sleeved Byrnie is a long chainmail shirt with sleeves, offering substantial protection for the torso and arms. Its interlinked metal rings provide excellent defense against slashes and thrusts, making it essential for combat.

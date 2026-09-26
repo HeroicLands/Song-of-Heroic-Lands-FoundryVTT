@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: bracer
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: hide
@@ -33,9 +34,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 20
-origWeight: 0.8
 ---
 
 Rawhide Bracers are robust and sturdy, made from thick, untanned leather. They provide significant protection for the forearms, ideal for warriors who foresee close combat and need more durable defense.

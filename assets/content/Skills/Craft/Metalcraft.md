@@ -9,6 +9,7 @@ type: skill
 data:
   icon: metalbar
   templatePriority: 0
+  packFolder: craft
 subType: craft
 sohl:
   kbcat: craft
@@ -22,7 +23,6 @@ sohl:
       - core
       - vital
       - manipulator
-packFolder: craft
 ---
 
 Metalcraft is the everyday smith's trade: the tools, fittings and household metal that a settlement cannot function without. Nails, hinges, pot-hooks, ploughshares, cauldrons, horseshoes, chain. It is the skill that keeps a manor working, and it is the substrate under half the other crafts — the fletcher's arrowheads, the lockmaker's wards, the armourer's plate all begin here.

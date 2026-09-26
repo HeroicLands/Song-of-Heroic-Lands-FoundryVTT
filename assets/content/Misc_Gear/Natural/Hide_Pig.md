@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: natural
 sohl:
   craft:
     skill: anmcft
@@ -20,7 +21,6 @@ sohl:
     valueBase: 5
     qualityBase: 0
     durabilityBase: 3
-packFolder: natural
 ---
 
 A hog's hide—scraped and salted—thicker and rougher than sheep but still workable. Tanners process pigskin into moderately soft leather for gloves and belts; the characteristic pores remain visible even after finishing. Butchers and pig farmers supply these hides regularly.

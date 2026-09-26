@@ -9,6 +9,7 @@ type: skill
 data:
   icon: lock
   templatePriority: 0
+  packFolder: craft
 subType: craft
 sohl:
   kbcat: craft
@@ -22,7 +23,6 @@ sohl:
       - core
       - vital
       - manipulator
-packFolder: craft
 ---
 
 Lockcraft is knowledge of locks and of small, close-tolerance mechanisms generally — which means the same hands that make a strongbox secure are the hands that open somebody else's. Every such device carries a **Complexity from 1 to 9**, and a character may test Lockcraft simply to judge what they are looking at before deciding whether to try it.

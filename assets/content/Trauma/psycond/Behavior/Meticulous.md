@@ -8,12 +8,12 @@ type: trauma
 data:
   icon: battlegear
   templatePriority: 0
+  packFolder: quirks
 subType: psycond
 sohl:
   kbcat: psybehavior
   system:
     category: quirk
-packFolder: quirks
 ---
 
 Meticulous refers to an individual's attention to detail, precision, and thoroughness in their work or tasks. A meticulous person is highly organized, careful, and ensures that everything is done correctly, often double-checking their work to avoid mistakes. While this trait is generally admired for producing high-quality results, excessive meticulousness can lead to perfectionism, procrastination, or difficulty completing tasks due to an overemphasis on details.

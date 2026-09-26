@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: shirt
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: hide
@@ -37,9 +38,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 264
-origWeight: 3.3
 ---
 
 A Leather Shirt offers a stylish and practical garment, providing minimal protection. Lightweight and comfortable, it’s suitable for everyday wear or light adventuring.

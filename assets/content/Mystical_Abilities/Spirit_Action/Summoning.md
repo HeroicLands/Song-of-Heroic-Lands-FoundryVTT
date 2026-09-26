@@ -9,6 +9,7 @@ type: mysticalability
 data:
   icon: enrage
   templatePriority: 0
+  packFolder: spiritaction
 subType: spiritaction
 sohl:
   kbcat: spiritaction
@@ -16,7 +17,6 @@ sohl:
     assocSkillCode: ""
     masteryLevelBase: 0
     levelBase: 0
-packFolder: spiritaction
 ---
 
 Summoning calls an entity from beyond the physical world — a spirit, an elemental force, or something worse — and compels or bargains it into service. It is two acts, not one, and the second is the hard part: bringing a thing across is a matter of the correct invocation, while holding it to terms once it has arrived is a matter of what the summoner brought to the bargain.

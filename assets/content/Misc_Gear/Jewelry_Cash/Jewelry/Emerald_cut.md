@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: jewelry
 sohl:
   craft:
     skill: jewl
@@ -20,7 +21,6 @@ sohl:
     valueBase: 700
     qualityBase: 0
     durabilityBase: 2
-packFolder: jewelry
 ---
 
 Emerald, a deep green gem of crystalline beryl, cut with careful precision by the master lapidary. The stone's vivid color and clarity make it treasured by nobility and the wealthy clergy, set into crowns, brooches, and rings of significant prestige. Each facet must be measured exactly to maximize the gem's luminous green.

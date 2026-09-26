@@ -9,6 +9,7 @@ type: skill
 data:
   icon: footprint
   templatePriority: 0
+  packFolder: nature
 subType: nature
 sohl:
   kbcat: nature
@@ -23,7 +24,6 @@ sohl:
       - vital
       - locomotor
       - manipulator
-packFolder: nature
 ---
 
 Tracking is finding a trail and staying on it — prints and their spacing, bruised vegetation, disturbed stone, droppings, blood, and the shape of the interval between one sign and the next. A tracker reads not only that something passed but how many, how fast, how long ago, and whether it knew it was being followed.

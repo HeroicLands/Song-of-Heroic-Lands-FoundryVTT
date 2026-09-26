@@ -9,6 +9,7 @@ type: trauma
 data:
   icon: stomach
   templatePriority: 0
+  packFolder: privations
 subType: physcond
 sohl:
   kbcat: physprivations
@@ -16,7 +17,6 @@ sohl:
     category: trait
     levelBase: 1
     healingRateBase: 5
-packFolder: privations
 ---
 
 Heat fatigue is the earliest stage of heat injury — the body still cooling itself adequately, but at a steadily rising metabolic cost. It is the soldier on the long summer march, the laborer in the noonday quarry, the rider in the desert before noon. Recognized early, it costs nothing more than a halt; ignored, it slides into exhaustion and then heat stroke.

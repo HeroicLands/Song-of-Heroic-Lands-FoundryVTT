@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: cooking
 sohl:
   craft:
     skill: mtlc
@@ -20,7 +21,6 @@ sohl:
     valueBase: 12
     qualityBase: 0
     durabilityBase: 4
-packFolder: cooking
 ---
 
 A wide, shallow copper pan tinned inside and fitted with a long iron handle, used for frying and sautéing at a cook's hearth. The large size allows the cook to move several portions at once, and the copper conducts heat evenly without scorching. Such pans are expensive enough to be kept in a prosperous household's kitchen, suspended from a rack or returned to its hooks after each meal, and hand-washed rather than scoured.

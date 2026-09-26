@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: breastplate
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: wpnc
@@ -38,9 +39,6 @@ sohl:
       fire: 5
     encumbrance: 5
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 60
-origWeight: 4.5
 ---
 
 The Kûrbúl Breastplate is crafted from specially treated leather, offering moderate protection while maintaining a lightweight feel. Decorated with intricate designs, it serves those who need agility without sacrificing too much defense.

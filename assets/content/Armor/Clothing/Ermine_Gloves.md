@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: gloves
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: hide
@@ -33,9 +34,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 120
-origWeight: 0.5
 ---
 
 Ermine Gloves, made from the soft white fur of the ermine, signify high status and wealth. They provide excellent insulation and a plush texture, ideal for the elite.

@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: expedition
 sohl:
   craft:
     skill: pfmy
@@ -20,7 +21,6 @@ sohl:
     valueBase: 20
     qualityBase: 0
     durabilityBase: 0
-packFolder: expedition
 ---
 
 Oil drawn from rose petals in quantities that astonish anyone who learns the figure — a bushel of petals for a scant measure of oil, which is why the rose fields of the south are worth what they are. It is the most familiar of the fine scents and the one against which a perfumer's skill is judged, since everyone knows what a rose ought to smell like.

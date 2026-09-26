@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: mailedfist
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: wpnc
@@ -34,9 +35,6 @@ sohl:
     encumbrance: 0
     encumbranceGroup: arm
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 67.5
-origWeight: 2.7
 ---
 
 Leather gloves reinforced with metal rings across the back and fingers for enhanced hand and wrist defense.

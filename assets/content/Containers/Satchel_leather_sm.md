@@ -9,6 +9,7 @@ type: containergear
 data:
   icon: knapsack
   templatePriority: 0
+  packFolder: containers
 sohl:
   craft:
     skill: hide
@@ -19,7 +20,6 @@ sohl:
     qualityBase: 0
     durabilityBase: 8
     maxCapacityBase: 10
-packFolder: containers
 ---
 
 A stitched leather bag on a shoulder strap, closed by a buckled flap rather than a tie. It costs several times what the canvas equivalent does and will outlast three of them, which is the whole of the argument for it.

@@ -5,7 +5,8 @@ name:
   full: Effects Integration
   aliases: []
 shortcode: effectsintegration
-pack: none
+data:
+  pack: none
 sohl:
   kbcat: devdocs
 ---

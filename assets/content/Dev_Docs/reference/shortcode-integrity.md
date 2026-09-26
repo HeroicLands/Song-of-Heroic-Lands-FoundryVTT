@@ -5,7 +5,8 @@ name:
   full: Shortcode Integrity
   aliases: []
 shortcode: shortcodeintegrity
-pack: none
+data:
+  pack: none
 sohl:
   kbcat: devdocs
 ---

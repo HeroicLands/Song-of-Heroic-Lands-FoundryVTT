@@ -9,6 +9,7 @@ type: trauma
 data:
   icon: stomach
   templatePriority: 0
+  packFolder: privations
 subType: physcond
 sohl:
   kbcat: physprivations
@@ -16,7 +17,6 @@ sohl:
     category: debility
     levelBase: 4
     healingRateBase: 1
-packFolder: privations
 ---
 
 Heat stroke is the catastrophic failure of the body's heat regulation. Sweating stops, the skin grows hot and dry, the core temperature climbs beyond what tissues can survive, and the brain begins to cook within its skull. It is a true emergency — every minute of delay multiplies the chance of death or permanent damage — and even successful treatment may leave lasting impairment.

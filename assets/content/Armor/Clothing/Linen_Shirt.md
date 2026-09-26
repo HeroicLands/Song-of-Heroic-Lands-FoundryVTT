@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: shirt
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -37,9 +38,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 33
-origWeight: 1.7
 ---
 
 A Linen Shirt is light and breathable, perfect for warm climates. It offers comfort and ease of movement, making it ideal for casual wear and everyday activities.

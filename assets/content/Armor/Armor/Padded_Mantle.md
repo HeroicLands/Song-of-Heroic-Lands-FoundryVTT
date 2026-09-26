@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: cape
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: txtl
@@ -36,9 +37,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 42
-origWeight: 1.7
 ---
 
 A Padded Mantle offers excellent insulation and warmth, made with cushioning materials. It’s ideal for cold climates, providing both comfort and protection from harsh weather.

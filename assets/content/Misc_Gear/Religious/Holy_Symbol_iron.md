@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: prayer
   templatePriority: 0
+  packFolder: religious
 sohl:
   craft:
     skill: mtlc
@@ -20,7 +21,6 @@ sohl:
     valueBase: 12
     qualityBase: 0
     durabilityBase: 5
-packFolder: religious
 ---
 
 A token of a god cut and forged from iron, plain and unlovely and nearly indestructible. It is the symbol of those whose gods are not gentle, and of anyone who cannot afford better — smiths, soldiers, and the harder sort of pilgrim. Iron costs almost nothing; what is paid is paid for the forging.

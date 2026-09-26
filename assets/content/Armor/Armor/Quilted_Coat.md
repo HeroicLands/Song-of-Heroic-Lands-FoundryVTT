@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: shirt
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: txtl
@@ -44,9 +45,6 @@ sohl:
       fire: 5
     encumbrance: 5
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 256
-origWeight: 11.5
 ---
 
 Layers of fabric stitched together create the Quilted Coat, providing excellent insulation and warmth. It’s suitable for colder climates, offering both comfort and protection from harsh weather.

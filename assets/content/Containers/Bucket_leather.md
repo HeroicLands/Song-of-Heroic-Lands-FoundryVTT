@@ -9,6 +9,7 @@ type: containergear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: containers
 sohl:
   craft:
     skill: hide
@@ -19,7 +20,6 @@ sohl:
     qualityBase: 0
     durabilityBase: 8
     maxCapacityBase: 40
-packFolder: containers
 ---
 
 A fire-bucket of heavy cowhide, boiled and shaped over a form and then pitched inside and out to hold water. A wooden or iron hoop stitched into the rim keeps the mouth open, and a leather or rope bail lets it be swung from ladder to ladder in a bucket-brigade line. Lighter than a stave-built bucket and far less fragile when dropped, it is stacked flat by the score in town halls, watch-houses, and the yards of any prudent landlord.

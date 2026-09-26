@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: shirt
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -37,9 +38,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 33
-origWeight: 1.7
 ---
 
 The Worsted Shirt, made from tightly-spun wool fibers, offers both style and durability. It is a versatile garment providing good insulation and resilience, suitable for a wide range of activities and weather conditions.

@@ -6,7 +6,8 @@ name:
   aliases: []
 shortcode: actornotes
 description: "Authoring a `being`, and the `(type, shortcode)` address space its embedded items resolve through."
-pack: none
+data:
+  pack: none
 sohl:
   kbcat: devdocs
 ---

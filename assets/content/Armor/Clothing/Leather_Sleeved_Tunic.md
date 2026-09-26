@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: shirt
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: hide
@@ -42,9 +43,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 400
-origWeight: 5
 ---
 
 A Leather Sleeved Tunic combines a rugged look with minimal protection. Lightweight and comfortable, it’s suitable for everyday wear or light adventuring, adding a bit of edge to the wearer’s attire.

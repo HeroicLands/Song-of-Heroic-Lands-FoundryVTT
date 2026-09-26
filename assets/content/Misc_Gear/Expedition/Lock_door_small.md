@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: expedition
 sohl:
   craft:
     skill: lock
@@ -20,7 +21,6 @@ sohl:
     valueBase: 45
     qualityBase: 0
     durabilityBase: 7
-packFolder: expedition
 ---
 
 A refined iron lock for chamber doors and cabinet shutters, lighter than a hall-lock yet finely warded. Its compact mechanism suits merchants' counting-houses and nobles' private chambers, and its cost reflects the superior craft required to forge tight wards in so small a space.

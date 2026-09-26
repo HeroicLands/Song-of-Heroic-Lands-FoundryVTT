@@ -9,6 +9,7 @@ type: weapongear
 data:
   icon: broadsword
   templatePriority: 0
+  packFolder: weapons
 sohl:
   craft:
     skill: wpnc
@@ -153,7 +154,6 @@ sohl:
         defense:
           blockMod: 0
           counterstrikeMod: 0
-packFolder: weapons
 ---
 
 A stiff, narrow blade tapering to a rigid point, the estoc seeks the seams and gaps of plate without mercy. The blade often lacks sharp edges—a thrusting weapon entire—and is hilted for the controlled lunge. Knights in full harness favor this steel for the way it pierces where broader swords would shatter against tempered joints.

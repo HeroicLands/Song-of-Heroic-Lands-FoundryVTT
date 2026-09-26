@@ -8,13 +8,13 @@ type: trauma
 data:
   icon: dread
   templatePriority: 0
+  packFolder: phobias
 subType: fear
 sohl:
   kbcat: phobias
   system:
     category: none
     levelBase: 0
-packFolder: phobias
 ---
 
 Agoraphobia is an intense, irrational fear of open or crowded spaces where escape might be difficult. People with agoraphobia may experience a range of symptoms when they are in settings such as markets, public transportation, or wide-open areas.

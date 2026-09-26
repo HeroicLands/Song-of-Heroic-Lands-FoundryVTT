@@ -8,12 +8,12 @@ type: trauma
 data:
   icon: battlegear
   templatePriority: 0
+  packFolder: quirks
 subType: psycond
 sohl:
   kbcat: psybehavior
   system:
     category: quirk
-packFolder: quirks
 ---
 
 Seducer refers to an individual who uses charm, flirtation, and seduction as a means to manipulate, control, or gain power over others. This person is driven by a desire to be desired and admired, often thriving on the attention and affection of others. They view seduction as a game or tool to boost their ego and reinforce their sense of superiority. While they may appear charismatic and alluring, their interest in others is often shallow, focusing primarily on the power dynamic rather than genuine emotional connection.

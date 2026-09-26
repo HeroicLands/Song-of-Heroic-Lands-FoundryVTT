@@ -6,7 +6,8 @@ name:
   aliases: []
 shortcode: combatmodel
 description: "Assisted vs. automated combat, and how the combat flow is wired programmatically (combatants, the exchange workflow, resolution)."
-pack: none
+data:
+  pack: none
 sohl:
   kbcat: devdocs
 ---

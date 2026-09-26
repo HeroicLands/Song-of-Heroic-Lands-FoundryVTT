@@ -5,7 +5,8 @@ name:
   full: Healing Rate
   aliases: []
 shortcode: hlngrt
-packFolder: injury
+data:
+  packFolder: injury
 ---
 
 The **Healing Rate (HR)** is a factor from **0 to 6** representing the likelihood of recovering from an injury — lower is worse. It is generally **fixed once the injury is treated** (see [[doc-trtnginj|Injury Treatment]]), though some circumstances change it.

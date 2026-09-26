@@ -9,6 +9,7 @@ type: weapongear
 data:
   icon: spears
   templatePriority: 0
+  packFolder: weapons
 sohl:
   craft:
     skill: wpnc
@@ -241,7 +242,6 @@ sohl:
         maxVolleyMult: 2
         baseRangeBase: 60
         drawBase: 0
-packFolder: weapons
 ---
 
 A light spear with a barbed, leaf-shaped head designed for soft-target hunting and skirmish. The reverse barbs grip flesh and make removal agonizing, useful against hunters and loose bands; it bleeds heavily. Warriors carry several, throwing them to wound and disrupt before closing with sword and shield. Less effective against mail, but devastating to the unarmoured.

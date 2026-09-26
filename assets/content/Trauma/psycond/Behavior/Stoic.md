@@ -8,12 +8,12 @@ type: trauma
 data:
   icon: battlegear
   templatePriority: 0
+  packFolder: disorders
 subType: psycond
 sohl:
   kbcat: psybehavior
   system:
     category: quirk
-packFolder: disorders
 ---
 
 Stoic refers to an individual’s ability to endure pain, hardship, or emotional turbulence without outwardly showing their feelings or being overtly affected by them. A stoic person is calm, composed, and resilient in the face of adversity. While stoicism can be a strength, promoting self-control and emotional stability, it can also become unhealthy if the individual suppresses their emotions to the point of emotional detachment or neglecting their personal needs and relationships.

@@ -9,6 +9,7 @@ type: skill
 data:
   icon: circle
   templatePriority: 0
+  packFolder: mysticalskills
 subType: mystical
 sohl:
   kbcat: mystical
@@ -22,7 +23,6 @@ sohl:
       - core
       - vital
       - manipulator
-packFolder: mysticalskills
 ---
 
 Ritual is a character's grasp of the beliefs and observances of **one religion** — its liturgy, its calendar, its sacraments and rites of passage, its canon law, and the practical business of conducting a service so that the congregation is served and the god is not offended. Each religion is a separate Ritual skill with its own Mastery Level, named for the faith it belongs to.

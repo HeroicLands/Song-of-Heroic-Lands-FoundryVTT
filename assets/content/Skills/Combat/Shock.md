@@ -9,6 +9,7 @@ type: skill
 data:
   icon: lightningarc
   templatePriority: 0
+  packFolder: combat
 subType: combat
 sohl:
   kbcat: combat
@@ -21,7 +22,6 @@ sohl:
     impairedByRoles:
       - core
       - vital
-packFolder: combat
 ---
 
 Shock is the body's answer to being badly hurt: whether a wound simply hurts or actually stops the character who took it. It is a subskill of Initiative, sharing that skill's Skill Multiple but resting on its own Skill Base of Strength and Endurance — mass and conditioning, which is honestly most of what decides the question.

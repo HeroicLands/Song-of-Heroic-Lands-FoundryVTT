@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: music
 sohl:
   craft:
     skill: wood
@@ -20,7 +21,6 @@ sohl:
     valueBase: 72
     qualityBase: 0
     durabilityBase: 6
-packFolder: music
 ---
 
 A carefully crafted horn of polished ox or ram, shaped for musical rather than utilitarian use, with a mellower voice than a hunting horn. Minstrels and court musicians employ musical horns in ensembles, where the warm, sonorous tone blends well with strings and woodwinds. Skilled players control pitch and tone by adjusting embouchure and the position of their hand in the bell.

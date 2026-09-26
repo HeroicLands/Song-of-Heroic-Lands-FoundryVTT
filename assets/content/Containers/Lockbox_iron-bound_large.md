@@ -9,6 +9,7 @@ type: containergear
 data:
   icon: chest
   templatePriority: 0
+  packFolder: containers
 sohl:
   craft:
     skill: mtlc
@@ -19,7 +20,6 @@ sohl:
     qualityBase: 0
     durabilityBase: 9
     maxCapacityBase: 55
-packFolder: containers
 ---
 
 A heavy iron-banded strongbox, awkward for one person to shift even empty. Merchants keep them bolted to the floor of a counting room, on the reasoning that what cannot be carried away must be opened where it stands.

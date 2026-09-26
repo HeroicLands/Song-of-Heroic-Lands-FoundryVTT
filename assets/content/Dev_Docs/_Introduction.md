@@ -5,7 +5,8 @@ name:
   full: SoHL Developer & API Documentation
   aliases: []
 shortcode: devdocs
-pack: none
+data:
+  pack: none
 sohl:
   kbcat: devdocs
 ---

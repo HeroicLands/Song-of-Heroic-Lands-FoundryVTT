@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: jewelry
 sohl:
   craft:
     skill: jewl
@@ -20,7 +21,6 @@ sohl:
     valueBase: 1200
     qualityBase: 0
     durabilityBase: 2
-packFolder: jewelry
 ---
 
 Jankorez, a rare gem of pale blue or white radiance, cut with exquisite precision by master lapidaries. The stone's clarity and brilliance rival even diamonds, making each piece invaluable to those who possess one. These gems rest only in the treasuries of kings and the adornments of the highest nobility.

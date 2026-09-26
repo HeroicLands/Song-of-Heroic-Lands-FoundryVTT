@@ -9,6 +9,7 @@ type: attribute
 data:
   icon: heartplus
   templatePriority: 0
+  packFolder: attributes
 sohl:
   system:
     scoreBase: 0
@@ -19,8 +20,6 @@ sohl:
       - Understanding:16
       - Sensitive:999
     initDiceFormula: 3d6
-sort: 110
-packFolder: attributes
 ---
 
 Empathy is the capacity to sense and understand the feelings, pain, and motives of others—to imagine oneself in another's circumstances and be moved by their plight. It shapes how a person relates to those around them, influencing their choices in moments of conflict or need. Those with keen empathy find themselves bound to others through genuine feeling; those lacking it move through the world with little regard for the inner lives of their fellows.

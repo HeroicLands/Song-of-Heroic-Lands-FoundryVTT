@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: music
 sohl:
   craft:
     skill: hide
@@ -20,7 +21,6 @@ sohl:
     valueBase: 1
     qualityBase: 0
     durabilityBase: 5
-packFolder: music
 ---
 
 A pair of carved bone or wood blades loosely hinged or strung together at one end, clicked together in rhythm by dancers and celebrants. The hollow clack carries a percussive, rhythmic snap well-suited to folk dances and sacred processionals. Children learn to keep time with clappers before mastering drums or pipes.

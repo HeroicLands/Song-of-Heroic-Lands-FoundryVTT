@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: expedition
 sohl:
   craft:
     skill: txtl
@@ -20,7 +21,6 @@ sohl:
     valueBase: 1
     qualityBase: 0
     durabilityBase: 5
-packFolder: expedition
 ---
 
 Half-inch rope of twisted hemp fiber, tarred to resist rot and weathering, sold by the foot. Coarse and stiff, it’s standard cordage for shipboard, hoisting, and tethering pack animals; merchants and adventurers carry lengths for binding cargo or raising a fallen companion from a pit.

@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: mailshirt
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: wpnc
@@ -37,9 +38,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 495
-origWeight: 14.9
 ---
 
 A Mail Shirt, crafted from interlinked metal rings, provides substantial protection for the torso and upper arms. It offers excellent defense against slashes while maintaining flexibility.

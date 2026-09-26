@@ -5,7 +5,8 @@ name:
   full: Success Value Tests
   aliases: []
 shortcode: sccssvlt
-packFolder: resolution
+data:
+  packFolder: resolution
 ---
 
 # Success Value Tests {#success-value-test}

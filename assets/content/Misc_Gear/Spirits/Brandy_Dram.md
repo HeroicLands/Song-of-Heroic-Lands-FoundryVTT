@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: brandybottle
   templatePriority: 0
+  packFolder: spirits
 sohl:
   craft:
     skill: brew
@@ -20,7 +21,6 @@ sohl:
     valueBase: 0.5
     qualityBase: 0
     durabilityBase: 0
-packFolder: spirits
 ---
 
 A small dram of fiery brandy—wine distilled to spirit and clear as water. Merchants, physicians, and travelers carry vials of it; a measure warms the chest on winter roads or steadies the hand before a long task. The bite is memorable.

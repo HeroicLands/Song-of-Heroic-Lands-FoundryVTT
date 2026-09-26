@@ -9,6 +9,7 @@ type: weapongear
 data:
   icon: crossbow
   templatePriority: 0
+  packFolder: weapons
 sohl:
   craft:
     skill: fltch
@@ -65,7 +66,6 @@ sohl:
         maxVolleyMult: 4
         baseRangeBase: 270
         drawBase: 200
-packFolder: weapons
 ---
 
 A laminated prod of horn and sinew glued to a wooden back, drawing two hundred pounds and shorter, more powerful than plain wood for its length. Spanned by windlass and mounted by siege crews and heavy infantry for wall assault and formed ranks. The composite construction offers superior range and armor-piercing force, though slower to span than lighter bows.

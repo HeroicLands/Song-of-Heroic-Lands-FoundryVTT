@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: food
 sohl:
   craft:
     skill: fish
@@ -20,7 +21,6 @@ sohl:
     valueBase: 1
     qualityBase: 0
     durabilityBase: 0
-packFolder: food
 ---
 
 Oysters—briny shellfish harvested from coastal beds—are sold fresh at harborside or preserved in salt and smoke. Fresh oysters spoil within a day or two; salted and smoked they last weeks and suit a soldier's or sailor's rations. Coastal inns serve them raw; inland folk prize them as a rare luxury.

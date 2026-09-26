@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: shirt
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: txtl
@@ -40,9 +41,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 216
-origWeight: 9.7
 ---
 
 The Quilted Surcoat, featuring layers of fabric sewn together, offers excellent insulation and comfort. Suitable for colder climates, it provides warmth and a bit of extra protection.

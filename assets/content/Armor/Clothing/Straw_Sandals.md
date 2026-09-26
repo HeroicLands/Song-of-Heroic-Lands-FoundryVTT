@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: flipflops
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -33,9 +34,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 1.8
-origWeight: 0.1
 ---
 
 Straw Sandals offer light and breathable footwear, perfect for hot climates. They provide minimal protection but ensure maximum comfort and airflow, making them ideal for everyday use.

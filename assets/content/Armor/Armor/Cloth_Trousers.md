@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: trousers
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: txtl
@@ -38,9 +39,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 39
-origWeight: 2
 ---
 
 Simple and versatile, Cloth Trousers are made from softer fabrics, offering basic comfort and warmth. They are ideal for everyday activities and casual wear, providing a practical and adaptable garment.

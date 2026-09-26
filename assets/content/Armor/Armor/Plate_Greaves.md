@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: greaves
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: wpnc
@@ -33,9 +34,6 @@ sohl:
       fire: 5
     encumbrance: 5
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 240
-origWeight: 4.6
 ---
 
 Made from solid steel, Plate Greaves provide maximum protection for the lower legs. They are essential for heavily armored warriors, designed to deflect blows and withstand impacts.

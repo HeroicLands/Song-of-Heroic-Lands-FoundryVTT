@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: beerstein
   templatePriority: 0
+  packFolder: spirits
 sohl:
   craft:
     skill: brew
@@ -20,7 +21,6 @@ sohl:
     valueBase: 0.25
     qualityBase: 0
     durabilityBase: 0
-packFolder: spirits
 ---
 
 A pint of fermented apple cider, mellow and lightly sour. Orchardlands and autumn markets offer it at harvest-time; common folk and farmhands prefer it to ale for its sweetness and the nostalgia of apples.

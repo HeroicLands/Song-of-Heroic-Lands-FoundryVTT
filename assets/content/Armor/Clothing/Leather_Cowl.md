@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: hood
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: hide
@@ -33,9 +34,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 48
-origWeight: 0.6
 ---
 
 A simple yet stylish Leather Cowl provides basic head and shoulder protection. Lightweight and versatile, it’s suitable for everyday wear and offers a touch of rugged charm.

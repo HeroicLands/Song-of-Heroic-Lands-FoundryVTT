@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: skirt
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -38,9 +39,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 19.6
-origWeight: 0.5
 ---
 
 Light and breathable, the Linen Skirt is perfect for warm weather. It offers comfort and ease of movement, suitable for casual outings and everyday activities.

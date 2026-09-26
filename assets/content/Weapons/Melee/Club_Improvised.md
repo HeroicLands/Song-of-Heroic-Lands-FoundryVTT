@@ -9,6 +9,7 @@ type: weapongear
 data:
   icon: club
   templatePriority: 0
+  packFolder: weapons
 sohl:
   craft:
     skill: wood
@@ -109,7 +110,6 @@ sohl:
         defense:
           blockMod: 0
           counterstrikeMod: 0
-packFolder: weapons
 ---
 
 A branch torn from a tree, a table leg wrenched from its frame, a length of roof-timber—whatever comes to hand in the moment of need. Unbalanced and crude, held because there is no other choice, it swings with desperation rather than skill. In a tavern brawl or sudden ambush it may suffice; on a true battlefield it is a widow-maker for the man who carries it.

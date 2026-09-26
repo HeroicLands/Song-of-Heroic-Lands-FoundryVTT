@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: tack
 sohl:
   craft:
     skill: hide
@@ -20,7 +21,6 @@ sohl:
     valueBase: 18
     qualityBase: 0
     durabilityBase: 8
-packFolder: tack
 ---
 
 A stout arrangement of leather bands, rope, and iron fixtures built to withstand the tremendous force of oxen pulling stone, timber, or fully laden carts. Unlike horse harness, ox harness employs a yoke or breast collar sized for the beast's bulk and strength; the traces are double-thick leather, often tarred for durability. Carters, masons, and quarrymen depend on ox harness to move the dead weight that horses cannot budge.

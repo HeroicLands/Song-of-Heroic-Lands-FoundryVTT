@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: food
 sohl:
   craft:
     skill: anmcft
@@ -20,7 +21,6 @@ sohl:
     valueBase: 1
     qualityBase: 0
     durabilityBase: 0
-packFolder: food
 ---
 
 Goat's milk, tangy and thinner than cow's milk, curdles quickly into sharp cheese prized in rural markets. A goatherd sells it fresh or soured; it is richer in fat than sheep's milk and spoils faster. Poor villages rely on goat herds for both milk and cheese, stretching a single animal's yield far.

@@ -9,6 +9,7 @@ type: skill
 data:
   icon: jumpacross
   templatePriority: 0
+  packFolder: physical
 subType: physical
 sohl:
   kbcat: physical
@@ -22,7 +23,6 @@ sohl:
       - core
       - vital
       - locomotor
-packFolder: physical
 ---
 
 Jumping is deliberate leaping — across a gap, over an obstacle, up at a ledge just out of reach — and the distance covered is read straight off a Jumping Success Value test.

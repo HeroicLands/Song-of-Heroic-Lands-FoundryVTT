@@ -9,6 +9,7 @@ type: containergear
 data:
   icon: chest
   templatePriority: 0
+  packFolder: containers
 sohl:
   craft:
     skill: wood
@@ -19,7 +20,6 @@ sohl:
     qualityBase: 0
     durabilityBase: 7
     maxCapacityBase: 12
-packFolder: containers
 ---
 
 A wooden coffer faced in leather, lighter in construction than the all-wood sort and cheaper for it. The covering protects the joints from damp and the corners from knocks, and it takes a stamped decoration well.

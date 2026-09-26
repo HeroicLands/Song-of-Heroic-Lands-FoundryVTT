@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: gempendant
   templatePriority: 0
+  packFolder: jewelry
 sohl:
   craft:
     skill: jewl
@@ -20,7 +21,6 @@ sohl:
     valueBase: 14
     qualityBase: 0
     durabilityBase: 3
-packFolder: jewelry
 ---
 
 A band for the finger, plain or chased. This one is carved ivory — the tooth of beasts from far off, not the horn of any beast bred at home — 0.48 ounces of it, and reckons 1 day at the bench.

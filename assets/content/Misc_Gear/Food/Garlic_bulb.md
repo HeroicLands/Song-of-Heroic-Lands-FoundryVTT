@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: herbsbundle
   templatePriority: 0
+  packFolder: food
 sohl:
   craft:
     skill: agri
@@ -20,7 +21,6 @@ sohl:
     valueBase: 9
     qualityBase: 0
     durabilityBase: 3
-packFolder: food
 ---
 
 A papery-skinned bulb of garlic cloves, sharp and pungent when broken. Cooks prize it for seasoning stews and meat, and herbalists value its purported protective properties. A single bulb splits into a dozen cloves and keeps for months in a cool, dry place.

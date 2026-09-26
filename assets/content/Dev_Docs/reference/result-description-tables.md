@@ -5,7 +5,8 @@ name:
   full: Result-description tables
   aliases: []
 shortcode: resultdescriptiontables
-pack: none
+data:
+  pack: none
 sohl:
   kbcat: devdocs
 ---

@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: cloak
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -61,9 +62,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 82.6
-origWeight: 1.4
 ---
 
 The Worsted Cloak, made from tightly-spun wool fibers, offers both style and durability. It's a practical, versatile choice that provides good insulation and resilience, suitable for a wide range of activities and weather conditions.

@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: instruments
 sohl:
   craft:
     skill: mtlc
@@ -20,7 +21,6 @@ sohl:
     valueBase: 35
     qualityBase: 0
     durabilityBase: 5
-packFolder: instruments
 ---
 
 A leather satchel holding a herbalist's working tools: a stone mortar and pestle small enough to carry, a curved pruning knife for cutting cleanly without bruising, a folding drying frame of thin willow, rolls of linen filter cloth, stoppered glass vials for tinctures and distillates, twine for bundling, a small brass mesh sieve, and a wax-tight tin for the finest powders. Village wise-women, monastery infirmarians, and hedge-witches all carry some version of the kit; the contents vary with the season and the country, since a herbalist in the Byzarian hills works with different leaves than one in the northern marches.

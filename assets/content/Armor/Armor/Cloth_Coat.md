@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: shirt
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: txtl
@@ -44,9 +45,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 64
-origWeight: 3.2
 ---
 
 A simple, versatile Cloth Coat made from various softer fabrics offers basic comfort and warmth. It’s suitable for everyday wear, perfect for a wide range of casual activities.

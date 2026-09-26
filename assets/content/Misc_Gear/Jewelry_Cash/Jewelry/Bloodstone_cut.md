@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: jewelry
 sohl:
   craft:
     skill: jewl
@@ -20,7 +21,6 @@ sohl:
     valueBase: 15
     qualityBase: 0
     durabilityBase: 2
-packFolder: jewelry
 ---
 
 A deep green stone flecked or streaked with red spots, cut into a faceted gem by the lapidary's craft. The red markings resemble blood, lending the stone its name and making it favored for seals and signet rings, particularly among military orders and physicians. These stones hold their polish well and are sought by those who wish their rings to carry symbolic weight.

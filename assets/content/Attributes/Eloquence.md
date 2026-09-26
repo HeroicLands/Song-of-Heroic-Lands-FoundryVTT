@@ -9,6 +9,7 @@ type: attribute
 data:
   icon: megaphone
   templatePriority: 0
+  packFolder: attributes
 sohl:
   system:
     scoreBase: 0
@@ -19,8 +20,6 @@ sohl:
       - Articulate:16
       - Expressive:999
     initDiceFormula: 3d6
-sort: 120
-packFolder: attributes
 ---
 
 Eloquence is the art of clear and persuasive speech—the capacity to choose the right words, frame them persuasively, and deliver them with confidence. It shapes how effectively a person can convince, inspire, teach, or deceive through language. An eloquent speaker is heard; an inarticulate one is often ignored even when speaking truth. Eloquence is not mere prettiness of language but the power of words to accomplish intention.

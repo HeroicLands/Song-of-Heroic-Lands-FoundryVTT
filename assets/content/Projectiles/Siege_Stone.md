@@ -8,9 +8,9 @@ type: projectilegear
 data:
   icon: stoneblock
   templatePriority: 0
+  packFolder: projectiles
 subType: bullet
 shortcode: stnsge
-easyname: Siege Stone
 sohl:
   craft:
     skill: srvl
@@ -27,7 +27,6 @@ sohl:
       die: 6
       modifier: 10
       aspect: blunt
-packFolder: projectiles
 ---
 
 Round shot dressed by a mason to a weight the engine is trimmed for, since a stone that is off weight is a stone that goes somewhere else. A besieging army will set masons to work in a quarry for weeks before the first shot is loosed, and will happily throw back whatever the defenders have thrown at it. Where no mason can be had, crews shoot rubble, dead horses and worse, and accept that they will hit rather less of what they aim at.

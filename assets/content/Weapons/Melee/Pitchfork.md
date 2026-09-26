@@ -9,6 +9,7 @@ type: weapongear
 data:
   icon: pitchfork
   templatePriority: 0
+  packFolder: weapons
 sohl:
   craft:
     skill: mtlc
@@ -197,7 +198,6 @@ sohl:
         defense:
           blockMod: 0
           counterstrikeMod: 0
-packFolder: weapons
 ---
 
 A farmer's fork pressed into service, the pitchfork bears multiple prongs for thrusting and binding. When levies are called, peasants seize these tools to form ranks with other pole-armed infantry, using the spread prongs to catch and hold opponents at distance.

@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: leathervest
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: txtl
@@ -33,9 +34,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 48
-origWeight: 1.9
 ---
 
 The Padded Vest offers warmth and cushioning, perfect for cold weather or additional under-armor padding. Providing both comfort and protection, it’s suitable for various activities.

@@ -5,7 +5,8 @@ name:
   full: The SoHL API
   aliases: []
 shortcode: sohlapi
-pack: none
+data:
+  pack: none
 sohl:
   kbcat: devdocs
 ---

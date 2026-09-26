@@ -8,12 +8,12 @@ type: trauma
 data:
   icon: battlegear
   templatePriority: 0
+  packFolder: disorders
 subType: psycond
 sohl:
   kbcat: psybehavior
   system:
     category: quirk
-packFolder: disorders
 ---
 
 Indecisive refers to an individual's difficulty in making decisions or choosing between options. An indecisive person may waver, second-guess, or avoid making choices altogether due to anxiety, fear of making the wrong decision, or an overwhelming number of possibilities. While some indecisiveness is common and harmless, excessive indecision can lead to missed opportunities, frustration, and strained relationships.

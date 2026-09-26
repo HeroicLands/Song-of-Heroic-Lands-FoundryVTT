@@ -5,7 +5,8 @@ name:
   full: Handlebars Template Helpers
   aliases: []
 shortcode: handlebarshelpers
-pack: none
+data:
+  pack: none
 sohl:
   kbcat: devdocs
 ---

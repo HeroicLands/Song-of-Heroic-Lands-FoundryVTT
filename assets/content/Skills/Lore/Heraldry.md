@@ -9,6 +9,7 @@ type: skill
 data:
   icon: shieldbdg
   templatePriority: 0
+  packFolder: lore
 subType: lore
 sohl:
   kbcat: lore
@@ -20,7 +21,6 @@ sohl:
     initSkillMult: 0
     impairedByRoles:
       - vital
-packFolder: lore
 ---
 
 Heraldry is the knowledge of arms and of the rules governing them: what may be borne, by whom, in what combination, and what a difference in the field or a change in the crest is announcing to anyone who can read it. A Heraldry test not only interprets an achievement but frequently reveals the history behind it — a marriage, an inheritance, a bastardy, an attainder.

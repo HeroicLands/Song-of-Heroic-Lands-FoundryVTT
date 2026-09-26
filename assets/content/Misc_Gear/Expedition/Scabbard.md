@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: expedition
 sohl:
   craft:
     skill: hide
@@ -20,7 +21,6 @@ sohl:
     valueBase: 48
     qualityBase: 0
     durabilityBase: 8
-packFolder: expedition
 ---
 
 A leather sheath stitched around a wooden core, fitted to hold a sword close to the body or across the back. The swordsmith's apprentice sews scabbards from the same leather scraps used for armor, treated with beeswax and hardened to protect the blade's edge. A well-made scabbard keeps the steel from rust and the wielder from scar.

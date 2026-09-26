@@ -8,12 +8,12 @@ type: trauma
 data:
   icon: battlegear
   templatePriority: 0
+  packFolder: quirks
 subType: psycond
 sohl:
   kbcat: psypsychosis
   system:
     category: impulse
-packFolder: quirks
 ---
 
 Dysphoria is a state of profound unease or dissatisfaction, often characterized by feelings of anxiety, restlessness, or emotional discomfort. Unlike depression, which is marked by persistent sadness, dysphoria encompasses a broader sense of emotional turmoil, where the individual feels unsettled, irritable, or disconnected from themselves and their surroundings. Dysphoria can manifest as a symptom of various mental health conditions, including anxiety disorders and depression.

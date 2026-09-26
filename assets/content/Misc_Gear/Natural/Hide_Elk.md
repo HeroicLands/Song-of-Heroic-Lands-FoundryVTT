@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: natural
 sohl:
   craft:
     skill: srvl
@@ -20,7 +21,6 @@ sohl:
     valueBase: 10
     qualityBase: 0
     durabilityBase: 3
-packFolder: natural
 ---
 
 A northern elk's hide—thick, durable, and salted for transport—sought by tanners who make heavy leather for armor backing and saddle seats. The hair is coarse and the grain uneven, yielding sturdy if rough finished leather. Hardy northern hunters trade these in bundles.

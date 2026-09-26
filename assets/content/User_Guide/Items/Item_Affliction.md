@@ -4,7 +4,8 @@ subType: userguide
 name:
   full: "Affliction"
 shortcode: afflctnug
-packFolder: items
+data:
+  packFolder: items
 ---
 
 # What Is an Affliction?

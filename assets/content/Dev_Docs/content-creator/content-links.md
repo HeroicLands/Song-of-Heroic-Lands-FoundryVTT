@@ -6,7 +6,8 @@ name:
   aliases: []
 shortcode: contentlinks
 description: "Wikilinks for content authors: the three forms, and why an item and its documentation need two different addresses."
-pack: none
+data:
+  pack: none
 sohl:
   kbcat: devdocs
 ---

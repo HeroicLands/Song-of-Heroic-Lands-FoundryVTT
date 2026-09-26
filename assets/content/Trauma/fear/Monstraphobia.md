@@ -8,13 +8,13 @@ type: trauma
 data:
   icon: dread
   templatePriority: 0
+  packFolder: phobias
 subType: fear
 sohl:
   kbcat: phobias
   system:
     category: none
     levelBase: 0
-packFolder: phobias
 ---
 
 Monstraphobia is an intense, irrational fear of unknown or fantastical creatures, often perceived as monstrous or otherworldly. While most people experience a natural sense of caution or fear when encountering unfamiliar creatures, Monstraphobia is an extreme and overwhelming manifestation of this fear. Individuals with this phobia experience profound anxiety at the thought, sight, or even mention of creatures they deem unnatural, whether they are real but unknown animals, or mythical beasts from legends and folklore.

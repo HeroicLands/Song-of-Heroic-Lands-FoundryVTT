@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: billedcap
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: hide
@@ -32,9 +33,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 16
-origWeight: 0.6
 ---
 
 The Sealskin Cap is waterproof and warm, made from treated seal fur. It’s perfect for harsh, wet conditions, providing excellent protection against wind and water.

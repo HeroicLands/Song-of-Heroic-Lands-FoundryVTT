@@ -8,12 +8,12 @@ type: trauma
 data:
   icon: battlegear
   templatePriority: 0
+  packFolder: quirks
 subType: psycond
 sohl:
   kbcat: psybehavior
   system:
     category: quirk
-packFolder: quirks
 ---
 
 Passive-aggressive behavior refers to an individual’s tendency to express negative feelings, resistance, or disagreement indirectly, often masking their true intentions behind a façade of compliance. Passive-aggressive individuals may agree outwardly to requests but act in ways that sabotage or delay tasks, using subtle resistance to achieve hidden goals or avoid confrontation. This behavior often stems from a reluctance to express anger or disagreement openly, leading to frustration for both the individual and those around them. Over time, passive-aggressive behavior can damage relationships and foster mistrust, as others become aware of the individual's hidden agendas.

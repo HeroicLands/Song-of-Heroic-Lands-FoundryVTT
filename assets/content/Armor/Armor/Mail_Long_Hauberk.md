@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: chainmail
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: wpnc
@@ -44,9 +45,6 @@ sohl:
       fire: 5
     encumbrance: 20
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 960
-origWeight: 28.8
 ---
 
 The Mail Long Hauberk is a lengthy chainmail shirt offering significant protection for the torso and upper legs. Its interlinked metal rings provide excellent defense against slashes and thrusts while maintaining flexibility.

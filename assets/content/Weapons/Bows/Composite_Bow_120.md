@@ -9,6 +9,7 @@ type: weapongear
 data:
   icon: pocketbow
   templatePriority: 0
+  packFolder: weapons
 sohl:
   craft:
     skill: fltch
@@ -109,7 +110,6 @@ sohl:
         maxVolleyMult: 4
         baseRangeBase: 270
         drawBase: 120
-packFolder: weapons
 ---
 
 A powerful composite bow of laminated horn, wood, and sinew, with a hundred-twenty pound pull. The heavy horse-archer's war bow—only drawn by veteran cavalry who train from youth. Despite its compact size, it hits with the force of a much heavier bow, making it feared on the battlefield.

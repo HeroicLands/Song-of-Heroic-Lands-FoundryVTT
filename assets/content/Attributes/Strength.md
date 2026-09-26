@@ -9,6 +9,7 @@ type: attribute
 data:
   icon: biceps
   templatePriority: 0
+  packFolder: attributes
 sohl:
   system:
     scoreBase: 0
@@ -19,8 +20,6 @@ sohl:
       - Forceful:16
       - Mighty:999
     initDiceFormula: 3d6
-sort: 10
-packFolder: attributes
 ---
 
 Strength is the power of muscle and bone—the force that a person can bring to bear through physical exertion. It determines how much can be lifted, how far a stone can be thrown, how much a blow can accomplish. Strength is partly hereditary and partly the result of labor, but even the hardest-working miller cannot exceed the limits that strength sets for them.

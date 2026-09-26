@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: food
 sohl:
   craft:
     skill: fish
@@ -20,7 +21,6 @@ sohl:
     valueBase: 1
     qualityBase: 0
     durabilityBase: 0
-packFolder: food
 ---
 
 Mackerel—oily and meaty—are gutted fresh and smoked dark, or packed in heavy salt for distant markets. A single mackerel is a substantial meal for a laborer; when salted, it keeps indefinitely and needs only rinsing and boiling before eating. Coastal fishermen trade them by the barrel to merchants.

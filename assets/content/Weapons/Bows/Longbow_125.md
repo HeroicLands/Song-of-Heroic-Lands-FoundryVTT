@@ -9,6 +9,7 @@ type: weapongear
 data:
   icon: pocketbow
   templatePriority: 0
+  packFolder: weapons
 sohl:
   craft:
     skill: fltch
@@ -109,7 +110,6 @@ sohl:
         maxVolleyMult: 4
         baseRangeBase: 240
         drawBase: 125
-packFolder: weapons
 ---
 
 A tall self-bow of yew or ash, drawn to the ear with a hundred-twenty-five pound pull. This warbow demands years of training and considerable strength; the men who draw it are recognized veterans of the archer's line, capable of punching through plate at close range.

@@ -9,6 +9,7 @@ type: skill
 data:
   icon: fishing
   templatePriority: 0
+  packFolder: nature
 subType: nature
 sohl:
   kbcat: nature
@@ -22,7 +23,6 @@ sohl:
       - core
       - vital
       - manipulator
-packFolder: nature
 ---
 
 Fishing is the taking of fish and other water creatures by whatever means the water rewards — hook and line, spear, net, weir, or bare hands. Culture, geography and quarry decide which technique is favoured; the skill covers competence in all of them.

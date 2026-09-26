@@ -9,6 +9,7 @@ type: containergear
 data:
   icon: basket
   templatePriority: 0
+  packFolder: containers
 sohl:
   craft:
     skill: wood
@@ -19,7 +20,6 @@ sohl:
     qualityBase: 0
     durabilityBase: 8
     maxCapacityBase: 25
-packFolder: containers
 ---
 
 A woven wicker or willow basket of substantial depth, lashed or bound at the rim with cord or leather, serving as a portable or stationary container for produce, laundry, or storage. Common in farmsteads, markets, and kitchens, the basket's open weave allows air circulation, making it ideal for keeping vegetables and provisions fresh. With care it lasts many seasons; rough handling will split the weave.

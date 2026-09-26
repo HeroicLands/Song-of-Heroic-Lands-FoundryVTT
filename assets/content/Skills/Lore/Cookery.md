@@ -9,6 +9,7 @@ type: skill
 data:
   icon: cookingpot
   templatePriority: 0
+  packFolder: lore
 subType: lore
 sohl:
   kbcat: lore
@@ -22,7 +23,6 @@ sohl:
       - core
       - vital
       - manipulator
-packFolder: lore
 ---
 
 Cookery is turning ingredients into meals — and, at any table where the meal is also an occasion, into leverage. Preparing a substantial meal is a Cookery Success Value test taking **one hour per five people served**. The result speaks mostly to how the food looked, smelled and tasted rather than whether it was nourishing, and it colours every attempt at persuasion made across that table for as long as the meal lasts.

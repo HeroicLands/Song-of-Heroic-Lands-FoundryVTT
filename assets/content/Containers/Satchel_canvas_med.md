@@ -9,6 +9,7 @@ type: containergear
 data:
   icon: knapsack
   templatePriority: 0
+  packFolder: containers
 sohl:
   craft:
     skill: txtl
@@ -19,7 +20,6 @@ sohl:
     qualityBase: 0
     durabilityBase: 8
     maxCapacityBase: 15
-packFolder: containers
 ---
 
 A hemp-canvas shoulder bag of moderate size, flap-closed and hung on a broad strap. Clerks, pedlars and messengers carry them because they are cheap, hold a surprising amount, and can be scrubbed out when something inside leaks.

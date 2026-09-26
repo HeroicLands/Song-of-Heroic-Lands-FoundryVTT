@@ -8,9 +8,9 @@ type: projectilegear
 data:
   icon: broadheadarrow
   templatePriority: 0
+  packFolder: projectiles
 subType: bolt
 shortcode: bltstd
-easyname: Standard
 sohl:
   craft:
     skill: fltch
@@ -27,7 +27,6 @@ sohl:
       die: 12
       modifier: -1
       aspect: piercing
-packFolder: projectiles
 ---
 
 A short, stout crossbow quarrel of seasoned hardwood, trimmed to the weapon's channel and fitted with a simple iron head and two thin leather or boiled-wood vanes glued near the nock. Crossbowmen of every stripe — town watch, convoy guard, mercenary — draw these by the dozen from a belt-quiver, since the bolt is cheaper to make than an arrow and simpler to stack for volley fire against unarmoured foes.

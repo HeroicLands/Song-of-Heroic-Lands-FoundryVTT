@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: shirt
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -37,9 +38,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 33
-origWeight: 1.7
 ---
 
 Made from coarse wool dyed reddish-brown, the Russet Shirt offers warmth and durability. It’s practical for colder weather and rough environments, providing reliable coverage.

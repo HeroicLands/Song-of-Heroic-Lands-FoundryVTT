@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: billedcap
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -32,9 +33,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 4
-origWeight: 0.2
 ---
 
 The Linen Cap is light and breathable, ideal for warmer weather. It offers modest protection from the sun and is perfect for casual or light-duty activities.

@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: cloak
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -61,9 +62,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 120.8
-origWeight: 1.7
 ---
 
 Soft and plush, the Velvet Cloak exudes opulence and refinement. It's designed more for show than for hardcore weather protection, perfect for nobility and high-status individuals making a grand impression.

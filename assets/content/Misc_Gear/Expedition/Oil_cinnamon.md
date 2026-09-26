@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: expedition
 sohl:
   craft:
     skill: pfmy
@@ -20,7 +21,6 @@ sohl:
     valueBase: 60
     qualityBase: 0
     durabilityBase: 0
-packFolder: expedition
 ---
 
 A distilled oil of cinnamon bark, brought a very long way and priced accordingly. Perfumers use it in small fractions as a warm base note; physicians use it against chills and bad stomachs, and apothecaries sell it as both without troubling to distinguish. Undiluted it burns the skin, which does not stop people trying it neat.

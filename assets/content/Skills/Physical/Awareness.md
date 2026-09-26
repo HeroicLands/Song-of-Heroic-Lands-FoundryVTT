@@ -9,6 +9,7 @@ type: skill
 data:
   icon: awareness
   templatePriority: 0
+  packFolder: physical
 subType: physical
 sohl:
   kbcat: physical
@@ -20,7 +21,6 @@ sohl:
     initSkillMult: 3
     impairedByRoles:
       - vital
-packFolder: physical
 ---
 
 Awareness is not sharp senses but the habit of using them — the sentry who registers that the birds have stopped, the traveller who catches the wrong kind of quiet. It is the passive, standing alertness a character carries about with them, and it is what the world is rolled against when something is there to be noticed.

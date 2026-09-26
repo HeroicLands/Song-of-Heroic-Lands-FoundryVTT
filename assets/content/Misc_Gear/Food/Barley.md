@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: food
 sohl:
   craft:
     skill: agri
@@ -20,7 +21,6 @@ sohl:
     valueBase: 5
     qualityBase: 0
     durabilityBase: 0
-packFolder: food
 ---
 
 A bushel of hulled barley grain, hardy and drought-tolerant, ground into meal or boiled whole for broth and bread. Peasants and cottars depend on barley as a staple; brewers also prefer it for ale-making over wheat. A farmer brings barley to market by the sack, and a manor or garrison keeps stores for feeding workers and soldiers through seasons.

@@ -9,6 +9,7 @@ type: weapongear
 data:
   icon: club
   templatePriority: 0
+  packFolder: weapons
 sohl:
   craft:
     skill: wood
@@ -109,7 +110,6 @@ sohl:
         defense:
           blockMod: 0
           counterstrikeMod: 0
-packFolder: weapons
 ---
 
 A two-handed wooden bludgeon, thicker and heavier than a common club, swung by men of considerable strength. The broad clubbed head delivers devastating blows that can splinter shields and shatter limbs—the reach and weight are worth the clumsiness. Often used in the hands of giants and ogres, or by the strongest human warriors in desperate defenses or breach assaults.

@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: shirt
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -42,9 +43,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 50
-origWeight: 2.5
 ---
 
 A Silk Sleeved Tunic exudes elegance and sophistication. Lightweight and flowing, it is perfect for formal occasions or high-status events where appearance matters more than ruggedness.

@@ -8,12 +8,12 @@ type: trauma
 data:
   icon: battlegear
   templatePriority: 0
+  packFolder: quirks
 subType: psycond
 sohl:
   kbcat: psybehavior
   system:
     category: impulse
-packFolder: quirks
 ---
 
 Silliness is a bent toward frivolity and play, an inability or unwillingness to take matters seriously when gravity is demanded. A silly person finds humor in nearly everything, even circumstances that warrant solemn consideration. They jest when counsel is needed, prank when trust is necessary, and treat weighty affairs as opportunities for mirth. While lightness of spirit is valued in feast and court entertainment, silliness in moments of genuine peril or dignity can isolate a person from respect and trust.

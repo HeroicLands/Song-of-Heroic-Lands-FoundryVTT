@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: cape
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: hide
@@ -36,9 +37,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 504
-origWeight: 2
 ---
 
 The Ermine Mantle, crafted from soft white ermine fur, signifies wealth and nobility. It provides excellent insulation and a plush texture, ideal for elite individuals needing both warmth and a show of prestige.

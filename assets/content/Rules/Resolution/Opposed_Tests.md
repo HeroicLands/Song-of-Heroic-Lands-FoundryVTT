@@ -5,7 +5,8 @@ name:
   full: Opposed Tests
   aliases: []
 shortcode: oppsdtst
-packFolder: resolution
+data:
+  packFolder: resolution
 ---
 
 # Opposed Tests {#opposed-test}

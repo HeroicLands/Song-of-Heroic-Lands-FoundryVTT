@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: cook
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: hide
@@ -36,9 +37,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 192
-origWeight: 7.6
 ---
 
 The Rawhide Blacksmith Apron is built for heavy-duty protection. Thick and rugged, it guards against sparks, heat, and sharp objects, making it the go-to choice for blacksmiths and other metalworkers who need serious armor for their craft.

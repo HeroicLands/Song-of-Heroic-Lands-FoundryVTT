@@ -4,7 +4,8 @@ subType: userguide
 name:
   full: "System Settings"
 shortcode: syssetngug
-packFolder: userguide
+data:
+  packFolder: userguide
 ---
 
 # System Settings Overview {#SettingsOverview}

@@ -8,9 +8,9 @@ type: projectilegear
 data:
   icon: broadheadarrow
   templatePriority: 0
+  packFolder: projectiles
 subType: bolt
 shortcode: bltlbod
-easyname: Light Bodkin
 sohl:
   craft:
     skill: fltch
@@ -27,7 +27,6 @@ sohl:
       die: 8
       modifier: -1
       aspect: piercing
-packFolder: projectiles
 ---
 
 A light, narrow-shafted crossbow quarrel ending in a small square-sectioned iron spike, socketed and pitched into the wood. The slender head pierces light mail and leather at close range, and the reduced weight lets the bolt travel flatter than a standard quarrel. Hunters and skirmish-crossbowmen carry them for unarmoured foes and lightly-clad raiders.

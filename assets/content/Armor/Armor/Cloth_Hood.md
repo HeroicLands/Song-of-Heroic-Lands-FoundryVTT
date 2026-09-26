@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: hood
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: txtl
@@ -33,9 +34,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 6
-origWeight: 0.3
 ---
 
 A Cloth Hood is the plainest head covering there is — a shaped piece of cloth drawn over the head and closed at the neck. It keeps sun and drizzle off and hides a face at need, and it costs almost nothing.

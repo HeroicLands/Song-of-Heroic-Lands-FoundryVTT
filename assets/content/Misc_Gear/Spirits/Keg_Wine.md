@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: winebottle
   templatePriority: 0
+  packFolder: spirits
 sohl:
   craft:
     skill: brew
@@ -20,7 +21,6 @@ sohl:
     valueBase: 180
     qualityBase: 0
     durabilityBase: 0
-packFolder: spirits
 ---
 
 A keg of common wine kept in a tavern or merchant's store. Less costly than aged varieties, it is still preferred over ale by those with coin; a publican taps one to serve customers of better stations or to mark feast days.

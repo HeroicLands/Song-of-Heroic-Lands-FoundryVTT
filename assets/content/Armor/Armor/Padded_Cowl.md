@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: hood
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: txtl
@@ -33,9 +34,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: -5
-packFolder: armorarmor
-origValue: 12
-origWeight: 0.5
 ---
 
 The Padded Cowl provides cushioning and warmth, perfect for wear under helmets or on its own. It offers comfort and protection in both combat and daily use.

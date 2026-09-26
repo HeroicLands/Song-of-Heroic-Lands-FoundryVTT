@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: leatherboot
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: hide
@@ -35,9 +36,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 76
-origWeight: 3
 ---
 
 Rawhide Calf Boots are rugged and durable, providing excellent protection against environmental hazards. They are heavier but great for those needing sturdy, reliable footwear for tough conditions.

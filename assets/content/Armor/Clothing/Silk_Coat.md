@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: shirt
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -44,9 +45,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 64
-origWeight: 3.2
 ---
 
 A Silk Coat offers a touch of elegance and luxury. While not very durable, it’s perfect for formal events and special occasions, where appearance trumps practical protection.

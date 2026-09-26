@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: cooking
 sohl:
   craft:
     skill: mtlc
@@ -20,7 +21,6 @@ sohl:
     valueBase: 4
     qualityBase: 0
     durabilityBase: 4
-packFolder: cooking
 ---
 
 A pewter drinking tankard, cast with straight sides and a handle, favored in taverns and barracks for serving ale by the pint. The metal is sturdy enough to withstand being set down heavily or passed roughly from hand to hand, and a pewterer's seal stamped inside certifies the alloy is safe for drinking. Dents accumulate over years of use, adding a patina that marks it as a well-traveled companion, and the weight in the hand becomes comfortable to an old drinker.

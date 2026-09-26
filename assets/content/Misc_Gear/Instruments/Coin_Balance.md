@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: instruments
 sohl:
   craft:
     skill: mtlc
@@ -20,7 +21,6 @@ sohl:
     valueBase: 30
     qualityBase: 0
     durabilityBase: 5
-packFolder: instruments
 ---
 
 A hand-sized bronze beam with a fulcrum and two shallow pans, calibrated to weigh coins against standard weights. Merchants, money-lenders, and tax collectors carry balances to detect shaved or debased coins in trade. A quick way to spot fraud in a cash settlement, though a dishonest trader may own a balance deliberately skewed to their advantage—and the dispute that follows can draw blades.

@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: scalemail
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: wpnc
@@ -40,9 +41,6 @@ sohl:
       fire: 5
     encumbrance: 15
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 450
-origWeight: 24.8
 ---
 
 The Scale Habergeon consists of overlapping metal scales sewn onto a fabric or leather backing, providing strong protection and reasonable mobility, suitable for various combat situations.

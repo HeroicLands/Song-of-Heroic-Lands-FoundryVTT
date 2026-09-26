@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: pointyhat
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: hide
@@ -32,9 +33,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 48
-origWeight: 0.5
 ---
 
 The Beaver Hat, made from dense beaver fur, offers excellent warmth and a luxurious feel. It’s perfect for cold weather, providing both comfort and a touch of opulence.

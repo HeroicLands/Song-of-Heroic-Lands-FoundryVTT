@@ -14,7 +14,8 @@ tags:
   - core-system
   - time
   - lifecycle
-pack: none
+data:
+  pack: none
 sohl:
   kbcat: devdocs
 ---

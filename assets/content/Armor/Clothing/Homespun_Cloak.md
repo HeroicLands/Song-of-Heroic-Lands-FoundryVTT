@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: cloak
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -61,9 +62,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 10.5
-origWeight: 0.4
 ---
 
 The Homespun Cloak is a practical and simple garment woven from homemade fabric. It provides basic protection against the elements, making it suitable for peasants and everyday wearers who need a reliable, no-frills outer layer.

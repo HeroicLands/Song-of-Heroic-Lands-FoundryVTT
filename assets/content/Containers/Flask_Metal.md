@@ -9,6 +9,7 @@ type: containergear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: containers
 sohl:
   craft:
     skill: mtlc
@@ -19,7 +20,6 @@ sohl:
     qualityBase: 0
     durabilityBase: 7
     maxCapacityBase: 1
-packFolder: containers
 ---
 
 A small flask of hammered tinned copper or pewter, shaped for carrying at the belt or in a satchel, stoppered with a cork or wooden plug and sealed with wax or resin. Preferred by soldiers and travelers over glass, as it survives impact and rough camp life without shattering. Used for wine, water, or spirits during long marches and campaigns.

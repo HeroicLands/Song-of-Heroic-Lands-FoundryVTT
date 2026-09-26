@@ -9,6 +9,7 @@ type: weapongear
 data:
   icon: bo
   templatePriority: 0
+  packFolder: weapons
 sohl:
   craft:
     skill: wood
@@ -153,7 +154,6 @@ sohl:
         defense:
           blockMod: 0
           counterstrikeMod: 0
-packFolder: weapons
 ---
 
 A shaft of ashwood or hazel, six feet long and gripped at its midpoint or near the butt, the staff offers reach, defense, and force without guile. In the hands of a trained warrior it sweeps, jabs, and parries; in those of a pilgrim or hedge-knight it serves equally as walking staff and cudgel. Light enough for a youth, strong enough for a veteran, it is the peasant’s polearm.

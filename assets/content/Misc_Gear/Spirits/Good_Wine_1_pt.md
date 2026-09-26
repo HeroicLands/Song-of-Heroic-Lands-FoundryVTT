@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: winebottle
   templatePriority: 0
+  packFolder: spirits
 sohl:
   craft:
     skill: brew
@@ -20,7 +21,6 @@ sohl:
     valueBase: 5
     qualityBase: 0
     durabilityBase: 0
-packFolder: spirits
 ---
 
 A pint of good wine in a corked bottle. Aged in oak for a season or more, it carries body and sweetness beyond the common vintage; merchants and minor nobles keep such bottles in their cellars or gift them to mark trust.

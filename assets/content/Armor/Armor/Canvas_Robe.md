@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: robe
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: txtl
@@ -48,9 +49,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 71.1
-origWeight: 5
 ---
 
 The Canvas Robe is a plain, full-length garment of heavy hemp weave. It hangs stiffly and takes weeks to soften, but it outlasts several woollen robes and is cheap to replace.

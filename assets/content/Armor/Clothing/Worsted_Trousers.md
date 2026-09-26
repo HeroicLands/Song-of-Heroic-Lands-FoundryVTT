@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: trousers
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -38,9 +39,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 39
-origWeight: 2
 ---
 
 Made from tightly-spun wool fibers, Worsted Trousers offer warmth and durability. They are versatile and suitable for various activities and weather conditions, providing a reliable and stylish option.

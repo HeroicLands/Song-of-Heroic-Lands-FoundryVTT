@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: trousers
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: txtl
@@ -35,9 +36,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 34
-origWeight: 1.4
 ---
 
 The Padded Cuisse offers cushioning for the thighs, ideal for use under heavier armor or on its own. It provides comfort and protection, suitable for both combat and everyday wear.

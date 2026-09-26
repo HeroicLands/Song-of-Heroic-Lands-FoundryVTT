@@ -9,6 +9,7 @@ type: weapongear
 data:
   icon: pocketbow
   templatePriority: 0
+  packFolder: weapons
 sohl:
   craft:
     skill: fltch
@@ -109,7 +110,6 @@ sohl:
         maxVolleyMult: 4
         baseRangeBase: 180
         drawBase: 60
-packFolder: weapons
 ---
 
 A compact bow of laminated horn, wood, and sinew, shorter than a self-bow but powerful for its length, with a sixty-pound pull. The horse-archer's light bow—beloved of mounted skirmishers and raiders who draw from the saddle, favored over the taller self-bow for its manoeuvrability.

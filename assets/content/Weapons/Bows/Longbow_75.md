@@ -9,6 +9,7 @@ type: weapongear
 data:
   icon: pocketbow
   templatePriority: 0
+  packFolder: weapons
 sohl:
   craft:
     skill: fltch
@@ -109,7 +110,6 @@ sohl:
         maxVolleyMult: 4
         baseRangeBase: 180
         drawBase: 75
-packFolder: weapons
 ---
 
 A tall self-bow of seasoned yew or ash, drawn to chin height with a steady seventy-five pound pull — a stave any strong yeoman or seasoned huntsman can manage, though not yet the warbow of a muster archer. It is the village hunter's bow, reliable for deer and boar at moderate range, and sturdy enough for skirmish, road-defense, or an ambush from the hedgerows when the militia is called to muster.

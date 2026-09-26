@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: hood
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: txtl
@@ -33,9 +34,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 6
-origWeight: 0.3
 ---
 
 A simple, versatile Cloth Cowl made from various softer fabrics offers basic comfort and warmth. It’s suitable for everyday use, perfect for a wide range of casual activities.

@@ -5,7 +5,8 @@ name:
   full: Getting Started (New Developer Guide)
   aliases: []
 shortcode: gettingstarted
-pack: none
+data:
+  pack: none
 sohl:
   kbcat: devdocs
 ---

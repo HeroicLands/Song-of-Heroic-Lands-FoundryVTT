@@ -9,6 +9,7 @@ type: containergear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: containers
 sohl:
   craft:
     skill: cmcs
@@ -19,7 +20,6 @@ sohl:
     qualityBase: 0
     durabilityBase: 3
     maxCapacityBase: 8
-packFolder: containers
 ---
 
 A round-bellied jug of glazed earthenware with a single loop handle and a narrow neck that pours without slopping. The narrow mouth is the point: it takes a stopper cleanly, slows evaporation, and keeps flies out of the ale. Kitchen jugs are glazed inside only, which is cheaper and quite sufficient; a table jug is glazed throughout and often slipped with a band of colour at the shoulder. 1 gallon capacity.

@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: cloak
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: hide
@@ -61,9 +62,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 141.1
-origWeight: 1.6
 ---
 
 An excellent choice for cold weather, the Beaver Cloak is made from dense, luxurious beaver fur. It provides exceptional warmth and a touch of opulence, ideal for those in need of both function and high status.

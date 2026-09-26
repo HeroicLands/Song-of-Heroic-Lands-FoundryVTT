@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: cloak
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -61,9 +62,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 310.5
-origWeight: 0.9
 ---
 
 The Silk Cloak is a luxurious, lightweight garment designed for high-status individuals. While not particularly protective, its smooth texture and elegant drape make it perfect for formal events and special occasions.

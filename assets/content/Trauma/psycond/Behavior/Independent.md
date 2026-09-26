@@ -8,12 +8,12 @@ type: trauma
 data:
   icon: battlegear
   templatePriority: 0
+  packFolder: quirks
 subType: psycond
 sohl:
   kbcat: psybehavior
   system:
     category: quirk
-packFolder: quirks
 ---
 
 Independent refers to an individual's ability to think, act, and make decisions autonomously, without relying heavily on others for guidance or support. Independent individuals are self-sufficient, confident in their abilities, and often prefer to manage their affairs without seeking external help. While independence is generally viewed as a positive trait that fosters self-reliance and personal growth, excessive independence can lead to isolation, difficulty in collaboration, or reluctance to seek help when needed.

@@ -9,6 +9,7 @@ type: affliction
 data:
   icon: poisonbottle
   templatePriority: 0
+  packFolder: poisonsandtoxins
 subType: poisontoxin
 sohl:
   kbcat: poisontoxin
@@ -17,7 +18,6 @@ sohl:
     healingRateBase: 3
     contagionIndexBase: 3
     transmission: injested
-packFolder: poisonsandtoxins
 ---
 
 Digitalis is derived from the foxglove plant and contains cardiac glycosides. It is used in various formulas for poisoning and can be administered covertly due to its potency even in small amounts.

@@ -9,6 +9,7 @@ type: containergear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: containers
 sohl:
   craft:
     skill: glas
@@ -19,7 +20,6 @@ sohl:
     qualityBase: 0
     durabilityBase: 2
     maxCapacityBase: 4
-packFolder: containers
 ---
 
 A capacious storage jar of blown glass, slightly greenish and imperfect in character, sealed with a cork stopper or waxed-cloth cover and used in households and kitchens for preserves, dried herbs, or spices. The wide mouth allows easy access and makes it suitable for keeping provisions fresh and visible. Glass permits inspection without opening and prevents spoilage from vermin or moisture. Capacity 1/2 gallon.

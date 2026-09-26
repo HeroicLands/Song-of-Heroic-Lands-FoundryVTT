@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: rolledcloth
   templatePriority: 0
+  packFolder: textile
 sohl:
   craft:
     skill: txtl
@@ -20,7 +21,6 @@ sohl:
     valueBase: 10
     qualityBase: 0
     durabilityBase: 5
-packFolder: textile
 ---
 
 Plain woollen broadcloth of ordinary quality, the cloth every other is reckoned against. It weighs about 24 ounces the square yard. A standard broadcloth is 2 yards wide by 24 yards long as woven — 48 square yards — so a whole cloth costs 480d.

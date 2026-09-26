@@ -9,6 +9,7 @@ type: containergear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: containers
 sohl:
   craft:
     skill: txtl
@@ -19,7 +20,6 @@ sohl:
     qualityBase: 0
     durabilityBase: 3
     maxCapacityBase: 20
-packFolder: containers
 ---
 
 A drawstring sack of waxed canvas, stiff enough to stand half-open when set down. The standard container for anything that must not get damp between one market and the next.

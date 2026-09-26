@@ -9,6 +9,7 @@ type: mysticalability
 data:
   icon: cardrandom
   templatePriority: 0
+  packFolder: divination
 subType: divination
 sohl:
   kbcat: divination
@@ -16,7 +17,6 @@ sohl:
     assocSkillCode: ""
     masteryLevelBase: 0
     levelBase: 0
-packFolder: divination
 ---
 
 Tarotry is divination by cards, laid out in a prescribed spread and read by their meanings and by their positions relative to one another. Each card carries a settled significance; what a reading turns on is which cards fall where, and what they say about each other.

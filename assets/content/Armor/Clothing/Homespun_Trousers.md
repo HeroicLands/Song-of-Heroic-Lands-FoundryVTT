@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: trousers
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -38,9 +39,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 39
-origWeight: 2
 ---
 
 Homespun Trousers are basic, practical legwear woven from homemade fabric. They offer comfort and durability, perfect for laborers and common folk needing reliable, everyday attire.

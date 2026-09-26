@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: music
 sohl:
   craft:
     skill: wood
@@ -20,7 +21,6 @@ sohl:
     valueBase: 20
     qualityBase: 0
     durabilityBase: 6
-packFolder: music
 ---
 
 A curved horn of ram or bullock, hollowed smooth and often fitted with a simple mouthpiece of horn or bone. Huntsmen blow sharp, clear signals to coordinate parties afield and call hounds during the chase; the piercing blare carries across forest and moorland far better than the human voice. A skilled horn-blower commands a precise repertoire of calls—each signaling different game, rally, or danger.

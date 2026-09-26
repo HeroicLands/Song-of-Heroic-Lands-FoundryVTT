@@ -8,12 +8,12 @@ type: trauma
 data:
   icon: battlegear
   templatePriority: 0
+  packFolder: quirks
 subType: psycond
 sohl:
   kbcat: psybehavior
   system:
     category: quirk
-packFolder: quirks
 ---
 
 Imaginative refers to an individual's ability to think creatively, form vivid mental images, and explore possibilities beyond the ordinary. A person with a strong imagination can envision new ideas, worlds, or solutions, often drawing inspiration from their inner thoughts and creativity. While imagination is typically a valuable trait, allowing for innovation and artistic expression, an overactive imagination can sometimes lead to detachment from reality, daydreaming, or difficulty focusing on practical matters.

@@ -9,6 +9,7 @@ type: skill
 data:
   icon: caduceus
   templatePriority: 0
+  packFolder: lore
 subType: lore
 sohl:
   kbcat: lore
@@ -22,7 +23,6 @@ sohl:
       - core
       - vital
       - manipulator
-packFolder: lore
 ---
 
 Physician is the treatment of injury and illness: diagnosis, the dressing and closing of wounds, the setting of bones, extraction, surgery, and the long unglamorous management of a patient who is going to be in bed for a month. It is the most demanding of the learned trades because it requires both a theory of the body and steady hands, and a practitioner strong in one and weak in the other is a danger.

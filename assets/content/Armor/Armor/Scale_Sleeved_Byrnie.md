@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: scalemail
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: wpnc
@@ -41,9 +42,6 @@ sohl:
       fire: 5
     encumbrance: 15
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 400
-origWeight: 22
 ---
 
 The Scale Sleeved Byrnie, consisting of overlapping metal scales sewn onto a fabric or leather backing, provides strong protection for the torso and arms. It maintains flexibility, suitable for various combat scenarios.

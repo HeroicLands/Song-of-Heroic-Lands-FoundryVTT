@@ -6,7 +6,8 @@ name:
   aliases: []
 shortcode: macronotes
 description: "How a `type: macro` note compiles into a Foundry Macro plus its documentation, and what the `{#script}` anchor does."
-pack: none
+data:
+  pack: none
 sohl:
   kbcat: devdocs
 ---
@@ -72,21 +73,20 @@ than a build that stops.
 
 ```yaml
 ---
-type: macro
+shortcode: autoattack
 name:
   full: Automated Attack
-shortcode: autoattack
-img: icons/game-icons/lorc/crossed-swords.svg
+type: macro
 ---
 ```
 
 | Key               | Meaning                                                                                                                                                                                             |
 | ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `type`            | `macro` — this is what routes the note to the macros pack. It is **not** the Foundry macro type.                                                                                                    |
-| `id`              | Optional, and normally absent: the Macro's document id derives from its address, and the JournalEntry's id derives from that. Pin one only to keep a document's identity across a shortcode rename. |
+| `data.id`         | Optional, and normally absent: the Macro's document id derives from its address, and the JournalEntry's id derives from that. Pin one only to keep a document's identity across a shortcode rename. |
 | `shortcode`       | The note's identity, and half of every address that reaches it.                                                                                                                                     |
-| `img`             | Optional. A content-relative `icons/…` path is rooted under this system's assets; omitted, the macro takes Foundry's own `icons/svg/dice-target.svg`.                                               |
-| `packFolder`      | Optional. The address of a `type: folder` note that files this macro; omitted, the macro sits at the pack's root.                                                                                   |
+| `data.icon`       | Optional. An icon asset address; omitted, the macro takes Foundry's own `icons/svg/dice-target.svg`.                                                                                                |
+| `data.packFolder` | Optional. The address of a `type: folder` note that files this macro; omitted, the macro sits at the pack's root.                                                                                   |
 | `sohl.macroType`  | Optional; defaults to `script`. See below.                                                                                                                                                          |
 | `sohl.macroScope` | Optional; defaults to `global`. One of `global`, `actors`, `actor`.                                                                                                                                 |
 

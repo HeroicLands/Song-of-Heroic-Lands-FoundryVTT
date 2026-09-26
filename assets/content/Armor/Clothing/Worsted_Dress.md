@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: dress
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -48,9 +49,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 79
-origWeight: 4
 ---
 
 Made from tightly-spun wool fibers, the Worsted Dress offers both style and durability. It’s a versatile garment providing warmth and resilience, suitable for various activities and weather conditions.

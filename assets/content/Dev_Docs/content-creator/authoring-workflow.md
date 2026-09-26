@@ -6,7 +6,8 @@ name:
   aliases: []
 shortcode: authoringworkflow
 description: "Where content lives, the frontmatter every note carries whatever its type, and how a note becomes a compendium document."
-pack: none
+data:
+  pack: none
 sohl:
   kbcat: devdocs
 ---
@@ -52,13 +53,13 @@ Every note, of every type, carries the same frontmatter envelope. Only the neste
 
 ```yaml
 ---
+shortcode: ritual
 name:
   full: Ritual
-description: "Conducting ceremonies, rites, and worship services."
-img: icons/game-icons/delapouite/circle.svg
-shortcode: ritual
 type: skill
-packFolder: mysticalskills
+description: "Conducting ceremonies, rites, and worship services."
+data:
+  packFolder: mysticalskills
 sohl:
   archetype: 0
   subType: ritual
@@ -222,11 +223,12 @@ A folder note declares its `shortcode`, an optional `data.parent` naming the
 folder above it, and an optional `data.color`. It carries **no prose**: a folder
 is structure rather than content, so it wants no documentation journal.
 
-A note says which folder it belongs to with `packFolder:`, naming a folder note's
+A note says which folder it belongs to with `data.packFolder:`, naming a folder note's
 shortcode:
 
 ```yaml
-packFolder: traumaphysical
+data:
+  packFolder: traumaphysical
 ```
 
 Three things follow from a folder being a note:

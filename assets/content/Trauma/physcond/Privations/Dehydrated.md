@@ -9,6 +9,7 @@ type: trauma
 data:
   icon: stomach
   templatePriority: 0
+  packFolder: privations
 subType: physcond
 sohl:
   kbcat: physprivations
@@ -16,7 +17,6 @@ sohl:
     category: impediment
     levelBase: 2
     healingRateBase: 5
-packFolder: privations
 ---
 
 Dehydration arises when the body loses more water than it takes in, depleting blood volume and impairing every system that depends on circulating fluid. It can develop in hours under hot, dry, or exertion-heavy conditions, or over days of restricted access to drinkable water, and it almost always precedes and worsens other privations such as heat stroke or starvation.

@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: shirt
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: txtl
@@ -40,9 +41,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 54
-origWeight: 2.7
 ---
 
 Simple and versatile, the Cloth Surcoat is made from various soft fabrics, offering basic comfort and coverage. Suitable for everyday activities and casual wear, it provides a practical and adaptable outer garment.

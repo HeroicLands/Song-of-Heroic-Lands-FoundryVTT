@@ -6,7 +6,6 @@ name:
 description: "The open moor the road crosses, a day's walk end to end."
 shortcode: hearthmoor
 type: map
-packFolder: regionalmaps
 subType: regionalmap
 sohl:
   kbcat: map
@@ -24,6 +23,7 @@ sohl:
             difficulties: { walk: 3 }
 data:
   bgImage: sohl-none-image-parchment
+  packFolder: regionalmaps
 ---
 
 Heather and standing water from edge to edge, crossed by one road and no

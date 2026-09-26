@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: jewelry
 sohl:
   craft:
     skill: jewl
@@ -20,7 +21,6 @@ sohl:
     valueBase: 500
     qualityBase: 0
     durabilityBase: 2
-packFolder: jewelry
 ---
 
 Chrysolite, a rare gem of pale yellow-green or olive hue, faceted by skilled lapidaries into brilliant stones. The stone's transparency and warm glow make it prized for noble rings and temple ornaments. Merchants who deal in fine gems guard chrysolite carefully, as each piece commands attention from wealthy collectors and clergy.

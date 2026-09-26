@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: bracer
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: wpnc
@@ -34,9 +35,6 @@ sohl:
     encumbrance: 0
     encumbranceGroup: arm
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 100
-origWeight: 1.9
 ---
 
 Plate Vambraces are solid steel guards for the forearms, offering maximum protection. Essential for heavily armored warriors, they are designed to deflect and absorb impacts during combat.

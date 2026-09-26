@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: crestedhelmet
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: wpnc
@@ -39,9 +40,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: -5
-packFolder: armorarmor
-origValue: 140
-origWeight: 5.3
 ---
 
 The Plate 3/4-Helm is crafted from solid steel and covers the head and most of the face, leaving only a narrow slit for visibility. It is a mainstay for knights and heavily armored warriors, offering maximum protection. The helm is often adorned with simple engravings and a smooth, polished surface that reflects the sun on the battlefield, intimidating foes with its robust appearance.

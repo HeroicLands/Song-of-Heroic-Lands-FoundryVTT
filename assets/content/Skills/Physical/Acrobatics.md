@@ -9,6 +9,7 @@ type: skill
 data:
   icon: cartwheel
   templatePriority: 0
+  packFolder: physical
 subType: physical
 sohl:
   kbcat: physical
@@ -23,7 +24,6 @@ sohl:
       - vital
       - locomotor
       - manipulator
-packFolder: physical
 ---
 
 Acrobatics is the trained body used deliberately: balance held where there is nothing to hold onto, and tumbling — vaults, somersaults, handsprings — performed on purpose rather than survived by accident. It asks for coordination and wind in equal measure, and unlike most physical skills it is almost never picked up casually. Someone either has spent years on it or has not.

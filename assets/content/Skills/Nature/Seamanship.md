@@ -9,6 +9,7 @@ type: skill
 data:
   icon: anchor
   templatePriority: 0
+  packFolder: nature
 subType: nature
 sohl:
   kbcat: nature
@@ -23,7 +24,6 @@ sohl:
       - vital
       - locomotor
       - manipulator
-packFolder: nature
 ---
 
 Seamanship is the handling of a vessel — sails, sheets, oars, ground tackle, cargo and the thousand pieces of ropework that keep all of it working — together with a practical knowledge of the sea's animals and plants. It is the crew's skill, where Piloting is the navigator's.

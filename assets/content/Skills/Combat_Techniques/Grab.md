@@ -9,6 +9,7 @@ type: skill
 data:
   icon: grab
   templatePriority: 0
+  packFolder: combat
 subType: combattechnique
 sohl:
   kbcat: unarmed
@@ -73,7 +74,6 @@ sohl:
     initSkillMult: 2
     impairedByRoles:
       - manipulator
-packFolder: combat
 ---
 
 A grab is the opening of a wrestle rather than a blow, and the grabber declares which of two things they are attempting before any roll is made:

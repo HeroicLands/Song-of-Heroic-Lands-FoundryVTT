@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: robe
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: hide
@@ -48,9 +49,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 632
-origWeight: 7.9
 ---
 
 A Leather Robe combines a touch of rugged style with moderate protection. It’s a unique choice for adventurers and free spirits who need an outer garment that can withstand the elements while making a statement.

@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: tack
 sohl:
   craft:
     skill: mtlc
@@ -20,7 +21,6 @@ sohl:
     valueBase: 18
     qualityBase: 0
     durabilityBase: 8
-packFolder: tack
 ---
 
 Iron or bronze rowels attached to a rider's heels by leather straps, used to urge a horse forward through subtle pressure rather than force. A blunt rowel communicates a gentle request; a sharp rowel draws blood if the rider is rough-handed. Cavalry and mounted nobility wear spurs as a mark of station; the quality and decoration of the rowel signal the bearer's rank and martial experience.

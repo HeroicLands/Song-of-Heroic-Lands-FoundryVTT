@@ -11,6 +11,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: scribe
 sohl:
   craft:
     skill: mnrl
@@ -21,7 +22,6 @@ sohl:
     valueBase: 5
     qualityBase: 0
     durabilityBase: 0
-packFolder: scribe
 ---
 
 Fine-sifted sand, scattered or dusted over wet ink to absorb excess moisture and prevent smudging. A scribe carries a modest pouch of it at the writing desk, shaking it over inked lines before blotting and wiping clean. The grains preserve the clarity of script on parchment and paper alike.

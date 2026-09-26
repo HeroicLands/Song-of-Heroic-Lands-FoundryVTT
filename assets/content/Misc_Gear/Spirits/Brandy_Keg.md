@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: brandybottle
   templatePriority: 0
+  packFolder: spirits
 sohl:
   craft:
     skill: brew
@@ -20,7 +21,6 @@ sohl:
     valueBase: 360
     qualityBase: 0
     durabilityBase: 0
-packFolder: spirits
 ---
 
 A keg of distilled brandy—the product of wine heated in a copper still until the spirit rises and condenses. Merchants and noble households prize it; a stopper sealed with wax preserves the volatile spirit for months or years in a cellar. Used sparingly, often as medicine.

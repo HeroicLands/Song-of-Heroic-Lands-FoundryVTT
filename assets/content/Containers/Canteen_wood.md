@@ -9,6 +9,7 @@ type: containergear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: containers
 sohl:
   craft:
     skill: wood
@@ -19,7 +20,6 @@ sohl:
     qualityBase: 0
     durabilityBase: 4
     maxCapacityBase: 2
-packFolder: containers
 ---
 
 A small turned or stave-built wooden vessel with a stopper, bound at the seams. It is the cheapest canteen made, gives the water a taste of the wood for the first month, and will not survive being sat on.

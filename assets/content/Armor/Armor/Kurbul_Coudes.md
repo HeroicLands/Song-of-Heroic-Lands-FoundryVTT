@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: elbowpad
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: wpnc
@@ -34,9 +35,6 @@ sohl:
     encumbrance: 0
     encumbranceGroup: arm
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 10
-origWeight: 0.8
 ---
 
 Kûrbúl Coudes are treated leather elbow guards offering moderate protection and flexibility. Decorated with intricate patterns, they provide both function and visual appeal for those in need of lightweight elbow protection.

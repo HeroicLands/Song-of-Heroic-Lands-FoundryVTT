@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: expedition
 sohl:
   craft:
     skill: lock
@@ -20,7 +21,6 @@ sohl:
     valueBase: 35
     qualityBase: 0
     durabilityBase: 7
-packFolder: expedition
 ---
 
 A portable iron padlock, its U-shaped shackle hinged through a cylindrical body, small enough to hang from a belt or saddle. Merchants use them to secure cargo chests and tent flaps during night camps; the warded mechanism resists casual picking but not a determined thief with proper tools.

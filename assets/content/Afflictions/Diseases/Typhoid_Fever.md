@@ -9,6 +9,7 @@ type: affliction
 data:
   icon: virus
   templatePriority: 0
+  packFolder: diseases
 subType: disease
 sohl:
   kbcat: diseases
@@ -17,7 +18,6 @@ sohl:
     healingRateBase: 3
     contagionIndexBase: 3
     transmission: injested
-packFolder: diseases
 ---
 
 Typhoid fever is a life-threatening bacterial infection caused by _Salmonella typhi_, often spread through contaminated water or food. The symptoms include prolonged high fever, fatigue, headache, abdominal pain, loss of appetite, and sometimes a distinctive rash of flat, rose-colored spots. Without treatment, the disease can cause serious complications such as intestinal perforation and hemorrhage, leading to septicemia and potentially death. Typhoid fever is particularly prevalent in areas with poor sanitation and limited clean water access.

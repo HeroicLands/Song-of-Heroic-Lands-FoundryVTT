@@ -8,7 +8,6 @@ name:
   clan: Folk
   aliases: []
   home: ""
-packFolder: archetypes
 shortcode: basicfolk
 type: being
 data:
@@ -26,11 +25,12 @@ data:
     skin_color: pale
     complexion: fair
     extra_features: []
-social:
-  occupation: null
-  station: null
-  class: null
-  society: null
+  packFolder: archetypes
+  social:
+    occupation: null
+    station: null
+    class: null
+    society: null
 sohl:
   kbcat: archetype
   items:

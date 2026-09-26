@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: natural
 sohl:
   craft:
     skill: srvl
@@ -20,7 +21,6 @@ sohl:
     valueBase: 120
     qualityBase: 0
     durabilityBase: 3
-packFolder: natural
 ---
 
 Rare pelts from distant lands—crocodile, ostrich, tiger, or python—brought by spice merchants and adventurers. Tanners and leatherworkers command premium prices for goods finished from such stock, sought by nobles and wealthy collectors. These skins trickle into markets slowly and unpredictably.

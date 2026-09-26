@@ -8,9 +8,9 @@ type: projectilegear
 data:
   icon: broadheadarrow
   templatePriority: 0
+  packFolder: projectiles
 subType: bolt
 shortcode: bltlblt
-easyname: Light Blunt
 sohl:
   craft:
     skill: fltch
@@ -27,7 +27,6 @@ sohl:
       die: 4
       modifier: -1
       aspect: piercing
-packFolder: projectiles
 ---
 
 A light crossbow quarrel tipped with a turned-wood or padded leather knob in place of an iron head. Gamekeepers, falconers, and young recruits loose them at small game and training targets, where the weight of the bolt and the stiffness of the bow still deliver a stunning strike without spoiling fur or feather. The shaft is the standard short crossbow quarrel, trimmed to channel-width.

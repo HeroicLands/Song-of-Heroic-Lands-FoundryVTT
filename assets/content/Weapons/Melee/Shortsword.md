@@ -9,6 +9,7 @@ type: weapongear
 data:
   icon: broadsword
   templatePriority: 0
+  packFolder: weapons
 sohl:
   craft:
     skill: wpnc
@@ -197,7 +198,6 @@ sohl:
         defense:
           blockMod: 0
           counterstrikeMod: 0
-packFolder: weapons
 ---
 
 A short straight double-edged blade suited to the stabbing thrust, the shortsword is the footman's steel when reach fails. The blade tapers to an acute point, and the hilt allows a firm grip for the lunge or the close-quarters turn of the wrist. Soldiers and castle-garrison troops favor this weapon for its simplicity and readiness in confined spaces.

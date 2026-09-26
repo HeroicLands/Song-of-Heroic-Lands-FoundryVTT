@@ -9,6 +9,7 @@ type: containergear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: containers
 sohl:
   craft:
     skill: txtl
@@ -19,7 +20,6 @@ sohl:
     qualityBase: 0
     durabilityBase: 3
     maxCapacityBase: 10
-packFolder: containers
 ---
 
 A small drawstring sack of wax-proofed canvas. It keeps rain off flour or salt on a day's journey, which plain canvas will not, and costs about twice as much for the privilege.

@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: gloves
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: txtl
@@ -33,9 +34,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 20
-origWeight: 0.3
 ---
 
 Cloth Gauntlets are simple hand coverings made from various soft fabrics. They offer basic comfort and protection, suitable for light activities and everyday use.

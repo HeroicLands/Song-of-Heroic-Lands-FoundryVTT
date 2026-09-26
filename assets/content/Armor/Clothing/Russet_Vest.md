@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: leathervest
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -33,9 +34,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 24
-origWeight: 1.2
 ---
 
 Crafted from coarse wool dyed reddish-brown, the Russet Vest offers warmth and durability. Practical for colder climates and outdoor work, it provides reliable coverage and comfort.

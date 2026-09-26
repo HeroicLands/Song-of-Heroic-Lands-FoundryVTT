@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: food
 sohl:
   craft:
     skill: anmcft
@@ -20,7 +21,6 @@ sohl:
     valueBase: 6
     qualityBase: 0
     durabilityBase: 0
-packFolder: food
 ---
 
 Down and flight feathers harvested from waterfowl, sorted and bundled for sale to pillow-makers and craftspeople. A merchant trades feathers by weight; they stuff quilts, pillows, and armor padding, or are bound as fletching for arrows. The finest down commands high prices; coarser feathers are used for bedding and insulation in working folk's homes.

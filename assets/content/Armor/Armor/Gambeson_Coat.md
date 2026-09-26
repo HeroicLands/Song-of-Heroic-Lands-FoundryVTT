@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: shirt
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: txtl
@@ -45,9 +46,6 @@ sohl:
       fire: 5
     encumbrance: 10
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 528
-origWeight: 18.5
 ---
 
 The Gambeson Coat offers padded protection, often worn under armor or as standalone defense. It provides excellent insulation and cushioning, making it ideal for both combat and daily wear.

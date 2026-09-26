@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: dress
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -48,9 +49,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 47.2
-origWeight: 2.1
 ---
 
 Made from durable, twilled fabric, the Serge Dress provides both comfort and resilience. It’s an everyday garment that can withstand wear and tear, ideal for a range of activities.

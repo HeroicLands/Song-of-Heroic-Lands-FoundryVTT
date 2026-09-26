@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: instruments
 sohl:
   craft:
     skill: mtlc
@@ -20,7 +21,6 @@ sohl:
     valueBase: 22
     qualityBase: 0
     durabilityBase: 2
-packFolder: instruments
 ---
 
 A small cloth roll or wooden box holding a seamstress's working tools: a packet of bone and iron needles of varying sizes, from fine enough to pierce linen to robust enough for leather and sail-cloth, spools of linen thread in plain and dyed colors, a twist of silk for fine work, a brass thimble, a pair of small scissors or bronze shears, a stitching awl for leather and canvas, a cake of beeswax for dressing thread, and a pincushion stuffed with wool to keep needles close to hand. Seamstresses, tailors, sail-menders, armorers, and campaign followers keep such kits at hand for mending clothing, stitching wounds in canvas and leather, and repairing torn gear on the march.

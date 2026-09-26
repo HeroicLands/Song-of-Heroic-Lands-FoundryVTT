@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: natural
 sohl:
   craft:
     skill: anmcft
@@ -20,7 +21,6 @@ sohl:
     valueBase: 24
     qualityBase: 0
     durabilityBase: 3
-packFolder: natural
 ---
 
 A dairy cow's hide—scraped, salted, and heavy—the workhorse of the tannery. Tanners convert it into russet and vegetable-tanned leather for jerkins, breeches, belts, and shoe uppers. The large hide yields plenty of usable stock, though uneven thickness requires skilled splitting.

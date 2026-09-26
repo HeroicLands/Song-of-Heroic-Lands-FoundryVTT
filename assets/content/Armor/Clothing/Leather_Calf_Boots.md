@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: leatherboot
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: hide
@@ -35,9 +36,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 152
-origWeight: 1.9
 ---
 
 These Leather Calf Boots are made from lightweight, stylish leather, hugging your legs snugly just below the knee. A mix of modest protection and agile comfort, perfect for active adventurers.

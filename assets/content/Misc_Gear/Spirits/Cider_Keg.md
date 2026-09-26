@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: beerstein
   templatePriority: 0
+  packFolder: spirits
 sohl:
   craft:
     skill: brew
@@ -20,7 +21,6 @@ sohl:
     valueBase: 16
     qualityBase: 0
     durabilityBase: 0
-packFolder: spirits
 ---
 
 A keg of apple cider pressed from autumn harvests and left to ferment. Orchardmen and villages near apple country keep these through winter; slightly sweet and mellow, it serves as a gentler alternative to ale. Spoils faster than beer in warm weather.

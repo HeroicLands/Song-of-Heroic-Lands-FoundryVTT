@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: cloak
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: hide
@@ -61,9 +62,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 282.3
-origWeight: 1.2
 ---
 
 The Ermine Cloak, made from the soft white fur of the ermine, is a status symbol of nobility and wealth. Highly insulating and visually striking, it is perfect for the elite who require both warmth and a show of prestige.

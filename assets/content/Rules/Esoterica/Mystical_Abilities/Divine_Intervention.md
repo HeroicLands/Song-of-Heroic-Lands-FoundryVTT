@@ -5,7 +5,8 @@ name:
   full: Divine Intervention
   aliases: []
 shortcode: divnint
-packFolder: esotericamysticalabilities
+data:
+  packFolder: esotericamysticalabilities
 ---
 
 The single occasion on which a deity acts in the world directly, rather than through a mortal or spiritual agent. Every other divine act reaches the world through someone: a priest who speaks an incantation, a servant who performs a rite, a spirit sent in answer to prayer. An intervention has no such hand behind it.

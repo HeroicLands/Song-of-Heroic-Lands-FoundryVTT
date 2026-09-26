@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: shirt
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -37,9 +38,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 33
-origWeight: 1.7
 ---
 
 Soft and plush, the Velvet Shirt symbolizes opulence. While it may not be particularly durable, its rich texture and appearance make it perfect for formal settings and high-status individuals.

@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: leathervest
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -33,9 +34,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 24
-origWeight: 1.2
 ---
 
 Soft and plush, the Velvet Vest symbolizes opulence. While it may not be particularly durable, its rich texture and appearance make it a perfect choice for formal settings and high-status individuals.

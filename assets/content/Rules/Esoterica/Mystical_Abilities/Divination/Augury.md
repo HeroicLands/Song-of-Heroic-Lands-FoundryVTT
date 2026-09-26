@@ -5,7 +5,8 @@ name:
   full: Augury
   aliases: []
 shortcode: augury
-packFolder: mysticalabilitiesdivination
+data:
+  packFolder: mysticalabilitiesdivination
 ---
 
 The reading of omens in the living world. An augur watches the flight of birds, the behaviour of beasts, the turn of the weather, the way a felled tree comes down, the first thing seen on setting out — and reads in it whether the world is disposed for or against what is about to be done.

@@ -9,6 +9,7 @@ type: containergear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: containers
 sohl:
   craft:
     skill: wood
@@ -19,7 +20,6 @@ sohl:
     qualityBase: 0
     durabilityBase: 8
     maxCapacityBase: 8
-packFolder: containers
 ---
 
 A rigid satchel of heavy waxed leather, shaped and stitched over a stiffened inner frame to hold a travelling book flat and square. A broad shoulder strap crosses the body, buckled to sit the case at the hip where the wearer's off-hand can steady it. A flap closes over the top, overlapping the front seam and held by a pair of brass buckles or a turnkey latch; beneath it, a smaller gusseted storm-flap folds inward to keep rain from running along the spine.

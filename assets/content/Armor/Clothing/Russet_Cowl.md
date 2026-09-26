@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: hood
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -33,9 +34,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 6
-origWeight: 0.3
 ---
 
 A Russet Cowl, made from coarse wool dyed reddish-brown, offers warmth and durability. It’s practical for colder climates and rougher outdoor environments, providing reliable coverage.

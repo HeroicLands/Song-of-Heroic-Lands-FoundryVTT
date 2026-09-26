@@ -5,7 +5,8 @@ name:
   full: Modifier Model
   aliases: []
 shortcode: modifiermodel
-pack: none
+data:
+  pack: none
 sohl:
   kbcat: devdocs
 ---

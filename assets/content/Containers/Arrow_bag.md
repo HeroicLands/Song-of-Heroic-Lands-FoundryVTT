@@ -9,6 +9,7 @@ type: containergear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: containers
 sohl:
   craft:
     skill: txtl
@@ -19,7 +20,6 @@ sohl:
     qualityBase: 0
     durabilityBase: 3
     maxCapacityBase: 20
-packFolder: containers
 ---
 
 A long bag of heavy canvas, sometimes stiffened with a cane hoop at the mouth, used to move arrows in quantity rather than to shoot from. War arrows travel to the field in bags of two dozen and are decanted into quivers or simply stuck point-down in the earth before an engagement. Cheaper than a quiver and holding far more.

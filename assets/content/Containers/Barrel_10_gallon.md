@@ -9,6 +9,7 @@ type: containergear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: containers
 sohl:
   craft:
     skill: wood
@@ -19,7 +20,6 @@ sohl:
     qualityBase: 0
     durabilityBase: 5
     maxCapacityBase: 80
-packFolder: containers
 ---
 
 A coopered barrel of riven oak staves drawn together with iron hoops, its bulging middle allowing it to be rolled and pivoted by one person despite its weight. No glue and no nails hold it — only the pressure of the hoops and the swelling of wet wood. A tight cask is the cooper's whole art, and a leaking one is worthless. 10 gallon capacity.

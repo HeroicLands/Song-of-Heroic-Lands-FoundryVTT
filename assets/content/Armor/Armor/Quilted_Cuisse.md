@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: trousers
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: txtl
@@ -35,9 +36,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 68
-origWeight: 3.1
 ---
 
 Quilted Cuisse, featuring layers of fabric sewn together, offers excellent insulation and protection for the thighs. It’s suitable for colder climates or added cushioning beneath other armor.

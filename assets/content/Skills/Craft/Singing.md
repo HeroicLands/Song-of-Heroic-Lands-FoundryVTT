@@ -9,6 +9,7 @@ type: skill
 data:
   icon: sing
   templatePriority: 0
+  packFolder: craft
 subType: social
 sohl:
   kbcat: craft
@@ -22,7 +23,6 @@ sohl:
       - core
       - vital
       - manipulator
-packFolder: craft
 ---
 
 Singing rests on a physiology quite separate from a good speaking voice, which is why fine orators sing badly and fine singers are often unremarkable in conversation. The skill therefore carries its own primary quality, **Voice**, averaged with Creativity to give its Skill Base — the instrument and the musicianship, neither of which is worth much without the other.

@@ -9,6 +9,7 @@ type: affliction
 data:
   icon: virus
   templatePriority: 0
+  packFolder: diseases
 subType: disease
 sohl:
   kbcat: diseases
@@ -17,7 +18,6 @@ sohl:
     healingRateBase: 3
     contagionIndexBase: 3
     transmission: airborne
-packFolder: diseases
 ---
 
 Pneumonia is an infectious respiratory condition where the air sacs in one or both lungs fill with fluid or pus, caused by bacteria (e.g., _Streptococcus pneumoniae_), viruses, or fungi. Symptoms include fever, chills, cough producing mucus, shortness of breath, chest pain, and fatigue. Severe cases can cause respiratory failure, sepsis, or lung abscesses. It poses a significant risk to young children, the elderly, and individuals with weakened immune systems. Treatment typically involves antibiotics for bacterial pneumonia, antiviral medications, rest, and fluids to maintain hydration.

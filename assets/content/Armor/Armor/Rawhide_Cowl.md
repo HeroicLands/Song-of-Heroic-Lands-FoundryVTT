@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: hood
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: hide
@@ -33,9 +34,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: -5
-packFolder: armorarmor
-origValue: 24
-origWeight: 1
 ---
 
 The Rawhide Cowl is thick and rugged, providing substantial protection. It’s ideal for tough environments where a durable head and shoulder covering is necessary.

@@ -9,6 +9,7 @@ type: attribute
 data:
   icon: tripleskulls
   templatePriority: 0
+  packFolder: attributes
 sohl:
   system:
     scoreBase: 0
@@ -19,8 +20,6 @@ sohl:
       - Ravening:14
       - Abyssal:999
     initDiceFormula: 0
-sort: 150
-packFolder: attributes
 ---
 
 The Pall measures the weight of death and chaos that emanates from an undead thing—the corrupting pressure it exerts on the living world simply by existing. Where Aura marks the depth of a living soul, the Pall marks its absence and its unmaking: the raw force of death and chaos that animates the undead and seeps from tainted places and objects. A stronger Pall is at once easier to sense—dread runs ahead of it, and those attuned to the Arcane feel it from afar—and more able to unmake the souls of the living, assailing Spirit and driving the mind toward disturbance, terror, and worse.

@@ -9,6 +9,7 @@ type: weapongear
 data:
   icon: cavalry
   templatePriority: 0
+  packFolder: weapons
 sohl:
   craft:
     skill: wood
@@ -153,7 +154,6 @@ sohl:
         defense:
           blockMod: 0
           counterstrikeMod: 0
-packFolder: weapons
 ---
 
 A blunted tournament pole with a rondel and coronel rest, the jousting pole is couched for the charge in a controlled arena contest. It breaks cleanly on impact, reducing harm while testing the rider's aim and horsemanship. Knights favor such poles in sanctioned tournaments to display skill without risking lethal wounds.

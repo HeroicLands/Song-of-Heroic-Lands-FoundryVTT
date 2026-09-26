@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: instruments
 sohl:
   craft:
     skill: mtlc
@@ -20,7 +21,6 @@ sohl:
     valueBase: 65
     qualityBase: 0
     durabilityBase: 4
-packFolder: instruments
 ---
 
 A leather case holding a locksmith's working tools: multiple grades of picks and tension bars, files for shaping wards, a hammer and drift for pin work, and a small spring-steel blank for casting new keys. Locksmiths, ironworkers, and master craftspeople assemble and carry such kits; legitimate use ranges from making and repairing household locks to crafting secure strongboxes for nobles. Unauthorized possession of such a kit draws suspicion in most towns.

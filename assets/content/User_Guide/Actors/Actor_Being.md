@@ -4,7 +4,8 @@ subType: userguide
 name:
   full: "Being"
 shortcode: beingug
-packFolder: actors
+data:
+  packFolder: actors
 ---
 
 # What Is a Being?

@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: trousers
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: txtl
@@ -35,9 +36,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 17
-origWeight: 0.9
 ---
 
 Buckram Breeches are stiff and durable, made from a coarse cloth stiffened with glue. They offer a structured fit and are particularly useful for activities requiring some degree of rigidity and support.

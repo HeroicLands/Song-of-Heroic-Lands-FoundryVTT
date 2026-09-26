@@ -12,6 +12,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: expedition
 sohl:
   craft:
     skill: mtlc
@@ -22,7 +23,6 @@ sohl:
     valueBase: 20
     qualityBase: 0
     durabilityBase: 9
-packFolder: expedition
 ---
 
 A stout iron hook of four curved prongs forged into a single haft, finished with a thick eye for the attachment of rope. The prongs are broad enough to bite on stone crenellations, timber beams, and the lips of low battlements, and the head is heavy enough that a trained hand can loft it two storeys with a good swing of the line. Burglars, scouts, siege-climbers, and wreckers of ships all carry one; a soldier's version is commonly blackened to kill the glint and wrapped at the eye with leather to quiet the throw.

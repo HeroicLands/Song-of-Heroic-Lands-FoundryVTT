@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: shirt
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: txtl
@@ -43,9 +44,6 @@ sohl:
       fire: 5
     encumbrance: 10
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 416
-origWeight: 14.6
 ---
 
 The Gambeson Sleeved Tunic offers padded protection, ideal for use under armor or as standalone defense. It provides excellent insulation and cushioning, perfect for both combat and daily wear.

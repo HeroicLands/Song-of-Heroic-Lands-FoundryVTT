@@ -6,7 +6,8 @@ name:
   aliases: []
 shortcode: localizationkeys
 description: "The naming standard for `lang/en.json`: namespaces, group and leaf case, what may never appear in a key, and why keys are permanent."
-pack: none
+data:
+  pack: none
 sohl:
   kbcat: devdocs
 ---

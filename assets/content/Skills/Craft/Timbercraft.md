@@ -9,6 +9,7 @@ type: skill
 data:
   icon: woodpile
   templatePriority: 0
+  packFolder: craft
 subType: nature
 sohl:
   kbcat: craft
@@ -23,7 +24,6 @@ sohl:
       - vital
       - manipulator
       - locomotor
-packFolder: craft
 ---
 
 Timbercraft is tree lore and the axe work that follows from it: knowing the species, judging a standing tree's health and soundness, planting and managing a wood for yield decades out, and then felling, limbing and bucking what is ready. It is the skill that decides whether a bow stave is worth cutting, and the skill that keeps a wood producing instead of being mined out in a generation.

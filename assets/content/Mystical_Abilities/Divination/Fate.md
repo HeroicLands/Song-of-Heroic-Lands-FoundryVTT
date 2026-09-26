@@ -9,6 +9,7 @@ type: mysticalability
 data:
   icon: crystalball
   templatePriority: 0
+  packFolder: divination
 subType: divination
 sohl:
   kbcat: divination
@@ -19,7 +20,6 @@ sohl:
     charges:
       value: 5
       max: 5
-packFolder: divination
 ---
 
 Fate is counted among the divinatory arts and is the odd one out in every respect. The other divinations read something outside the diviner — the sky, the cards, a beast's liver, a still surface. Fate reads the character's **own thread**: they reach for the strand of destiny they were born holding, find the moment they are living through, and pull.

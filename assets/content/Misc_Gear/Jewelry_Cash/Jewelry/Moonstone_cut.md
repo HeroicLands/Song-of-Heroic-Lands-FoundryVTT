@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: jewelry
 sohl:
   craft:
     skill: jewl
@@ -20,7 +21,6 @@ sohl:
     valueBase: 30
     qualityBase: 0
     durabilityBase: 2
-packFolder: jewelry
 ---
 
 Moonstone, a translucent feldspar gem of pale white or blue-silver hue, cut and polished to reveal its characteristic adularescence. The stone seems to glow from within when turned in the light, an effect prized by jewellers and collectors. These gems are set into rings and pendants, particularly favored by those who mark the lunar calendar.

@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: inkswirl
   templatePriority: 0
+  packFolder: scribe
 sohl:
   craft:
     skill: herb
@@ -20,7 +21,6 @@ sohl:
     valueBase: 12
     qualityBase: 0
     durabilityBase: 0
-packFolder: scribe
 ---
 
 Vermilion or madder-root ink, costly and bright, reserved for titles, opening capitals, and rubrication in illuminated manuscripts. A scribe begins each chapter in red—hence "rubric"—to mark hierarchy and break the flow of black text. The pigment is mordanted with alum for permanence.

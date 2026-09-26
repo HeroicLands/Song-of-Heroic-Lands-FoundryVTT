@@ -9,6 +9,7 @@ type: weapongear
 data:
   icon: halberd
   templatePriority: 0
+  packFolder: weapons
 sohl:
   craft:
     skill: wpnc
@@ -197,7 +198,6 @@ sohl:
         defense:
           blockMod: 0
           counterstrikeMod: 0
-packFolder: weapons
 ---
 
 A curved single-edged blade hafted to a long shaft, the falcastra is part sword and part axe in conception. The curve of the steel gathers momentum in the downward stroke, and the reach allows a foot soldier to strike from behind the shield-wall’s front rank. Light enough for a trained warrior, heavy enough to cleave through bone.

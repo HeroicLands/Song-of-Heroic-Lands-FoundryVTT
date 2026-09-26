@@ -9,6 +9,7 @@ type: mysticalability
 data:
   icon: runestone
   templatePriority: 0
+  packFolder: divination
 subType: divination
 sohl:
   kbcat: divination
@@ -16,7 +17,6 @@ sohl:
     assocSkillCode: ""
     masteryLevelBase: 0
     levelBase: 0
-packFolder: divination
 ---
 
 Runecraft is divination by lots. The caster keeps a set of tokens — staves, tiles, pebbles, knucklebones — each cut with a rune of settled meaning, and casts them onto cloth or bare ground. Which fall face up, how they lie, and how they group is the reading. The craft is as much in the cutting and keeping of the lots as in the throw.

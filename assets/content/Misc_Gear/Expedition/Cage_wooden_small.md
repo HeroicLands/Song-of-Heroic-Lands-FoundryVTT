@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: expedition
 sohl:
   craft:
     skill: wood
@@ -20,7 +21,6 @@ sohl:
     valueBase: 7
     qualityBase: 0
     durabilityBase: 4
-packFolder: expedition
 ---
 
 A small cage of thin battens and withy, about a foot each way, for songbirds, pigeons, or a ferret. Fowlers carry them on a strap; households hang them by a window. Being light and slight, they are as often crushed as worn out.

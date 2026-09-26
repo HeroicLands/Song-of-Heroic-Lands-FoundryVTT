@@ -6,7 +6,8 @@ name:
   aliases: []
 shortcode: typecatalog
 description: Every actor and item type the system compiles, with the summary of its Logic class.
-pack: none
+data:
+  pack: none
 sohl:
   kbcat: devdocs
 ---

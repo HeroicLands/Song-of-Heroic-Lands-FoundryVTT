@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: trousers
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -35,9 +36,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 19
-origWeight: 1
 ---
 
 The Serge Swaddle is made from durable, twilled fabric, offering excellent comfort and resilience for infants. It provides a practical and reliable garment that can withstand daily use while keeping babies warm and secure.

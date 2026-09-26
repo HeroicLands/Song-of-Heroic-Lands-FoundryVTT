@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: trousers
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: wpnc
@@ -39,9 +40,6 @@ sohl:
       fire: 5
     encumbrance: 10
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 540
-origWeight: 16.2
 ---
 
 Mail Leggings, made from interlinked metal rings, provide substantial protection for the legs. They offer excellent defense against slashes while maintaining flexibility.

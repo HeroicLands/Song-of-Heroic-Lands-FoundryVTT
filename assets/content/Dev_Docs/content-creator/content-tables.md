@@ -6,7 +6,8 @@ name:
   aliases: []
 shortcode: contenttables
 description: "SQL queries that tabulate content notes from their frontmatter."
-pack: none
+data:
+  pack: none
 sohl:
   kbcat: devdocs
 ---

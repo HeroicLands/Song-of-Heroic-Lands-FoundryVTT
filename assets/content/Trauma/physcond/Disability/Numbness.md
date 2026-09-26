@@ -8,12 +8,12 @@ type: trauma
 data:
   icon: battlegear
   templatePriority: 0
+  packFolder: traumaphysical
 subType: physcond
 sohl:
   kbcat: physdisability
   system:
     category: impediment
-packFolder: traumaphysical
 ---
 
 Numbness is a condition where the sense of touch is partially or completely diminished. It can range from reduced sensitivity to a total loss of tactile sensation. As numbness progresses, it can interfere with daily activities, lead to injury due to the lack of sensory feedback, and cause significant emotional and physical distress.

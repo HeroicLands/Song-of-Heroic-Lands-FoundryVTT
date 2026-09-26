@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: robe
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: txtl
@@ -48,9 +49,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 79
-origWeight: 4
 ---
 
 The Buckram Robe is stiff and structured, made from coarse cloth stiffened with glue. It offers durability and reliable coverage, suitable for tasks requiring a more rigid and dependable garment.

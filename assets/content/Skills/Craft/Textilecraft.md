@@ -9,6 +9,7 @@ type: skill
 data:
   icon: sewingneedle
   templatePriority: 0
+  packFolder: craft
 subType: craft
 sohl:
   kbcat: craft
@@ -22,7 +23,6 @@ sohl:
       - core
       - vital
       - manipulator
-packFolder: craft
 ---
 
 Textilecraft covers cloth from the fibre onward — spinning, weaving, fulling, dyeing — and then the knitting, tailoring and embroidery that turn cloth into goods. The workhorse material for garments in temperate country is buckram: hard-wearing, cheap, and about as comfortable as sailcloth. Fine wool, soft leather and silk are what the money is spent on, and silk in particular multiplies in price many times over on its way from the countries that produce it.

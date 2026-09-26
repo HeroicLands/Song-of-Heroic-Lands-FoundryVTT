@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: natural
 sohl:
   craft:
     skill: srvl
@@ -20,7 +21,6 @@ sohl:
     valueBase: 24
     qualityBase: 0
     durabilityBase: 3
-packFolder: natural
 ---
 
 Furs from riverland hunters—otter or weasel pelt, salted and dried—prized for lining and trim. The dense guard hair sheds water, and the fur is soft enough for glove linings and collar facing. Furriers and tailors seek steady supplies from marshland trappers and wetland communities.

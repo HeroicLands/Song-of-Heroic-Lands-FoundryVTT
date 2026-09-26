@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: shirt
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: hide
@@ -40,9 +41,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 1080
-origWeight: 4.3
 ---
 
 An Ermine Tunic is winter white fur worked into a body garment, and it is a declaration before it is clothing. Warm out of all proportion to its weight, ruinously costly, and restricted by custom in many courts to those entitled to wear it.

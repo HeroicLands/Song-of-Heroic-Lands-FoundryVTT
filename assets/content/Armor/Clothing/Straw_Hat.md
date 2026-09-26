@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: pointyhat
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -32,9 +33,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 1
-origWeight: 0.1
 ---
 
 The Straw Hat is lightweight and breathable, providing excellent sun protection. Perfect for farmers and outdoor laborers, it’s made from woven straw that keeps the head cool.

@@ -4,7 +4,8 @@ subType: userguide
 name:
   full: "Understanding Sheets"
 shortcode: undrstndsheetug
-packFolder: userguide
+data:
+  packFolder: userguide
 ---
 
 # What Is a Sheet? {#sheets-overview}

@@ -9,6 +9,7 @@ type: containergear
 data:
   icon: cookingpot
   templatePriority: 0
+  packFolder: containers
 sohl:
   craft:
     skill: cmcs
@@ -19,7 +20,6 @@ sohl:
     qualityBase: 0
     durabilityBase: 3
     maxCapacityBase: 1
-packFolder: containers
 ---
 
 A pear-shaped earthenware pot, open at both ends so that several may be stacked into a column. Vapour rises through the stack and condenses as a crust on the inner walls, which is scraped out once the vessel has cooled.

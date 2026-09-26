@@ -9,6 +9,7 @@ type: skill
 data:
   icon: handsaw
   templatePriority: 0
+  packFolder: craft
 subType: craft
 sohl:
   kbcat: craft
@@ -22,7 +23,6 @@ sohl:
       - core
       - vital
       - manipulator
-packFolder: craft
 ---
 
 Woodworking is the joiner's and turner's trade: furniture, containers, vehicles, tools, and the decorative carving that distinguishes a chest somebody commissioned from a chest somebody needed. It is the most broadly employed of the crafts, because almost everything that is not stone, cloth or iron is wood.

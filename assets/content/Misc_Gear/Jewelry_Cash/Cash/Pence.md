@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: coinsbdg
   templatePriority: 0
+  packFolder: cash
 sohl:
   craft:
     skill: mtlc
@@ -20,7 +21,6 @@ sohl:
     valueBase: 1
     qualityBase: 0
     durabilityBase: 3
-packFolder: cash
 ---
 
 A silver coin stamped with the royal mark, the everyday currency of trade in markets and taverns. Smaller than the gold crown but more durable, the pence serves the merchant, farmer, and laborer equally.

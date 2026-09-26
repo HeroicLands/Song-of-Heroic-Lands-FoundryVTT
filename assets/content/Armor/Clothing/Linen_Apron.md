@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: cook
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -36,9 +37,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 24.2
-origWeight: 0.6
 ---
 
 A simple Linen Apron is light, breathable, and perfect for daily chores or cooking. It's made from high-quality linen that is both durable and easy to clean, making it a staple for households and artisans alike.

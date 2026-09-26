@@ -4,8 +4,9 @@ subType: rules
 name:
   full: The Pall
   aliases: []
-packFolder: spirit
 shortcode: thepall
+data:
+  packFolder: spirit
 ---
 
 **The Pall** is the most dangerous [[doc-traumaintro|Trauma]] a character can face. Where other trauma assails Will or Initiative, the Pall tests **Spirit** in a struggle for the character's soul. It emanates from the forces of death and chaos, corrupts mortals into the undead, can infuse beings and objects alike, and can be summoned by death-cult priests.

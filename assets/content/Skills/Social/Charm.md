@@ -9,6 +9,7 @@ type: skill
 data:
   icon: charm
   templatePriority: 0
+  packFolder: social
 subType: social
 sohl:
   kbcat: social
@@ -21,7 +22,6 @@ sohl:
     impairedByRoles:
       - core
       - vital
-packFolder: social
 ---
 
 Charm is persuasion by feeling. The character does not argue a case or issue an order; they make the other party _want_ to agree — through warmth, wit, flattery, attention, desire, or simple presence. It leans on how a person looks and on how well they read the mood in front of them, which is why it is at once the most natural of the persuasion skills and the least reliable: what works on one listener is exactly what closes another off.

@@ -4,7 +4,8 @@ subType: userguide
 name:
   full: "Creating Actors and Items"
 shortcode: crtngactitemug
-packFolder: userguide
+data:
+  packFolder: userguide
 ---
 
 # Overview {#creating-overview}

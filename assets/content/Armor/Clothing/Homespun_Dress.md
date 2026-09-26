@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: dress
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -48,9 +49,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 23.7
-origWeight: 1
 ---
 
 A Homespun Dress is a simple, practical garment woven from homemade fabric. It provides basic coverage and comfort, ideal for everyday wear by common folk.

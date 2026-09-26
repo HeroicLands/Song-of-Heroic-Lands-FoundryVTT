@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: cook
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -36,9 +37,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 432
-origWeight: 1.2
 ---
 
 A Silk Apron offers a touch of luxury to mundane tasks. While not particularly durable, its soft, smooth texture is perfect for formal settings or lightweight activities where appearance matters more than ruggedness.

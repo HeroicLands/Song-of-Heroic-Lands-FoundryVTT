@@ -9,6 +9,7 @@ type: skill
 data:
   icon: brickwall
   templatePriority: 0
+  packFolder: craft
 subType: craft
 sohl:
   kbcat: craft
@@ -22,7 +23,6 @@ sohl:
       - core
       - vital
       - manipulator
-packFolder: craft
 ---
 
 Masonry is quarrying, dressing and laying stone — from a field wall or a carved plaque up to a keep, a bridge or a gatehouse, and the quarry and the scaffold that any of them needs.

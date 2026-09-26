@@ -9,6 +9,7 @@ type: containergear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: containers
 sohl:
   craft:
     skill: cmcs
@@ -19,7 +20,6 @@ sohl:
     qualityBase: 0
     durabilityBase: 3
     maxCapacityBase: 40
-packFolder: containers
 ---
 
 A wide-mouthed storage urn of thick earthenware, waist-high on a kneeling person, used for the dry goods of a household — grain, flour, salt, dried peas. The broad mouth takes a wooden lid or a stretched and tied cloth. Standing in a cool larder its thick walls hold the chill of the floor, and its weight makes it awkward to tip over, which is rather the point where a season's flour is concerned. 5 gallon capacity.

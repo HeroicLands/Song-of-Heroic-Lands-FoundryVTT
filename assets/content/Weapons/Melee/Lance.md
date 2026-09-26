@@ -9,6 +9,7 @@ type: weapongear
 data:
   icon: cavalry
   templatePriority: 0
+  packFolder: weapons
 sohl:
   craft:
     skill: wpnc
@@ -197,7 +198,6 @@ sohl:
         defense:
           blockMod: 0
           counterstrikeMod: 0
-packFolder: weapons
 ---
 
 A long thrusting pole couched beneath the arm of a mounted knight, the lance delivers concentrated force against armored foes and massed infantry. Its length lets a rider strike first and from distance; used in coordinated cavalry charges to shatter shield walls and break pike formations.

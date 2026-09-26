@@ -4,7 +4,8 @@ subType: userguide
 name:
   full: "Container"
 shortcode: containergearug
-packFolder: items
+data:
+  packFolder: items
 ---
 
 # What Is a Container?

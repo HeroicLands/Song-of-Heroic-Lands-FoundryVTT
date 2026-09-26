@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: gempendant
   templatePriority: 0
+  packFolder: jewelry
 sohl:
   craft:
     skill: jewl
@@ -20,7 +21,6 @@ sohl:
     valueBase: 246
     qualityBase: 0
     durabilityBase: 3
-packFolder: jewelry
 ---
 
 A pin and catch worked into a plate, worn to fasten a cloak at the shoulder. This one is gold, 0.8 ounces of it, and reckons 1 day at the bench.

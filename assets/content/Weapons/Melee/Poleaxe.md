@@ -9,6 +9,7 @@ type: weapongear
 data:
   icon: halberd
   templatePriority: 0
+  packFolder: weapons
 sohl:
   craft:
     skill: wpnc
@@ -285,7 +286,6 @@ sohl:
         defense:
           blockMod: 0
           counterstrikeMod: 0
-packFolder: weapons
 ---
 
 A six-foot shaft topped with an axe-blade, a hammer, and a spike or hook, giving the wielder three ways to strike or bind. The poleaxe excels against armored men-at-arms in melee or mounted combat, the hammer for crushing plate, the spike for between-joint thrusts. A weapon of knights unmounted and professional soldiers, requiring long training and both hands.

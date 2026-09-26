@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: expedition
 sohl:
   craft:
     skill: mtlc
@@ -20,7 +21,6 @@ sohl:
     valueBase: 7
     qualityBase: 0
     durabilityBase: 3
-packFolder: expedition
 ---
 
 Copper beads cast in a simple round form, each drilled through the center to thread onto cord. These are common trade items with many cultures and used as decoration on clothing and belts. Merchants carry strings of copper beads for barter or as minor gifts; they are durable, easily counted, and recognizable even when worn smooth.

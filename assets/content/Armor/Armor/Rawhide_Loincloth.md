@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: loincloth
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: hide
@@ -32,9 +33,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 40
-origWeight: 1.6
 ---
 
 The Rawhide Loincloth is thick and rugged, providing substantial coverage and durability. Ideal for harsh environments, it offers a more protective and sturdy option.

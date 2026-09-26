@@ -5,7 +5,8 @@ name:
   full: Secondary Mastery
   aliases: []
 shortcode: scndryms
-packFolder: resolution
+data:
+  packFolder: resolution
 ---
 
 # Secondary Mastery {#secondary-mastery}

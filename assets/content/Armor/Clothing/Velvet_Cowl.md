@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: hood
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -33,9 +34,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 6
-origWeight: 0.3
 ---
 
 Soft and plush, the Velvet Cowl exudes elegance and luxury. While not exceptionally durable, it’s perfect for formal settings and individuals of high status looking for a touch of refinement.

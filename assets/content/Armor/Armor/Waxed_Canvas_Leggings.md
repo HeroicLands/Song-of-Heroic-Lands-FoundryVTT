@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: trousers
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: txtl
@@ -39,9 +40,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 47
-origWeight: 2.7
 ---
 
 Waxed Canvas Leggings are worked with wax until the cloth turns water at the knee and shin. They are stiffer and heavier than plain canvas, keep the wet out on long marches, and should be kept well clear of a campfire.

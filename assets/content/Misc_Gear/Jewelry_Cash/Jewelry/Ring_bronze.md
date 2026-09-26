@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: jewelry
 sohl:
   craft:
     skill: jewl
@@ -20,7 +21,6 @@ sohl:
     valueBase: 8
     qualityBase: 0
     durabilityBase: 4
-packFolder: jewelry
 ---
 
 A bronze band, cast in a mould rather than drawn, and the toughest of the common rings. Bronze survives the sort of labour that would flatten a silver band, so it is worn by smiths, drovers, and soldiers who would rather not lose a month's wages to a careless blow. The alloy takes a warm yellow shine when polished and a dull green skin when it is not.

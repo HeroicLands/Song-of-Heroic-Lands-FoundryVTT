@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: music
 sohl:
   craft:
     skill: mtlc
@@ -20,7 +21,6 @@ sohl:
     valueBase: 5
     qualityBase: 0
     durabilityBase: 7
-packFolder: music
 ---
 
 A small bronze or iron bell cast in one piece with a short wooden or leather handle. The clapper hangs loose inside, ringing a clear bright note when shaken. Heralds and watchmen carry them to summon attention in public squares and streets; temple servants ring them to mark the hours or call worshippers to prayer. The voice carries well across a modest gathering without the weight or ceremony of a great bell.

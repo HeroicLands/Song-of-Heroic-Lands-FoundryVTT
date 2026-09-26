@@ -8,12 +8,12 @@ type: trauma
 data:
   icon: battlegear
   templatePriority: 0
+  packFolder: disorders
 subType: psycond
 sohl:
   kbcat: psybehavior
   system:
     category: quirk
-packFolder: disorders
 ---
 
 Narcissistic refers to an individual’s excessive sense of self-importance, entitlement, and desire for admiration. A narcissistic person often believes they are superior to others and seeks constant validation to reinforce their inflated self-image. While they may appear confident and charismatic, their relationships can suffer due to their lack of empathy and preoccupation with their own needs. In more extreme cases, this self-centered behavior becomes manipulative, exploitative, and destructive.

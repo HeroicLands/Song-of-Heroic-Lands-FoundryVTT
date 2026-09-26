@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: hood
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: wpnc
@@ -33,9 +34,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: -5
-packFolder: armorarmor
-origValue: 90
-origWeight: 2.7
 ---
 
 The Mail Cowl is made from interlinked metal rings, offering substantial protection for the head and neck. It’s an essential component of combat armor, providing flexibility and defense against slashes.

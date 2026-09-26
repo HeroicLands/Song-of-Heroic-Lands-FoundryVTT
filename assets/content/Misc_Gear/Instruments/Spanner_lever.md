@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: instruments
 sohl:
   craft:
     skill: mtlc
@@ -20,7 +21,6 @@ sohl:
     valueBase: 36
     qualityBase: 0
     durabilityBase: 7
-packFolder: instruments
 ---
 
 A hinged iron lever — the goat's-foot — that hooks over the crossbow string and pivots against a lug on the stock, letting the user span a prod far heavier than their arms could draw. It hangs at the belt and is lost at exactly the wrong moment. Few smiths outside the eastern trade make a good one, since the pivot must take the whole force of the prod without spreading.

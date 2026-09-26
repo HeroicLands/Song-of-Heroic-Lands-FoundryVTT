@@ -8,12 +8,12 @@ type: trauma
 data:
   icon: battlegear
   templatePriority: 0
+  packFolder: traumaphysical
 subType: physcond
 sohl:
   kbcat: physfeature
   system:
     category: trait
-packFolder: traumaphysical
 ---
 
 Heat intolerance is a condition where an individual reacts abnormally to heat, causing them to experience discomfort or difficulty in warm environments. This condition can escalate into more severe forms, such as **heat illness** and, in extreme cases, **heat stroke**, which are potentially life-threatening if left untreated. The sensitivity to heat can range from mild discomfort to a severe inability to function in any warm environment. As the intensity of the intolerance increases, so too does the risk of heat-related illnesses.

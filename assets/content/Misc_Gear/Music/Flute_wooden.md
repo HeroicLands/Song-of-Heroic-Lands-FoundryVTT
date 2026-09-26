@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: music
 sohl:
   craft:
     skill: wood
@@ -20,7 +21,6 @@ sohl:
     valueBase: 3
     qualityBase: 0
     durabilityBase: 4
-packFolder: music
 ---
 
 A turned fruitwood pipe—typically ash, cherry, or hazel—with a carved fipple and a half-dozen finger holes drilled to allow the player to sound a range of notes. The warm, sweet voice suits folk melody and pastoral settings; many village children learn on simple wooden flutes. The wood is soft and prone to splitting if left unprotected in damp weather.

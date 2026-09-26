@@ -9,6 +9,7 @@ type: containergear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: containers
 sohl:
   craft:
     skill: glas
@@ -19,7 +20,6 @@ sohl:
     qualityBase: 0
     durabilityBase: 2
     maxCapacityBase: 1
-packFolder: containers
 ---
 
 A small glass alembic for work measured in doses rather than gallons. Fragile, expensive for its size, and the only practical vessel for distilling the more aggressive substances in quantities worth the risk.

@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: music
 sohl:
   craft:
     skill: wood
@@ -20,7 +21,6 @@ sohl:
     valueBase: 240
     qualityBase: 0
     durabilityBase: 4
-packFolder: music
 ---
 
 A trapezoidal wooden frame fitted with multiple gut strings, played by striking the strings with small hammers or mallets. The sweet, chiming voice carries a wistful, haunting quality; skilled players achieve rapid, flowing passages by alternating hammers. Dulcimers are favored by skilled minstrels, court musicians, and temple choirs seeking a delicate, resonant voice for solemn or joyful occasions.

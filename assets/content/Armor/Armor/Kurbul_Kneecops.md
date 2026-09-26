@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: kneepad
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: wpnc
@@ -33,9 +34,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 15
-origWeight: 1.1
 ---
 
 Kûrbúl Kneecops, made from specially treated leather, offer moderate protection for the knees. They are decorated with intricate designs and provide both function and visual appeal for those needing lightweight knee armor.

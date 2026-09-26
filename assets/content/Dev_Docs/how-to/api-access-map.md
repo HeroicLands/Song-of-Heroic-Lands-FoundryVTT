@@ -5,7 +5,8 @@ name:
   full: API Access Map (Macros and Modules)
   aliases: []
 shortcode: apiaccessmap
-pack: none
+data:
+  pack: none
 sohl:
   kbcat: devdocs
 ---

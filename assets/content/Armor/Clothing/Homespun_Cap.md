@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: billedcap
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -32,9 +33,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 4
-origWeight: 0.2
 ---
 
 The Homespun Cap is a simple head covering made from homemade fabric. It provides basic warmth and protection from the elements, suitable for everyday wear by common folk.

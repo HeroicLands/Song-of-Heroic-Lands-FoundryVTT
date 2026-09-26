@@ -9,6 +9,7 @@ type: skill
 data:
   icon: conversation
   templatePriority: 0
+  packFolder: language
 subType: language
 sohl:
   kbcat: languages
@@ -20,7 +21,6 @@ sohl:
     initSkillMult: 0
     impairedByRoles:
       - vital
-packFolder: language
 ---
 
 Common is the trade tongue — the mongrel dialect of ports, markets, garrisons and roads, assembled out of whatever the traffic of a region brought together and belonging properly to nobody. It is nobody's first language and almost everybody's second, which is precisely what makes it useful.

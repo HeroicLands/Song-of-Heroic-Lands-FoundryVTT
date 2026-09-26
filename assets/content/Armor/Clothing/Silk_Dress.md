@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: dress
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -48,9 +49,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 711
-origWeight: 2.1
 ---
 
 A Silk Dress exudes elegance and sophistication. Lightweight and flowing, it’s perfect for formal events and special occasions where appearance is paramount.

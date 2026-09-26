@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: lighting
 sohl:
   craft:
     skill: mtlc
@@ -20,7 +21,6 @@ sohl:
     valueBase: 4
     qualityBase: 0
     durabilityBase: 4
-packFolder: lighting
 ---
 
 Iron or brass cast into a shallow cup with a handle, sized to grip in one hand while a single candle burns in the socket. Most hand-holders feature a drip-tray below the cup to catch melting wax and protect clothing. Servants, night-watches, and those moving through dark halls carry hand-holders to light their way; the open flame flickers with movement but the close proximity of hand-holder and face gives good sight of the immediate path.

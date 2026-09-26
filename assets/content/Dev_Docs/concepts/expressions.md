@@ -6,7 +6,8 @@ name:
   aliases: []
 shortcode: expressions
 description: "The ways author-supplied logic runs: `SafeExpression`, Macros, and the Expression Library."
-pack: none
+data:
+  pack: none
 sohl:
   kbcat: devdocs
 ---

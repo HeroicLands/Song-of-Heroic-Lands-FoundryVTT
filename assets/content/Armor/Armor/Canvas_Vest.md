@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: leathervest
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: txtl
@@ -33,9 +34,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 21.6
-origWeight: 1.5
 ---
 
 The Canvas Vest is a sleeveless working garment of heavy hemp cloth, worn over a shirt for warmth and to spare it the worst of the wear. Plain, cheap, and hard to destroy.

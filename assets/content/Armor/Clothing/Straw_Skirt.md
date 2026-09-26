@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: skirt
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -38,9 +39,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 9.8
-origWeight: 0.5
 ---
 
 The Straw Skirt is lightweight and breathable, providing a unique and airy garment. Ideal for hot climates, it offers minimal protection but ensures maximum comfort and airflow.

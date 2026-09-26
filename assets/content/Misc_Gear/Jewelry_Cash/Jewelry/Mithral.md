@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: jewelry
 sohl:
   craft:
     skill: mnrl
@@ -20,7 +21,6 @@ sohl:
     valueBase: 12000
     qualityBase: 0
     durabilityBase: 3
-packFolder: jewelry
 ---
 
 Mithral, a rare silvery metal harder than steel, smelted and worked by master smiths into ingots and ornamental pieces. The material's ethereal sheen and legendary durability make it the most prized of all metals, sought by weaponcrafters and the crown alike. Only the wealthiest treasuries and greatest nobles can afford mithral in any quantity.

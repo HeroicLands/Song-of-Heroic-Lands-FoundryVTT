@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: gempendant
   templatePriority: 0
+  packFolder: jewelry
 sohl:
   craft:
     skill: jewl
@@ -20,7 +21,6 @@ sohl:
     valueBase: 14
     qualityBase: 0
     durabilityBase: 3
-packFolder: jewelry
 ---
 
 A charm hung at the neck on a cord or chain. This one is carved bone, 1.6 ounces of it, and reckons 2 days at the bench.

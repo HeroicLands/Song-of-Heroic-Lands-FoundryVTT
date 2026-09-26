@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: billedcap
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: txtl
@@ -32,9 +33,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 4
-origWeight: 0.2
 ---
 
 The Buckram Cap is stiff and structured, made from coarse cloth stiffened with glue. It offers a durable, reliable head covering that holds its shape well.

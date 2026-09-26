@@ -9,6 +9,7 @@ type: containergear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: containers
 sohl:
   craft:
     skill: hide
@@ -19,7 +20,6 @@ sohl:
     qualityBase: 0
     durabilityBase: 4
     maxCapacityBase: 10
-packFolder: containers
 ---
 
 A plain drawstring sack of thin hide, without shape or structure of its own. It is used where a canvas sack would tear or soak — carrying wet goods, sharp goods, or anything that must not take the weather on a short journey.

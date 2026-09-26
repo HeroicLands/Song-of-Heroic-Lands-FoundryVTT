@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: jewelry
 sohl:
   craft:
     skill: jewl
@@ -20,7 +21,6 @@ sohl:
     valueBase: 10
     qualityBase: 0
     durabilityBase: 2
-packFolder: jewelry
 ---
 
 Pearl, a lustrous gem grown within oysters and mussels, gathered by divers and polished into a smooth, rounded gem. The gem's soft white, cream, or pale pink luster makes it favored for delicate bracelets and necklaces. Pearls are fragile and fade with time if exposed to harsh light or sweat, requiring gentle care.

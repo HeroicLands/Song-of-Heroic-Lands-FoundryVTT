@@ -9,6 +9,7 @@ type: weapongear
 data:
   icon: pocketbow
   templatePriority: 0
+  packFolder: weapons
 sohl:
   craft:
     skill: fltch
@@ -109,7 +110,6 @@ sohl:
         maxVolleyMult: 4
         baseRangeBase: 210
         drawBase: 100
-packFolder: weapons
 ---
 
 A tall, well-crafted self-bow of yew or ash, drawn to the ear with a hundred-pound pull. This is the competent archer's warbow—the standard issue of muster-trained footmen and border garrison archers, capable of striking at armored targets at considerable range.

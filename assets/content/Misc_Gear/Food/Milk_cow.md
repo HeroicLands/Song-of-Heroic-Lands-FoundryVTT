@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: food
 sohl:
   craft:
     skill: anmcft
@@ -20,7 +21,6 @@ sohl:
     valueBase: 1
     qualityBase: 0
     durabilityBase: 0
-packFolder: food
 ---
 
 Fresh cow's milk, drawn into a wooden pail at dawn, is sold by the gallon at market or delivered to townhouses daily. Rich and creamy, it curdles into cheese or butter by afternoon; soured or turned, it becomes whey and curds for cooking. Most milk is consumed within a day or soured intentionally for preservation.

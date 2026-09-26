@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: brandybottle
   templatePriority: 0
+  packFolder: spirits
 sohl:
   craft:
     skill: brew
@@ -20,7 +21,6 @@ sohl:
     valueBase: 5
     qualityBase: 0
     durabilityBase: 0
-packFolder: spirits
 ---
 
 A pint of clear, fiery brandy in a sealed bottle. Nobles and wealthy merchants drink it from small cups as a digestif; soldiers and adventurers use it to clean wounds or warm a camp. The cost is steep—a single pint's wages for a laborer.

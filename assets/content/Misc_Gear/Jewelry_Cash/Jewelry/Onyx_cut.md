@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: jewelry
 sohl:
   craft:
     skill: jewl
@@ -20,7 +21,6 @@ sohl:
     valueBase: 20
     qualityBase: 0
     durabilityBase: 2
-packFolder: jewelry
 ---
 
 Onyx, a banded chalcedony of black and white, cut and polished into faceted gems with striking striped patterns. The layered structure creates beautiful contrast when properly oriented, making each piece unique. Onyx is favored for signet rings and seals, holding an engraving cleanly without chipping.

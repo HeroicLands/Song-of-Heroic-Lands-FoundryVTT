@@ -4,7 +4,8 @@ subType: userguide
 name:
   full: "Affiliation"
 shortcode: affltnug
-packFolder: items
+data:
+  packFolder: items
 ---
 
 # What Is an Affiliation?

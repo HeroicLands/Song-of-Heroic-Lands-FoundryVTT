@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: food
 sohl:
   craft:
     skill: mnrl
@@ -20,7 +21,6 @@ sohl:
     valueBase: 0.25
     qualityBase: 0
     durabilityBase: 0
-packFolder: food
 ---
 
 A bag of salt contains coarse crystals from evaporated seawater or mined rock salt, used for preserving meat and fish. A single bag seasons a day's cooking or cures a joint of pork. Kitchens and dairies keep salt close; merchants trade it for food when local sources are exhausted. Salt attracts moisture and hardens in damp air, but remains usable if broken apart.

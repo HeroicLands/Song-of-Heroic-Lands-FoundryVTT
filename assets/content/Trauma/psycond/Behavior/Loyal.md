@@ -8,12 +8,12 @@ type: trauma
 data:
   icon: battlegear
   templatePriority: 0
+  packFolder: quirks
 subType: psycond
 sohl:
   kbcat: psybehavior
   system:
     category: quirk
-packFolder: quirks
 ---
 
 Loyal refers to an individual's steadfast commitment and dedication to a person, cause, or group. A loyal person is reliable, supportive, and often willing to make sacrifices to uphold their bonds and obligations. They stand by those they care about through both good and difficult times. While loyalty is a highly valued trait that strengthens relationships and fosters trust, excessive loyalty can sometimes lead to self-sacrifice, the enabling of harmful behavior, or an unwillingness to recognize when loyalty is no longer deserved.

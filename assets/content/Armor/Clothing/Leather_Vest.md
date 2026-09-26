@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: leathervest
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: hide
@@ -33,9 +34,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 96
-origWeight: 3.6
 ---
 
 A Leather Vest combines rugged style with minimal protection. Lightweight and comfortable, it’s suitable for everyday wear or light adventuring, adding a bit of edge to the wearer’s attire.

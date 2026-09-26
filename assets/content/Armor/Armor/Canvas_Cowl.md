@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: hood
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: txtl
@@ -33,9 +34,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 5.4
-origWeight: 0.4
 ---
 
 The Canvas Cowl is made from heavy hemp weave, coarse against the skin but slow to wear through. Carters and boatmen favour it for its stubbornness rather than its comfort.

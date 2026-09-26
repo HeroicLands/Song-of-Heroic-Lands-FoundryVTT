@@ -5,7 +5,8 @@ name:
   full: House Rules Cookbook
   aliases: []
 shortcode: houserulescookbook
-pack: none
+data:
+  pack: none
 sohl:
   kbcat: devdocs
 ---

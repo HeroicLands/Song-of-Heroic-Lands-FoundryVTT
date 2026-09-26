@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: loincloth
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: hide
@@ -32,9 +33,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 80
-origWeight: 1
 ---
 
 The Leather Loincloth is a simple yet stylish garment providing basic coverage. Made from lightweight leather, it offers a touch of rugged charm and minimal protection.

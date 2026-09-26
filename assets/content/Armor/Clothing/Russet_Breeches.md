@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: trousers
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -35,9 +36,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 17
-origWeight: 0.9
 ---
 
 Russet Breeches, dyed a reddish-brown color, are sturdy and practical. Made from coarse wool, they provide warmth and durability, making them ideal for colder weather and rougher environments.

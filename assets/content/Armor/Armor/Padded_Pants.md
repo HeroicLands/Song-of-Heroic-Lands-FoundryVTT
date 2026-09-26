@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: trousers
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: txtl
@@ -38,9 +39,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: armorarmor
-origValue: 78
-origWeight: 3.1
 ---
 
 Padded Pants offer cushioning and warmth, ideal for wear under other armor or on their own. They provide comfort and added protection, suitable for both combat and everyday use.

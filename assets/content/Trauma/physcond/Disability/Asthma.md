@@ -8,12 +8,12 @@ type: trauma
 data:
   icon: battlegear
   templatePriority: 0
+  packFolder: traumaphysical
 subType: physcond
 sohl:
   kbcat: physdisability
   system:
     category: impediment
-packFolder: traumaphysical
 ---
 
 Asthma is a chronic condition of the lungs, where the airways become narrowed and inflamed, causing difficulty in breathing. Without modern medicine, those afflicted rely on rest, avoiding known triggers, and natural remedies to manage their symptoms. The condition can be life-threatening during severe attacks.

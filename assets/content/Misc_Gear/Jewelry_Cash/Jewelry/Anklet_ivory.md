@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: gempendant
   templatePriority: 0
+  packFolder: jewelry
 sohl:
   craft:
     skill: jewl
@@ -20,7 +21,6 @@ sohl:
     valueBase: 32
     qualityBase: 0
     durabilityBase: 3
-packFolder: jewelry
 ---
 
 A band worn at the ankle, closed or hinged, and often hung with small charms. This one is carved ivory — the tooth of beasts from far off, not the horn of any beast bred at home — 1.28 ounces of it, and reckons 2 days at the bench.

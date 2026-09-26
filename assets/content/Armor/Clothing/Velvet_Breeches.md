@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: trousers
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: txtl
@@ -35,9 +36,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 17
-origWeight: 0.9
 ---
 
 Velvet Breeches bring a touch of luxury to any outfit. Soft and smooth, they are perfect for high-status events or court appearances, where style and impressiveness are more important than durability.

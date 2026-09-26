@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: bracer
   templatePriority: 0
+  packFolder: clothing
 sohl:
   craft:
     skill: hide
@@ -33,9 +34,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: 0
-packFolder: clothing
-origValue: 20
-origWeight: 0.8
 ---
 
 Leather Bracers provide a stylish and functional choice for arm protection. Made from lightweight leather, they offer some defense against minor injuries while allowing for full flexibility and movement.

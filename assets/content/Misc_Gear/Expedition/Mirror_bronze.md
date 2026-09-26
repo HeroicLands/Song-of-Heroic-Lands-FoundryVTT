@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: expedition
 sohl:
   craft:
     skill: mtlc
@@ -20,7 +21,6 @@ sohl:
     valueBase: 12
     qualityBase: 0
     durabilityBase: 4
-packFolder: expedition
 ---
 
 A hand-sized mirror cast from bronze, its face polished to a soft sheen and backed with tin-plate to hold the reflection. Soldiers and travelers use it to signal across distance, to check for beard and dirt, and to spot pursuers around corners.

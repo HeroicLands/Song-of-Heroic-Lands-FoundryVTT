@@ -5,7 +5,8 @@ name:
   full: Build, Deployment, and Release
   aliases: []
 shortcode: buildanddeployment
-pack: none
+data:
+  pack: none
 sohl:
   kbcat: devdocs
 ---
@@ -429,20 +430,22 @@ top-level `packFolder:` giving that note's address.
 
 A repository may ship **more than one pack of a document type** — two Item packs
 grouping items editorially, say. Where it does, a note names the one it belongs
-in with a top-level `pack:` field:
+in with a shared `data.pack:` field:
 
 ```yaml
 ---
+shortcode: secondsight
 name:
   full: Second Sight
 type: skill
-pack: mysteries # optional; one of the configured Item packs
+data:
+  pack: mysteries # optional; one of the configured Item packs
 ---
 ```
 
-`type:` and `pack:` answer different questions and are not interchangeable:
-`type:` decides **what the note compiles into** (and therefore which compiler
-runs), `pack:` decides **which pack of that type receives it**.
+`type:` and `data.pack:` answer different questions: `type:` decides **what the
+note compiles into** (and therefore which compiler runs), while `data.pack:`
+decides **which pack of that type receives it**.
 
 - **The field is optional, and omitting it is the normal case.** A note that
   declares nothing lands in the **default** pack of its type. A type with

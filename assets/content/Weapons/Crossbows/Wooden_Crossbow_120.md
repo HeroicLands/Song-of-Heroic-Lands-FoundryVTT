@@ -9,6 +9,7 @@ type: weapongear
 data:
   icon: crossbow
   templatePriority: 0
+  packFolder: weapons
 sohl:
   craft:
     skill: fltch
@@ -65,7 +66,6 @@ sohl:
         maxVolleyMult: 4
         baseRangeBase: 210
         drawBase: 120
-packFolder: weapons
 ---
 
 A town watch or caravan guard's crossbow, drawing one hundred and twenty pounds and spanned with a goat's-foot lever. This wooden-prod weapon balances durability with manageable spanning time, favored by soldiers who must maintain readiness during long patrols or defensive positions. Effective against armored enemies at moderate range.

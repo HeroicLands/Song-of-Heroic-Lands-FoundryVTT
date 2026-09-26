@@ -10,6 +10,7 @@ type: miscgear
 data:
   icon: swapbag
   templatePriority: 0
+  packFolder: stone
 sohl:
   craft:
     skill: mnrl
@@ -20,7 +21,6 @@ sohl:
     valueBase: 0.5
     qualityBase: 0
     durabilityBase: 8
-packFolder: stone
 ---
 
 Fieldstone or unworked slab quarried and sold in rough, unsquared blocks. Rough stone is cheap and practical for barn walls, boundary fences, and common fortifications where fit and appearance matter less than bulk and strength. A mason will dress the facing as needed; interior rubble is left as-quarried and mortared in place.

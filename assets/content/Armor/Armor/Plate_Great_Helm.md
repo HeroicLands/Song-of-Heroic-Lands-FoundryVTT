@@ -9,6 +9,7 @@ type: armorgear
 data:
   icon: visoredhelm
   templatePriority: 0
+  packFolder: armorarmor
 sohl:
   craft:
     skill: wpnc
@@ -40,9 +41,6 @@ sohl:
       fire: 5
     encumbrance: 0
     perceptionPenaltyBase: -10
-packFolder: armorarmor
-origValue: 180
-origWeight: 6.8
 ---
 
 The Plate Great Helm is a fully enclosed steel helmet, offering maximum protection for the head and face. It is a mainstay for knights, designed to deflect blows and withstand the rigors of battle, though it sacrifices visibility and comfort.
