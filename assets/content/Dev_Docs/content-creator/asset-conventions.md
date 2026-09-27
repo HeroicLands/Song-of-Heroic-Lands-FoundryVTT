@@ -21,6 +21,19 @@ nobody sees until a sheet is opened. This page covers where a file goes, what
 shape it must take, how the authored path becomes a served one, and what an
 item gets when it declares no art at all.
 
+## Images in journal prose
+
+An image or image embed in a note stands in its own paragraph. Its `size:`
+directive accepts `auto`, `small`, `medium`, `large`, `xlarge`, and `full-width`.
+The four bounded sizes display at up to 64, 128, 256, and 512 CSS pixels in a
+Foundry journal. `auto` uses the file's natural size within the journal page;
+`full-width` fills the page measure. The image keeps its aspect ratio.
+
+`float: top-left` and `bottom-left` wrap prose on the right. `top-right` and
+`bottom-right` wrap it on the left; `center` places the image without wrapping.
+In a narrow journal window, floats sit in the text flow so prose stays readable.
+The image's alt text is its visible caption.
+
 ## Where art lives
 
 Everything shipped lives under `assets/`, one directory per kind:
