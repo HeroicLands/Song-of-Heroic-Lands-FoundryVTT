@@ -20,7 +20,7 @@ describe("SoHL E2E smoke", () => {
     it("boots the seeded world as GM with the sohl system", () => {
         cy.login();
 
-        cy.window().its("game.world.id").should("eq", Cypress.env("worldId"));
+        cy.window().its("game.world.id").should("eq", Cypress.expose("worldId"));
         cy.window().its("game.system.id").should("eq", "sohl");
         cy.window().its("game.user.isGM").should("eq", true);
     });

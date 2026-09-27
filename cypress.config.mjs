@@ -30,6 +30,8 @@ const port = resolveStagePort(buildConfig.e2eStage, {
 const { worldId, gmId, gmName, gmPassword } = resolveE2EWorld(buildConfig);
 
 export default defineConfig({
+    expose: { worldId, gmId, gmName },
+    env: { gmPassword },
     e2e: {
         baseUrl: `http://localhost:${port}`,
         supportFile: "cypress/support/e2e.js",
@@ -44,13 +46,5 @@ export default defineConfig({
         // add little here, and specs share login state within a run.
         fixturesFolder: false,
         video: false,
-        // The seeded world + GM are the contract between the seed and the
-        // specs — exposed so `cy.login()` needs no hard-coded credentials.
-        env: {
-            worldId,
-            gmId,
-            gmName,
-            gmPassword,
-        },
     },
 });

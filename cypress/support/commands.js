@@ -17,7 +17,7 @@
  * Authenticates directly against Foundry's `/join` endpoint (the same POST the
  * join screen makes) with the seeded GM's id + known password, which sets the
  * session cookie; then loads `/game` and waits for `game.ready`. Defaults come
- * from Cypress.env (populated by cypress.config.mjs from the seed contract), so
+ * from the Cypress configuration's seeded-world contract, so
  * a spec just calls `cy.login()`.
  *
  * @param {object} [opts]
@@ -25,27 +25,34 @@
  * @param {string} [opts.password] - that user's password (default: seeded GM's).
  */
 Cypress.Commands.add("login", (opts = {}) => {
-    const userId = opts.userId ?? Cypress.env("gmId");
-    const password = opts.password ?? Cypress.env("gmPassword");
+    const userId = opts.userId ?? Cypress.expose("gmId");
+    const password =
+        opts.password === undefined ?
+            cy.env(["gmPassword"], { log: false })
+        :   cy.wrap({ gmPassword: opts.password }, { log: false });
 
-    cy.request({
-        method: "POST",
-        url: "/join",
-        // Foundry renamed this body field from `userid` to `userId` in 14.367
-        // (`sessions.authenticateUser` destructures one or the other, depending
-        // on build). Send both: the handler destructures the name it wants and
-        // ignores the other, so one request spans the whole supported range —
-        // 14.359 (the pinned floor) through the newest release the sweep runs.
-        // Sending only `userid` makes 14.367 read `undefined`, look up no user,
-        // and answer 401 `JOIN.ErrorUserDoesNotExist` with the misleading log
-        // line `no user with ID of undefined` — which blocked every spec.
-        body: { action: "join", userid: userId, userId, password },
-    }).then((res) => {
-        // A successful join returns JSON `{status:"success", …}`. When the world
-        // is not active Foundry answers 200 with an HTML error page instead, so
-        // assert on the payload rather than the status code.
-        expect(res.body, "join response").to.have.property("status", "success");
-    });
+    password.then(({ gmPassword }) =>
+        cy
+            .request({
+                method: "POST",
+                url: "/join",
+                // Foundry renamed this body field from `userid` to `userId` in 14.367
+                // (`sessions.authenticateUser` destructures one or the other, depending
+                // on build). Send both: the handler destructures the name it wants and
+                // ignores the other, so one request spans the whole supported range —
+                // 14.359 (the pinned floor) through the newest release the sweep runs.
+                // Sending only `userid` makes 14.367 read `undefined`, look up no user,
+                // and answer 401 `JOIN.ErrorUserDoesNotExist` with the misleading log
+                // line `no user with ID of undefined` — which blocked every spec.
+                body: { action: "join", userid: userId, userId, password: gmPassword },
+            })
+            .then((res) => {
+                // A successful join returns JSON `{status:"success", …}`. When the world
+                // is not active Foundry answers 200 with an HTML error page instead, so
+                // assert on the payload rather than the status code.
+                expect(res.body, "join response").to.have.property("status", "success");
+            }),
+    );
 
     cy.visit("/game");
     cy.window({ timeout: 60000 }).its("game").its("ready").should("eq", true);
