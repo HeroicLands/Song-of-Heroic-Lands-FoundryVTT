@@ -1,0 +1,109 @@
+// The content renderer owns these class names and journal pages sit outside the
+// system sheet frame.
+// stylelint-disable selector-class-pattern -- class names come from package-build.
+.journal-entry-page .journal-page-content:has(.note-image) {
+    container: note-prose / inline-size;
+}
+
+.note-image {
+    display: table;
+    width: max-content;
+    max-width: 100%;
+    margin: 1rem 0;
+
+    img {
+        display: block;
+        width: auto;
+        max-width: 100%;
+        height: auto;
+    }
+
+    figcaption {
+        display: table-caption;
+        caption-side: bottom;
+        margin-top: 0.3rem;
+        font-size: 0.85em;
+        color: var(--sohl-color-text-secondary);
+    }
+}
+
+.note-image-size-small {
+    --sohl-note-image-width: 64px;
+}
+.note-image-size-medium {
+    --sohl-note-image-width: 128px;
+}
+.note-image-size-large {
+    --sohl-note-image-width: 256px;
+}
+.note-image-size-xlarge {
+    --sohl-note-image-width: 512px;
+}
+
+.note-image-size-small,
+.note-image-size-medium,
+.note-image-size-large,
+.note-image-size-xlarge {
+    width: min(100%, var(--sohl-note-image-width));
+
+    img {
+        width: 100%;
+    }
+}
+
+.note-image-full-width,
+.note-image-size-full-width {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+
+    img {
+        width: var(--sohl-note-image-width, 100%);
+    }
+
+    figcaption {
+        display: block;
+    }
+}
+
+.note-image-float-top-left,
+.note-image-float-bottom-left {
+    float: left;
+    max-width: 50%;
+    margin: 0.25rem 1rem 0.75rem 0;
+}
+
+.note-image-float-top-right,
+.note-image-float-bottom-right {
+    float: right;
+    max-width: 50%;
+    margin: 0.25rem 0 0.75rem 1rem;
+}
+
+.note-image-full-width,
+.note-image-size-full-width {
+    max-width: 100%;
+}
+
+.note-image-float-center {
+    float: none;
+    margin: 1rem auto;
+}
+
+@container note-prose (max-width: 30rem) {
+    .note-image-float-top-left,
+    .note-image-float-bottom-left,
+    .note-image-float-top-right,
+    .note-image-float-bottom-right {
+        display: block;
+        float: none;
+        width: 100%;
+        max-width: 100%;
+        margin: 1rem auto;
+
+        img {
+            width: var(--sohl-note-image-width, auto);
+        }
+    }
+}
+// stylelint-enable selector-class-pattern

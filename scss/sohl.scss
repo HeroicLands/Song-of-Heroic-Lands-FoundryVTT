@@ -75,6 +75,9 @@
     // the sidebar directory and in the compendium browser, and two of those are
     // Foundry chrome outside the `.sohl` frame.
     @include meta.load-css("components/draft-mark");
+    // Unscoped: note prose is rendered in Foundry journal pages outside the
+    // `.sohl` sheet frame.
+    @include meta.load-css("components/note-image");
     // Unscoped: the picker dialog is a top-level DialogV2 window (no `.sohl`
     // frame); the file scopes its sheet-control rules to `.sohl` internally.
     @include meta.load-css("components/date-picker");

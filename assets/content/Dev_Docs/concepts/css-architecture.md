@@ -210,6 +210,11 @@ Declare the order once, at the top of the entry stylesheet:
 @layer sohl.base, sohl.layout, sohl.components, sohl.apps, sohl.utilities;
 ```
 
+Compiled note prose in a Foundry journal sits outside the `.sohl` sheet frame.
+The `note-image` component is loaded unscoped in `sohl.components` and targets
+the classes emitted by the content renderer. Its journal prose container lets
+floats respond to the journal's width rather than the browser window's width.
+
 Order rationale (earlier = lower priority): `base` (resets/overrides) > `layout`
 (structure) > `components` (widgets) > `apps` (sheet-specific tweaks override the
 generic widget) > `utilities` (single-purpose helpers win last, as intended).
