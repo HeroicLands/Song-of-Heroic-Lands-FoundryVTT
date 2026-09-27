@@ -34,7 +34,7 @@ The tables are rendered from the declaration that _builds_ each document, not fr
 | `title`          | string                                | no       | `""`    | The style of address the office carries.                               |
 | `level`          | number                                | no       | `0`     | Standing within the society.                                           |
 | `commonSkills`   | list of addresses                     | no       | `[]`    | Native SoHL skill Items common among members, by address.              |
-| `data.relations` | map of affiliation address → standing | no       | `{}`    | How this society regards others: aligned, unaligned, rival or nemesis. |
+| `data.relations` | map of affiliation address > standing | no       | `{}`    | How this society regards others: aligned, unaligned, rival or nemesis. |
 | `data.parents`   | list of addresses                     | no       | `[]`    | Affiliations this one is subordinate to, by address.                   |
 | `data.seat`      | as authored, blank is unset           | no       | `null`  | Where the affiliation's authority sits, by place address.              |
 | `data.domains`   | list of addresses                     | no       | `[]`    | Places this affiliation holds sway over, by address.                   |
@@ -231,7 +231,7 @@ The prose here compiles into the item's documentation.
 | `assocSkillCode`       | as authored, blank is unset                 | no       | `null`                      | Shortcode of the skill the mystery is tested against.                                                           |
 | `assocAffiliationCode` | as authored, blank is unset                 | no       | `null`                      | Shortcode of the affiliation whose standing confers the mystery — a religion, school, or ancestor/totem/spirit. |
 | `levelBase`            | number                                      | no       | `0`                         | The mystery's level before any modifier.                                                                        |
-| `data.skillAptitudes`  | map of skill selector → whole number        | no       | `{}`                        | Aptitude the mystery grants, per skill selector.                                                                |
+| `data.skillAptitudes`  | map of skill selector > whole number        | no       | `{}`                        | Aptitude the mystery grants, per skill selector.                                                                |
 | `data.charges`         | `{value, max}`, both whole numbers or unset | no       | `{"value":null,"max":null}` | Uses available and the pool's size. A blank maximum means the mystery does not use charges.                     |
 
 ```markdown
