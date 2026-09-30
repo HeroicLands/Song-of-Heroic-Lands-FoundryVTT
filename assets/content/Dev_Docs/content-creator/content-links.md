@@ -222,7 +222,7 @@ repository resolves within this repository.
 
 The dependency runs the other way. `sohl-thalorna` and `sohl-kethira-basic` address
 `sohl`, declaring it in `relationships` with `itemCatalog: true` and filling a local
-cache with `content-build deps fetch`; a compile never touches the network, and one
+cache with `package-build deps fetch`; a compile never touches the network, and one
 whose cache is cold fails saying so. That is the mechanism a _consuming_ repository
 uses — this one is on the other end of it.
 

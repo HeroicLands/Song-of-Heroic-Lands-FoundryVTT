@@ -23,7 +23,7 @@ import path from "node:path";
  * written to `build/hugo/data/api-symbols.json` — a build output, beside the
  * generated Hugo tree — so the knowledgebase build can resolve `{@link sohl.*}`
  * references in the developer documentation to the API site without itself
- * running TypeDoc. `docs:html` therefore runs before `content-build site`.
+ * running TypeDoc. `docs:html` therefore runs before `package-build site`.
  *
  * URLs come from the renderer's {@link https://typedoc.org | Router} rather
  * than from scanning HTML filenames, so disambiguation suffixes (e.g.

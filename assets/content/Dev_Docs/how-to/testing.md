@@ -72,7 +72,7 @@ tests/
 ### Where the pack-pipeline tests live
 
 They are **not in this repository**. `@heroiclands/package-build` is developed in
-[HeroicLands/content-build](https://github.com/HeroicLands/content-build) and
+[HeroicLands/package-build](https://github.com/HeroicLands/package-build) and
 arrives here as a `devDependency` resolved from the registry — the same way
 `sohl-thalorna` and `sohl-kethira-basic` resolve it. Its suite runs in its own
 repository, against fixtures it owns.

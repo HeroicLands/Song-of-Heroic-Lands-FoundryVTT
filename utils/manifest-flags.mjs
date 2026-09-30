@@ -31,8 +31,11 @@
 import fs from "node:fs";
 import path from "node:path";
 
-import { collectContentDocs } from "@heroiclands/package-build/engine/helpers";
-import { indexRecordsFor } from "@heroiclands/package-build/engine/content-index";
+import {
+    authoredFrontmatter,
+    indexRecordsFor,
+    isNoteRecord,
+} from "@heroiclands/package-build/engine/content-index";
 import { compendiumUuid } from "@heroiclands/package-build/engine/ids";
 import { noteDocId } from "@heroiclands/package-build/engine/note-ids";
 import { packRouter } from "@heroiclands/package-build/engine/pack-router";
@@ -51,7 +54,7 @@ const CREDITS = { type: "doc", shortcode: "credits" };
  * Fails loudly on absence or ambiguity. A manifest carrying a dead `@UUID`
  * gives the reader a link that silently opens nothing.
  *
- * @param {object} config - The resolved content-build configuration.
+ * @param {object} config - The resolved package-build configuration.
  * @returns {string} The credits journal's compendium UUID.
  */
 function creditsUuid(config) {
@@ -60,11 +63,12 @@ function creditsUuid(config) {
     // two passes can disagree about which files the tree holds; `records` and
     // the resolved `config` are both required rather than re-derived here.
     const records = indexRecordsFor({ contentBase, config });
-    const matches = collectContentDocs(contentBase, { config, records }).filter(
-        (d) =>
-            d.fm?.package === config.contentPackage &&
-            d.fm?.type === CREDITS.type &&
-            d.fm?.shortcode === CREDITS.shortcode,
+    const matches = records.filter(
+        (record) =>
+            isNoteRecord(record) &&
+            record.package === config.contentPackage &&
+            record.type === CREDITS.type &&
+            record.shortcode === CREDITS.shortcode,
     );
 
     if (matches.length === 0) {
@@ -78,7 +82,7 @@ function creditsUuid(config) {
     if (matches.length > 1) {
         throw new Error(
             `Multiple notes claim shortcode "${CREDITS.shortcode}": ` +
-                matches.map((m) => m.path).join(", "),
+                matches.map((record) => record.file.path).join(", "),
         );
     }
 
@@ -90,10 +94,11 @@ function creditsUuid(config) {
     // value that is usually absent, and the manifest would carry a dead
     // `@UUID`. `noteDocId` is the one function every pass asks, so the address
     // stamped here is the address the journals pass compiled.
-    const id = noteDocId(note.fm);
+    const fm = authoredFrontmatter(note);
+    const id = noteDocId(fm);
     if (!id) {
         throw new Error(
-            `The credits note (${note.path}) has no address — a note is ` +
+            `The credits note (${note.file.path}) has no address — a note is ` +
                 `addressed as "<type>-<shortcode>" and must declare both — so ` +
                 `it compiles to no JournalEntry and cannot be addressed.`,
         );
@@ -110,7 +115,7 @@ function creditsUuid(config) {
 /**
  * The `sohl` flag namespace, merged into the generated manifest.
  *
- * @param {object} config - The resolved content-build configuration.
+ * @param {object} config - The resolved package-build configuration.
  * @returns {Record<string, object>} Namespaced flags.
  */
 export function flags(config) {

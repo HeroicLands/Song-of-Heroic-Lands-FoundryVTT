@@ -70,7 +70,7 @@ packageBuild:
         - { from: LICENSE.md, to: LICENSE.md }
         - { from: README.md, to: README.md }
         # Shipped inside the archive rather than left to be fetched from a git
-        # tag, because `content-build deps fetch` already downloads and unzips
+        # tag, because `package-build deps fetch` already downloads and unzips
         # exactly this archive at a relationship's `compatibility.verified` —
         # so a consumer reads the schema of the version it actually pins,
         # through the cache it already has, with no second network path and no
@@ -298,9 +298,6 @@ packageBuild:
         primaryTokenAttribute: health
 
 publish:
-    # This repository publishes the whole knowledgebase, so it is `content`:
-    # the front page plus every page the content tree compiles to.
-    site: content
     address:
         prefix: kb/
 

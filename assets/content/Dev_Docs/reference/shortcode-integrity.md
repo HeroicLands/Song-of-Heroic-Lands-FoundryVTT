@@ -166,7 +166,7 @@ disables **Create** for either, so a human never reaches the `_preCreate` reject
 
 Authored compendium content is Markdown under `assets/content/`, seeded into packs by
 the compendium CLI, which **bypasses `_preCreate`**. The build-time guard
-`lint:addresses` (`content-build lint`, part of `npm run lint`) walks that
+`lint:addresses` (`package-build lint`, part of `npm run lint`) walks that
 content and fails on any shortcode that is not lowercase alphanumeric, and on any
 duplicate `(type, shortcode)`.
 

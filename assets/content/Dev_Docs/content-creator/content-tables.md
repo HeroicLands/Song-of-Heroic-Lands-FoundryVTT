@@ -196,7 +196,7 @@ non-zero. One bad directive costs its own table, not the whole build's report.
 
 Expansion happens **before** wikilink resolution, in every content compiler —
 `@heroiclands/package-build/engine/base-compiler` (which every pack compiler extends)
-and `@heroiclands/package-build/engine/site-build` (`content-build site`) — which is
+and `@heroiclands/package-build/engine/site-build` (`package-build site`) — which is
 what lets a generated cell contain a wikilink. The link checker expands the same
 tables from the same prepared results, so it cannot disagree with the compilers about
 what a table selects. The expander is unit-tested in package-build's

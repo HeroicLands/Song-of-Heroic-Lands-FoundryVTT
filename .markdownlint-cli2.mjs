@@ -1,4 +1,4 @@
-// markdownlint — the shared rule set, applied by `content-build markdown`.
+// markdownlint — the shared rule set, applied by `package-build markdown`.
 //
 // The rules live in `@heroiclands/package-build`, so every content repository
 // checks the same things; the shared configuration supplies the rule set,

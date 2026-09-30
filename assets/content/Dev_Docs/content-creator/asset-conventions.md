@@ -224,7 +224,7 @@ art. Its message names both fixes: write the registry entry as
 `<type>: { system: <builder>, img: "<path>" }`, or give the note an `img:` of
 its own.
 
-**Art travels with the builder** (content-build#7). A consuming repository that
+**Art travels with the builder.** A consuming repository that
 defines its own item type supplies that type's default in its own
 `itemBuilders` entry and never edits a SoHL-owned table. The registry path runs
 back through `resolveImg`, so `img: "icons/relic.svg"` in a registry entry means

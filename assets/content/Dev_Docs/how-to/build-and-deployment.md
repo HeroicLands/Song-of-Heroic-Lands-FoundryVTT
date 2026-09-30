@@ -66,8 +66,8 @@ sequence; `run-p` runs them in parallel.
 | `build:code`          | Bundle the system with Vite (`vite build --mode release`) > `build/stage/sohl.js`.                                                                                   |
 | `build:icons`         | Rebuild the icon font from SVGs (`utils/build-icon-font.mjs`). Run by hand when icons change.                                                                        |
 | `build:icon-legend`   | Regenerate the user guide's Icon Legend page from `src/` + `lang/en.json` (`utils/build-icon-legend.mjs`). Verified by `lint:icon-legend`.                           |
-| `build:deps`          | Fetch what the site build reads from the network — the shared header navigation, and any declared dependency (`content-build deps fetch`).                           |
-| `build:kb-content`    | Generate the Hugo source tree, `build/hugo/`: the content from `assets/content/`, and `hugo.toml` (`content-build site`). No Hugo needed.                            |
+| `build:deps`          | Fetch what the site build reads from the network — the shared header navigation, and any declared dependency (`package-build deps fetch`).                           |
+| `build:kb-content`    | Generate the Hugo source tree, `build/hugo/`: the content from `assets/content/`, and `hugo.toml` (`package-build site`). No Hugo needed.                            |
 | `build:kb`            | `build:deps`, `build:kb-content`, then render `build/hugo/` with Hugo > `build/site/sohl/`. Needs Hugo and the theme (installed by `npm ci`).                        |
 | `site:assemble`       | Write the deployment root's `_headers` and `_redirects` (`package-build site-root`), then mount the TypeDoc HTML at `build/site/sohl/api/` (`utils/build-site.mjs`). |
 | `build:site`          | The whole of `/sohl/`: `docs:prepare > docs:html > build:kb > site:assemble`.                                                                                        |
@@ -119,7 +119,7 @@ and is unit-tested directly.
 | `test:purity`             | The Foundry-free purity check (`vitest.purity.config.ts`).                                                                                                                                                                                                                                                                                                                           |
 | `e2e:full`                | _(on demand)_ The Cypress integration suite against a licensed Foundry container — not part of CI. See [[doc-testing                                                                                                                           \| Testing]].                                                                                                                         |
 | `lint` / `lint:fix`       | ESLint over `src/` (with `--fix`).                                                                                                                                                                                                                                                                                                                                                   |
-| `lint:addresses`          | Fail on a malformed `shortcode` or a duplicate `(type, shortcode)` in `assets/content/`. Runs `content-build lint`, so the rules are the toolchain's. See [[doc-shortcodeintegrity                                                             \| Shortcode Integrity]].                                                                                                             |
+| `lint:addresses`          | Fail on a malformed `shortcode` or a duplicate `(type, shortcode)` in `assets/content/`. Runs `package-build lint`, so the rules are the toolchain's. See [[doc-shortcodeintegrity                                                             \| Shortcode Integrity]].                                                                                                             |
 | `lint:rules-vtt`          | Fail if a rules document under `assets/content/Rules/` describes the VTT — clicks, buttons, dialogs, the chat log, or "the system". See [Authoring content notes](#authoring-content-notes).                                                                                                                                                                                         |
 | `lint:content-links`      | Fail on a `#anchor` link in `assets/content/` that no heading declares, or a `Rules/**` document unreachable from the rules root. See [Authoring content notes](#authoring-content-notes).                                                                                                                                                                                           |
 | `lint:styles`             | stylelint over `scss/`. Enforces the BEM class convention and the `--sohl-*` token namespace, plus invalid declarations, unknown properties, and dead selectors. See [What the two linters check](#what-the-two-linters-check).                                                                                                                                                      |
@@ -221,7 +221,7 @@ Satisfying them would mean reflowing 52 hand-written partials for byte-identical
 compiled output, which is the cosmetic refactor
 [[doc-systemdevelopment|System Development]] forbids.
 
-**`lint:markdown` (`content-build markdown`).** Enabled on markdownlint's
+**`lint:markdown` (`package-build markdown`).** Enabled on markdownlint's
 defaults over 1,600 files it reports ~74,000 findings, essentially all of them
 line length, list indentation, and blank lines — Prettier's territory. So
 `default` is off and nine rules are named individually:
@@ -402,7 +402,7 @@ its entry in `package-build.config.yaml`, rather than the guard being relaxed fo
 everyone.
 
 Cross-package references are resolved through published link manifests rather
-than a shared tree, fetched into a local cache by `content-build deps fetch`. This
+than a shared tree, fetched into a local cache by `package-build deps fetch`. This
 repository is the base package and resolves nothing outside itself; see
 [[doc-linkmanifest|The Link Manifest]].
 
@@ -491,7 +491,7 @@ both content builds silently, so `npm run lint:content-links` (also part of
   walking through it: an index links to nearly everything, and following it would
   make the check vacuous.
 
-`build:compiledb` runs the pack CLI, the `content-build` binary the installed
+`build:compiledb` runs the pack CLI, the `package-build` binary the installed
 package puts on the path. The CLI owns every side effect — argv parsing, `loglevel` configuration, creating
 `build/tmp/packs/`, and the process exit code — and calls the import-safe library
 `@heroiclands/package-build/engine/compendiums`, whose `compilePacks` / `unpackPacks` / `cleanPacks`
@@ -1099,7 +1099,7 @@ a rename, so there is nothing to redirect from.
 
 The build/deploy/doc tooling lives in **`utils/`**; the pack pipeline is the
 shared package **`@heroiclands/package-build`**, developed in
-[its own repository](https://github.com/HeroicLands/content-build) and consumed
+[its own repository](https://github.com/HeroicLands/package-build) and consumed
 here as a `devDependency` from the registry — the same way every other consumer
 resolves it. Each script carries a header comment describing its purpose
 and how to invoke it — read the file itself for the authoritative detail. In brief:
