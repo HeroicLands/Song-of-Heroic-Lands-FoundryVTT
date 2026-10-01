@@ -303,6 +303,143 @@ describe("MysticalAbilityLogic", () => {
         });
     });
 
+    describe("affiliation level requirement", () => {
+        /**
+         * An incantation naming an affiliation, with the affiliation live on the
+         * actor at `level`.
+         */
+        function incantation(
+            subType: string,
+            levelBase: number | null,
+            level: number,
+            opts: { withAffiliation?: boolean } = {},
+        ) {
+            const actor = makeAbilityActor();
+            if (opts.withAffiliation !== false) {
+                makeAffiliationOnActor(actor, "lyahvi", "Lyahvi Convocation", level).initialize();
+            }
+            const logic = makeAbility(
+                { subType, levelBase, assocAffiliationCode: "lyahvi" },
+                { actor },
+            );
+            logic.initialize();
+            logic.evaluate();
+            return logic;
+        }
+
+        it("requires standing equal to the incantation's level", () => {
+            const logic = incantation("arcaneincantation", 3, 3);
+            expect(logic.requiredAffiliationLevel).toBe(3);
+            expect(logic.affiliationShortfall).toBe(0);
+            expect(logic.meetsAffiliationRequirement).toBe(true);
+        });
+
+        it("reports how far short the standing falls", () => {
+            const logic = incantation("divineincantation", 4, 1);
+            expect(logic.requiredAffiliationLevel).toBe(4);
+            expect(logic.affiliationShortfall).toBe(3);
+            expect(logic.meetsAffiliationRequirement).toBe(false);
+        });
+
+        it("counts standing above the requirement as met, not as a surplus", () => {
+            const logic = incantation("arcaneincantation", 1, 5);
+            expect(logic.affiliationShortfall).toBe(0);
+            expect(logic.meetsAffiliationRequirement).toBe(true);
+        });
+
+        it("carries no requirement when no affiliation is associated", () => {
+            const logic = incantation("arcaneincantation", 3, 0, {
+                withAffiliation: false,
+            });
+            expect(logic.affiliation).toBeUndefined();
+            expect(logic.requiredAffiliationLevel).toBeUndefined();
+            expect(logic.affiliationShortfall).toBe(0);
+            expect(logic.meetsAffiliationRequirement).toBe(true);
+        });
+
+        it("carries no requirement when the ability has no level", () => {
+            const logic = incantation("arcaneincantation", null, 0);
+            expect(logic.level.disabled).toBeTruthy();
+            expect(logic.requiredAffiliationLevel).toBeUndefined();
+            expect(logic.meetsAffiliationRequirement).toBe(true);
+        });
+
+        it.each(["spirittalent", "arcanetalent", "spiritpower", "alchemy", "divination"])(
+            "carries no requirement for the innate subtype %s",
+            (subType) => {
+                const logic = incantation(subType, 3, 0);
+                expect(logic.affiliation).toBeDefined();
+                expect(logic.requiredAffiliationLevel).toBeUndefined();
+                expect(logic.meetsAffiliationRequirement).toBe(true);
+            },
+        );
+
+        it("re-derives when an effect moves the affiliation level across the threshold", () => {
+            const actor = makeAbilityActor();
+            const affiliation = makeAffiliationOnActor(actor, "lyahvi", "Lyahvi Convocation", 1);
+            affiliation.initialize();
+            const logic = makeAbility(
+                {
+                    subType: "arcaneincantation",
+                    levelBase: 3,
+                    assocAffiliationCode: "lyahvi",
+                },
+                { actor },
+            );
+            logic.initialize();
+            logic.evaluate();
+            expect(logic.affiliationShortfall).toBe(2);
+
+            // A dispensation raising the effective grade — the same seam an
+            // Active Effect writes to (`mod:logic.level`).
+            affiliation.level.add(VALUE_DELTA_INFO.PLAYER, 2);
+            expect(logic.affiliationShortfall).toBe(0);
+            expect(logic.meetsAffiliationRequirement).toBe(true);
+
+            // And a censure lowering it again.
+            affiliation.level.add(VALUE_DELTA_INFO.PLAYER, -1);
+            expect(logic.affiliationShortfall).toBe(3);
+            expect(logic.meetsAffiliationRequirement).toBe(false);
+        });
+
+        it("re-derives when an effect moves the ability's own level", () => {
+            const actor = makeAbilityActor();
+            makeAffiliationOnActor(actor, "lyahvi", "Lyahvi Convocation", 2).initialize();
+            const logic = makeAbility(
+                {
+                    subType: "arcaneincantation",
+                    levelBase: 2,
+                    assocAffiliationCode: "lyahvi",
+                },
+                { actor },
+            );
+            logic.initialize();
+            logic.evaluate();
+            expect(logic.meetsAffiliationRequirement).toBe(true);
+            logic.level.add(VALUE_DELTA_INFO.PLAYER, 1);
+            expect(logic.requiredAffiliationLevel).toBe(3);
+            expect(logic.affiliationShortfall).toBe(1);
+        });
+
+        it("does not disable or block an ability whose requirement is unmet", () => {
+            // The derivation informs; the decision to attempt stays the
+            // player's. Nothing is taken away from an unaffiliated practitioner.
+            const logic = incantation("arcaneincantation", 5, 0);
+            expect(logic.meetsAffiliationRequirement).toBe(false);
+            expect(logic.isDisabled).toBe(false);
+            expect(logic.masteryLevel.disabled).toBeFalsy();
+        });
+
+        it("exposes the requirement, the standing held, and the body holding it", () => {
+            // The three values the sheet reads to say what is short and of what.
+            // The numbers stay numbers here; the sentence is the template's.
+            const unmet = incantation("arcaneincantation", 4, 1);
+            expect(unmet.requiredAffiliationLevel).toBe(4);
+            expect(unmet.affiliation!.level.effective).toBe(1);
+            expect(unmet.affiliation!.name).toBe("Lyahvi Convocation");
+        });
+    });
+
     describe("finalize", () => {
         it("merges the associated skill's mastery level base into masteryLevel", () => {
             const actor = makeAbilityActor();

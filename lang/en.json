@@ -1077,6 +1077,7 @@
     "SOHL.MysticalAbility.SubType.spiritpower": "Spirit Power",
     "SOHL.MysticalAbility.SubType.spiritrite": "Spirit Rite",
     "SOHL.MysticalAbility.SubType.spirittalent": "Spirit Talent",
+    "SOHL.MysticalAbility.affiliationShortfall": "{affiliation} teaches this at standing {required}; this character holds {held}. What is already learned stays usable.",
     "SOHL.OpposedTestResult.resultEdit.dialogTitle": "Edit Opposed Result — {name}",
     "SOHL.OpposedTestResult.toChat.bothFail": "Both Fail!",
     "SOHL.OpposedTestResult.toChat.description": "{targetActorName} must now choose what skill to respond with",
