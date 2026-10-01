@@ -820,16 +820,16 @@ npm run container:dev stop                                          # tear it do
 
 The commands (`package-build container <stage> <command>`):
 
-| Command    | Effect                                                                                                              |
-| ---------- | ------------------------------------------------------------------------------------------------------------------- |
+| Command    | Effect                                                                                                                     |
+| ---------- | -------------------------------------------------------------------------------------------------------------------------- |
 | `start`    | Create (or restart) `heroiclands-foundry-<stage>` and serve `/data`. Sweeps a stale lock first when the container is down. |
-| `stop`     | Stop the container (state is kept for a fast `start`).                                                              |
-| `restart`  | Stop, sweep a stale lock, start. Deliberately **not** `docker restart`, which leaves no window in which to sweep.   |
-| `recreate` | Remove and re-create the container so changed `FOUNDRY_*`/`CONTAINER_*` env applies.                                |
-| `rm`       | Stop and remove the container.                                                                                      |
-| `status`   | Show the container's `docker ps -a` row.                                                                            |
-| `logs`     | Follow the container log (watch first-run install / boot here).                                                     |
-| `pull`     | Pull the latest image.                                                                                              |
+| `stop`     | Stop the container (state is kept for a fast `start`).                                                                     |
+| `restart`  | Stop, sweep a stale lock, start. Deliberately **not** `docker restart`, which leaves no window in which to sweep.          |
+| `recreate` | Remove and re-create the container so changed `FOUNDRY_*`/`CONTAINER_*` env applies.                                       |
+| `rm`       | Stop and remove the container.                                                                                             |
+| `status`   | Show the container's `docker ps -a` row.                                                                                   |
+| `logs`     | Follow the container log (watch first-run install / boot here).                                                            |
+| `pull`     | Pull the latest image.                                                                                                     |
 
 **The data-root lock.** Foundry takes `Config/options.json.lock` while it runs
 and releases it on a clean shutdown. A container that dies holding it (`docker
