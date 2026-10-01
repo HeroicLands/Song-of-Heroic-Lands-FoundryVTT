@@ -11,7 +11,7 @@ sohl:
   armorType: Cloak
   detailMaterial: Leather
   system:
-    weightBase: 1.2
+    weightBase: 3.5
     valueBase: 95
     durabilityBase: 9
     material: Leather

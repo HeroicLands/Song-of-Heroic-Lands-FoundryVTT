@@ -172,6 +172,37 @@ const PERCEPTION: Record<string, number> = {
     "Plate/Great Helm": -10,
 };
 
+/**
+ * Weight per unit of coverage, by detail grade. An article's weight is its
+ * coverage times its grade's rate, recovered from the grade's own clean
+ * articles rather than read off any outside source.
+ */
+const WEIGHT_RATE: Record<string, number> = {
+    Beaver: 12.2111,
+    Buckram: 5.0316,
+    Canvas: 6.3291,
+    Cloth: 5.0316,
+    Ermine: 9.5604,
+    Gambeson: 28.0303,
+    Homespun: 1.2739,
+    Leather: 10,
+    Linen: 1.2658,
+    Mail: 45.0556,
+    Padded: 7.9659,
+    Quilted: 17.963,
+    Rawhide: 15.8654,
+    Ring: 53.9394,
+    Russet: 2.5821,
+    Scale: 55,
+    Sealskin: 17.7013,
+    Serge: 2.6043,
+    Silk: 2.5963,
+    Straw: 1.2821,
+    Velvet: 5.0633,
+    "Waxed Canvas": 7.5362,
+    Worsted: 4.058,
+};
+
 interface Article {
     file: string;
     material: string;
@@ -180,9 +211,27 @@ interface Article {
     flexible: string[];
     rigid: string[];
     facing: { location: string; side: string }[];
+    weight: number;
+    coverage: number;
     encumbrance: number;
     encumbranceGroup: string | null;
     perception: number;
+}
+
+/**
+ * The fraction of the body an article actually protects. A location listed in
+ * `facing` is covered on one side only and counts for half its weight; a
+ * location named on both sides, or not named in `facing` at all, counts in
+ * full.
+ */
+function coverageOf(flexible: string[], rigid: string[], facing: { location: string }[]): number {
+    const sides: Record<string, number> = {};
+    for (const f of facing) sides[f.location] = (sides[f.location] ?? 0) + 1;
+    return [...flexible, ...rigid].reduce((sum, loc) => {
+        const n = sides[loc];
+        const fraction = n ? Math.min(n, 2) / 2 : 1;
+        return sum + (WEIGHT[loc] ?? 0) * fraction;
+    }, 0);
 }
 
 function walk(dir: string): string[] {
@@ -207,6 +256,12 @@ const ARTICLES: Article[] = walk(ARMOR_ROOT)
         flexible: d.sohl.system.locations?.flexible ?? [],
         rigid: d.sohl.system.locations?.rigid ?? [],
         facing: d.sohl.system.locations?.facing ?? [],
+        weight: d.sohl.system.weightBase,
+        coverage: coverageOf(
+            d.sohl.system.locations?.flexible ?? [],
+            d.sohl.system.locations?.rigid ?? [],
+            d.sohl.system.locations?.facing ?? [],
+        ),
         encumbrance: d.sohl.system.encumbrance ?? 0,
         encumbranceGroup: d.sohl.system.encumbranceGroup ?? null,
         perception: d.sohl.system.perceptionPenaltyBase ?? 0,
@@ -276,9 +331,20 @@ describe("armour coverage", () => {
      *
      * **Weight is the honest checksum**, because it follows from how much
      * material the article is made of, which is exactly what coverage measures.
-     * Asserting it needs the per-grade weights reconciled first — four grades
-     * hold ratios varying by a factor of three — so for now, nothing
-     * in this file verifies an article's coverage, and a mis-authored
-     * `flexloc`/`facing` list will pass.
+     * A mis-authored `flexloc`/`facing` list throws its weight off the rate
+     * below.
+     *
+     * The check is restricted to articles covering at least 0.30 of the body:
+     * below that, the one-decimal rounding on a small weight swings the ratio
+     * too far to mean anything, which is also why a handful of grades with
+     * only sub-threshold articles (Kûrbúl, Plate) carry no rate at all.
      */
+    it("weighs each article at its grade's rate times its coverage", () => {
+        for (const a of ARTICLES) {
+            if (a.coverage < 0.3) continue;
+            const rate = WEIGHT_RATE[a.detailMaterial];
+            if (rate === undefined) continue;
+            expect(Math.abs(a.weight - rate * a.coverage), a.file).toBeLessThanOrEqual(0.1);
+        }
+    });
 });

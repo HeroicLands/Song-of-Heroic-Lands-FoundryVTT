@@ -11,7 +11,7 @@ sohl:
   armorType: Cloak
   detailMaterial: Beaver
   system:
-    weightBase: 1.6
+    weightBase: 4.2
     valueBase: 145
     durabilityBase: 9
     material: Leather

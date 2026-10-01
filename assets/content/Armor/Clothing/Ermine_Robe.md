@@ -11,7 +11,7 @@ sohl:
   armorType: Robe
   detailMaterial: Ermine
   system:
-    weightBase: 7.4
+    weightBase: 7.5
     valueBase: 1896
     durabilityBase: 7
     material: Leather

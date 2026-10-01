@@ -11,7 +11,7 @@ sohl:
   armorType: Long Vest
   detailMaterial: Leather
   system:
-    weightBase: 4.1
+    weightBase: 3.7
     valueBase: 300
     durabilityBase: 9
     material: Leather
