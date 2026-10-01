@@ -42,7 +42,7 @@ Most Traumas are created for you. A wound arrives from the combat pipeline when 
 
 To reach a Trauma's actions, **right-click its row** on the Health tab, or open the Trauma and use its **Actions** tab. See [[doc-actionsug|Actions]] for how the menu works generally.
 
-> **Known gap.** The injury actions — **Request Treatment**, **Treat Injury**, and **Treatment Test** — are currently missing from that context menu because of a visibility bug (issue #1085). Until it is fixed they can only be reached the other ways described below: the chat-card buttons, and the physician's own **Perform Treatment Test** action on the Being sheet.
+> **Known gap.** The injury actions — **Request Treatment**, **Treat Injury**, and **Treatment Test** — are missing from that context menu because of a visibility bug. They are reached the other ways described below: the chat-card buttons, and the physician's own **Perform Treatment Test** action on the Being sheet.
 
 # Additional Properties
 
