@@ -13,8 +13,7 @@
 
 /**
  * CI guard: the frozen-subset Cypress e2e suite must stay green with no
- * **in-scope** spec left RED-skipped. This enforces Blocker III of the
- * Being-centric beta freeze.
+ * **in-scope** spec left RED-skipped.
  *
  * The whole `cypress/e2e` suite is **in scope** by default: every spec is
  * expected to pass on the frozen path. The only `it.skip` / `describe.skip`
@@ -45,14 +44,11 @@ import { join } from "node:path";
 const ROOT = "cypress/e2e";
 
 /**
- * The fenced-RED allowlist: GitHub issue number → why its RED spec is permitted
- * to stay skipped for the Being-centric beta freeze. Every entry is a fenced
- * feature (out of the frozen subset) or explicitly post-freeze behavior — the
- * frozen schema stands, only the deferred *behavior* is RED. When a fenced
- * feature lands, un-skip its spec(s) and delete its entry here.
- *
- * See the beta-scope plan (Blocker III) for the in/out-of-scope
- * boundary these numbers draw.
+ * The fenced-RED allowlist: GitHub issue number → why its RED spec is
+ * permitted to stay skipped. Every entry is a fenced feature (out of the
+ * frozen subset) or explicitly post-freeze behavior — the frozen schema
+ * stands, only the deferred *behavior* is RED. When a fenced feature lands,
+ * un-skip its spec(s) and delete its entry here.
  *
  * @type {Record<number, string>}
  */
