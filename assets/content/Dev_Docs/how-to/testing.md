@@ -428,7 +428,7 @@ container. A bare key is _applied but unsigned_ ("license requires signature");
 `FOUNDRY_USERNAME`/`FOUNDRY_PASSWORD` (account-wide) let felddy fetch a **signed**
 license — or sign once in a browser at `http://localhost:30003/setup`. Foundry
 binds the signed license to the **container hostname**, so the container script
-pins a stable one (`sohl-foundry-<stage>`); the signed `license.json` then
+pins a stable one (`heroiclands-foundry-<stage>`); the signed `license.json` then
 persists across recreates (the seed wipes only the world, not `Config`). Without
 that pin Foundry would revert to "requires signature" on every run.
 
@@ -449,7 +449,7 @@ file and ignores the key (the seed also errors out on this to prevent
 world/license clobbering).
 
 If instead you **share** one license, stop your `dev`/`qa` container before the
-run (single-seat); the harness warns when another `sohl-foundry-*` container is
+run (single-seat); the harness warns when another `heroiclands-foundry-*` container is
 up. See
 [[doc-buildanddeployment#6-deploying-to-a-foundry-instance|Build & Deployment §6 — running a build in a container]]
 for the container details and download cache.

@@ -822,7 +822,7 @@ The commands (`package-build container <stage> <command>`):
 
 | Command    | Effect                                                                                                              |
 | ---------- | ------------------------------------------------------------------------------------------------------------------- |
-| `start`    | Create (or restart) `sohl-foundry-<stage>` and serve `/data`. Sweeps a stale lock first when the container is down. |
+| `start`    | Create (or restart) `heroiclands-foundry-<stage>` and serve `/data`. Sweeps a stale lock first when the container is down. |
 | `stop`     | Stop the container (state is kept for a fast `start`).                                                              |
 | `restart`  | Stop, sweep a stale lock, start. Deliberately **not** `docker restart`, which leaves no window in which to sweep.   |
 | `recreate` | Remove and re-create the container so changed `FOUNDRY_*`/`CONTAINER_*` env applies.                                |

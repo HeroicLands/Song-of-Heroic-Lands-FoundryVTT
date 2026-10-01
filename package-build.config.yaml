@@ -134,6 +134,12 @@ packageBuild:
     # declares "never auto-launch". Its Foundry version comes from
     # FOUNDRYVTT_LEG_VERSION in .env.local, the maintainer's own.
     container:
+        # Shared with the other HeroicLands packages. Foundry binds a signed
+        # licence to the container hostname, so one declared name is one
+        # signature serving every package that declares it; `hm3` declares the
+        # same. The stage stays in the name, so each stage is still its own
+        # container over its own data root.
+        name: heroiclands-foundry
         stages:
             leg: { port: 30000, world: "" }
 
