@@ -1,6 +1,6 @@
 ---
 shortcode: blthbrd
-name: {full: Heavy Broad Bolt, alias: []}
+name: {full: Heavy Broad Bolt, aliases: []}
 type: projectilegear
 subType: bolt
 description: "Heavy quarrel with wide barbed head; bleeds flesh, unseats mounted rider."

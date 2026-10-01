@@ -1,20 +1,16 @@
 ---
 shortcode: alverriktarvall
-name:
-  full: Álverrik Tárvallor
-  title: ""
-  given: Álverrik
-  clan: Tárvallor
-  home: Solárden
-  aliases: [Roran Stonefist]
+name: {full: Álverrik Tárvallor, given: Álverrik, clan: Tárvallor, aliases: [Roran Stonefist]}
 type: being
-tags: [character]
+subType: character
+tags: []
 data:
   icon: person
   templatePriority: null
+  archetypes: [warrior]
   gender: male
   age: 30
-  born: 690/6/11
+  born: 690.163
   height: 1.83
   weight: 82
   frame: heavy

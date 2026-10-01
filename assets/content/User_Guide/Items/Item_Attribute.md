@@ -19,12 +19,12 @@ Attributes appear on the Being sheet's **Profile** tab, as a grid of small cards
 | Part of the card     | What it shows                                                                                     |
 | -------------------- | ------------------------------------------------------------------------------------------------- |
 | **Name**             | The attribute's name — _Strength_, _Aura_, _Will_                                                 |
-| **:icon-menu: menu** | The Actions context menu — every action on this page                                              |
+| **:icon menu: menu** | The Actions context menu — every action on this page                                              |
 | **Score**            | The effective score. Hover it to see how it was derived, modifier by modifier                     |
 | _Descriptor_         | The word for that score — _Feeble_, _Average_, _Mighty_ — from the attribute's Value Descriptors  |
 | **TL**               | The Target Level: the score × 5. This is the number a [[#success-test\|Success Test]] rolls under |
 
-**There is no click-to-roll cell.** Unlike a skill's EML cell on the Skills tab, neither the Score nor the TL is a button — an attribute is rolled from its **:icon-menu:** menu (or from the attribute's own **Actions** tab), and there is no Shift-click shortcut past the pre-roll dialog.
+**There is no click-to-roll cell.** Unlike a skill's EML cell on the Skills tab, neither the Score nor the TL is a button — an attribute is rolled from its **:icon menu:** menu (or from the attribute's own **Actions** tab), and there is no Shift-click shortcut past the pre-roll dialog.
 
 Attributes are displayed prominently since they form the basis of skill base formulas — every skill derives its starting value from one or more attributes, named in the skill's [[doc-sfexprssug|Skill Base formula]] by shortcode.
 
@@ -38,8 +38,8 @@ Along with the [[doc-baseitemug|Standard Item Properties]], the following proper
 
 - **Score:** The attribute's base value — the number the Profile card shows, and the number the Target Level is five times. This is the **first** of the two boxes on the tab.
 - **Init Dice Formula:** The dice formula a new character's score for this attribute is meant to be rolled from, such as `3d6`. It is a record of the generation rule, not a control: **nothing rolls it for you today** — you enter the score yourself (issue #1108). Leave it blank for an attribute that is not randomly generated. This is the **second** box on the tab.
-- **Value Descriptors:** A table of names for score bands — the word shown under the score on the Profile card. Each row is a **Label** and a **Max Value**, and the label used is the first band whose Max Value is at or above the score, so a list of _Feeble 4 / Weak 8 / Average 12 / Forceful 16 / Mighty 999_ calls a score of 10 _Average_. Use **Add** to add a band and the :icon-delete: to remove one. An attribute with no bands simply shows no descriptor.
-- **Impaired By Roles:** A list of body roles whose injury impairs this attribute — _vital_, _core_, _manipulator_, or _locomotor_. An unhealed injury at a body part carrying one of these roles penalizes this attribute's tests, and an unusable part makes them fail automatically. Use **Add Role** to add one and the :icon-delete: to remove it. Physical attributes name the roles they depend on; mental attributes normally leave this empty.
+- **Value Descriptors:** A table of names for score bands — the word shown under the score on the Profile card. Each row is a **Label** and a **Max Value**, and the label used is the first band whose Max Value is at or above the score, so a list of _Feeble 4 / Weak 8 / Average 12 / Forceful 16 / Mighty 999_ calls a score of 10 _Average_. Use **Add** to add a band and the :icon delete: to remove one. An attribute with no bands simply shows no descriptor.
+- **Impaired By Roles:** A list of body roles whose injury impairs this attribute — _vital_, _core_, _manipulator_, or _locomotor_. An unhealed injury at a body part carrying one of these roles penalizes this attribute's tests, and an unusable part makes them fail automatically. Use **Add Role** to add one and the :icon delete: to remove it. Physical attributes name the roles they depend on; mental attributes normally leave this empty.
 
 > **Known gap.** The **Score** and **Init Dice Formula** boxes currently render with **no labels at all** — two bare inputs, in that order (issue #1105). Until that is fixed, go by position: the left box is the Score, the right one the Init Dice Formula.
 
@@ -52,9 +52,9 @@ Along with the [[doc-baseitemug|Standard Item Properties]], the following proper
 
 Every attribute also carries the shared document actions — **Edit**, **Delete**, and **Output Description to Chat** — described once on [[doc-baseitemug|Base Item]]. The full menu on an attribute is therefore: _Edit_, _Success Test_, _Delete_, _Output Description to Chat_, _Opposed Test_.
 
-To reach any of them, click the **:icon-menu:** on the attribute's card on the Profile tab, or open the attribute and use its **Actions** tab.
+To reach any of them, click the **:icon menu:** on the attribute's card on the Profile tab, or open the attribute and use its **Actions** tab.
 
-An attribute defines **no hidden actions of its own** — everything it can do is in that menu. The one action you will meet elsewhere is the shared GM **result edit**, reached from the :icon-edit: pencil on a posted test-result card and described on [[doc-baseitemug|Base Item]].
+An attribute defines **no hidden actions of its own** — everything it can do is in that menu. The one action you will meet elsewhere is the shared GM **result edit**, reached from the :icon edit: pencil on a posted test-result card and described on [[doc-baseitemug|Base Item]].
 
 # Success Test {#success-test}
 
@@ -63,7 +63,7 @@ An attribute defines **no hidden actions of its own** — everything it can do i
 | **Name**      | Success Test                                                                                                                     |
 | **Shortcode** | `successTest`                                                                                                                    |
 | **Icon**      | `fa-bullseye` (a target)                                                                                                         |
-| **Invoked**   | The **Actions** context menu — the **:icon-menu:** on the attribute's Profile card, or the attribute's own Actions tab           |
+| **Invoked**   | The **Actions** context menu — the **:icon menu:** on the attribute's Profile card, or the attribute's own Actions tab           |
 | **API**       | [`AttributeLogic.successTest`](https://www.heroiclands.org/sohl/api/classes/sohl.document.item.logic.AttributeLogic#successtest) |
 
 ## What it does and when to use it
@@ -85,7 +85,7 @@ Reach for it when no skill really covers the attempt and the question is about t
 | Part                           | What it shows                                                            |
 | ------------------------------ | ------------------------------------------------------------------------ |
 | Title                          | The test's name — see the known gap below                                |
-| :icon-edit: pencil _(GM only)_ | Re-opens the dialog to correct the modifiers, without re-rolling the die |
+| :icon edit: pencil _(GM only)_ | Re-opens the dialog to correct the modifiers, without re-rolling the die |
 | _The modifier breakdown_       | Every modifier that made up the target                                   |
 | **Target**                     | The number the roll had to come in at or under                           |
 | **Roll**                       | The d100 result, green on a success and red on a failure                 |

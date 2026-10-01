@@ -1,6 +1,6 @@
 ---
 shortcode: bltlbod
-name: {full: Light Bodkin Bolt, alias: []}
+name: {full: Light Bodkin Bolt, aliases: []}
 type: projectilegear
 subType: bolt
 description: "Light narrow shaft, small square spike; pierces light mail, flat trajectory."

@@ -10,7 +10,7 @@ Esoteric knowledge and hidden lore.
 
 ## Grace
 
-```sql :allow-empty
+```sql {allow-empty=true}
 SELECT address.slug AS _ref,
        name.full    AS "Name",
        description  AS "Description"
@@ -22,7 +22,7 @@ ORDER BY name.full COLLATE NOCASE
 
 ## Piety
 
-```sql :allow-empty
+```sql {allow-empty=true}
 SELECT address.slug AS _ref,
        name.full    AS "Name",
        description  AS "Description"
@@ -34,7 +34,7 @@ ORDER BY name.full COLLATE NOCASE
 
 ## Fate
 
-```sql :allow-empty
+```sql {allow-empty=true}
 SELECT address.slug AS _ref,
        name.full    AS "Name",
        description  AS "Description"
@@ -46,7 +46,7 @@ ORDER BY name.full COLLATE NOCASE
 
 ## Fate Bonus
 
-```sql :allow-empty
+```sql {allow-empty=true}
 SELECT address.slug AS _ref,
        name.full    AS "Name",
        description  AS "Description"
@@ -58,7 +58,7 @@ ORDER BY name.full COLLATE NOCASE
 
 ## Fate Point Bonus
 
-```sql :allow-empty
+```sql {allow-empty=true}
 SELECT address.slug AS _ref,
        name.full    AS "Name",
        description  AS "Description"
@@ -70,7 +70,7 @@ ORDER BY name.full COLLATE NOCASE
 
 ## Blessing
 
-```sql :allow-empty
+```sql {allow-empty=true}
 SELECT address.slug AS _ref,
        name.full    AS "Name",
        description  AS "Description"
@@ -82,7 +82,7 @@ ORDER BY name.full COLLATE NOCASE
 
 ## Ancestor Spirit Power
 
-```sql :allow-empty
+```sql {allow-empty=true}
 SELECT address.slug AS _ref,
        name.full    AS "Name",
        description  AS "Description"
@@ -94,7 +94,7 @@ ORDER BY name.full COLLATE NOCASE
 
 ## Totem Spirit Power
 
-```sql :allow-empty
+```sql {allow-empty=true}
 SELECT address.slug AS _ref,
        name.full    AS "Name",
        description  AS "Description"

@@ -289,7 +289,7 @@ const config: SohlTourConfig = {
 };
 ```
 
-> :icon-warning: **The seeded RNG MUST be restored on every exit path, and this is the tour's
+> :icon warning: **The seeded RNG MUST be restored on every exit path, and this is the tour's
 > only teardown obligation.** `sohl.random` is the process-wide shared stream; a
 > seed left in place makes the **user's real game return identical dice until they
 > reload**. The restore is registered at seed time as a fire-once

@@ -231,7 +231,7 @@ sohl:
 
 # Appearance {#appearance}
 
-![[charger|Charger]]{float: top-left}
+![[charger|Charger]]{float=top-left}
 
 The muscle-bound form towers above human height, a living mountain of power and discipline. The warhorse stands seventeen hands at the shoulder, its chest broad as a shield and thick-boned beneath sleek, well-groomed coat. When it shifts its weight, the ground acknowledges the burden—each hoof the size of a large man's palm impacts with a soft but definitive thud. Its breathing is controlled and deep, nostrils flaring only slightly, and its eyes—intelligent, dark, watchful—track movement with the focus of a seasoned warrior. The scent that rises from its warm body carries the metallic tang of sweat and leather, the smell of something bred for violence but held firm through discipline.
 

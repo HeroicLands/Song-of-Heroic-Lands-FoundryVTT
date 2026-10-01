@@ -1,6 +1,6 @@
 ---
 shortcode: sston
-name: {full: Sling Stone, alias: []}
+name: {full: Sling Stone, aliases: []}
 type: projectilegear
 subType: bullet
 description: "Smooth river pebble or kiln-fired clay; cracks skulls, breaks hound legs."

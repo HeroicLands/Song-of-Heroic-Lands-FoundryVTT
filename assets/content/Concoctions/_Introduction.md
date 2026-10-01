@@ -10,7 +10,7 @@ Infusions, potions, elixirs, polutices, etc.
 
 ## Simples
 
-```sql :allow-empty
+```sql {allow-empty=true}
 SELECT address.slug           AS _ref,
        name.full              AS "Name",
        sohl.system.valueBase  AS "Value",
@@ -26,7 +26,7 @@ ORDER BY name.full COLLATE NOCASE
 
 ### Mild
 
-```sql :allow-empty
+```sql {allow-empty=true}
 SELECT address.slug           AS _ref,
        name.full              AS "Name",
        sohl.system.valueBase  AS "Value",
@@ -41,7 +41,7 @@ ORDER BY name.full COLLATE NOCASE
 
 ### Strong
 
-```sql :allow-empty
+```sql {allow-empty=true}
 SELECT address.slug           AS _ref,
        name.full              AS "Name",
        sohl.system.valueBase  AS "Value",
@@ -56,7 +56,7 @@ ORDER BY name.full COLLATE NOCASE
 
 ### Great
 
-```sql :allow-empty
+```sql {allow-empty=true}
 SELECT address.slug           AS _ref,
        name.full              AS "Name",
        sohl.system.valueBase  AS "Value",
@@ -71,7 +71,7 @@ ORDER BY name.full COLLATE NOCASE
 
 ## Elixirs
 
-```sql :allow-empty
+```sql {allow-empty=true}
 SELECT address.slug           AS _ref,
        name.full              AS "Name",
        sohl.system.valueBase  AS "Value",

@@ -21,7 +21,7 @@ Armor items are typically added from compendium packs that define standard equip
 In addition to the [[doc-gearug|Standard Gear Properties]], the following additional properties are defined for armor:
 
 - **Material:** The type of material the armor is constructed from (chain, leather, kurbul, cloth, etc.). This is the word that appears in the **Material** column of the Combat tab's body-locations table for every location the armor covers.
-- **Flexible Locations:** Body locations covered by flexible portions of this armor. Add one with **Add Flexible Location** and remove one with the :icon-delete: beside it; each is a body-location shortcode such as `thrxloc` (Thorax) or `skullloc` (Skull).
+- **Flexible Locations:** Body locations covered by flexible portions of this armor. Add one with **Add Flexible Location** and remove one with the :icon delete: beside it; each is a body-location shortcode such as `thrxloc` (Thorax) or `skullloc` (Skull).
 - **Rigid Locations:** Body locations covered by rigid portions of this armor (e.g., breastplate). A location named in **both** lists is covered once, and counts as rigid.
 - **Encumbrance:** Specific encumbrance value used when equipped.
 - **Protection Base:** For the four standard aspects-Blunt, Edged, Piercing, and Fire-the numbers here represent impact that is absorbed by the armor.
@@ -40,7 +40,7 @@ Armor adds one action of its own to the ones every piece of gear carries:
 
 | Action                        | Shortcode    | Where you meet it                                                |
 | ----------------------------- | ------------ | ---------------------------------------------------------------- |
-| [[#toggle-worn\|Toggle Worn]] | `toggleWorn` | The :icon-shield: button on the Gear tab row, or the Actions tab |
+| [[#toggle-worn\|Toggle Worn]] | `toggleWorn` | The :icon shield: button on the Gear tab row, or the Actions tab |
 
 Everything else on an armor item is inherited and documented elsewhere: **Toggle Carried** belongs to all gear and is described on [[doc-gearug|Gear]], and **Edit**, **Delete**, and **Output Description to Chat** belong to every item and are described once on [[doc-baseitemug|Base Item]]. None of them behaves differently on armor.
 
@@ -53,7 +53,7 @@ Armor defines **no hidden actions** — Toggle Worn is the whole of what armor a
 | **Name**      | Toggle Worn                                                                                                                     |
 | **Shortcode** | `toggleWorn`                                                                                                                    |
 | **Icon**      | `fa-shield-halved` (a shield split down the middle)                                                                             |
-| **Invoked**   | The :icon-shield: button on the armor's Gear tab row, or the :icon-run: beside _Toggle Worn_ on the armor's own **Actions** tab |
+| **Invoked**   | The :icon shield: button on the armor's Gear tab row, or the :icon run: beside _Toggle Worn_ on the armor's own **Actions** tab |
 | **API**       | [`ArmorGearLogic.toggleWorn`](https://www.heroiclands.org/sohl/api/classes/sohl.document.item.logic.ArmorGearLogic#toggleworn)  |
 
 ## What it does and when to use it
@@ -66,7 +66,7 @@ Armor defines **no hidden actions** — Toggle Worn is the whole of what armor a
 
 **The armor must be carried.** Toggle Worn is refused while the armor's **Is Carried** is false — you cannot put on something that is not on your person. While the armor is not carried:
 
-- the :icon-shield: button on the Gear tab row is greyed out, with the tooltip _"Armor must be carried before it can be worn"_;
+- the :icon shield: button on the Gear tab row is greyed out, with the tooltip _"Armor must be carried before it can be worn"_;
 - the **Worn** checkbox on the armor's own Properties tab is disabled;
 - and the action refuses to run however it is invoked.
 
@@ -77,7 +77,7 @@ Pick the armor up with **Toggle Carried** ([[doc-gearug|Gear]]) and Toggle Worn 
 There is **no dialog, no roll, and no chat card** — the action changes one flag and finishes:
 
 1. **The armor's Worn property flips**, exactly as if you had ticked or cleared the **Worn** checkbox on its Properties tab.
-2. **The :icon-shield: icon on the Gear tab row lights up or dims** to match the new state.
+2. **The :icon shield: icon on the Gear tab row lights up or dims** to match the new state.
 3. **Every body location the armor covers gains or loses its protection.** Open the Being sheet's **Combat** tab and look at the body-locations table: each location named in the armor's Flexible or Rigid lists now shows the armor's **Material** and adds its Blunt / Edged / Piercing / Fire values to the **B / E / P / F** columns.
 4. **The character's carried weight and encumbrance are recomputed** — see below.
 
@@ -101,9 +101,9 @@ Two consequences are worth knowing at the table:
 - **It does not check whether anything fits.** Nothing stops a character from wearing four hauberks at once; layering is the table's judgment, not the system's.
 - **It does not pick the armor up.** Toggle Worn works on armor already carried; use **Toggle Carried** to get it there.
 
-> **Known gap.** **Toggle Worn is missing from the Gear row's :icon-menu: Actions context menu**, even while the armor is carried (issue #1132). The menu shows only Edit, Toggle Carried, Delete, and Output Description to Chat. Use the :icon-shield: button on the row, or the :icon-run: on the armor's **Actions** tab, both of which work correctly. The same defect hides a weapon's attack and defence actions from that menu.
+> **Known gap.** **Toggle Worn is missing from the Gear row's :icon menu: Actions context menu**, even while the armor is carried (issue #1132). The menu shows only Edit, Toggle Carried, Delete, and Output Description to Chat. Use the :icon shield: button on the row, or the :icon run: on the armor's **Actions** tab, both of which work correctly. The same defect hides a weapon's attack and defence actions from that menu.
 >
-> Relatedly, the armor's **Actions** tab lists _Toggle Worn_ with an active :icon-run: even when the armor is not carried; clicking it there simply does nothing rather than telling you why (issue #1135). The greyed :icon-shield: button on the Gear tab is the honest indicator.
+> Relatedly, the armor's **Actions** tab lists _Toggle Worn_ with an active :icon run: even when the armor is not carried; clicking it there simply does nothing rather than telling you why (issue #1135). The greyed :icon shield: button on the Gear tab is the honest indicator.
 
 # See also
 

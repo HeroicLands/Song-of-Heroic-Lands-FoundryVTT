@@ -124,7 +124,7 @@ ORDER BY name.full COLLATE NOCASE
 
 Occult arts and hidden disciplines — alchemy, astrology, runecraft, tarotry, and the contemplative practices that brush against the supernatural.
 
-```sql :allow-empty
+```sql {allow-empty=true}
 SELECT address.slug AS _ref,
        name.full    AS "Name",
        description  AS "Description"
@@ -138,7 +138,7 @@ ORDER BY name.full COLLATE NOCASE
 
 Formal devotional practice — the sacred rites by which a character petitions a pantheon or faith for its aid, blessing, or intercession.
 
-```sql :allow-empty
+```sql {allow-empty=true}
 SELECT address.slug AS _ref,
        name.full    AS "Name",
        description  AS "Description"

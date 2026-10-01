@@ -1,6 +1,6 @@
 ---
 shortcode: arwhbod
-name: {full: Heavy Bodkin Arrow, alias: []}
+name: {full: Heavy Bodkin Arrow, aliases: []}
 type: projectilegear
 subType: arrow
 description: "Thick shaft, four-sided iron spike; pierces plate, mail, gambeson up close."

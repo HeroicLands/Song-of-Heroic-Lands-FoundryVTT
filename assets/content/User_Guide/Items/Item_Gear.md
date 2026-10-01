@@ -79,8 +79,8 @@ Reach for it whenever what the character is _actually hauling_ changes: dropping
 
 **Toggle Carried** is a visible action, reachable two ways:
 
-- **The Actions context menu** — right-click the item's row on the actor's **Gear** tab, or click the **:icon-menu:** control on that row, and pick _Toggle Carried_.
-- **The item's own Actions tab** — it is listed under **Intrinsic Actions**, with a **:icon-run:** button that runs it.
+- **The Actions context menu** — right-click the item's row on the actor's **Gear** tab, or click the **:icon menu:** control on that row, and pick _Toggle Carried_.
+- **The item's own Actions tab** — it is listed under **Intrinsic Actions**, with a **:icon run:** button that runs it.
 
 The **sack** button on the gear row is a shortcut for the same thing: clicking it toggles the identical state, and it stays lit while the item is carried.
 

@@ -34,7 +34,7 @@ ORDER BY name.full COLLATE NOCASE
 
 ## Privation
 
-```sql :allow-empty
+```sql {allow-empty=true}
 SELECT address.slug AS _ref,
        name.full    AS "Name",
        description  AS "Description"
@@ -70,7 +70,7 @@ ORDER BY name.full COLLATE NOCASE
 
 ## Morale
 
-```sql :allow-empty
+```sql {allow-empty=true}
 SELECT address.slug AS _ref,
        name.full    AS "Name",
        description  AS "Description"
@@ -82,7 +82,7 @@ ORDER BY name.full COLLATE NOCASE
 
 ## Infection
 
-```sql :allow-empty
+```sql {allow-empty=true}
 SELECT address.slug AS _ref,
        name.full    AS "Name",
        description  AS "Description"
@@ -94,7 +94,7 @@ ORDER BY name.full COLLATE NOCASE
 
 ## Shadow
 
-```sql :allow-empty
+```sql {allow-empty=true}
 SELECT address.slug AS _ref,
        name.full    AS "Name",
        description  AS "Description"
@@ -106,7 +106,7 @@ ORDER BY name.full COLLATE NOCASE
 
 ## Psyche
 
-```sql :allow-empty
+```sql {allow-empty=true}
 SELECT address.slug AS _ref,
        name.full    AS "Name",
        description  AS "Description"
@@ -118,7 +118,7 @@ ORDER BY name.full COLLATE NOCASE
 
 ## Aural Shock
 
-```sql :allow-empty
+```sql {allow-empty=true}
 SELECT address.slug AS _ref,
        name.full    AS "Name",
        description  AS "Description"

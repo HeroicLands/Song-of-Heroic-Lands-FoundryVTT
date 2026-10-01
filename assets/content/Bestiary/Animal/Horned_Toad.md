@@ -222,7 +222,7 @@ sohl:
 
 # Appearance {#appearance}
 
-![[hrndtd|Horned Toad]]{float: top-left}
+![[hrndtd|Horned Toad]]{float=top-left}
 
 The desert floor erupts with motion—a squat, armored shape surfacing from the sand like a spiky crown. Every inch of the creature bristles with sharp, bony protrusions that catch the sunlight. Its coloration blends so perfectly with the surrounding dunes that you almost missed it, and only the swift dart of its oversized eyes and the flick of a long, precise tongue give it away. The air carries a faint, metallic tang—old blood, perhaps. This is survival distilled into scales and spines.
 

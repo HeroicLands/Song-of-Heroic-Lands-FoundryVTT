@@ -1,6 +1,6 @@
 ---
 shortcode: bltstd
-name: {full: Standard Bolt, alias: []}
+name: {full: Standard Bolt, aliases: []}
 type: projectilegear
 subType: bolt
 description: "Stout hardwood quarrel, simple iron head; cheap volley fire against unarmoured."

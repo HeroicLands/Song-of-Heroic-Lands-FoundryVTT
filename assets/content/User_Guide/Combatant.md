@@ -10,7 +10,7 @@ A **Combatant** is a character's entry in the **combat tracker** — the row tha
 
 Because it is the encounter's record of a character, the Combatant is also where **Automated Combat** actions live: starting an automated attack, answering one as the defender, and moving a combatant between groups. You will not find these on the character sheet — they are on the tracker row and on the chat cards the exchange produces.
 
-> :icon-flask: **Automated Combat is still being finished.** It is deliberately outside the frozen feature set for the Being-centric beta, so expect rough edges. The actions below are documented as they exist; [[doc-cmbtbscsug|Assisted Combat]] is the supported path for play in the meantime.
+> :icon flask: **Automated Combat is still being finished.** It is deliberately outside the frozen feature set for the Being-centric beta, so expect rough edges. The actions below are documented as they exist; [[doc-cmbtbscsug|Assisted Combat]] is the supported path for play in the meantime.
 
 # Combat groups {#combat-groups}
 
@@ -26,7 +26,7 @@ There is nothing else to configure — no allegiance matrix, no degrees of frien
 
 **What that gives you.** Knowing the sides is what lets the system answer questions about a fight rather than just record dice: who is standing with this character, and — the one that matters in play — **who is currently threatening them**. A combatant threatens another when it is an enemy who is still in the fight (not defeated, not unconscious, stunned, restrained, paralyzed, or frozen), is not hidden, and is close enough to reach them with a melee weapon. That is the foundation the engagement rules — being outnumbered, being pinned in melee — are built on.
 
-> :icon-flask: **Being built.** The system computes the sides, the ally list, and the threat list correctly today, and the group name is shown on the tracker. But no rule _consumes_ that yet: nothing is currently modified by being outnumbered or engaged. Groups still matter for keeping a fight legible — and for macros and modules, which can query all of it now.
+> :icon flask: **Being built.** The system computes the sides, the ally list, and the threat list correctly today, and the group name is shown on the tracker. But no rule _consumes_ that yet: nothing is currently modified by being outnumbered or engaged. Groups still matter for keeping a fight legible — and for macros and modules, which can query all of it now.
 
 **Where the group comes from.** A combatant joins a group automatically when it enters the encounter, taking the name from its character's **Default Combat Group** (on the Combat tab of the character sheet, GM-only); when that is blank it joins **Opponents**. Matching is case-insensitive, so _bandits_ and _Bandits_ are one group, and a group is created the first time someone needs it. To change it afterwards — a mid-fight betrayal, or just cleaning up after a messy setup — use [[#move-to-group|Move to Group…]].
 
@@ -100,8 +100,8 @@ Two things are deliberately _not_ in this menu:
 
 **The Move to Group dialog.** Choosing the action opens a small dialog with two fields:
 
-- **Group** — a drop-down listing every group that already exists in this encounter, with the combatant's current group pre-selected, plus a final **:icon-add: New group…** entry. Pick the group to move into, or **:icon-add: New group…** to create one.
-- **New group name** — the name for the group you are creating. It only matters when you picked **:icon-add: New group…** above; leave it blank and the new group is called **Opponents**.
+- **Group** — a drop-down listing every group that already exists in this encounter, with the combatant's current group pre-selected, plus a final **:icon add: New group…** entry. Pick the group to move into, or **:icon add: New group…** to create one.
+- **New group name** — the name for the group you are creating. It only matters when you picked **:icon add: New group…** above; leave it blank and the new group is called **Opponents**.
 
 Press **Move** to apply, or **Cancel** to leave things as they are. Selecting the combatant's current group does nothing. Afterwards the tracker row's group chip shows the new group name.
 

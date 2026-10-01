@@ -70,7 +70,7 @@ for two anchored sections, and only those:
 ```markdown
 # Appearance {#appearance}
 
-![[aldric|Aldric of Kaldor]]{float: top-left}
+![[aldric|Aldric of Kaldor]]{float=top-left}
 
 Weathered, and taller than most.
 

@@ -116,20 +116,19 @@ Statements _about the directive_, as opposed to the query, are written after the
 language word as **org-babel header arguments**:
 
 ````text
-```sql :section-level 3 :allow-empty
+```sql {section-level=3 allow-empty=true}
 SELECT name.full AS "Name", sohl.kbcat AS _section FROM notes WHERE type = 'affliction'
 ```
 ````
 
-| Argument               | What it does                                                                             |
-| ---------------------- | ---------------------------------------------------------------------------------------- |
-| `:allow-empty`         | A table selecting nothing is intended, not a stale query. Without it, empty is an error. |
-| `:section-level <1-6>` | The heading level `_section` emits. Default `2`.                                         |
+| Argument              | What it does                                                                             |
+| --------------------- | ---------------------------------------------------------------------------------------- |
+| `allow-empty=true`    | A table selecting nothing is intended, not a stale query. Without it, empty is an error. |
+| `section-level=<1-6>` | The heading level `_section` emits. Default `2`.                                         |
 
 The language word stays first and stays plain, so GitHub, Prettier and every other
-markdown reader still highlight the block as SQL and ignore what follows. A key is
-`:name` starting a word, its value runs to the next key, and a key with no value means
-`true`.
+markdown reader still highlight the block as SQL and ignore what follows. The
+arguments follow it inside one brace, as whitespace-separated `key=value` pairs.
 
 ## How values render
 
@@ -168,7 +167,7 @@ tables in `Rules/Bestiary.md` published that way for months after the
 `creature` > `being` rename, and no build said a word.
 
 Where a table is _meant_ to be empty — a category whose content is not written yet —
-say so on the fence with `:allow-empty`.
+say so on the fence with `{allow-empty=true}`.
 
 ## When a field exists in the data model but in no note
 

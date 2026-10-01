@@ -29,15 +29,15 @@ Afflictions live on the Being sheet's **Health** tab, in their own **Afflictions
 | **Affliction**     | The item's name                                                                           |
 | **Category**       | The free-text **Category** field, when it has one                                         |
 | **Level**          | Severity, as authored                                                                     |
-| **HR**             | The current Healing Rate — an **:icon-not-applicable:** when the affliction does not heal |
+| **HR**             | The current Healing Rate — an **:icon not-applicable:** when the affliction does not heal |
 | **Next Heal Test** | When the next Course Test is due, or blank when nothing is scheduled                      |
-| **:icon-menu:**    | The Actions menu for that affliction                                                      |
+| **:icon menu:**    | The Actions menu for that affliction                                                      |
 
-Afflictions arrive in three ways: the Being's **Contagion Test** action (rolled exposure — see [[doc-beingug|Being]]), a drag from a compendium of written-up diseases and poisons, or the **:icon-add:** control on the list when the table decides a character has caught something.
+Afflictions arrive in three ways: the Being's **Contagion Test** action (rolled exposure — see [[doc-beingug|Being]]), a drag from a compendium of written-up diseases and poisons, or the **:icon add:** control on the list when the table decides a character has caught something.
 
 **How it arrived decides whether it goes anywhere.** Only **Contagion Test** offers to start the clock. An affliction you drag or add by hand sits inert: it is on the sheet, its fields are real, but nothing is scheduled and it will never onset on its own until someone arms it.
 
-To reach an affliction's actions, **right-click its row** (or use the **:icon-menu:**), or open the affliction and use its **Actions** tab. See [[doc-actionsug|Actions]] for how the menu works generally.
+To reach an affliction's actions, **right-click its row** (or use the **:icon menu:**), or open the affliction and use its **Actions** tab. See [[doc-actionsug|Actions]] for how the menu works generally.
 
 # Additional Properties
 
@@ -81,7 +81,7 @@ The formulas are dice expressions or plain second counts, and they are rolled fr
 Four of these fields deserve a second look:
 
 - **Level does not fall as the character recovers.** On a wound, Level is what heals. On an affliction it is authored severity and nothing in the lifecycle touches it. **Healing Rate** is the number that tells you how the fight is going: it rises and falls with every Course Test, and reaching 6 is what beats the affliction.
-- **A blank Healing Rate means the affliction never heals naturally.** The column on the Health tab shows an **:icon-not-applicable:**, and no Course Test is ever rolled — the affliction simply runs its clock to the outcome. That is how a lethal poison is written.
+- **A blank Healing Rate means the affliction never heals naturally.** The column on the Health tab shows an **:icon not-applicable:**, and no Course Test is ever rolled — the affliction simply runs its clock to the outcome. That is how a lethal poison is written.
 - **Est. Onset Date** and **Est. Resolution Date** are projections from the interval and the anchor date, shown so you can see roughly where this is heading. They are never saved. **Onset Date** and **Resolution Date** are the real, crystallized facts, and they are only filled in once the matching check has actually been performed.
 - **Next Heal Test** reads the live reminder when one is armed, so an accepted reschedule shows up here. It is blank far more often than you might expect, and that is correct: SoHL never schedules anything on its own.
 

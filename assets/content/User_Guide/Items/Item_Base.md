@@ -111,7 +111,7 @@ A small dialog names what is about to go, with the warning _"This {type} will be
 | **Delete** | Deletes the document                                              |
 | **Cancel** | Changes nothing. **This is the default** — pressing Enter cancels |
 
-Closing the dialog with the window's :icon-close: also cancels. The safe answer is the easy one on purpose.
+Closing the dialog with the window's :icon close: also cancels. The safe answer is the easy one on purpose.
 
 > **Known gap.** The confirmation window's **title bar** currently reads `Delete undefined}: {name}` instead of naming the document type (issue #1095). The warning text inside the dialog is correct, and the buttons behave as described; only the title is malformed.
 
@@ -209,7 +209,7 @@ A fourth, [[#editing-a-posted-test-result-gm|the GM's result edit]], re-opens th
 | **Blind**   | Only the GM sees it — **not even you**, the roller              |
 | **Self**    | Only you see it                                                 |
 
-**Cancelling abandons the test.** Dismissing the dialog — the :icon-close:, or Escape — rolls nothing, posts nothing, and changes nothing. A test you started by mistake costs you a keystroke, not a re-write of the chat log.
+**Cancelling abandons the test.** Dismissing the dialog — the :icon close:, or Escape — rolls nothing, posts nothing, and changes nothing. A test you started by mistake costs you a keystroke, not a re-write of the chat log.
 
 Some tests add extra fields to this same window when their action needs them — an aim, an impact modifier, a target's movement. Those belong to combat and are described with the actions that use them; see [[doc-cmbtbscsug|Combat Basics]] and [[doc-cmbtntug|Combatant]].
 

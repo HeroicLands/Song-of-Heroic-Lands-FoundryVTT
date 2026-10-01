@@ -68,6 +68,8 @@ The prose here compiles into the item's documentation.
 | `data.contagionIndex`              | number                                     | no       | `0`       | How readily it passes to someone else.                                                                     |
 | `data.transmission`                | as authored                                | no       | `none`    | The route by which it spreads.                                                                             |
 | `onsetFormula`                     | as authored, blank is unset                | no       | `null`    | Days from contracting to onset, rolled by the receiving actor. Unset means no incubation.                  |
+| `onsetMacroUuid`                   | as authored, blank is unset                | no       | `null`    | UUID of the macro run when symptoms begin, if any.                                                         |
+| `data.outcomeTraumas`              | as authored, blank is unset                | no       | `null`    | SafeExpression selecting traumas caused by the affliction's outcome.                                       |
 | `data.outcome`                     | as authored, blank is the default          | no       | `cured`   | What running the course to the end does to the host: `death`, or the benign default `cured`.               |
 | `data.onsetDurationFormula`        | roll formula, or a whole number of seconds | no       | _omitted_ | Interval from contracting the affliction to the start of onset. Omitted when unset, leaving no incubation. |
 | `data.onsetDurationBase`           | whole number of seconds                    | no       | _omitted_ | The onset interval in seconds, standing in for a roll of the formula. Omitted when unset.                  |
@@ -116,6 +118,10 @@ The prose here compiles into the item's documentation.
 | `encumbrance`           | number                            | no       | `0`     | What wearing it costs in encumbrance.                                                                                                |
 | `encumbranceGroup`      | as authored, blank is unset       | no       | `null`  | The set an article's encumbrance is charged to instead of carrying its own — the arm harness.                                        |
 | `perceptionPenaltyBase` | number                            | no       | `0`     | What wearing it costs in perception.                                                                                                 |
+
+**Never authored.** These fields are part of the document and are written during play, so a note that declares one fails the build. Left out of the compiled document entirely, they carry the data model's own initial value until play writes them.
+
+- `isWorn` — whether the armor is currently worn by an actor
 
 ```markdown
 ---
@@ -303,16 +309,18 @@ The prose here compiles into the item's documentation.
 
 ## skill
 
-| Field              | Shape           | Required | Default | Description                                                                                                               |
-| ------------------ | --------------- | -------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
-| `subType`          | string          | **yes**  | —       | Which family of skill it is.                                                                                              |
-| `skillBaseFormula` | as authored     | no       | `""`    | Expression deriving the skill's base from the actor's attributes, e.g. `sb(attr.str, attr.agl)`.                          |
-| `masteryLevelBase` | number or unset | no       | `null`  | Opened mastery level. Unset means _not yet opened_ — an embedded copy opens on its actor at Skill Base × `initSkillMult`. |
-| `improveFlag`      | boolean         | no       | `false` | Whether it is flagged for improvement.                                                                                    |
-| `combatCategory`   | as authored     | no       | `none`  | Which combat role the skill fills, if any.                                                                                |
-| `parentSkillCode`  | as authored     | no       | `""`    | Shortcode of the skill this one specialises, for a specialisation.                                                        |
-| `initSkillMult`    | number          | no       | `0`     | Multiplier applied to Skill Base when the skill opens on an actor.                                                        |
-| `impairedByRoles`  | as authored     | no       | `[]`    | Body-part roles whose impairment penalises tests against this skill.                                                      |
+| Field                     | Shape                             | Required | Default | Description                                                                                                               |
+| ------------------------- | --------------------------------- | -------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `subType`                 | string                            | **yes**  | —       | Which family of skill it is.                                                                                              |
+| `skillBaseFormula`        | as authored                       | no       | `""`    | Expression deriving the skill's base from the actor's attributes, e.g. `sb(attr.str, attr.agl)`.                          |
+| `masteryLevelBase`        | number or unset                   | no       | `null`  | Opened mastery level. Unset means _not yet opened_ — an embedded copy opens on its actor at Skill Base × `initSkillMult`. |
+| `improveFlag`             | boolean                           | no       | `false` | Whether it is flagged for improvement.                                                                                    |
+| `combatCategory`          | as authored                       | no       | `none`  | Which combat role the skill fills, if any.                                                                                |
+| `parentSkillCode`         | as authored                       | no       | `""`    | Shortcode of the skill this one specialises, for a specialisation.                                                        |
+| `adoptParentMasteryLevel` | boolean                           | no       | `false` | Whether a specialization uses its parent's mastery level.                                                                 |
+| `initSkillMult`           | number                            | no       | `0`     | Multiplier applied to Skill Base when the skill opens on an actor.                                                        |
+| `impairedByRoles`         | as authored                       | no       | `[]`    | Body-part roles whose impairment penalises tests against this skill.                                                      |
+| `strikeMode`              | `{type: "melee" \| "missile", …}` | **yes**  | —       | The strike mode the combat technique trains. Required for combat techniques only.                                         |
 
 ```markdown
 ---
@@ -323,6 +331,7 @@ shortcode: xmpl
 sohl:
   templatePriority: null
   subType: <string>
+  strikeMode: <`{type: "melee" | "missile", …}`>
 ---
 
 The prose here compiles into the item's documentation.
@@ -336,6 +345,9 @@ The prose here compiles into the item's documentation.
 | `category`                             | as authored                                | no       | `null`    | The grouping it belongs to within its subtype.                                                                            |
 | `levelBase`                            | number or unset                            | no       | `null`    | Injury level. Unset on a descriptive condition, which has no level.                                                       |
 | `healingRateBase`                      | number                                     | no       | `0`       | How readily it heals.                                                                                                     |
+| `treatmentModifierBase`                | number or unset                            | no       | `null`    | Modifier to treatment tests; unset means no modifier.                                                                     |
+| `permanentImpairmentEligible`          | boolean                                    | no       | `false`   | Whether healing may leave a permanent impairment.                                                                         |
+| `infectable`                           | boolean                                    | no       | `false`   | Whether a failed healing test can cause infection.                                                                        |
 | `aspect`                               | as authored                                | no       | `null`    | How the injury was inflicted. Unset on a descriptive condition.                                                           |
 | `bodyLocationCode`                     | as authored                                | no       | `null`    | Shortcode of the body location injured. Unset on a descriptive condition.                                                 |
 | `data.healingCheckDurationFormula`     | roll formula, or a whole number of seconds | no       | _omitted_ | Interval between healing checks. Omitted when unset, leaving the world's configured interval to apply.                    |

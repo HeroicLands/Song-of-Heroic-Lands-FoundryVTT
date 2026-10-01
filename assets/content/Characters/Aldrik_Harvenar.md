@@ -1,14 +1,16 @@
 ---
 shortcode: aldrikharvenar
-name: {full: Áldrik Hárvenar, title: "", given: Áldrik, clan: Hárvenar, home: "", aliases: []}
+name: {full: Áldrik Hárvenar, given: Áldrik, clan: Hárvenar, aliases: []}
 type: being
-tags: [character]
+subType: character
+tags: []
 data:
   icon: person
   templatePriority: null
+  archetypes: [warrior]
   gender: male
   age: 34
-  born: 686/4/2
+  born: 686.93
   height: 1.8
   weight: 67
   frame: medium

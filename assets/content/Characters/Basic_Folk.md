@@ -1,14 +1,16 @@
 ---
 shortcode: basicfolk
-name: {full: Basic Folk, title: "", given: Basic, clan: Folk, aliases: [], home: ""}
+name: {full: Basic Folk, given: Basic, clan: Folk, aliases: []}
 type: being
-tags: [character]
+subType: character
+tags: []
 data:
   icon: person
   templatePriority: 1
+  archetypes: [commoner]
   gender: male
   age: 20
-  born: 700/1/1
+  born: 700.1
   height: 1.7
   weight: 68
   frame: medium
