@@ -409,6 +409,14 @@ the non-sensitive values synchronously with `Cypress.expose("worldId")` (see
 `Cypress.expose("gmId")` to build the `/join` request (see
 `cypress/support/commands.js`).
 
+**Every `cy.request` POST states its origin.** From 14.368 Foundry rejects a POST
+it cannot see as same-origin, answering `400` with
+`{"error":"The request could not be processed."}` from middleware ahead of the
+route — so the status says nothing about the payload. `cy.request` posts from
+Node, which sets neither header a browser would, so a POST carries
+`Sec-Fetch-Site: same-origin` and an `Origin` equal to the configured
+`baseUrl`, as `cy.login()` does. A `cy.request` GET needs neither.
+
 **Foundry license (required).** The `test` container needs its own Foundry
 license. A license signed for one installation does **not** transfer to another
 (a copied `license.json` won't verify), and each license is **single-seat** (one
