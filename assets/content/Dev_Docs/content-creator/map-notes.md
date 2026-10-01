@@ -3,7 +3,7 @@ shortcode: mapnotes
 name: {full: Map Notes, aliases: []}
 type: doc
 subType: howto
-description: "Authoring a Foundry Scene as a markdown note: the `battlemap` / `localmap` / `regionalmap` schema, the two unit conventions, regions and their behaviours, and how a map is packaged."
+description: "Authoring a Foundry Scene as a markdown note: the `type: map` schema and its `subType` canvas profiles, the two unit conventions, regions and their behaviours, and how a map is packaged."
 data: {pack: none}
 sohl: {kbcat: devdocs}
 ---
@@ -18,19 +18,21 @@ frontmatter envelope, the same `sohl:` block, the same folder mechanism, and the
 same rule that the note carries an _essence_ rather than a mirror of the Foundry
 data model.
 
-Three note types compile through one compiler, differing only in derived
+Every map note is `type: map`. Its `subType` selects the canvas profile, and
+four subTypes compile through one compiler, differing only in derived
 defaults:
 
-| `type:`       | Scale    | `grid.type` | `grid.distance` | `grid.units` | `tokenVision` | `fog.mode`   | `padding` |
+| `subType:`    | Scale    | `grid.type` | `grid.distance` | `grid.units` | `tokenVision` | `fog.mode`   | `padding` |
 | ------------- | -------- | ----------- | --------------- | ------------ | ------------- | ------------ | --------- |
 | `battlemap`   | tactical | square      | 5               | `ft`         | `true`        | `INDIVIDUAL` | 0.25      |
 | `localmap`    | ~1 km    | square      | 10              | `m`          | `false`       | `DISABLED`   | 0.1       |
 | `regionalmap` | large    | gridless    | 5               | `km`         | `false`       | `DISABLED`   | 0         |
+| `totm`        | abstract | gridless    | 1               | (none)       | `false`       | `DISABLED`   | 0         |
 
 These are emitted **explicitly** on every scene. `grid.type`, `grid.distance`
 and `grid.units` declare `initial: () => game.system.grid.*`, and there is no
 `game` at build time, so leaving them to their initial is not an option. An
-unrecognised `type:` fails the build.
+unrecognised `subType:` fails the build.
 
 The translation lives in `@heroiclands/package-build/engine/map-notes` (framework-free and
 unit-tested); the pass that walks the tree, resolves cross-references and writes
@@ -61,14 +63,15 @@ across, is rejected; so is a location outside the map's grid extent.
 shortcode: wayrestground
 name:
   full: Wayfarer's Rest, Ground Floor
-type: battlemap
+type: map
+subType: battlemap
 description: "The common room of a roadside shelter."
 data:
   packFolder: battlemaps # the address of a `type: folder` note
+  bgImage: sohl-none-image-parchment # an `image` address
 sohl:
   place: wayfarersrest # optional; groups scenes into one Adventure
   placeName: Wayfarer's Rest # optional; the Adventure's name
-  image: systems/sohl/assets/ui/parchment.jpg
   overlay: … # optional foreground layer
   levelName: Ground # optional; names the synthesised Level
   backgroundColor: "#999999" # optional
@@ -289,7 +292,7 @@ by its `{#anchor}` slug or by the slug of its text — and compiles to a Foundry
 
 Which pack a map lands in follows from what it references:
 
-- **`scenes`** holds every map's Scene. It is what a `[[battlemap-<shortcode>]]`
+- **`scenes`** holds every map's Scene. It is what a `[[map-<shortcode>]]`
   wikilink addresses, and what a GM browses.
 - **`adventures`** holds one `Adventure` per _place_ — the notes sharing a
   `place:`, defaulting to the note's own shortcode — bundling those scenes with

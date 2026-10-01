@@ -18,7 +18,7 @@ sohl: {kbcat: devdocs}
 
 See also: [[doc-authoringworkflow|The Authoring Workflow]], [[doc-actornotes|Actor Notes]], [[doc-assetconventions|Asset Conventions]]
 
-Every item note carries the frontmatter envelope described in [[doc-authoringworkflow|The Authoring Workflow]] — `name.full`, `type`, `shortcode`, and the required `sohl.archetype`. This page covers what each **type** adds to that: the fields under its `sohl:` block, and nothing else.
+Every item note carries the frontmatter envelope described in [[doc-authoringworkflow|The Authoring Workflow]] — `name.full`, `type`, `shortcode`, and the required `templatePriority`. This page covers what each **type** adds to that: the fields under its `sohl:` block, and nothing else.
 
 The tables are rendered from the declaration that _builds_ each document, not from a description of it, so a field listed here is a field the compiler reads and a field absent here is one it ignores. An unrecognised `sohl:` key is silently dropped, so a typo shows up as a missing value rather than an error — check the spelling here first.
 
