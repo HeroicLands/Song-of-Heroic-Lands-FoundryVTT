@@ -21,6 +21,7 @@ sohl:
       block: {disabled: false, modifier: 0, successLevelMod: 0}
       counterstrike: {disabled: true, modifier: 0, successLevelMod: 0}
     traits:
+      limbBlock: true
       meleeMod: 0
       blockSLMod: 0
       durabilityMod: 0

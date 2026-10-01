@@ -15,12 +15,22 @@ import { entity } from "@src/entity/registry";
 import { registerEntity } from "@src/entity/entityRegistry";
 import { fvttLogicFromUuidSync } from "@src/core/FoundryHelpers";
 import { SohlCombatantLogic } from "@src/document/combatant/logic/SohlCombatantLogic";
+import { getActorBody } from "@src/document/actor/logic/BodyLogic";
 import { AttackResult } from "@src/entity/result/AttackResult";
 import { DefendResult } from "@src/entity/result/DefendResult";
 import type { ImpactResult } from "@src/entity/result/ImpactResult";
 import { OpposedTestResult } from "@src/entity/result/OpposedTestResult";
+import { weightedRandom } from "@src/entity/body/weighted-random";
+import type { BodyPart } from "@src/entity/body/BodyPart";
 import { TEST_TYPE } from "@src/utils/constants";
 import { registerKind } from "@src/utils/kindRegistry";
+
+/**
+ * Points of impact a limb block takes off a blow that lands on the blocking
+ * limb. A limb wards a fraction of what a shield does, and this is the whole of
+ * it — against anything with an edge it is close to nothing.
+ */
+const LIMB_BLOCK_WARD = 2;
 
 /** Which combatant a derived result (Tactical Advantages, weapon-break) falls to. */
 export type CombatSide = "attacker" | "defender" | "none";
@@ -78,9 +88,21 @@ export interface TacticalAdvantages {
  * | Defense       | Attacker delivers            | Defender delivers           |
  * |---------------|------------------------------|-----------------------------|
  * | Block         | `VS > 0` (a tie wards the blow, and rolls the defender's weapon-break) | never |
+ * | Limb Block    | `VS >= 0` (a tie lands on the blocking limb) | never |
  * | Counterstrike | `VS >= 0`                    | whenever the defender succeeds |
  * | Dodge         | `VS > 0`, or tie with the dodge roll lower than the attack roll | never |
  * | Ignore        | always — no defender contest | never |
+ *
+ * ## Limb Block
+ *
+ * A **limb block** — a block made with a forearm, a shin or a shoulder, marked
+ * by the `limbBlock` trait on the blocking strike mode — wards safely only on a
+ * **clear victory**: a higher success level than the attacker, with no tiebreak
+ * to help. On **tied successes the blow lands on the blocking limb itself**
+ * ({@link limbBlockStrikesLimb}): {@link blockingLimbLocationCode} names the
+ * struck location within that limb, the impact carries a flat `LmbBlk` ward
+ * delta, and the limb's own armour then applies as normal on top of it. A limb
+ * is not a weapon, so no limb block ever sets the defender's weapon-break check.
  *
  * **Tactical Advantages** (display-only for now): the winner of a `|VS| >= 2`
  * exchange earns `|VS| − 1` TAs (attacker on `VS >= 2`, defender on
@@ -100,6 +122,12 @@ export class CombatResult extends OpposedTestResult {
     tacticalAdvantages: TacticalAdvantages;
     /** Whose weapon must roll for breakage as a result of the exchange. */
     weaponBreakCheck: CombatSide;
+    /**
+     * Shortcode of the hit location the blow lands on when a limb block takes
+     * it ({@link limbBlockStrikesLimb}); `""` in every other exchange, and when
+     * the defender has no body part the technique could have blocked with.
+     */
+    blockingLimbLocationCode: string;
     /** Impact rolled for the attacker, when it lands a blow (else `undefined`). */
     attackerImpact?: ImpactResult;
     /**
@@ -148,6 +176,7 @@ export class CombatResult extends OpposedTestResult {
         this.margin = 0;
         this.tacticalAdvantages = { side: "none", count: 0 };
         this.weaponBreakCheck = "none";
+        this.blockingLimbLocationCode = "";
     }
 
     /** The result of the attack test — aliases {@link sourceTestResult}. */
@@ -190,6 +219,7 @@ export class CombatResult extends OpposedTestResult {
      */
     opposedTestEvaluate(): void {
         this.weaponBreakCheck = "none";
+        this.blockingLimbLocationCode = "";
         this.margin = this.attackResult.normSuccessLevel - this.defendResult.normSuccessLevel;
         this.tacticalAdvantages = CombatResult.tacticalAdvantagesFor(this.margin);
 
@@ -197,26 +227,96 @@ export class CombatResult extends OpposedTestResult {
         // tie — the blocking weapon absorbed a blow it did not out-fight, and
         // may not survive doing so. It follows that there must have *been* a
         // blow: a tie between two failures had nothing to absorb. No other
-        // defense has a weapon-break side effect.
+        // defense has a weapon-break side effect, and a limb block has no
+        // weapon in it to break.
         if (
             this.defendResult.testType === TEST_TYPE.BLOCK.id &&
+            !this.isLimbBlock &&
             this.margin === 0 &&
             this.attackResult.isSuccess
         ) {
             this.weaponBreakCheck = "defender";
         }
 
+        // A limb block that ties lands the blow on the limb that was raised, so
+        // the location is settled here rather than drawn across the whole body
+        // downstream.
+        if (this.limbBlockStrikesLimb) {
+            this.blockingLimbLocationCode = this.drawBlockingLimbLocation();
+        }
+
         // Roll the impact for each side that lands a blow (this is *when* impact
         // is rolled). Guarded on the side carrying an impact formula — a
         // DefendResult (block/dodge/ignore) has none.
-        this.attackerImpact =
-            this.attackerLandsBlow && this.attackResult.impact ?
-                this.rollImpact(this.attackResult)
-            :   undefined;
+        if (this.attackerLandsBlow && this.attackResult.impact) {
+            // The partial ward comes off the impact as a named delta, so the
+            // damage card says where the two points went. Same abbrev on a
+            // re-evaluation replaces rather than stacks.
+            if (this.limbBlockStrikesLimb) {
+                this.attackResult.impact.add(
+                    "SOHL.CombatResult.limbBlockWard",
+                    "LmbBlk",
+                    -LIMB_BLOCK_WARD,
+                );
+            }
+            this.attackerImpact = this.rollImpact(this.attackResult);
+        } else {
+            this.attackerImpact = undefined;
+        }
         this.cxImpact =
             this.defenderLandsBlow && this.defendResult instanceof AttackResult ?
                 this.rollImpact(this.defendResult)
             :   undefined;
+    }
+
+    /**
+     * Whether the defence was a **limb block** — a block whose strike mode
+     * carries the `limbBlock` trait. The trait is what marks the technique, so a
+     * creature whose own anatomy gives it an equivalent declares it the same way.
+     */
+    get isLimbBlock(): boolean {
+        if (this.defendResult.testType !== TEST_TYPE.BLOCK.id) return false;
+        const mode = (this.defendResult as DefendResult).mode;
+        return !!mode?.traits?.limbBlock;
+    }
+
+    /**
+     * Whether the blow lands on the blocking limb: a limb block whose successes
+     * tied, where an ordinary block would have warded it.
+     */
+    get limbBlockStrikesLimb(): boolean {
+        return this.isLimbBlock && this.margin === 0 && this.attackResult.isSuccess;
+    }
+
+    /**
+     * Draw the struck location within the blocking limb.
+     *
+     * The limbs a technique can be performed with are the body-part roles its
+     * governing skill names in `impairedByRoles` — a Limb Block is a
+     * manipulator's, so an arm is raised. One of those parts is drawn by its own
+     * selection weight, then a location within it, which is how this system
+     * resolves "where within a limb".
+     *
+     * @returns The struck location's shortcode, or `""` when the defender has no
+     *   part the technique could have blocked with.
+     */
+    private drawBlockingLimbLocation(): string {
+        const structure = getActorBody(
+            (this.defendResult as DefendResult).combatant?.actorLogic,
+        )?.structure;
+        if (!structure) return "";
+        const mode = (this.defendResult as DefendResult).mode;
+        const roles =
+            (mode?.parent as { data?: { impairedByRoles?: string[] } } | undefined)?.data
+                ?.impairedByRoles ?? [];
+        const candidates: BodyPart[] = [];
+        for (const role of roles) {
+            for (const part of structure.getPartsByRole(role)) {
+                if (part.locations.length > 0 && !candidates.includes(part)) candidates.push(part);
+            }
+        }
+        if (candidates.length === 0) return "";
+        return weightedRandom(candidates).getRandomLocation().shortcode;
     }
 
     /**
@@ -266,6 +366,9 @@ export class CombatResult extends OpposedTestResult {
      *   roll than the attack roll (the higher roll takes a broken tie).
      * - **Block:** the attack out-levels the block (`margin > 0`) — a block need
      *   only tie to ward the blow, at the cost of a weapon-break check.
+     * - **Limb Block:** the attack ties or out-levels it (`margin >= 0`) — a
+     *   limb wards safely only on a clear victory, and the tie is settled by the
+     *   level difference alone rather than sent to the tiebreak.
      */
     get attackerLandsBlow(): boolean {
         // A failed attack never lands, whatever the defence did.
@@ -284,6 +387,8 @@ export class CombatResult extends OpposedTestResult {
             const attackRoll = this.attackResult.roll?.total ?? 0;
             return dodgeRoll < attackRoll;
         }
+        // Limb block — a tie lands on the raised limb.
+        if (this.isLimbBlock) return vs >= 0;
         // Block.
         return vs > 0;
     }

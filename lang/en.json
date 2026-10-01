@@ -656,6 +656,7 @@
     "SOHL.CombatResult.Movement.evading": "Evading",
     "SOHL.CombatResult.Movement.moving": "Moving",
     "SOHL.CombatResult.Movement.stationary": "Stationary",
+    "SOHL.CombatResult.limbBlockWard": "Limb Block",
     "SOHL.Combatant.ACTION.moveToGroup": "Move to Group…",
     "SOHL.Combatant.FIELDS.didAction.hint": "Whether this combatant has performed an action this turn",
     "SOHL.Combatant.FIELDS.didAction.label": "Acted",
