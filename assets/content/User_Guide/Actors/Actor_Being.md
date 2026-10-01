@@ -57,8 +57,6 @@ SoHL has **no hit points** — the health bar is a qualitative **assessment**, t
 
 Health is driven by **impaired body parts only** — an injury that doesn't impair a part has no effect on health. Each impaired part imposes a **maximum** on overall health, based on how badly it's impaired (Minor / Serious / Grievous / Unusable), whether it's a **critical** part (one holding the head/torso vital or core roles), and how many parts share that state. The overall health is the **worst (lowest) maximum** across every impaired part — for example, a single serious wound to an arm caps health around Fair, while an unusable critical part is fatal. As wounds heal, the parts recover and the assessment climbs back toward Excellent. A living Being is never worse than Morbid unless actually slain.
 
-_(Fatigue, fear, and shock will impose their own maximums in a later update; the overall health will then be the lowest of all of them.)_
-
 ## Body-part grid
 
 Each body part appears as a colored chip showing the worst injury among that part's hit locations:
@@ -81,13 +79,6 @@ See [[doc-charcreationug|Character Creation]] for step-by-step instructions.
 # Beings on Scenes
 
 Beings can be placed on scenes as tokens. Each token represents the Being's physical presence in the game world. Tokens can be moved, have vision, and participate in combat encounters.
-
-<!-- TODO: Expand with token configuration details, linked vs unlinked tokens,
-     prototype token setup, and vision/light settings -->
-
-<!-- TODO: Document each field on the Properties tab of this type's sheet:
-     what it means, what values to enter, and how it interacts with other
-     fields and items. Include annotated screenshots. -->
 
 # Actions on a Being {#actions-on-a-being}
 

@@ -158,10 +158,3 @@ The **Effects** tab shows active effects attached to this item. Item-level effec
 - [[doc-gearandequipug|Working with Gear and Equipment]] — using the Gear tab.
 - [[doc-userguide|User Guide]] — back to the index.
 
-<!-- TODO: Add screenshots showing the sheet layout for each actor type.
-     Add annotated screenshots highlighting where specific fields are located
-     on the Properties tab for common item types. -->
-
-<!-- TODO: Document sheet field details for each actor and item type — what
-     each field means, what values to enter, and how fields interact with
-     each other. This will be covered in the individual type guides. -->

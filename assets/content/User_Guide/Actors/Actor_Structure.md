@@ -59,13 +59,6 @@ The **Profile** tab carries three things, and it is where a structure's private 
 
 The one difference: a Being's Gear tab reports carried weight and encumbrance, because a character is slowed by what it carries. A structure does not move, so its Gear tab reports the total weight of its contents alone.
 
-<!-- TODO: Expand with details on how structure damage works, protection
-     ratings, siege mechanics, and placing structures on scenes -->
-
-<!-- TODO: Document each field on the Properties tab of this type's sheet:
-     what it means, what values to enter, and how it interacts with other
-     fields and items. Include annotated screenshots. -->
-
 # Intrinsic Actions
 
 A Structure defines no actions of its own. It carries only the actions every actor shares:

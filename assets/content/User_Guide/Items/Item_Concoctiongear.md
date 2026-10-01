@@ -28,14 +28,6 @@ In addition to the [[doc-gearug|Standard Gear Properties]], the following additi
 - **Effect** — what happens when the concoction is used (healing, poison damage, buff, etc.).
 - **Description** — details about the concoction's appearance, ingredients, and usage instructions.
 
-<!-- TODO: Expand with details on crafting concoctions, how concoctions
-     interact with the affliction/treatment system, application methods
-     (ingested, applied, inhaled), and potency/quality -->
-
-<!-- TODO: Document each field on the Properties tab of this type's sheet:
-     what it means, what values to enter, and how it interacts with other
-     fields and items. Include annotated screenshots. -->
-
 # Intrinsic Actions
 
 A concoction defines no actions of its own. Everything you can run against one is a standard action it already inherits:

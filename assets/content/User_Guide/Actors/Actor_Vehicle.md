@@ -63,13 +63,6 @@ The **Profile** tab carries three things, and it is where a vehicle's private no
 
 The one difference: a Being's Gear tab reports carried weight and encumbrance, because a character is slowed by what it carries. A vehicle is not encumbered by its cargo, so its Gear tab reports the cargo's total weight alone.
 
-<!-- TODO: Expand with details on vehicle movement, crew requirements,
-     passenger capacity, vehicle combat, and boarding actions -->
-
-<!-- TODO: Document each field on the Properties tab of this type's sheet:
-     what it means, what values to enter, and how it interacts with other
-     fields and items. Include annotated screenshots. -->
-
 # Intrinsic Actions
 
 A Vehicle defines no actions of its own. It carries only the actions every actor shares:

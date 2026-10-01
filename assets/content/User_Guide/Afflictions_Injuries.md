@@ -34,19 +34,6 @@ Injuries impose penalties on the character:
 - **Shock** — severe injuries can cause shock, potentially incapacitating the character
 - **Bleeding** — some injuries cause ongoing blood loss
 
-# See also
-
-- [[doc-traumaug|Trauma]] — the wound item itself: its properties, its severity, and every check it offers.
-- [[doc-afflctnug|Affliction]] — the disease or poison item, with its onset, course, and treatment.
-- [[doc-beingug|Being]] — the health bar, the body-part grid, and the shock, contagion, and treatment actions on the character.
-- [[doc-cmbtbscsug|Combat Basics]] — where most wounds come from, and the injury card that records them.
-- [[doc-traumaintro|Trauma]] and [[doc-afflctnrules|Afflictions]] (rules) — the mechanics all of this implements.
-- [[doc-userguide|User Guide]] — back to the index.
-
-<!-- TODO: Document the injury severity levels, how injury penalties are
-     calculated per body location, shock thresholds, and the stumble/fumble
-     mechanics that result from injuries -->
-
 ## Healing
 
 Injuries heal over time. The healing process depends on:
@@ -54,9 +41,6 @@ Injuries heal over time. The healing process depends on:
 - Whether the injury has been **treated** by a physician
 - The character's natural healing ability (related to attributes)
 - Available medical supplies and conditions
-
-<!-- TODO: Document the healing timeline, treatment skill tests,
-     and how different injury types (cuts vs. fractures) heal differently -->
 
 # Afflictions {#conditions-afflictions}
 
@@ -74,11 +58,6 @@ An affliction progresses through these stages:
 6. **Healing** — recovery from the affliction's effects
 
 Each stage involves skill tests (typically Physician or related skills).
-
-<!-- TODO: Document the specific mechanics for each lifecycle stage,
-     including which skills are used, difficulty modifiers, and timing.
-     Document how afflictions interact with concoction gear (potions,
-     antidotes, etc.) -->
 
 ## Contracting a Disease {#conditions-contract-disease}
 
@@ -110,9 +89,6 @@ Afflictions include:
 - **Poisons** — toxins with immediate or delayed effects
 - **Curses** — supernatural afflictions requiring mystical removal
 
-<!-- TODO: Document the affliction subtype system and how each subtype
-     differs in its lifecycle mechanics -->
-
 # Managing Conditions on the Sheet {#conditions-managing}
 
 Injuries and afflictions appear on the character's sheet:
@@ -122,5 +98,11 @@ Injuries and afflictions appear on the character's sheet:
 
 Right-click an injury or affliction for options to edit, treat, or remove it.
 
-<!-- TODO: Document the UI workflow for treating injuries, diagnosing
-     afflictions, and tracking healing progress over game time -->
+# See also
+
+- [[doc-traumaug|Trauma]] — the wound item itself: its properties, its severity, and every check it offers.
+- [[doc-afflctnug|Affliction]] — the disease or poison item, with its onset, course, and treatment.
+- [[doc-beingug|Being]] — the health bar, the body-part grid, and the shock, contagion, and treatment actions on the character.
+- [[doc-cmbtbscsug|Combat Basics]] — where most wounds come from, and the injury card that records them.
+- [[doc-traumaintro|Trauma]] and [[doc-afflctnrules|Afflictions]] (rules) — the mechanics all of this implements.
+- [[doc-userguide|User Guide]] — back to the index.
