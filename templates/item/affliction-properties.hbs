@@ -25,7 +25,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
         {{formGroup fields.onsetFormula rootId="ail-onsetf" classes="stacked" value=logic.data.onsetFormula}}
         {{formGroup fields.onsetMacroUuid rootId="ail-onset-macro" classes="stacked" value=logic.data.onsetMacroUuid}}
         {{formGroup fields.outcome rootId="ail-outcome" classes="stacked" value=logic.data.outcome}}
-        {{> expressionField field=fields.outcomeTrauma rootId="ail-outcome-trauma" name="system.outcomeTrauma" value=logic.data.outcomeTrauma}}
+        {{> expressionField field=fields.outcomeTraumas rootId="ail-outcome-traumas" name="system.outcomeTraumas" value=logic.data.outcomeTraumas}}
         <div class="form-group stacked">
             <label>{{localize "SOHL.Affliction.FIELDS.contractDate.label"}}</label>
             {{datePicker logic.data.contractDate name="system.contractDate"}}
