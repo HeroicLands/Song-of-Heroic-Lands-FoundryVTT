@@ -569,7 +569,7 @@ are derived by the loader, so no repository reproduces them:
 | Field                 | Derived from                                                        |
 | --------------------- | ------------------------------------------------------------------- |
 | `rootDir`             | the directory the config file sits in — **authoring it throws**     |
-| `stats.systemVersion` | `version` in the adjacent `package.json`, unless stated             |
+| `stats.systemVersion` | `version` in the adjacent `package.json` — **authoring it throws**  |
 | `itemBuilders`        | a **name** (`itemBuilders: sohl`), resolved to the shipped registry |
 
 A `package-build.config.mjs` still loads, for a consumer whose item-builder
