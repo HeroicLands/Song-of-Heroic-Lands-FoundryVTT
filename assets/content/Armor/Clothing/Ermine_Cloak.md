@@ -11,7 +11,7 @@ sohl:
   armorType: Cloak
   detailMaterial: Ermine
   system:
-    weightBase: 1.2
+    weightBase: 3.3
     valueBase: 285
     durabilityBase: 7
     material: Leather

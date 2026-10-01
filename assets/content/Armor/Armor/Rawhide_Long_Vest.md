@@ -11,7 +11,7 @@ sohl:
   armorType: Long Vest
   detailMaterial: Rawhide
   system:
-    weightBase: 6.8
+    weightBase: 5.9
     valueBase: 150
     durabilityBase: 11
     material: Leather

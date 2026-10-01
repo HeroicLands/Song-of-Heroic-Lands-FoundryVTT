@@ -11,7 +11,7 @@ sohl:
   armorType: Trousers
   detailMaterial: Rawhide
   system:
-    weightBase: 6
+    weightBase: 6.2
     valueBase: 156
     durabilityBase: 11
     material: Leather
