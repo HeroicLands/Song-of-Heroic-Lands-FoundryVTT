@@ -454,6 +454,12 @@ up. See
 [[doc-buildanddeployment#6-deploying-to-a-foundry-instance|Build & Deployment §6 — running a build in a container]]
 for the container details and download cache.
 
+**The `test` container is shared with `hm3`'s e2e suite**, both named
+`heroiclands-foundry-test` and signed against that one hostname. The licence is
+single-seat regardless of which package's container started it, so the two
+suites never run at once: finish one `e2e:full` or `e2e:fast` run before
+starting the other's.
+
 ### Which build the suite runs on — the two tracks {#which-build-the-suite-runs-on-the-two-tracks}
 
 Foundry is a moving target in both directions, so the suite is run on two, and

@@ -56,8 +56,8 @@ type: skill
 description: "Conducting ceremonies, rites, and worship services."
 data:
   packFolder: mysticalskills
+  templatePriority: 0
 sohl:
-  archetype: 0
   subType: ritual
   skillBaseFormula: "sb(attr.wil, attr.rea)"
 ---
@@ -178,10 +178,10 @@ carrying one compiles, resolves and publishes exactly as if it were absent.
 `shortcode:` is the note's identity within its type, and half of the
 `type-shortcode` address a wikilink uses. Two rules govern it:
 
-- **Shape.** `^[A-Za-z0-9]+$` — ASCII letters and digits only. The
+- **Shape.** `^[a-z0-9]+$` — lowercase ASCII letters and digits only. The
   hyphen is excluded because it is the wikilink separator, and the parse depends
-  on the separating hyphen being the only one in the string. Case is **not**
-  constrained; mixed-case shortcodes are fine.
+  on the separating hyphen being the only one in the string. An uppercase
+  letter fails the pattern; there is no mixed-case shortcode.
 - **Uniqueness.** `(type, shortcode)` is unique within a pack.
 
 **Both are enforced by `npm run lint:addresses`, not by the pack compile.** The
@@ -284,10 +284,12 @@ Type-specific fields live under a nested `sohl:` key, read through `sohlField`,
 which looks in `sohl.<key>` first (dotted paths work) and falls back to the top
 level. Two members are near-universal:
 
-- **`sohl.archetype` is required on every item and actor note.** It is a number
-  (this _is_ an archetype, at that priority) or `null` (it is not). Absent or
-  malformed, it throws — _"set a number (this is an archetype) or null (it is
-  not)"_ — because the distinction cannot be defaulted without guessing.
+- **`templatePriority` is required on every item and actor note.** Its
+  specified home is `data.templatePriority`; a system block or the top level
+  also answers. It is a number (this _is_ a template, at that priority) or
+  `null` (it is not). Absent, it throws — _"set a number (this is a template,
+  at that priority) or null (it is not)"_ — because the distinction cannot be
+  defaulted without guessing.
 - **`packFolder`**, as above.
 
 Everything else is per-type, and is documented per type:

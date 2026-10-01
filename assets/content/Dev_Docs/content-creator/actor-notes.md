@@ -48,7 +48,7 @@ mechanical.
 ## The envelope
 
 A being carries the frontmatter every note carries — `name.full`, `type`,
-`shortcode`, `folder`, and the required `sohl.archetype` — all
+`shortcode`, `packFolder`, and the required `templatePriority` — all
 described in [[doc-authoringworkflow|The Authoring Workflow]]. One art field is
 specific to actors:
 
@@ -93,7 +93,7 @@ its documentation journal.
 | `currentMoveMedium`  | string, default `"none"`  | Which medium it is currently moving through.                 |
 | `movementProfiles`   | list of profiles          | Speed per medium.                                            |
 | `defaultCombatGroup` | string                    | Which side it joins in a combat. Emitted only when declared. |
-| `archetype`          | number or `null`          | Required, as on every item note.                             |
+| `templatePriority`   | number or `null`          | Required, as on every item note.                             |
 
 **`sohl.skills` is ignored.** It is read by nothing and compiles to nothing.
 Skills are embedded through `sohl.items`, like every other item; a `skills:`
