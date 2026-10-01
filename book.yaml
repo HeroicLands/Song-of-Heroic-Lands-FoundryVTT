@@ -228,7 +228,7 @@ contents:
                       - sectionName: Disease
                         contents:
                             - filter: "type = 'affliction' AND subType = 'disease'"
-                      - sectionName: Poision/Toxin
+                      - sectionName: Poison/Toxin
                         contents:
                             - filter: "type = 'affliction' AND subType = 'poisontoxin'"
                       - sectionName: Fatigue
