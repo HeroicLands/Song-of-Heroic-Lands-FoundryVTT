@@ -150,14 +150,16 @@ packageBuild:
 
         # What the fast loop can rebuild, in the order it must be built: vite
         # empties `build/stage`, so `code` goes first and the asset and pack
-        # passes copy into a stage it has already cleared. `system` writes the
-        # manifest, which Foundry reads once at world launch — so producing it
-        # means the container is recreated, not merely restarted.
+        # passes copy into a stage it has already cleared. `db` runs before
+        # `assets` because `assets` stages `build/schema.json`, which `db`
+        # produces. `system` writes the manifest, which Foundry reads once at
+        # world launch — so producing it means the container is recreated, not
+        # merely restarted.
         build:
             code: build:code
             css: build:css
-            assets: build:assets
             db: build:db
+            assets: build:assets
             system: { script: build:system, recreate: true }
 
     # `flags.sohl.creditsUuid` is not a literal: it is the compendium address of
