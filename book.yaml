@@ -1,0 +1,302 @@
+contents:
+    - sectionName: User Guide
+      contents:
+          - filter: "shortcode = 'userguide'"
+          - filter: "shortcode = 'quickstartug'"
+          - sectionName: Setting Up a World
+            contents:
+                - filter: "shortcode = 'syssetngug'"
+                - filter: "shortcode = 'usingpacksug'"
+                - filter: "shortcode = 'crtngactitemug'"
+                - filter: "shortcode = 'charcreationug'"
+          - filter: "shortcode = 'undrstndsheetug'"
+          - filter: "shortcode = 'iconlgndug'"
+          - filter: "shortcode = 'shortcodesug'"
+          - sectionName: Actors
+            contents:
+                - filter: "shortcode = 'ugactors'"
+                - filter: "shortcode = 'beingug'"
+                - filter: "shortcode = 'cohortug'"
+                - filter: "shortcode = 'structureug'"
+                - filter: "shortcode = 'vehicleug'"
+          - sectionName: Items
+            contents:
+                - filter: "shortcode = 'ugitems'"
+                - filter: "shortcode = 'attributeug'"
+                - filter: "shortcode = 'skillug'"
+                - filter: "shortcode = 'affltnug'"
+                - filter: "shortcode = 'traumaug'"
+                - filter: "shortcode = 'afflctnug'"
+                - filter: "shortcode = 'mysteryug'"
+                - filter: "shortcode = 'mysticalabilityug'"
+                - filter: "shortcode = 'gearug'"
+                - filter: "shortcode = 'weapongearug'"
+                - filter: "shortcode = 'armorgearug'"
+                - filter: "shortcode = 'projectilegearug'"
+                - filter: "shortcode = 'containergearug'"
+                - filter: "shortcode = 'concoctiongearug'"
+                - filter: "shortcode = 'miscgearug'"
+                - filter: "shortcode = 'baseitemug'"
+                - filter: "shortcode = 'gearandequipug'"
+          - sectionName: Making Tests
+            contents:
+                - filter: "shortcode = 'sklltestug'"
+                - filter: "shortcode = 'thftsystug'"
+                - filter: "shortcode = 'actionsug'"
+          - sectionName: Scenes and Tokens
+            contents:
+                - filter: "shortcode = 'scnsetuptokug'"
+                - filter: "shortcode = 'tokenug'"
+          - sectionName: Combat Basics
+            contents:
+                - filter: "shortcode = 'cmbtbscsug'"
+                - filter: "shortcode = 'cmbtntug'"
+          - filter: "shortcode = 'afflinjug'"
+          - filter: "shortcode = 'mystclpwug'"
+          - sectionName: Customizing the System
+            contents:
+                - filter: "shortcode = 'sfexprssug'"
+                - filter: "shortcode = 'effcttrgug'"
+
+    - sectionName: Rules
+      contents:
+          - filter: "shortcode = 'rulesintro'"
+          - sectionName: Resolution
+            contents:
+                - filter: "shortcode = 'resolutionintro'"
+                - filter: "shortcode = 'mstrylvl'"
+                - filter: "shortcode = 'sccsstst'"
+                - filter: "shortcode = 'oppsdtst'"
+                - filter: "shortcode = 'sccssvlt'"
+                - filter: "shortcode = 'scndryms'"
+                - filter: "shortcode = 'fatepnts'"
+          - sectionName: Attributes
+            contents:
+                - filter: "shortcode = 'attributes'"
+                - filter: "type = 'attribute'"
+          - sectionName: Skills
+            contents:
+                - filter: "shortcode = 'skills'"
+                - sectionName: Social
+                  contents:
+                      - filter: "type = 'skill' AND subType = 'social'"
+                - sectionName: Nature
+                  contents:
+                      - filter: "type = 'skill' AND subType = 'nature'"
+                - sectionName: Craft
+                  contents:
+                      - filter: "type = 'skill' AND subType = 'craft'"
+                - sectionName: Lore
+                  contents:
+                      - filter: "type = 'skill' AND subType = 'lore'"
+                - sectionName: Physical
+                  contents:
+                      - filter: "type = 'skill' AND subType = 'physical'"
+                - sectionName: Combat Skills
+                  contents:
+                      - filter: "type = 'skill' AND subType = 'combat'"
+                - sectionName: Language
+                  contents:
+                      - filter: "type = 'skill' AND subType = 'language'"
+                - sectionName: Script
+                  contents:
+                      - filter: "type = 'skill' AND subType = 'script'"
+          - sectionName: Affiliations
+            contents:
+                - filter: "shortcode = 'affiliation'"
+          - sectionName: Characters
+            contents:
+                - filter: "shortcode = 'character'"
+          - sectionName: Gear
+            contents:
+                - filter: "shortcode = 'gearrules'"
+                - sectionName: Weapons
+                  contents:
+                      - filter: "type = 'weapongear' AND sohl.weaponType = 'Axe'"
+                      - filter: "type = 'weapongear' AND sohl.weaponType = 'Bow'"
+                      - filter: "type = 'weapongear' AND sohl.weaponType = 'Club'"
+                      - filter: "type = 'weapongear' AND sohl.weaponType = 'Crossbow'"
+                      - filter: "type = 'weapongear' AND sohl.weaponType = 'Flail'"
+                      - filter: "type = 'weapongear' AND sohl.weaponType = 'Knife'"
+                      - filter: "type = 'weapongear' AND sohl.weaponType = 'Polearm'"
+                      - filter: "type = 'weapongear' AND sohl.weaponType = 'Shield'"
+                      - filter: "type = 'weapongear' AND sohl.weaponType = 'Siege'"
+                      - filter: "type = 'weapongear' AND sohl.weaponType = 'Sling'"
+                      - filter: "type = 'weapongear' AND sohl.weaponType = 'Special'"
+                      - filter: "type = 'weapongear' AND sohl.weaponType = 'Sword'"
+                - sectionName: Armor
+                  contents:
+                      - filter: "type = 'armorgear'"
+                - sectionName: Containers
+                  contents:
+                      - filter: "type = 'containergear'"
+                - sectionName: Projectiles
+                  contents:
+                      - filter: "type = 'projectilegear'"
+                - sectionName: Miscellaneous Gear
+                  contents:
+                      - sectionName: Clothing
+                        contents:
+                            - filter: "type = 'miscgear' AND list_contains(tags, 'clothing')"
+                      - sectionName: Cooking
+                        contents:
+                            - filter: "type = 'miscgear' AND list_contains(tags, 'cooking')"
+                      - sectionName: Expedition
+                        contents:
+                            - filter: "type = 'miscgear' AND list_contains(tags, 'expedition')"
+                      - sectionName: Food
+                        contents:
+                            - filter: "type = 'miscgear' AND list_contains(tags, 'food')"
+                      - sectionName: Instruments
+                        contents:
+                            - filter: "type = 'miscgear' AND list_contains(tags, 'instruments')"
+                      - sectionName: Jewelry & Cash
+                        contents:
+                            - filter: "type = 'miscgear' AND list_contains(tags, 'jewelry_cash')"
+                      - sectionName: Lighting
+                        contents:
+                            - filter: "type = 'miscgear' AND list_contains(tags, 'lighting')"
+                      - sectionName: Medical
+                        contents:
+                            - filter: "type = 'miscgear' AND list_contains(tags, 'medical')"
+                      - sectionName: Music
+                        contents:
+                            - filter: "type = 'miscgear' AND list_contains(tags, 'music')"
+                      - sectionName: Natural
+                        contents:
+                            - filter: "type = 'miscgear' AND list_contains(tags, 'natural')"
+                      - sectionName: Religious
+                        contents:
+                            - filter: "type = 'miscgear' AND list_contains(tags, 'religious')"
+                      - sectionName: Scribe
+                        contents:
+                            - filter: "type = 'miscgear' AND list_contains(tags, 'scribe')"
+                      - sectionName: Spirits
+                        contents:
+                            - filter: "type = 'miscgear' AND list_contains(tags, 'spirits')"
+                      - sectionName: Stone
+                        contents:
+                            - filter: "type = 'miscgear' AND list_contains(tags, 'stone')"
+                      - sectionName: Tack
+                        contents:
+                            - filter: "type = 'miscgear' AND list_contains(tags, 'tack')"
+          - filter: "shortcode = 'crafting'"
+          - sectionName: Combat
+            contents:
+                - filter: "shortcode = 'combatintro'"
+                - filter: "shortcode = 'atkreslv'"
+                - filter: "shortcode = 'strkmds'"
+                - filter: "shortcode = 'mlattcks'"
+                - filter: "shortcode = 'msslattc'"
+                - filter: "shortcode = 'unrmdcmb'"
+                - filter: "shortcode = 'prone'"
+          - sectionName: Trauma
+            contents:
+                - filter: "shortcode = 'traumaintro'"
+                - sectionName: Body
+                  contents:
+                      - filter: "shortcode = 'bodytrmaintro'"
+                      - sectionName: Injury
+                        contents:
+                            - filter: "shortcode = 'injintro'"
+                            - filter: "shortcode = 'hlngbs'"
+                            - filter: "shortcode = 'hlngrt'"
+                            - filter: "shortcode = 'hlngtst'"
+                            - filter: "shortcode = 'injrylvl'"
+                            - filter: "shortcode = 'trtnginj'"
+                            - filter: "shortcode = 'bleeding'"
+                            - filter: "shortcode = 'imprmnt'"
+                            - filter: "shortcode = 'infctn'"
+                      - filter: "shortcode = 'afflctnrules'"
+                      - filter: "shortcode = 'fatigue'"
+                      - filter: "shortcode = 'physclcn'"
+                      - filter: "shortcode = 'shock'"
+                      - filter: "shortcode = 'coma'"
+                - sectionName: Mind
+                  contents:
+                      - filter: "shortcode = 'mindtraumaintro'"
+                      - filter: "shortcode = 'fear'"
+                      - filter: "shortcode = 'morale'"
+                      - filter: "shortcode = 'psychlgc'"
+                - sectionName: Spirit
+                  contents:
+                      - filter: "shortcode = 'sprttraumaintro'"
+                      - filter: "shortcode = 'arlshck'"
+                      - filter: "shortcode = 'thepall'"
+                - sectionName: Afflictions
+                  contents:
+                      - sectionName: Disease
+                        contents:
+                            - filter: "type = 'affliction' AND subType = 'disease'"
+                      - sectionName: Poision/Toxin
+                        contents:
+                            - filter: "type = 'affliction' AND subType = 'poisontoxin'"
+                      - sectionName: Fatigue
+                        contents:
+                            - filter: "type = 'trauma' AND subType = 'fatigue'"
+                      - sectionName: Fear
+                        contents:
+                            - filter: "type = 'trauma' AND subType = 'fear'"
+          - sectionName: Esoterica
+            contents:
+                - filter: "shortcode = 'estrcint'"
+                - sectionName: Mysteries
+                  contents:
+                      - filter: "shortcode = 'mysteryintro'"
+                      - filter: "shortcode = 'brthsgn'"
+                      - filter: "shortcode = 'boon'"
+                      - filter: "shortcode = 'boost'"
+                      - filter: "shortcode = 'grace'"
+                      - filter: "shortcode = 'piety'"
+                - sectionName: Mystical Abilities
+                  contents:
+                      - filter: "shortcode = 'mystabilintro'"
+                      - sectionName: Arcane Mysteries
+                        contents:
+                            - filter: "shortcode = 'arcnincn'"
+                            - filter: "shortcode = 'arcntlnt'"
+                            - filter: "shortcode = 'alchemy'"
+                            - filter: "shortcode = 'divintro'"
+                            - filter: "shortcode = 'ftdvn'"
+                            - filter: "shortcode = 'astrlgy'"
+                            - filter: "shortcode = 'augury'"
+                            - filter: "shortcode = 'crtmncy'"
+                            - filter: "shortcode = 'hrspcy'"
+                            - filter: "shortcode = 'rncstng'"
+                            - filter: "shortcode = 'scrying'"
+                            - filter: "shortcode = 'tssmncy'"
+                      - sectionName: Divine Mysteries
+                        contents:
+                            - filter: "shortcode = 'dvnincnt'"
+                            - filter: "shortcode = 'rtlactn'"
+                            - filter: "shortcode = 'divnint'"
+                      - sectionName: Spirit Mysteries
+                        contents:
+                            - filter: "shortcode = 'sprtpwr'"
+                            - filter: "shortcode = 'sprtactn'"
+                            - filter: "shortcode = 'sprtrt'"
+                            - filter: "shortcode = 'sprttlnt'"
+                      - sectionName: Arcane Talent
+                        contents:
+                            - filter: "type = 'mysticalability' AND subType = 'arcanetalent'"
+                      - sectionName: Spirit Action
+                        contents:
+                            - filter: "type = 'mysticalability' AND subType = 'spiritaction'"
+                      - sectionName: Alchemy
+                        contents:
+                            - filter: "type = 'mysticalability' AND subType = 'alchemy'"
+                      - sectionName: Divination
+                        contents:
+                            - filter: "type = 'mysticalability' AND subType = 'divination'"
+          - sectionName: Bestiary
+            contents:
+                - filter: "shortcode = 'bestiary'"
+                - filter: "type = 'being' AND sohl.kbcat = 'animal'"
+          - sectionName: Sample Characters
+            contents:
+                - filter: "type = 'being' AND subType = 'character'"
+          - filter: "shortcode = 'glossary'"
+
+    - sectionName: Credits
+      contents:
+          - filter: "shortcode = 'credits'"
