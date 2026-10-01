@@ -345,3 +345,13 @@ site:
         markup:
             highlight:
                 style: monokai
+
+# The book the content tree is published as, built by `package-build release`.
+# `document:` names the tree that selects notes and sets their order; the
+# selection and heading order mirror the knowledgebase's own `doc-*` index
+# pages and their embedded content tables, so the two surfaces describe the
+# content tree the same way.
+pdf:
+    title: Song of Heroic Lands
+    subtitle: Rules, User Guide, and Reference
+    document: book.yaml
