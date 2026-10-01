@@ -120,8 +120,6 @@ function defineBeingDataSchema(): foundry.data.fields.DataSchema {
                             }),
                             { initial: [] },
                         ),
-                        /** Indicates if this part is favored for certain actions */
-                        favoredFlag: new BooleanField({ initial: false }),
                         /** Indicates if this part can hold an item */
                         canHoldItem: new BooleanField({ initial: false }),
                         /** The ID of the item held by this part, if any */

@@ -43,7 +43,6 @@ export function blankBodyPart(
         name,
         bodyZoneCode,
         roles: [],
-        favoredFlag: false,
         canHoldItem: false,
         heldItemId: null,
         permanentImpairment: 0,
