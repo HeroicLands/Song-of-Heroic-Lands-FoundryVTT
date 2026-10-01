@@ -157,4 +157,3 @@ The **Effects** tab shows active effects attached to this item. Item-level effec
 - [[doc-crtngactitemug|Creating Actors and Items]] — making the documents these sheets open onto.
 - [[doc-gearandequipug|Working with Gear and Equipment]] — using the Gear tab.
 - [[doc-userguide|User Guide]] — back to the index.
-

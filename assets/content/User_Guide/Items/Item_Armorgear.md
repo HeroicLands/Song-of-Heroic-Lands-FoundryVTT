@@ -116,4 +116,3 @@ Two consequences are worth knowing at the table:
 - [[doc-shortcodesug|Shortcodes]] — what a body-location shortcode such as `thrxloc` refers to.
 - [[doc-ugitems|Items]] — every item type at a glance.
 - [[doc-userguide|User Guide]] — back to the index.
-
