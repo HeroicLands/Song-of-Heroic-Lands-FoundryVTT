@@ -50,7 +50,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 6
-        defense: {blockMod: 0, counterstrikeMod: 0}
+        defense: {block: {modifier: 0}, counterstrike: {modifier: 0}}
       - shortcode: impale
         type: melee
         name: Impale
@@ -86,7 +86,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 6
-        defense: {blockMod: 0, counterstrikeMod: 0}
+        defense: {block: {modifier: 0}, counterstrike: {modifier: 0}}
       - shortcode: pommel
         type: melee
         name: Pommel
@@ -122,7 +122,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 6
-        defense: {blockMod: 0, counterstrikeMod: 0}
+        defense: {block: {modifier: 0}, counterstrike: {modifier: 0}}
       - shortcode: halfswordimpale
         type: melee
         name: Half-Sword Impale
@@ -158,7 +158,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 6
-        defense: {blockMod: 0, counterstrikeMod: 0}
+        defense: {block: {modifier: 0}, counterstrike: {modifier: 0}}
 ---
 
 A straight double-edged blade hilted with a grip long enough for either hand alone or both hands together, the bastard sword balances reach with control. Knights favor this versatile steel for its capacity to thrust with the full weight of a two-handed grip or cut swift with a shield bearer's lightness. The grip tapers toward a weighted pommel that steadies the blade even in the off-hand.

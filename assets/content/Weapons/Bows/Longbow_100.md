@@ -50,7 +50,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 6
-        defense: {blockMod: 0, counterstrikeMod: 0}
+        defense: {block: {modifier: 0}, counterstrike: {modifier: 0}}
       - shortcode: ranged
         type: missile
         name: Ranged

@@ -50,7 +50,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 1
-        defense: {blockMod: 0, counterstrikeMod: 0}
+        defense: {block: {modifier: 0}, counterstrike: {modifier: 0}}
 ---
 
 A large standing shield, tall as a man and wide as an ox, the tower shield provides nearly total cover when braced or planted. Crossbowmen and siege troops plant these to form walls against arrow storms; foot-archers shelter behind them to reload and return fire.

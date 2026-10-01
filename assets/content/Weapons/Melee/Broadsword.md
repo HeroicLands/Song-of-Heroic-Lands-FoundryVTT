@@ -50,7 +50,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 5
-        defense: {blockMod: 0, counterstrikeMod: 0}
+        defense: {block: {modifier: 0}, counterstrike: {modifier: 0}}
       - shortcode: impale
         type: melee
         name: Impale
@@ -86,7 +86,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 5
-        defense: {blockMod: 0, counterstrikeMod: 0}
+        defense: {block: {modifier: 0}, counterstrike: {modifier: 0}}
       - shortcode: pommel
         type: melee
         name: Pommel
@@ -122,7 +122,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 5
-        defense: {blockMod: 0, counterstrikeMod: 0}
+        defense: {block: {modifier: 0}, counterstrike: {modifier: 0}}
       - shortcode: halfswordimpale
         type: melee
         name: Half-Sword Impale
@@ -158,7 +158,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 5
-        defense: {blockMod: 0, counterstrikeMod: 0}
+        defense: {block: {modifier: 0}, counterstrike: {modifier: 0}}
 ---
 
 A wide, flat blade sharpened on both edges and hilted simply for a single strong grip, the broadsword excels at the chopping cut. Its broad face sheds water and grime alike, and the heft concentrates force in the slashing stroke. Footmen prize this blade for its reliability and the way it bites through lightly armored flesh.

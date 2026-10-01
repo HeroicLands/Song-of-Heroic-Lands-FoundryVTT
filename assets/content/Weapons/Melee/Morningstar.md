@@ -50,7 +50,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 5
-        defense: {blockMod: -10, counterstrikeMod: -10}
+        defense: {block: {modifier: -10}, counterstrike: {modifier: -10}}
       - shortcode: shaft
         type: melee
         name: Shaft
@@ -86,7 +86,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 5
-        defense: {blockMod: -10, counterstrikeMod: -10}
+        defense: {block: {modifier: -10}, counterstrike: {modifier: -10}}
 ---
 
 A spiked iron ball crowned atop a short haft, the morningstar combines crushing weight with radiating spikes that bite through mail and plate alike. More refined than a crude spiked club, it offers both concussive force and penetration—the spikes punch where flange would merely dent. A weapon of shock and versatility favored by mounted men-at-arms who must answer both cavalry and foot.

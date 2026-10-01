@@ -50,7 +50,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 4
-        defense: {blockMod: 0, counterstrikeMod: 0}
+        defense: {block: {modifier: 0}, counterstrike: {modifier: 0}}
       - shortcode: impale
         type: melee
         name: Impale
@@ -86,7 +86,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 4
-        defense: {blockMod: 0, counterstrikeMod: 0}
+        defense: {block: {modifier: 0}, counterstrike: {modifier: 0}}
       - shortcode: pommel
         type: melee
         name: Pommel
@@ -122,7 +122,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 4
-        defense: {blockMod: 0, counterstrikeMod: 0}
+        defense: {block: {modifier: 0}, counterstrike: {modifier: 0}}
       - shortcode: halfswordimpale
         type: melee
         name: Half-Sword Impale
@@ -158,7 +158,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 4
-        defense: {blockMod: 0, counterstrikeMod: 0}
+        defense: {block: {modifier: 0}, counterstrike: {modifier: 0}}
 ---
 
 A short straight double-edged blade suited to the stabbing thrust, the shortsword is the footman's steel when reach fails. The blade tapers to an acute point, and the hilt allows a firm grip for the lunge or the close-quarters turn of the wrist. Soldiers and castle-garrison troops favor this weapon for its simplicity and readiness in confined spaces.

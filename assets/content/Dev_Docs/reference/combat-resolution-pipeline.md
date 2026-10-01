@@ -181,6 +181,7 @@ defence blundered:
 | Defense       | Attacker delivers                                         | Defender delivers          | Notes                                                          |
 | ------------- | --------------------------------------------------------- | -------------------------- | -------------------------------------------------------------- |
 | Block         | `VS > 0`                                                  | never                      | a tie wards the blow, and sets `weaponBreakCheck = "defender"` |
+| Limb Block    | `VS >= 0`                                                 | never                      | a tie lands on the blocking limb; no weapon-break check        |
 | Counterstrike | `VS >= 0`                                                 | when its own roll succeeds | both blows may land                                            |
 | Dodge         | `VS > 0`, or tie with a lower dodge roll than attack roll | never                      |                                                                |
 | Ignore        | always                                                    | never                      | no defender contest                                            |
@@ -192,6 +193,30 @@ tie goes to the ordinary tiebreak, which the higher roll takes.
 
 Tactical Advantages: the winner of a `|VS| >= 2` exchange earns `|VS| − 1` TAs
 (attacker on `VS >= 2`, defender on `VS <= -2`).
+
+### Limb Block {#limb-block}
+
+A block made with a forearm, a shin or a shoulder is marked by the `limbBlock`
+trait on the blocking strike mode, which is what
+{@link sohl.entity.result.CombatResult.isLimbBlock} reads — so a creature whose
+own anatomy gives it an equivalent declares it the same way, with no code change.
+It differs from an ordinary block in three places, all in `CombatResult`:
+
+- **It wards only on a clear victory.** `attackerLandsBlow` takes `VS >= 0`, and
+  the tie is settled by the level difference alone — it is never sent to the
+  tiebreak.
+- **A tie lands on the raised limb.** `limbBlockStrikesLimb` is that case, and
+  `blockingLimbLocationCode` names the struck location: the limbs the technique
+  is performed with are the body-part roles its governing skill lists in
+  `impairedByRoles`, one of those parts is drawn by its selection weight, and a
+  location within it follows. The code rides the attack-result card's injury
+  button as `bodyLocationCode`, so the injury stage uses it rather than drawing
+  again — and the limb's own armour is then the armour that answers the blow.
+- **Two points come off the impact**, as a named `LmbBlk` delta so the damage
+  card shows where they went. The ward is subtracted before armour, which is the
+  same arithmetic as subtracting it after.
+
+No limb block sets `weaponBreakCheck`: there is no weapon in it to break.
 
 **Does NOT determine:** Final damage — that is computed by the impact resolution
 stage (`src/entity/body/injury-resolution.ts`) using the attack's pre-defense
@@ -223,6 +248,24 @@ ammunition is excluded, as is anything carrying the `noStrMod` trait.
 Off-hand determination runs through
 {@link sohl.entity.body.isOffHandGrip}; see
 [[doc-bodystructure#laterality-and-dominance|Body Structure > Laterality and dominance]].
+
+### Strike-mode defence modifiers {#strike-mode-defence-modifiers}
+
+A melee strike mode's `defense.block.modifier` and
+`defense.counterstrike.modifier` are folded into
+{@link sohl.entity.strikemode.MeleeStrikeMode}'s constructor, as the `BlkMod` and
+`CtrMod` deltas on the mode's `defense.block` /
+`defense.counterstrike` {@link sohl.entity.modifier.CombatModifier}s. The
+defender's automated-combat resume clones the relevant one as the
+{@link sohl.entity.result.DefendResult}'s mastery-level modifier, so the authored
+number reaches the defence roll with its name intact.
+
+Content authors them in exactly that nested shape, which is the shape the
+DataModel declares — `MeleeStrikeMode.schemaFields()`. The strike-mode list is
+emitted verbatim by the pack pipeline, so the schema is the only statement of a
+strike mode's shape, and Foundry drops any key it does not declare.
+`tests/content/strike-mode-shape.test.ts` derives the allowed key set from those
+schemas at runtime and fails a note that spells one differently.
 
 ### Injury resolution {#injury-resolution}
 

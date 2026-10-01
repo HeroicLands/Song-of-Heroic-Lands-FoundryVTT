@@ -50,7 +50,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 5
-        defense: {blockMod: -5, counterstrikeMod: -5}
+        defense: {block: {modifier: -5}, counterstrike: {modifier: -5}}
       - shortcode: shaft
         type: melee
         name: Shaft
@@ -86,7 +86,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 5
-        defense: {blockMod: -5, counterstrikeMod: -5}
+        defense: {block: {modifier: -5}, counterstrike: {modifier: -5}}
 ---
 
 A two-handed wooden hammer with a broad, flat head and long haft, the maul is built for siege work and breach-fighting. In a warrior's grip, it crashes through door-timbers, shield-walls, and armored shoulders alike. Heavy enough to require both hands and the full weight of a man's charge, it is the choice of the assault engineer and the hill-fort berserker.

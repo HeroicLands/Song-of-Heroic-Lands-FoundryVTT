@@ -50,7 +50,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 6
-        defense: {blockMod: 5, counterstrikeMod: 5}
+        defense: {block: {modifier: 5}, counterstrike: {modifier: 5}}
       - shortcode: shaft
         type: melee
         name: Shaft
@@ -86,7 +86,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 6
-        defense: {blockMod: 5, counterstrikeMod: 5}
+        defense: {block: {modifier: 5}, counterstrike: {modifier: 5}}
       - shortcode: halfswordshaft
         type: melee
         name: Half-Sword Shaft
@@ -122,7 +122,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 6
-        defense: {blockMod: 5, counterstrikeMod: 5}
+        defense: {block: {modifier: 5}, counterstrike: {modifier: 5}}
       - shortcode: halfswordimpale
         type: melee
         name: Half-Sword Impale
@@ -158,7 +158,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 6
-        defense: {blockMod: 5, counterstrikeMod: 5}
+        defense: {block: {modifier: 5}, counterstrike: {modifier: 5}}
 ---
 
 A three-pronged thrusting fork hafted to a pole, the trident catches and binds as well as pierces. Its spread tines allow the wielder to hook weapons and limbs, making it favored by skirmishers and pit-fighters for both binding and striking; also prized by fisherfolk for netting work.
