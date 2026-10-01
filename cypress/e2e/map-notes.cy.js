@@ -144,6 +144,13 @@ describe("Map notes → Scenes", () => {
             const ground = win.game.scenes.find((s) => s.name === GROUND);
             const loft = win.game.scenes.find((s) => s.name === LOFT);
 
+            // The id the pack ships, read at run time. Asserting the imported
+            // scene carries it is what proves `keepId: true`; a literal copied
+            // into the spec instead proves only which build wrote the packs,
+            // and goes stale the next time the compiler assigns ids.
+            const scenePack = win.game.packs.get("sohl.scenes");
+            const packedGround = (await scenePack.getIndex()).find((e) => e.name === GROUND);
+
             // A pin points at a journal page by bare id — which only resolves
             // because the Adventure import kept ids (`keepId: true`).
             const note = ground.notes.find((n) => !!n.pageId);
@@ -161,6 +168,7 @@ describe("Map notes → Scenes", () => {
             return {
                 createdScenes: (result.created.Scene ?? []).length,
                 groundId: ground?.id,
+                packedGroundId: packedGround?._id,
                 pinEntry: entry?.name,
                 pinPage: page?.name,
                 destination,
@@ -169,7 +177,8 @@ describe("Map notes → Scenes", () => {
             };
         }).should((r) => {
             expect(r.createdScenes, "both floors imported").to.eq(2);
-            expect(r.groundId).to.eq("Xwo4dsmey2A3Rvrn");
+            expect(r.packedGroundId, "the pack ships the ground floor").to.be.a("string");
+            expect(r.groundId, "imported under the packed id").to.eq(r.packedGroundId);
             expect(r.pinEntry, "the pin's journal came with the map").to.eq(GROUND);
             expect(r.pinPage, "and the page it addresses exists").to.be.a("string");
             expect(r.destination).to.match(/^Scene\..+\.Region\..+$/);
@@ -198,30 +207,29 @@ describe("Map notes → Scenes", () => {
     });
 
     /**
-     * Run `fn()` with no scene viewed, then hand `canvas.scene` back to core.
+     * Run `fn()` with `canvas.scene` reporting `scene`, then restore.
      *
-     * The state under test is a client viewing nothing, and this harness is
-     * not that client: `package-build e2e seed` writes an **active** default
-     * scene (so the canvas is ready and the new-user tour never overlays a
-     * sheet), which the client views at load — so `canvas.scene` here is a live
-     * Scene. Importing the adventure does not change that: an Adventure carries
-     * `active: false` on its scenes, and core only auto-activates a created
-     * scene when the world has no active one. `canvas.scene` is `null` before
-     * that first draw completes, and wherever nothing is viewed — which is where
-     * the guard earns its place, and what this test has to present rather than
-     * assume.
+     * Both halves of the test below present the client state they are about:
+     * whether this harness happens to view a scene is a property of the run,
+     * not of the behaviour. `package-build e2e seed` writes an active default
+     * scene the client views at load, but `canvas.scene` is `null` before that
+     * first draw completes and in any run whose canvas never draws, so reading
+     * the environment makes the result depend on timing the spec does not own.
      *
      * An own property shadowing the accessor `Canvas` defines on its prototype
      * is the same handle `scene-nonpersisted.cy.js` uses to pin the sibling
      * defect's precondition, and it keeps the assertion off a real
-     * `canvas.draw(null)` teardown/redraw — headless canvas churn being the very
+     * `canvas.draw()` teardown/redraw — headless canvas churn being the very
      * thing this suite keeps getting bitten by.
+     *
+     * `fn` is awaited inside the window, so a deferred pass that settles after
+     * the call returns still sees the state it was given.
      */
-    async function withNoSceneViewed(win, fn) {
+    async function withSceneViewed(win, scene, fn) {
         const prior = Object.getOwnPropertyDescriptor(win.canvas, "scene");
         Object.defineProperty(win.canvas, "scene", {
             configurable: true,
-            get: () => null,
+            get: () => scene,
         });
         try {
             return await fn();
@@ -230,6 +238,9 @@ describe("Map notes → Scenes", () => {
             else delete win.canvas.scene;
         }
     }
+
+    /** Run `fn()` with no scene viewed, then hand `canvas.scene` back to core. */
+    const withNoSceneViewed = (win, fn) => withSceneViewed(win, null, fn);
 
     it("a restricted region's shape-constraint pass is inert with no scene viewed", () => {
         cy.foundry(async (win) => {
@@ -256,8 +267,7 @@ describe("Map notes → Scenes", () => {
 
             // With a scene viewed there is nothing to guard against, and the
             // guard must not reach further than the defect: core's pass runs.
-            const viewedScene = win.canvas?.scene?.id ?? null;
-            const writesWhileViewed = await flagAndSettle();
+            const writesWhileViewed = await withSceneViewed(win, ground, () => flagAndSettle());
             // With none viewed it is inert. Unguarded on the 14.359 floor this
             // is the crash itself: the deferred callback reads
             // `canvas.scene.id` and throws `reading 'id'` out of the ticker.
@@ -265,13 +275,11 @@ describe("Map notes → Scenes", () => {
 
             delete ground.updateEmbeddedDocuments;
             return {
-                viewedScene,
                 restricted: ground.regions.filter((r) => r.restriction.enabled).length,
                 writesWhileViewed,
                 writesWhileUnviewed,
             };
         }).should((r) => {
-            expect(r.viewedScene, "the seeded world views its default scene").to.be.a("string");
             expect(r.restricted, "the fixture ships a restricted region").to.be.gte(1);
             expect(r.writesWhileViewed, "the pass runs normally with a scene viewed").to.eq(1);
             expect(

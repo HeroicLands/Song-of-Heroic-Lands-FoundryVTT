@@ -265,8 +265,22 @@ export function itemSheetSuite(kind, opts = {}) {
                     // sub-paths (e.g. strikeMode.<type>.<field>) are tolerated by
                     // checking the head segment. An orphan input — a template
                     // referencing a field the schema lacks — is a real defect.
-                    const orphans = Array.from(root.querySelectorAll('[name^="system."]'))
-                        .map((el) => el.name.slice("system.".length))
+                    //
+                    // `data-field-path` is read alongside `name` because a
+                    // control that addresses its field only through a dataset
+                    // attribute — the expression editor's edit button — renders
+                    // whether or not the schema field behind it exists, so a
+                    // name-only sweep cannot see it.
+                    const addressed = [
+                        ...Array.from(root.querySelectorAll('[name^="system."]')).map(
+                            (el) => el.name,
+                        ),
+                        ...Array.from(root.querySelectorAll('[data-field-path^="system."]')).map(
+                            (el) => el.dataset.fieldPath,
+                        ),
+                    ];
+                    const orphans = addressed
+                        .map((path) => path.slice("system.".length))
                         .filter((path) => path.length > 0)
                         .filter((path) => {
                             const head = path.split(".")[0];

@@ -50,7 +50,7 @@ describe("affiliation — standing toward other affiliations", () => {
     /** The persisted relation table of the item under test. */
     function relationOf(item) {
         return cy.foundry(
-            (win) => win.game.actors.get(item.actor.id).items.get(item.id).system.relation,
+            (win) => win.game.actors.get(item.actor.id).items.get(item.id).system.relations,
         );
     }
 
@@ -62,7 +62,7 @@ describe("affiliation — standing toward other affiliations", () => {
     function recordStanding(item, code, standing) {
         return cy.foundry(async (win) => {
             const doc = win.game.actors.get(item.actor.id).items.get(item.id);
-            await doc.update(toRealm(win, { [`system.relation.${code}`]: standing }));
+            await doc.update(toRealm(win, { [`system.relations.${code}`]: standing }));
             return null;
         });
     }
@@ -84,7 +84,7 @@ describe("affiliation — standing toward other affiliations", () => {
         cy.then(function () {
             const { actor, id } = this.larani;
             cy.window({ log: false }).should((win) => {
-                const relation = win.game.actors.get(actor.id).items.get(id).system.relation;
+                const relation = win.game.actors.get(actor.id).items.get(id).system.relations;
                 expect(relation).to.have.property("peoni", "aligned");
             });
         });
@@ -101,7 +101,7 @@ describe("affiliation — standing toward other affiliations", () => {
         cy.then(function () {
             // The row's <select> is an ordinary form field, so the sheet's own
             // submitOnChange saves it — no separate flow, no save button.
-            cy.editSheetField(this.larani, "system.relation.peoni", "nemesis");
+            cy.editSheetField(this.larani, "system.relations.peoni", "nemesis");
         });
         cy.then(function () {
             relationOf(this.larani).should("deep.eq", { peoni: "nemesis" });
@@ -120,7 +120,7 @@ describe("affiliation — standing toward other affiliations", () => {
         cy.then(function () {
             const { actor, id } = this.larani;
             cy.window({ log: false }).should((win) => {
-                const relation = win.game.actors.get(actor.id).items.get(id).system.relation;
+                const relation = win.game.actors.get(actor.id).items.get(id).system.relations;
                 expect(relation).to.not.have.property("peoni");
             });
         });

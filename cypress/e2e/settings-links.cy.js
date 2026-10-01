@@ -81,7 +81,7 @@ describe("settings sidebar — branded Game System section", () => {
             expect(s.title).to.eq("Song of Heroic Lands");
             expect(s.classes).to.contain("sohl-game-system");
             // Branding: the coiled-dragon emblem and the running version.
-            expect(s.emblemSrc).to.contain("assets/icons/brand/sohl-dragon.svg");
+            expect(s.emblemSrc).to.contain("assets/icons/brand/sohldragon.svg");
             expect(s.version).to.eq(version);
             // Inline links (plain anchors, not full-width buttons).
             expect(s.links.map((l) => l.label)).to.deep.eq(EXPECTED_LABELS);
