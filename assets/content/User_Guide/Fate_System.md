@@ -47,12 +47,12 @@ behalf, and a result can be fated once.
 Pressing it rolls a **Fate Test** — a d100 of its own against the character's
 Fate Mastery Level — and that roll decides what happens:
 
-| Fate Test result | The point     | The original test                                  |
-| ---------------- | ------------- | -------------------------------------------------- |
-| Critical Failure | lost          | unchanged                                          |
-| Marginal Failure | kept          | unchanged                                          |
-| Marginal Success | spent         | one success level better                           |
-| Critical Success | your choice   | two levels better if spent, one level if kept      |
+| Fate Test result | The point   | The original test                             |
+| ---------------- | ----------- | --------------------------------------------- |
+| Critical Failure | lost        | unchanged                                     |
+| Marginal Failure | kept        | unchanged                                     |
+| Marginal Success | spent       | one success level better                      |
+| Critical Success | your choice | two levels better if spent, one level if kept |
 
 Only a Critical Success asks you anything: a dialog offers the point for two
 levels or lets you keep it for one. The other three rungs resolve on their own.
