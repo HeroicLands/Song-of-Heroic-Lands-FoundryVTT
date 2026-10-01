@@ -11,7 +11,7 @@ sohl:
   armorType: Tunic
   detailMaterial: Waxed Canvas
   system:
-    weightBase: 3.5
+    weightBase: 3.4
     valueBase: 59
     durabilityBase: 12
     material: Cloth

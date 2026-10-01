@@ -11,7 +11,7 @@ sohl:
   armorType: Cloak
   detailMaterial: Sealskin
   system:
-    weightBase: 2.4
+    weightBase: 6.1
     valueBase: 145
     durabilityBase: 11
     material: Leather
