@@ -120,7 +120,7 @@
         "lint:reachability": "run-s lint:reachability:*",
         "lint:reachability:rules": "package-build reachability Rules _Introduction.md --index glossary",
         "lint:reachability:guide": "package-build reachability User_Guide _Introduction.md --index glossary",
-        "lint:dts": "node utils/check-dts.mjs",
+        "lint:dts": "package-build types check",
         "lint:bundle-globals": "package-build bundle check",
         "changeset": "changeset",
         "changeset:version": "changeset version && package-build changelog group && npm install --package-lock-only",
