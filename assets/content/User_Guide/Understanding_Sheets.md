@@ -92,7 +92,7 @@ From this tab you can:
 - **Drag items** from a compendium, the sidebar, or another actor's sheet onto the sheet to add them. Dragging from another actor _moves_ the item; a stack of more than one prompts for how many to move (shift-drag moves the lot). Dragging from a compendium or the world copies it.
 - **Toggle carried** with the knapsack control, marking whether the item is on the actor's person (or, for a vehicle or structure, in active use rather than stowed).
 - **Toggle worn** with the shield control, on armor only. Worn armor is what feeds protection totals. Armor that is not carried cannot be worn, so the control is disabled until it is.
-- **Edit or delete** an item from the :icon-menu: menu at the end of its row (or by right-clicking the row).
+- **Edit or delete** an item from the :icon menu: menu at the end of its row (or by right-clicking the row).
 - **Search** the tab with the box at the top, which filters rows by name.
 
 ## Shared Gear (Cohorts only)
@@ -107,7 +107,7 @@ The **Actions** tab lists every action the actor can run, in two sections.
 
 **Intrinsic** actions are built into the system for that kind of actor or item. They are read-only: you cannot add, edit, or remove them, only run them.
 
-Each row shows the action's icon and name, the menu group it sorts into, and any notes. Click the **:icon-run:** control to run an action; hold **shift** while clicking to skip its configuration dialog and run it with its defaults. Internal lifecycle actions the system runs on its own are never listed here.
+Each row shows the action's icon and name, the menu group it sorts into, and any notes. Click the **:icon run:** control to run an action; hold **shift** while clicking to skip its configuration dialog and run it with its defaults. Internal lifecycle actions the system runs on its own are never listed here.
 
 Actions are always run at your say-so — SoHL never runs one for you. See [[doc-actionsug|Actions]] for what actions are and how they work.
 
@@ -115,7 +115,7 @@ Actions are always run at your say-so — SoHL never runs one for you. See [[doc
 
 The **Effects** tab shows the active effects modifying this actor, in two sections.
 
-**Own Effects** are effects placed directly on the actor. Each row shows the effect's name, its **Target** (what it applies to), the time **Remaining** (or _Indefinite_), and how many **changes** it makes. Use **Create Effect** to add one; each row's controls enable or disable the effect, delete it, or open the :icon-menu: menu.
+**Own Effects** are effects placed directly on the actor. Each row shows the effect's name, its **Target** (what it applies to), the time **Remaining** (or _Indefinite_), and how many **changes** it makes. Use **Create Effect** to add one; each row's controls enable or disable the effect, delete it, or open the :icon menu: menu.
 
 **Transferred Effects** are effects that come from items the actor holds — a cursed blade's penalty, an amulet's blessing. They are read-only here and show which item they came from as their **Source**; to change one, edit it on the item that carries it.
 

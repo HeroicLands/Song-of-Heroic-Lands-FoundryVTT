@@ -1,6 +1,6 @@
 ---
 shortcode: arwhblt
-name: {full: Heavy Blunt Arrow, alias: []}
+name: {full: Heavy Blunt Arrow, aliases: []}
 type: projectilegear
 subType: arrow
 description: "Stout ash shaft, wood or bronze knob; breaks bone, stuns boar."

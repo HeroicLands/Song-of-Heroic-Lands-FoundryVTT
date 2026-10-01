@@ -416,7 +416,7 @@ fired**. So a recurring consumer must persist an **anchor** and derive the next
 {@link sohl.entity.event.ScheduledAction | `system.scheduledActions`} entry
 (`anchor + interval`).
 
-> :icon-warning: Scheduling from `game.time.worldTime + interval` is a **bug** for recurrence:
+> :icon warning: Scheduling from `game.time.worldTime + interval` is a **bug** for recurrence:
 > during a time jump the clock is already at the far end, so it skips every
 > intermediate occurrence — and because it derives from the live clock rather than
 > a stored fact, other clients can't reconstruct it deterministically.

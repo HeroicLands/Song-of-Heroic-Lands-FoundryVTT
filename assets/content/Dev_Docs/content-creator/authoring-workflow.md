@@ -342,7 +342,7 @@ and
 | 1     | `npm run build:compiledb`        | `build/packs-json/<pack>/` JSON     |
 | 2     | (the same command's second half) | `build/stage/packs/<pack>/` LevelDB |
 
-`build:compiledb` is `content-build package compile`, the content pipeline
+`build:compiledb` is `package-build package compile`, the content pipeline
 itself. The wider `build:db` runs `build:assets`, then `build:compiledb`, then
 `build:link-manifest`.
 

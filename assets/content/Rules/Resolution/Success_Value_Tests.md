@@ -53,11 +53,11 @@ The **Value Diamonds** of a result are how far it exceeded a plain workmanlike o
 | Success Value | Value Diamonds                                     |
 | ------------- | -------------------------------------------------- |
 | ≤ 4           | none                                               |
-| 5             | :icon-gem:                                         |
-| 6             | :icon-gem::icon-gem:                               |
-| 7             | :icon-gem::icon-gem::icon-gem:                     |
-| 8             | :icon-gem::icon-gem::icon-gem::icon-gem:           |
-| 9 or more     | :icon-gem::icon-gem::icon-gem::icon-gem::icon-gem: |
+| 5             | :icon gem:                                         |
+| 6             | :icon gem::icon gem:                               |
+| 7             | :icon gem::icon gem::icon gem:                     |
+| 8             | :icon gem::icon gem::icon gem::icon gem:           |
+| 9 or more     | :icon gem::icon gem::icon gem::icon gem::icon gem: |
 
 Diamonds grade a single piece of work against a fixed scale of five, and are unrelated to the [[doc-oppsdtst#victory-stars|Victory Stars]] that measure the margin of a contest and have no ceiling at all.
 

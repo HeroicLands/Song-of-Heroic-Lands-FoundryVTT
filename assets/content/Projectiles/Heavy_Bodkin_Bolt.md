@@ -1,6 +1,6 @@
 ---
 shortcode: blthbod
-name: {full: Heavy Bodkin Bolt, alias: []}
+name: {full: Heavy Bodkin Bolt, aliases: []}
 type: projectilegear
 subType: bolt
 description: "Heavy shaft, square-sectioned spike; splits mail, dents breastplate close up."

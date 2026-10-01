@@ -70,7 +70,7 @@ for two anchored sections, and only those:
 ```markdown
 # Appearance {#appearance}
 
-![[aldric|Aldric of Kaldor]]{float: top-left}
+![[aldric|Aldric of Kaldor]]{float=top-left}
 
 Weathered, and taller than most.
 
@@ -193,7 +193,7 @@ every Item pack
 ### Items are compiled before actors, and the build derives that
 
 The actors pass reads the items passes' _output_, so it must run after them.
-`content-build package compile` schedules it there itself, from what each pass
+`package-build package compile` schedules it there itself, from what each pass
 declares it reads — the order the pack list happens to be written in is not what
 decides it. Compiling the actors pack _alone_ still fails outright, and now names
 the pack it was waiting on:

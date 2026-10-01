@@ -1,6 +1,6 @@
 ---
 shortcode: lbul
-name: {full: Lead Bullet, alias: []}
+name: {full: Lead Bullet, aliases: []}
 type: projectilegear
 subType: bullet
 description: "Cast lead almond-shaped ball; farther-flying, harder-striking than stone; pierces gambesons."

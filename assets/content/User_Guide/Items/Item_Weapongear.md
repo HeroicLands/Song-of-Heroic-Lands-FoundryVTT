@@ -41,7 +41,7 @@ Each row shows:
 | **Shortcode**        | Its short identifier, unique within the weapon                          |
 | **Type**             | _Melee_ or _Missile_                                                    |
 | **Impact**           | The damage formula, such as `d6+2e` (the trailing letter is the aspect) |
-| **:icon-menu: menu** | Edit or delete the mode                                                 |
+| **:icon menu: menu** | Edit or delete the mode                                                 |
 
 **Add Strike Mode** (the **+** control above the list) appends a new mode and opens its editor. A weapon with no modes says so, and cannot attack with anything.
 
@@ -83,9 +83,9 @@ A weapon has **no hidden actions**: everything it can do is on the list above.
 All three are gated on the weapon being **held** (and carried), so an unheld weapon offers none of them. When it is held, they are reachable:
 
 - **From the Combat tab** — click the strike mode's **Atk**, **Blk**, or **CX** cell. This is the direct route, and the only one that already knows which strike mode you meant. Hold **Shift** while clicking to skip the pre-roll dialog.
-- **From the weapon's own Actions tab** — open the weapon and use the **:icon-run:** button beside _Attack_, _Block_, or _Counterstrike_.
+- **From the weapon's own Actions tab** — open the weapon and use the **:icon run:** button beside _Attack_, _Block_, or _Counterstrike_.
 
-> **Known gap.** The three actions are **missing from the Gear tab's :icon-menu: context menu**, even on a weapon that is held and carried (issue #1132). That menu currently offers only _Edit_, _Toggle Carried_, _Delete_, and _Output Description to Chat_. Use the Combat tab or the weapon's Actions tab until it is fixed; both run the identical action.
+> **Known gap.** The three actions are **missing from the Gear tab's :icon menu: context menu**, even on a weapon that is held and carried (issue #1132). That menu currently offers only _Edit_, _Toggle Carried_, _Delete_, and _Output Description to Chat_. Use the Combat tab or the weapon's Actions tab until it is fixed; both run the identical action.
 
 # Attack, Block, and Counterstrike {#attack-block-and-counterstrike}
 
@@ -128,7 +128,7 @@ Hover any of those cells to see the breakdown without rolling.
 | Part                           | What it shows                                                            |
 | ------------------------------ | ------------------------------------------------------------------------ |
 | Title                          | The test's name                                                          |
-| :icon-edit: pencil _(GM only)_ | Re-opens the dialog to correct the modifiers, without re-rolling the die |
+| :icon edit: pencil _(GM only)_ | Re-opens the dialog to correct the modifiers, without re-rolling the die |
 | **Target**                     | The number the roll had to come in at or under                           |
 | **Roll**                       | The d100 result, green on a success and red on a failure                 |
 | _Footer_                       | The named outcome — Critical Success, Marginal Success, and so on        |

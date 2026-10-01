@@ -71,11 +71,11 @@ Mastery Level also describes standing in a trade. Where a character's profession
 | Rating                                                  | ML    | Competence   |
 | ------------------------------------------------------- | ----- | ------------ |
 | zero                                                    | ≤ 49  | Inept        |
-| :icon-star:                                             | 50–59 | Novice       |
-| :icon-star::icon-star:                                  | 60–69 | Aspirant     |
-| :icon-star::icon-star::icon-star:                       | 70–79 | Professional |
-| :icon-star::icon-star::icon-star::icon-star:            | 80–89 | Expert       |
-| :icon-star::icon-star::icon-star::icon-star::icon-star: | 90+   | Paragon      |
+| :icon star:                                             | 50–59 | Novice       |
+| :icon star::icon star:                                  | 60–69 | Aspirant     |
+| :icon star::icon star::icon star:                       | 70–79 | Professional |
+| :icon star::icon star::icon star::icon star:            | 80–89 | Expert       |
+| :icon star::icon star::icon star::icon star::icon star: | 90+   | Paragon      |
 
 These stars rate a character; they are not the [[doc-oppsdtst#victory-stars|Victory Stars]] that measure the margin of a single contest.
 

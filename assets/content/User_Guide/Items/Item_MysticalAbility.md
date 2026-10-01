@@ -16,22 +16,22 @@ Invoking one is a **roll** — see [[#success-test|Success Test]] below. SoHL ro
 
 # Where It Appears
 
-Mystical Abilities appear on the Being sheet's **Mysteries** tab, in their own half below the Mysteries themselves, grouped into one **ledger per sub-type** — a Spirit Rite section, an Arcane Incantation section, and so on. Only sub-types the character actually has are shown, and each section's **:icon-add: Add** button creates another of that sub-type.
+Mystical Abilities appear on the Being sheet's **Mysteries** tab, in their own half below the Mysteries themselves, grouped into one **ledger per sub-type** — a Spirit Rite section, an Arcane Incantation section, and so on. Only sub-types the character actually has are shown, and each section's **:icon add: Add** button creates another of that sub-type.
 
 Each sub-type shows only the columns that mean something for it, so the ledgers are not all the same width:
 
 | Column               | What it shows                                                                                                    | Shown for                         |
 | -------------------- | ---------------------------------------------------------------------------------------------------------------- | --------------------------------- |
 | **Ability**          | The ability's name. Click it to open the ability                                                                 | Every sub-type                    |
-| **Skill**            | The **Associated Skill** that governs the roll, or a :icon-not-applicable: when none is set                      | The skill-governed sub-types      |
-| **Spirit Power**     | The **Spirit Power** that governs the roll, or a :icon-not-applicable: when none is set                          | Spirit Rite and Spirit Action     |
-| **Affiliation**      | The Affiliation whose standing the ability draws on, or a :icon-not-applicable:                                  | The affiliation-bearing sub-types |
-| **Lvl**              | The ability's **Level**, or a :icon-not-applicable: when it has none                                             | The sub-types with a power level  |
+| **Skill**            | The **Associated Skill** that governs the roll, or a :icon not-applicable: when none is set                      | The skill-governed sub-types      |
+| **Spirit Power**     | The **Spirit Power** that governs the roll, or a :icon not-applicable: when none is set                          | Spirit Rite and Spirit Action     |
+| **Affiliation**      | The Affiliation whose standing the ability draws on, or a :icon not-applicable:                                  | The affiliation-bearing sub-types |
+| **Lvl**              | The ability's **Level**, or a :icon not-applicable: when it has none                                             | The sub-types with a power level  |
 | **EML**              | The Effective Mastery Level. **This cell is the roll** — click it to run a [[#success-test\|Success Test]]       | Every sub-type                    |
-| **Chgs/Max**         | Charges remaining over the maximum. :icon-not-applicable: when the ability does not use charges, ∞ for unlimited | Every sub-type                    |
+| **Chgs/Max**         | Charges remaining over the maximum. :icon not-applicable: when the ability does not use charges, ∞ for unlimited | Every sub-type                    |
 | **Notes**            | The ability's one-line note                                                                                      | Every sub-type                    |
 | **Improve control**  | Flags the ability for improvement — see [[#toggle-improve-flag\|Toggle Improve Flag]]                            | Abilities with no association     |
-| **:icon-menu: menu** | The Actions context menu — every action on this page                                                             | Every sub-type                    |
+| **:icon menu: menu** | The Actions context menu — every action on this page                                                             | Every sub-type                    |
 
 **A greyed-out row cannot be invoked.** An ability is greyed and its EML cell stops being a button when it is **out of charges**, or when it is a Spirit Rite or Spirit Action with **no valid Spirit Power** associated. The EML is still shown, so you can see what the roll _would_ be; see [[#before-you-start|Before you start]].
 
@@ -43,13 +43,13 @@ Along with the [[doc-baseitemug|Standard Item Properties]], the following proper
 - **Improvement Flag:** Marks the ability as one the character is trying to improve. The same flag is the **improve control** on the ability's row on the Mysteries tab, and what [[#improve-with-sdr|Improve with SDR]] spends. It only means something on an ability with **no Associated Skill** — one that draws its mastery level from a skill improves when that _skill_ does, so it shows no improve control and offers no improvement actions.
 - **Associated Skill:** Which Skill governs this ability's roll (optional), chosen from the character's own skills. On a **Spirit Rite** or **Spirit Action** this same selector names a **Spirit Power** instead — one of the character's own Spirit Power abilities — and the sheet column is labelled accordingly.
 - **Associated Affiliation:** Which [[doc-affltnug|Affiliation]] this ability draws its standing from (optional) — the church, arcane or alchemical school, or ancestor/totem/spirit whose membership the ability belongs to. Recording it lets the ability's behaviour take the character's **rank** in that body into account (its **Level**): a full priest and a layperson of the same faith can differ in what they can invoke. This only _informs_ the ability — the player still deliberately triggers every invocation.
-- **Level:** The difficulty or power tier of the ability. Leave it blank for an ability that has no level, and the sheet shows a :icon-not-applicable:. Higher-level incantations are also harder to invoke — see [[#the-incantation-casting-penalty|_The Incantation Casting Penalty_]] below.
+- **Level:** The difficulty or power tier of the ability. Leave it blank for an ability that has no level, and the sheet shows a :icon not-applicable:. Higher-level incantations are also harder to invoke — see [[#the-incantation-casting-penalty|_The Incantation Casting Penalty_]] below.
 - **Charges:** How many times the ability can still be used, in a **Charges** box of its own:
   - **Current Charges:** Charges remaining. Leave it blank for an ability whose uses are unlimited (the sheet shows ∞).
-  - **Maximum Charges:** The cap, and the control that decides whether the ability uses charges at all. Leave it blank for one that does not (the sheet shows :icon-not-applicable:); enter `0` for one that is counted but uncapped.
+  - **Maximum Charges:** The cap, and the control that decides whether the ability uses charges at all. Leave it blank for one that does not (the sheet shows :icon not-applicable:); enter `0` for one that is counted but uncapped.
   - Each completed [[#success-test|Success Test]] spends one charge.
 
-An ability's **sub-type is fixed when it is created** — you choose it with the :icon-add: Add button of the section you want, and there is no control to change it afterwards. The sub-type is shown under the ability's name at the top of its sheet, and the sub-types are:
+An ability's **sub-type is fixed when it is created** — you choose it with the :icon add: Add button of the section you want, and there is no control to change it afterwards. The sub-type is shown under the ability's name at the top of its sheet, and the sub-types are:
 
 - **Spirit Rite:** A prepared ceremony by which a practitioner petitions the spirit world.
 - **Spirit Action:** A discrete supernatural act performed through an allied or bound spirit.
@@ -99,11 +99,11 @@ The penalty is itemized wherever the roll is broken down: hovering the EML cell 
 
 Every Mystical Ability also carries the shared document actions — **Edit**, **Delete**, and **Output Description to Chat** — described once on [[doc-baseitemug|Base Item]].
 
-To reach any of them, click the **:icon-menu:** on the ability's row on the Mysteries tab, or open the ability and use its **Actions** tab.
+To reach any of them, click the **:icon menu:** on the ability's row on the Mysteries tab, or open the ability and use its **Actions** tab.
 
 **The two improvement actions appear only on an ability that has a mastery level of its own** — one with no Associated Skill (and, for a Spirit Rite or Spirit Action, no Spirit Power). On any other ability they are absent, because there is nothing of the ability's own to raise.
 
-Besides the two hidden half-toggles described under [[#toggle-improve-flag|Toggle Improve Flag]], a Mystical Ability defines **no hidden actions of its own**. The one action you will meet elsewhere is the shared GM **result edit**, reached from the :icon-edit: pencil on a posted test-result card and described on [[doc-baseitemug|Base Item]].
+Besides the two hidden half-toggles described under [[#toggle-improve-flag|Toggle Improve Flag]], a Mystical Ability defines **no hidden actions of its own**. The one action you will meet elsewhere is the shared GM **result edit**, reached from the :icon edit: pencil on a posted test-result card and described on [[doc-baseitemug|Base Item]].
 
 **What the ability _does_ is not automated.** SoHL rolls the invocation and reports the outcome; it does not apply the spell's effect, spend its material components, or resolve what it does to a target. That deliberately stays with the people at the table — where an ability's effect should be automated, attach a Script Action to it (see [[doc-actionsug|Actions]]).
 
@@ -143,7 +143,7 @@ What happens on a success — what the spell does, to whom, for how long — com
 | Part                           | What it shows                                                            |
 | ------------------------------ | ------------------------------------------------------------------------ |
 | Title                          | The test's name — see the known gap below                                |
-| :icon-edit: pencil _(GM only)_ | Re-opens the dialog to correct the modifiers, without re-rolling the die |
+| :icon edit: pencil _(GM only)_ | Re-opens the dialog to correct the modifiers, without re-rolling the die |
 | _The modifier breakdown_       | Every modifier that made up the target — the casting penalty among them  |
 | **Target**                     | The number the roll had to come in at or under                           |
 | **Roll**                       | The d100 result, green on a success and red on a failure                 |

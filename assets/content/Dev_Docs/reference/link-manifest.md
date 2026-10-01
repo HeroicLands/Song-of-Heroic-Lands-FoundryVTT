@@ -26,8 +26,8 @@ treat every rule below as load-bearing rather than descriptive.
 |                  |                                                                              |
 | ---------------- | ---------------------------------------------------------------------------- |
 | **Emitted to**   | `build/manifests/<package>.json`, by `npm run build:link-manifest`           |
-| **Emitted by**   | `content-build manifest`, from configuration — no script in this repo        |
-| **Published by** | the package's release; a consumer fetches it with `content-build deps fetch` |
+| **Emitted by**   | `package-build manifest`, from configuration — no script in this repo        |
+| **Published by** | the package's release; a consumer fetches it with `package-build deps fetch` |
 | **Committed?**   | no — it lands in a local cache, not in the consumer's tree                   |
 
 A consumer declares the dependency in `relationships` (with `itemCatalog: true`)
@@ -181,7 +181,7 @@ what happened when keys became canonical: this repository read 2,367
 `thalorna` entries through a lookup keyed the way v2 wrote them, and not one
 cross-package link worked for over a release.
 
-So both consumers here — `content-build site` and `content-build links` — call
+So both consumers here — `package-build site` and `package-build links` — call
 `assertForeignManifestsAddressable` (`utils/kb-foreign-manifest.mjs`) right after
 loading, and **fail** when a package contributes entries of which none yields a
 readable canonical key. The diagnostic locates the offending key inside the

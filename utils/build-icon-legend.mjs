@@ -145,7 +145,7 @@ const FAMILIES = {
  *
  * The legend documents *controls* — a thing on a sheet, in a menu, on a card —
  * and each of its rows says where you see it. These name a glyph in a sentence
- * instead: "the :icon-menu: opens it", "worth :icon-star: :icon-star:". There
+ * instead: "the :icon menu: opens it", "worth :icon star: :icon star:". There
  * is no single control to point at, so there is no row to write, but a note
  * still has to be able to say them.
  *
@@ -595,7 +595,7 @@ function renderTable(rows) {
     const out = ["| Glyph | Name | Where you see it |", "| :---: | --- | --- |"];
     for (const r of rows.sort((a, b) => a.name.localeCompare(b.name)))
         out.push(
-            `| :icon-${iconName(r.name)}:{size: ${GLYPH_DISPLAY_SIZE}} | **${r.name}** | ${r.note} |`,
+            `| :icon ${iconName(r.name)}:{size=${GLYPH_DISPLAY_SIZE}} | **${r.name}** | ${r.note} |`,
         );
     return out.join("\n");
 }

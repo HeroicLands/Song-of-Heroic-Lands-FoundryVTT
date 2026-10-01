@@ -270,7 +270,7 @@ the issue. See [[doc-writingchangesets|Writing Changesets]] for details.
 
 ### Format before commit
 
-Run `npm run format:check` (Prettier, through `content-build format`) **first**.
+Run `npm run format:check` (Prettier, through `package-build format`) **first**.
 If a file you did **not** touch shows up as unformatted, stop and ask — do not
 run `format` blind, since it formats the whole repo and would sweep unrelated
 drift into your commit. Once only your files are flagged, run `npm run format`,
@@ -283,7 +283,7 @@ it, and they call for opposite responses. A **Prettier version bump** invalidate
 the tree wholesale — a minor that changes a layout rule reformats files nobody
 edited; that belongs in its own reformat-only commit, not in yours. Since the
 formatter and its configuration now arrive with `@heroiclands/package-build`,
-such a bump reaches this repository as a **content-build** bump, and shows up
+such a bump reaches this repository as a **package-build** bump, and shows up
 the same way: files you did not touch, flagged by `lint:format`. A **single stray file** is ordinary drift and is yours to
 format if you were touching it anyway. Either way the rule above holds: format by
 explicit path, never the whole repo.

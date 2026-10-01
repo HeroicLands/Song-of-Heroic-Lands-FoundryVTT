@@ -525,11 +525,11 @@ Structure section** — no macro needed:
 - **Add** — the section header carries a **+ Add** control that creates a body
   part; each body-part header carries a **+ Add** that creates a hit location
   under it. Both prompt for a name and a unique shortcode.
-- **Edit** — each part header and location row has a **:icon-menu:** menu whose **Edit**
+- **Edit** — each part header and location row has a **:icon menu:** menu whose **Edit**
   opens the `BodyPartConfig` / `BodyLocationConfig` editor for that entry, which
   auto-saves each field change (roles, protection, bleeding / amputability
   tiers, and so on).
-- **Delete** — the same **:icon-menu:** menu's **Delete** removes the entry after
+- **Delete** — the same **:icon menu:** menu's **Delete** removes the entry after
   confirmation. Deleting a part is refused while it still owns hit locations —
   remove those first.
 - **Reorder** — parts and locations reorder, and locations move between parts,

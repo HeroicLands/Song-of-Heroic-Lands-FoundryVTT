@@ -1,14 +1,16 @@
 ---
 shortcode: brunjarskathhel
-name: {full: Brunjár Skathhelm, title: "", given: Brunjár, clan: Skathhelm, aliases: []}
+name: {full: Brunjár Skathhelm, given: Brunjár, clan: Skathhelm, aliases: []}
 type: being
-tags: [character]
+subType: character
+tags: []
 data:
   icon: person
   templatePriority: null
+  archetypes: [skirmisher, woodsman]
   gender: male
   age: 22
-  born: 697/10/3
+  born: 697.277
   height: 1.75
   weight: 68
   frame: medium

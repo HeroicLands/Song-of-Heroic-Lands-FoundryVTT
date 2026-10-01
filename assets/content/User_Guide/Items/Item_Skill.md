@@ -24,13 +24,13 @@ Each row on the Skills tab is itself a set of controls:
 
 | Column / control     | What it does                                                                                                |
 | -------------------- | ----------------------------------------------------------------------------------------------------------- |
-| **SB**               | The Skill Base. A :icon-not-applicable: here means the skill's formula is invalid — hover it for the reason |
+| **SB**               | The Skill Base. A :icon not-applicable: here means the skill's formula is invalid — hover it for the reason |
 | **ML**               | The mastery level                                                                                           |
 | **SI**               | The Skill Index — the mastery level's tens digit, used by the Success Value Test                            |
 | **EML**              | \*\*Click to run a [[#success-test\|Success Test]].** Hold **Shift\*\* to skip the pre-roll dialog          |
 | **Fate**             | Click to spend a Fate Point on this skill. Hold **Shift** to skip the dialog                                |
 | **Improve control**  | [[#toggle-improve-flag\|Flags the skill for improvement]]. Shown only when you may improve it               |
-| **:icon-menu: menu** | The Actions context menu — every action on this page                                                        |
+| **:icon menu: menu** | The Actions context menu — every action on this page                                                        |
 
 Spending Fate is described on [[doc-thftsystug|Fate]].
 
@@ -49,14 +49,14 @@ Along with the [[doc-baseitemug|Standard Item Properties]], the following proper
   - **Physical**
   - **Combat**
   - **Combat Technique** — a natural or unarmed fighting maneuver; adds a **Strike Modes** tab (see [[#combat-techniques|Combat Techniques]])
-- **Skill Base Formula:** Formula for calculating the skill base from referenced attributes. Written as a [[doc-sfexprssug|Safe Expression]] over attribute values, such as `sb(attr.str, attr.dex)`; the **:icon-edit:** button beside it opens the formula editor. A blank formula is allowed and yields a Skill Base of 0; a malformed one is flagged on the sheet and shows a :icon-not-applicable: in the Skills tab's SB column.
+- **Skill Base Formula:** Formula for calculating the skill base from referenced attributes. Written as a [[doc-sfexprssug|Safe Expression]] over attribute values, such as `sb(attr.str, attr.dex)`; the **:icon edit:** button beside it opens the formula editor. A blank formula is allowed and yields a Skill Base of 0; a malformed one is flagged on the sheet and shows a :icon not-applicable: in the Skills tab's SB column.
 - **Mastery Level:** Base mastery level representing training and experience. Leave it **blank** to have a skill on a character open automatically at _Skill Base × Init Multiplier_; enter a number to set the level explicitly.
 - **Init Multiplier:** Multiplier applied to the skill base to open the skill's mastery level for a new character. When _Mastery Level_ is blank and the skill is on a character, the opening mastery level is _Skill Base × Init Multiplier_.
 - **Parent Skill:** Shortcode of the base skill if this is a specialization. Leave it as _None_ when the skill stands on its own.
 - **Adopt Parent Mastery:** Shown only once a **Parent Skill** is set. When ticked, the specialization tracks its parent skill's mastery level instead of its own base, with this skill's own bonuses applied on top.
 - **Improvement Flag:** Whether this item is flagged for mastery improvement via _Skill Development Roll_ (SDR). This is the same flag the improve control on the Skills tab toggles, and the same one [[#toggle-improve-flag|Toggle Improve Flag]] flips.
 - **Combat Category:** Shown only when the **Category** is _Combat_. The class of attack this weapon skill governs — **None**, **All Weapon Types**, **Melee**, **Missile**, **Melee & Missile**, **Maneuver**, or **Melee & Combat Maneuver**.
-- **Impaired By Roles:** A list of body roles whose injury impairs this skill — _vital_, _core_, _manipulator_, or _locomotor_. An unhealed injury at a body part carrying one of these roles penalizes this skill's tests, and an unusable part makes them fail automatically. Use **Add Role** to add one and the :icon-delete: to remove it.
+- **Impaired By Roles:** A list of body roles whose injury impairs this skill — _vital_, _core_, _manipulator_, or _locomotor_. An unhealed injury at a body part carrying one of these roles penalizes this skill's tests, and an unusable part makes them fail automatically. Use **Add Role** to add one and the :icon delete: to remove it.
 
 <!-- TODO: Document each field on the Properties tab of this type's sheet:
      what it means, what values to enter, and how it interacts with other
@@ -74,7 +74,7 @@ For creatures these are the norm rather than the exception: biting, raking with 
 
 The tab appears only for the _Combat Technique_ category, and a technique carries **exactly one** strike mode. A newly created technique is given a melee strike mode named after the skill, so it is usable at once; refine it from there.
 
-The tab lists the mode with its **Shortcode**, **Type**, and **Impact** formula. Open the **:icon-menu:** menu on the row to edit or delete it, or use **Add Strike Mode** when the technique has none.
+The tab lists the mode with its **Shortcode**, **Type**, and **Impact** formula. Open the **:icon menu:** menu on the row to edit or delete it, or use **Add Strike Mode** when the technique has none.
 
 ## The strike-mode editor
 
@@ -121,7 +121,7 @@ A **missile** technique has no Defense section: you cannot block or counterstrik
 
 A **hidden** action is never in the Actions context menu. It is not off-limits: it is simply reached another way — here, by a script or macro that wants to set the flag rather than flip it.
 
-To reach any of them, right-click the skill's row on the Skills tab, click its **:icon-menu:** control, or open the skill and use its **Actions** tab.
+To reach any of them, right-click the skill's row on the Skills tab, click its **:icon menu:** control, or open the skill and use its **Actions** tab.
 
 # Success Test {#success-test}
 
@@ -150,7 +150,7 @@ Use it for any single attempt with a clear pass/fail shape: picking a lock, spot
 | Part                           | What it shows                                                            |
 | ------------------------------ | ------------------------------------------------------------------------ |
 | Title                          | The test's name                                                          |
-| :icon-edit: pencil _(GM only)_ | Re-opens the dialog to correct the modifiers, without re-rolling the die |
+| :icon edit: pencil _(GM only)_ | Re-opens the dialog to correct the modifiers, without re-rolling the die |
 | _The modifier breakdown_       | Every modifier that made up the target                                   |
 | **Target**                     | The number the roll had to come in at or under                           |
 | **Roll**                       | The d100 result, green on a success and red on a failure                 |
@@ -162,7 +162,7 @@ The GM's pencil is described on [[doc-baseitemug|Base Item]], under _Editing a P
 ## Two things that change the roll for you
 
 - **Injury.** If the skill names **Impaired By Roles** and the character has an unhealed injury at a body part with one of those roles, the test is penalized by −5 or −10; if the part is unusable altogether, the test **fails critically** without a roll.
-- **A disabled mastery level.** A skill whose mastery level has been disabled shows a :icon-not-applicable: in the Skills tab and cannot produce a meaningful result.
+- **A disabled mastery level.** A skill whose mastery level has been disabled shows a :icon not-applicable: in the Skills tab and cannot produce a meaningful result.
 
 # Success Value Test {#success-value-test}
 
@@ -314,7 +314,7 @@ Clicking the **Atk**, **Blk**, or **CX** cell on the Combat tab is the direct ro
 ## Where they are unavailable
 
 - **Block and Counterstrike need a melee mode.** A missile technique — a flung quill, a spat venom — has no defense to roll, so those two actions are not offered on it. The Combat tab's Missile ledger has no Blk or CX columns at all.
-- **A mode can be switched off individually.** A melee technique whose attack, block, or counterstrike has been disabled shows a :icon-not-applicable: in that column instead of a rollable value.
+- **A mode can be switched off individually.** A melee technique whose attack, block, or counterstrike has been disabled shows a :icon not-applicable: in that column instead of a rollable value.
 
 **Assisted, not automated.** These actions roll the test and report it; they do not move a combatant, spend an initiative, or apply an injury to anyone. For the full combat sequence — declaring an exchange, resolving a strike against a defender, and turning impact into a wound — see [[doc-cmbtbscsug|Combat Basics]] and [[doc-cmbtntug|Combatant]].
 
