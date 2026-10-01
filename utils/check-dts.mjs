@@ -17,14 +17,14 @@
  *
  * `tsconfig.json` keeps `skipLibCheck: true` globally — deliberately — because
  * third-party declaration files we don't control (`fvtt-types`, `jsep`) contain
- * type errors that would otherwise break every build. But that flag also hides
- * errors in OUR own `.d.ts` files: `types/sohl-globals.d.ts` once rotted into a
- * set of imports from a non-existent source layout, which silently degraded the
- * `sohl` global and every SoHL document type to `any` without failing the build.
+ * type errors that would otherwise break every build. That flag also hides an
+ * error in OUR own `.d.ts` files: an import from a non-existent source layout
+ * in `types/sohl-globals.d.ts` would silently degrade the `sohl` global and
+ * every SoHL document type to `any` without failing the build.
  *
  * This guard runs a one-off `tsc --skipLibCheck false` and reports only the
- * errors outside `node_modules/` — catching regressions in our declaration
- * files while ignoring the library noise that `skipLibCheck` exists to suppress.
+ * errors outside `node_modules/` — catching an error in our declaration files
+ * while ignoring the library noise that `skipLibCheck` exists to suppress.
  *
  * Usage:
  *   npm run lint:dts        // node utils/check-dts.mjs
