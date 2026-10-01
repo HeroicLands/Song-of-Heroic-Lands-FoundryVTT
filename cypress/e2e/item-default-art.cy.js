@@ -1,6 +1,7 @@
 // Runtime default-artwork: a freshly-created item with no explicit `img` gets
 // its per-type themed default (SohlItem.getDefaultArtwork), not Foundry's white
-// `icons/svg/item-bag.svg`. Regression for.
+// `icons/svg/item-bag.svg`. The shared map holds pathnames, so each assertion
+// is the Foundry address the runtime derives from one.
 
 const BAG = "icons/svg/item-bag.svg";
 
