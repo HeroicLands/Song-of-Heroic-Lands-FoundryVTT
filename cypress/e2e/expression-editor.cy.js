@@ -133,7 +133,7 @@ describe("SafeExpression editor (Skill Base pilot)", () => {
     });
 });
 
-describe("SafeExpression editor rollout (Affliction outcomeTrauma)", () => {
+describe("SafeExpression editor rollout (Affliction outcomeTraumas)", () => {
     before(() => cy.login().then(() => cy.cleanupWorld()));
     afterEach(() => {
         cy.foundry((win) => {
@@ -144,11 +144,11 @@ describe("SafeExpression editor rollout (Affliction outcomeTrauma)", () => {
         cy.cleanupWorld();
     });
 
-    it("shows the editor on the outcomeTrauma field and persists a valid value", () => {
+    it("shows the editor on the outcomeTraumas field and persists a valid value", () => {
         cy.createWorldItem("affliction", { name: "Editor Affliction" }).then((affliction) => {
             cy.openSheet(affliction);
             cy.switchTab("properties", "sheet");
-            cy.get('button[data-action="editExpression"][data-field-path="system.outcomeTrauma"]')
+            cy.get('button[data-action="editExpression"][data-field-path="system.outcomeTraumas"]')
                 .should("exist")
                 .click();
             cy.get(".expression-editor .cm-editor").should("exist");
@@ -160,7 +160,7 @@ describe("SafeExpression editor rollout (Affliction outcomeTrauma)", () => {
             cy.get(".expression-editor__status").should("have.class", "is-valid");
             cy.submitDialog("save");
             cy.wait(500);
-            cy.foundry((win) => win.game.items.get(affliction.id).system.outcomeTrauma).should(
+            cy.foundry((win) => win.game.items.get(affliction.id).system.outcomeTraumas).should(
                 "eq",
                 "'psy'",
             );

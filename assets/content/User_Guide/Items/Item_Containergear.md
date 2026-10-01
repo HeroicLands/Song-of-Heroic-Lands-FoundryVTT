@@ -22,10 +22,6 @@ In addition to the [[doc-gearug|Standard Gear Properties]], the following additi
 - **Weight** — the weight of the container itself (contents add their own weight on top).
 - **Contained Items** — the gear items nested inside this container.
 
-<!-- TODO: Expand with details on how container capacity is enforced,
-     how nested containers affect encumbrance calculations, and
-     accessing items from containers during combat -->
-
 # Intrinsic Actions
 
 A container defines no actions of its own. Everything you can run against one is a standard action it already inherits:

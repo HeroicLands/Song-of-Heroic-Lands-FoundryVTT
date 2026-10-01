@@ -26,10 +26,13 @@
  * presents its own archetype is evidence about SoHL's discovery rules either
  * side of that, instead of evidence about which build produced the packs.
  *
- * A world copy is the highest tier (world &lt; system &lt; module), so the seeded
- * archetype is the picker's default whatever the packs carry.
+ * The composite ordering is _priority descending, then tier ascending_, so the
+ * world tier decides only between candidates of equal priority. A spec that
+ * needs its own archetype to be the picker's **default** therefore seeds it
+ * above every priority the packs carry — {@link seedTopWorldArchetype}.
  */
 
+import { itemFactory } from "../support/factories/itemFactory.js";
 import { tagName } from "../support/factories/ids.js";
 import { BASIC_FOLK } from "../support/factories/basicFolk.js";
 import { resolveDocId } from "../support/commands/import.js";
@@ -42,21 +45,32 @@ const BASIC_FOLK_REF = {
 };
 
 /**
- * Import Basic Folk into the world and mark it as an archetype at `priority`,
- * yielding `{ id, name, shortcode, priority }`. The import run-tags the name and
- * bumps the shortcode, so `cleanupWorld` sweeps it.
+ * Import Basic Folk into the world and mark it as an archetype, yielding
+ * `{ id, name, shortcode, priority }`. The import run-tags the name and bumps
+ * the shortcode, so `cleanupWorld` sweeps it.
  *
- * @param {number} priority - the `system.templatePriority` value to set (default `0`,
- *   the priority SoHL's own archetypes ship at).
+ * @param {number|"top"} priority - the `system.templatePriority` to set. `"top"`
+ *   reads every candidate the client discovers for this document's
+ *   `(type, subType)` and seeds one above the highest, which is what makes the
+ *   seeded copy the picker's default.
  */
 function seedWorldArchetype(priority = 0) {
     return cy.importActor().then((actor) =>
         cy.foundry(async (win) => {
             const a = win.game.actors.get(actor.id);
+            let value = priority;
+            if (value === "top") {
+                const sub = a.system.subType ?? "";
+                const discovered = await win.sohl.core.fvttDiscoverArchetypes("Actor");
+                value =
+                    discovered
+                        .filter((c) => c.type === a.type && (c.subType ?? "") === sub)
+                        .reduce((high, c) => Math.max(high, c.priority), 0) + 1;
+            }
             // Cross-realm: an update payload built in the spec bundle is
             // rejected by Foundry ("must be constructed with a DataModel or
             // Object") — clone it into the game window first.
-            await a.update(toRealm(win, { "system.templatePriority": priority }));
+            await a.update(toRealm(win, { "system.templatePriority": value }));
             return {
                 id: a.id,
                 name: a.name,
@@ -67,9 +81,25 @@ function seedWorldArchetype(priority = 0) {
     );
 }
 
+/** Seed a world archetype that outranks every candidate the packs carry. */
+const seedTopWorldArchetype = () => seedWorldArchetype("top");
+
 describe("Create dialog: archetype seeding", () => {
     before(() => cy.login().then(() => cy.cleanupWorld()));
-    afterEach(() => cy.cleanupWorld());
+    afterEach(() => {
+        // Each test opens a Create dialog and resolves its promise by pressing a
+        // button. A test that ends before pressing one leaves that dialog
+        // rendered, and `submitDialog` picks the newest rendered dialog carrying
+        // the button — so the next test's press lands on the leftover and its
+        // own promise never settles. Dismiss whatever is still open.
+        cy.foundry(async (win) => {
+            for (const app of Array.from(win.foundry.applications.instances.values())) {
+                if (app.rendered && /dialog/i.test(app.constructor.name)) await app.close();
+            }
+            return null;
+        });
+        cy.cleanupWorld();
+    });
 
     it("a priority-0 marker round-trips as 0, never as null (the falsy trap)", () => {
         // SoHL's own archetypes ship at priority 0. `0` and `null` are both
@@ -91,7 +121,7 @@ describe("Create dialog: archetype seeding", () => {
     });
 
     it("Create → Being with the default archetype yields a populated being; blank Shortcode defaults to the archetype's", () => {
-        seedWorldArchetype(0).then((arch) => {
+        seedTopWorldArchetype().then((arch) => {
             cy.foundry((win) => {
                 // A typed Name overrides the archetype's; Shortcode is left at
                 // its archetype default.
@@ -136,7 +166,7 @@ describe("Create dialog: archetype seeding", () => {
     });
 
     it("archetype-first: the default archetype pre-fills Name and Shortcode", () => {
-        seedWorldArchetype(0).then((arch) => {
+        seedTopWorldArchetype().then((arch) => {
             cy.foundry((win) => {
                 win.__prefill = win.CONFIG.Actor.documentClass.createDialog({}, {}, {});
                 return null;
@@ -356,12 +386,19 @@ describe("Create dialog: archetype seeding", () => {
         cy.foundry(async (win) => {
             // Priority 0 on purpose: it is what SoHL's own archetypes ship at,
             // and the value any truthiness bug in the migration would swallow.
+            //
+            // The payload comes from the shared factory: a subType-bearing kind
+            // declares `subType` required with no `initial`, so a hand-built
+            // create without one fails validation and `Item.create` resolves to
+            // `undefined`.
             const item = await win.Item.create(
-                toRealm(win, {
-                    name: tagName("Legacy Marked Skill"),
-                    type: "skill",
-                    system: { shortcode: `leg${Date.now()}`, archetype: 0 },
-                }),
+                toRealm(
+                    win,
+                    itemFactory("skill", {
+                        name: tagName("Legacy Marked Skill"),
+                        system: { archetype: 0 },
+                    }),
+                ),
             );
             return {
                 priority: item.system.templatePriority,

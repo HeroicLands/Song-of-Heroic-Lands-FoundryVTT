@@ -35,18 +35,6 @@ Click the equip/carry icon on an item to toggle its state. Equipped weapons appe
 
 Putting an item down also clears any "in use" state that depended on carrying it: un-carrying worn armor takes it off, so it stops contributing protection.
 
-# See also
-
-- [[doc-gearug|Gear]] — the properties every carried thing has, and the **Toggle Carried** action.
-- [[doc-weapongearug|Weapon]], [[doc-armorgearug|Armor]], [[doc-projectilegearug|Projectile]], [[doc-containergearug|Container]], [[doc-concoctiongearug|Concoction]], and [[doc-miscgearug|Miscellaneous Gear]] — the individual kinds.
-- [[doc-ugitems|Items]] — every item type at a glance.
-- [[doc-cohortug|Cohort]] — pooling gear across a group, and who is carrying what.
-- [[doc-beingug|Being]] — the Gear tab and the encumbrance it feeds.
-- [[doc-userguide|User Guide]] — back to the index.
-
-<!-- TODO: Document the specific icons and states, and how encumbrance
-     is calculated from carried vs equipped items -->
-
 # Containers and Nesting {#gear-containers}
 
 Container Gear items (bags, backpacks, chests) can hold other items inside them. To put an item into a container:
@@ -70,9 +58,6 @@ The item is removed from the source character and added to the destination.
 
 Some items (coins, arrows, bandages) have a quantity. When you drop a stackable item onto a character who already has the same item, the quantities are combined. When moving items between characters, you can choose how many to transfer.
 
-<!-- TODO: Expand with details on how quantity stacking works, weight
-     calculations for stacked items, and splitting stacks -->
-
 # Gear Types at a Glance {#gear-types}
 
 | Gear Type           | Purpose                       | Usually Contains                             |
@@ -86,5 +71,11 @@ Some items (coins, arrows, bandages) have a quantity. When you drop a stackable 
 
 See the individual item type guides for details on each gear type.
 
-<!-- TODO: Add section on gear quality, durability, and how these affect
-     item performance and value -->
+# See also
+
+- [[doc-gearug|Gear]] — the properties every carried thing has, and the **Toggle Carried** action.
+- [[doc-weapongearug|Weapon]], [[doc-armorgearug|Armor]], [[doc-projectilegearug|Projectile]], [[doc-containergearug|Container]], [[doc-concoctiongearug|Concoction]], and [[doc-miscgearug|Miscellaneous Gear]] — the individual kinds.
+- [[doc-ugitems|Items]] — every item type at a glance.
+- [[doc-cohortug|Cohort]] — pooling gear across a group, and who is carrying what.
+- [[doc-beingug|Being]] — the Gear tab and the encumbrance it feeds.
+- [[doc-userguide|User Guide]] — back to the index.

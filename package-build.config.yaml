@@ -134,6 +134,12 @@ packageBuild:
     # declares "never auto-launch". Its Foundry version comes from
     # FOUNDRYVTT_LEG_VERSION in .env.local, the maintainer's own.
     container:
+        # Shared with the other HeroicLands packages. Foundry binds a signed
+        # licence to the container hostname, so one declared name is one
+        # signature serving every package that declares it; `hm3` declares the
+        # same. The stage stays in the name, so each stage is still its own
+        # container over its own data root.
+        name: heroiclands-foundry
         stages:
             leg: { port: 30000, world: "" }
 
@@ -150,14 +156,16 @@ packageBuild:
 
         # What the fast loop can rebuild, in the order it must be built: vite
         # empties `build/stage`, so `code` goes first and the asset and pack
-        # passes copy into a stage it has already cleared. `system` writes the
-        # manifest, which Foundry reads once at world launch — so producing it
-        # means the container is recreated, not merely restarted.
+        # passes copy into a stage it has already cleared. `db` runs before
+        # `assets` because `assets` stages `build/schema.json`, which `db`
+        # produces. `system` writes the manifest, which Foundry reads once at
+        # world launch — so producing it means the container is recreated, not
+        # merely restarted.
         build:
             code: build:code
             css: build:css
-            assets: build:assets
             db: build:db
+            assets: build:assets
             system: { script: build:system, recreate: true }
 
     # `flags.sohl.creditsUuid` is not a literal: it is the compendium address of
@@ -343,3 +351,13 @@ site:
         markup:
             highlight:
                 style: monokai
+
+# The book the content tree is published as, built by `package-build release`.
+# `document:` names the tree that selects notes and sets their order; the
+# selection and heading order mirror the knowledgebase's own `doc-*` index
+# pages and their embedded content tables, so the two surfaces describe the
+# content tree the same way.
+pdf:
+    title: Song of Heroic Lands
+    subtitle: Rules, User Guide, and Reference
+    document: book.yaml

@@ -113,7 +113,7 @@ A small dialog names what is about to go, with the warning _"This {type} will be
 
 Closing the dialog with the window's :icon close: also cancels. The safe answer is the easy one on purpose.
 
-> **Known gap.** The confirmation window's **title bar** currently reads `Delete undefined}: {name}` instead of naming the document type (issue #1095). The warning text inside the dialog is correct, and the buttons behave as described; only the title is malformed.
+> **Known gap.** The confirmation window's **title bar** reads `Delete undefined}: {name}` instead of naming the document type. The warning text inside the dialog is correct, and the buttons behave as described; only the title is malformed.
 
 ## Containers delete their contents
 
@@ -170,7 +170,7 @@ The choice is not cosmetic. The active profile is what feeds the character's **f
 
 No dialog opens and nothing is posted to chat — the star moves to the row you clicked and the movement figures re-derive at once. Clicking the row that is already current changes nothing.
 
-**Click the star, not the action.** This action has to be told _which_ medium you meant, and only the star carries that. Reached any other way — from an action list, or a macro that does not name a medium — it does nothing at all (issue #1098).
+**Click the star, not the action.** This action has to be told _which_ medium you meant, and only the star carries that. Reached any other way — from an action list, or a macro that does not name a medium — it does nothing at all.
 
 # The Shared Dialogs
 
@@ -275,7 +275,7 @@ This is the GM's counterpart to [[doc-thftsystug|Fate]]: where a player spends F
 
 Submitting re-evaluates the test on that original die and **reposts the card** with the corrected outcome. Cancelling changes nothing, and pressing OK without having changed a field does nothing at all — no re-evaluation, no second card.
 
-The dialog is the standard test dialog, so it also shows **Roll Visibility** — but changing it here has no effect: the reposted card keeps the visibility the original roll was made with (issue #1099).
+The dialog is the standard test dialog, so it also shows **Roll Visibility** — but changing it here has no effect: the reposted card keeps the visibility the original roll was made with.
 
 The pencil is not shown to players, and the action refuses a non-GM even if the click reaches it another way, with the notice _"Only a GM may edit a test result."_
 

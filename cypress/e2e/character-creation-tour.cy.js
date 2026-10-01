@@ -219,10 +219,10 @@ describe("Character Creation tour (SohlTour)", () => {
         goTo(STEP.gearWeapons).should("eq", STEP.gearWeapons);
         expectGated(true, "weapons gate closed with no weapons");
         cy.get("@being").then((being) => {
-            cy.getFromCompendium("sohl.items", "weapongear", "BrdSwd").then((bs) =>
+            cy.getFromCompendium("sohl.items", "weapongear", "brdswd").then((bs) =>
                 cy.dropOnActor(being, bs).as("broadsword"),
             );
-            cy.getFromCompendium("sohl.items", "weapongear", "RndSh").then((rs) =>
+            cy.getFromCompendium("sohl.items", "weapongear", "rndsh").then((rs) =>
                 cy.dropOnActor(being, rs).as("roundshield"),
             );
         });
@@ -268,7 +268,7 @@ describe("Character Creation tour (SohlTour)", () => {
         goTo(STEP.gearTunic).should("eq", STEP.gearTunic);
         expectGated(true, "tunic gate closed with no tunic");
         cy.get("@being").then((being) => {
-            cy.getFromCompendium("sohl.items", "armorgear", "LtTunic").then((t) =>
+            cy.getFromCompendium("sohl.items", "armorgear", "lttunic").then((t) =>
                 cy.dropOnActor(being, t).as("tunic"),
             );
         });

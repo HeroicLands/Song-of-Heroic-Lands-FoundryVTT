@@ -8,6 +8,13 @@ description: "Diseases, curses, poisons, and other ailments."
 
 Diseases, curses, poisons, and other ailments.
 
+An **affliction** is a hostile agent with a course of its own: it is contracted,
+it runs, and it ends in cure, in a lasting condition, or in death. A **trauma**
+is a state the body or mind is left in, graded rather than contracted. The
+catalogues below cover both — the afflictions a character can contract, and the
+trauma whose forms are written as content rather than raised by an event at the
+table.
+
 ## Disease
 
 ```sql
@@ -20,7 +27,7 @@ WHERE type = 'affliction'
 ORDER BY name.full COLLATE NOCASE
 ```
 
-## Poision/Toxin
+## Poison/Toxin
 
 ```sql
 SELECT address.slug AS _ref,
@@ -34,15 +41,18 @@ ORDER BY name.full COLLATE NOCASE
 
 ## Privation
 
-```sql {allow-empty=true}
+```sql
 SELECT address.slug AS _ref,
        name.full    AS "Name",
        description  AS "Description"
 FROM notes
-WHERE type = 'affliction'
-  AND subType = 'privation'
+WHERE type = 'trauma'
+  AND sohl.kbcat = 'physprivations'
 ORDER BY name.full COLLATE NOCASE
 ```
+
+Privations are one family of [[doc-physclcn|physical condition]]; that page
+carries the rest.
 
 ## Fatigue
 
@@ -68,62 +78,14 @@ WHERE type = 'trauma'
 ORDER BY name.full COLLATE NOCASE
 ```
 
-## Morale
+## Psychological Condition
 
-```sql {allow-empty=true}
+```sql
 SELECT address.slug AS _ref,
        name.full    AS "Name",
        description  AS "Description"
 FROM notes
-WHERE type = 'affliction'
-  AND subType = 'morale'
-ORDER BY name.full COLLATE NOCASE
-```
-
-## Infection
-
-```sql {allow-empty=true}
-SELECT address.slug AS _ref,
-       name.full    AS "Name",
-       description  AS "Description"
-FROM notes
-WHERE type = 'affliction'
-  AND subType = 'infection'
-ORDER BY name.full COLLATE NOCASE
-```
-
-## Shadow
-
-```sql {allow-empty=true}
-SELECT address.slug AS _ref,
-       name.full    AS "Name",
-       description  AS "Description"
-FROM notes
-WHERE type = 'affliction'
-  AND subType = 'shadow'
-ORDER BY name.full COLLATE NOCASE
-```
-
-## Psyche
-
-```sql {allow-empty=true}
-SELECT address.slug AS _ref,
-       name.full    AS "Name",
-       description  AS "Description"
-FROM notes
-WHERE type = 'affliction'
-  AND subType = 'psyche'
-ORDER BY name.full COLLATE NOCASE
-```
-
-## Aural Shock
-
-```sql {allow-empty=true}
-SELECT address.slug AS _ref,
-       name.full    AS "Name",
-       description  AS "Description"
-FROM notes
-WHERE type = 'affliction'
-  AND subType = 'auralshock'
+WHERE type = 'trauma'
+  AND subType = 'psycond'
 ORDER BY name.full COLLATE NOCASE
 ```

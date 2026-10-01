@@ -26,7 +26,7 @@ In addition to the [[doc-gearug|Standard Gear Properties]], the following additi
 - **Encumbrance:** Specific encumbrance value used when equipped.
 - **Protection Base:** For the four standard aspects-Blunt, Edged, Piercing, and Fire-the numbers here represent impact that is absorbed by the armor.
 
-> **Known gap.** The last two — **Encumbrance** and **Protection Base** — are real properties of every armor item and are used in play, but the armor sheet has **no fields for them** (issue #1133). The Properties tab stops at Material and the two location lists. Until that is fixed, armor built by hand on the sheet protects for 0 against every aspect; take armor from a compendium pack, where the values are already set, and check them on the Combat tab (see [[#toggle-worn|Toggle Worn]]).
+> **Known gap.** The last two — **Encumbrance** and **Protection Base** — are real properties of every armor item and are used in play, but the armor sheet has **no fields for them**. The Properties tab stops at Material and the two location lists, so armor built by hand on the sheet protects for 0 against every aspect; take armor from a compendium pack, where the values are already set, and check them on the Combat tab (see [[#toggle-worn|Toggle Worn]]).
 
 # Encumbrance
 
@@ -101,9 +101,9 @@ Two consequences are worth knowing at the table:
 - **It does not check whether anything fits.** Nothing stops a character from wearing four hauberks at once; layering is the table's judgment, not the system's.
 - **It does not pick the armor up.** Toggle Worn works on armor already carried; use **Toggle Carried** to get it there.
 
-> **Known gap.** **Toggle Worn is missing from the Gear row's :icon menu: Actions context menu**, even while the armor is carried (issue #1132). The menu shows only Edit, Toggle Carried, Delete, and Output Description to Chat. Use the :icon shield: button on the row, or the :icon run: on the armor's **Actions** tab, both of which work correctly. The same defect hides a weapon's attack and defence actions from that menu.
+> **Known gap.** **Toggle Worn is missing from the Gear row's :icon menu: Actions context menu**, even while the armor is carried. The menu shows only Edit, Toggle Carried, Delete, and Output Description to Chat. Use the :icon shield: button on the row, or the :icon run: on the armor's **Actions** tab, both of which work correctly. The same defect hides a weapon's attack and defence actions from that menu.
 >
-> Relatedly, the armor's **Actions** tab lists _Toggle Worn_ with an active :icon run: even when the armor is not carried; clicking it there simply does nothing rather than telling you why (issue #1135). The greyed :icon shield: button on the Gear tab is the honest indicator.
+> Relatedly, the armor's **Actions** tab lists _Toggle Worn_ with an active :icon run: even when the armor is not carried; clicking it there simply does nothing rather than telling you why. The greyed :icon shield: button on the Gear tab is the honest indicator.
 
 # See also
 
@@ -116,6 +116,3 @@ Two consequences are worth knowing at the table:
 - [[doc-shortcodesug|Shortcodes]] — what a body-location shortcode such as `thrxloc` refers to.
 - [[doc-ugitems|Items]] — every item type at a glance.
 - [[doc-userguide|User Guide]] — back to the index.
-
-<!-- TODO: Expand with the relationship between armor quality and
-     protection, and armor damage/repair mechanics -->

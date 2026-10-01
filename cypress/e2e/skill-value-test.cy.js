@@ -91,11 +91,11 @@ describe("Skill Value Test — graded success value", () => {
                     // The grade is drawn as icons on the fixed five-diamond
                     // scale: one earned here, so one filled and four hollow.
                     expect(
-                        (content.match(/fa-solid fa-diamond/g) ?? []).length,
+                        (content.match(/fa-solid fa-gem/g) ?? []).length,
                         "earned diamonds drawn filled",
                     ).to.eq(1);
                     expect(
-                        (content.match(/fa-regular fa-diamond/g) ?? []).length,
+                        (content.match(/fa-regular fa-gem/g) ?? []).length,
                         "the rest of the scale drawn hollow",
                     ).to.eq(4);
                 });

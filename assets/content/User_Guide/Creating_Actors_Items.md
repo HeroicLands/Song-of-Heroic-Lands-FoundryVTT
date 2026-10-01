@@ -99,6 +99,3 @@ When deleting items, be aware that **items with nested children cannot be delete
 - [[doc-charcreationug|Character Creation]] — building a playable character end to end.
 - [[doc-undrstndsheetug|Understanding Sheets]] — reading the sheet you have just created.
 - [[doc-userguide|User Guide]] — back to the index.
-
-<!-- TODO: Expand with details on bulk operations, folder organization in
-     the sidebar, and import/export workflows -->

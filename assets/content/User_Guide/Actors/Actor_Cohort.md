@@ -112,13 +112,6 @@ If a member leaves the cohort — or the item is deleted, or you cannot see the 
 
 Sharing is set on the **item**, on the character that carries it: open the gear item's **Properties** tab and pick the cohort (or cohorts) in **Shared With**. See [[doc-gearug|Gear]] for the control. Because sharing lives on the item, the carrier's player is always the one who decides what the group gets to see — the cohort can never reach out and claim something.
 
-<!-- TODO: Expand with details on how cohort-level skills/attributes interact
-     with individual member capabilities, and how cohort combat works -->
-
-<!-- TODO: Document each field on the Properties tab of this type's sheet:
-     what it means, what values to enter, and how it interacts with other
-     fields and items. Include annotated screenshots. -->
-
 # Intrinsic Actions
 
 A Cohort defines three actions of its own — the ones that manage its roster:

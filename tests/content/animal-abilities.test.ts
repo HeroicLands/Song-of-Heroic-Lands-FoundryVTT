@@ -679,24 +679,10 @@ describe("animal roster", () => {
 
 const CREATURES = path.resolve(__dirname, "../../assets/content/Bestiary");
 
-/**
- * Creature files that still have no anatomy, and so are exempt from the
- * invariants below. Every entry is a real gap, not a permanent exemption:
- * shrink this list, never grow it.
- *
- * `Golem`, `Goblin` and `Grukar` carry no `sohl` block at all — they are
- * family overviews rather than statted creatures.
- */
-const NO_ANATOMY_YET = new Set([
-    "Constructs/Aegiron_Sentinel",
-    "Constructs/Golem",
-    "Constructs/Rockhide_Golem",
-    "Constructs/Terrakith_Sentinel",
-    "Folk/Goblin",
-    "Folk/Grukar",
-]);
+/** Creature files with no anatomy, exempt from the invariants below. */
+const NO_ANATOMY_YET = new Set<string>([]);
 
-/** Creatures with an anatomy but, as yet, no natural weapon of their own. */
+/** Creatures with an anatomy but no natural weapon of their own. */
 const NO_WEAPON_YET = new Set<string>([]);
 
 /** Every creature file under `assets/content/Bestiary/`, as `Folder/Name`. */
@@ -710,6 +696,24 @@ function creatureFiles(): string[] {
     }
     return out.sort();
 }
+
+describe("creature exemptions", () => {
+    const EXEMPTIONS: ReadonlyArray<readonly [string, ReadonlySet<string>]> = [
+        ["NO_ANATOMY_YET", NO_ANATOMY_YET],
+        ["NO_WEAPON_YET", NO_WEAPON_YET],
+    ];
+
+    // Both sets are keyed by the `Folder/Name` that `creatureFiles()` produces.
+    // An entry matching no file exempts nothing, and exempts whatever later
+    // lands at that path from the invariants below without anyone choosing it.
+    it("names only creature files the roster produces", () => {
+        const roster = new Set(creatureFiles());
+        for (const [label, exempt] of EXEMPTIONS) {
+            const unmatched = [...exempt].filter((entry) => !roster.has(entry));
+            expect(unmatched, `${label} exempts a path no creature file carries`).toEqual([]);
+        }
+    });
+});
 
 /**
  * The invariants that hold for *every* creature, including the many whose body

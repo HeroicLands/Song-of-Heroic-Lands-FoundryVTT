@@ -85,7 +85,7 @@ All three are gated on the weapon being **held** (and carried), so an unheld wea
 - **From the Combat tab** — click the strike mode's **Atk**, **Blk**, or **CX** cell. This is the direct route, and the only one that already knows which strike mode you meant. Hold **Shift** while clicking to skip the pre-roll dialog.
 - **From the weapon's own Actions tab** — open the weapon and use the **:icon run:** button beside _Attack_, _Block_, or _Counterstrike_.
 
-> **Known gap.** The three actions are **missing from the Gear tab's :icon menu: context menu**, even on a weapon that is held and carried (issue #1132). That menu currently offers only _Edit_, _Toggle Carried_, _Delete_, and _Output Description to Chat_. Use the Combat tab or the weapon's Actions tab until it is fixed; both run the identical action.
+> **Known gap.** The three actions are **missing from the Gear tab's :icon menu: context menu**, even on a weapon that is held and carried. That menu offers only _Edit_, _Toggle Carried_, _Delete_, and _Output Description to Chat_. Reach the three from the Combat tab or the weapon's Actions tab; both run the identical action.
 
 # Attack, Block, and Counterstrike {#attack-block-and-counterstrike}
 
@@ -135,7 +135,7 @@ Hover any of those cells to see the breakdown without rolling.
 
 The GM's pencil is described on [[doc-baseitemug|Base Item]], under _Editing a Posted Test Result_.
 
-> **Known gap. Fate cannot be spent on a weapon's combat tests** — the card never offers the **Fate** button, even to a character holding a charged Fate Point, and even though the very skill the weapon rolls through _does_ offer it on its own tests (issue #1106). Spending Fate is described on [[doc-thftsystug|Fate]].
+> **Known gap. Fate cannot be spent on a weapon's combat tests** — the card never offers the **Fate** button, even to a character holding a charged Fate Point, and even though the very skill the weapon rolls through _does_ offer it on its own tests. Spending Fate is described on [[doc-thftsystug|Fate]].
 
 ## Where they are unavailable
 

@@ -63,19 +63,6 @@ Cohorts have a special TokenHUD button that lets you expand a group token into i
 
 This is useful when a group encounter transitions into individual combat — start with one cohort token for the approaching band of bandits, then expand them when initiative is rolled.
 
-# See also
-
-- [[doc-tokenug|Token]] — what you can do from a placed token, including starting and answering an opposed test.
-- [[doc-cmbtbscsug|Combat Basics]] — running the fight the scene is set up for.
-- [[doc-cmbtntug|Combatant]] — the combat tracker, its groups, and the combatant row.
-- [[doc-cohortug|Cohort]] — the group a scene can expand into its members.
-- [[doc-beingug|Being]] — the actor most tokens stand for.
-- [[doc-userguide|User Guide]] — back to the index.
-
-<!-- TODO: Document how to collapse individual tokens back into a cohort,
-     if that feature exists. Document what happens to cohort-level effects
-     when expanded. -->
-
 # Theatre of the Mind {#scene-totm}
 
 Theatre of the Mind (TotM) mode is a per-scene toggle that changes how the scene behaves for narrative, non-tactical play.
@@ -96,9 +83,17 @@ Nothing else changes: the grid, token movement, vision, and the combat sequence 
 
 # Token Configuration {#scene-tokens}
 
-<!-- TODO: Document prototype token setup for SoHL actors — recommended
-     settings for vision, disposition, display name, bar attributes
-     (health, etc.), and how SoHL's primaryTokenAttribute (health) works. -->
+A token's size, art, vision, disposition, and displayed name are Foundry's own
+settings, configured on the actor's **prototype token** and inherited by every
+token you place from it. Set them once on the actor rather than on each placed
+copy.
+
+One setting is SoHL's: the system names **health** as the token's primary bar
+attribute, so a bar bound to it shows the actor's health assessment on a 0–100
+scale. That value is recomputed from the actor's impaired body parts every time
+the actor is prepared, and it is not stored — typing a number into the bar
+changes nothing. Treat the bar as a readout of the assessment described under
+[[doc-beingug|Being]], not as a pool to spend down.
 
 # Combat on Scenes {#scene-combat}
 
@@ -106,5 +101,11 @@ When combat begins on a scene, SoHL uses its own initiative and combat tracking 
 
 See [[doc-cmbtbscsug|Combat Basics]] for details on how combat encounters work.
 
-<!-- TODO: Document how to start combat, add combatants, and the relationship
-     between tokens and combatants in SoHL's combat system. -->
+# See also
+
+- [[doc-tokenug|Token]] — what you can do from a placed token, including starting and answering an opposed test.
+- [[doc-cmbtbscsug|Combat Basics]] — running the fight the scene is set up for.
+- [[doc-cmbtntug|Combatant]] — the combat tracker, its groups, and the combatant row.
+- [[doc-cohortug|Cohort]] — the group a scene can expand into its members.
+- [[doc-beingug|Being]] — the actor most tokens stand for.
+- [[doc-userguide|User Guide]] — back to the index.

@@ -34,19 +34,6 @@ A skill test rolls against the effective mastery level. The result is one of:
 
 The exact thresholds depend on the effective mastery level.
 
-# See also
-
-- [[doc-skillug|Skill]] and [[doc-attributeug|Attribute]] — the items these tests are run from, and their own test actions.
-- [[doc-baseitemug|Base Item]] — the standard test dialog every roll opens, and the GM's result edit.
-- [[doc-tokenug|Token]] — starting and answering an opposed test between two tokens.
-- [[doc-thftsystug|The Fate System]] — improving a result after it has settled.
-- [[doc-iconlgndug|Icon Legend]] — the Victory Stars and Value Diamonds a result card draws.
-- [[doc-resolutionintro|Resolution]] (rules) — what a Mastery Level, a success level, and a Victory Star actually are.
-- [[doc-userguide|User Guide]] — back to the index.
-
-<!-- TODO: Document the exact success/failure determination rules,
-     including the critical success and critical failure thresholds. -->
-
 # Effective Mastery Level {#tests-eml}
 
 The **effective mastery level (EML)** is the target number for a skill test. It starts from the skill's base mastery level and is modified by:
@@ -57,10 +44,6 @@ The **effective mastery level (EML)** is the target number for a skill test. It 
 - **Equipment bonuses** — some gear provides skill bonuses
 
 The EML is shown in the Success Test Dialog before you roll.
-
-<!-- TODO: Document how modifiers stack, the modifier audit trail
-     (ValueModifier system), and how players can view what's affecting
-     their EML -->
 
 # Success Value Tests {#tests-sv}
 
@@ -110,10 +93,6 @@ Opposed tests are used for:
 - **Stealth** — hiding vs. perception
 - Any situation where two characters directly compete
 
-<!-- TODO: Document the opposed test resolution mechanics — how ties are
-     broken, how critical results interact, and how the margin of success
-     is calculated -->
-
 # Skill Base and Attributes {#tests-skillbase}
 
 Every skill has a **skill base formula** that determines its starting value from the character's attributes. For example, the Sword skill might have a base formula of `sb(attr.str, attr.dex)` — meaning it averages Strength and Dexterity.
@@ -122,6 +101,12 @@ The skill base is calculated automatically when attributes are set. The mastery 
 
 See [[doc-skillug|Skills]] for more about how skill bases work.
 
-<!-- TODO: Document how skill improvement works — SDR (Skill Development
-     Roll), experience-based advancement, and the relationship between
-     mastery level base and effective mastery level -->
+# See also
+
+- [[doc-skillug|Skill]] and [[doc-attributeug|Attribute]] — the items these tests are run from, and their own test actions.
+- [[doc-baseitemug|Base Item]] — the standard test dialog every roll opens, and the GM's result edit.
+- [[doc-tokenug|Token]] — starting and answering an opposed test between two tokens.
+- [[doc-thftsystug|The Fate System]] — improving a result after it has settled.
+- [[doc-iconlgndug|Icon Legend]] — the Victory Stars and Value Diamonds a result card draws.
+- [[doc-resolutionintro|Resolution]] (rules) — what a Mastery Level, a success level, and a Victory Star actually are.
+- [[doc-userguide|User Guide]] — back to the index.

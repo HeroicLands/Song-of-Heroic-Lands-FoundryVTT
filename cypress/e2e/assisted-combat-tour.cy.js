@@ -166,16 +166,16 @@ describe("Assisted Combat tour (SohlTour)", () => {
         goTo(STEP.gear).should("eq", STEP.gear);
         expectGated(true, "gear gate closed with no weapons");
         cy.get("@being").then((being) => {
-            cy.getFromCompendium("sohl.items", "weapongear", "BrdSwd").then((w) =>
+            cy.getFromCompendium("sohl.items", "weapongear", "brdswd").then((w) =>
                 cy.dropOnActor(being, w).as("broadsword"),
             );
-            cy.getFromCompendium("sohl.items", "weapongear", "BatlSwd").then((w) =>
+            cy.getFromCompendium("sohl.items", "weapongear", "batlswd").then((w) =>
                 cy.dropOnActor(being, w),
             );
-            cy.getFromCompendium("sohl.items", "weapongear", "LBw100").then((w) =>
+            cy.getFromCompendium("sohl.items", "weapongear", "lbw100").then((w) =>
                 cy.dropOnActor(being, w).as("longbow"),
             );
-            cy.getFromCompendium("sohl.items", "weapongear", "RndSh").then((w) =>
+            cy.getFromCompendium("sohl.items", "weapongear", "rndsh").then((w) =>
                 cy.dropOnActor(being, w),
             );
         });
@@ -220,7 +220,7 @@ describe("Assisted Combat tour (SohlTour)", () => {
     it("ATK produces a roll and Impact posts a card to chat", () => {
         cy.importActor().as("being");
         cy.get("@being").then((being) => {
-            cy.getFromCompendium("sohl.items", "weapongear", "BrdSwd").then((w) =>
+            cy.getFromCompendium("sohl.items", "weapongear", "brdswd").then((w) =>
                 cy.dropOnActor(being, w).as("broadsword"),
             );
         });

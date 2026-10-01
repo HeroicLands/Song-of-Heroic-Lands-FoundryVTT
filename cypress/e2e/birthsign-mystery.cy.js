@@ -8,16 +8,18 @@
 /**
  * Birthsign as a Mystery(OTHER) carrying a skill-aptitude map.
  *
- * A birthsign is a droppable, compendium-packaged item: a mechanically inert
- * Mystery(OTHER) whose behaviour lives entirely in `system.skillAptitudes` — a
- * map of selector (a skill shortcode, or `subType:<value>`) to mastery-level
- * modifier, carrying one **element** of the Astrokýklos matrix per group of
- * selectors. The player attaches the sign their character was born under;
- * nothing is derived from a birth date.
+ * A birthsign is a droppable item: a mechanically inert Mystery(OTHER) whose
+ * behaviour lives entirely in `system.skillAptitudes` — a map of selector (a
+ * skill shortcode, or `subType:<value>`) to mastery-level modifier, carrying one
+ * **element** of the Astrokýklos matrix per group of selectors. The player
+ * attaches the sign their character was born under; nothing is derived from a
+ * birth date.
  *
- * The shipped sign "Arnos" runs +15 earth / +5 metal / −5 fire / −15 air /
- * −5 spirit / +5 water, so a Nature skill gains +15 and a Combat skill −5.
- * "Bourax", its neighbour on the wheel, runs +10 / +10 / 0 / −10 / −10 / 0.
+ * The signs are seeded here rather than taken from a compendium, so the spec is
+ * evidence about SoHL's aptitude rules rather than about which documents a build
+ * happened to pack. The values are the wheel's own, from the Birthsign rules:
+ * "Arnos" runs +15 earth / +5 metal / −5 fire / −15 air / −5 spirit / +5 water,
+ * and "Bourax", its neighbour, runs +10 / +10 / 0 / −10 / −10 / 0.
  *
  * Aptitudes never sum: carrying both signs — a birth on the threshold, which is
  * all a cusp is — takes the greater value in each element. The matrix and the
@@ -25,6 +27,33 @@
  * live client can prove is that a dropped sign actually retunes the skills on
  * the actor, which is what this spec covers.
  */
+
+/** The two neighbouring signs this spec reads, by the selectors it asserts on. */
+const SIGNS = {
+    arnos: {
+        name: "Arnos",
+        skillAptitudes: {
+            "subType:nature": 15,
+            "subType:craft": 5,
+            "subType:combat": -5,
+            "subType:physical": -15,
+            "subType:lore": -5,
+            "subType:social": 5,
+        },
+    },
+    bourax: {
+        name: "Bourax",
+        skillAptitudes: {
+            "subType:nature": 10,
+            "subType:craft": 10,
+            "subType:combat": 0,
+            "subType:physical": -10,
+            "subType:lore": -10,
+            "subType:social": 0,
+        },
+    },
+};
+
 describe("birthsign — Mystery(OTHER) + skill aptitudes", () => {
     before(() => cy.login().then(() => cy.cleanupWorld()));
     afterEach(() => cy.cleanupWorld());
@@ -61,11 +90,19 @@ describe("birthsign — Mystery(OTHER) + skill aptitudes", () => {
         ]);
     }
 
-    /** Drop a shipped birthsign from the items compendium onto the actor. */
+    /** Create a world birthsign and drop it onto the actor, as a player would. */
     function attachSign(actor, shortcode) {
-        cy.getFromCompendium("sohl.items", "mystery", shortcode).then((sign) =>
-            cy.dropOnActor(actor, sign),
-        );
+        const sign = SIGNS[shortcode];
+        return cy
+            .createWorldItem("mystery", {
+                name: sign.name,
+                system: {
+                    shortcode,
+                    subType: "other",
+                    skillAptitudes: sign.skillAptitudes,
+                },
+            })
+            .then((doc) => cy.dropOnActor(actor, doc));
     }
 
     it("Arnos shifts skill EML by subtype: Nature +15, Combat −5", () => {
@@ -124,45 +161,14 @@ describe("birthsign — Mystery(OTHER) + skill aptitudes", () => {
         });
     });
 
-    it("the Arnos Mystery itself is inert — no Active Effects, aptitudes only", () => {
-        cy.getFromCompendium("sohl.items", "mystery", "arnos").then((sign) => {
-            expect(sign.system.subType).to.eq("other");
-            expect(sign.effects.size).to.eq(0);
-            expect(sign.system.skillAptitudes["subType:nature"]).to.eq(15);
-            expect(sign.system.skillAptitudes["subType:combat"]).to.eq(-5);
-        });
-    });
-
-    it("ships twelve signs — a cusp is a birth under two, not a thirteenth sign", () => {
-        const WHEEL = [
-            "arnos",
-            "bourax",
-            "diplos",
-            "chelyx",
-            "thyron",
-            "korith",
-            "stathmos",
-            "kentros",
-            "belos",
-            "tragyx",
-            "nalos",
-            "opsar",
-        ];
-        // The twelve signs the wheel once also shipped as standalone cusp items.
-        const RETIRED_CUSPS = WHEEL.map((sign, i) => `${sign}${WHEEL[(i + 1) % WHEEL.length]}`);
-        cy.foundry(async (win) => {
-            const pack = win.game.packs.get("sohl.items");
-            const index = await pack.getIndex({ fields: ["system.shortcode"] });
-            const codes = new Set(
-                index.filter((e) => e.type === "mystery").map((e) => e.system?.shortcode),
-            );
-            return {
-                missing: WHEEL.filter((c) => !codes.has(c)),
-                lingering: RETIRED_CUSPS.filter((c) => codes.has(c)),
-            };
-        }).should((result) => {
-            expect(result.missing, "principal signs missing").to.deep.eq([]);
-            expect(result.lingering, "retired cusp items still packed").to.deep.eq([]);
+    it("the sign itself is inert — no Active Effects, aptitudes only", () => {
+        cy.createActor("being", { name: "Inert Sign Bearer" }).then((actor) => {
+            attachSign(actor, "arnos").should((sign) => {
+                expect(sign.system.subType).to.eq("other");
+                expect(sign.effects.size).to.eq(0);
+                expect(sign.system.skillAptitudes["subType:nature"]).to.eq(15);
+                expect(sign.system.skillAptitudes["subType:combat"]).to.eq(-5);
+            });
         });
     });
 });

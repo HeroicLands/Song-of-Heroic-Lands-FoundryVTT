@@ -65,7 +65,7 @@ An ability's **sub-type is fixed when it is created** — you choose it with the
 > **Known gap.** One defect affects this tab today:
 >
 > - **The Chgs/Max and Notes column headers run together** on the Mysteries tab
->   (issue #1131). The columns themselves are correct.
+>   The columns themselves are correct.
 
 # How the Effective Mastery Level Is Determined {#how-the-effective-mastery-level-is-determined}
 
@@ -151,7 +151,7 @@ What happens on a success — what the spell does, to whom, for how long — com
 
 The GM's pencil is described on [[doc-baseitemug|Base Item]], under _Editing a Posted Test Result_.
 
-> **Known gap. No Fate can be spent on an invocation.** The card never offers the **Fate** button, even when the character holds a Fate Point (issue #1106). This bites here because an ability normally borrows its mastery level from its Associated Skill — so the same number, rolled from the Skills tab, _does_ offer Fate. Until it is fixed, spend Fate at the table by agreement, or have the GM adjust the result with the pencil.
+> **Known gap. No Fate can be spent on an invocation.** The card never offers the **Fate** button, even when the character holds a Fate Point. This bites here because an ability normally borrows its mastery level from its Associated Skill — so the same number, rolled from the Skills tab, _does_ offer Fate. Spend Fate at the table by agreement instead, or have the GM adjust the result with the pencil.
 
 # Toggle Improve Flag {#toggle-improve-flag}
 

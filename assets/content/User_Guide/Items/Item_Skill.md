@@ -58,10 +58,6 @@ Along with the [[doc-baseitemug|Standard Item Properties]], the following proper
 - **Combat Category:** Shown only when the **Category** is _Combat_. The class of attack this weapon skill governs — **None**, **All Weapon Types**, **Melee**, **Missile**, **Melee & Missile**, **Maneuver**, or **Melee & Combat Maneuver**.
 - **Impaired By Roles:** A list of body roles whose injury impairs this skill — _vital_, _core_, _manipulator_, or _locomotor_. An unhealed injury at a body part carrying one of these roles penalizes this skill's tests, and an unusable part makes them fail automatically. Use **Add Role** to add one and the :icon delete: to remove it.
 
-<!-- TODO: Document each field on the Properties tab of this type's sheet:
-     what it means, what values to enter, and how it interacts with other
-     fields and items. Include annotated screenshots. -->
-
 # Combat Techniques {#combat-techniques}
 
 A **Combat Technique** is a weaponless combat maneuver or mode — a special fighting technique, an unarmed attack, a grappling move, or any other combat action a character can perform without a weapon.

@@ -37,11 +37,11 @@ An attribute turns up in one more place: when someone answers an [[#opposed-test
 Along with the [[doc-baseitemug|Standard Item Properties]], the following properties also appear in the **Properties** tab:
 
 - **Score:** The attribute's base value — the number the Profile card shows, and the number the Target Level is five times. This is the **first** of the two boxes on the tab.
-- **Init Dice Formula:** The dice formula a new character's score for this attribute is meant to be rolled from, such as `3d6`. It is a record of the generation rule, not a control: **nothing rolls it for you today** — you enter the score yourself (issue #1108). Leave it blank for an attribute that is not randomly generated. This is the **second** box on the tab.
+- **Init Dice Formula:** The dice formula a new character's score for this attribute is meant to be rolled from, such as `3d6`. It is a record of the generation rule, not a control: **nothing rolls it for you today** — you enter the score yourself. Leave it blank for an attribute that is not randomly generated. This is the **second** box on the tab.
 - **Value Descriptors:** A table of names for score bands — the word shown under the score on the Profile card. Each row is a **Label** and a **Max Value**, and the label used is the first band whose Max Value is at or above the score, so a list of _Feeble 4 / Weak 8 / Average 12 / Forceful 16 / Mighty 999_ calls a score of 10 _Average_. Use **Add** to add a band and the :icon delete: to remove one. An attribute with no bands simply shows no descriptor.
 - **Impaired By Roles:** A list of body roles whose injury impairs this attribute — _vital_, _core_, _manipulator_, or _locomotor_. An unhealed injury at a body part carrying one of these roles penalizes this attribute's tests, and an unusable part makes them fail automatically. Use **Add Role** to add one and the :icon delete: to remove it. Physical attributes name the roles they depend on; mental attributes normally leave this empty.
 
-> **Known gap.** The **Score** and **Init Dice Formula** boxes currently render with **no labels at all** — two bare inputs, in that order (issue #1105). Until that is fixed, go by position: the left box is the Score, the right one the Init Dice Formula.
+> **Known gap.** The **Score** and **Init Dice Formula** boxes render with **no labels at all** — two bare inputs, in that order. Go by position: the left box is the Score, the right one the Init Dice Formula.
 
 # The Attribute Actions
 
@@ -97,7 +97,7 @@ The GM's pencil is described on [[doc-baseitemug|Base Item]], under _Editing a P
 
 If the attribute names **Impaired By Roles** and the character has an unhealed injury at a body part carrying one of those roles, the test is penalized by −5 or −10; if the part is unusable altogether, the test **fails critically** without a roll. A Strength test made on a crushed arm is not a normal Strength test.
 
-> **Known gap. No Fate can be spent on an attribute test.** The card never offers the **Fate** button, even when the character holds a general Fate Point, although the [[doc-fatepnts|Fate rules]] allow one on any skill _or attribute_ test (issue #1106). Until it is fixed, spend Fate at the table by agreement, or have the GM adjust the result with the pencil.
+> **Known gap. No Fate can be spent on an attribute test.** The card never offers the **Fate** button, even when the character holds a general Fate Point, although the [[doc-fatepnts|Fate rules]] allow one on any skill _or attribute_ test. Spend Fate at the table by agreement instead, or have the GM adjust the result with the pencil.
 
 # Opposed Test {#opposed-test}
 

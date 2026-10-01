@@ -8,44 +8,77 @@ data: {packFolder: userguide}
 
 # Overview {#fate-overview}
 
-Fate represents a character's luck, destiny, or divine favor. Characters can spend Fate points to influence dice rolls, avoid death, or gain other benefits. Fate is a limited resource that refreshes under specific circumstances.
+Fate is a thread of luck or destiny a character can call on **after** a test has
+been rolled. Spending a **Fate Point** raises that test's success level — a
+Marginal Failure becomes a Marginal Success, a Marginal Success becomes a
+Critical Success. The dice are never thrown again; the same roll is re-graded at
+a better level, and every consequence that followed from it re-resolves.
 
 See also: [[doc-sklltestug|Skill Tests]]
 
 # Fate Points {#fate-points}
 
-Each character has a number of Fate points determined by their attributes. Fate points can be:
+Fate Points are not one pool. A character holds them through the **Fate**
+mysteries on the Mysteries tab of their sheet, and a mystery's charges are its
+points. Some Fate mysteries carry a finite number of charges, each spend using
+one; others are an unlimited wellspring that is never used up.
 
-- **Spent** to improve a test result or avoid a catastrophic outcome
-- **Earned** through gameplay milestones or GM awards
-- **Refreshed** at the start of certain time periods
+Each point also has a scope:
 
-<!-- TODO: Document exactly how Fate points are tracked on the character
-     sheet, where the current/maximum values are displayed, and how the
-     GM manages Fate point awards -->
+- **General** — spendable on any skill or attribute test.
+- **Specific** — spendable only on tests of the one skill it names.
+
+A test can call on Fate only while the character holds a point that applies to
+it, so the **Spend Fate** button is offered on a skill's result card when a
+general point or a point specific to that skill is available.
+
+Some tests are beyond Fate's reach whatever the character holds — a test governed
+by Aura, any Mystical Ability test, and a Fate Test itself. See
+[[doc-fatepnts#fate-exclusions|Fate Points]] for the full list.
 
 # Using Fate {#fate-using}
 
-## Fate Tests
-
-A **Fate test** is a special roll that determines whether fate intervenes on the character's behalf. Fate tests are typically triggered automatically when a character faces a life-threatening situation.
-
-<!-- TODO: Document when Fate tests are triggered, how they're resolved,
-     and what happens on success vs. failure -->
-
 ## Spending Fate
 
-Characters can voluntarily spend Fate points to:
+**Spend Fate** appears on the result card of a settled test, and the character's
+own player is the one who presses it. Nothing spends a point on a character's
+behalf, and a result can be fated once.
 
-<!-- TODO: Document the specific ways Fate can be spent — re-rolls,
-     result upgrades, death avoidance, etc. -->
+Pressing it rolls a **Fate Test** — a d100 of its own against the character's
+Fate Mastery Level — and that roll decides what happens:
 
-<!-- TODO: Document how many Fate points characters start with, how they
-     regenerate, and what options are available for spending them -->
+| Fate Test result | The point   | The original test                             |
+| ---------------- | ----------- | --------------------------------------------- |
+| Critical Failure | lost        | unchanged                                     |
+| Marginal Failure | kept        | unchanged                                     |
+| Marginal Success | spent       | one success level better                      |
+| Critical Success | your choice | two levels better if spent, one level if kept |
+
+Only a Critical Success asks you anything: a dialog offers the point for two
+levels or lets you keep it for one. The other three rungs resolve on their own.
+
+The gain is not capped at a Critical Success, so an already-successful test is
+worth fating — see [[doc-fatepnts#fate-test|Fate Points]] for the levels above
+it.
+
+When more than one point applies to the test, the most restricted one is
+pre-selected — a skill-specific point ahead of a general one, a finite source
+ahead of an unlimited one — so the flexible points survive for a test with no
+other option. The pick is offered in a dialog, and you may spend whichever point
+you prefer.
+
+## Fate Mastery Level {#fate-mastery-level}
+
+The Fate Test rolls against the character's **Fate Mastery Level**, which starts
+at 50 and adds half the character's effective Aura. A character with no usable
+Aura cannot call on Fate at all, so the button is withheld rather than offered
+and refused.
 
 # Settings {#fate-settings}
 
-The **Fate** option in the system settings controls whether Fate is tracked automatically.
+The **Use Fate Rules** world setting decides who the rules reach: every animate
+actor, player characters only, or nobody. With Fate off for an actor, no test of
+theirs offers the button.
 
 See [[doc-syssetngug|System Settings]] for more configuration options.
 

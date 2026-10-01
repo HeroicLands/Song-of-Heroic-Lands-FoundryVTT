@@ -24,22 +24,9 @@ Contains pre-built Beings — characters, NPCs, and creatures ready to use. Each
 
 - **Basic Folk** — a template human character suitable for duplication and customization. Start here when creating new player characters.
 
-# See also
-
-- [[doc-crtngactitemug|Creating Actors and Items]] — the other three ways to make a document.
-- [[doc-shortcodesug|Shortcodes]] — the identifier that keeps an imported copy matched to its compendium original.
-- [[doc-charcreationug|Character Creation]] — building on top of an imported character.
-- [[doc-quickstartug|Quickstart]] — the import-and-play path, in ten minutes.
-- [[doc-syssetngug|System Settings]] — what to set before importing into a new world.
-- [[doc-userguide|User Guide]] — back to the index.
-
-<!-- TODO: List other notable entries as they are added to the compendium -->
-
 ## Vehicles & Structures
 
 Contains pre-built Vehicle and Structure actors.
-
-<!-- TODO: List notable entries -->
 
 ## Characteristics
 
@@ -117,6 +104,11 @@ You can drag compendium items directly onto actor sheets without importing them 
 - **Search works.** Use the search bar at the top of an open compendium to find specific entries by name.
 - **Your copy stays linked to its origin by shortcode.** An imported copy has a new id and can be customized freely, but it still corresponds to the compendium entry it came from because they share a type and **shortcode**. Keep the shortcode to preserve that link; change it to make a genuinely separate thing. See [[doc-shortcodesug|Shortcodes]].
 
-<!-- TODO: Document how to create custom compendium packs, how world
-     compendiums differ from system compendiums, and how updates affect
-     existing world copies -->
+# See also
+
+- [[doc-crtngactitemug|Creating Actors and Items]] — the other three ways to make a document.
+- [[doc-shortcodesug|Shortcodes]] — the identifier that keeps an imported copy matched to its compendium original.
+- [[doc-charcreationug|Character Creation]] — building on top of an imported character.
+- [[doc-quickstartug|Quickstart]] — the import-and-play path, in ten minutes.
+- [[doc-syssetngug|System Settings]] — what to set before importing into a new world.
+- [[doc-userguide|User Guide]] — back to the index.
