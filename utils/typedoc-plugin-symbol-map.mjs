@@ -27,12 +27,10 @@ import path from "node:path";
  *
  * URLs come from the renderer's {@link https://typedoc.org | Router} rather
  * than from scanning HTML filenames, so disambiguation suffixes (e.g.
- * `SafeExpression-1.html`) and member anchors are captured correctly.
- *
- * TypeDoc 0.28 moved URL ownership off the reflection and onto the router:
- * `reflection.url` is no longer populated, so asking the router is now the only
- * way to get a page address. Reading the old property silently produced an
- * empty map.
+ * `SafeExpression-1.html`) and member anchors are captured correctly. The
+ * router is also the only source for a page address: it owns `.url`
+ * resolution, and `reflection.url` is left unset, so reading it directly
+ * would silently produce an empty map.
  *
  * @param {import("typedoc").Application} app
  */

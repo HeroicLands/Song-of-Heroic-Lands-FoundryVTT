@@ -13,17 +13,16 @@
 
 /**
  * The namespaced manifest flags this repository has to **work out** rather than
- * state, called by `package-build manifest` (package-build#9).
+ * state, called by `package-build manifest`.
  *
  * Everything else in the manifest is a literal, and literals belong in
- * `package-build.config.yaml` — which is where the other 190-odd lines of the
- * retired `system.template.json` now live. What is left here is the one value
- * that cannot be written down: an address that does not exist until the content
- * tree has been walked.
+ * `package-build.config.yaml`. What is left here is the one value that cannot
+ * be written down: an address that does not exist until the content tree has
+ * been walked.
  *
  * The rest of the `sohl` flag namespace is read from `package.json`, the file
- * that owns each of those URLs. They were transcribed into the template once,
- * and that is exactly the drift this whole change removes.
+ * that owns each of those URLs — the single source each is read from, so no
+ * copy of a URL can drift from it.
  *
  * @module
  */
@@ -89,8 +88,8 @@ function creditsUuid(config) {
     const [note] = matches;
     // The id the credits journal compiles under: its pin if it has one, and
     // otherwise the id derived from its canonical address. Asked of the
-    // engine rather than read off the frontmatter, because a note no longer
-    // authors an `id` — reading `fm.id` here would address the journal by a
+    // engine rather than read off the frontmatter, because a note does not
+    // author an `id` — reading `fm.id` here would address the journal by a
     // value that is usually absent, and the manifest would carry a dead
     // `@UUID`. `noteDocId` is the one function every pass asks, so the address
     // stamped here is the address the journals pass compiled.

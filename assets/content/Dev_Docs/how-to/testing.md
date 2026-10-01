@@ -400,6 +400,15 @@ Override the seed via `.env.local` (`SOHL_E2E_WORLD_ID`, `SOHL_E2E_GM_NAME`,
 function the seed uses (`resolveE2EWorld`), so the two cannot disagree about the
 world — a spec just calls `cy.login()`.
 
+**How a spec reaches a seeded value.** `cypress.config.mjs` hands the resolved
+world to Cypress on the side its sensitivity puts it: `worldId`, `gmId` and
+`gmName` through `expose`, `gmPassword` through `env`. A spec or command reads
+the non-sensitive values synchronously with `Cypress.expose("worldId")` (see
+`cypress/e2e/smoke.cy.js`); the password is read as a chainable command,
+`cy.env(["gmPassword"], { log: false })`, which `cy.login()` composes with
+`Cypress.expose("gmId")` to build the `/join` request (see
+`cypress/support/commands.js`).
+
 **Foundry license (required).** The `test` container needs its own Foundry
 license. A license signed for one installation does **not** transfer to another
 (a copied `license.json` won't verify), and each license is **single-seat** (one
