@@ -33,24 +33,43 @@ describe("affiliation common skills", () => {
                 );
 
                 cy.get(`[data-action="addCommonSkill"]`).click();
-                cy.get('form#add-common-skill input[name="uuid"]').type(skill.uuid);
+                // The prompt's fields are addressed through the dialog's own
+                // form: DialogV2 assigns the content to the `innerHTML` of a
+                // `<form>` it owns, and the HTML parser drops a nested `<form>`
+                // start tag while keeping its children, so the prompt's wrapper
+                // never reaches the document.
+                cy.get('.dialog-content input[name="uuid"]').type(skill.uuid);
                 cy.submitDialog("ok");
 
-                cy.foundry((win) => win.game.items.get(affiliation.id).system.commonSkills).should(
-                    "deep.equal",
-                    [skill.uuid],
-                );
+                // Pressing the button resolves the reference and writes the
+                // document after the click returns, so the read has to retry:
+                // `cy.foundry` samples the client once and `.should` would then
+                // re-assert that one sample. `cy.window().should` re-runs the
+                // whole read.
+                cy.window({ log: false }).should((win) => {
+                    expect(win.game.items.get(affiliation.id).system.commonSkills).to.deep.eq([
+                        skill.uuid,
+                    ]);
+                });
                 cy.get(`[data-action="openCommonSkill"][data-uuid="${skill.uuid}"]`)
                     .should("contain.text", skill.name)
                     .click();
-                cy.foundry((win) => win.game.items.get(skill.id).sheet.rendered).should("eq", true);
+                cy.window({ log: false }).should((win) => {
+                    expect(win.game.items.get(skill.id).sheet.rendered).to.eq(true);
+                });
                 cy.foundry((win) => win.game.items.get(affiliation.id).actor).should("eq", null);
 
+                // The skill's sheet now sits over the affiliation's, and the
+                // remove control is behind it. Close it so the next click lands
+                // on the control rather than on whatever covers it.
+                cy.foundry(async (win) => {
+                    await win.game.items.get(skill.id).sheet.close();
+                    return null;
+                });
                 cy.get('[data-action="deleteCommonSkill"][data-index="0"]').click();
-                cy.foundry((win) => win.game.items.get(affiliation.id).system.commonSkills).should(
-                    "deep.equal",
-                    [],
-                );
+                cy.window({ log: false }).should((win) => {
+                    expect(win.game.items.get(affiliation.id).system.commonSkills).to.deep.eq([]);
+                });
             });
         });
     });
