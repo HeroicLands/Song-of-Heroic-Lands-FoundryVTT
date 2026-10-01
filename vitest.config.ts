@@ -46,12 +46,9 @@ export default defineConfig({
         ],
     },
     test: {
-        // One project again. Both shared toolchains — `@heroiclands/package-build`
-        // and `@heroiclands/package-build` — were once a second project here,
-        // pointing at a copy incubating under `packages/`. Each is now developed
-        // in its own repository and consumed from the registry exactly as any
-        // other consumer resolves it (#1589), and each carries its own suite, so
-        // neither runs from this config any more.
+        // One project. This repository consumes both `@heroiclands/package-build`
+        // and `@heroiclands/hugo-theme` from the registry, exactly as any other
+        // consumer resolves them, and neither runs its own suite from this config.
         //
         // What remains here in `tests/build/` asserts the *agreements* between
         // this repository and those packages — the facts neither side can check
