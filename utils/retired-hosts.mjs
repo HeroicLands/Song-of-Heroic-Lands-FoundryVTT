@@ -18,7 +18,7 @@
  * so it fails at resolution with no redirect to follow. Nothing in the build
  * notices — an absolute URL is opaque to the wikilink checks, compiles cleanly
  * into the Foundry journals, and publishes to the knowledgebase looking exactly
- * like a working link. That is how 71 of them shipped.
+ * like a working link.
  *
  * This module is the single list, so a guard and its test share one definition
  * of "retired" rather than two copies that can disagree.
@@ -27,10 +27,9 @@
 /**
  * Retired hostname → the address that replaced it.
  *
- * Both were withdrawn when the site consolidated everything under one `/sohl/`
- * deploy: the API documentation is published once, unversioned,
- * at `/sohl/api/`, and the knowledgebase at `/sohl/` — its homepage and,
- * beside it, one page per note.
+ * Everything is published under one `/sohl/` deploy: the API documentation at
+ * `/sohl/api/`, unversioned, and the knowledgebase at `/sohl/` — its homepage
+ * and, beside it, one page per note.
  *
  * @type {Map<string, string>}
  */
@@ -40,11 +39,11 @@ export const RETIRED_HOSTS = new Map([
 ]);
 
 /**
- * The version segments the API site used to publish under.
+ * The version segments a link to the API site must not carry.
  *
- * It now publishes **one unversioned tree** at its root, so a link keeping one
- * of these was already 404ing before the host went away — repointing the host
- * alone would move a dead link rather than fix it.
+ * The API site publishes **one unversioned tree** at its root, so a link
+ * keeping one of these segments is 404ing regardless of host — repointing the
+ * host alone would move a dead link rather than fix it.
  */
 const API_VERSION_SEGMENTS = /^(?:main|latest|v?\d+(?:\.\d+)*)$/;
 
@@ -68,10 +67,10 @@ const hostPattern = () =>
  * The working address a retired URL should become, or `undefined` if the host
  * is not one this project retired.
  *
- * Two drifts landed on the API links and the second hid the first, so both are
- * undone here: the version segment the API site stopped publishing is dropped,
- * and the `.html` suffix with it — TypeDoc's extensionless page is a direct 200
- * where `.html` costs a 308 hop, and the `#fragment` survives either way.
+ * An API link can carry two faults at once, so both are corrected here: a
+ * version segment the API site does not publish, and a trailing `.html` —
+ * TypeDoc's extensionless page is a direct 200 where `.html` costs a 308 hop.
+ * The `#fragment` survives either correction.
  *
  * @param {string} url - An absolute or scheme-less URL.
  * @returns {string | undefined} The replacement address.
@@ -101,15 +100,16 @@ export function rewriteHint(url) {
 
 /**
  * The address a developer-documentation page has, given the path a retired
- * host served it at.
+ * host addressed it by.
  *
- * The retired host served the developer documentation at `/dev/<path>/`, and
- * the API documentation's own landing page linked it at a bare `/<path>/` — a
- * route that was already wrong before the host went. Each page is a `doc` note
- * whose shortcode is its file name with everything but letters and digits
- * removed — `how-to/testing/` is `doc-testing`, `concepts/action-cards/` is
- * `doc-actioncards` — published at the package root like every page, and the
- * tree's index (`README`, or the bare root) is `doc-devdocs`.
+ * A path below a retired host reaches the developer documentation at
+ * `/dev/<path>/`; the API documentation's own landing page links the same
+ * page at a bare `/<path>/`, a route that resolves to nothing on its own.
+ * Each page is a `doc` note whose shortcode is its file name with everything
+ * but letters and digits removed — `how-to/testing/` is `doc-testing`,
+ * `concepts/action-cards/` is `doc-actioncards` — published at the package
+ * root like every page, and the tree's index (`README`, or the bare root) is
+ * `doc-devdocs`.
  *
  * @param {string} site - The package root the retired host maps onto.
  * @param {string} rest - The path below the retired host, `dev/` removed.
