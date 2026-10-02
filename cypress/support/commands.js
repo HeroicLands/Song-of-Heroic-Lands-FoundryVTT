@@ -36,14 +36,22 @@ Cypress.Commands.add("login", (opts = {}) => {
             .request({
                 method: "POST",
                 url: "/join",
-                // Foundry renamed this body field from `userid` to `userId` in 14.367
-                // (`sessions.authenticateUser` destructures one or the other, depending
-                // on build). Send both: the handler destructures the name it wants and
-                // ignores the other, so one request spans the whole supported range —
-                // 14.359 (the pinned floor) through the newest release the sweep runs.
-                // Sending only `userid` makes 14.367 read `undefined`, look up no user,
-                // and answer 401 `JOIN.ErrorUserDoesNotExist` with the misleading log
-                // line `no user with ID of undefined` — which blocked every spec.
+                // From 14.368 Foundry rejects a POST it cannot see as same-origin,
+                // answering 400 `{"error":"The request could not be processed."}`
+                // from middleware ahead of every route. `Sec-Fetch-Site:
+                // same-origin` satisfies that check on its own; an `Origin` equal
+                // to the server's own satisfies it where that header is absent.
+                // `cy.request` posts from Node, which sets neither, so both are
+                // stated here — a browser's join request carries both as well.
+                headers: {
+                    "Sec-Fetch-Site": "same-origin",
+                    Origin: new URL(Cypress.config("baseUrl")).origin,
+                },
+                // `sessions.authenticateUser` destructures `userid` on 14.359, the
+                // pinned floor, and `userId` from 14.367. Sending both spans the
+                // supported range: the handler reads the name it wants and ignores
+                // the other. Either name alone makes the build that wants the other
+                // look up `undefined` and answer 401 `JOIN.ErrorUserDoesNotExist`.
                 body: { action: "join", userid: userId, userId, password: gmPassword },
             })
             .then((res) => {
