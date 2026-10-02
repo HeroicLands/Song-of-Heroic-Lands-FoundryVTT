@@ -140,7 +140,7 @@ defeated**, it applies its authored **outcome**. Set it with two fields:
 - **`system.outcome`** — `AFFLICTION_OUTCOME.DEATH` (the host's state becomes
   _dead_) or `AFFLICTION_OUTCOME.CURED` (the affliction is defeated — its Healing
   Rate becomes 6). Defaults to `cured`.
-- **`system.outcomeTrauma`** _(optional)_ — a **Safe Expression** whose result is a
+- **`system.outcomeTraumas`** _(optional)_ — a **Safe Expression** whose result is a
   trauma **shortcode**, or an array of shortcodes, the host contracts as part of
   the outcome. Matching traumas are resolved world-items-first, then compendiums.
 
@@ -150,12 +150,12 @@ The two combine. For a disease that leaves survivors permanently weakened:
 await affliction.update({
   system: {
     outcome: "cured", // survives…
-    outcomeTrauma: "'weakness20'", // …but contracts the `weakness20` trauma
+    outcomeTraumas: "'weakness20'", // …but contracts the `weakness20` trauma
   },
 });
 ```
 
-`outcomeTrauma` is a Safe Expression, so it can branch — e.g.
+`outcomeTraumas` is a Safe Expression, so it can branch — e.g.
 `"level >= 4 ? 'weakness20' : 'weakness10'"` — evaluated against the affliction's
 bindings. It carries only shortcode **references** to trauma templates, never item
 data.
