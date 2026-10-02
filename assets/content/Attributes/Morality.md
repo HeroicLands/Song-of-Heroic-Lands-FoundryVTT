@@ -8,6 +8,7 @@ data: {icon: scales, templatePriority: 0, packFolder: attributes}
 sohl:
   system:
     scoreBase: 0
+    impairedByRoles: []
     valueDesc:
       - Amoral:2
       - Immoral:4

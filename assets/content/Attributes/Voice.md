@@ -8,6 +8,7 @@ data: {icon: sing, templatePriority: 0, packFolder: attributes}
 sohl:
   system:
     scoreBase: 0
+    impairedByRoles: [vital]
     valueDesc: [Jarring:4, Tuneless:8, Average:12, Melodious:16, Dulcet:999]
     initDiceFormula: 3d6
 ---
