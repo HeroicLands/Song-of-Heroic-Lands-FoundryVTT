@@ -274,8 +274,53 @@ impaired-but-usable one folds its worst −5/−10 into the mastery level — vi
 {@link requiredPartsAutoCriticallyFail} / {@link requiredPartsImpairmentPenalty},
 the per-part counterparts of the role helpers. When a test is gated on both a role
 and a held limb, the worst of the two applies, never their sum. Natural-weapon
-(combat-technique) modes still gate through their skill's `impairedByRoles`; a
-per-part link from a natural weapon to its body part remains a follow-up.
+(combat-technique) modes gate through their skill's `impairedByRoles`, which is
+also where the performing limb comes from — see below.
+
+### Which limb performs a technique {#which-limb-performs-a-technique}
+
+A combat technique has no `heldBy`, so the limb that performs it is resolved from
+the skill's own `impairedByRoles` by
+{@link sohl.entity.body.resolvePerformingLimbs} — the same data the limb-block hit
+redirect reads to decide which limb was raised, so there is one answer to "which
+limb does this" rather than two that can disagree.
+
+It returns the committed limbs (as many as the mode's `minParts`, **dominant side
+first**) together with the localization key naming why none is available. The
+ordering is deterministic rather than drawn, because an off-side technique carries
+a rules consequence and a verdict that moved on re-preparation would be unreadable.
+`limbs[0]` is the performing limb, and `isOffHandGrip(limbs, dominantSide)`
+answers whether the technique is performed off-side.
+
+**A free limb is wanted only by a technique a hand performs.** A
+{@link sohl.utils.BODY_ROLE | MANIPULATOR} technique is performed by gripping, so
+it needs a manipulator that can grip (`canHoldItemBase`) and is holding nothing;
+every other role is performed by a limb that holds nothing anyway, so a Press is
+unaffected by what the hands are full of. Three outcomes, each its own key:
+
+| Outcome                                            | Key                            |
+| -------------------------------------------------- | ------------------------------ |
+| The role is absent, or no limb of it can grip      | `SOHL.StrikeMode.NoSuchLimb`   |
+| Every gripping limb is occupied or out of action   | `SOHL.StrikeMode.NoFreeLimb`   |
+| Every limb of a non-gripping role is out of action | `SOHL.StrikeMode.NoUsableLimb` |
+
+**The gripping test, not the role, is what settles creatures.** Nearly every being
+in the bestiary carries a manipulator part — a wolf's head is
+`[vital, manipulator]`, because its bite is how it takes hold of things — and only
+a handful carry one that can grip. So gating on the role would hand a grab, a
+punch and a limb block to almost every creature; gating on the grip gives them to
+the ones with hands.
+
+An **immobilized** limb is excluded: it keeps its grip and its strength but cannot
+be moved, so it performs nothing. An **unusable** limb is excluded by the same
+test, since being out of action implies being immobilized.
+
+`applyTechniqueLimbGate` ({@link sohl.document.item.logic.applyTechniqueLimbGate})
+is the document-layer wiring, called from `SkillLogic.finalize` — after the body's
+parts have learned they are held fast or out of action. It sets the reason on the
+mode's attack **and** both defences, so the technique appears **disabled with an
+explanation** rather than vanishing from the combat tab: a missing option reads as
+a bug, and naming the constraint says what to do about it.
 
 Impairment drives **being health** (`deriveHealth`,
 `src/document/actor/logic/health.ts`) — a banded assessment, not a point pool

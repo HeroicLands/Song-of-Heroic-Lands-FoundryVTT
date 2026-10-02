@@ -28,10 +28,10 @@ The techniques ordinary folk learn are these. **The values are those of a human-
 | **Kick**       | 1d6−2 blunt  | d4       | 2 ft  | The strongest opening, but it cannot reach high |
 | **Headbutt**   | 1d6−2 blunt  | d4       | —     | Delivered from a grapple, needing no hands      |
 | **Bite**       | 1d4 piercing | d2       | —     | The most precise, and the only piercing one     |
-| **Grab**       | —            | —        | 1 ft  | Take what a limb holds, or hold the limb itself |
+| **Grab**       | —            | d4       | 1 ft  | Take what a limb holds, or hold the limb itself |
 | **Press**      | —            | —        | 1 ft  | Drive an opponent off their footing             |
 | **Trip**       | —            | —        | 2 ft  | Put an opponent on the ground                   |
-| **Limb Block** | —            | —        | —     | Block with an arm or a leg, having nothing else |
+| **Limb Block** | —            | —        | 1 ft  | Block with an arm or a leg, having nothing else |
 
 Reach is what the technique adds to the fighter's own bodily reach, so a bite or a headbutt reaches nothing at all beyond the body: the target must already be pressed against you, which is why neither ever opens an exchange and both so often close one.
 
@@ -77,5 +77,5 @@ The ordinary off-hand rules apply and bite harder here than anywhere: a strike t
 
 - [[doc-atkreslv|Attack Resolution]] — the exchange in full
 - [[doc-mlattcks|Melee Attacks]] — reach, engagement, and the melee defences
-- [[doc-strkmds|Strike Modes]] — the structure every technique is expressed in
+- [[doc-strkmds|Strike Modes]] — the structure every technique is expressed in, and [[doc-strkmds#the-limb-a-technique-needs|the limb each technique needs]]
 - [[doc-skills#skill-descriptions|Skill Descriptions]] — the individual techniques and their tables

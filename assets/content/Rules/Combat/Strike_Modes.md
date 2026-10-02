@@ -121,6 +121,16 @@ A **missile** strike mode is a ranged attack. In addition to the common properti
 - **Draw** — the pull the weapon demands of whoever shoots it. A bow too heavy to manage is a bow that cannot be shot well; heavy crossbows are spanned with mechanical aid for exactly that reason.
 - **Volley multiplier** — how far past its base range the mode can put a **lobbed** shot, as a multiple of that range. A war bow reaching 210 feet directly volleys four times as far; a javelin manages twice its throw.
 
+## The Limb a Technique Needs {#the-limb-a-technique-needs}
+
+A weapon's strike mode is available when enough limbs are gripping the weapon. A combat technique carries no weapon, so what it needs instead is **a limb of the right kind, free to perform it**.
+
+For the three techniques a hand performs — a [[doc-skills#skill-descriptions|Grab]], a [[doc-skills#skill-descriptions|Punch]] and a [[doc-unrmdcmb#limb-block|Limb Block]] — that means **one hand with nothing in it**. One is enough: a fighter with a sword in the right hand still has a left hand to grab with. A shield on that arm, or a weapon that wants both, leaves nothing to perform the technique with, and the technique is unavailable until something is sheathed, dropped, or taken. A hand held fast is no use either, though it keeps whatever it was holding.
+
+The techniques no hand performs are unaffected. A [[doc-unrmdcmb#the-strength-trial|Press]] drives with the body, a Trip sweeps with a leg, a Bite and a Headbutt need no hands at all — so a fighter with a dagger in each fist may still do any of them.
+
+**The same requirement settles which creatures have these techniques.** Most creatures have a limb for fine work and intentional force, but very few have one that can grip: a wolf takes hold of things with its jaws, and jaws are not a hand. So a grab, a punch and a limb block belong to creatures with hands, while every creature keeps the techniques its own anatomy performs.
+
 ## Choosing a Strike Mode {#choosing-a-strike-mode}
 
 Because a weapon may offer several strike modes — and some are melee while others are missile — choosing the right mode is part of using the weapon well. A thrown spear and a couched spear are the same item but very different attacks; a broadsword's thrust reaches a piercing-armored foe differently than its cut. The strike mode is where those differences live.
