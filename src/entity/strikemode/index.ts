@@ -23,4 +23,5 @@ export * from "./planShortcodeSave";
 export * from "./prone";
 export * from "./shieldDefense";
 export * from "./strengthImpact";
+export * from "./strengthTrial";
 export * from "./StrikeModeBase";

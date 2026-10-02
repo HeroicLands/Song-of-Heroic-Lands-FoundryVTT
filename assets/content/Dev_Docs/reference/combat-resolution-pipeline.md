@@ -297,6 +297,65 @@ the player knows what they want from one. So
 spent as an argument and answers `0` for none: the system offers the arithmetic
 and never decides that an advantage was spent.
 
+### How a successful attack resolves {#how-an-attack-resolves}
+
+A strike mode says **how the attack is made**; where its outcome comes from is a
+separate axis, with four values already in content and orthogonal to
+melee/missile (a grab is melee, a thrown net is missile):
+
+| Resolution kind     | Where the outcome comes from | Modes                          |
+| ------------------- | ---------------------------- | ------------------------------ |
+| impact              | the mode's own dice          | nearly all of them             |
+| projectile-supplied | the ammunition               | bows, crossbows, siege engines |
+| trial               | a Strength Trial             | Grab, Press, Trip              |
+| entangle            | the Entangle rules           | the Net                        |
+
+An impact-free mode is therefore ordinary rather than anomalous — a longbow has
+no impact of its own either. The axis has no schema field: the trait that gates
+the manoeuvre is the discriminator, and a parallel field would state the same
+thing twice.
+
+### The Strength Trial {#strength-trial}
+
+{@link sohl.entity.strikemode.resolveStrengthTrial} settles the contest a
+manoeuvre resolves through: both combatants roll
+{@link sohl.entity.strikemode.STRENGTH_TRIAL_DIE} and add their Strength, the
+higher total wins, and {@link sohl.entity.strikemode.StrengthTrialOutcome.margin}
+carries how decisively. A tie is a **loss for the initiator**, who had to win it,
+and a loss produces no effect at all rather than a reduced one.
+
+It is neither a d100 test nor an {@link sohl.entity.result.OpposedTestResult}:
+"test" is the d100 family and "contest" the term of art for the d100 opposed
+outcome, whose margin is Victory Stars. The Trial has its own name because it is
+its own mechanic, and because its margin is on its own scale.
+
+**The die is fixed for every creature.** It models chance in the moment —
+footing, leverage, timing — which does not grow with mass, and size is already
+the `+ Strength` term. A scaled die would also wreck the margin, which is a
+mechanical output compared on one scale from a mouse to a dragon. It follows that
+a Strength gap of {@link sohl.entity.strikemode.STRENGTH_TRIAL_SETTLED_BY} cannot
+be overturned, the widest swing two dice can produce being one less;
+{@link sohl.entity.strikemode.strengthTrialIsSettledByStrength} answers that
+directly.
+
+{@link sohl.entity.strikemode.grabTrialModifiers} assembles a Grab's side as
+**named deltas** so the arithmetic reads back: the mode's Impact Tactical
+Advantage value per advantage spent, then
+{@link sohl.entity.strikemode.GRAB_ONE_HANDED_TRIAL_MODIFIER} for one hand on the
+target and {@link sohl.entity.strikemode.GRAB_OFF_HANDED_TRIAL_MODIFIER} when
+that hand is the off one. A contribution worth nothing is left out rather than
+added as a zero. The Impact TA term is **not a Grab constant** — it is
+{@link sohl.entity.strikemode.impactTacticalAdvantageValue}, and a grab is blunt.
+Each delta is labelled from the shared `SOHL.INFO.*` delta namespace, so the
+off-hand cost on a Trial reads as the off-hand reduction on an impact breakdown
+does.
+
+**Nothing here rolls a die or spends an advantage.** The Trial is two-party, so
+each side is rolled by its own combatant's controlling player, and the spend is
+the player's decision and the referee's award. Every function takes the dice and
+the spend as arguments and answers only the arithmetic — the same shape, and for
+the same reason, as the Impact Tactical Advantage bonus above.
+
 ### Strike-mode defence modifiers {#strike-mode-defence-modifiers}
 
 A melee strike mode's `defense.block.modifier` and
