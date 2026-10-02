@@ -58,10 +58,14 @@ Cohorts have a special TokenHUD button that lets you expand a group token into i
 ## Expanding a Cohort
 
 1. Select a Cohort token on the canvas.
-2. In the TokenHUD (the controls that appear around the token), click the **expand** button (the people icon).
-3. The cohort token is replaced by individual tokens for each member, placed in a cluster around the original position.
+2. In the TokenHUD (the controls that appear around the token), click **Expand to Individual Tokens** (the people icon).
+3. The cohort's own token is deleted, and a token for each member is created in a cluster around the position it occupied.
 
 This is useful when a group encounter transitions into individual combat — start with one cohort token for the approaching band of bandits, then expand them when initiative is rolled.
+
+**Expanding runs one way.** It deletes the cohort's token rather than hiding it, and there is no action that gathers the member tokens back into one. To return to a single cohort token, delete the member tokens from the scene and place the Cohort actor again — placing it offers the same **single token** or **expand** choice described under [[#scene-placing|Placing Actors on Scenes]].
+
+Expanding touches only the token, never the Cohort actor's own record: its sheet, its members list, and anything on it are untouched by either direction of the move. An effect applied directly to the cohort's token stops being represented on the canvas once that token is gone — it is not carried onto any member's token, and a member's own effects are unaffected by the cohort's.
 
 # Theatre of the Mind {#scene-totm}
 
@@ -97,9 +101,21 @@ changes nothing. Treat the bar as a readout of the assessment described under
 
 # Combat on Scenes {#scene-combat}
 
-When combat begins on a scene, SoHL uses its own initiative and combat tracking system.
+## Starting Combat
 
-See [[doc-cmbtbscsug|Combat Basics]] for details on how combat encounters work.
+Open the **Combat Tracker** tab in the sidebar and click **Create Combat**, or select a token on the canvas and click its **combat** control in the TokenHUD — that both creates the encounter (if none is active for the scene) and adds the selected token to it in one step.
+
+## Adding Combatants
+
+Add further tokens the same way: select one or more and click their TokenHUD combat control, or drag a token onto the Combat Tracker. Each token you add becomes its own row in the tracker.
+
+A combatant joins a **combat group** the moment it is added — SoHL reads the token's actor's **Default Combat Group** (set on the Combat tab of the character sheet, GM-only) and assigns the combatant to a group of that name, creating the group if it does not already exist; an actor with nothing set joins **Opponents**. See [[doc-cmbtntug|Combatant]] for what a group decides and how to move a combatant to a different one.
+
+## Token and Combatant
+
+A **combatant** is the encounter's own record of a token, not something stored on the actor: it exists only while that encounter runs, and the same actor is a fresh combatant the next time it joins a fight. The two stay linked while both exist — deleting a token that is in combat deletes its combatant with it, permanently. Removing a combatant from the tracker without deleting its token simply takes that token out of the fight; the token stays on the canvas.
+
+See [[doc-tokenug|Token]] for what you can do from a placed token, and [[doc-cmbtbscsug|Combat Basics]] for how the fight itself plays out once the tracker is running.
 
 # See also
 
