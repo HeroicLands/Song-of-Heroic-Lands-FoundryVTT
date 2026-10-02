@@ -300,6 +300,8 @@ A **weapon** is a piece of gear made for attacking — a sword, a spear, a bow, 
 - an optional **encumbrance value** — see below.
 - one or more **[[doc-strkmds|Strike Modes]]**.
 
+A **shield** is a weapon by this reckoning, and carries a **[[doc-strkmds#shield-mod|Shield Mod]]** besides: a bonus to every block and dodge its bearer makes, and to a press, for as long as it is held.
+
 ## One Weapon, Many Strike Modes
 
 A single weapon is rarely limited to a single kind of attack. A broadsword can **cut**, **thrust**, or strike with its **pommel**; a spear can be **thrust** in melee or **thrown**; a war-axe can **chop** in the hand or be **hurled** across the field. Each of these distinct ways of attacking is a **strike mode**, and a weapon carries **one or more** of them.

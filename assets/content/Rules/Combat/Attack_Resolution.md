@@ -91,6 +91,8 @@ Tactical Advantages come in four kinds, and a rule that grants or spends them sa
 | **Action**    | What the winner may do next                           |
 | **Setup**     | The position the exchange leaves both combatants in   |
 
+An **Impact** advantage is worth a fixed amount of impact apiece, set by what is striking — see [[doc-strkmds#the-impact-tactical-advantage-value|the Impact Tactical Advantage value]].
+
 The manoeuvres that call for a [[doc-unrmdcmb#the-strength-trial|Strength Trial]] are the clearest consumers: each takes a bonus to the Trial per **Impact** Tactical Advantage the winner earned, so a fighter who is comprehensively winning the exchange presses, trips or grabs almost at will.
 
 ## Mishaps {#mishaps}
