@@ -5,10 +5,21 @@ type: affliction
 subType: disease
 description: "Plasmodium parasite via mosquito; cyclical fever and chills; often fatal untreated."
 tags: []
-data: {icon: virus, templatePriority: 0, packFolder: diseases}
+data:
+  icon: virus
+  templatePriority: 0
+  packFolder: diseases
+  onsetDurationFormula: 1209600
+  healingCheckDurationFormula: 86400
+  resolutionDurationFormula: 3d4*86400
 sohl:
   kbcat: diseases
-  system: {levelBase: 1, healingRateBase: 3, contagionIndexBase: 3, transmission: vector}
+  system:
+    levelBase: 1
+    healingRateBase: 3
+    contagionIndexBase: 3
+    transmission: vector
+    onsetFormula: 2d8+5
 ---
 
 Malaria is a parasitic disease caused by _Plasmodium_ species, transmitted through the bites of infected Anopheles mosquitoes. It presents with cyclical episodes of fever, chills, sweating, headache, nausea, and vomiting. Severe malaria can cause anemia, respiratory distress, cerebral malaria (affecting the brain), multi-organ failure, and death, especially in young children and pregnant women in endemic regions. Prompt medical treatment with antimalarial drugs and preventive measures like mosquito nets and insect repellents are vital for controlling and treating the disease.

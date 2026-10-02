@@ -5,7 +5,13 @@ type: affliction
 subType: poisontoxin
 description: "Neurotoxin; blocks nerve signals; progressive paralysis including respiratory muscles."
 tags: []
-data: {icon: poisonbottle, templatePriority: 0, packFolder: poisonsandtoxins}
+data:
+  icon: poisonbottle
+  templatePriority: 0
+  packFolder: poisonsandtoxins
+  onsetDurationFormula: 1800
+  healingCheckDurationFormula: 1800
+  resolutionDurationFormula: 1d6*3600
 sohl:
   kbcat: poisontoxin
   system: {levelBase: 1, healingRateBase: 3, contagionIndexBase: 3, transmission: vector}

@@ -120,6 +120,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
         <span class="label">{{localize "SOHL.Chat.Attack.defenderTAs"}}</span>
         <span class="value">{{numDefTA}}</span>
     </div>
+    {{/if}} {{#if impactTAValue}}
+    <div class="card-content center">
+        <span class="label">{{localize "SOHL.Chat.Attack.impactTAValue"}}</span>
+        <span class="value">+{{impactTAValue}} {{localize "SOHL.Being.Column.impact"}}</span>
+    </div>
     {{/if}} {{#if atkWeaponBroke}}
     <div class="card-content center">
         <span class="weapon-broke">{{localize "SOHL.Chat.Attack.weaponBroke" name=attacker weapon=attackWeapon}}</span>

@@ -25,14 +25,22 @@ See also: [[doc-skillug|Skills]], [[doc-cmbtbscsug|Combat Basics]]
 
 ## Understanding Results
 
-A skill test rolls against the effective mastery level. The result is one of:
+A skill test rolls a d100 against the effective mastery level (EML). Two things
+decide the result: whether the roll came in **at or under** the EML, and
+whether its **units digit** (the ones place) is a **0 or a 5**:
 
-- **Critical Success (CS)** — an exceptional success (roll of 5 or divisor of EML)
-- **Marginal Success (MS)** — a success by a narrow margin
-- **Marginal Failure (MF)** — a failure by a narrow margin
-- **Critical Failure (CF)** — a significant failure (roll of 96+)
+| Roll vs. EML        | Units digit 0 or 5   | Any other units digit |
+| ------------------- | -------------------- | --------------------- |
+| At or under the EML | **Critical Success** | **Marginal Success**  |
+| Over the EML        | **Critical Failure** | **Marginal Failure**  |
 
-The exact thresholds depend on the effective mastery level.
+So one success in five is critical, and so is one failure in five. Against an
+EML of 45: a roll of 35 is a Critical Success, a roll of 32 a Marginal Success,
+a roll of 62 a Marginal Failure, and a roll of 70 a Critical Failure.
+
+A spent [[doc-thftsystug|Fate]] point or a GM's result edit can carry a result
+past Critical Success or below Critical Failure — see the extended levels on
+[[doc-resolutionintro|Resolution]] (rules).
 
 # Effective Mastery Level {#tests-eml}
 
@@ -43,7 +51,20 @@ The **effective mastery level (EML)** is the target number for a skill test. It 
 - **Fatigue** — exhaustion penalties
 - **Equipment bonuses** — some gear provides skill bonuses
 
-The EML is shown in the Success Test Dialog before you roll.
+The EML is a running total built the same way everywhere in SoHL: a **base**
+(the skill's mastery level) plus zero or more **modifiers**, each with its own
+name and amount. Modifiers apply in a fixed order — flat bonuses and penalties
+added together first, then any multiplier, then any floor or ceiling a rule
+imposes, and finally an outright override, if one applies. Most skill tests
+never see past the first step; the later steps exist for the handful of rules
+that need them.
+
+**The breakdown is never hidden.** Every modifier that went into the EML — its
+name and its amount — is shown as a table in the **Success Test Dialog**, above
+the Situational Modifier field, before you commit to the roll. The same
+breakdown appears on the posted result card, and hovering an EML value
+anywhere on the sheet shows it too, so you can always see exactly why a test
+reads the number it does.
 
 # Success Value Tests {#tests-sv}
 
@@ -93,6 +114,30 @@ Opposed tests are used for:
 - **Stealth** — hiding vs. perception
 - Any situation where two characters directly compete
 
+## How an Opposed Test Resolves {#tests-opposed-resolve}
+
+Both sides' success tests are compared by [[doc-sccsstst#success-level|success
+level]], not by the raw roll. Whoever **succeeded** and reached the **higher**
+success level wins — a Marginal Success beats a Marginal Failure, a Critical
+Success beats a Marginal Success, and a success of any kind always beats a
+failure of any kind. If neither side succeeded, nobody wins, however close the
+two rolls came.
+
+**The margin is counted in Victory Stars** — one star for every step of success
+level between the winner and the loser. A Marginal Success against a Marginal
+Failure is a one-star win; a Critical Success against a Critical Failure is
+three stars. A shift into the extended levels above Critical Success or below
+Critical Failure (from Fate, say) widens the margin with it. The result card
+draws the stars, so the margin is visible at a glance.
+
+**A tie** — both sides at the same success level — has no winner and no stars,
+unless the contest's initiator checked **Break Ties** on the pre-roll dialog. A
+broken tie is always a one-star win, settled in order: the higher d100 roll
+takes it; failing that, the higher Mastery Level; failing that, both sides roll
+a d10 until one comes out ahead. See [[doc-oppsdtst|Opposed Tests]] (rules) for
+the full tiebreak rule, and [[doc-tokenug|Token]] for the request-and-respond
+flow this runs through at the table.
+
 # Skill Base and Attributes {#tests-skillbase}
 
 Every skill has a **skill base formula** that determines its starting value from the character's attributes. For example, the Sword skill might have a base formula of `sb(attr.str, attr.dex)` — meaning it averages Strength and Dexterity.
@@ -100,6 +145,21 @@ Every skill has a **skill base formula** that determines its starting value from
 The skill base is calculated automatically when attributes are set. The mastery level builds on top of the skill base through training and experience.
 
 See [[doc-skillug|Skills]] for more about how skill bases work.
+
+## Improving a Mastery Level {#tests-improvement}
+
+A skill's mastery level only rises when someone deliberately spends a **Skill
+Development Roll (SDR)** on it: flag the skill after a session where it
+mattered, then run **Improve with SDR** to roll **1d100 + the skill's Skill
+Base** against its current base mastery level. Coming in above that base
+raises it by 1; the flag is spent either way, win or lose. See
+[[doc-skillug#improve-with-sdr|Improve with SDR]] for the full action.
+
+This raises the skill's **base** mastery level, not the EML directly. The base
+is what the Skills tab shows as ML; the EML is that base plus whatever
+situational modifiers apply at the moment of a roll, so raising the base
+through an SDR raises the EML by exactly the same amount, with every modifier
+still applying on top of the new, higher number.
 
 # See also
 
@@ -109,4 +169,5 @@ See [[doc-skillug|Skills]] for more about how skill bases work.
 - [[doc-thftsystug|The Fate System]] — improving a result after it has settled.
 - [[doc-iconlgndug|Icon Legend]] — the Victory Stars and Value Diamonds a result card draws.
 - [[doc-resolutionintro|Resolution]] (rules) — what a Mastery Level, a success level, and a Victory Star actually are.
+- [[doc-oppsdtst|Opposed Tests]] (rules) — Victory Stars, ties, and the tiebreak rule in full.
 - [[doc-userguide|User Guide]] — back to the index.

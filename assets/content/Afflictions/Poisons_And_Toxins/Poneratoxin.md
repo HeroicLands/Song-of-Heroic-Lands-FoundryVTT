@@ -5,7 +5,13 @@ type: affliction
 subType: poisontoxin
 description: "Ant venom neurotoxin; the most painful insect sting imaginable; lasts 24 hours."
 tags: []
-data: {icon: poisonbottle, templatePriority: 0, packFolder: poisonsandtoxins}
+data:
+  icon: poisonbottle
+  templatePriority: 0
+  packFolder: poisonsandtoxins
+  onsetDurationFormula: 10
+  healingCheckDurationFormula: 3600
+  resolutionDurationBase: 86400
 sohl:
   kbcat: poisontoxin
   system: {levelBase: 1, healingRateBase: 3, contagionIndexBase: 3, transmission: vector}

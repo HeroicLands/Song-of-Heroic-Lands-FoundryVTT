@@ -8,6 +8,7 @@ data: {icon: aura, templatePriority: 0, packFolder: attributes}
 sohl:
   system:
     scoreBase: 0
+    impairedByRoles: []
     valueDesc: [Mundane:4, Shallow:8, Average:12, Deep:16, Profound:999]
     initDiceFormula: 3d6
 ---

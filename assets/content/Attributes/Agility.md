@@ -8,6 +8,7 @@ data: {icon: cartwheel, templatePriority: 0, packFolder: attributes}
 sohl:
   system:
     scoreBase: 0
+    impairedByRoles: [core, vital, locomotor]
     valueDesc: [Blundering:4, Clumsy:8, Average:12, Nimble:16, Graceful:999]
     initDiceFormula: 3d6
 ---

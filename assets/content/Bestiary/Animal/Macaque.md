@@ -103,6 +103,7 @@ sohl:
           - name: Skull
             shortcode: skullloc
             bodyPartCode: headpart
+            isFumble: true
             bleedingSusceptibility: low
             amputability: none
             shockValue: 5
@@ -111,6 +112,7 @@ sohl:
           - name: Left Eye
             shortcode: leyeloc
             bodyPartCode: headpart
+            isFumble: true
             bleedingSusceptibility: medium
             amputability: none
             shockValue: 5
@@ -119,6 +121,7 @@ sohl:
           - name: Right Eye
             shortcode: reyeloc
             bodyPartCode: headpart
+            isFumble: true
             bleedingSusceptibility: medium
             amputability: none
             shockValue: 5
@@ -127,6 +130,7 @@ sohl:
           - name: Nose
             shortcode: noseloc
             bodyPartCode: headpart
+            isFumble: true
             bleedingSusceptibility: medium
             amputability: none
             shockValue: 5
@@ -135,6 +139,7 @@ sohl:
           - name: Left Cheek
             shortcode: lcheekloc
             bodyPartCode: headpart
+            isFumble: true
             bleedingSusceptibility: medium
             amputability: none
             shockValue: 4
@@ -143,6 +148,7 @@ sohl:
           - name: Right Cheek
             shortcode: rcheekloc
             bodyPartCode: headpart
+            isFumble: true
             bleedingSusceptibility: medium
             amputability: none
             shockValue: 4
@@ -151,6 +157,7 @@ sohl:
           - name: Left Ear
             shortcode: learloc
             bodyPartCode: headpart
+            isFumble: true
             bleedingSusceptibility: medium
             amputability: none
             shockValue: 4
@@ -159,6 +166,7 @@ sohl:
           - name: Right Ear
             shortcode: rearloc
             bodyPartCode: headpart
+            isFumble: true
             bleedingSusceptibility: medium
             amputability: none
             shockValue: 4
@@ -167,6 +175,7 @@ sohl:
           - name: Mouth
             shortcode: mouthloc
             bodyPartCode: headpart
+            isFumble: true
             bleedingSusceptibility: medium
             amputability: none
             shockValue: 4
@@ -175,6 +184,7 @@ sohl:
           - name: Jaw
             shortcode: jawloc
             bodyPartCode: headpart
+            isFumble: true
             bleedingSusceptibility: medium
             amputability: none
             shockValue: 4
@@ -183,6 +193,7 @@ sohl:
           - name: Neck
             shortcode: neckloc
             bodyPartCode: headpart
+            isFumble: true
             bleedingSusceptibility: high
             amputability: low
             shockValue: 5
@@ -191,6 +202,7 @@ sohl:
           - name: Right Shoulder
             shortcode: rshldloc
             bodyPartCode: rarmpart
+            isFumble: true
             bleedingSusceptibility: medium
             amputability: none
             shockValue: 3
@@ -199,6 +211,7 @@ sohl:
           - name: Right Upper Arm
             shortcode: rupaloc
             bodyPartCode: rarmpart
+            isFumble: true
             bleedingSusceptibility: low
             amputability: medium
             shockValue: 1
@@ -207,6 +220,7 @@ sohl:
           - name: Right Elbow
             shortcode: relbloc
             bodyPartCode: rarmpart
+            isFumble: true
             bleedingSusceptibility: low
             amputability: medium
             shockValue: 2
@@ -215,6 +229,7 @@ sohl:
           - name: Right Forearm
             shortcode: rfraloc
             bodyPartCode: rarmpart
+            isFumble: true
             bleedingSusceptibility: low
             amputability: medium
             shockValue: 1
@@ -223,6 +238,7 @@ sohl:
           - name: Right Hand
             shortcode: rhandloc
             bodyPartCode: rarmpart
+            isFumble: true
             bleedingSusceptibility: none
             amputability: high
             shockValue: 2
@@ -231,6 +247,7 @@ sohl:
           - name: Left Shoulder
             shortcode: lshldloc
             bodyPartCode: larmpart
+            isFumble: true
             bleedingSusceptibility: medium
             amputability: none
             shockValue: 3
@@ -239,6 +256,7 @@ sohl:
           - name: Left Upper Arm
             shortcode: lupaloc
             bodyPartCode: larmpart
+            isFumble: true
             bleedingSusceptibility: low
             amputability: medium
             shockValue: 1
@@ -247,6 +265,7 @@ sohl:
           - name: Left Elbow
             shortcode: lelbloc
             bodyPartCode: larmpart
+            isFumble: true
             bleedingSusceptibility: low
             amputability: medium
             shockValue: 2
@@ -255,6 +274,7 @@ sohl:
           - name: Left Forearm
             shortcode: lfraloc
             bodyPartCode: larmpart
+            isFumble: true
             bleedingSusceptibility: low
             amputability: medium
             shockValue: 1
@@ -263,6 +283,7 @@ sohl:
           - name: Left Hand
             shortcode: lhandloc
             bodyPartCode: larmpart
+            isFumble: true
             bleedingSusceptibility: none
             amputability: high
             shockValue: 2
@@ -295,6 +316,7 @@ sohl:
           - name: Right Thigh
             shortcode: rthghloc
             bodyPartCode: rlegpart
+            isStumble: true
             bleedingSusceptibility: medium
             amputability: medium
             shockValue: 3
@@ -303,6 +325,7 @@ sohl:
           - name: Right Knee
             shortcode: rkneeloc
             bodyPartCode: rlegpart
+            isStumble: true
             bleedingSusceptibility: low
             amputability: medium
             shockValue: 2
@@ -311,6 +334,7 @@ sohl:
           - name: Right Calf
             shortcode: rcalfloc
             bodyPartCode: rlegpart
+            isStumble: true
             bleedingSusceptibility: low
             amputability: medium
             shockValue: 1
@@ -319,6 +343,7 @@ sohl:
           - name: Right Foot
             shortcode: rfootloc
             bodyPartCode: rlegpart
+            isStumble: true
             bleedingSusceptibility: none
             amputability: high
             shockValue: 2
@@ -327,6 +352,7 @@ sohl:
           - name: Left Thigh
             shortcode: lthghloc
             bodyPartCode: llegpart
+            isStumble: true
             bleedingSusceptibility: medium
             amputability: medium
             shockValue: 3
@@ -335,6 +361,7 @@ sohl:
           - name: Left Knee
             shortcode: lkneeloc
             bodyPartCode: llegpart
+            isStumble: true
             bleedingSusceptibility: low
             amputability: medium
             shockValue: 2
@@ -343,6 +370,7 @@ sohl:
           - name: Left Calf
             shortcode: lcalfloc
             bodyPartCode: llegpart
+            isStumble: true
             bleedingSusceptibility: low
             amputability: medium
             shockValue: 1
@@ -351,6 +379,7 @@ sohl:
           - name: Left Foot
             shortcode: lfootloc
             bodyPartCode: llegpart
+            isStumble: true
             bleedingSusceptibility: none
             amputability: high
             shockValue: 2

@@ -5,7 +5,13 @@ type: affliction
 subType: poisontoxin
 description: "Castor bean toxin; organ failure over days; lethal in tiny amounts."
 tags: []
-data: {icon: poisonbottle, templatePriority: 0, packFolder: poisonsandtoxins}
+data:
+  icon: poisonbottle
+  templatePriority: 0
+  packFolder: poisonsandtoxins
+  onsetDurationFormula: 43200
+  healingCheckDurationFormula: 86400
+  resolutionDurationFormula: 2d3*86400
 sohl:
   kbcat: poisontoxin
   system: {levelBase: 1, healingRateBase: 3, contagionIndexBase: 3, transmission: injested}

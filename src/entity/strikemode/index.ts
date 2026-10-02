@@ -16,9 +16,11 @@
 
 export * from "./blankStrikeMode";
 export * from "./governing";
+export * from "./impactTacticalAdvantage";
 export * from "./MeleeStrikeMode";
 export * from "./MissileStrikeMode";
 export * from "./planShortcodeSave";
 export * from "./prone";
+export * from "./shieldDefense";
 export * from "./strengthImpact";
 export * from "./StrikeModeBase";

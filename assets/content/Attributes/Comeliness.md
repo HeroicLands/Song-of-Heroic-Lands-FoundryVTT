@@ -8,6 +8,7 @@ data: {icon: charm, templatePriority: 0, packFolder: attributes}
 sohl:
   system:
     scoreBase: 0
+    impairedByRoles: []
     valueDesc: [Ugly:4, Unattractive:8, Plain:12, Attractive:16, Striking:999]
     initDiceFormula: 3d6
 ---
