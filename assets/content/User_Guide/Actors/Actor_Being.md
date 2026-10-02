@@ -35,13 +35,14 @@ The Being sheet is organized into several tabs:
 - **Facade** — the public description
 - **Profile** — attributes and affiliations
 - **Skills** — all skills grouped by category
-- **Gear** — carried and worn equipment, with encumbrance tracking
 - **Combat** — equipped weapons, armor, and combat-relevant information
-- **Mystical** — mysteries, philosophies, and mystical abilities
+- **Health** — traumas such as wounds and fatigue, and afflictions such as disease and poison
+- **Mysteries** — mysteries and mystical abilities
+- **Gear** — carried and worn equipment, with encumbrance tracking
 - **Actions** — available actions for this character (see [[#actions-on-a-being|Actions on a Being]])
 - **Effects** — active effects modifying this character
 
-**Facade**, **Gear**, **Actions**, and **Effects** are the common actor tabs — the same tabs, working the same way, on a [[doc-vehicleug|Vehicle]] or a [[doc-structureug|Structure]]. They are documented once, in [[doc-undrstndsheetug|Understanding Sheets]] under _Common Actor Tabs_; this page covers what is particular to a Being. The rest of the tabs are Being-only.
+**Facade**, **Gear**, **Actions**, and **Effects** are the common actor tabs — the same tabs, working the same way, on a [[doc-vehicleug|Vehicle]] or a [[doc-structureug|Structure]]. They are documented once, in [[doc-undrstndsheetug|Understanding Sheets]] under _Common Actor Tabs_; this page covers what is particular to a Being. **Mysteries** works the same way on a Vehicle or a Structure too. **Profile**, **Skills**, **Combat**, and **Health** are Being-only.
 
 # The Being Sheet Header
 
