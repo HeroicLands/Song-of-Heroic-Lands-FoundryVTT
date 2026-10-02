@@ -24,6 +24,7 @@ import {
 } from "@src/utils/constants";
 import { getActorBody } from "@src/document/actor/logic/BodyLogic";
 import { applyWielderStrengthImpact } from "@src/document/item/logic/wielderStrength";
+import { applyHeldShieldDefense } from "@src/document/item/logic/heldShield";
 import type { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import { StrikeModeBase } from "@src/entity/strikemode/StrikeModeBase";
 import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
@@ -269,6 +270,10 @@ export class WeaponGearLogic<
         // cross-item read — the Strength attribute's score is settled by this
         // phase — and it must follow `heldBy`, which decides the off hand.
         applyWielderStrengthImpact(this);
+        // A held shield assists every block the wielder makes, including one
+        // made with this weapon in the other hand. Also a cross-item read — the
+        // shield is a different document — so it belongs to this phase.
+        applyHeldShieldDefense(this);
     }
 }
 

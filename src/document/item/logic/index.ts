@@ -46,5 +46,6 @@ export * from "./psychological-trauma";
 export * from "./strikeModeTest";
 export * from "./timed-test";
 export * from "./trauma-sheet-view";
+export * from "./heldShield";
 export * from "./wielderStrength";
 export * from "./worn-armour-effects";
