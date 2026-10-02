@@ -5,7 +5,13 @@ type: affliction
 subType: poisontoxin
 description: "Cell-destroying toxin; intense pain and necrosis at injection site."
 tags: []
-data: {icon: poisonbottle, templatePriority: 0, packFolder: poisonsandtoxins}
+data:
+  icon: poisonbottle
+  templatePriority: 0
+  packFolder: poisonsandtoxins
+  onsetDurationFormula: 1800
+  healingCheckDurationFormula: 3600
+  resolutionDurationFormula: 1d2*86400
 sohl:
   kbcat: poisontoxin
   system: {levelBase: 1, healingRateBase: 3, contagionIndexBase: 3, transmission: vector}

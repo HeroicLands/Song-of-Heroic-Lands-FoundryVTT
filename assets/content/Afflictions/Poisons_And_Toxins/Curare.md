@@ -5,7 +5,13 @@ type: affliction
 subType: poisontoxin
 description: "Plant toxin; neuromuscular paralysis progressing from extremities inward; respiratory failure."
 tags: []
-data: {icon: poisonbottle, templatePriority: 0, packFolder: poisonsandtoxins}
+data:
+  icon: poisonbottle
+  templatePriority: 0
+  packFolder: poisonsandtoxins
+  onsetDurationFormula: 300
+  healingCheckDurationFormula: 1800
+  resolutionDurationFormula: 1d4*900
 sohl:
   kbcat: poisontoxin
   system: {levelBase: 1, healingRateBase: 3, contagionIndexBase: 3, transmission: vector}
