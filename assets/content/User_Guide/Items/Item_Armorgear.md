@@ -36,6 +36,10 @@ Armor and clothing that is worn (i.e., equipped) does not have any encumbrance, 
 
 When not worn but carried (i.e., carried but not equipped), the armor does have encumbrance based on its weight. In this case any encumbrance value is ignored, since the weight determines its encumbrance instead.
 
+# Quality and Durability
+
+Armor carries the **Qual** and **Dur** fields every piece of gear has (see [[doc-gearandequipug#gear-types|Gear Types at a Glance]]). Today neither field changes what a piece of armor does: a hauberk's Quality does not add to the protection its Protection Base values list, and nothing lowers an armor's Durability or checks it for breakage — there is no wear, no repair, and no point at which a piece of armor stops protecting because of damage to the item itself. Treat both fields as a number you can read and set, not as something the system acts on.
+
 # The Armor Actions
 
 Armor adds one action of its own to the ones every piece of gear carries:

@@ -31,7 +31,7 @@
 
     // Optional annotation beside the name (counts, units, "read-only" notes).
     //
-    // Sans, not mono (#1526). This slot was originally mono on the assumption it
+    // Sans, not mono. This slot was originally mono on the assumption it
     // held numbers, but four of its six uses are pure prose ("read-only", a
     // movement unit, a shared-gear note) and the two that do carry a figure are
     // inline counts — "7 skill(s)", "N zone(s)". Mono earns its place in this
@@ -75,7 +75,7 @@
         border-bottom: 1px solid var(--sohl-color-border-subtle);
 
         .section-legend__name {
-            // Above the paper rows, as the comment above intends (#1526). This
+            // Above the paper rows, as the comment above intends. This
             // was 0.92rem — *smaller* than the 1rem rows it heads — so a weapon
             // or subtype group read as less prominent than its own contents and
             // got lost. Cinzel is inscriptional caps and reads optically small

@@ -129,6 +129,8 @@ Item sheets share a consistent tab layout across all item types:
 
 The **Properties** tab shows the type-specific fields for this item. The content varies by item type — a Skill shows its skill base formula and mastery level, a Weapon shows its damage and range, and so on. This is where you configure the item's game-mechanical properties.
 
+**Each item type's own guide page carries the field-by-field reference for its Properties tab**, named field by field in the shape [[doc-skillug|Skill]] uses. See [[doc-ugitems|Items]] for the full list of type pages.
+
 ## Description
 
 The **Description** tab provides a rich-text editor for the item's full description. Use this for flavor text, rules references, or any detailed notes about the item.

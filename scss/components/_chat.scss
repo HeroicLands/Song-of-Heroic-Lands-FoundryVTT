@@ -5,9 +5,9 @@
     // Pin the card to the LIGHT palette so it never follows the theme swap.
     // Foundry pins the chat log to light in both modes — every message is painted
     // on a fixed-light `/ui/parchment.jpg` and the frame (header, border) is not
-    // ours to theme. Earlier attempts (#896/#899) themed only the card interior,
-    // so in dark mode a dark vellum card floated inside Foundry's light-grey frame
-    // and next to Foundry's own light system cards (#903). Light-locking the
+    // ours to theme. Theming only the card interior leaves a dark vellum card
+    // floating inside Foundry's light-grey frame in dark mode, next to
+    // Foundry's own light system cards. Light-locking the
     // tokens here — and dropping our own ground so the card inherits Foundry's
     // light message parchment — makes the card a good neighbor in the grey log:
     // stable in both modes, legible dark ink, SoHL identity carried by typography
@@ -21,8 +21,8 @@
 
     // Card buttons carry an explicit foreground AND background so Foundry's
     // fixed-dark default button text is overridden on the card ground. Mirrors the
-    // `.sohl button` treatment (base/_elements). Every card root now carries `.sohl`
-    // (#900), but this stays keyed off the unscoped `.chat-card` so it remains
+    // `.sohl button` treatment (base/_elements). Every card root carries `.sohl`,
+    // but this stays keyed off the unscoped `.chat-card` so it remains
     // independent of the root namespace and self-contained to the card surface.
     button {
         color: var(--sohl-color-text-primary);

@@ -56,7 +56,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     </div>
                     <div class="ledger__name default-action" data-tooltip="{{mystery.name}}">{{mystery.name}}</div>
                     <div class="ledger__cell ledger__cell--text">{{#if mystery.logic.assocSkill}}{{mystery.logic.assocSkill.name}}{{/if}}</div>
-                    {{!-- Affiliation (#1076): the faction whose standing confers
+                    {{!-- Affiliation: the faction whose standing confers
                           this mystery; blank when none is associated. --}}
                     <div class="ledger__cell ledger__cell--text">{{#if mystery.logic.affiliation}}{{mystery.logic.affiliation.name}}{{/if}}</div>
                     <div class="ledger__cell{{#if mystery.logic.level.disabled}} ledger__cell--dim{{/if}}"
@@ -70,7 +70,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     </div>
                     <div class="ledger__cell{{#if mystery.logic.charges.max.disabled}} ledger__cell--dim{{/if}}"
                         data-tooltip="{{mystery.logic.charges.value.deltaLabel}}" data-tooltip-direction="UP">
-                        {{!-- Charges display rules (#310), first match wins:
+                        {{!-- Charges display rules, first match wins:
                               max disabled → "×"; value disabled → "∞";
                               max 0 → "<value>/∞"; else "<value>/<max>" --}}
                         {{#if mystery.logic.charges.max.disabled}}
@@ -125,7 +125,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     </a>
                 </span>
             </div>
-            {{!-- Each sub-type renders only its own columns (#990); the column
+            {{!-- Each sub-type renders only its own columns; the column
             set + ledger grid come pre-built from being-sheet-view
             (MYSTICALABILITY_SUBTYPE_COLUMNS). --}}
             <div class="ledger" style="--ledger-cols:{{section.ledgerCols}}">
@@ -140,7 +140,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 {{#each section.items as |ability|}}
                 {{!-- A disabled ability — out of charges, or a spirit-power
                 subtype without a valid Spirit Power — is greyed out and its EML
-                roll is blocked until the condition clears (#990). --}}
+                roll is blocked until the condition clears. --}}
                 <li class="ledger__row item{{#if ability.logic.isDisabled}} ledger__row--disabled{{/if}}" data-search-name="{{ability.name}}" data-item-id="{{ability.id}}" data-item-name="{{ability.name}}">
                     <div class="ledger__icon default-action">
                         <img src="{{ability.img}}" alt="" />
@@ -202,7 +202,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                         {{else if (eq col.kind "charges")}}
                         <div class="ledger__cell{{#if ability.logic.charges.max.disabled}} ledger__cell--dim{{/if}}"
                             data-tooltip="{{ability.logic.charges.value.deltaLabel}}" data-tooltip-direction="UP">
-                            {{!-- Chgs/Max display rules (#990), first match wins:
+                            {{!-- Chgs/Max display rules, first match wins:
                                   charges disabled (doesn't use charges) → "✕";
                                   infinite remaining → "∞"; infinite max → "<value>/∞";
                                   else "<value>/<max>". --}}
@@ -222,7 +222,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     {{/each}}
                     <div class="ledger__controls">
                         {{!-- The ☆ star is shown only on an ability that has a
-                              mastery level of its own to raise (#1130): one
+                              mastery level of its own to raise: one
                               drawing on an associated Skill or Spirit Power
                               improves when that item does. --}}
                         {{#if ability.logic.canImprove}}
