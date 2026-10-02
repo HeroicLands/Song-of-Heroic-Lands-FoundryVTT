@@ -23,10 +23,12 @@ In addition to the [[doc-gearug|Standard Gear Properties]], the following additi
 - **Material:** The type of material the armor is constructed from (chain, leather, kurbul, cloth, etc.). This is the word that appears in the **Material** column of the Combat tab's body-locations table for every location the armor covers.
 - **Flexible Locations:** Body locations covered by flexible portions of this armor. Add one with **Add Flexible Location** and remove one with the :icon delete: beside it; each is a body-location shortcode such as `thrxloc` (Thorax) or `skullloc` (Skull).
 - **Rigid Locations:** Body locations covered by rigid portions of this armor (e.g., breastplate). A location named in **both** lists is covered once, and counts as rigid.
-- **Encumbrance:** Specific encumbrance value used when equipped.
-- **Protection Base:** For the four standard aspects-Blunt, Edged, Piercing, and Fire-the numbers here represent impact that is absorbed by the armor.
+- **Encumbrance:** The specific encumbrance value used while the armor is worn, in place of its weight. Disabled while **Encumbrance Group** is set, since a grouped article's cost is charged to the group instead.
+- **Encumbrance Group:** Charges this article's encumbrance to a set rather than to the piece alone — today only **Arm Harness**, where the small rigid arm pieces cost nothing worn alone and 5 between them once three or more are worn. Leave it unset for an article with its own Encumbrance value; an article never carries both.
+- **Perception Penalty:** A penalty applied to anything built on Perception while the armor is worn — a visored helm muffling sound and narrowing sight, say. Where more than one worn article imposes one, the worst applies rather than the sum.
+- **Protection Base:** For the four standard aspects — Blunt, Edged, Piercing, and Fire — the numbers here represent impact that is absorbed by the armor.
 
-> **Known gap.** The last two — **Encumbrance** and **Protection Base** — are real properties of every armor item and are used in play, but the armor sheet has **no fields for them**. The Properties tab stops at Material and the two location lists, so armor built by hand on the sheet protects for 0 against every aspect; take armor from a compendium pack, where the values are already set, and check them on the Combat tab (see [[#toggle-worn|Toggle Worn]]).
+> **Known gap.** A covered location can also carry a **facing** — front, rear, or all-round — distinguishing, for instance, a cloak's rear-facing coverage of the torso from a breastplate's front-facing coverage of the same location. There is no control for it on the Properties tab; a compendium entry sets it, and an absent entry is read as all-round.
 
 # Encumbrance
 

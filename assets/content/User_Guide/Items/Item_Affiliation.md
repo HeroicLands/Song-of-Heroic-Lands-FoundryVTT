@@ -40,11 +40,26 @@ Reach for an Affiliation for any organized body the character belongs to. Common
 
 Along with the [[doc-baseitemug|Standard Item Properties]], the following properties also appear in the **Properties** tab:
 
+- **Affiliation Type:** What kind of body this is. One of:
+  - **Guild** — a sworn association of craftsmen holding monopoly over a trade within a locality.
+  - **Order** — a body of members bound by vows or a rule of life to a shared purpose.
+  - **Polity** — a sovereign body ordering the persons within a territory.
+  - **Faith Tradition** — a tradition of belief and practice concerning the divine.
+  - **Arcane Tradition** — a tradition of belief and practice concerning magic.
+  - **Spirit Tradition** — a tradition concerning spirits: ancestors, totems, the numinous world.
+  - **Lineage** — a body claiming common descent, whose standing passes by birth.
+  - **Venture** — a band bound by contract or shared undertaking rather than by vow.
+  - **Criminal Organization** — an association organized to profit from what its host polity forbids.
+  - **Governmental Body** — an organ constituted by a polity to exercise part of its authority.
+  - **Fellowship** — a voluntary association without vow, trade monopoly, or public authority.
 - **Society:** The sub-group, sect, order, or convocation the character belongs to within the larger organization.
 - **Office:** The role or function the character fills within the organization, if any — for example a stewardship, a command, or a ministry.
 - **Title:** The title of the character's rank within the organization — the named form of their standing, sometimes influenced by their Office.
-- **Level:** The character's rank within the organization, as a number, with higher numbers indicating greater rank. Rank 0 is usually a lay member; rank 1 an initiate, acolyte, or apprentice; in most organizations a fully trained and accepted member — such as a guild master or an ordained priest — is around rank 3.
+- **Rank:** The character's rank within the organization, as a number, with higher numbers indicating greater rank. Rank 0 is usually a lay member; rank 1 an initiate, acolyte, or apprentice; in most organizations a fully trained and accepted member — such as a guild master or an ordained priest — is around rank 3.
 - **Common Skills:** Skills commonly taught by the organization. Select **Add Common Skill** and paste the skill Item's UUID from its sheet header, including a skill in an installed compendium. Select a listed skill to open its sheet, or use the remove control to clear the reference. An unavailable skill remains listed with its UUID so you can identify it. This list describes the organization; it does not add skills to a character.
+- **Standing Toward Others:** How this affiliation regards other affiliations, one row per relation. Select **Add Relation**, name the other affiliation by shortcode, and set the standing: **Aligned**, **Rival**, or **Nemesis**. Only a standing that is not neutral needs a row — an affiliation named nowhere in this list is read as **Unaligned** toward this one.
+
+> **Known gap.** An affiliation also carries **Parent Affiliations** (the bodies it is subordinate to), a **Domain** (the places it holds sway over), and a **Seat** (where its authority sits) — all by place or affiliation shortcode. None of the three has a control on the Properties tab; a compendium entry sets them, and they cannot be set or changed from the sheet.
 
 # Intrinsic Actions
 

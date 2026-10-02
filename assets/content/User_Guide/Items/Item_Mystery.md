@@ -18,11 +18,23 @@ Mysteries appear on the Being sheet's **Mysteries** tab.
 
 Along with the [[doc-baseitemug|Standard Item Properties]], the following properties also appear in the **Properties** tab:
 
-- **SubType:**
-- **Level:** Power level of this mystery, if applicable
+- **Associated Skill:** Which Skill this mystery affects or works through (optional) — the skill a Boon or Boost modifies, the skill a Fate re-roll applies to, and so on. Leave it as _None_ when the mystery names no skill.
+- **Associated Affiliation:** Which [[doc-affltnug|Affiliation]] confers this mystery (optional) — the religion, arcane or alchemical school, or ancestor/totem/spirit whose standing grants it.
+- **Level:** Power level of this mystery, if applicable. Leave it blank for a mystery that has no level, and the sheet shows a :icon not-applicable:.
 - **Charges:** If this mystery can be used up, this represents the number of charges
   - **Current Charges:** Charges remaining. Leave it blank for a mystery whose uses are unlimited (the sheet shows ∞).
   - **Maximum Charges:** The cap, and the control that decides whether the mystery uses charges at all. Leave it blank for one that does not (the sheet shows :icon not-applicable:); enter `0` for one that is counted but uncapped.
+
+A mystery's **type is fixed when it is created** — you choose it with the :icon add: Add button of the section you want, and there is no control to change it afterwards. The type is shown under the mystery's name at the top of its sheet, and the types are:
+
+- **Boon:** A flat modifier to an associated skill's mastery level, from any source.
+- **Boost:** One or more temporary mastery boosts to an associated skill.
+- **Fate:** Quantifies the ability to alter destiny or fate.
+- **Grace:** Quantifies the ability to call effectually on divine favor.
+- **Piety:** Quantifies devotion to a religion.
+- **Other:** A mystery that does not fit the other types.
+
+> **Known gap.** A mystery's **Skill Aptitudes** — an innate affinity toward or away from whole classes of skills, folded into the skills it names every time the character's statistics are recalculated — is a real property with no control on the Properties tab; a compendium entry sets it, and it cannot be set or changed from the sheet.
 
 # Intrinsic Actions
 

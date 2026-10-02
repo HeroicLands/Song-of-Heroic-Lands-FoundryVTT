@@ -10,7 +10,7 @@ In Foundry VTT, one of the main document types is the Item. Items represent thin
 
 # Standard Sheet Tabs
 
-The Item sheet displays information about the individual item. There are generally four tabs: **Properties**, **Description**, **Actions**, and **Events**.
+The Item sheet displays information about the individual item. There are four tabs: **Properties**, **Description**, **Actions**, and **Effects**.
 
 ## Properties Tab
 
@@ -19,10 +19,9 @@ Although each type of Item has different properties, some properties are common 
 - **Shortcode:** A relatively short alphanumeric text string that uniquely identifies this item within similarly-typed items. The shortcode is often used in code to identify an item, since name can change through localization (shortcodes are never localized). See [[doc-shortcodesug|Shortcodes]] for what a shortcode means and why two items that share one are treated as the same thing.
 - **Notes:** A single-line note associated with an item that is normally displayed on the character sheet next to the item. This differs from the Description, which is a rich text multi-line block of text.
 
-## Documentation Tab
+## Description Tab
 
-- **Doc URL:** URL to the detailed documentation for this item. Normally points to the `www.heroiclands.org` site, but might also point elsewhere if applicable. Normally only one of **Doc URL** or **Documentation** are specified, not both.
-- **Documentation:** A multi-line documentation property containing text describing the item in detail. Normally used with an inline editor providing rich text (including tables) in HTML format.
+- **Documentation:** A multi-line property containing rich text (including tables) describing the item in detail, edited with an inline HTML editor.
 
 A **Documentation** field holding nothing but a link is a special case worth knowing about: the item then takes its description from whatever the link points at, and the tab shows that text instead of the link. See [[#a-description-that-is-only-a-link|a description that is only a link]].
 
