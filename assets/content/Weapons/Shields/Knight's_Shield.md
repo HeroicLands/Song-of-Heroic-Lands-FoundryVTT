@@ -50,7 +50,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 1
-        defense: {blockMod: 0, counterstrikeMod: 0}
+        defense: {block: {modifier: 0}, counterstrike: {modifier: 0}}
 ---
 
 A heater shield carved and painted with a knight's coat of arms, this shield marries heraldic display with practical defense in melee. Its broad face and flat-topped shape suit both mounted and foot combat; a nobleman's mark and battlefield defense in one.

@@ -619,8 +619,15 @@ export class SohlItem extends Item {
      * Manuscript sheet and does not adapt to theme. This override gives every
      * known SoHL item type the same themed default the compendium builder
      * applies to pack content, from the shared {@link DEFAULT_ITEM_ART} map, so
-     * an item created without an explicit `img` (e.g. via **Add Trauma**) is no
-     * longer stuck with the white bag.
+     * an item created without an explicit `img` (e.g. via **Add Trauma**)
+     * carries a themed icon.
+     *
+     * {@link DEFAULT_ITEM_ART} holds **pathnames**, whose leading segment names
+     * the package that owns the file, and each surface derives its own address
+     * from one. Foundry serves a system's files from `systems/<id>`, and the
+     * `sohl` content package installs as the system `sohl` — so the Foundry
+     * address is `systems/` prefixed onto the pathname, whose own `sohl/`
+     * completes it. An unresolved pathname is an `img` Foundry cannot serve.
      *
      * The base `img` schema field seeds its `initial` from this method, so the
      * mapped art lands on the created document, not just the create dialog.
@@ -635,9 +642,9 @@ export class SohlItem extends Item {
     } {
         const type = (itemData as { type?: string }).type ?? "";
         const art = DEFAULT_ITEM_ART[type as keyof typeof DEFAULT_ITEM_ART];
-        if (art) return { img: art };
-        // Delegate to Foundry's built-in default (the white bag) for types we
-        // don't map — same as prior behavior, so nothing regresses.
+        if (art) return { img: `systems/${art}` };
+        // Delegate to Foundry's built-in default (the white bag) for an
+        // unmapped type, keeping ad-hoc and core creation robust.
         return super.getDefaultArtwork(itemData as any);
     }
 

@@ -65,8 +65,11 @@ A **melee** strike mode is a close-combat attack. In addition to the common prop
   - **Block** — using the weapon to parry an incoming attack.
   - **Counterstrike** — defending by striking back, a defense that is itself an attack.
 
-  Either defense can be individually disabled — a weapon that cannot block, or a
-  mode with no counterstrike.
+  Each carries **its own modifier**, applied to the defender's Mastery Level when
+  the mode is used for that defence. They are properties of the mode rather than
+  of the weapon, so a flail blocks worse than a broadsword and a mode's thrust
+  and swing can defend differently. Either defense can also be individually
+  disabled — a weapon that cannot block, or a mode with no counterstrike.
 
 ### Missile Strike Modes {#missile-strike-modes}
 

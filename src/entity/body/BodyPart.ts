@@ -340,8 +340,6 @@ export namespace BodyPart {
         permanentImpairment?: number;
         /** Whether the part is permanently unusable (withered/amputated). */
         permanentlyUnusable?: boolean;
-        /** Whether this part is favored for certain actions (legacy flag). */
-        favoredFlag?: boolean;
         /** Whether this part can grip a held item. */
         canHoldItem: boolean;
         /** Id of the item this part is holding, or null if empty. */

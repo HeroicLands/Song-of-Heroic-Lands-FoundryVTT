@@ -50,7 +50,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 5
-        defense: {blockMod: -15, counterstrikeMod: -15}
+        defense: {block: {modifier: -15}, counterstrike: {modifier: -15}}
       - shortcode: pommel
         type: melee
         name: Pommel
@@ -86,7 +86,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 5
-        defense: {blockMod: -15, counterstrikeMod: -15}
+        defense: {block: {modifier: -15}, counterstrike: {modifier: -15}}
 ---
 
 A mining tool with two opposed heads—a sharp point and a flat adze—hafted to five feet, pressed into war-service to crack armor and stone alike. The point punches through mail and plate; the adze chops or levers. Slow and unwieldy for a duelist, but deadly in the press of a siege or tunnel-breach where armor clusters thick.

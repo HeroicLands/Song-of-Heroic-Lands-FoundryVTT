@@ -50,7 +50,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 8
-        defense: {blockMod: 0, counterstrikeMod: 0}
+        defense: {block: {modifier: 0}, counterstrike: {modifier: 0}}
       - shortcode: shaft
         type: melee
         name: Shaft
@@ -86,7 +86,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 8
-        defense: {blockMod: 0, counterstrikeMod: 0}
+        defense: {block: {modifier: 0}, counterstrike: {modifier: 0}}
       - shortcode: halfswordshaft
         type: melee
         name: Half-Sword Shaft
@@ -122,7 +122,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 8
-        defense: {blockMod: 0, counterstrikeMod: 0}
+        defense: {block: {modifier: 0}, counterstrike: {modifier: 0}}
 ---
 
 A blunted tournament pole with a rondel and coronel rest, the jousting pole is couched for the charge in a controlled arena contest. It breaks cleanly on impact, reducing harm while testing the rider's aim and horsemanship. Knights favor such poles in sanctioned tournaments to display skill without risking lethal wounds.

@@ -155,10 +155,17 @@ SPDX-License-Identifier: GPL-3.0-or-later
                             {{#if ability.logic.assocRef}}{{ability.logic.assocRef.name}}{{else}}<i class="fa-solid fa-xmark fa-lg"></i>{{/if}}
                         </div>
                         {{else if (eq col.kind "affiliation")}}
-                        {{!-- Affiliation column (#1012): the associated faction's
-                              name, or "✕" when none is associated. --}}
+                        {{!-- Affiliation column: the associated faction's name,
+                              or "✕" when none is associated. A standing short of
+                              what the ability asks is marked beside the name and
+                              nothing more — the shortfall governs what may be
+                              taught, so the ability stays rollable. --}}
                         <div class="ledger__cell ledger__cell--text{{#unless ability.logic.affiliation}} ledger__cell--dim{{/unless}}">
                             {{#if ability.logic.affiliation}}{{ability.logic.affiliation.name}}{{else}}<i class="fa-solid fa-xmark fa-lg"></i>{{/if}}
+                            {{#if ability.logic.affiliationShortfall}}<i
+                                class="fa-solid fa-triangle-exclamation fa-fw warning-icon"
+                                data-tooltip="{{localize "SOHL.MysticalAbility.affiliationShortfall" required=ability.logic.requiredAffiliationLevel held=ability.logic.affiliation.level.effective affiliation=ability.logic.affiliation.name}}"
+                                data-tooltip-direction="UP"></i>{{/if}}
                         </div>
                         {{else if (eq col.kind "level")}}
                         <div class="ledger__cell{{#if ability.logic.level.disabled}} ledger__cell--dim{{/if}}"

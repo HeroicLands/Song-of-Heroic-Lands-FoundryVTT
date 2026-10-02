@@ -50,7 +50,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 8
-        defense: {blockMod: 0, counterstrikeMod: 0}
+        defense: {block: {modifier: 0}, counterstrike: {modifier: 0}}
       - shortcode: shaft
         type: melee
         name: Shaft
@@ -86,7 +86,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 8
-        defense: {blockMod: 0, counterstrikeMod: 0}
+        defense: {block: {modifier: 0}, counterstrike: {modifier: 0}}
       - shortcode: halfswordshaft
         type: melee
         name: Half-Sword Shaft
@@ -122,7 +122,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 8
-        defense: {blockMod: 0, counterstrikeMod: 0}
+        defense: {block: {modifier: 0}, counterstrike: {modifier: 0}}
       - shortcode: halfswordimpale
         type: melee
         name: Half-Sword Impale
@@ -158,7 +158,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 8
-        defense: {blockMod: 0, counterstrikeMod: 0}
+        defense: {block: {modifier: 0}, counterstrike: {modifier: 0}}
 ---
 
 A long thrusting pole couched beneath the arm of a mounted knight, the lance delivers concentrated force against armored foes and massed infantry. Its length lets a rider strike first and from distance; used in coordinated cavalry charges to shatter shield walls and break pike formations.

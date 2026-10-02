@@ -50,7 +50,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 5
-        defense: {blockMod: -10, counterstrikeMod: -10}
+        defense: {block: {modifier: -10}, counterstrike: {modifier: -10}}
       - shortcode: impale
         type: melee
         name: Impale
@@ -86,7 +86,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 5
-        defense: {blockMod: -10, counterstrikeMod: -10}
+        defense: {block: {modifier: -10}, counterstrike: {modifier: -10}}
       - shortcode: shaft
         type: melee
         name: Shaft
@@ -122,7 +122,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 5
-        defense: {blockMod: -10, counterstrikeMod: -10}
+        defense: {block: {modifier: -10}, counterstrike: {modifier: -10}}
 ---
 
 A short-hafted hammer with a flat striking face on one end and a sharp spike on the other, the warhammer is the armor-breaker's choice. The hammer face crushes ribs and shoulders through plate and mail; the spike seeks the gaps—slit of the visor, inner edge of the pauldron, seam at the throat. Wielded one-handed by armored knights and cavalry, it is as much tool as weapon.

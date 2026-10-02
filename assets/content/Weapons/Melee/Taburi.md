@@ -50,7 +50,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 2
-        defense: {blockMod: -10, counterstrikeMod: -10}
+        defense: {block: {modifier: -10}, counterstrike: {modifier: -10}}
       - shortcode: pommel
         type: melee
         name: Pommel
@@ -86,7 +86,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 2
-        defense: {blockMod: -10, counterstrikeMod: -10}
+        defense: {block: {modifier: -10}, counterstrike: {modifier: -10}}
       - shortcode: thrown
         type: missile
         name: Thrown

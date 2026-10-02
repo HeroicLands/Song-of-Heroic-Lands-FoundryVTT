@@ -388,7 +388,14 @@ export namespace StrikeModeBase {
             /** Damage aspect (e.g., blunt, edged, piercing) this mode inflicts. */
             aspect: ImpactAspect;
         };
-        /** Arbitrary trait/flag bag (e.g., `noAttack`, `noBlock`). */
+        /**
+         * Arbitrary trait/flag bag. The flags the engine reads are
+         * `noAttack` (the mode cannot attack), `noBlock` (it cannot block),
+         * `noStrMod` (impact takes no Strength modifier) and `limbBlock`
+         * (a block made with a limb — see
+         * {@link sohl.entity.result.CombatResult.isLimbBlock}). Anything
+         * else a note writes is carried and left to its author.
+         */
         traits: PlainObject;
     }
 }

@@ -50,7 +50,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 4
-        defense: {blockMod: 5, counterstrikeMod: 5}
+        defense: {block: {modifier: 5}, counterstrike: {modifier: 5}}
       - shortcode: cut
         type: melee
         name: Cut
@@ -86,7 +86,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 4
-        defense: {blockMod: 5, counterstrikeMod: 5}
+        defense: {block: {modifier: 5}, counterstrike: {modifier: 5}}
       - shortcode: pommel
         type: melee
         name: Pommel
@@ -122,7 +122,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 4
-        defense: {blockMod: 5, counterstrikeMod: 5}
+        defense: {block: {modifier: 5}, counterstrike: {modifier: 5}}
 ---
 
 An elongated single-edged or double-edged blade longer than a dagger but shorter than a sword, the longknife extends reach without the weight of a full blade. Fighters favor it as a secondary weapon worn at the belt, drawn when a longer steel meets close quarters or a first blade breaks. Worn by soldiers and rovers alike.

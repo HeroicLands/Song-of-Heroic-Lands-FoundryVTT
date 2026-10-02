@@ -50,7 +50,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 10
-        defense: {blockMod: -20, counterstrikeMod: -20}
+        defense: {block: {modifier: -20}, counterstrike: {modifier: -20}}
       - shortcode: pommel
         type: melee
         name: Pommel
@@ -86,7 +86,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 10
-        defense: {blockMod: -20, counterstrikeMod: -20}
+        defense: {block: {modifier: -20}, counterstrike: {modifier: -20}}
 ---
 
 A long leather lash bound to a wooden grip, the whip cracks to deliver stinging cuts and sharp shocks that sting even through armor. It reaches beyond a sword's guard and entangles limbs or weapons to distract and wound. Circus performers, duelists, and intimidators favor it—it demands practice and open space, but offers reach and psychological bite.

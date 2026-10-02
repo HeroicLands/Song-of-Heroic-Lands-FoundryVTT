@@ -50,7 +50,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 5
-        defense: {blockMod: -10, counterstrikeMod: -10}
+        defense: {block: {modifier: -10}, counterstrike: {modifier: -10}}
       - shortcode: pommel
         type: melee
         name: Pommel
@@ -86,7 +86,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 5
-        defense: {blockMod: -10, counterstrikeMod: -10}
+        defense: {block: {modifier: -10}, counterstrike: {modifier: -10}}
 ---
 
 A felling tool of five to seven pounds, hafted five feet long with a broad, heavy blade for cleaving wood-grain and bone alike. Built for the woodsman's day-labor but pressed into service by militia and soldiers who have no other arm. The wood axe swings slow and hard, lethal against men but cumbersome on horseback or in close press.
