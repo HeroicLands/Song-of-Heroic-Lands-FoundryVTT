@@ -152,6 +152,7 @@ sohl:
           - name: Head
             shortcode: headloc
             bodyPartCode: headpart
+            isFumble: true
             bleedingSusceptibility: medium
             amputability: none
             shockValue: 5
@@ -160,6 +161,7 @@ sohl:
           - name: Neck
             shortcode: neckloc
             bodyPartCode: headpart
+            isFumble: true
             bleedingSusceptibility: high
             amputability: low
             shockValue: 5
@@ -168,6 +170,7 @@ sohl:
           - name: Left Wing
             shortcode: lwingloc
             bodyPartCode: lwingpart
+            isStumble: true
             bleedingSusceptibility: low
             amputability: medium
             shockValue: 1
@@ -192,6 +195,7 @@ sohl:
           - name: Right Wing
             shortcode: rwingloc
             bodyPartCode: rwingpart
+            isStumble: true
             bleedingSusceptibility: low
             amputability: medium
             shockValue: 1
@@ -200,6 +204,8 @@ sohl:
           - name: Left Leg
             shortcode: llegloc
             bodyPartCode: llegpart
+            isFumble: true
+            isStumble: true
             bleedingSusceptibility: low
             amputability: medium
             shockValue: 2
@@ -208,6 +214,8 @@ sohl:
           - name: Right Leg
             shortcode: rlegloc
             bodyPartCode: rlegpart
+            isFumble: true
+            isStumble: true
             bleedingSusceptibility: low
             amputability: medium
             shockValue: 2

@@ -8,6 +8,7 @@ data: {icon: awareness, templatePriority: 0, packFolder: attributes}
 sohl:
   system:
     scoreBase: 0
+    impairedByRoles: [vital]
     valueDesc: [Impaired:4, Dulled:8, Average:12, Sharp:16, Acute:999]
     initDiceFormula: 3d6
 ---
