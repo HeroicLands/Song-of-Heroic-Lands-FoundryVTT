@@ -49,11 +49,13 @@ The Vehicle sheet has these tabs:
 
 - **Facade** — the public description
 - **Profile** — movement rates, the private dossier, and attributes
+- **Occupants** — who is aboard, each with a role and an optional title
+- **Mysteries** — mysteries and mystical abilities aboard the vehicle
 - **Gear** — cargo, equipment, and stores
 - **Actions** — available actions
 - **Effects** — active effects
 
-All five are the common actor tabs, and they behave exactly as they do on a [[doc-beingug|Being]]: the Gear tab is the same inventory ledger (a vehicle's cargo instead of a character's possessions), and the Actions and Effects tabs are identical. They are documented once, in [[doc-undrstndsheetug|Understanding Sheets]] under _Common Actor Tabs_ — see that page for the columns, controls, and how to add, stow, and remove things.
+**Facade**, **Gear**, **Actions**, and **Effects** are the common actor tabs and behave exactly as they do on a [[doc-beingug|Being]]: the Gear tab is the same inventory ledger (a vehicle's cargo instead of a character's possessions), and the Actions and Effects tabs are identical. They are documented once, in [[doc-undrstndsheetug|Understanding Sheets]] under _Common Actor Tabs_ — see that page for the columns, controls, and how to add, stow, and remove things. The **Mysteries** tab works the same way, listing any Mystery or Mystical Ability item placed on the vehicle; most vehicles carry none. The **Occupants** tab is particular to a Vehicle: it rosters who is aboard, with a role and an optional title, exactly as described above.
 
 The **Profile** tab carries three things, and it is where a vehicle's private notes live:
 

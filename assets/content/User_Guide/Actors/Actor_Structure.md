@@ -45,11 +45,12 @@ The Structure sheet has these tabs:
 
 - **Facade** — the public description
 - **Profile** — the private dossier, movement rates, and attributes
+- **Mysteries** — mysteries and mystical abilities attached to the place
 - **Gear** — stored contents and equipment
 - **Actions** — available actions
 - **Effects** — active effects
 
-All five are the common actor tabs, and they behave exactly as they do on a [[doc-beingug|Being]]: the Gear tab is the same inventory ledger (a structure's stores instead of a character's possessions), and the Actions and Effects tabs are identical. They are documented once, in [[doc-undrstndsheetug|Understanding Sheets]] under _Common Actor Tabs_ — see that page for the columns, controls, and how to add, stow, and remove things.
+All six are the common actor tabs, and they behave exactly as they do on a [[doc-beingug|Being]]: the Gear tab is the same inventory ledger (a structure's stores instead of a character's possessions), the Mysteries tab lists the same Mystery and Mystical Ability items (a structure usually carries none), and the Actions and Effects tabs are identical. They are documented once, in [[doc-undrstndsheetug|Understanding Sheets]] under _Common Actor Tabs_ — see that page for the columns, controls, and how to add, stow, and remove things.
 
 The **Profile** tab carries three things, and it is where a structure's private notes live:
 
