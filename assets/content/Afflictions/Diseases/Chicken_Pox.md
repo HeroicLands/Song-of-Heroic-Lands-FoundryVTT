@@ -5,10 +5,21 @@ type: affliction
 subType: disease
 description: "Varicella virus; red spots progress to fluid-filled blisters; highly contagious."
 tags: []
-data: {icon: virus, templatePriority: 0, packFolder: diseases}
+data:
+  icon: virus
+  templatePriority: 0
+  packFolder: diseases
+  onsetDurationFormula: 1296000
+  healingCheckDurationFormula: 86400
+  resolutionDurationFormula: 5d2*86400
 sohl:
   kbcat: diseases
-  system: {levelBase: 1, healingRateBase: 3, contagionIndexBase: 3, transmission: airborne}
+  system:
+    levelBase: 1
+    healingRateBase: 3
+    contagionIndexBase: 3
+    transmission: airborne
+    onsetFormula: 2d6+8
 ---
 
 Chicken pox, caused by the varicella-zoster virus (VZV), is a highly contagious viral infection primarily affecting children. Symptoms start with fever, fatigue, and headache, followed by an itchy rash that turns into fluid-filled blisters, eventually crusting over. The rash usually begins on the face, back, and chest before spreading to the rest of the body. Though usually mild, chickenpox can lead to complications such as bacterial infections of the skin, pneumonia, and encephalitis, particularly in immunocompromised individuals. Immunization with the varicella vaccine has significantly reduced the incidence of chickenpox.

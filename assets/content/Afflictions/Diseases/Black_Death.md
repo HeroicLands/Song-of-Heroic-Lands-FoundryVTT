@@ -5,10 +5,21 @@ type: affliction
 subType: disease
 description: "Pestilential fever with black buboes; highly contagious, usually fatal."
 tags: []
-data: {icon: virus, templatePriority: 0, packFolder: diseases}
+data:
+  icon: virus
+  templatePriority: 0
+  packFolder: diseases
+  onsetDurationFormula: 345600
+  healingCheckDurationFormula: 86400
+  resolutionDurationFormula: 2d4*86400
 sohl:
   kbcat: diseases
-  system: {levelBase: 1, healingRateBase: 3, contagionIndexBase: 3, transmission: vector}
+  system:
+    levelBase: 1
+    healingRateBase: 3
+    contagionIndexBase: 3
+    transmission: vector
+    onsetFormula: 2d3
 ---
 
 The Black Death, also known as the bubonic plague, is an infectious disease caused by the bacterium _Yersinia pestis_. It was responsible for devastating pandemics. Transmitted primarily through the bites of infected fleas on rodents, the disease presents with sudden high fever, chills, headache, muscle aches, and swollen lymph nodes known as buboes, which can become blackened. If untreated, it can progress to septicemic or pneumonic plague, both of which are more deadly. Without timely medical intervention, the mortality rate is exceedingly high.

@@ -5,10 +5,22 @@ type: affliction
 subType: disease
 description: "Filarial worm parasite; intense itching and skin rashes; eventual blindness."
 tags: []
-data: {icon: virus, templatePriority: 0, packFolder: diseases}
+data:
+  icon: virus
+  templatePriority: 0
+  packFolder: diseases
+  onsetDurationFormula: 2678400
+  healingCheckDurationFormula: 604800
+  resolutionDurationFormula: 6d30*86400
+  outcomeTraumas: blndnss
 sohl:
   kbcat: diseases
-  system: {levelBase: 1, healingRateBase: 3, contagionIndexBase: 3, transmission: vector}
+  system:
+    levelBase: 1
+    healingRateBase: 3
+    contagionIndexBase: 3
+    transmission: vector
+    onsetFormula: 2d30
 ---
 
 River blindness, or onchocerciasis, is a parasitic disease caused by the filarial worm _Onchocerca volvulus_, transmitted through the bites of infected blackflies. The disease results in severe itching, skin rashes, and nodules under the skin. Chronic infection can lead to vision impairment and eventual blindness due to the inflammatory response to dying microfilariae in the eyes.
