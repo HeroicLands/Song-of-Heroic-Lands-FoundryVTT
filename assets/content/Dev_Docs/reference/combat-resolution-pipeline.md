@@ -249,6 +249,54 @@ Off-hand determination runs through
 {@link sohl.entity.body.isOffHandGrip}; see
 [[doc-bodystructure#laterality-and-dominance|Body Structure > Laterality and dominance]].
 
+### Shield Mod {#shield-mod}
+
+A shield's `shieldMod` trait is a **wielder-level** bonus, so it is applied in the
+same **finalize** phase and for the same reason: the shield granting it is a
+different document from the weapon blocking with it, and a sibling item's grip is
+only settled once every item has evaluated.
+
+The rule is {@link sohl.entity.strikemode.applyShieldDefenseBonus}; the
+document-layer wiring is `src/document/item/logic/heldShield.ts`, called by both
+{@link sohl.document.item.logic.WeaponGearLogic} and
+{@link sohl.document.item.logic.SkillLogic}. It reaches three beneficiaries,
+each as a named `Shld` delta:
+
+| Beneficiary             | Where the delta lands                      |
+| ----------------------- | ------------------------------------------ |
+| Every **Block**         | each melee strike mode's `defense.block`   |
+| The wielder's **Dodge** | the Dodge skill's own `masteryLevel`       |
+| A **Press**             | the Press technique's strike-mode `attack` |
+
+{@link sohl.document.item.logic.heldShieldMod} supplies the value: the
+**highest** `shieldMod` among the strike modes of weapons with at least one limb
+gripping them, so two shields grant the better and a stowed one grants nothing.
+Re-application restates rather than stacks, and a value of `0` removes the delta,
+which is what stowing the shield does within one preparation cycle.
+
+There is no shield subtype; a non-zero `shieldMod` is what identifies a shield,
+which is what {@link sohl.entity.strikemode.isShieldStrikeMode} answers.
+
+### The Impact Tactical Advantage value {#impact-tactical-advantage-value}
+
+{@link sohl.entity.strikemode.impactTacticalAdvantageValue} resolves what one
+Tactical Advantage spent on Impact is worth behind a strike mode: the `impTA`
+trait where it states one, else {@link sohl.entity.strikemode.IMPACT_TA_DEFAULT}
+keyed by the mode's aspect. The trait is authored as `0` on every mode stating no
+override, so a zero reads as "unset" and defers to the aspect.
+
+The value is exposed as `StrikeModeBase.impactTA` for the strike-mode ledgers and
+carried onto the attack-result card beside the Tactical Advantage count, so the
+count and its worth arrive together.
+
+**Spending is deliberately unimplemented, and that is the Prime Directive rather
+than an omission.** Three of the four Tactical Advantage kinds resolve at the
+table, a referee may award one under circumstances no rule enumerates, and only
+the player knows what they want from one. So
+{@link sohl.entity.strikemode.impactTacticalAdvantageBonus} takes the number
+spent as an argument and answers `0` for none: the system offers the arithmetic
+and never decides that an advantage was spent.
+
 ### Strike-mode defence modifiers {#strike-mode-defence-modifiers}
 
 A melee strike mode's `defense.block.modifier` and
@@ -266,6 +314,14 @@ emitted verbatim by the pack pipeline, so the schema is the only statement of a
 strike mode's shape, and Foundry drops any key it does not declare.
 `tests/content/strike-mode-shape.test.ts` derives the allowed key set from those
 schemas at runtime and fails a note that spells one differently.
+
+That guard stops at `traits`, which is an `ObjectField` and declares no keys at
+all, so a trait authored there compiles into the pack and reaches whatever reader
+exists — or none. `tests/build/authored-traits-are-read.test.ts` closes that seam:
+it derives the authored trait names from the content and the ones `src/`
+dereferences, and fails a trait that has neither a reader nor an entry in its
+`AWAITING_A_RULE` ratchet. A trait leaves that ratchet when its rule lands, and
+one that gains a reader while still listed fails too, so the set can only shrink.
 
 ### Injury resolution {#injury-resolution}
 

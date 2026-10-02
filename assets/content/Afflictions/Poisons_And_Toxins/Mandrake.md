@@ -5,7 +5,13 @@ type: affliction
 subType: poisontoxin
 description: "Tropane alkaloid; hallucinations and confusion; large doses cause respiratory failure."
 tags: []
-data: {icon: poisonbottle, templatePriority: 0, packFolder: poisonsandtoxins}
+data:
+  icon: poisonbottle
+  templatePriority: 0
+  packFolder: poisonsandtoxins
+  onsetDurationFormula: 3600
+  healingCheckDurationFormula: 3600
+  resolutionDurationFormula: 1d2*86400
 sohl:
   kbcat: poisontoxin
   system: {levelBase: 1, healingRateBase: 3, contagionIndexBase: 3, transmission: injested}

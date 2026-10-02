@@ -146,6 +146,7 @@ sohl:
           - name: Left Foreleg
             shortcode: lforelegloc
             bodyPartCode: lforelegpart
+            isStumble: true
             bleedingSusceptibility: low
             amputability: medium
             shockValue: 2
@@ -154,6 +155,7 @@ sohl:
           - name: Right Foreleg
             shortcode: rforelegloc
             bodyPartCode: rforelegpart
+            isStumble: true
             bleedingSusceptibility: low
             amputability: medium
             shockValue: 2
@@ -178,6 +180,7 @@ sohl:
           - name: Left Quarter
             shortcode: lqtrloc
             bodyPartCode: lhindlegpart
+            isStumble: true
             bleedingSusceptibility: medium
             amputability: none
             shockValue: 3
@@ -186,6 +189,7 @@ sohl:
           - name: Left Hind Leg
             shortcode: lhindlegloc
             bodyPartCode: lhindlegpart
+            isStumble: true
             bleedingSusceptibility: low
             amputability: medium
             shockValue: 2
@@ -194,6 +198,7 @@ sohl:
           - name: Right Quarter
             shortcode: rqtrloc
             bodyPartCode: rhindlegpart
+            isStumble: true
             bleedingSusceptibility: medium
             amputability: none
             shockValue: 3
@@ -202,6 +207,7 @@ sohl:
           - name: Right Hind Leg
             shortcode: rhindlegloc
             bodyPartCode: rhindlegpart
+            isStumble: true
             bleedingSusceptibility: low
             amputability: medium
             shockValue: 2

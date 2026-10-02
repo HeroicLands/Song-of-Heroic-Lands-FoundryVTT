@@ -18,15 +18,25 @@ SoHL ships with these compendium packs:
 
 ## People & Creatures
 
-Contains pre-built Beings — characters, NPCs, and creatures ready to use. Each Being comes fully equipped with attributes, skills, body structure, and sometimes gear.
+Contains pre-built Beings — archetypes, named NPCs, and creatures ready to use. Each Being comes fully equipped with attributes, skills, body structure, and sometimes gear.
 
-**Key entries:**
+The pack's animals are catalogued on the [[doc-bestiary|Bestiary]] rules page rather than repeated here. Beyond them, it carries:
 
-- **Basic Folk** — a template human character suitable for duplication and customization. Start here when creating new player characters.
+```sql
+SELECT address.slug AS _ref,
+       name.full     AS "Name",
+       data.archetypes AS "Archetype"
+FROM notes
+WHERE type = 'being'
+  AND sohl.kbcat IN ('archetype', 'npc')
+ORDER BY name.full COLLATE NOCASE
+```
+
+**Basic Folk** is the one to start from when creating new player characters — import it, duplicate it, and customize the duplicate. The named entries beside it are ready-to-play NPCs.
 
 ## Vehicles & Structures
 
-Contains pre-built Vehicle and Structure actors.
+Vehicle and Structure are supported actor kinds — each has its own data model, sheet, and Gear tab for cargo or stores — but the pack ships **no pre-built entries of either kind**. Build one from scratch: open the Actors sidebar tab and create a new actor of type Vehicle or Structure, as described under [[doc-crtngactitemug|Creating Actors and Items]].
 
 ## Characteristics
 
@@ -103,6 +113,23 @@ You can drag compendium items directly onto actor sheets without importing them 
 - **Use Basic Folk as a template.** Import it, duplicate it, and customize the duplicate for each new character.
 - **Search works.** Use the search bar at the top of an open compendium to find specific entries by name.
 - **Your copy stays linked to its origin by shortcode.** An imported copy has a new id and can be customized freely, but it still corresponds to the compendium entry it came from because they share a type and **shortcode**. Keep the shortcode to preserve that link; change it to make a genuinely separate thing. See [[doc-shortcodesug|Shortcodes]].
+
+## A World Compendium of Your Own
+
+The packs SoHL ships are **system** compendiums: they arrive locked, and Foundry warns that an edit made by unlocking one can be lost the next time the system is updated, because the update replaces the pack's contents wholesale.
+
+A **world compendium** is one you create yourself, in your own world:
+
+1. Open the **Compendium Packs** sidebar tab.
+2. Click **Create Compendium**, name it, and choose the document type it holds (Actor, Item, or Journal Entry).
+
+A world compendium is stored in your world rather than shipped by SoHL, so nothing ever overwrites it — it is yours to organize and edit freely, the way you would a folder in the Actors or Items sidebar tab, except that its contents stay out of that tab until dragged in. Duplicating a system compendium (its own context menu offers **Duplicate**) is a shortcut to the same safety: it copies the pack's content into a new world compendium you can edit without the lock warning.
+
+## What a System Update Does to What You Already Imported
+
+An Actor or Item you have already imported — dragged into the Actors or Items sidebar tab, or onto a character sheet — is its own document in your world, independent of the compendium it came from. Updating SoHL replaces the **system compendium's** entries; it never reaches into your world to touch a copy you already made. Your imported copy keeps every edit you gave it, and it is not refreshed with whatever the update changed.
+
+If an update is worth having on a character you already built, re-import the updated entry and carry your edits across by hand — the shared shortcode is what tells you which compendium entry a given world copy came from.
 
 # See also
 

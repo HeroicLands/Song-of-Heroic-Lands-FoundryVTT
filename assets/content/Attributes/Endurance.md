@@ -8,6 +8,7 @@ data: {icon: mountainclimbing, templatePriority: 0, packFolder: attributes}
 sohl:
   system:
     scoreBase: 0
+    impairedByRoles: [core, vital]
     valueDesc: [Frail:4, Unfit:8, Average:12, Robust:16, Hardy:999]
     initDiceFormula: 3d6
 ---

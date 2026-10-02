@@ -20,13 +20,14 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <div class="section-legend">
         <span class="section-legend__name">{{localize "SOHL.Being.Heading.meleeStrikeModes"}}</span>
     </div>
-    <div class="ledger" style="--ledger-cols: minmax(120px,1fr) 2.3rem 2.3rem 2.6rem 3rem 2.4rem 2.4rem 2.4rem">
+    <div class="ledger" style="--ledger-cols: minmax(120px,1fr) 2.3rem 2.3rem 2.6rem 3rem 2.6rem 2.4rem 2.4rem 2.4rem">
         <div class="ledger__head">
             <div>{{localize "SOHL.Being.Column.mode"}}</div>
             <div class="ledger__head-num" data-tooltip="{{localize "SOHL.Being.ColTip.heft"}}">{{localize "SOHL.Being.Column.heft"}}</div>
             <div class="ledger__head-num" data-tooltip="{{localize "SOHL.Being.ColTip.reach"}}">{{localize "SOHL.Being.Column.reach"}}</div>
             <div class="ledger__head-num" data-tooltip="{{localize "SOHL.Being.ColTip.zoneDice"}}">{{@root.spreadLabel}}</div>
             <div class="ledger__head-num" data-tooltip="{{localize "SOHL.StrikeMode.FIELDS.impactBase.label"}}">{{localize "SOHL.Being.Column.impact"}}</div>
+            <div class="ledger__head-num" data-tooltip="{{localize "SOHL.Being.ColTip.impactTA"}}">{{localize "SOHL.Being.Column.impactTA"}}</div>
             <div class="ledger__head-num" data-tooltip="{{localize "SOHL.Being.ColTip.attack"}}">{{localize "SOHL.Being.Column.attack"}}</div>
             <div class="ledger__head-num" data-tooltip="{{localize "SOHL.Being.ColTip.block"}}">{{localize "SOHL.Being.Column.block"}}</div>
             <div class="ledger__head-num" data-tooltip="{{localize "SOHL.Being.ColTip.counterstrike"}}">{{localize "SOHL.Being.Column.counterstrike"}}</div>
@@ -48,6 +49,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
             {{else}}
             <div class="ledger__cell ledger__cell--dim"><i class="fa-solid fa-xmark fa-lg"></i></div>
             {{/unless}}
+            <div class="ledger__cell">{{#if sm.impactTA}}{{sm.impactTA}}{{else}}&mdash;{{/if}}</div>
             {{#unless sm.attack.disabled}}
             <div class="ledger__cell ledger__cell--rollable" data-action="rollStrikeModeTest" data-test-kind="attack" data-tooltip="{{sm.attack.deltaLabel}}" data-tooltip-direction="UP">{{sm.attack.effective}}</div>
             {{else}}
@@ -75,13 +77,14 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <div class="section-legend">
         <span class="section-legend__name">{{localize "SOHL.Being.Heading.missileStrikeModes"}}</span>
     </div>
-    <div class="ledger" style="--ledger-cols: minmax(120px,1fr) 2.6rem 2.6rem 3rem 3rem 2.6rem">
+    <div class="ledger" style="--ledger-cols: minmax(120px,1fr) 2.6rem 2.6rem 3rem 3rem 2.6rem 2.6rem">
         <div class="ledger__head">
             <div>{{localize "SOHL.Being.Column.mode"}}</div>
             <div class="ledger__head-num" data-tooltip="{{localize "SOHL.Being.ColTip.draw"}}">{{localize "SOHL.Being.Column.draw"}}</div>
             <div class="ledger__head-num" data-tooltip="{{localize "SOHL.Being.ColTip.baseRange"}}">{{localize "SOHL.Being.Column.baseRange"}}</div>
             <div class="ledger__head-num" data-tooltip="{{localize "SOHL.Being.ColTip.maxVolley"}}">{{localize "SOHL.Being.Column.maxVolley"}}</div>
             <div class="ledger__head-num" data-tooltip="{{localize "SOHL.StrikeMode.FIELDS.impactBase.label"}}">{{localize "SOHL.Being.Column.impact"}}</div>
+            <div class="ledger__head-num" data-tooltip="{{localize "SOHL.Being.ColTip.impactTA"}}">{{localize "SOHL.Being.Column.impactTA"}}</div>
             <div class="ledger__head-num" data-tooltip="{{localize "SOHL.Being.ColTip.attack"}}">{{localize "SOHL.Being.Column.attack"}}</div>
         </div>
         {{#each missileStrikeModes as |entry|}}
@@ -101,6 +104,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
             {{else}}
             <div class="ledger__cell ledger__cell--dim"><i class="fa-solid fa-xmark fa-lg"></i></div>
             {{/unless}}
+            <div class="ledger__cell">{{#if sm.impactTA}}{{sm.impactTA}}{{else}}&mdash;{{/if}}</div>
             {{#unless sm.attack.disabled}}
             <div class="ledger__cell ledger__cell--rollable" data-action="rollStrikeModeTest" data-test-kind="attack" data-tooltip="{{sm.attack.deltaLabel}}" data-tooltip-direction="UP">{{sm.attack.effective}}</div>
             {{else}}

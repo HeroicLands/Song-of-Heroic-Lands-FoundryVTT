@@ -8,6 +8,7 @@ data: {icon: meditation, templatePriority: 0, packFolder: attributes}
 sohl:
   system:
     scoreBase: 0
+    impairedByRoles: []
     valueDesc: [Submissive:4, Indecisive:8, Average:12, Resolute:16, Implacable:999]
     initDiceFormula: 3d6
 ---

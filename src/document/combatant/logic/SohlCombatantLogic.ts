@@ -1616,6 +1616,21 @@ export function buildCombatCardData(combatResult: CombatResult): CombatCardData 
     const victoryStarMarks = (margin: number): boolean[] =>
         Array.from({ length: Math.abs(margin) }, () => margin >= 0);
 
+    // What one Tactical Advantage spent on Impact is worth to the side that
+    // earned them, so the card states the value beside the count. The arithmetic
+    // is the player's to ask for: the card offers the number and nothing is
+    // spent on anyone's behalf. Blank where the earning side has no strike mode
+    // — a dodge is made with the body.
+    const earnedImpactTA = (): number | "" => {
+        const side = combatResult.tacticalAdvantages.side;
+        if (side === "none" || !combatResult.tacticalAdvantages.count) return "";
+        const earner =
+            side === "attacker" ?
+                combatResult.attackResult
+            :   (combatResult.defendResult as { mode?: StrikeModeBase });
+        return (earner as { mode?: StrikeModeBase }).mode?.impactTA ?? "";
+    };
+
     let cxCardData: Record<string, unknown> | undefined;
     const atkCardData: Record<string, unknown> = {
         actorId: atkResult.combatant.actorLogic!.id,
@@ -1653,6 +1668,7 @@ export function buildCombatCardData(combatResult: CombatResult): CombatCardData 
             combatResult.tacticalAdvantages.side === "defender" ?
                 combatResult.tacticalAdvantages.count
             :   0,
+        impactTAValue: earnedImpactTA(),
         atkWeaponBroke: combatResult.weaponBreakCheck === "attacker",
         defWeaponBroke: combatResult.weaponBreakCheck === "defender",
         isAtkFumbleTest: atkResult.mishaps?.has(ATTACK_MISHAP.FUMBLE_TEST) ?? false,
@@ -1730,6 +1746,7 @@ export function buildCombatCardData(combatResult: CombatResult): CombatCardData 
                     combatResult.tacticalAdvantages.count
                 :   0,
             numDefTA: 0,
+            impactTAValue: earnedImpactTA(),
             atkWeaponBroke: combatResult.weaponBreakCheck === "defender",
             defWeaponBroke: false,
             isAtkFumbleTest: atkResult.mishaps?.has(ATTACK_MISHAP.FUMBLE_TEST) ?? false,

@@ -1103,6 +1103,11 @@ html, body { margin: 0; padding: 0; background: #fff; }
             !mod || mod.disabled ? PRINT_EM_DASH : String(mod.label ?? mod.effective ?? "");
         // The strike-mode spread is presented as a Zone Die (column "ZD"): the
         // effective value in `d`-notation (e.g. `d6`), never a bare radius.
+        // The Impact Tactical Advantage value is a plain number, not a
+        // modifier, so it has no disabled state to render — only an em dash
+        // where the mode's aspect carries no value.
+        const taCell = (value: number | undefined): string =>
+            value == null ? PRINT_EM_DASH : String(value);
         const zoneDieCell = (mod: PlainObject | undefined): string => {
             const n = mod?.effective;
             return n == null ? PRINT_EM_DASH : `d${n}`;
@@ -1116,6 +1121,7 @@ html, body { margin: 0; padding: 0; background: #fff; }
                     reach: cell(sm.reach as PlainObject),
                     spread: zoneDieCell(sm.spread as PlainObject),
                     impact: impactCell(sm.impact as PlainObject),
+                    impactTA: taCell(sm.impactTA as number | undefined),
                     attack: cell(sm.attack as PlainObject),
                     block: cell((sm.defense as PlainObject)?.block as PlainObject),
                     counterstrike: cell((sm.defense as PlainObject)?.counterstrike as PlainObject),
@@ -1130,6 +1136,7 @@ html, body { margin: 0; padding: 0; background: #fff; }
                     baseRange: cell(sm.baseRange as PlainObject),
                     maxVolley: String(sm.maxVolleyMult ?? PRINT_EM_DASH),
                     impact: impactCell(sm.impact as PlainObject),
+                    impactTA: taCell(sm.impactTA as number | undefined),
                     attack: cell(sm.attack as PlainObject),
                 })),
             }));

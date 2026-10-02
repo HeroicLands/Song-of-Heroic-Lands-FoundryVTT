@@ -5,7 +5,13 @@ type: affliction
 subType: poisontoxin
 description: "Peptide and enzyme toxins from sting; intense pain and swelling."
 tags: []
-data: {icon: poisonbottle, templatePriority: 0, packFolder: poisonsandtoxins}
+data:
+  icon: poisonbottle
+  templatePriority: 0
+  packFolder: poisonsandtoxins
+  onsetDurationFormula: 300
+  healingCheckDurationFormula: 3600
+  resolutionDurationFormula: 2d4*3600
 sohl:
   kbcat: poisontoxin
   system: {levelBase: 1, healingRateBase: 3, contagionIndexBase: 3, transmission: vector}

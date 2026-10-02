@@ -22,6 +22,7 @@ import {
     type StrikeModeType,
     ImpactAspectChoices,
 } from "@src/utils/constants";
+import { impactTacticalAdvantageValue } from "@src/entity/strikemode/impactTacticalAdvantage";
 import type { CombatModifier } from "@src/entity/modifier/CombatModifier";
 import type { ImpactModifier } from "@src/entity/modifier/ImpactModifier";
 import type { ValueModifier } from "../modifier/ValueModifier";
@@ -104,6 +105,20 @@ export abstract class StrikeModeBase extends SohlEntity {
      */
     get heft(): ValueModifier | undefined {
         return (this.parent as { heft?: ValueModifier } | undefined)?.heft;
+    }
+
+    /**
+     * What one Tactical Advantage spent on **Impact** is worth behind this
+     * mode — the `impTA` trait where it states one, else the default for the
+     * mode's aspect. `undefined` for a mode whose aspect carries no value, which
+     * leaves the column blank rather than claiming a number.
+     *
+     * Spending is the player's decision and is never assumed; this is the value
+     * the arithmetic uses when they state a spend. See
+     * {@link sohl.entity.strikemode.impactTacticalAdvantageValue}.
+     */
+    get impactTA(): number | undefined {
+        return impactTacticalAdvantageValue(this);
     }
 
     /**
@@ -391,10 +406,14 @@ export namespace StrikeModeBase {
         /**
          * Arbitrary trait/flag bag. The flags the engine reads are
          * `noAttack` (the mode cannot attack), `noBlock` (it cannot block),
-         * `noStrMod` (impact takes no Strength modifier) and `limbBlock`
+         * `noStrMod` (impact takes no Strength modifier), `limbBlock`
          * (a block made with a limb — see
-         * {@link sohl.entity.result.CombatResult.isLimbBlock}). Anything
-         * else a note writes is carried and left to its author.
+         * {@link sohl.entity.result.CombatResult.isLimbBlock}), `impTA` (the
+         * Impact Tactical Advantage value, overriding the aspect default) and
+         * `shieldMod` (the wielder-level defence bonus a held shield confers).
+         * Anything else a note writes is carried and left to its author;
+         * `tests/build/authored-traits-are-read.test.ts` is what keeps that set
+         * honest.
          */
         traits: PlainObject;
     }

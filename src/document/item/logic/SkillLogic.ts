@@ -22,6 +22,7 @@ import { StrikeModeBase } from "@src/entity/strikemode/StrikeModeBase";
 import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
 import { applyProneMeleePenalty } from "@src/entity/strikemode/prone";
 import { applyWielderStrengthImpact } from "@src/document/item/logic/wielderStrength";
+import { applyHeldShieldDefense } from "@src/document/item/logic/heldShield";
 import { applyGoverningMasteryLevel } from "@src/entity/strikemode/governing";
 import { resolveAssocSkill } from "@src/document/item/logic/resolveAssocSkill";
 import { calcMasteryBoost } from "@src/document/item/logic/masteryBoost";
@@ -925,6 +926,10 @@ export class SkillLogic<TData extends SkillData = SkillData> extends SohlItemBas
             // gripped by no limb, so it is never off-hand.
             applyWielderStrengthImpact(this);
         }
+        // A held shield assists the wielder's Dodge and their Press, neither of
+        // which belongs to the shield. Outside the strike-mode guard above,
+        // because Dodge carries no strike mode at all.
+        applyHeldShieldDefense(this);
     }
 }
 

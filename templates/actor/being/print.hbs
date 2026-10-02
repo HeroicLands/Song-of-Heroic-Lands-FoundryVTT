@@ -186,6 +186,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     <th class="num" data-title="{{localize "SOHL.Being.ColTip.reach"}}">{{localize "SOHL.Being.Column.reach"}}</th>
                     <th class="num" data-title="{{localize "SOHL.Being.ColTip.zoneDice"}}">{{localize "SOHL.Print.zd"}}</th>
                     <th class="num" data-title="{{localize "SOHL.StrikeMode.FIELDS.impactBase.label"}}">{{localize "SOHL.Being.Column.impact"}}</th>
+                    <th class="num" data-title="{{localize "SOHL.Being.ColTip.impactTA"}}">{{localize "SOHL.Being.Column.impactTA"}}</th>
                     <th class="num" data-title="{{localize "SOHL.Being.ColTip.attack"}}">{{localize "SOHL.Being.Column.attack"}}</th>
                     <th class="num" data-title="{{localize "SOHL.Being.ColTip.block"}}">{{localize "SOHL.Being.Column.block"}}</th>
                     <th class="num" data-title="{{localize "SOHL.Being.ColTip.counterstrike"}}">{{localize "SOHL.Being.Column.counterstrike"}}</th>
@@ -194,7 +195,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <tbody>
                 {{#each meleeStrikeModes as |entry|}}
                 <tr class="being-print__group-row">
-                    <td colspan="8">{{entry.weaponName}}</td>
+                    <td colspan="9">{{entry.weaponName}}</td>
                 </tr>
                 {{#each entry.modes as |sm|}}
                 <tr>
@@ -203,6 +204,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     <td class="num">{{sm.reach}}</td>
                     <td class="num">d{{sm.spread}}</td>
                     <td class="num">{{sm.impact}}</td>
+                    <td class="num">{{sm.impactTA}}</td>
                     <td class="num">{{sm.attack}}</td>
                     <td class="num">{{sm.block}}</td>
                     <td class="num">{{sm.counterstrike}}</td>
@@ -223,13 +225,14 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     <th class="num" data-title="{{localize "SOHL.Being.ColTip.baseRange"}}">{{localize "SOHL.Being.Column.baseRange"}}</th>
                     <th class="num" data-title="{{localize "SOHL.Being.ColTip.maxVolley"}}">{{localize "SOHL.Being.Column.maxVolley"}}</th>
                     <th class="num" data-title="{{localize "SOHL.Being.Column.impact"}}">{{localize "SOHL.Being.Column.impact"}}</th>
+                    <th class="num" data-title="{{localize "SOHL.Being.ColTip.impactTA"}}">{{localize "SOHL.Being.Column.impactTA"}}</th>
                     <th class="num" data-title="{{localize "SOHL.Being.ColTip.attack"}}">{{localize "SOHL.Being.Column.attack"}}</th>
                 </tr>
             </thead>
             <tbody>
                 {{#each missileStrikeModes as |entry|}}
                 <tr class="being-print__group-row">
-                    <td colspan="6">{{entry.weaponName}}</td>
+                    <td colspan="7">{{entry.weaponName}}</td>
                 </tr>
                 {{#each entry.modes as |sm|}}
                 <tr>
@@ -238,6 +241,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     <td class="num">{{sm.baseRange}}</td>
                     <td class="num">{{sm.maxVolley}}</td>
                     <td class="num">{{sm.impact}}</td>
+                    <td class="num">{{sm.impactTA}}</td>
                     <td class="num">{{sm.attack}}</td>
                 </tr>
                 {{/each}}

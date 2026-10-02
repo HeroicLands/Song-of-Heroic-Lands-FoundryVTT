@@ -52,6 +52,27 @@ Two reductions apply on top, and they stack:
 - **Off-hand** — reduce the modifier by **1** when the weapon is held only in the non-favored hand. See [[doc-character#dominance|Dominance]].
 - **Thrown** — reduce the modifier by **1** when the weapon is thrown.
 
+## The Impact Tactical Advantage Value {#the-impact-tactical-advantage-value}
+
+A combatant who wins an exchange decisively earns [[doc-atkreslv#tactical-advantages|Tactical Advantages]], and one spent on **Impact** puts extra force behind the blow. How much force depends on what is striking:
+
+> **Impact bonus = (Tactical Advantages spent on Impact) × (the mode's Impact TA value)**
+
+The value belongs to the **aspect**, not to the weapon:
+
+| Aspect   | Each Impact TA is worth |
+| -------- | ----------------------- |
+| Blunt    | 3                       |
+| Edged    | 5                       |
+| Piercing | 4                       |
+| Fire     | 2                       |
+
+A blunt attack with two Tactical Advantages, both spent on Impact, adds `2 × 3` = **+6**.
+
+Some strike modes **state a value of their own**, and that value **replaces** the aspect's rather than adding to it. A cut listed at 6 is worth 6 per Tactical Advantage instead of edged's 5. This is the knob a creature whose whole method is seizing and crushing is tuned with, so a leviathan's tentacle is worth more per advantage than a brawler's fist.
+
+**Spending a Tactical Advantage is your decision, and it is made aloud.** Say how many of yours go on Impact before the blow is worked out; until you say so, none of them do. A referee may grant an advantage for a circumstance no rule here enumerates, and three of the four kinds are settled between the two of you rather than by arithmetic.
+
 ## Melee and Missile {#melee-and-missile}
 
 Strike modes come in two types — **melee** and **missile** — and a single weapon may carry **both**. A thrown spear has a melee **Thrust** and a missile **Throw**; a **bow** shoots arrows through a missile mode but can also be swung in melee as a sort of fragile club through a (poor) melee mode. Which types a weapon offers, and how many of each, is simply a matter of which strike modes it carries.
@@ -70,6 +91,26 @@ A **melee** strike mode is a close-combat attack. In addition to the common prop
   of the weapon, so a flail blocks worse than a broadsword and a mode's thrust
   and swing can defend differently. Either defense can also be individually
   disabled — a weapon that cannot block, or a mode with no counterstrike.
+
+#### Shield Mod {#shield-mod}
+
+A **shield** carries one further property, and it is the reason a shield is worth both the weight and the hand it costs: a **Shield Mod**, which assists its wielder rather than the shield's own strike mode.
+
+| Shield          | Shield Mod |
+| --------------- | ---------- |
+| Buckler         | +5         |
+| Roundshield     | +10        |
+| Knight's Shield | +10        |
+| Kite Shield     | +15        |
+| Tower Shield    | +20        |
+
+Three things follow from it being the wielder's bonus:
+
+- **It assists every block, not only the shield's own.** A fighter with a shield on one arm adds its Shield Mod to a block made with the sword in the other. A tower shield is +20 to _every_ block its bearer makes.
+- **It assists [[doc-skills|Dodge]] and it assists a [[doc-unrmdcmb|Press]].** Neither belongs to the shield: dodging is the fighter's own skill, and a press is a shove. A raised shield helps both.
+- **It must be in hand.** A shield slung on the back or stowed in a pack grants nothing at all.
+
+Two shields grant the **better** of their mods, never the sum — a second shield adds nothing but weight.
 
 ### Missile Strike Modes {#missile-strike-modes}
 

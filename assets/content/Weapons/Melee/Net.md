@@ -21,7 +21,7 @@ sohl:
         assocSkillCode: melee
         minParts: 1
         attack: {spread: 0, modifier: 0}
-        impactBase: {numDice: 1, die: 0, modifier: 0, aspect: blunt}
+        impactBase: {numDice: 0, die: null, modifier: 0, aspect: blunt}
         traits:
           meleeMod: 0
           blockSLMod: 0

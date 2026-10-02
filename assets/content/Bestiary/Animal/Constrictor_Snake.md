@@ -111,6 +111,7 @@ sohl:
           - name: Head
             shortcode: headloc
             bodyPartCode: headpart
+            isFumble: true
             bleedingSusceptibility: medium
             amputability: none
             shockValue: 5
@@ -119,6 +120,7 @@ sohl:
           - name: Neck
             shortcode: neckloc
             bodyPartCode: headpart
+            isFumble: true
             bleedingSusceptibility: high
             amputability: low
             shockValue: 5
@@ -127,6 +129,7 @@ sohl:
           - name: Thorax
             shortcode: thoraxloc
             bodyPartCode: forebodypart
+            isStumble: true
             bleedingSusceptibility: medium
             amputability: none
             shockValue: 4
@@ -135,6 +138,7 @@ sohl:
           - name: Abdomen
             shortcode: abdloc
             bodyPartCode: hindbodypart
+            isStumble: true
             bleedingSusceptibility: high
             amputability: none
             shockValue: 4
@@ -143,6 +147,7 @@ sohl:
           - name: Tail
             shortcode: tailloc
             bodyPartCode: tailpart
+            isStumble: true
             bleedingSusceptibility: none
             amputability: high
             shockValue: 1

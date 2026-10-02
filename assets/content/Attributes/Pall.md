@@ -8,6 +8,7 @@ data: {icon: tripleskulls, templatePriority: 0, packFolder: attributes}
 sohl:
   system:
     scoreBase: 0
+    impairedByRoles: []
     valueDesc: [Tainted:2, Shadowed:5, Malign:9, Ravening:14, Abyssal:999]
     initDiceFormula: 0
 ---

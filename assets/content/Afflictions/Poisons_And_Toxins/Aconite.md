@@ -5,7 +5,13 @@ type: affliction
 subType: poisontoxin
 description: "Wolfsbane alkaloid; burning, numbness, cardiac arrest; smeared on arrows."
 tags: []
-data: {icon: poisonbottle, templatePriority: 0, packFolder: poisonsandtoxins}
+data:
+  icon: poisonbottle
+  templatePriority: 0
+  packFolder: poisonsandtoxins
+  onsetDurationFormula: 900
+  healingCheckDurationFormula: 3600
+  resolutionDurationFormula: 1d6*3600
 sohl:
   kbcat: poisontoxin
   system: {levelBase: 1, healingRateBase: 3, contagionIndexBase: 3, transmission: vector}
