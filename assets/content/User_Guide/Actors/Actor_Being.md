@@ -79,7 +79,11 @@ See [[doc-charcreationug|Character Creation]] for step-by-step instructions.
 
 # Beings on Scenes
 
-Beings can be placed on scenes as tokens. Each token represents the Being's physical presence in the game world. Tokens can be moved, have vision, and participate in combat encounters.
+Dragging a Being onto a scene places a single token, as described under [[doc-scnsetuptokug#scene-placing|Placing Actors on Scenes]]. That token's size, art, vision, light, disposition, and displayed name come from the Being's **prototype token** — open the Being's sheet and use its header menu's token-configuration control to set them once; every token you place from that Being inherits them. See [[doc-scnsetuptokug#scene-tokens|Token Configuration]] for the one setting that is SoHL's own: the token's bar is bound to the Being's health assessment, not to a value you set by hand.
+
+**Linked or unlinked decides whether a token shares the Being's own record.** A token placed by dragging the Being is **linked** by default: it has no data of its own, so every placed copy shows the same Attributes, Skills, Gear, and injuries as the Being in the Actors sidebar, and editing any one of them — from the sheet or from the token — edits all of them together. **Unlinking** a token (its own Prototype Token setting) gives that placement a private copy of the Being's data: a band of identical guards can each carry their own wounds and their own gear once their tokens are unlinked, because nothing placed on one reaches the others or the sidebar original. A [[doc-cohortug|Cohort]]'s expanded member tokens are unlinked for exactly this reason — see [[doc-scnsetuptokug#scene-cohort-expand|Expanding a Cohort]].
+
+Vision and light are the scene's own concern once set on the prototype token: SoHL adds nothing to either, so a Being sees and is seen by Foundry's ordinary rules for sight range, detection modes, and emitted light.
 
 # Actions on a Being {#actions-on-a-being}
 
