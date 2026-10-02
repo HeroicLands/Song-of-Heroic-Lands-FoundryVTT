@@ -268,7 +268,7 @@ describe("automated combat", () => {
     // getUsableStrikeModes stub → aborts.
     it.skip("counterstrike resume resolves an attack (#177)", () => {});
 
-    // RED — blocked on ungating Dodge from the Dodge skill (FIXME) — today
+    // RED — blocked on ungating Dodge from the Dodge skill — today
     // the Dodge button requires a `dge` skill (see the capability-gate test
     // above). Un-skip and assert Dodge survives without a Dodge skill once that
     // removes the gate.
