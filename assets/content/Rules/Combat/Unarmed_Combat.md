@@ -77,5 +77,5 @@ The ordinary off-hand rules apply and bite harder here than anywhere: a strike t
 
 - [[doc-atkreslv|Attack Resolution]] — the exchange in full
 - [[doc-mlattcks|Melee Attacks]] — reach, engagement, and the melee defences
-- [[doc-strkmds|Strike Modes]] — the structure every technique is expressed in
+- [[doc-strkmds|Strike Modes]] — the structure every technique is expressed in, and [[doc-strkmds#the-limb-a-technique-needs|the limb each technique needs]]
 - [[doc-skills#skill-descriptions|Skill Descriptions]] — the individual techniques and their tables
