@@ -1,15 +1,11 @@
 ---
-tags: []
-name:
-  full: Blowgun
-  aliases: []
-description: "Breath-driven darts from a hollow tube; silent range work for hunters and stealthy strikes."
 shortcode: blgn
+name: {full: Blowgun, aliases: []}
 type: skill
-data:
-  icon: straightpipe
-  templatePriority: 0
 subType: combat
+description: "Breath-driven darts from a hollow tube; silent range work for hunters and stealthy strikes."
+tags: []
+data: {icon: straightpipe, templatePriority: 0, packFolder: combat}
 sohl:
   kbcat: combat
   system:
@@ -18,11 +14,7 @@ sohl:
     combatCategory: missile
     parentSkillCode: ""
     initSkillMult: 0
-    impairedByRoles:
-      - core
-      - vital
-      - manipulator
-packFolder: combat
+    impairedByRoles: [core, vital, manipulator]
 ---
 
 The blowgun sends a dart on a controlled breath, and the skill lies in the breath as much as the aim: too hard a push wastes the shot wide, too soft lets the dart drop short. A tube held and sighted along its own length needs no drawn string or spanned mechanism to betray the shooter, which is why hunters stalking game and anyone working where a bowstring's creak would carry favor it.
