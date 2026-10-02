@@ -65,7 +65,7 @@
         flex: 0 0 auto;
         width: auto;
         padding: 1px 6px;
-        // SoHL's mono, not Foundry's `--font-mono` (#1523). Referenced as the
+        // SoHL's mono, not Foundry's `--font-mono`. Referenced as the
         // token directly rather than through the `.sohl` remap in
         // `base/_foundry-vars.scss`, because this dialog is a top-level
         // DialogV2 with no `.sohl` frame — that remap cannot reach it. Tokens

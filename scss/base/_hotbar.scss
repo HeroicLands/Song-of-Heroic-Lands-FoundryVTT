@@ -1,5 +1,5 @@
 #hotbar li.macro {
-    // Same theme-aware parchment as `.window-content` (#810): multiply the light
+    // Same theme-aware parchment as `.window-content`: multiply the light
     // texture onto the paper token so the macro wells darken with the palette in
     // dark mode instead of staying a fixed light image.
     background-color: var(--sohl-color-bg-sheet);

@@ -88,7 +88,7 @@
 
 // Inline validation hint on an item property tab — e.g. the Skill sheet's
 // "Invalid expression: …" message shown above the Skill Base formula field
-// when it fails to compile/evaluate (#972). Item-scoped via `.tab.properties`.
+// when it fails to compile/evaluate. Item-scoped via `.tab.properties`.
 .tab.properties .hint--error {
     margin: 0 0 0.4rem;
     font-family: var(--sohl-font-sans);

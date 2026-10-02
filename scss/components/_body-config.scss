@@ -13,7 +13,7 @@
 //
 // The forms use `.form-group.stacked` (label span above its control); that
 // variant has no core styling, so without these rules the label and control
-// overlap unreadably (#683, as for the strike-mode editor).
+// overlap unreadably, as for the strike-mode editor.
 
 @mixin editor($prefix) {
     .#{$prefix}__body {
@@ -86,8 +86,8 @@
         margin: 0;
         padding: 0;
 
-        // `> label` covers the shortcodeRefField partial's own label element
-        // (#982); it renders a `<label>` where the hand-rolled controls use a
+        // `> label` covers the shortcodeRefField partial's own label element:
+        // it renders a `<label>` where the hand-rolled controls use a
         // `<span>`, so both must read identically.
         > span,
         > label {

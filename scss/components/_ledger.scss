@@ -54,7 +54,7 @@
         }
     }
 
-    // Charge-exhausted row (#990) — a Mystical Ability with 0 remaining charges:
+    // Charge-exhausted row — a Mystical Ability with 0 remaining charges:
     // greyed out and its EML roll suppressed until it is recharged. The row's
     // context menu stays reachable so it can still be edited / recharged.
     &__row--disabled {
@@ -65,7 +65,7 @@
         }
     }
 
-    // Health cell (#199) — the percentage reads as the number, the band as the
+    // Health cell — the percentage reads as the number, the band as the
     // word beside it. Bands share the header's three-stop ramp rather than
     // introducing six colors, so a member's health reads the same on the cohort
     // roster as on their own sheet. A member whose actor did not resolve has no
@@ -159,7 +159,7 @@
         }
 
         // Glyph icon (Font Awesome or the ginf icon font) — the Actions ledger
-        // rows carry an icon class rather than an image (#1136). Size it to the
+        // rows carry an icon class rather than an image. Size it to the
         // well and ink it like the row's other glyphs.
         i {
             font-size: 1rem;
@@ -176,7 +176,7 @@
         @include mixins.truncate;
     }
 
-    // Missing-member flag (#199) — a cohort member whose actor cannot be found
+    // Missing-member flag — a cohort member whose actor cannot be found
     // (deleted, or not visible to this client). The row is already greyed as
     // disabled, which alone reads as "inactive"; the amber triangle and the
     // words say it is *missing*, so the roster never quietly loses someone.
@@ -215,7 +215,7 @@
 
     // Numeric cell — mono, centered, tabular-nums.
     //
-    // Sized and weighted to hold its own beside the row label (#1526). These
+    // Sized and weighted to hold its own beside the row label. These
     // columns are the data the row exists to convey, so they must not read as
     // subordinate to the name next to them. Two earlier settings made them do
     // exactly that: a 0.92rem step-down, and an unset weight that inherited 400

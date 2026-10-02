@@ -32,7 +32,7 @@ A combat exchange flows through these stages:
 1. Attacker selects strike mode
        ↓
 2. MasteryLevelModifier.successTest() → AttackResult
-   (d100 roll, success level, pre-defense damage, allowed defenses)
+   (d100 roll, success level, impact formula, aimed body part)
        ↓
 3. Defender chooses defense type (block, counterstrike, dodge, ignore)
        ↓
@@ -42,7 +42,7 @@ A combat exchange flows through these stages:
 5. CombatResult compares attack vs. defense (opposed test resolution)
    (winner, margin, combined mishaps)
        ↓
-6. Impact resolution: margin + pre-defense damage + armor → final injury
+6. Impact resolution: margin + impact formula + armor → final injury
    (hit location via BodyStructure, protection per ImpactAspect)
 ```
 
@@ -128,36 +128,49 @@ ceiling. `CombatResult.margin` is separate and still normalized (−3..+3).
 
 The attacker's side of a combat exchange.
 
-| Property              | Type                  | Description                      |
-| --------------------- | --------------------- | -------------------------------- |
-| `allowedDefenses`     | `Set<string>`         | Defense types the target may use |
-| `damage`              | `number`              | Pre-defense damage value         |
-| `situationalModifier` | `number`              | Player-entered attack modifier   |
-| `modifiers`           | `Map<string, string>` | Named modifier map for audit     |
+| Property              | Type                          | Description                                                                                    |
+| --------------------- | ----------------------------- | ---------------------------------------------------------------------------------------------- |
+| `combatant`           | `SohlCombatantLogic`          | The attacking combatant                                                                        |
+| `mode`                | `StrikeModeBase \| undefined` | The strike mode used for this attack                                                           |
+| `impact`              | `ImpactModifier`              | The impact formula/capability for this attack; not rolled until the blow lands                 |
+| `label`               | `string`                      | Label shown on the chat card                                                                   |
+| `aimBodyPartCode`     | `string`                      | The targeted body part shortcode (read-through to `impact`)                                    |
+| `spread`              | `number`                      | Strike spread governing hit-location scatter from `aimBodyPartCode` (read-through to `impact`) |
+| `fateSkillCode`       | `string \| null`              | Shortcode of the skill a Fate reroll is tested against; `null` for an untrained strike         |
+| `situationalModifier` | `number`                      | Player-entered attack modifier                                                                 |
 
-**Evaluation:** Rolls the attack, checks for attack-specific mishaps (weapon break, stumble, fumble, wild swing), and computes pre-defense damage.
+**Evaluation:** Rolls the attack, checks for attack-specific mishaps (fumble, stumble, or missile misfire on a critical failure), and disables `impact` on a miss. Impact is not rolled here — only when the blow lands, in `CombatResult`.
 
 ### DefendResult
 
 The defender's side of a combat exchange.
 
-| Property              | Type     | Description                     |
-| --------------------- | -------- | ------------------------------- |
-| `situationalModifier` | `number` | Player-entered defense modifier |
+| Property    | Type                           | Description                                                         |
+| ----------- | ------------------------------ | ------------------------------------------------------------------- |
+| `combatant` | `SohlCombatantLogic`           | The defending combatant                                             |
+| `mode`      | `MeleeStrikeMode \| undefined` | The strike mode used for this defense (block or counterstrike only) |
+| `label`     | `string`                       | Label shown on the chat card                                        |
 
-**Evaluation:** Rolls the defense (block, counterstrike, or dodge), checks for defense-specific mishaps (shield break, stumble, fumble).
+A player-entered defense modifier is folded into `masteryLevelModifier` as a
+`PLAYER` delta at construction; `DefendResult` has no `situationalModifier`
+getter to read it back.
+
+**Evaluation:** Rolls the defense (block, counterstrike, or dodge), checks for defense-specific mishaps (stumble or fumble on a critical failure).
 
 ### CombatResult
 
 The full combat exchange — composes AttackResult + DefendResult via opposed test resolution.
 
-| Property             | Type                                 | Description                         |
-| -------------------- | ------------------------------------ | ----------------------------------- |
-| `attackResult`       | `AttackResult`                       | The attacker's result               |
-| `defendResult`       | `DefendResult`                       | The defender's result               |
-| `margin`             | `number`                             | Victory score `VS` (see below)      |
-| `tacticalAdvantages` | `{ side, count }`                    | TAs awarded by the exchange         |
-| `weaponBreakCheck`   | `"attacker" \| "defender" \| "none"` | Whose weapon must roll for breakage |
+| Property                   | Type                                 | Description                                                                                    |
+| -------------------------- | ------------------------------------ | ---------------------------------------------------------------------------------------------- |
+| `attackResult`             | `AttackResult`                       | The attacker's result                                                                          |
+| `defendResult`             | `AttackResult \| DefendResult`       | The defender's response; `AttackResult` on a counterstrike, `DefendResult` on a block or dodge |
+| `margin`                   | `number`                             | Victory score `VS` (see below)                                                                 |
+| `tacticalAdvantages`       | `{ side, count }`                    | TAs awarded by the exchange                                                                    |
+| `weaponBreakCheck`         | `"attacker" \| "defender" \| "none"` | Whose weapon must roll for breakage                                                            |
+| `blockingLimbLocationCode` | `string`                             | Hit location a limb block lands on when the block ties; `""` otherwise                         |
+| `attackerImpact`           | `ImpactResult \| undefined`          | Impact rolled for the attacker, when it lands a blow                                           |
+| `cxImpact`                 | `ImpactResult \| undefined`          | Impact rolled for the counterstriker, when it lands a blow                                     |
 
 **Determines** (via `opposedTestEvaluate()`):
 

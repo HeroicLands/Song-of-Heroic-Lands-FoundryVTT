@@ -15,7 +15,7 @@ section.highlight {
     color: var(--sohl-color-text-primary);
 }
 
-// Prose headings (#949) — give the editor's `h1`–`h6` an explicit Manuscript
+// Prose headings — give the editor's `h1`–`h6` an explicit Manuscript
 // scale instead of letting them inherit the `"editor"` body serif + Foundry's
 // default UA bold/sizing (which reads as a generic word-processor heading and
 // breaks the vellum identity). A split hierarchy models the page:
@@ -94,7 +94,7 @@ prose-mirror .ProseMirror {
 }
 // stylelint-enable selector-class-pattern
 
-// ProseMirror toolbar — re-theme to Manuscript tokens (#810). Foundry paints the
+// ProseMirror toolbar — re-theme to Manuscript tokens. Foundry paints the
 // menu bar with its fixed dark "cool" palette (`--menu-background: --color-cool-4`,
 // a plum near-black) which stays dark in both themes and clashes badly on the light
 // vellum. Point the bar's background and the button icons at SoHL tokens so the
