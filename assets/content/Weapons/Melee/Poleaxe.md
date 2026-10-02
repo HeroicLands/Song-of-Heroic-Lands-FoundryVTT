@@ -50,7 +50,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 6
-        defense: {blockMod: -10, counterstrikeMod: -10}
+        defense: {block: {modifier: -10}, counterstrike: {modifier: -10}}
       - shortcode: impale
         type: melee
         name: Impale
@@ -86,7 +86,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 6
-        defense: {blockMod: 0, counterstrikeMod: 0}
+        defense: {block: {modifier: 0}, counterstrike: {modifier: 0}}
       - shortcode: crush
         type: melee
         name: Crush
@@ -122,7 +122,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 6
-        defense: {blockMod: -10, counterstrikeMod: -10}
+        defense: {block: {modifier: -10}, counterstrike: {modifier: -10}}
       - shortcode: shaft
         type: melee
         name: Shaft
@@ -158,7 +158,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 6
-        defense: {blockMod: -10, counterstrikeMod: -10}
+        defense: {block: {modifier: -10}, counterstrike: {modifier: -10}}
       - shortcode: halfswordshaft
         type: melee
         name: Half-Sword Shaft
@@ -194,7 +194,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 6
-        defense: {blockMod: -10, counterstrikeMod: -10}
+        defense: {block: {modifier: -10}, counterstrike: {modifier: -10}}
       - shortcode: halfswordimpale
         type: melee
         name: Half-Sword Impale
@@ -230,7 +230,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 6
-        defense: {blockMod: 0, counterstrikeMod: 0}
+        defense: {block: {modifier: 0}, counterstrike: {modifier: 0}}
 ---
 
 A six-foot shaft topped with an axe-blade, a hammer, and a spike or hook, giving the wielder three ways to strike or bind. The poleaxe excels against armored men-at-arms in melee or mounted combat, the hammer for crushing plate, the spike for between-joint thrusts. A weapon of knights unmounted and professional soldiers, requiring long training and both hands.

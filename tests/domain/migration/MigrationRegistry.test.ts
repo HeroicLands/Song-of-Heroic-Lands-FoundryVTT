@@ -721,3 +721,113 @@ describe("0.9.0 — record system.isDraft", () => {
         expect((update.system as MigrationSource).isDraft).toBe(true);
     });
 });
+
+// ---------------------------------------------------------------------------
+// 0.9.0 — strip the per-limb favoredFlag from every body part
+// ---------------------------------------------------------------------------
+
+describe("0.9.0 — strip favoredFlag from body parts", () => {
+    const step = SOHL_MIGRATIONS.find((s) => s.description.includes("favoredFlag"));
+
+    /** A being source whose body parts still carry the key. */
+    function being(): MigrationSource {
+        return {
+            type: "being",
+            name: "Harald",
+            system: {
+                shortcode: "hrld",
+                body: {
+                    weight: { base: 170, calc: "" },
+                    structure: {
+                        zones: [{ shortcode: "armszone", name: "Arms", probWeight: 4 }],
+                        parts: [
+                            {
+                                shortcode: "larmpart",
+                                name: "Left Arm",
+                                bodyZoneCode: "armszone",
+                                probWeight: 2,
+                                favoredFlag: false,
+                            },
+                            {
+                                shortcode: "rarmpart",
+                                name: "Right Arm",
+                                bodyZoneCode: "armszone",
+                                probWeight: 2,
+                                favoredFlag: true,
+                            },
+                        ],
+                        locations: [{ shortcode: "lhandloc", bodyPartCode: "larmpart" }],
+                    },
+                },
+            },
+        };
+    }
+
+    /** The parts array out of a migration payload. */
+    function partsOf(update: Record<string, unknown> | undefined): any[] {
+        return (update?.system as any)?.body?.structure?.parts ?? [];
+    }
+
+    it("is registered at the version that removes the field", () => {
+        expect(step).toBeDefined();
+        expect(step!.version).toBe("0.9.0");
+    });
+
+    it("targets the Actor, the only document that carries a body", () => {
+        expect(Object.keys(step!.migrators ?? {})).toEqual(["Actor"]);
+    });
+
+    it("omits favoredFlag from every part in the payload", () => {
+        const parts = partsOf(step!.migrators!.Actor!(being()));
+        expect(parts).toHaveLength(2);
+        for (const part of parts) {
+            expect(part).not.toHaveProperty("favoredFlag");
+        }
+    });
+
+    it("keeps every other part field, and the rest of the body, verbatim", () => {
+        const update = step!.migrators!.Actor!(being());
+        const parts = partsOf(update);
+        expect(parts[0]).toEqual({
+            shortcode: "larmpart",
+            name: "Left Arm",
+            bodyZoneCode: "armszone",
+            probWeight: 2,
+        });
+        const structure = (update!.system as any).body.structure;
+        expect(structure.zones).toEqual([{ shortcode: "armszone", name: "Arms", probWeight: 4 }]);
+        expect(structure.locations).toEqual([{ shortcode: "lhandloc", bodyPartCode: "larmpart" }]);
+        expect((update!.system as any).body.weight).toEqual({ base: 170, calc: "" });
+        expect((update!.system as any).shortcode).toBe("hrld");
+    });
+
+    it("writes the whole system object back, never a deletion key", () => {
+        // Foundry prunes a key its schema does not declare out of the change
+        // set, so `{"…parts.0.-=favoredFlag": null}` would delete nothing. A
+        // root-level key is the only payload the runner's non-recursive update
+        // turns into a forced replacement.
+        const update = step!.migrators!.Actor!(being());
+        expect(Object.keys(update!)).toEqual(["system"]);
+    });
+
+    it("does not mutate the source it was given", () => {
+        const source = being();
+        step!.migrators!.Actor!(source);
+        expect((source.system as any).body.structure.parts[1].favoredFlag).toBe(true);
+    });
+
+    it("leaves an actor with no body structure alone", () => {
+        expect(step!.migrators!.Actor!({ type: "vehicle", system: { shortcode: "cart" } })).toBe(
+            undefined,
+        );
+        expect(step!.migrators!.Actor!({ type: "being" })).toBe(undefined);
+    });
+
+    it("runs for a world upgrading into the release that removes it", () => {
+        const plan = planMigrations("0.8.7", "0.9.0");
+        const update = migrateDocumentSource(being(), "Actor", plan);
+        for (const part of partsOf(update)) {
+            expect(part).not.toHaveProperty("favoredFlag");
+        }
+    });
+});

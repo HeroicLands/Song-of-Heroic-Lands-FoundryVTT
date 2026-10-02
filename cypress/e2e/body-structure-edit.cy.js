@@ -465,7 +465,6 @@ describe("Body Structure editing — add / sort / delete", () => {
                     name: "E2E Tail",
                     bodyZoneCode: zoneCode,
                     roles: [],
-                    favoredFlag: false,
                     canHoldItem: false,
                     heldItemId: null,
                     permanentImpairment: 0,

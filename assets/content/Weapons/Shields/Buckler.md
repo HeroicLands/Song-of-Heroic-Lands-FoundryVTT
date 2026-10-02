@@ -50,7 +50,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 1
-        defense: {blockMod: 0, counterstrikeMod: 0}
+        defense: {block: {modifier: 0}, counterstrike: {modifier: 0}}
 ---
 
 A small round shield held by a central grip or worn on the forearm, the buckler is light and quick. Its narrow face suits rapid parries and punches; duellists and swordsmen favor it for one-handed blade work, using the buckler's weight and rim to deflect cuts and thrust the boss at close range.

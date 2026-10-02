@@ -751,6 +751,10 @@ export class SohlCombatantLogic<
         const defendResult = new entity.DefendResult(
             {
                 testType: TEST_TYPE.BLOCK.id,
+                // The mode that blocked: it names the weapon on the result card,
+                // and its `limbBlock` trait is what tells the exchange a limb
+                // was raised rather than a shield.
+                mode: blockStrikeMode.pointerData,
                 masteryLevelModifier: blockStrikeMode.defense.block.clone({}, { parent: this }),
                 situationalModifier: defenseDlgResult.situationalModifier,
                 speaker: context.speaker,
@@ -1582,7 +1586,11 @@ export function buildCombatCardData(combatResult: CombatResult): CombatCardData 
 
     let defInjury =
         combatResult.attackerImpact && defResult.token ?
-            injuryButton(combatResult.attackerImpact, defResult.token.uuid)
+            injuryButton(
+                combatResult.attackerImpact,
+                defResult.token.uuid,
+                combatResult.blockingLimbLocationCode,
+            )
         :   null;
 
     let atkInjury =
@@ -1672,7 +1680,11 @@ export function buildCombatCardData(combatResult: CombatResult): CombatCardData 
         atkResult = combatResult.defendResult as AttackResult;
         defInjury =
             combatResult.attackerImpact && defResult.token ?
-                injuryButton(combatResult.attackerImpact, defResult.token.uuid)
+                injuryButton(
+                    combatResult.attackerImpact,
+                    defResult.token.uuid,
+                    combatResult.blockingLimbLocationCode,
+                )
             :   null;
         // On the CX card the original attacker is the "defender", so their
         // injury comes from cxImpact (the CX blow landing on them).
@@ -2067,12 +2079,16 @@ export function collectBlockableStrikeModes(actorLogic: SohlActorLogic<any>): Me
  * Injury dialog.
  * @param impactResult - The landing side's impact result, or `undefined` if it missed.
  * @param targetCombatantUuid - The struck combatant's injury-button data, or `null`.
+ * @param bodyLocationCode - A hit location the exchange already settled — the
+ *   limb a limb block raised. Forwarded in place of the aim, so the handler uses
+ *   it rather than drawing a location again. `""` leaves the aim to decide.
  * @returns The injury-button payload, or `null` if the side did not land or has
  *          no target.
  */
 function injuryButton(
     impactResult: ImpactResult,
     targetCombatantUuid: string,
+    bodyLocationCode = "",
 ): { handlerUuid: string; targetName: string; scopeData: PlainObject } | null {
     if (!impactResult || !targetCombatantUuid) return null;
     const targetCombatantLogic = fvttLogicFromUuidSync(targetCombatantUuid) as SohlCombatantLogic;
@@ -2094,6 +2110,10 @@ function injuryButton(
                 zoneDie: impactResult.spread,
             }
         :   {};
+    // A location the exchange already settled — the limb a limb block raised —
+    // wins over the aim: the handler reads `bodyLocationCode` first, so the blow
+    // lands where the defence put it rather than being drawn again.
+    const located = bodyLocationCode ? { bodyLocationCode } : {};
     return {
         handlerUuid: targetCombatantLogic?.actor?.uuid ?? "",
         targetName: targetCombatantLogic.name,
@@ -2103,6 +2123,7 @@ function injuryButton(
             impact: impactResult.total,
             aspect: impactResult.aspect,
             ...aim,
+            ...located,
         }) as PlainObject,
     };
 }

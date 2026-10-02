@@ -50,7 +50,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 5
-        defense: {blockMod: 0, counterstrikeMod: 0}
+        defense: {block: {modifier: 0}, counterstrike: {modifier: 0}}
       - shortcode: pommel
         type: melee
         name: Pommel
@@ -86,7 +86,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 5
-        defense: {blockMod: 0, counterstrikeMod: 0}
+        defense: {block: {modifier: 0}, counterstrike: {modifier: 0}}
 ---
 
 A wooden flail adapted from the threshing-floor—two sticks joined by a leather strap or short chain. Farmers and militia press the grainflail into service as a combat weapon, swinging it to deliver rapid strikes with unpredictable arc. Light and accessible, it favors skirmishers and levy troops who lack coin for proper arms.

@@ -50,7 +50,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 3
-        defense: {blockMod: -10, counterstrikeMod: -10}
+        defense: {block: {modifier: -10}, counterstrike: {modifier: -10}}
       - shortcode: pommel
         type: melee
         name: Pommel
@@ -86,7 +86,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 3
-        defense: {blockMod: -10, counterstrikeMod: -10}
+        defense: {block: {modifier: -10}, counterstrike: {modifier: -10}}
 ---
 
 A walking stick or pilgrim's staff pressed into service—no more than an ashwood pole, plain and unadorned. In a scuffle it delivers a blow with its own modest weight, but it is clumsy in the hands of the untrained and fragile against true war-gear. Carried by beggars, tinkers, and travelers who may need a walking aid and a cudgel in a single piece of wood.

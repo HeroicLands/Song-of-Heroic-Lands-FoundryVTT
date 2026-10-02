@@ -50,7 +50,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 10
-        defense: {blockMod: -20, counterstrikeMod: -20}
+        defense: {block: {modifier: -20}, counterstrike: {modifier: -20}}
       - shortcode: pommel
         type: melee
         name: Pommel
@@ -86,7 +86,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 10
-        defense: {blockMod: -20, counterstrikeMod: -20}
+        defense: {block: {modifier: -20}, counterstrike: {modifier: -20}}
 ---
 
 The Reksyni whip is a tribal variant favored by the Reksyni peoples of the high grasslands, woven from sinew and leather strips to achieve greater weight and cutting edge than the standard lash. Twisted with barbed cord along its length, it tears flesh and carries more momentum for shock tactics. Nomadic raiders prize it for breaking loose formations and entangling mounted foes.

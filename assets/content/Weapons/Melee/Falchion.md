@@ -50,7 +50,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 4
-        defense: {blockMod: -5, counterstrikeMod: -5}
+        defense: {block: {modifier: -5}, counterstrike: {modifier: -5}}
       - shortcode: pommel
         type: melee
         name: Pommel
@@ -86,7 +86,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 4
-        defense: {blockMod: -5, counterstrikeMod: -5}
+        defense: {block: {modifier: -5}, counterstrike: {modifier: -5}}
 ---
 
 A single-edged blade curved slightly forward with a blade spine that thickens toward the tip, the falchion splits the difference between saber and cleaver. The weight favors the cutting edge, making it deadly in the overhand chop while retaining enough geometry for a cautious thrust. Soldiers and ships' crews alike carry this steel.

@@ -50,7 +50,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 3
-        defense: {blockMod: -5, counterstrikeMod: -5}
+        defense: {block: {modifier: -5}, counterstrike: {modifier: -5}}
       - shortcode: pommel
         type: melee
         name: Pommel
@@ -86,7 +86,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 3
-        defense: {blockMod: -5, counterstrikeMod: -5}
+        defense: {block: {modifier: -5}, counterstrike: {modifier: -5}}
 ---
 
 A curved iron blade hafted short on a handle, the sickle is first a harvest tool, second a weapon. Farmers and peasant-levies swing it to cut grain and flesh alike, effective against the lightly armored or unarmoured. Its curve favors slashing over thrusting; it catches on shield rims and garrottes at close work. Common among irregular troops lacking coin for proper arms.

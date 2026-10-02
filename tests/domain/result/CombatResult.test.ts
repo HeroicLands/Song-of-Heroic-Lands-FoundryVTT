@@ -10,7 +10,9 @@ import { CombatResult } from "@src/entity/result/CombatResult";
 import { OpposedTestResult } from "@src/entity/result/OpposedTestResult";
 import { AttackResult } from "@src/entity/result/AttackResult";
 import { ImpactResult } from "@src/entity/result/ImpactResult";
-import { IMPACT_ASPECT, TEST_TYPE } from "@src/utils/constants";
+import { makeBody, partData, locationData, zoneData } from "@tests/mocks/bodyFixture";
+import type { BodyStructure } from "@src/entity/body/BodyStructure";
+import { BODY_ROLE, IMPACT_ASPECT, TEST_TYPE } from "@src/utils/constants";
 
 // Success-level scale: critical failure -1, marginal failure 0,
 // marginal success 1, critical success 2.
@@ -43,9 +45,27 @@ function makeSide(opts: {
         toJSON: () => ({}),
     };
     if (opts.withImpact) {
-        // Duck-typed ImpactModifier (CombatResult only reads diceFormula +
-        // aspectType) plus the fields ImpactResult's constructor needs.
-        side.impact = { diceFormula: "1d6+2", aspectType: IMPACT_ASPECT.EDGED };
+        // Duck-typed ImpactModifier (CombatResult reads diceFormula +
+        // aspectType, and adds a named delta for a limb block's partial ward)
+        // plus the fields ImpactResult's constructor needs.
+        side.impact = {
+            aspectType: IMPACT_ASPECT.EDGED,
+            deltas: new Map<string, number>(),
+            get diceFormula(): string {
+                const modifier =
+                    2 +
+                    [...(this.deltas as Map<string, number>).values()].reduce((a, b) => a + b, 0);
+                return `1d6${modifier >= 0 ? "+" : ""}${modifier}`;
+            },
+            add(_name: string, abbrev: string, value: number) {
+                (this.deltas as Map<string, number>).set(abbrev, value);
+                return this;
+            },
+            get(abbrev: string) {
+                const deltas = this.deltas as Map<string, number>;
+                return deltas.has(abbrev) ? { numValue: deltas.get(abbrev) } : undefined;
+            },
+        };
         side.aimBodyPartCode = "head";
         side.title = "Broadsword";
         side.parent = { item: {} };
@@ -169,6 +189,154 @@ describe("calcMeleeCombatResult — Block", () => {
         const cr = block(-1, 1); // VS -2
         expect(cr.attackerLandsBlow).toBe(false);
         expect(cr.tacticalAdvantages).toEqual({ side: "defender", count: 1 });
+    });
+});
+
+describe("calcMeleeCombatResult — Limb Block", () => {
+    /**
+     * A body with one manipulator limb per side, each holding two locations, and
+     * a core part that is not a limb — so a draw that ignored the technique's
+     * roles could land outside the raised limb and be caught.
+     */
+    function limbBody(): BodyStructure {
+        return makeBody({
+            zones: [zoneData("armszone", 2), zoneData("torsozone", 2)],
+            parts: [
+                partData("larm", "armszone", 2, {
+                    roles: [BODY_ROLE.MANIPULATOR],
+                    canHoldItem: true,
+                }),
+                partData("rarm", "armszone", 2, {
+                    roles: [BODY_ROLE.MANIPULATOR],
+                    canHoldItem: true,
+                }),
+                partData("torso", "torsozone", 4, { roles: [BODY_ROLE.CORE] }),
+            ],
+            locations: [
+                locationData("lforearm", "larm", 50),
+                locationData("lhand", "larm", 50),
+                locationData("rforearm", "rarm", 50),
+                locationData("rhand", "rarm", 50),
+                locationData("chest", "torso", 100),
+            ],
+        });
+    }
+
+    const LIMB_LOCATIONS = ["lforearm", "lhand", "rforearm", "rhand"];
+
+    /**
+     * A limb block: a BLOCK whose strike mode carries the `limbBlock` trait, with
+     * the technique's `impairedByRoles` on the mode's parent logic and the
+     * defender's body reachable through its combatant.
+     */
+    function limbBlock(
+        atk: number,
+        def: number,
+        opts: { roles?: string[]; body?: BodyStructure | null } = {},
+    ): CombatResult {
+        const body = opts.body === undefined ? limbBody() : opts.body;
+        const defender = makeSide({ level: def, testType: TEST_TYPE.BLOCK.id });
+        defender.mode = {
+            traits: { limbBlock: true },
+            parent: { data: { impairedByRoles: opts.roles ?? [BODY_ROLE.MANIPULATOR] } },
+        };
+        defender.combatant = { actorLogic: body ? { body: { structure: body } } : undefined };
+        const cr = makeCombat(makeSide({ level: atk, withImpact: true }), defender);
+        cr.opposedTestEvaluate();
+        return cr;
+    }
+
+    it("recognises the defence by the strike mode's trait", () => {
+        expect(limbBlock(1, 1).isLimbBlock).toBe(true);
+        // An ordinary block carries no such trait, and is unaffected.
+        const ordinary = makeCombat(
+            makeSide({ level: 1 }),
+            makeSide({ level: 1, testType: TEST_TYPE.BLOCK.id }),
+        );
+        ordinary.opposedTestEvaluate();
+        expect(ordinary.isLimbBlock).toBe(false);
+    });
+
+    it("lands the blow on the blocking limb when the successes tie", () => {
+        // Where an ordinary block would have warded it entirely.
+        const cr = limbBlock(1, 1); // VS 0
+        expect(cr.attackerLandsBlow).toBe(true);
+        expect(cr.limbBlockStrikesLimb).toBe(true);
+        expect(LIMB_LOCATIONS).toContain(cr.blockingLimbLocationCode);
+    });
+
+    it("takes exactly two points off the impact of a blow it lands on the limb", () => {
+        const cr = limbBlock(1, 1);
+        expect(cr.attackResult.impact.get("LmbBlk")?.numValue).toBe(-2);
+        // 1d6+2 becomes 1d6+0: the ward comes off the impact, and the limb's own
+        // armour then applies to what is left.
+        expect(cr.attackResult.impact.diceFormula).toBe("1d6+0");
+    });
+
+    it("wards the blow when the limb block wins on success level", () => {
+        const cr = limbBlock(1, 2); // VS -1, a clear victory for the defence
+        expect(cr.attackerLandsBlow).toBe(false);
+        expect(cr.limbBlockStrikesLimb).toBe(false);
+        expect(cr.blockingLimbLocationCode).toBe("");
+        expect(cr.attackerImpact).toBeUndefined();
+    });
+
+    it("lands an ordinary blow when the attack out-levels the limb block", () => {
+        // The limb never got there, so the blow lands where it was headed and
+        // keeps its full impact.
+        const cr = limbBlock(2, 1); // VS +1
+        expect(cr.attackerLandsBlow).toBe(true);
+        expect(cr.limbBlockStrikesLimb).toBe(false);
+        expect(cr.blockingLimbLocationCode).toBe("");
+        expect(cr.attackResult.impact.get("LmbBlk")).toBeUndefined();
+    });
+
+    it("never sets the defender's weapon-break check", () => {
+        // A limb is not a weapon; the tie that breaks a shield breaks nothing here.
+        expect(limbBlock(1, 1).weaponBreakCheck).toBe("none");
+        expect(limbBlock(2, 1).weaponBreakCheck).toBe("none");
+        expect(limbBlock(1, 2).weaponBreakCheck).toBe("none");
+    });
+
+    it("does not land a failed attack on the limb, however badly the block failed", () => {
+        const cr = limbBlock(0, 0); // both marginal failures, VS 0
+        expect(cr.attackerLandsBlow).toBe(false);
+        expect(cr.limbBlockStrikesLimb).toBe(false);
+        expect(cr.blockingLimbLocationCode).toBe("");
+    });
+
+    it("settles the tie on success level alone, whatever the rolls were", () => {
+        // A dodge's tie goes to the higher roll; a limb block's does not.
+        const high = limbBlock(1, 1);
+        const low = limbBlock(1, 1);
+        expect(high.attackerLandsBlow).toBe(true);
+        expect(low.attackerLandsBlow).toBe(true);
+        expect(high.isTieBroken).toBe(false);
+    });
+
+    it("draws the location from the limbs the technique is performed with", () => {
+        // A locomotor technique blocks with a leg; this body has none, so no
+        // location is settled and the ordinary draw downstream applies.
+        const cr = limbBlock(1, 1, { roles: [BODY_ROLE.LOCOMOTOR] });
+        expect(cr.limbBlockStrikesLimb).toBe(true);
+        expect(cr.blockingLimbLocationCode).toBe("");
+        // The ward still applies: a limb was interposed even if which one is
+        // not derivable from this body.
+        expect(cr.attackResult.impact.get("LmbBlk")?.numValue).toBe(-2);
+    });
+
+    it("settles no location when the defender has no body to draw from", () => {
+        const cr = limbBlock(1, 1, { body: null });
+        expect(cr.blockingLimbLocationCode).toBe("");
+    });
+
+    it("stays at two points off when the exchange is resolved again", () => {
+        // `opposedTestEvaluate` is idempotent, so the ward must not stack.
+        const cr = limbBlock(1, 1);
+        cr.opposedTestEvaluate();
+        cr.opposedTestEvaluate();
+        expect(cr.attackResult.impact.get("LmbBlk")?.numValue).toBe(-2);
+        expect(cr.attackResult.impact.diceFormula).toBe("1d6+0");
     });
 });
 

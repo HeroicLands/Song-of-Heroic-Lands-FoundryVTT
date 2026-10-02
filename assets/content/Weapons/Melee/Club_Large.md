@@ -50,7 +50,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 5
-        defense: {blockMod: 0, counterstrikeMod: 0}
+        defense: {block: {modifier: 0}, counterstrike: {modifier: 0}}
       - shortcode: shaft
         type: melee
         name: Shaft
@@ -86,7 +86,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 5
-        defense: {blockMod: 0, counterstrikeMod: 0}
+        defense: {block: {modifier: 0}, counterstrike: {modifier: 0}}
 ---
 
 A two-handed wooden bludgeon, thicker and heavier than a common club, swung by men of considerable strength. The broad clubbed head delivers devastating blows that can splinter shields and shatter limbs—the reach and weight are worth the clumsiness. Often used in the hands of giants and ogres, or by the strongest human warriors in desperate defenses or breach assaults.

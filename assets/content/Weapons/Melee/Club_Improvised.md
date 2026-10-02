@@ -50,7 +50,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 4
-        defense: {blockMod: 0, counterstrikeMod: 0}
+        defense: {block: {modifier: 0}, counterstrike: {modifier: 0}}
       - shortcode: pommel
         type: melee
         name: Pommel
@@ -86,7 +86,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 4
-        defense: {blockMod: 0, counterstrikeMod: 0}
+        defense: {block: {modifier: 0}, counterstrike: {modifier: 0}}
 ---
 
 A branch torn from a tree, a table leg wrenched from its frame, a length of roof-timber—whatever comes to hand in the moment of need. Unbalanced and crude, held because there is no other choice, it swings with desperation rather than skill. In a tavern brawl or sudden ambush it may suffice; on a true battlefield it is a widow-maker for the man who carries it.
