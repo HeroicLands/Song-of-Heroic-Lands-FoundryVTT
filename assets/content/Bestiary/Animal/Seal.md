@@ -96,6 +96,7 @@ sohl:
           - name: Head
             shortcode: headloc
             bodyPartCode: headpart
+            isFumble: true
             bleedingSusceptibility: medium
             amputability: none
             shockValue: 5
@@ -104,6 +105,7 @@ sohl:
           - name: Gills
             shortcode: gillloc
             bodyPartCode: headpart
+            isFumble: true
             bleedingSusceptibility: high
             amputability: low
             shockValue: 5
@@ -128,6 +130,7 @@ sohl:
           - name: Left Fin
             shortcode: lfinloc
             bodyPartCode: lfinpart
+            isStumble: true
             bleedingSusceptibility: low
             amputability: medium
             shockValue: 2
@@ -136,6 +139,7 @@ sohl:
           - name: Right Fin
             shortcode: rfinloc
             bodyPartCode: rfinpart
+            isStumble: true
             bleedingSusceptibility: low
             amputability: medium
             shockValue: 2
@@ -144,6 +148,7 @@ sohl:
           - name: Tail
             shortcode: tailloc
             bodyPartCode: tailpart
+            isStumble: true
             bleedingSusceptibility: low
             amputability: medium
             shockValue: 2

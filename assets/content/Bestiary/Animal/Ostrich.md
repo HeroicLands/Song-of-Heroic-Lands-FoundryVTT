@@ -161,6 +161,7 @@ sohl:
           - name: Left Foreclaw
             shortcode: lforelegloc
             bodyPartCode: lforelegpart
+            isStumble: true
             bleedingSusceptibility: low
             amputability: medium
             shockValue: 2
@@ -169,6 +170,7 @@ sohl:
           - name: Right Foreclaw
             shortcode: rforelegloc
             bodyPartCode: rforelegpart
+            isStumble: true
             bleedingSusceptibility: low
             amputability: medium
             shockValue: 2
@@ -177,6 +179,7 @@ sohl:
           - name: Left Leg
             shortcode: lhindlegloc
             bodyPartCode: lhindlegpart
+            isStumble: true
             bleedingSusceptibility: low
             amputability: medium
             shockValue: 2
@@ -185,6 +188,7 @@ sohl:
           - name: Right Leg
             shortcode: rhindlegloc
             bodyPartCode: rhindlegpart
+            isStumble: true
             bleedingSusceptibility: low
             amputability: medium
             shockValue: 2
