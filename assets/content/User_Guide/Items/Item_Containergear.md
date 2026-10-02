@@ -16,11 +16,11 @@ Containers appear on the Being's **Gear** tab. Other gear (Miscellaneous, Concoc
 
 # Additional Properties
 
-In addition to the [[doc-gearug|Standard Gear Properties]], the following additional properties are defined for containers:
+Along with the [[doc-gearug|Standard Gear Properties]], the following property also appears in the **Properties** tab:
 
-- **Capacity** — how much the container can hold, limiting what can be stored inside.
-- **Weight** — the weight of the container itself (contents add their own weight on top).
-- **Contained Items** — the gear items nested inside this container.
+- **Max Capacity:** The weight or volume the container is meant to hold. The container's section on the Gear tab shows a used-over-maximum readout against this number, but nothing in the sheet refuses an item that pushes the total over it — the readout is for your judgment, not an enforced limit.
+
+What is nested inside a container is not a property of the container itself: an item becomes contained by being dragged onto the container's row on the actor's **Gear** tab, and leaves the same way — see [[doc-gearug|Gear]]. The container's own weight is the [[doc-gearug|Standard Gear Properties]]' Weight Base, with its contents' weight added on top.
 
 # Intrinsic Actions
 

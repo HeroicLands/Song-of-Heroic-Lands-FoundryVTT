@@ -65,6 +65,10 @@ Along with the [[doc-baseitemug|Standard Item Properties]], a Trauma's **Propert
 | **Course Test Interval**          | Shock, Coma                                                         | The same, for the recovery Course Test                                                                                                                                                                                                                                            |
 | **Next … Test**                   | Any type with a recurring check                                     | View-only. When the next check is due, or **—** when nothing is scheduled                                                                                                                                                                                                         |
 
+A wound also carries a **Treatment Modifier**, applied to its own Treatment Test, seeded when the wound is created. There is no Properties-tab control for it; it is set by whatever resolved the injury in the first place, not edited here.
+
+The **Blood-Loss Interval** has a formula counterpart behind it: the dice expression each fresh bleeding interval is rolled from, taken from a world setting rather than authored on the wound. There is no Properties-tab control for it; only the rolled **Blood-Loss Interval** itself is shown and editable there.
+
 Two of these deserve a second look, because they are derived rather than typed:
 
 - **Treated** is not a checkbox. A wound counts as treated once it has a treatment date, which [[#treat-injury|Treat Injury]] and the [[#treatment-test|Treatment Test]] set for you.

@@ -54,19 +54,20 @@ The SubType is descriptive: it does **not** change the Course Test or the outcom
 
 Along with the [[doc-baseitemug|Standard Item Properties]], the **Properties** tab offers:
 
-| Field                | What it is                                                                                                                                     |
-| -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Category**         | An optional free sub-classification within the SubType. Shown in the Category column on the Health tab                                         |
-| **Dormant**          | The affliction is present but inactive. A dormant affliction may still be transmissible, but it runs no course                                 |
-| **Level**            | Severity, low to high. **Authored, and it does not move** — see below                                                                          |
-| **Healing Rate**     | How the fight is going, 1–6. **This is the number that moves.** Clear the field entirely for an affliction that does not heal naturally at all |
-| **Contagion Index**  | How readily it spreads, 1–5. **Lower is more contagious**                                                                                      |
-| **Transmission**     | How it reaches a new victim — see the table below                                                                                              |
-| **Onset Macro UUID** | Optional. A Macro run once at onset, letting an author attach concrete consequences to a specific affliction. A _reference_ only, never code   |
-| **Outcome**          | What running the course to the end does to the character: **Death** or **Cured**. Defaults to the benign _Cured_                               |
-| **Outcome Trauma**   | Optional. A Safe Expression yielding the shortcode — or a list of shortcodes — of the Traumas the character contracts at the end               |
-| **Contracted**       | World-time the affliction was contracted. Stamped automatically when the item is created                                                       |
-| **Treated**          | World-time treatment was applied. Blank means untreated                                                                                        |
+| Field                | What it is                                                                                                                                                  |
+| -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Category**         | An optional free sub-classification within the SubType. Shown in the Category column on the Health tab                                                      |
+| **Dormant**          | The affliction is present but inactive. A dormant affliction may still be transmissible, but it runs no course                                              |
+| **Level**            | Severity, low to high. **Authored, and it does not move** — see below                                                                                       |
+| **Healing Rate**     | How the fight is going, 1–6. **This is the number that moves.** Clear the field entirely for an affliction that does not heal naturally at all              |
+| **Contagion Index**  | How readily it spreads, 1–5. **Lower is more contagious**                                                                                                   |
+| **Transmission**     | How it reaches a new victim — see the table below                                                                                                           |
+| **Onset Formula**    | A dice formula giving the number of days between contracting the affliction and its onset. Rolled by the **Contagion Test**; blank means it never incubates |
+| **Onset Macro UUID** | Optional. A Macro run once at onset, letting an author attach concrete consequences to a specific affliction. A _reference_ only, never code                |
+| **Outcome**          | What running the course to the end does to the character: **Death** or **Cured**. Defaults to the benign _Cured_                                            |
+| **Outcome Traumas**  | Optional. A Safe Expression yielding the shortcode — or a list of shortcodes — of the Traumas the character contracts at the end                            |
+| **Contracted**       | World-time the affliction was contracted. Stamped automatically when the item is created                                                                    |
+| **Treated**          | World-time treatment was applied. Blank means untreated                                                                                                     |
 
 Three fieldsets below them carry the timing of each phase. Each pairs an authored **formula** with the **seconds** last rolled from it, plus a view-only projection:
 
@@ -227,7 +228,7 @@ They are offered, not armed. Pressing **Set Onset** says the affliction is now s
 
 Asks **which outcome** the affliction settles on — the authored one is pre-selected, and you can override it — then records that outcome with the **Resolution** date stamped as now. Resolution is terminal, so the affliction's remaining checks are cleared.
 
-The chosen outcome is then applied: _Death_ sets the character's shock state to Dead, _Cured_ takes the Healing Rate to 6. Any authored **Outcome Trauma** is contracted alongside it.
+The chosen outcome is then applied: _Death_ sets the character's shock state to Dead, _Cured_ takes the Healing Rate to 6. Any authored **Outcome Traumas** are contracted alongside it.
 
 An affliction that has already been **defeated** (Healing Rate 6 or better) beat its course on its own. Its resolution is still recorded, but no outcome is inflicted — the character won.
 
@@ -369,7 +370,7 @@ Every affliction declares what it does to a character it beats:
 
 **Cured is the default**, and it is the benign one: an affliction nobody authored an ending for lets its victim go.
 
-Alongside it, an affliction may name an **Outcome Trauma** — a [[doc-sfexprssug|Safe Expression]] giving the shortcode, or a list of shortcodes, of Traumas the character contracts at resolution. Each is looked for among the world's items first, then in the compendiums, and the first match found is added to the character's sheet. A shortcode that matches nothing is skipped with a warning rather than inventing something.
+Alongside it, an affliction may name **Outcome Traumas** — a [[doc-sfexprssug|Safe Expression]] giving the shortcode, or a list of shortcodes, of Traumas the character contracts at resolution. Each is looked for among the world's items first, then in the compendiums, and the first match found is added to the character's sheet. A shortcode that matches nothing is skipped with a warning rather than inventing something.
 
 The two combine, which is where the interesting endings live: an affliction with **Cured** and an outcome trauma leaves its victim free of the disease but permanently marked by it — the fever breaks and the blindness stays.
 

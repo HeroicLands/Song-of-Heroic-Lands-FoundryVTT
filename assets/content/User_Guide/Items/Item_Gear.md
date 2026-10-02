@@ -29,11 +29,14 @@ Along with the [[doc-baseitemug|Standard Item Properties]], the following proper
 - **Quantity:** The quantity of items. Some items should never have more than Quantity 1: things like Armor, Weapons, and Containers are meant to be unique, and if multiple versions of it are available then separate instances of the gear should be on the actor (such as "Dagger 1", "Dagger 2", and "Dagger 3", rather than "Dagger" with Quantity 3). This is not true for things like projectiles (arrows, bolts, etc.), Miscellaneous Gear (such as Pence, etc.), or Concoctions, which may have a quantity specified.
 - **Weight Base:** The weight of a single instance of the item. The total weight will be calculated as the Weight Base x Quantity.
 - **Value Base:** The value of a single instance of the item. The total value will be calculated as the Value Base x Quantity.
-- **Quality Base:** Quality is a numeric value that represents how much better or worse an item is than a "standard" item of its type. A Quality of 0 is a totally standard item in all respects. Positive numbers represent higher quality items, and negative numbers specifiy lower quality items.
-- **Durability Base:** How durable an item is against damage. Most metal weapons and armor have a durability between 8-12, glass from 4-6, paper 3-5, granite 15-17, etc.
+- **Quality Base:** A rating of the item's workmanship against a standard item of its kind. 0 is standard; a positive number is better made, a negative number worse.
+- **Durability Base:** A rating of the item's structural toughness.
 - **Is Carried:** Whether the item is being carried or not. When carried, the item participates in encumbrance calculations, but it then may also be used. Items that are not carried remain noted on your character sheet, but it is assumed they have been left on the ground or maybe on a cart or other location. An item that is not carried can do nothing for you — see **Carried Gear Only**, below.
-- \*\*Is Equipped:" Certain items have the ability to be equipped, such as armor and weapons. An Equipped Armor actively protects the body locations it is meant to protect, and an equipped weapon is ready to be used. Unequipped weapons and armor that is nevertheless carried might be strapped to the body, slung over the shouldler, or put into a backpack.
 - **Shared With:** The [[doc-cohortug|Cohorts]] this item is shared with — see **Sharing Gear With a Cohort**, below. The control appears only when the world actually has a Cohort to share with.
+
+**There is no general-purpose "Equipped" property on Gear.** Only [[doc-armorgearug|Armor]] carries anything of the kind, as its own **Worn** property — see [[doc-armorgearug#toggle-worn|Toggle Worn]]. A weapon in hand is a matter of what it is held in on the Combat tab, not a flag on the item.
+
+An item nests inside a Container by drag and drop on the **Gear** tab rather than through a field on this tab — drop it onto the container's row to place it inside, and onto the **On Body** section to take it back out. See [[doc-containergearug|Container]].
 
 # Sharing Gear With a Cohort
 
