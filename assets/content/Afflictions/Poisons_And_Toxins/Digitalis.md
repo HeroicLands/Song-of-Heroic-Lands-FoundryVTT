@@ -5,7 +5,13 @@ type: affliction
 subType: poisontoxin
 description: "Foxglove cardiac glycoside; nausea, visual disturbances, severe cardiac effects."
 tags: []
-data: {icon: poisonbottle, templatePriority: 0, packFolder: poisonsandtoxins}
+data:
+  icon: poisonbottle
+  templatePriority: 0
+  packFolder: poisonsandtoxins
+  onsetDurationFormula: 7200
+  healingCheckDurationFormula: 3600
+  resolutionDurationFormula: 1d3*86400
 sohl:
   kbcat: poisontoxin
   system: {levelBase: 1, healingRateBase: 3, contagionIndexBase: 3, transmission: injested}

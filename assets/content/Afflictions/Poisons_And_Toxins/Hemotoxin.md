@@ -5,7 +5,13 @@ type: affliction
 subType: poisontoxin
 description: "Venom that destroys red blood cells; severe tissue damage and bleeding."
 tags: []
-data: {icon: poisonbottle, templatePriority: 0, packFolder: poisonsandtoxins}
+data:
+  icon: poisonbottle
+  templatePriority: 0
+  packFolder: poisonsandtoxins
+  onsetDurationFormula: 1800
+  healingCheckDurationFormula: 3600
+  resolutionDurationFormula: 1d3*86400
 sohl:
   kbcat: poisontoxin
   system: {levelBase: 1, healingRateBase: 3, contagionIndexBase: 3, transmission: vector}

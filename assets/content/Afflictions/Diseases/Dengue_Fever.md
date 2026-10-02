@@ -5,10 +5,21 @@ type: affliction
 subType: disease
 description: "Mosquito-borne virus; high fever, joint pain, mild bleeding."
 tags: []
-data: {icon: virus, templatePriority: 0, packFolder: diseases}
+data:
+  icon: virus
+  templatePriority: 0
+  packFolder: diseases
+  onsetDurationFormula: 518400
+  healingCheckDurationFormula: 86400
+  resolutionDurationFormula: 1d6*86400+86400
 sohl:
   kbcat: diseases
-  system: {levelBase: 1, healingRateBase: 3, contagionIndexBase: 3, transmission: vector}
+  system:
+    levelBase: 1
+    healingRateBase: 3
+    contagionIndexBase: 3
+    transmission: vector
+    onsetFormula: 1d7+3
 ---
 
 Dengue fever is a mosquito-borne viral illness caused by the dengue virus, transmitted by Aedes mosquitoes. Symptoms include high fever, severe headache, pain behind the eyes, joint and muscle pain (hence "breakbone fever"), rash, and mild bleeding manifestations like nose or gum bleeding. Most cases are self-limiting, but a severe form, dengue hemorrhagic fever, can result in severe bleeding, blood plasma leakage, organ damage, and potentially fatal dengue shock syndrome. Supportive care to manage symptoms and maintain hydration is critical.

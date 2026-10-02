@@ -5,10 +5,21 @@ type: affliction
 subType: disease
 description: "Vibrio bacterium; sudden profuse watery diarrhea; rapid dehydration fatal without treatment."
 tags: []
-data: {icon: virus, templatePriority: 0, packFolder: diseases}
+data:
+  icon: virus
+  templatePriority: 0
+  packFolder: diseases
+  onsetDurationFormula: 172800
+  healingCheckDurationFormula: 21600
+  resolutionDurationFormula: 1d7*86400
 sohl:
   kbcat: diseases
-  system: {levelBase: 1, healingRateBase: 3, contagionIndexBase: 3, transmission: injested}
+  system:
+    levelBase: 1
+    healingRateBase: 3
+    contagionIndexBase: 3
+    transmission: injested
+    onsetFormula: 1d5
 ---
 
 Cholera is an acute diarrheal illness caused by the bacterium _Vibrio cholerae_, usually spread through contaminated water or food. It is characterized by the sudden onset of profuse, watery diarrhea described as "rice-water stools," accompanied by vomiting and rapid dehydration. Severe dehydration can lead to shock, kidney failure, and death if not promptly treated. Cholera outbreaks are common in areas with poor water sanitation and insufficient access to clean drinking water. Immediate rehydration therapy, alongside antibiotic treatment, is essential to manage and control the disease.
