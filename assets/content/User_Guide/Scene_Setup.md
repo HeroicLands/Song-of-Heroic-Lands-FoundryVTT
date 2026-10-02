@@ -23,7 +23,7 @@ SoHL ships maps in two compendiums, and which one you import from decides whethe
 
 To import: open the **Adventures** compendium, click the entry, review the list of what it contains, and confirm.
 
-Importing the same Adventure again **updates** what is already in your world rather than making a second copy — which is how a corrected map reaches you, and also means your own edits to those scenes and journals are overwritten. If you have changed a shipped map and want to keep the changes, duplicate it first and work on the copy.
+Importing the same Adventure a second time **updates** what is already in your world rather than making a second copy — which is how a corrected map reaches you, and also means your own edits to those scenes and journals are overwritten. If you have changed a shipped map and want to keep the changes, duplicate it first and work on the copy.
 
 A map you import is an ordinary Foundry scene afterwards. Nothing about it is locked: move a wall, add a light, repaint the regions.
 
@@ -63,7 +63,7 @@ Cohorts have a special TokenHUD button that lets you expand a group token into i
 
 This is useful when a group encounter transitions into individual combat — start with one cohort token for the approaching band of bandits, then expand them when initiative is rolled.
 
-**Expanding runs one way.** It deletes the cohort's token rather than hiding it, and there is no action that gathers the member tokens back into one. To return to a single cohort token, delete the member tokens from the scene and place the Cohort actor again — placing it offers the same **single token** or **expand** choice described under [[#scene-placing|Placing Actors on Scenes]].
+**Expanding runs one way.** It deletes the cohort's token rather than hiding it, and there is no action that gathers the member tokens back into one. To return to a single cohort token, delete the member tokens from the scene and drag the Cohort actor onto it as a fresh placement — the same **single token** or **expand** choice described under [[#scene-placing|Placing Actors on Scenes]] applies.
 
 Expanding touches only the token, never the Cohort actor's own record: its sheet, its members list, and anything on it are untouched by either direction of the move. An effect applied directly to the cohort's token stops being represented on the canvas once that token is gone — it is not carried onto any member's token, and a member's own effects are unaffected by the cohort's.
 

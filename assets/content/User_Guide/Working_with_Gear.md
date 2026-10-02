@@ -95,7 +95,7 @@ See the individual item type guides for details on each gear type.
 
 Every gear item, whatever its type, carries a **Qual** and a **Dur** field on its Properties tab and in the Gear tab's ledger. **Quality** is a craftsmanship rating, generally set somewhere from 8 to 12; most shipped gear is authored at 0, which reads as untouched rather than as a judgment on the piece. **Durability** is a structural-integrity rating, authored at 0 by default as well. Both are open to trait and effect deltas the way weight is — hovering either column shows the base value and anything currently modifying it.
 
-Today, neither field changes anything else about the item: an item's quality does not change its performance or its value, and nothing reduces an item's durability or checks it for breakage. Treat both as a number you can read and set, not yet as something the system itself acts on.
+Today, neither field changes anything else about the item: an item's quality does not change its performance or its value, and nothing reduces an item's durability or checks it for breakage. Treat both as a number you can read and set, not as something the system itself acts on.
 
 # See also
 
