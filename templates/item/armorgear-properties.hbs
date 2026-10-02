@@ -19,12 +19,12 @@ SPDX-License-Identifier: GPL-3.0-or-later
             {{formGroup fields.weightBase rootId="armgear-wt" classes="text-field" stacked=true value=system.weightBase}}
             {{formGroup fields.valueBase rootId="armgear-val" classes="text-field" stacked=true value=system.valueBase}}
             {{formGroup fields.isCarried rootId="armgear-carried" classes="text-field" stacked=true value=system.isCarried}}
-            {{!-- Worn is gated on carried (#1097): armor off the character's person cannot be worn. --}}
+            {{!-- Worn is gated on carried: armor off the character's person cannot be worn. --}}
             {{formGroup fields.isWorn rootId="armgear-worn" classes="text-field" stacked=true value=system.isWorn disabled=(not system.isCarried)}}
             {{formGroup fields.qualityBase rootId="armgear-qual" classes="text-field" stacked=true value=system.qualityBase}}
             {{formGroup fields.durabilityBase rootId="armgear-dur" classes="text-field" stacked=true value=system.durabilityBase}}
-            {{!-- Encumbrance (#1133): added to the wearer's encumbrance while
-                  the armor is worn (BeingLogic.finalize, #1010). Disabled for an
+            {{!-- Encumbrance is added to the wearer's encumbrance while the
+                  armor is worn (BeingLogic.finalize). Disabled for an
                   article in a group, whose cost is charged to the set instead. --}}
             {{formGroup fields.encumbrance rootId="armgear-enc" classes="text-field" stacked=true value=system.encumbrance disabled=system.encumbranceGroup}}
             {{!-- Encumbrance group: the arm pieces cost nothing alone and 5
@@ -38,7 +38,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                   while worn; the worst worn penalty applies, never the sum. --}}
             {{formGroup fields.perceptionPenaltyBase rootId="armgear-perc" classes="text-field" stacked=true value=system.perceptionPenaltyBase}}
         </div>
-        {{!-- Cohort sharing (#76): marks this item as shared with a cohort,
+        {{!-- Cohort sharing marks this item as shared with a cohort,
               which then lists it on its read-only Shared Gear tab. --}}
         {{> sharedWithCohortsField cohortChoices=cohortChoices sharedWithCohortIds=system.sharedWithCohortIds}}
     </fieldset>
@@ -47,7 +47,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
         {{formGroup fields.material rootId="armgear-mat" classes="text-field" stacked=true value=system.material}}
     </div>
 
-    {{!-- Protection (#1133): seeds ArmorGearLogic.protection, which is folded
+    {{!-- Protection seeds ArmorGearLogic.protection, which is folded
           onto every covered body location and subtracted from an impact. --}}
     <fieldset>
         <legend>{{localize "SOHL.ArmorGear.FIELDS.protectionBase.label"}}</legend>

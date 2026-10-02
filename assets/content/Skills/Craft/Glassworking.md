@@ -31,10 +31,10 @@ Glass is made by the common [[doc-crafting|crafting routine]] — workshop, expe
 
 | Item                  | lb  | Price | Item                | lb   | Price |
 | --------------------- | --- | ----- | ------------------- | ---- | ----- |
-| Beads, glass          | 1   | 12d   | Inkwell, glass      | 1    | 30d   |
-| Bottle, glass, medium | 2   | 6d    | Jar, glass, 1 pt.   | 0.75 | 6d    |
-| Flask, glass, 1 pint  | 1   | 6d    | Lenses              | 0.1  | 120d  |
-| Hourglass             | 0.3 | 150d  | Vial, glass, medium | 0.25 | 4d    |
+| Beads, glass          | 1   | 10d   | Inkwell, glass      | 1    | 24d   |
+| Bottle, glass, medium | 2   | 30d   | Jar, glass, 1 pt.   | 0.75 | 8d    |
+| Flask, glass, 1 pint  | 1   | 12d   | Lenses              | 0.1  | 120d  |
+| Hourglass             | 0.3 | 150d  | Vial, glass, medium | 0.25 | 6d    |
 
 **Glazing** is sold and worked by the square foot rather than as an article, and is the bulk of a town glazier's trade — a cathedral window is reckoned in hundreds of feet and years of work.
 

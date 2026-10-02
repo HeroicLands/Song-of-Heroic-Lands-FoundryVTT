@@ -33,11 +33,11 @@ Pottery is made by the common [[doc-crafting|crafting routine]] — workshop, ex
 
 | Item                                | lb  | Price | Item                   | lb  | Price |
 | ----------------------------------- | --- | ----- | ---------------------- | --- | ----- |
-| Amphora, ceramic, 15 gallon         | 28  | 28d   | Jar, lidded, 1 quart   | 3   | 5d    |
-| Beads, ceramic, 12                  | 2   | 6d    | Jug, ceramic, 1 gallon | 5   | 9d    |
-| Bottle, ceramic, 2 pints            | 1   | 2d    | Plate, ceramic         | 2   | 3d    |
+| Amphora, ceramic, 15 gallon         | 28  | 24d   | Jar, lidded, 1 quart   | 3   | 4d    |
+| Beads, ceramic, 12                  | 2   | 6d    | Jug, ceramic, 1 gallon | 5   | 8d    |
+| Bottle, ceramic, 2 pints            | 1   | 6d    | Plate, ceramic         | 2   | 3d    |
 | Bowl, ceramic                       | 3   | 6d    | Pot, ceramic, 2 quart  | 3   | 4d    |
-| Box, ceramic, lidded, 12 x 8 x 6 in | 2   | 3d    | Urn, ceramic, 5 gallon | 9   | 12d   |
+| Box, ceramic, lidded, 12 x 8 x 6 in | 2   | 4d    | Urn, ceramic, 5 gallon | 9   | 12d   |
 | Icon, ceramic, 4 in                 | 1   | 2d    | Vase, ceramic          | 2   | 4d    |
 
 **Building materials** are priced by the piece rather than as possessions — nobody inventories a brick — and a potter fires them by the cartload alongside everything else.
