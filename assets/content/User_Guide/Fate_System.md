@@ -36,6 +36,31 @@ Some tests are beyond Fate's reach whatever the character holds — a test gover
 by Aura, any Mystical Ability test, and a Fate Test itself. See
 [[doc-fatepnts#fate-exclusions|Fate Points]] for the full list.
 
+## Reading your points {#fate-points-reading}
+
+A mystery's **Charges** are its points, and the Mysteries tab is where you read
+them: the **Charges** column on each Fate mystery's row shows **current/maximum**
+— or ∞ for a wellspring that never runs dry. A general point and a
+skill-specific point are two separate rows, so a glance down the column says
+exactly how many of each kind you are holding before you ever press **Spend
+Fate**.
+
+## Gaining Fate and awarding a point {#fate-points-gaining}
+
+A character comes by Fate the way they come by any other mystery: a Fate
+mystery is dragged onto their sheet from a compendium, or created directly from
+the Mysteries tab's **Add** button for the **Fate** subtype — see
+[[doc-crtngactitemug|Creating Actors and Items]] for adding items generally.
+Nothing about Fate is granted automatically at character creation; a character
+starts with points only if they are given a mystery that carries them.
+
+Awarding a point mid-campaign is the same action run on an existing mystery:
+open the Fate mystery and raise its **Current Charges** on the Properties tab,
+raising **Maximum Charges** too if the award should also lift the cap. There is
+no dedicated "grant a point" control — a GM awards a point by editing the
+mystery's Charges fields, the same fields a player consults to read them. See
+[[doc-mysteryug|Mystery]] for what each Charges field means.
+
 # Using Fate {#fate-using}
 
 ## Spending Fate
@@ -87,6 +112,8 @@ See [[doc-syssetngug|System Settings]] for more configuration options.
 - [[doc-sklltestug|Skill Tests and Opposed Tests]] — the settled result that Fate is spent to improve.
 - [[doc-baseitemug|Base Item]] — the test-result card the Fate button appears on, and the GM's counterpart result edit.
 - [[doc-beingug|Being]] — where a character's Fate Points are held.
+- [[doc-mysteryug|Mystery]] — the item a Fate Point lives on, and its Charges fields.
+- [[doc-crtngactitemug|Creating Actors and Items]] — dragging or creating a mystery on a character.
 - [[doc-syssetngug|System Settings]] — the **Fate** world setting.
 - [[doc-fatepnts|Fate]] (rules) — what Fate is and what spending it may buy.
 - [[doc-userguide|User Guide]] — back to the index.
