@@ -10,7 +10,7 @@
 //
 // The form's fields use `.form-group.stacked` — label span above its control.
 // That variant has no core styling, so without these rules the label and control
-// fall back to Foundry's inline `.form-group` flow and overlap unreadably (#683).
+// fall back to Foundry's inline `.form-group` flow and overlap unreadably.
 
 .strike-mode-config__body {
     display: flex;

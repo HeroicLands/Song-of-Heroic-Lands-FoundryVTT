@@ -13,7 +13,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 <section class="tab actions{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="actions">
 
-    {{!-- Custom (script) actions — each bound to a Macro; GM-editable (#501) --}}
+    {{!-- Custom (script) actions — each bound to a Macro; GM-editable --}}
     <div class="search-items">
         <input class="search-criteria" type="search" name="search-actions" value=""
             aria-label="{{localize "SOHL.Action.search"}}" placeholder="{{localize "SOHL.Action.search"}}" autocomplete="off" />
@@ -39,7 +39,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
         </div>
         {{#each customActions as |action|}}
         <div class="ledger__row" data-search-name="{{localize action.data.title}}" data-action-name="{{action.data.shortcode}}">
-            {{!-- Actions carry a FontAwesome/ginf class, not an image (#1136);
+            {{!-- Actions carry a FontAwesome/ginf class, not an image;
                  fall back to the schema's placeholder glyph when blank. --}}
             <div class="ledger__icon"><i class="{{#if action.data.iconFAClass}}{{action.data.iconFAClass}}{{else}}fa-solid fa-circle-question{{/if}}"></i></div>
             <div class="ledger__name">{{localize action.data.title}}</div>
@@ -54,7 +54,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 </a>
                 {{!-- A gated action (its trigger currently refuses it) reads as
                      disabled and says why, rather than offering a control that
-                     silently does nothing (#1135). --}}
+                     silently does nothing. --}}
                 <a class="icon-button" data-action="runAction" data-tooltip="{{#if action.available}}{{localize "SOHL.Action.run" name=(localize action.data.title)}}{{else}}{{localize action.unavailableReason}}{{/if}}"{{#unless action.available}} disabled aria-disabled="true"{{/unless}}>
                     <i class="fa-solid fa-play"></i>
                 </a>
@@ -79,7 +79,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
         </div>
         {{#each intrinsicActions as |action|}}
         <div class="ledger__row" data-search-name="{{localize action.data.title}}" data-action-name="{{action.data.shortcode}}">
-            {{!-- Actions carry a FontAwesome/ginf class, not an image (#1136);
+            {{!-- Actions carry a FontAwesome/ginf class, not an image;
                  fall back to the schema's placeholder glyph when blank. --}}
             <div class="ledger__icon"><i class="{{#if action.data.iconFAClass}}{{action.data.iconFAClass}}{{else}}fa-solid fa-circle-question{{/if}}"></i></div>
             <div class="ledger__name">{{localize action.data.title}}</div>
@@ -88,7 +88,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <div class="ledger__controls">
                 {{!-- A gated action (its trigger currently refuses it) reads as
                      disabled and says why, rather than offering a control that
-                     silently does nothing (#1135). --}}
+                     silently does nothing. --}}
                 <a class="icon-button" data-action="runAction" data-tooltip="{{#if action.available}}{{localize "SOHL.Action.run" name=(localize action.data.title)}}{{else}}{{localize action.unavailableReason}}{{/if}}"{{#unless action.available}} disabled aria-disabled="true"{{/unless}}>
                     <i class="fa-solid fa-play"></i>
                 </a>
