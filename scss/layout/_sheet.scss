@@ -31,7 +31,7 @@
 // Content tabs scroll instead of clipping their overflow. `window-content` is a
 // flex column (a Foundry ApplicationV2 default) with a definite height, so the
 // `height: 100%` tab is bounded and only needs `overflow-y: auto` to gain a
-// scrollbar when it overflows — for every SoHL sheet (#514). Sheets pair this
+// scrollbar when it overflows — for every SoHL sheet. Sheets pair this
 // with `scrollable: [""]` on their parts to preserve scroll position across
 // re-renders. (Deliberately NOT `min-height: 0`: that lets a flex-child tab
 // collapse to zero height when a sibling — e.g. an item sheet's tall header —
@@ -137,7 +137,7 @@ span.sep {
         font-weight: 400;
     }
 
-    // Archetype-marker control (#1780) — the GM-only field marking this
+    // Archetype-marker control — the GM-only field marking this
     // document as a Create-dialog archetype. Sits under the shortcode, matched
     // to it in scale so it reads as provenance rather than as game data.
     .sheet-header__archetype {
@@ -188,7 +188,7 @@ span.sep {
 
     // Item-sheet header image. Without a size constraint it renders at its
     // natural size and fills the whole `window-content`, collapsing the tab
-    // body below it to zero height (#528). Pin it to a fixed slice like the
+    // body below it to zero height. Pin it to a fixed slice like the
     // actor portrait so the tab keeps the remaining space.
     img.item-img {
         flex: 0 0 80px;

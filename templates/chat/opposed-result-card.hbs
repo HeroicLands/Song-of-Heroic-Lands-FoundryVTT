@@ -11,26 +11,13 @@ https://www.gnu.org/licenses/gpl-3.0.html
 SPDX-License-Identifier: GPL-3.0-or-later
 --}}
 
-{{!--
-This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
-Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.org>
-
-Licensed under the GNU General Public License v3.0 (GPLv3).
-You may copy, modify, and distribute this file under the terms of that license.
-
-See LICENSE.md in the project root or:
-https://www.gnu.org/licenses/gpl-3.0.html
-
-SPDX-License-Identifier: GPL-3.0-or-later
---}}
-
 <div class="sohl chat-card item-card" data-actor-uuid="{{sourceTestResult.actor.uuid}}">
     <header class="card-header flexcol">
         <h3 class="title"
         >{{title}}
             {{!--
-            GM result-edit of a settled contest (#1082): re-open BOTH sides'
-            modifiers on their frozen rolls (no re-roll, no Fate cost) and repost
+            A GM result-edit of a settled contest re-opens BOTH sides'
+            modifiers on their frozen rolls (no re-roll, no Fate cost) and reposts
             this card. The pencil is render-hidden from non-GMs by
             `gateEditActionPencil` and GM-refused again at click time in
             `opposedResultEdit`. It is addressed to the SOURCE ACTOR — not the

@@ -19,7 +19,7 @@
 
 // Pin `color-scheme` on SoHL's own scoped surfaces so `<img>`-embedded SVG icons
 // (whose fill follows the used `color-scheme`) track the same OS/`[data-theme]`
-// signal as the vellum ground, instead of Foundry's independent UI theme (#917).
+// signal as the vellum ground, instead of Foundry's independent UI theme.
 @include tokens.emit-color-scheme;
 
 // Cascade layers — see css-architecture.md §5. SoHL's `sohl.*` layers register
@@ -123,7 +123,7 @@
         @include meta.load-css("components/item-fieldset");
         @include meta.load-css("components/prose-panel");
 
-        // Being print / export view (#795) — the standalone print window's
+        // Being print / export view — the standalone print window's
         // <body> carries `.sohl`, so the record styles resolve here as
         // `.sohl .being-print`.
         @include meta.load-css("components/print");
@@ -169,7 +169,7 @@
 // utilities — single-purpose helpers; highest priority so they always win.
 // Grid lives in the `layout` layer rather than here: several component rules
 // legitimately override grid spacing (e.g. chat's `.mingap` tightens a grid gap),
-// which the BEM pass (#94) will convert to modifiers; until then keeping grid below
+// which the BEM pass converts to modifiers; until then keeping grid below
 // `components` preserves those overrides. Flex helpers have no such overrides.
 @layer sohl.utilities {
     @include meta.load-css("utilities/flex");

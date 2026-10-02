@@ -14,7 +14,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 <section class="tab properties{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="properties">
     {{!-- Sub-type is fixed at creation and is presented read-only in the sheet
           header (via the localized typeLabel), so it has no editable control
-          here (#926). Each sub-type edits only its relevant fields (#939). --}}
+          here. Each sub-type edits only its relevant fields. --}}
     <div class="field-grid field-grid--3col">
         {{#if showLevel}}
         {{formGroup fields.levelBase rootId="trauma-level" classes="text-field" stacked=true value=system.levelBase}}
@@ -55,7 +55,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
     {{!-- Physical details: aspect / body location / blood-loss interval. Body
           location is shown for injury and infection; aspect and blood loss are
-          injury-only (#927, #939). --}}
+          injury-only. --}}
     {{#if showBodyLocation}}
     <fieldset>
         <legend>{{localize "SOHL.Trauma.SECTION.physical"}}</legend>
@@ -65,7 +65,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
             {{/if}}
             {{> shortcodeRefField embedded=embedded field=fields.bodyLocationCode rootId="trauma-bodyloc" name="system.bodyLocationCode" value=system.bodyLocationCode options=bodyLocationCodeOptions label="SOHL.Trauma.FIELDS.bodyLocationCode.label" hint="SOHL.Trauma.FIELDS.bodyLocationCode.hint" blankLabel=(localize "SOHL.Common.none")}}
             {{#if showBloodLoss}}
-            {{!-- Bleeding is derived (#482): a wound bleeds while its blood-loss
+            {{!-- Bleeding is derived: a wound bleeds while its blood-loss
                   timer is armed. Set an interval (seconds) to make it bleed; clear
                   it to stop. --}}
             <div class="form-group stacked">
@@ -84,7 +84,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
     {{/if}}
 
     {{!-- Recurring test cadence: the author-editable interval formula + last
-          rolled base, and the computed (view-only) next test date (#939). --}}
+          rolled base, and the computed (view-only) next test date. --}}
     {{#if showHealDuration}}
     <fieldset>
         <legend>{{localize "SOHL.Trauma.SECTION.healingCheck"}}</legend>
@@ -106,8 +106,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
     {{/if}}
 
     {{!-- View-only next recovery/heal/course test — derived from the schedule
-          (nothing is auto-armed; consent model #579). Shown for every sub-type
-          that has a recurring test (#939). --}}
+          (nothing is auto-armed; the consent model decides when a test runs).
+          Shown for every sub-type that has a recurring test. --}}
     {{#if nextTestLabelKey}}
     <div class="form-group stacked">
         <label>{{localize nextTestLabelKey}}</label>

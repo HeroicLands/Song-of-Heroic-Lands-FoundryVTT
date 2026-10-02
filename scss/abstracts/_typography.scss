@@ -204,8 +204,8 @@
 $font-mono: "IBM Plex Mono", "Courier", monospace;
 // Signika is NOT shipped by SoHL — Foundry bundles it as its default UI font
 // and loads all five weights (300/400/500/600/700) via
-// `CONFIG.fontDefinitions`, so the family resolves without our own copy
-// (#1522). Relying on core here is deliberate: dropping Signika would
+// `CONFIG.fontDefinitions`, so the family resolves without our own copy.
+// Relying on core here is deliberate: dropping Signika would
 // break every system that names it, so it could only happen in a major
 // release, loudly announced, with time to adapt or reintroduce it.
 $font-sans: "Signika", "Palatino Linotype", sans-serif;

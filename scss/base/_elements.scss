@@ -90,7 +90,7 @@ button {
 // Checkbox appearance. Foundry core renders the whole checkbox as a Font Awesome
 // glyph in `::before` — `\f0c8` (fa-square) for unchecked, `\f14a` (fa-square-check)
 // for checked — colored `--checkbox-background-color`. Core's unchecked square is
-// *filled*, so it read as selected (#752). SoHL keeps core's glyph-as-control model
+// *filled*, which reads as selected. SoHL keeps core's glyph-as-control model
 // but draws its own `::after` glyph in the SoHL palette: a hollow `far fa-square`
 // when unchecked, a solid filled `fas fa-square-check` (box + knockout checkmark)
 // when checked. Core's `::before` is suppressed so only ours shows.

@@ -73,7 +73,7 @@ img.sheet-header__portrait {
     line-height: 1.2;
     // As an <h1>, Foundry core colors this via `--color-text-light-primary`,
     // which `.sohl` remaps to `--sohl-color-text-inverse` (cream in light mode) —
-    // leaving the name pale and unreadable on the light vellum band (#810). Pin
+    // leaving the name pale and unreadable on the light vellum band. Pin
     // it to the primary ink so it reads dark in light and cream in dark, like the
     // rest of the sheet.
     color: var(--sohl-color-text-primary);
@@ -140,7 +140,7 @@ img.sheet-header__portrait {
 //
 // A `<select>` does NOT inherit font-family or font-size from its context;
 // browsers apply a UA default (~13.3px system font). That left the weapon name
-// noticeably smaller than the "Right Arm" label in the same row (#1526), so the
+// noticeably smaller than the "Right Arm" label in the same row, so the
 // control read as secondary to its own label. Match the row explicitly.
 //
 // Width goes to 100% of the ledger's 14rem column rather than a fixed 150px:

@@ -90,6 +90,25 @@ To add a nested item to an existing item on an actor, open the parent item's she
 
 When deleting items, be aware that **items with nested children cannot be deleted**. You must first remove or delete all nested items before the parent can be deleted. This prevents accidentally orphaning items.
 
+# Organizing the Sidebar {#creating-organizing}
+
+Group actors or items into **folders** the same way in either sidebar tab: click **Create Folder** at the top of the tab, then drag an actor, an item, or another folder onto it to file it there. Folders nest up to four levels deep; the fifth is refused. Each folder carries its own **Name**, a **Color** that tints its row, and a **Sorting Mode** — **Alphabetical** orders its contents by name automatically, **Manual** lets you drag rows into whatever order you want.
+
+Right-click a folder for:
+
+- **Edit Folder** (GM-only) — rename it, recolor it, or change its sorting mode.
+- **Export to Compendium** — copies everything inside, optionally with its subfolders, into an unlocked compendium pack you choose.
+- **Remove Folder** (GM-only) — deletes the folder itself and moves its contents up to its parent, leaving every actor or item untouched.
+- **Delete All** (GM-only) — removes the folder and everything inside it, subfolders included, in one stroke. This is the bulk operation: there is no per-item confirmation, and nothing it deletes can be recovered.
+
+Right-click a single actor or item and **Clear Folder** takes just that one out of its folder, back to the sidebar's root, without touching anything else inside the folder.
+
+# Importing and Exporting {#creating-import-export}
+
+**Export Data**, on an actor's or item's own context menu, writes its complete data to a `.json` file saved to your computer — a snapshot you can keep, hand to another GM, or bring into a different world.
+
+**Import Data**, on the same menu, does the opposite of what the name suggests: it does not create a new actor or item from the file. It **overwrites the data of the document you right-clicked** with whatever the chosen file holds, keeping that document's identity — its id and its place in your world — and replacing everything else about it. Use it to restore an actor or item from a file exported earlier, never to add a new one: dragging from a compendium or the Create dialog is how a new actor or item arrives.
+
 # See also
 
 - [[doc-ugactors|Actors]] — what each of the four actor kinds is for.
