@@ -42,6 +42,24 @@ import {
 } from "./improve-sdr";
 
 /**
+ * The Mystical Ability subtypes whose practice is credentialed by a body, and so
+ * carry an affiliation-level requirement.
+ *
+ * Grade is clearest for the two incantation subtypes: a convocation admits a
+ * student to a grade of teaching, a temple ordains a priest to a rank, and the
+ * level of working either may be taught is read against that standing. The
+ * innate subtypes — a spirit talent, an arcane talent — have no institution
+ * behind them and never carry one, and the remainder are credentialed in ways
+ * the two numbers do not express.
+ *
+ * Membership is read by {@link MysticalAbilityLogic.requiredAffiliationLevel}.
+ */
+export const AFFILIATION_GATED_SUBTYPES: ReadonlySet<string> = new Set<string>([
+    MYSTICALABILITY_SUBTYPE.ARCANEINCANTATION,
+    MYSTICALABILITY_SUBTYPE.DIVINEINCANTATION,
+]);
+
+/**
  * An actively invoked supernatural power.
  *
  * Mystical Abilities represent spells, rites, invocations, and other powers
@@ -150,6 +168,53 @@ export class MysticalAbilityLogic<
      */
     get isDisabled(): boolean {
         return this.isExhausted || (this.usesSpiritPower && !this.hasValidSpiritPower);
+    }
+
+    /**
+     * The standing the credentialing body requires before this ability may be
+     * taught, or `undefined` when the ability carries no such requirement.
+     *
+     * An incantation's grade is its own level: a convocation teaches to a grade,
+     * and a working of level 3 asks grade 3 of whoever is to learn it. The
+     * requirement exists only for an
+     * {@link AFFILIATION_GATED_SUBTYPES | affiliation-gated subtype} that
+     * names an {@link affiliation} and carries a live {@link level}.
+     *
+     * **Derived on read, never stored.** Both this ability's level and the
+     * affiliation's are Active Effect targets, so a dispensation raising an
+     * effective grade for one working, or a censure lowering it while a disgrace
+     * stands, is seen the moment it applies.
+     */
+    get requiredAffiliationLevel(): number | undefined {
+        if (!AFFILIATION_GATED_SUBTYPES.has(this.data.subType)) return undefined;
+        if (!this.affiliation?.level) return undefined;
+        if (!this.level || this.level.disabled) return undefined;
+        return this.level.effective;
+    }
+
+    /**
+     * How far the character's standing falls short of
+     * {@link requiredAffiliationLevel} — `0` when it is met, exceeded, or there
+     * is no requirement to meet.
+     */
+    get affiliationShortfall(): number {
+        const required = this.requiredAffiliationLevel;
+        if (required === undefined) return 0;
+        return Math.max(0, required - (this.affiliation?.level.effective ?? 0));
+    }
+
+    /**
+     * Whether the character's standing covers what the ability asks.
+     *
+     * **This gates acquisition, not use.** Standing governs what a character may
+     * be *taught*: an arcanist expelled from a convocation keeps every
+     * incantation already learned and simply learns nothing further. So a `false`
+     * here makes the shortfall legible on the sheet and leaves everything else
+     * alone — the ability is not disabled, its mastery level is untouched, and
+     * the decision to attempt it stays the player's.
+     */
+    get meetsAffiliationRequirement(): boolean {
+        return this.affiliationShortfall === 0;
     }
 
     /**

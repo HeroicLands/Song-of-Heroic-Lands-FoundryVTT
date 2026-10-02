@@ -50,7 +50,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 4
-        defense: {blockMod: 0, counterstrikeMod: 0}
+        defense: {block: {modifier: 0}, counterstrike: {modifier: 0}}
       - shortcode: pommel
         type: melee
         name: Pommel
@@ -86,7 +86,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 4
-        defense: {blockMod: 0, counterstrikeMod: 0}
+        defense: {block: {modifier: 0}, counterstrike: {modifier: 0}}
 ---
 
 A short, thick-headed bludgeon, often weighted with lead or iron bands driven into its wooden core, the cudgel is favored for close-quarters fighting. Shorter and heavier than a club, it trades reach for concentrated force, and fits easily in a clenched fist or at the belt. Common in the hands of sell-swords, tavern-brawlers, and men who prefer no pretense of civility.

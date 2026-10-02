@@ -50,7 +50,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 6
-        defense: {blockMod: 0, counterstrikeMod: 0}
+        defense: {block: {modifier: 0}, counterstrike: {modifier: 0}}
       - shortcode: pommel
         type: melee
         name: Pommel
@@ -86,7 +86,7 @@ sohl:
           halfImpact: false
           lowAim: false
         lengthBase: 6
-        defense: {blockMod: 0, counterstrikeMod: 0}
+        defense: {block: {modifier: 0}, counterstrike: {modifier: 0}}
 ---
 
 A combat evolution of the agricultural flail, the warflail pairs a wooden haft with two or three spiked iron heads joined by lengths of heavy chain. The chain's play allows the heads to swing past a defender's guard and strike from unexpected angles. Popular among professional soldiers for its armor-defeating reach, it demands room to swing and a steady grip.

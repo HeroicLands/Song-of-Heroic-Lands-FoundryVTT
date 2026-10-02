@@ -132,6 +132,53 @@ const stripDocUrl: DocMigrator = (source) => {
 };
 
 /**
+ * Rewrite a being's body structure with the retired per-limb `favoredFlag`
+ * removed from every part.
+ *
+ * Side dominance belongs to the being, read from its Left/Right Dominance
+ * characteristics, so a per-limb marker answered a question that already has an
+ * owner — and nothing ever read it. Removing it from the schema is enough for
+ * the running client, because Foundry prunes a key its schema does not declare
+ * out of a document's source the moment the document is constructed. That same
+ * pruning is why the stale value cannot be deleted by key: a
+ * `{"system.…parts.0.-=favoredFlag": null}` change set is pruned before it can
+ * delete anything, and writing one element of an array field by index would
+ * rebuild the array from a sparse map besides.
+ *
+ * So the migrator hands back the being's own `system` object with the parts
+ * array rebuilt minus the key. The runner updates with `recursive: false`, which
+ * makes a root-level key a forced replacement of the whole object, and the write
+ * persists the pruned source. Nothing else changes — the payload is the
+ * document's current data.
+ *
+ * An actor with no body structure — a vehicle, a cohort, a structure — is left
+ * alone.
+ *
+ * @param source - The document's serialized source.
+ * @returns The replacement payload, or `undefined` for an actor with no body
+ *   structure.
+ */
+const stripFavoredFlag: DocMigrator = (source) => {
+    const system = source.system as Record<string, any> | undefined;
+    const structure = system?.body?.structure as Record<string, any> | undefined;
+    if (!Array.isArray(structure?.parts)) return undefined;
+    const parts = structure.parts.map((part: Record<string, unknown>) => {
+        const copy = { ...part };
+        delete copy.favoredFlag;
+        return copy;
+    });
+    return {
+        system: {
+            ...system,
+            body: {
+                ...system!.body,
+                structure: { ...structure, parts },
+            },
+        },
+    };
+};
+
+/**
  * The four values the affiliation subtype vocabulary replaced, and what each
  * becomes.
  *
@@ -291,6 +338,15 @@ export const SOHL_MIGRATIONS: readonly MigrationStep[] = Object.freeze([
             Actor: alphanumericShortcode,
             Item: alphanumericShortcode,
         },
+    },
+    {
+        version: "0.9.0",
+        description:
+            "Strip the retired per-limb favoredFlag from every body part. Side " +
+            "dominance is read from the being's Left/Right Dominance " +
+            "characteristics, so the flag duplicated a question that already " +
+            "has an owner and no code read it.",
+        migrators: { Actor: stripFavoredFlag },
     },
     {
         version: "0.9.0",

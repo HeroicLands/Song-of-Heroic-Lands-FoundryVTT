@@ -71,7 +71,6 @@ A body part is a primary anatomical division — Head, Torso, an arm, a leg, a w
 | `probWeight`          | number         | Selection weight **within its zone**: once the zone is rolled, its parts are drawn in proportion to this. Also the area an aimed strike spends its `spread` against.                                                                                                                  |
 | `canHoldItem`         | boolean        | Whether this part can grip an item **at all** — anatomy, not current state. The entity exposes it raw as {@link sohl.entity.body.BodyPart.canHoldItemBase}; the same-named getter is [derived](#immobilized-unusable-and-the-ability-to-hold). Arms typically `true`; others `false`. |
 | `heldItemId`          | string \| null | The ID of the item currently held, if any.                                                                                                                                                                                                                                            |
-| `favoredFlag`         | boolean        | Marks the part as favored (off-hand vs. main-hand semantics).                                                                                                                                                                                                                         |
 | `permanentImpairment` | integer ≤ 0    | Manually-set permanent impairment for the part (`0` = none). See [Body-part impairment](#body-part-impairment).                                                                                                                                                                       |
 | `permanentlyUnusable` | boolean        | Manually-set flag marking the part permanently unusable (withered / fully amputated), regardless of impairment tier. Implies {@link sohl.entity.body.BodyPart.isUnusable} — see [below](#immobilized-unusable-and-the-ability-to-hold).                                               |
 | `bodyZoneCode`        | string         | Shortcode of the owning {@link sohl.entity.body.BodyZone}.                                                                                                                                                                                                                            |
@@ -94,8 +93,6 @@ A **being's** dominant side is a different question, and comes from its characte
 | no             | no              | none — no side is favored |
 
 This is the single home for the dominance question wherever a favored side matters; the off-hand impact reduction ({@link sohl.entity.body.isOffHandGrip}) is only its first caller. A grip is off-hand only when _every_ limb holding the item is on the non-dominant side, so a two-handed grip never is, and a being with no dominant side never grips off-hand at all.
-
-> The persisted `favoredFlag` on a body part is not this mechanism and is read nowhere — dominance is a property of the being, not of a limb.
 
 ## Body locations
 
@@ -498,7 +495,6 @@ await beingActor.update(
     name: "Tail",
     bodyZoneCode: "tailzone",
     roles: ["locomotor"],
-    favoredFlag: false,
     canHoldItem: false,
     heldItemId: null,
     probWeight: 1,

@@ -20,18 +20,18 @@ Mystical Abilities appear on the Being sheet's **Mysteries** tab, in their own h
 
 Each sub-type shows only the columns that mean something for it, so the ledgers are not all the same width:
 
-| Column               | What it shows                                                                                                    | Shown for                         |
-| -------------------- | ---------------------------------------------------------------------------------------------------------------- | --------------------------------- |
-| **Ability**          | The ability's name. Click it to open the ability                                                                 | Every sub-type                    |
-| **Skill**            | The **Associated Skill** that governs the roll, or a :icon not-applicable: when none is set                      | The skill-governed sub-types      |
-| **Spirit Power**     | The **Spirit Power** that governs the roll, or a :icon not-applicable: when none is set                          | Spirit Rite and Spirit Action     |
-| **Affiliation**      | The Affiliation whose standing the ability draws on, or a :icon not-applicable:                                  | The affiliation-bearing sub-types |
-| **Lvl**              | The ability's **Level**, or a :icon not-applicable: when it has none                                             | The sub-types with a power level  |
-| **EML**              | The Effective Mastery Level. **This cell is the roll** — click it to run a [[#success-test\|Success Test]]       | Every sub-type                    |
-| **Chgs/Max**         | Charges remaining over the maximum. :icon not-applicable: when the ability does not use charges, ∞ for unlimited | Every sub-type                    |
-| **Notes**            | The ability's one-line note                                                                                      | Every sub-type                    |
-| **Improve control**  | Flags the ability for improvement — see [[#toggle-improve-flag\|Toggle Improve Flag]]                            | Abilities with no association     |
-| **:icon menu: menu** | The Actions context menu — every action on this page                                                             | Every sub-type                    |
+| Column               | What it shows                                                                                                                                                                | Shown for                         |
+| -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------- |
+| **Ability**          | The ability's name. Click it to open the ability                                                                                                                             | Every sub-type                    |
+| **Skill**            | The **Associated Skill** that governs the roll, or a :icon not-applicable: when none is set                                                                                  | The skill-governed sub-types      |
+| **Spirit Power**     | The **Spirit Power** that governs the roll, or a :icon not-applicable: when none is set                                                                                      | Spirit Rite and Spirit Action     |
+| **Affiliation**      | The Affiliation whose standing the ability draws on, or a :icon not-applicable:. A :icon warning: beside it means the character's standing is short of what the ability asks | The affiliation-bearing sub-types |
+| **Lvl**              | The ability's **Level**, or a :icon not-applicable: when it has none                                                                                                         | The sub-types with a power level  |
+| **EML**              | The Effective Mastery Level. **This cell is the roll** — click it to run a [[#success-test\|Success Test]]                                                                   | Every sub-type                    |
+| **Chgs/Max**         | Charges remaining over the maximum. :icon not-applicable: when the ability does not use charges, ∞ for unlimited                                                             | Every sub-type                    |
+| **Notes**            | The ability's one-line note                                                                                                                                                  | Every sub-type                    |
+| **Improve control**  | Flags the ability for improvement — see [[#toggle-improve-flag\|Toggle Improve Flag]]                                                                                        | Abilities with no association     |
+| **:icon menu: menu** | The Actions context menu — every action on this page                                                                                                                         | Every sub-type                    |
 
 **A greyed-out row cannot be invoked.** An ability is greyed and its EML cell stops being a button when it is **out of charges**, or when it is a Spirit Rite or Spirit Action with **no valid Spirit Power** associated. The EML is still shown, so you can see what the roll _would_ be; see [[#before-you-start|Before you start]].
 
@@ -43,6 +43,9 @@ Along with the [[doc-baseitemug|Standard Item Properties]], the following proper
 - **Improvement Flag:** Marks the ability as one the character is trying to improve. The same flag is the **improve control** on the ability's row on the Mysteries tab, and what [[#improve-with-sdr|Improve with SDR]] spends. It only means something on an ability with **no Associated Skill** — one that draws its mastery level from a skill improves when that _skill_ does, so it shows no improve control and offers no improvement actions.
 - **Associated Skill:** Which Skill governs this ability's roll (optional), chosen from the character's own skills. On a **Spirit Rite** or **Spirit Action** this same selector names a **Spirit Power** instead — one of the character's own Spirit Power abilities — and the sheet column is labelled accordingly.
 - **Associated Affiliation:** Which [[doc-affltnug|Affiliation]] this ability draws its standing from (optional) — the church, arcane or alchemical school, or ancestor/totem/spirit whose membership the ability belongs to. Recording it lets the ability's behaviour take the character's **rank** in that body into account (its **Level**): a full priest and a layperson of the same faith can differ in what they can invoke. This only _informs_ the ability — the player still deliberately triggers every invocation.
+
+  On an **Arcane Incantation** or a **Divine Incantation**, the standing asked is the ability's own **Level**: a level-3 incantation is taught at standing 3. Where the character's standing in that body is lower, the Mysteries tab shows a :icon warning: beside the Affiliation and its tooltip says what is asked and what is held. **Nothing is blocked by it** — the row stays rollable and the EML is unchanged, because standing governs what a character may be _taught_ rather than what they may do with what they already know. The other sub-types ask no standing at all.
+
 - **Level:** The difficulty or power tier of the ability. Leave it blank for an ability that has no level, and the sheet shows a :icon not-applicable:. Higher-level incantations are also harder to invoke — see [[#the-incantation-casting-penalty|_The Incantation Casting Penalty_]] below.
 - **Charges:** How many times the ability can still be used, in a **Charges** box of its own:
   - **Current Charges:** Charges remaining. Leave it blank for an ability whose uses are unlimited (the sheet shows ∞).
