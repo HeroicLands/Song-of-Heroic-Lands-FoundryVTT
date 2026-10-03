@@ -24,12 +24,26 @@ description: A classless, skill-based fantasy system for Foundry Virtual Tableto
 data: {banner: null}
 ---
 
-Everything published for the system lives under this address: the rules and the
-player guides, the full catalog of content it ships, and the generated reference
-for building on it. SoHL tracks the wounds, the healing, the calendar and the
-modifiers, then asks you what you want to do — nothing happens to a character
-without their player's say-so, and every number on the sheet shows where it came
-from.
+**Play the character you actually imagined.**
+
+Song of Heroic Lands (SoHL) is a classless, skill-based fantasy system for use with Foundry Virtual Tabletop. No classes, no levels, no archetypes to choose between — you decide what your character knows, believes, and can do, and the system builds them from that. The grizzled sergeant who reads the stars, the physician with smuggler friends, the shepherd who speaks to spirits: here those are ordinary characters, not multiclass workarounds.
+
+It is a world with weight. Fights are fast and genuinely dangerous, so choosing to draw steel is a real decision rather than a foregone conclusion. Wounds stay with you and need treating. And when the dice turn against you, Fate is there — a resource you spend to walk away from something that should have finished you.
+
+- **Magic worth building a character around.** The Arcane, Divine, and Spirit traditions play differently from one another — alchemy, runecraft, astrology, tarotry, summoning, trance, spirit work. Some of it is what your character _is_: a birthsign, a state of piety, quietly colouring everything they attempt. Some of it is what your character _does_: a rite, a prayer, an invocation, rolled and resolved in the moment.
+- **Grow in the direction you played.** Skills improve because you used them, not because you spent points on them. Your character finishes the campaign shaped by what actually happened to them.
+- **It keeps the books; you make the calls.** SoHL tracks the wounds, the healing, the calendar, the modifiers — then asks you what you want to do. Nothing happens to your character without your say-so, and every number on the sheet shows where it came from.
+- **Bring your own world.** Run it with _HârnMaster_, with the open-source **Thalorna** setting, or in a world entirely of your own. Hundreds of creatures, weapons, armour, and skills come ready to drag onto a sheet, alongside a complete rules reference you can read at the table without leaving Foundry.
+
+## License and Source Code
+
+Song of Heroic Lands is licensed under GPL-3.0 for source code, and CC-BY-SA-4.0 for all content. See the file [LICENSE.md](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/blob/main/LICENSE.md) for details.
+
+The source code is available on [GitHub](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/).
+
+## Discord
+
+Please consider joining [the community on Discord](https://bit.ly/44vZ10j) to discuss **Song of Heroic Lands** and find related modules and content.
 
 ## Install it in Foundry
 
@@ -45,7 +59,7 @@ for what is in this one, or
 [open an issue](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues)
 if something is wrong.
 
-## Start where you are
+## Important Information
 
 ### At the table
 
