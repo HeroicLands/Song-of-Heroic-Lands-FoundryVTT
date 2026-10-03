@@ -1,5 +1,61 @@
 # sohl
 
+## 0.8.8
+
+### Patch Changes
+
+The Being page does the same, naming its Health tab and its Mysteries tab by the names a reader actually sees.
+
+**Afflictions** — The Outcome Traumas expression edited on an affliction's sheet is kept, so the traumas an affliction inflicts take effect.
+
+**Items** — The Blowgun and Meteor Hammer skills and the blowgun dart are in the catalogue, so a weapon naming them finds what it names.
+
+**Crafts** — Ceramics, Glassworking, and Woodworking now price every catalogue article the same as the gear item it names.
+
+**Foundry compatibility** — The system is verified against Foundry 14.368, so it installs and runs there without a compatibility warning.
+
+**User guide** — Affiliation, Armor, Concoction, Container, Gear, Mystery, Projectile, and Trauma items each carry a field-by-field guide to their Properties tab, naming the handful of fields with no sheet control of their own.
+
+**Developer docs** — The house-rules cookbook's affliction recipe names the field an outcome trauma expression actually saves under.
+
+**Journal illustrations** — Images honor named sizes and float positions, with text wrapping that adapts to the journal window.
+
+**Metalcraft** — A smith's everyday work turns a profit: shoeing a horse, driving a piton, and forging chain or a tin plate each sell for more than the iron they take.
+
+**Armour** — Every garment and suit weighs in proportion to how much of the body it covers and what it is made of, consistently across the articles sharing a cloth or hide.
+
+**Pregenerated characters** — Áldrik Hárvenar, Álverrik Tárvallor, Brunjár Skathhelm and Basic Folk each name the archetype they fit and the day they were born.
+
+**Prone** — The rules page lists only the effects a prone being actually suffers.
+
+**Limb Block** — Only a clear victory wards the blow; a tie lands it on the raised limb, two points lighter and against that limb's own armour.
+
+**Weapons** — Each weapon blocks and counterstrikes by its own values, so a battleaxe and a broadsword defend differently.
+
+**Mystical abilities** — An arcane or divine incantation reads the standing of the body that teaches it, and marks a shortfall on the sheet without blocking the roll.
+
+**Item icons** — An item created on the hotbar or through Add Trauma carries its themed icon.
+
+**Attack cards** — The result card names the weapon the defender blocked with.
+
+**Shields** — A held shield adds its Shield Mod to every block its bearer makes, to their dodge, and to a press; two shields grant the better.
+
+**Tactical Advantages** — The attack card states what one spent on Impact is worth, and the strike-mode ledgers carry the value per mode.
+
+**Attributes** — An attribute test is impaired by injury to the body parts it depends on, and a ruined pair of arms can critically fail one outright.
+
+**Injuries** — A serious wound to an arm calls for a Fumble Test and one to a leg for a Stumble Test, on every creature in the bestiary.
+
+**Net** — Its envelop mode shows no impact at all, which is what a manoeuvre carries.
+
+**PDF edition** — a release carries the whole User Guide, Rules, and reference catalogue as a single searchable, bookmarked PDF, matching the knowledgebase's own chapter order and titles. Print it, annotate it, or read it on an e-reader.
+
+**User Guide** — The Structure and Vehicle pages describe every tab their sheet shows, including a shared Mysteries tab and, on a Vehicle, the Occupants tab.
+
+**Rules** — Each Trauma section now opens by saying what harm it covers, how its pages relate, and where its rules hand off to a neighbour.
+
+**Unarmed Combat** — A grab, a punch and a limb block are offered only while a hand is free to perform them, and one free hand is enough.
+
 ## 0.8.7
 
 ### Patch Changes
