@@ -413,11 +413,11 @@ because `heroiclands-site` is still tracked from this repository.
 
 You should confirm all of these before submitting an issue:
 
-- [ ] Exactly **one type** assigned, chosen via the §5 procedure.
-- [ ] A **priority** is set. If above Medium, the body justifies it in one line.
-- [ ] Every label comes from the §3 registry. **Zero** invented labels.
-- [ ] No label duplicates what the type, priority field, or milestone already says.
-- [ ] **Milestone** set only when the issue clearly advances one existing capability gate (§4); otherwise unset. **Never** invented.
-- [ ] Title is imperative and specific; body follows the §6 shape for its type. Title should not encode labels or other field information.
-- [ ] If `security` + exploitable > routed to **private advisory**, not a public issue (§7).
-- [ ] If **epic** > sub-issues are linked. If **spike** > question and timebox are present.
+- Exactly **one type** assigned, chosen via the §5 procedure.
+- A **priority** is set. If above Medium, the body justifies it in one line.
+- Every label comes from the §3 registry. **Zero** invented labels.
+- No label duplicates what the type, priority field, or milestone already says.
+- **Milestone** set only when the issue clearly advances one existing capability gate (§4); otherwise unset. **Never** invented.
+- Title is imperative and specific; body follows the §6 shape for its type. Title should not encode labels or other field information.
+- If `security` + exploitable > routed to **private advisory**, not a public issue (§7).
+- If **epic** > sub-issues are linked. If **spike** > question and timebox are present.
