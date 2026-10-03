@@ -367,13 +367,13 @@ fails to compile takes its whole sheet or card down at render time.
 
 ## Checklist for a new key
 
-- [ ] Root is `SOHL` (or a root Foundry reads).
-- [ ] Namespace is a **singular PascalCase concept**, not a class name, and already
-      exists if the concept does.
-- [ ] Group segment, if any, is PascalCase — ALL-CAPS only for `FIELDS`.
-- [ ] Leaf is camelCase, or an enum's stored value. No `snake_case`, no bare numbers.
-- [ ] No method name and no data (paths, UUIDs, names) in any segment.
-- [ ] Placeholders are `{camelCase}`, single-braced.
-- [ ] The key is neither a prefix of, nor prefixed by, another key.
-- [ ] Inserted in sorted position; `lint:lang`, `lint:lang-coverage` and
-      `lint:lang-hardcoded` all pass — see [The guards](#the-guards).
+- Root is `SOHL` (or a root Foundry reads).
+- Namespace is a **singular PascalCase concept**, not a class name, and already
+  exists if the concept does.
+- Group segment, if any, is PascalCase — ALL-CAPS only for `FIELDS`.
+- Leaf is camelCase, or an enum's stored value. No `snake_case`, no bare numbers.
+- No method name and no data (paths, UUIDs, names) in any segment.
+- Placeholders are `{camelCase}`, single-braced.
+- The key is neither a prefix of, nor prefixed by, another key.
+- Inserted in sorted position; `lint:lang`, `lint:lang-coverage` and
+  `lint:lang-hardcoded` all pass — see [The guards](#the-guards).
