@@ -116,27 +116,27 @@ but delivered in another package repository or on heroiclands.org cannot meet th
 repository-specific gates — see [Work delivered in another
 repository](#work-delivered-in-another-repository) below.
 
-- [ ] A tracking issue exists (except `chore`), reproduced or with
-      confirmed acceptance criteria, and the **root cause is recorded in a comment**.
-- [ ] Work is on a correctly named branch (`<type>/<issue_#>_<slug>`) off current
-      `main`.
-- [ ] **Tests were written first**, cover the fix (unit by default; e2e or a pure
-      helper + unit where Foundry wiring is involved), and any pre-staged RED spec
-      for this behavior is un-skipped.
-- [ ] `npm run test` is green — the new tests **and** the full suite.
-- [ ] The implementation obeys the non-negotiable rules: Foundry-free logic +
-      shims, backwards-compatible data (migration if needed), stable lang keys, no
-      compiling/HTML-from data, complete (no stubs), and scoped to the one issue.
-- [ ] Conventions met: file headers, complete JSDoc, null/undefined discipline,
-      and no `TODO`/`FIXME` markers (deferred work lives in issues).
-- [ ] Documentation updated for the changed behavior (JSDoc, dev docs, user guide),
-      and `type-catalog.md` committed if the schema changed.
-- [ ] A `.changeset/` entry exists for `feat`/`bug` work, correctly bumped,
-      issue-referenced, and format-clean.
-- [ ] Only your files are formatted (`npm run format:check` clean).
-- [ ] **`npm run build` and `npm run docs` both pass** without errors.
-- [ ] Committed in Conventional-Commits style and a PR is open with `Closes #<n>`
-      and a what/why description.
+- A tracking issue exists (except `chore`), reproduced or with
+  confirmed acceptance criteria, and the **root cause is recorded in a comment**.
+- Work is on a correctly named branch (`<type>/<issue_#>_<slug>`) off current
+  `main`.
+- **Tests were written first**, cover the fix (unit by default; e2e or a pure
+  helper + unit where Foundry wiring is involved), and any pre-staged RED spec
+  for this behavior is un-skipped.
+- `npm run test` is green — the new tests **and** the full suite.
+- The implementation obeys the non-negotiable rules: Foundry-free logic +
+  shims, backwards-compatible data (migration if needed), stable lang keys, no
+  compiling/HTML-from data, complete (no stubs), and scoped to the one issue.
+- Conventions met: file headers, complete JSDoc, null/undefined discipline,
+  and no `TODO`/`FIXME` markers (deferred work lives in issues).
+- Documentation updated for the changed behavior (JSDoc, dev docs, user guide),
+  and `type-catalog.md` committed if the schema changed.
+- A `.changeset/` entry exists for `feat`/`bug` work, correctly bumped,
+  issue-referenced, and format-clean.
+- Only your files are formatted (`npm run format:check` clean).
+- **`npm run build` and `npm run docs` both pass** without errors.
+- Committed in Conventional-Commits style and a PR is open with `Closes #<n>`
+  and a what/why description.
 
 ### Work delivered in another repository
 
@@ -153,15 +153,15 @@ not treat their absence as work left undone.
 
 What still holds for any tracked work, wherever it lands:
 
-- [ ] A tracking issue **in the repository that will deliver it**.
-- [ ] A correctly named branch in that repository.
-- [ ] Verification appropriate to that repository — a site build that succeeds, a
-      pack build that compiles, a page that renders.
-- [ ] Documentation updated for the changed behaviour.
-- [ ] A commit or PR description saying what changed and why.
-- [ ] If the work also closes an issue **here**, that issue is closed **by hand**,
-      with a comment linking the delivering commit or PR. `Closes #<n>` does not work
-      across repositories: GitHub records the reference and leaves the issue open.
+- A tracking issue **in the repository that will deliver it**.
+- A correctly named branch in that repository.
+- Verification appropriate to that repository — a site build that succeeds, a
+  pack build that compiles, a page that renders.
+- Documentation updated for the changed behaviour.
+- A commit or PR description saying what changed and why.
+- If the work also closes an issue **here**, that issue is closed **by hand**,
+  with a comment linking the delivering commit or PR. `Closes #<n>` does not work
+  across repositories: GitHub records the reference and leaves the issue open.
 
 ### Issue first
 
