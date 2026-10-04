@@ -30,10 +30,12 @@ import { REQUIRED, SITE_OUT, missingRequired } from "../../utils/build-site.mjs"
  * and none should keep its own copy. That splits the contract in
  * two, and only one half is ours:
  *
- * - _The theme_ owns `layouts/404.html`. It arrives as the npm package
- *   `@heroiclands/hugo-theme`, which the job running this suite does
- *   not install, so these assertions do not read it — asserting on an absent
- *   directory would fail for the wrong reason.
+ * - _The theme_ owns `layouts/404.html`, at `hugo-theme/layouts/404.html`
+ *   inside the npm package `@heroiclands/package-build`, which ships the
+ *   theme alongside the rest of the build toolchain. The job running this
+ *   suite installs that package for its own sake — the build cannot run
+ *   without it — so these assertions read the file directly rather than
+ *   taking the manifest's word for it.
  * - _This repository_ owns the wording and the routes back, via
  *   `site.notfound` in `package-build.config.yaml` — written into the generated
  *   Hugo configuration as `params.notfound` — and owns the deploy that
@@ -99,7 +101,20 @@ describe("the /sohl/ site's 404 page", () => {
         // manifest rather than the lockfile: the declaration is the intent, and
         // the lockfile only ever follows it.
         const pkg = JSON.parse(read("package.json"));
-        expect(pkg.devDependencies).toHaveProperty("@heroiclands/hugo-theme");
+        expect(pkg.devDependencies).toHaveProperty("@heroiclands/package-build");
+
+        // The manifest names the package; this confirms the package actually
+        // carries the layout. This suite's own job already installs
+        // `@heroiclands/package-build` to run anything else in it, so reading
+        // the file costs nothing the suite was not already paying.
+        expect(
+            fs.existsSync(
+                path.join(
+                    REPO_ROOT,
+                    "node_modules/@heroiclands/package-build/hugo-theme/layouts/404.html",
+                ),
+            ),
+        ).toBe(true);
     });
 
     it("is required by the assembly step, which the deploy runs", () => {

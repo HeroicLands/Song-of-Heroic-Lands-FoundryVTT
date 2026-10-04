@@ -59,16 +59,13 @@ updates:
             versions:
                 - ">=7"
       groups:
-          # First-party packages, ahead of everything: each is its own decision
-          # and neither may be swept into a grouped housekeeping pull request.
-          # A group of one still yields one pull request per package, which is
-          # the point — see the note on 0.x above.
+          # First-party, ahead of everything: its own decision, never swept
+          # into a grouped housekeeping pull request. A group of one still
+          # yields one pull request per package, which is the point — see the
+          # note on 0.x above.
           package-build:
               patterns:
                   - "@heroiclands/package-build"
-          hugo-theme:
-              patterns:
-                  - "@heroiclands/hugo-theme"
           # Lockstep families next — Dependabot assigns a dependency to the
           # first group it matches, so these must precede the catch-alls to
           # survive a minor/patch bump as well as a major one.
