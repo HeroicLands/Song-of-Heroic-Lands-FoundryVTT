@@ -46,12 +46,12 @@ export default defineConfig({
         ],
     },
     test: {
-        // One project. This repository consumes both `@heroiclands/package-build`
-        // and `@heroiclands/hugo-theme` from the registry, exactly as any other
-        // consumer resolves them, and neither runs its own suite from this config.
+        // One project. This repository consumes `@heroiclands/package-build`
+        // from the registry, exactly as any other consumer resolves it, and it
+        // does not run its own suite from this config.
         //
         // What remains here in `tests/build/` asserts the *agreements* between
-        // this repository and those packages — the facts neither side can check
+        // this repository and that package — the facts neither side can check
         // alone, such as the shortcode rule the runtime restates because shipped
         // code cannot import a devDependency.
         projects: [

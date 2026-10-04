@@ -39,9 +39,9 @@ The tables are rendered from the declaration that _builds_ each document, not fr
 | `data.seat`      | as authored, blank is unset           | no       | `null`  | Where the affiliation's authority sits, by place address.              |
 | `data.domains`   | list of addresses                     | no       | `[]`    | Places this affiliation holds sway over, by address.                   |
 
-**`title` is not read from the note's top level.** There it means the note's own title — the heading its page is published under, which has nothing to do with the style of address an office carries. Author this on the membership instead: `sohl.system.title` on the item, or the `system.title` of the entry in a being's `sohl.items`.
+**`title` is not read from the note's top level.** A top-level `title` is refused outright, since an office's style of address belongs to the membership that holds the office and nothing outside the item supplies it. Author it at `sohl.system.title` on the item, or at the `system.title` of the entry in a being's `sohl.items`.
 
-**`commonSkills` is not read from the note's top level.** There it means Common skills belong to the SoHL affiliation item.
+**`commonSkills` is not read from the note's top level.** Common skills belong to the SoHL affiliation item.
 
 ```markdown
 ---
