@@ -37,7 +37,6 @@ The tables are rendered from the declaration that _builds_ each document, not fr
 | `data.relations` | map of affiliation address > standing | no       | `{}`    | How this society regards others: aligned, unaligned, rival or nemesis. |
 | `data.parents`   | list of addresses                     | no       | `[]`    | Affiliations this one is subordinate to, by address.                   |
 | `data.seat`      | as authored, blank is unset           | no       | `null`  | Where the affiliation's authority sits, by place address.              |
-| `data.domains`   | list of addresses                     | no       | `[]`    | Places this affiliation holds sway over, by address.                   |
 
 **`title` is not read from the note's top level.** A top-level `title` is refused outright, since an office's style of address belongs to the membership that holds the office and nothing outside the item supplies it. Author it at `sohl.system.title` on the item, or at the `system.title` of the entry in a being's `sohl.items`.
 

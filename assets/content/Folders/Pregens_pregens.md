@@ -4,3 +4,5 @@ name: {full: "Pregens"}
 type: folder
 data: {color: "#8B4513"}
 ---
+
+Holds the pregenerated characters.
