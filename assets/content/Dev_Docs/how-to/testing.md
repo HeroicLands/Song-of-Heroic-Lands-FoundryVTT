@@ -845,8 +845,7 @@ These cost real debugging time; they are not apparent from the code.
   fact — a spec that did so immediately after importing an adventure failed
   on every build. A spec that needs the no-scene-viewed state has to
   present it, by shadowing `canvas.scene` with an own property for the duration
-  (`withNoSceneViewed` in `map-notes.cy.js`, `withViewedScene` in
-  `scene-nonpersisted.cy.js`) rather than by relying on the environment.
+  (`withViewedScene` in `scene-nonpersisted.cy.js`) rather than by relying on the environment.
 - **A scene deleted mid-draw throws on 14.367 — the same guard makes it inert.**
   `Canvas##draw` calls `scene.updateRegionShapeConstraints()` as its last step,
   after a long run of awaits, and 14.367 opened that method by throwing

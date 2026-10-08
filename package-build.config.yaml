@@ -46,6 +46,7 @@ packs:
     - name: scenes
       type: Scene
       label: Maps
+      mayBeEmpty: true
       # One pass, two packs: every map note's Scene, and the Adventure bundling
       # the pinned ones with their journals, so a `keepId: true` import
       # resolves the pins.
