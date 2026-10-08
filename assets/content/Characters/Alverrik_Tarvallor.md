@@ -21,7 +21,6 @@ data:
     complexion: olive_toned
     extra_features: [a scar on the left shoulder]
   packFolder: pregens
-  social: {occupation: null, station: null, class: null, society: null}
 sohl:
   kbcat: npc
   items:

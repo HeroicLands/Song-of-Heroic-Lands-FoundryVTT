@@ -21,7 +21,6 @@ data:
     complexion: freckled
     extra_features: [boyish face that makes him look younger than his years, fidgets constantly]
   packFolder: pregens
-  social: {occupation: null, station: null, class: null, society: null}
 sohl:
   kbcat: npc
   items:

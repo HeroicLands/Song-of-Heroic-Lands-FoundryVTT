@@ -21,7 +21,6 @@ data:
     complexion: weathered
     extra_features: [missing tooth]
   packFolder: pregens
-  social: {occupation: null, station: null, class: null, society: null}
 sohl:
   kbcat: npc
   items:

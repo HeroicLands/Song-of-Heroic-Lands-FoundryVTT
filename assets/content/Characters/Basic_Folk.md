@@ -21,7 +21,6 @@ data:
     complexion: fair
     extra_features: []
   packFolder: archetypes
-  social: {occupation: null, station: null, class: null, society: null}
 sohl:
   kbcat: archetype
   items:
