@@ -18,6 +18,9 @@ holds that export whole, alongside the prose that describes the map. The build
 never constructs a Scene: walls, doors, lights, sounds, regions, levels and
 every other Scene setting are made in Foundry.
 
+A package ships its map notes by declaring a Scene pack in its configuration; a
+package that declares none has no place for them.
+
 Every map note is `type: map`. Its `subType` says what kind of map it is, and
 all four carry an exported Scene:
 
