@@ -102,7 +102,7 @@ unclaimed type is the one way left to be skipped in silence.
 ## `type:` selects the compiler, never the pack
 
 `type:` says what kind of thing the note is, and thereby which compile pass
-claims it — items, actors, journals, macros or scenes. It does not choose a
+claims it — items, actors, journals or macros. It does not choose a
 compendium; that is `pack:`, and the two are orthogonal.
 
 **`character` and `creature` throw.** Both name what is
