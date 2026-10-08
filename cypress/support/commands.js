@@ -174,8 +174,7 @@ function guardHeadlessTokenDraw(win) {
  * world ships an **active** default scene (`package-build e2e seed`),
  * which the client views at load, so `canvas.scene` is normally a live Scene.
  * It is `null` before that first draw completes, and in any run whose active
- * scene is absent or unviewed — which is the window this clause covers, and the
- * state `map-notes.cy.js` presents deliberately to test it.
+ * scene is absent or unviewed — which is the window this clause covers.
  *
  * **The scene has been deleted.** 14.367 opened the public entry point
  * with `if ( !this.persisted ) throw new Error("A nonpersisted Document cannot

@@ -128,7 +128,7 @@ An asset address always carries `none` in its system segment —
 
 ## The art fields are addresses
 
-`icon`, `tokenIcon`, `bgImage` and `banner` name **addresses**, not paths. The
+`icon`, `tokenIcon` and `banner` name **addresses**, not paths. The
 owning package comes from the record the address resolves to, so there is nothing
 for the author to state, and the shortcode is the bare filename:
 
@@ -150,8 +150,8 @@ generated page and the book's section plates and nothing else.
 
 ## Where a pathname is still authored
 
-Two places take a pathname rather than an address: an image in a note's body, and
-a map note's `overlay`. A pathname is a **statement of ownership**, written
+One place takes a pathname rather than an address: an image in a note's body. A
+pathname is a **statement of ownership**, written
 `<package>/assets/<suffix>`, and every surface derives its own address from it. A
 pathname with no package prefix belongs to the package being compiled.
 
@@ -171,9 +171,8 @@ URL, a `data:` URI, a protocol-relative `//host/…`, or a `/`-rooted path, whic
 Foundry serves from its data root. That is how a note addresses core Foundry art
 (`/icons/svg/mystery-man.svg`).
 
-A map's background is `data.bgImage`, which is an address like the other art
-fields; a tile's `image` and a sound's `audio` are addresses too. See
-[[doc-mapnotes|Map Notes]].
+A map's art is addressed through `data.fixup`, which replaces the asset paths of
+an exported Scene with addresses. See [[doc-mapnotes|Map Notes]].
 
 ## Default art
 

@@ -43,14 +43,6 @@ packs:
     - { name: journals, label: Journals, type: JournalEntry }
     - { name: actors, label: Actors, type: Actor }
     - { name: macros, label: Macros, type: Macro }
-    - name: scenes
-      type: Scene
-      label: Maps
-      # One pass, two packs: every map note's Scene, and the Adventure bundling
-      # the pinned ones with their journals, so a `keepId: true` import
-      # resolves the pins.
-      companions:
-          - { name: adventures, type: Adventure, label: Adventures }
 
 packageBuild:
     # Both registries live in one configuration module here, so the file is
@@ -287,8 +279,6 @@ packageBuild:
                   - journals
                   - actors
                   - macros
-                  - scenes
-                  - adventures
         media:
             - type: setup
               url: systems/sohl/assets/ui/sohl-icon-3d-1920x1080.webp
