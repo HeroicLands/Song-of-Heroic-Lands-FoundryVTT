@@ -44,9 +44,9 @@ What frontmatter each kind of note accepts.
   required, and what it defaults to.
 - [[doc-actornotes|Actor Notes]] — authoring a `being`, and the
   `(type, shortcode)` address space its embedded items are resolved through.
-- [[doc-mapnotes|Map Notes]] — authoring a Foundry Scene as a markdown note: the
-  `battlemap` / `localmap` / `regionalmap` schema, the two unit conventions,
-  regions and their behaviours, and how a map is packaged.
+- [[doc-mapnotes|Map Notes]] — authoring a map as a markdown note: the Foundry
+  Scene exported under `data.scene`, asset fixups, pins bound to the note's own
+  pages, and the place the map depicts.
 - [[doc-macronotes|Authoring a Macro Content Note]] — how a `type: macro` note
   compiles into a Foundry Macro plus its documentation, and what the `{#script}`
   anchor does.
