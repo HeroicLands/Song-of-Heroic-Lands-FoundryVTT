@@ -55,7 +55,7 @@
         "build:kb": "run-s build:deps build:kb-content && hugo --source build/hugo --minify --cleanDestinationDir",
         "site:assemble": "package-build site-root && node utils/build-site.mjs",
         "build:site": "run-s docs:prepare docs:html build:kb site:assemble",
-        "build:pack-release": "package-build release",
+        "build:pack-release": "npm run docs:html && package-build release",
         "push:dev": "package-build deploy dev",
         "push:qa": "package-build deploy qa",
         "push:prod": "package-build deploy prod",
