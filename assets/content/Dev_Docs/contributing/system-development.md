@@ -86,8 +86,8 @@ content will be removed immediately.
    churn causes regressions. Change code because behavior needs it.
 2. **Extension over rewrites.** Prefer hooks, actions, registries, and subclassing
    over editing core source.
-3. **Small, focused changes.** One feature, one bug fix, or one documentation
-   improvement per PR. No mixed refactors or "drive-by cleanups."
+3. **Small, focused changes.** One feature, one fix, or one doc per commit; a
+   pull request carries a batch of them. No mixed refactors or "drive-by cleanups."
 4. **No placeholders or stubs.** Submit complete, working implementations.
 5. **Backwards compatibility.** Never rename, remove, or restructure existing data
    fields without a migration strategy (see below) — treat every data-model change
