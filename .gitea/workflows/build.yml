@@ -1,0 +1,65 @@
+name: Build and Test (non-main)
+
+# PR-only: every change reaches `main` through a pull request (the "Protect
+# main" ruleset requires one), so the PR run is the complete signal. It also
+# tests the *merge result* — the branch merged into its base — which is what a
+# `push` run cannot do, and it is the only trigger that covers PRs from forks.
+#
+# NOTE: for `pull_request`, `branches`/`branches-ignore` filter on the PR's
+# BASE branch, not its head. Ignoring `main` here would exclude every PR (they
+# all target `main`).
+on:
+    pull_request:
+        branches:
+            - main
+
+# One run per PR: pushing a new commit supersedes the run still working on the
+# previous one instead of letting both build to completion.
+concurrency:
+    group: ${{ github.workflow }}-${{ github.event.pull_request.head.ref }}
+    cancel-in-progress: true
+
+jobs:
+    test-build:
+        name: Build & Test
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v7
+
+            # Wants a checkout and nothing else, so it runs before the
+            # install and fails in seconds rather than after one.
+            - name: Check for forbidden markers
+              uses: HeroicLands/.github/actions/todos@main
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v7
+              with:
+                  node-version: 24
+                  cache: npm
+
+            - name: Install dependencies
+              run: npm ci
+
+            - name: Build system
+              run: npm run build:noci
+              env:
+                  LINT_MAX_PARALLEL: 4
+
+            - name: Upload coverage reports
+              if: always()
+              uses: actions/upload-artifact@v7
+              with:
+                  name: coverage-report
+                  path: build/coverage/
+
+            - name: Build API documentation
+              run: npm run docs:prepare && npm run docs:html
+
+            - name: Upload API Documentation
+              if: always()
+              uses: actions/upload-artifact@v7
+              with:
+                  name: api-docs
+                  path: build/docs-html/

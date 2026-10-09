@@ -1,5 +1,7 @@
 name: Deploy /sohl/ to Cloudflare Pages
 
+# Deploying is gated by the repository variable HL_DEPLOY_ENABLED.
+
 # Publishes everything this repository serves under /sohl/ as ONE deploy
 # (#1444, #1470): the package landing page, the knowledgebase, and the API
 # documentation.
@@ -49,13 +51,11 @@ on:
     # (#1484).
     push:
         branches: [main]
-    # A newly published release changes the API half, which tracks the newest
-    # release tag rather than `main`. `release.yml` dispatches this workflow
-    # when it actually publishes one; it is NOT watched via `workflow_run`,
-    # because that workflow completes successfully on every push to `main`
-    # whether it released or not, so its completion fired a second deploy on
-    # every push (#1484). Nothing is passed with the dispatch — the tag is
-    # resolved here.
+        # A newly published release changes the API half, which tracks the
+        # newest release rather than `main`. The release pushes its tag with the
+        # release bot's token, which starts workflows, so the tag push itself
+        # republishes the subtree from that tag.
+        tags: ["v*"]
     workflow_dispatch:
 
 permissions:
@@ -67,6 +67,7 @@ concurrency:
 
 jobs:
     deploy:
+        if: ${{ github.server_url != 'https://github.com' && vars.HL_DEPLOY_ENABLED == 'true' }}
         runs-on: ubuntu-latest
         steps:
             - name: Checkout
@@ -91,16 +92,24 @@ jobs:
             # main: it documents what people are running (#1452). Resolved here
             # rather than inherited from the triggering ref, which is irrelevant
             # to it.
+            # Releases are published on GitHub, whose API answers without a
+            # token for a public repository. `GITHUB_API_URL` and
+            # `GITHUB_REPOSITORY` name this forge here, so the GitHub address is
+            # written out.
             - name: Resolve the newest release tag
               id: release
-              env:
-                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               run: |
                   set -euo pipefail
                   # `|| true`: a repository with no release answers 404, and the
                   # empty-tag branch below reports that far more clearly than
-                  # gh's exit status would under `set -e`.
-                  TAG=$(gh api "repos/${GITHUB_REPOSITORY}/releases/latest" --jq .tag_name 2>/dev/null || true)
+                  # curl's exit status would under `set -e`.
+                  # A tag push names its release directly; GitHub may not have
+                  # published it yet, so it is not looked up there.
+                  if [ "${{ github.ref_type }}" = "tag" ]; then
+                      TAG="${{ github.ref_name }}"
+                  else
+                      TAG=$(curl -fsS "https://api.github.com/repos/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/releases/latest" | jq -r .tag_name 2>/dev/null || true)
+                  fi
                   if [ -z "${TAG}" ] || [ "${TAG}" = "null" ]; then
                       echo "No published release found — there is nothing to document."
                       exit 1

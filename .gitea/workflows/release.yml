@@ -17,6 +17,8 @@ name: Version and Release
 # the job reported green (HeroicLands/.github#12). This is the sixth and last
 # adoption, taken after the other five so that the caller with the most to lose
 # went last.
+#
+# Releasing is gated by the repository variable HL_RELEASE_ENABLED.
 
 on:
     push:
@@ -31,17 +33,18 @@ on:
 # capped every caller at the narrowest set — and this caller is the reason,
 # being the only one that needs more than the first two.
 permissions:
-    contents: write # push the version branch, create the tag and Release
-    pull-requests: write # open and update the Version Packages pull request
-    actions: write # dispatch deploy-sohl.yml from release:post
+    contents: read
 
 jobs:
     release:
-        uses: HeroicLands/.github/.github/workflows/release-foundry-package.yml@main
+        uses: HeroicLands/.github/.gitea/workflows/release-foundry-package.yml@main
         with:
             package-kind: system
             # The one thing only this repository does, after the Release
             # exists: republish /sohl/ from the new tag. See
             # utils/release-post.mjs — the shared workflow runs the script and
             # knows nothing about its contents.
-            post-release-script: release:post
+        # Named, never `secrets: inherit`.
+        secrets:
+            RELEASE_BOT_TOKEN: ${{ secrets.RELEASE_BOT_TOKEN }}
+            GH_RELEASE_TOKEN: ${{ secrets.GH_RELEASE_TOKEN }}

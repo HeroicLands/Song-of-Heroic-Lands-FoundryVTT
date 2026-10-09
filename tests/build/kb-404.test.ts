@@ -56,7 +56,7 @@ const read = (rel: string) => fs.readFileSync(path.join(REPO_ROOT, rel), "utf8")
 
 describe("the /sohl/ site's 404 page", () => {
     const CONFIG = "package-build.config.yaml";
-    const DEPLOY = ".github/workflows/deploy-sohl.yml";
+    const DEPLOY = ".gitea/workflows/deploy-sohl.yml";
 
     type NotFound = { tagline?: string; links?: Array<{ url: string }> };
     const notfound = (): NotFound | undefined =>
@@ -152,6 +152,6 @@ describe("assembling the /sohl/ deployment", () => {
         // has to run the command and the deploy has to upload that directory.
         const scripts = JSON.parse(read("package.json")).scripts as Record<string, string>;
         expect(scripts["site:assemble"]).toMatch(/package-build site-root/);
-        expect(read(".github/workflows/deploy-sohl.yml")).toContain(`pages deploy ${SITE_OUT} `);
+        expect(read(".gitea/workflows/deploy-sohl.yml")).toContain(`pages deploy ${SITE_OUT} `);
     });
 });
