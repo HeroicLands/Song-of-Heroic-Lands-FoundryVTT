@@ -251,7 +251,7 @@ This already underlies automated combat: defense buttons dispatch to the _defend
 3. **Backwards compatibility.** Never rename data fields without a migration strategy.
 4. **No global search-and-replace.** Cross-cutting changes must be scoped and validated.
 5. **Stable localization keys.** Never rename keys in `lang/en.json` — add new ones.
-6. **Small, focused changes.** One feature or fix per PR.
+6. **Small, focused changes.** One feature, one fix, or one doc per commit; a pull request carries a batch of them.
 7. **Complete implementations.** No placeholder stubs.
 8. **Actor state sovereignty.** An actor mutates only itself; cross-actor effects go through a target-addressed chat acknowledge button (see above).
 
