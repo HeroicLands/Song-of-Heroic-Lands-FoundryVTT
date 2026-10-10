@@ -73,6 +73,47 @@ describe("Affliction onset creation offer", () => {
         cy.submitDialogMatching("Affliction Onset", onsetAnswer); // the offer
     }
 
+    it("rolls a dice-formula onset duration when an affliction is added directly", () => {
+        cy.importActor().then((actor) => {
+            cy.prepare(actor);
+            // A raw add (no contagion test) seeds the incubation from the
+            // affliction's own formula: 2d6 forced to 3 + 4 = 7 seconds.
+            cy.foundry((win) => {
+                win.sohl.entity.roll.SimpleRoll.forceValues(3, 4);
+                return null;
+            });
+            cy.createItemOn(actor, "affliction", {
+                name: "Rolled Fever",
+                system: {
+                    shortcode: "rolledfever",
+                    subType: "disease",
+                    onsetDurationFormula: "2d6",
+                },
+            })
+                .then((doc) => doc.system.onsetDurationBase)
+                .should("eq", 7);
+        });
+    });
+
+    it("keeps an incubation the creation data already states", () => {
+        cy.importActor().then((actor) => {
+            cy.prepare(actor);
+            // The contagion test records the incubation it rolled and adjusted;
+            // creation must not re-seed it from the formula.
+            cy.createItemOn(actor, "affliction", {
+                name: "Settled Fever",
+                system: {
+                    shortcode: "settledfever",
+                    subType: "disease",
+                    onsetDurationFormula: "604800",
+                    onsetDurationBase: 259200,
+                },
+            })
+                .then((doc) => doc.system.onsetDurationBase)
+                .should("eq", 259200);
+        });
+    });
+
     it("pressing Schedule on the onset offer arms the onset check (models the player)", () => {
         cy.importActor().then((actor) => {
             contractSeededDisease(actor, "yes");

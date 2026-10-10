@@ -1,5 +1,10 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
-import { AfflictionLogic } from "@src/document/item/logic/AfflictionLogic";
+import {
+    AfflictionLogic,
+    rollDurationSeconds,
+    seedOnsetDuration,
+} from "@src/document/item/logic/AfflictionLogic";
+import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
 import { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import {
     AFFLICTION_SUBTYPE,
@@ -696,6 +701,46 @@ describe("view-only computed dates", () => {
     function sched(actionName: string, anchor: number, interval: number) {
         return { actionName, anchor, interval, sceneUuid: "", payload: {} };
     }
+
+    describe("rollDurationSeconds — one reading for every duration formula", () => {
+        afterEach(() => SimpleRoll.clearForced());
+
+        it("rolls a dice formula to seconds", () => {
+            const logic = makeAffliction();
+            SimpleRoll.forceValues(3, 4);
+            expect(rollDurationSeconds("2d6+1", logic)).toBe(8);
+        });
+
+        it("reads a bare whole number of seconds as is", () => {
+            const logic = makeAffliction();
+            expect(rollDurationSeconds("86400", logic)).toBe(86400);
+        });
+
+        it("is 0 for an empty, null or unreadable formula", () => {
+            const logic = makeAffliction();
+            expect(rollDurationSeconds(null, logic)).toBe(0);
+            expect(rollDurationSeconds("", logic)).toBe(0);
+            expect(rollDurationSeconds("soon", logic)).toBe(0);
+        });
+    });
+
+    describe("seedOnsetDuration — what a new affliction's incubation starts at", () => {
+        afterEach(() => SimpleRoll.clearForced());
+
+        it("rolls the onset formula when no incubation was supplied", () => {
+            const logic = makeAffliction();
+            SimpleRoll.forceValues(2, 5);
+            expect(seedOnsetDuration(undefined, "2d6", logic)).toBe(7);
+            expect(seedOnsetDuration(null, "3600", logic)).toBe(3600);
+        });
+
+        it("keeps an incubation the contagion test already rolled", () => {
+            const logic = makeAffliction();
+            expect(seedOnsetDuration(3 * 86400, "2d6", logic)).toBe(3 * 86400);
+            // An immediate onset the test settled stays immediate.
+            expect(seedOnsetDuration(0, "3600", logic)).toBe(0);
+        });
+    });
 
     it("estOnsetDate = contractDate + onsetDurationBase", () => {
         const logic = makeAffliction({

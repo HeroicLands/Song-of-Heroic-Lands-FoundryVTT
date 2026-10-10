@@ -69,6 +69,50 @@ import { rollTimedTest } from "@src/document/item/logic/timed-test";
 import { SHOCK_STATE, shockStateLabelKey } from "@src/document/actor/logic/shock";
 import { SohlItemBaseLogic, type SohlItemData } from "@src/document/item/logic/SohlItemBaseLogic";
 import { SohlAction } from "@src/entity/action/SohlAction";
+import type { SohlLogic } from "@src/core/logic/SohlLogic";
+
+/**
+ * Roll a duration formula to a number of seconds. A dice expression is rolled;
+ * anything else is read as a plain number; `0` when neither yields a finite
+ * number. Every affliction duration field — onset, resolution and healing
+ * check — is read through this one function, so each accepts the same shape:
+ * a roll formula, or a whole number of seconds.
+ *
+ * @param formula - The duration formula (dice expression or bare seconds).
+ * @param parent - The Logic that owns the roll.
+ * @returns The rolled duration in seconds.
+ */
+export function rollDurationSeconds(formula: string | null, parent: SohlLogic<any>): number {
+    if (!formula) return 0;
+    try {
+        const rolled = SimpleRoll.fromFormula(formula, parent).roll();
+        if (Number.isFinite(rolled)) return rolled;
+    } catch {
+        // fall through to a numeric parse
+    }
+    const n = Number(formula);
+    return Number.isFinite(n) ? n : 0;
+}
+
+/**
+ * The incubation a newly created affliction starts with. An incubation the
+ * creation data already states — the one a contagion test rolled and adjusted
+ * for how badly the roll went — is kept as it is; otherwise the affliction's
+ * own `onsetDurationFormula` is rolled through {@link rollDurationSeconds}.
+ *
+ * @param supplied - The `onsetDurationBase` carried by the creation data, if any.
+ * @param formula - The affliction's onset duration formula.
+ * @param parent - The Logic that owns the roll.
+ * @returns The incubation in seconds.
+ */
+export function seedOnsetDuration(
+    supplied: unknown,
+    formula: string | null,
+    parent: SohlLogic<any>,
+): number {
+    if (supplied != null) return Number(supplied) || 0;
+    return rollDurationSeconds(formula, parent);
+}
 
 /**
  * An ongoing condition affecting a character.
@@ -631,22 +675,14 @@ export class AfflictionLogic<
     }
 
     /**
-     * Roll a duration formula to a number of seconds. Falls back to a plain
-     * numeric parse, or `0` when neither yields a finite number.
+     * Roll a duration formula to a number of seconds — see
+     * {@link rollDurationSeconds}, which every duration field reads through.
      *
      * @param formula - The duration formula (dice expression or bare seconds).
      * @returns The rolled duration in seconds.
      */
     private rollDuration(formula: string | null): number {
-        if (!formula) return 0;
-        try {
-            const rolled = SimpleRoll.fromFormula(formula, this).roll();
-            if (Number.isFinite(rolled)) return rolled;
-        } catch {
-            // fall through to a numeric parse
-        }
-        const n = Number(formula);
-        return Number.isFinite(n) ? n : 0;
+        return rollDurationSeconds(formula, this);
     }
 
     /**

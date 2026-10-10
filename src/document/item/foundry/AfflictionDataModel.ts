@@ -18,7 +18,11 @@ import {
     durationBaseField,
     durationFormulaField,
 } from "@src/document/item/foundry/temporal-fields";
-import { AfflictionLogic, AfflictionData } from "@src/document/item/logic/AfflictionLogic";
+import {
+    AfflictionLogic,
+    AfflictionData,
+    seedOnsetDuration,
+} from "@src/document/item/logic/AfflictionLogic";
 import {
     AFFLICTION_OUTCOME,
     AFFLICTION_TRANSMISSION,
@@ -172,8 +176,11 @@ export class AfflictionDataModel<
     /**
      * Seed only the contract anchor and incubation-duration config when an
      * Affliction is created — **not** a schedule: `contractDate` is set to the
-     * current world time and `onsetDurationBase` is seeded from a numeric read of
-     * the (per-disease) `onsetDurationFormula` (the offer's default cadence). The
+     * current world time and `onsetDurationBase` is seeded from the (per-disease)
+     * `onsetDurationFormula` — rolled when it is a dice expression, read as is
+     * when it is a whole number of seconds — unless the creation data already
+     * carries an incubation, as a contagion test's does (the offer's default
+     * cadence). The
      * `onsetCheck` is **offered**, not auto-armed — `BeingLogic.contagionTest`
      * calls the shared schedule offer after creating the affliction, so nothing
      * is auto-scheduled at creation time. A disease created by a raw
@@ -197,7 +204,11 @@ export class AfflictionDataModel<
         if (allowed === false) return false;
 
         const now = game.time.worldTime;
-        const onsetInterval = Number(this.onsetDurationFormula) || 0;
+        const onsetInterval = seedOnsetDuration(
+            (data.system as PlainObject | undefined)?.onsetDurationBase,
+            this.onsetDurationFormula,
+            this.logic,
+        );
         this.updateSource({
             contractDate: now,
             onsetDurationBase: onsetInterval,
