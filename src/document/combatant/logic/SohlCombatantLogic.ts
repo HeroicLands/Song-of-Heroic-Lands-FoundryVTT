@@ -38,7 +38,7 @@ import {
     type ActionCardButton,
 } from "@src/document/chat/action-card";
 import type { AttackResult } from "@src/entity/result/AttackResult";
-import type { CombatResult } from "@src/entity/result/CombatResult";
+import type { CombatResult, CombatSide } from "@src/entity/result/CombatResult";
 import type { DefendResult } from "@src/entity/result/DefendResult";
 import { SohlLogic, SohlLogicData } from "@src/core/logic/SohlLogic";
 import { StrikeModeBase } from "@src/entity/strikemode/StrikeModeBase";
@@ -1669,8 +1669,8 @@ export function buildCombatCardData(combatResult: CombatResult): CombatCardData 
                 combatResult.tacticalAdvantages.count
             :   0,
         impactTAValue: earnedImpactTA(),
-        atkWeaponBroke: combatResult.weaponBreakCheck === "attacker",
-        defWeaponBroke: combatResult.weaponBreakCheck === "defender",
+        ...weaponBreakCardFields(combatResult, "atk", "attacker"),
+        ...weaponBreakCardFields(combatResult, "def", "defender"),
         isAtkFumbleTest: atkResult.mishaps?.has(ATTACK_MISHAP.FUMBLE_TEST) ?? false,
         isAtkStumbleTest: atkResult.mishaps?.has(ATTACK_MISHAP.STUMBLE_TEST) ?? false,
         isDefFumbleTest:
@@ -1747,8 +1747,10 @@ export function buildCombatCardData(combatResult: CombatResult): CombatCardData 
                 :   0,
             numDefTA: 0,
             impactTAValue: earnedImpactTA(),
-            atkWeaponBroke: combatResult.weaponBreakCheck === "defender",
-            defWeaponBroke: false,
+            // The counterstriker is this card's attacker, so the exchange's
+            // "defender" check is theirs.
+            ...weaponBreakCardFields(combatResult, "atk", "defender"),
+            ...weaponBreakCardFields(combatResult, "def", "none"),
             isAtkFumbleTest: atkResult.mishaps?.has(ATTACK_MISHAP.FUMBLE_TEST) ?? false,
             isAtkStumbleTest: atkResult.mishaps?.has(ATTACK_MISHAP.STUMBLE_TEST) ?? false,
             isDefFumbleTest: false,
@@ -2085,6 +2087,38 @@ export function collectBlockableStrikeModes(actorLogic: SohlActorLogic<any>): Me
         return acc;
     }, [] as MeleeStrikeMode[]);
     return result;
+}
+
+/**
+ * The attack-result card's weapon-break fields for one of its columns, from the
+ * exchange's {@link CombatResult.weaponBreakCheck | check} and
+ * {@link CombatResult.weaponBreakRoll | roll}. `<side>WeaponBreakChecked` says
+ * the check is owed; `<side>WeaponBreakRolled` that it was rolled, with the
+ * quality, the roll and the verdict beside it. An owed check with no roll — a
+ * weapon whose quality is unrated — leaves the verdict to the table.
+ * @param combatResult - The resolved exchange.
+ * @param prefix - The card column: `"atk"` or `"def"`.
+ * @param owner - The exchange side whose weapon that column shows; `"none"`
+ *   for a column that can carry no check.
+ * @returns The column's weapon-break render fields.
+ */
+function weaponBreakCardFields(
+    combatResult: CombatResult,
+    prefix: "atk" | "def",
+    owner: CombatSide,
+): Record<string, unknown> {
+    const checked = owner !== "none" && combatResult.weaponBreakCheck === owner;
+    const roll =
+        checked && combatResult.weaponBreakRoll?.side === owner ?
+            combatResult.weaponBreakRoll
+        :   undefined;
+    return {
+        [`${prefix}WeaponBreakChecked`]: checked,
+        [`${prefix}WeaponBreakRolled`]: !!roll,
+        [`${prefix}WeaponQuality`]: roll?.quality ?? 0,
+        [`${prefix}WeaponBreakRoll`]: roll?.roll ?? 0,
+        [`${prefix}WeaponBroke`]: !!roll?.broke,
+    };
 }
 
 /**

@@ -144,13 +144,32 @@ describe("attack-result-card renders the supplied variables", () => {
         expect(html).not.toContain("fa-regular fa-star");
     });
 
-    it("names the defender's broken weapon", async () => {
-        const html = await render();
-        // weaponBreakCheck "defender" → defWeaponBroke; the name must appear.
+    it("names the defender's broken weapon when the break roll says so", async () => {
+        const html = await render({
+            weaponBreakRoll: { side: "defender", quality: 10, roll: 14, broke: true },
+        });
         // The sentence is `SOHL.Chat.Attack.weaponBroke`, whose
         // typographic apostrophe survives Handlebars escaping — a straight `'`
         // would render as `&#x27;` and read as a literal in the raw HTML.
         expect(html).toContain("Bandit’s Shield broke!");
+        // The roll it turned on is shown beside the verdict.
+        expect(html.replace(/\s+/g, " ")).toContain("10 / 14");
+    });
+
+    it("says the defender's weapon held when the break roll is within its quality", async () => {
+        const html = await render({
+            weaponBreakRoll: { side: "defender", quality: 10, roll: 9, broke: false },
+        });
+        expect(html).toContain("Bandit’s Shield OK");
+        expect(html).not.toContain("broke!");
+        expect(html.replace(/\s+/g, " ")).toContain("10 / 9");
+    });
+
+    it("declares nothing broken when the check is owed but the weapon's quality is unrated", async () => {
+        // weaponBreakCheck "defender" with no roll: the tie itself is not a verdict.
+        const html = await render({ weaponBreakRoll: undefined });
+        expect(html).not.toContain("broke!");
+        expect(html).toContain("Bandit’s Shield must be checked for breakage");
     });
 
     it("no longer references the removed unbacked variables", async () => {

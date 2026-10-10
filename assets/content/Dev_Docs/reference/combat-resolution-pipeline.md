@@ -168,6 +168,7 @@ The full combat exchange — composes AttackResult + DefendResult via opposed te
 | `margin`                   | `number`                             | Victory score `VS` (see below)                                                                 |
 | `tacticalAdvantages`       | `{ side, count }`                    | TAs awarded by the exchange                                                                    |
 | `weaponBreakCheck`         | `"attacker" \| "defender" \| "none"` | Whose weapon must roll for breakage                                                            |
+| `weaponBreakRoll`          | `WeaponBreakRoll \| undefined`       | The check as rolled: `3d6` against the weapon's quality, broken above it; absent when unrated  |
 | `blockingLimbLocationCode` | `string`                             | Hit location a limb block lands on when the block ties; `""` otherwise                         |
 | `attackerImpact`           | `ImpactResult \| undefined`          | Impact rolled for the attacker, when it lands a blow                                           |
 | `cxImpact`                 | `ImpactResult \| undefined`          | Impact rolled for the counterstriker, when it lands a blow                                     |

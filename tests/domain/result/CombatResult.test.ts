@@ -5,7 +5,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, afterEach } from "vitest";
+import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
 import { CombatResult } from "@src/entity/result/CombatResult";
 import { OpposedTestResult } from "@src/entity/result/OpposedTestResult";
 import { AttackResult } from "@src/entity/result/AttackResult";
@@ -603,5 +604,59 @@ describe("CombatResult deduplication", () => {
         });
         expect(cr.attackResult).toBe(atk);
         expect(cr.defendResult).toBe(def);
+    });
+});
+
+describe("weapon break check — a tied block rolls against the blocking weapon's quality", () => {
+    afterEach(() => SimpleRoll.clearForced());
+
+    /** A block whose strike mode belongs to a weapon rated at `quality`. */
+    const blockWith = (quality: number | undefined, atk = 1, def = 1) => {
+        const defender = makeSide({ level: def, testType: TEST_TYPE.BLOCK.id });
+        if (quality !== undefined) defender.mode = { parent: { quality: { effective: quality } } };
+        const cr = makeCombat(makeSide({ level: atk }), defender);
+        cr.opposedTestEvaluate();
+        return cr;
+    };
+
+    it("breaks the weapon when 3d6 rolls above its quality", () => {
+        SimpleRoll.forceValues(6, 5, 4); // 15 > 10
+        const cr = blockWith(10);
+        expect(cr.weaponBreakCheck).toBe("defender");
+        expect(cr.weaponBreakRoll).toEqual({
+            side: "defender",
+            quality: 10,
+            roll: 15,
+            broke: true,
+        });
+    });
+
+    it("leaves the weapon whole when the roll is at or under its quality", () => {
+        SimpleRoll.forceValues(4, 3, 3); // 10, not above 10
+        const cr = blockWith(10);
+        expect(cr.weaponBreakRoll).toEqual({
+            side: "defender",
+            quality: 10,
+            roll: 10,
+            broke: false,
+        });
+    });
+
+    it("rolls nothing when no check is owed", () => {
+        SimpleRoll.forceValues(6, 6, 6);
+        expect(blockWith(10, 2, 0).weaponBreakRoll).toBeUndefined();
+        expect(blockWith(10, 0, 1).weaponBreakRoll).toBeUndefined();
+        // The forced dice were never drawn.
+        expect(SimpleRoll.forcedRemaining).toBe(3);
+    });
+
+    it("owes the check but gives no verdict when the weapon's quality is unrated", () => {
+        SimpleRoll.forceValues(6, 6, 6);
+        // No weapon behind the mode, and a weapon rated 0 (untouched), alike.
+        expect(blockWith(undefined).weaponBreakCheck).toBe("defender");
+        expect(blockWith(undefined).weaponBreakRoll).toBeUndefined();
+        expect(blockWith(0).weaponBreakCheck).toBe("defender");
+        expect(blockWith(0).weaponBreakRoll).toBeUndefined();
+        expect(SimpleRoll.forcedRemaining).toBe(3);
     });
 });

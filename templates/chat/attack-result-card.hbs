@@ -125,13 +125,37 @@ SPDX-License-Identifier: GPL-3.0-or-later
         <span class="label">{{localize "SOHL.Chat.Attack.impactTAValue"}}</span>
         <span class="value">+{{impactTAValue}} {{localize "SOHL.Being.Column.impact"}}</span>
     </div>
-    {{/if}} {{#if atkWeaponBroke}}
+    {{/if}} {{#if atkWeaponBreakChecked}}
     <div class="card-content center">
+        {{#if atkWeaponBreakRolled}}
+        <div class="flexrow">
+            <span class="label">{{localize "SOHL.Chat.WeaponBreak.quality"}}</span>
+            <span class="value">{{atkWeaponQuality}} / {{atkWeaponBreakRoll}}</span>
+        </div>
+        {{#if atkWeaponBroke}}
         <span class="weapon-broke">{{localize "SOHL.Chat.Attack.weaponBroke" name=attacker weapon=attackWeapon}}</span>
+        {{else}}
+        <span class="value">{{localize "SOHL.Chat.WeaponBreak.ok" name=attacker weapon=attackWeapon}}</span>
+        {{/if}}
+        {{else}}
+        <span class="note">{{localize "SOHL.Chat.Attack.weaponBreakUnrated" name=attacker weapon=attackWeapon}}</span>
+        {{/if}}
     </div>
-    {{/if}} {{#if defWeaponBroke}}
+    {{/if}} {{#if defWeaponBreakChecked}}
     <div class="card-content center">
+        {{#if defWeaponBreakRolled}}
+        <div class="flexrow">
+            <span class="label">{{localize "SOHL.Chat.WeaponBreak.quality"}}</span>
+            <span class="value">{{defWeaponQuality}} / {{defWeaponBreakRoll}}</span>
+        </div>
+        {{#if defWeaponBroke}}
         <span class="weapon-broke">{{localize "SOHL.Chat.Attack.weaponBroke" name=defender weapon=defendWeapon}}</span>
+        {{else}}
+        <span class="value">{{localize "SOHL.Chat.WeaponBreak.ok" name=defender weapon=defendWeapon}}</span>
+        {{/if}}
+        {{else}}
+        <span class="note">{{localize "SOHL.Chat.Attack.weaponBreakUnrated" name=defender weapon=defendWeapon}}</span>
+        {{/if}}
     </div>
     {{/if}} {{#if hasAttackHit}}
     <div class="card-content center">
