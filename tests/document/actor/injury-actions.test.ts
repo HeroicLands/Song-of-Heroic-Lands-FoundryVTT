@@ -20,6 +20,7 @@ import {
     buildMissCardData,
     getActorBodyStructure,
     createTraumaFromInjury,
+    injuryLocationSource,
 } from "@src/document/actor/logic/injury-actions";
 import { resolveInjury } from "@src/entity/body/injury-resolution";
 import { IMPACT_ASPECT, ITEM_KIND } from "@src/utils/constants";
@@ -343,8 +344,50 @@ describe("buildInjuryCardData", () => {
         expect(data).toMatchObject({
             locationDerived: false,
             locationOverridden: true,
+            locationSettled: false,
             isMiss: false,
         });
+    });
+
+    it("flags a location the exchange settled, distinct from a player override", () => {
+        const body = makeBody();
+        const neck = body.getAllLocations().find((l) => l.shortcode === "neck")!;
+        const injury = resolveInjury({
+            impact: 22,
+            aspect: IMPACT_ASPECT.EDGED,
+            body,
+            location: neck,
+        });
+        const data = buildInjuryCardData(injury, {
+            actorId: "a1",
+            handlerActorUuid: "Actor.a1",
+            name: "Axe",
+            addToCharSheet: true,
+            locationSettled: true,
+        });
+        expect(data).toMatchObject({
+            locationDerived: false,
+            locationOverridden: false,
+            locationSettled: true,
+            isMiss: false,
+        });
+    });
+});
+
+describe("injuryLocationSource", () => {
+    it("derives the location when none was chosen", () => {
+        expect(injuryLocationSource("", "")).toBe("derived");
+        // The dialog cleared a seeded location back to "derive".
+        expect(injuryLocationSource("lhand", "")).toBe("derived");
+    });
+
+    it("is a player override when the chosen location differs from the seeded one", () => {
+        expect(injuryLocationSource("", "lhand")).toBe("overridden");
+        expect(injuryLocationSource("lhand", "rhand")).toBe("overridden");
+    });
+
+    it("is settled when the seeded location — a limb block's — is kept as is", () => {
+        expect(injuryLocationSource("lhand", "lhand")).toBe("settled");
     });
 });
 

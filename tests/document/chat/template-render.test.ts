@@ -337,6 +337,19 @@ describe("injury-card zone-die states", () => {
         expect(html).not.toContain("Hit Location Roll:");
     });
 
+    it("says the defence settled the location, and never credits the player for it", () => {
+        const html = renderTemplateReal(`${CHAT}/injury-card.hbs`, {
+            ...base,
+            isMiss: false,
+            locationDerived: false,
+            locationOverridden: false,
+            locationSettled: true,
+        });
+        expect(html).toContain("Location settled by the defence");
+        expect(html).not.toContain("Location overridden by player");
+        expect(html).not.toContain("Hit Location Roll:");
+    });
+
     it("renders the miss card with the aim trace and no injury details", () => {
         const html = renderTemplateReal(`${CHAT}/injury-card.hbs`, {
             actorId: "a1",

@@ -65,6 +65,10 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <div class="card-content center">
         <span class="note failure-text">{{localize "SOHL.Chat.Injury.locationOverridden"}}</span>
     </div>
+    {{else if locationSettled}}
+    <div class="card-content center">
+        <span class="note">{{localize "SOHL.Chat.Injury.locationSettled"}}</span>
+    </div>
     {{/if}}
 
     {{!-- Location: the struck hit-location's name. The Body Part is intentionally

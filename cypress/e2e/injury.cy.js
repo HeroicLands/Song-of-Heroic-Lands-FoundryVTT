@@ -111,6 +111,35 @@ describe("impact → injury → trauma", () => {
         });
     });
 
+    it("the card says the defence settled a location the scope forwarded, not the player", () => {
+        cy.importActor().then((actor) => {
+            cy.prepare(actor);
+            cy.foundry((win) => {
+                const a = win.game.actors.get(actor.id);
+                const loc = a.logic.body.structure.getAllLocations()[0].shortcode;
+                // A location arriving in the scope is one the exchange settled
+                // (the limb a limb block raised); kept as is, it is not the
+                // player's choice and the card must not say it was.
+                win.__injury = a.logic.resolveInjury({
+                    skipDialog: true,
+                    scope: {
+                        bodyLocationCode: loc,
+                        aspect: "blunt",
+                        impact: 20,
+                        schedule: false,
+                    },
+                });
+                return null;
+            });
+            cy.foundry((win) =>
+                win.__injury.then(() => win.game.messages.contents.at(-1)?.content ?? ""),
+            ).should((content) => {
+                expect(content).to.contain("Location settled by the defence");
+                expect(content).to.not.contain("Location overridden by player");
+            });
+        });
+    });
+
     it("resolveInjury records no trauma for a level-0 blow (headless)", () => {
         cy.importActor().then((actor) => {
             cy.prepare(actor);

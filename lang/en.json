@@ -530,6 +530,7 @@
     "SOHL.Chat.Injury.injuryLevel": "IL",
     "SOHL.Chat.Injury.location": "Location",
     "SOHL.Chat.Injury.locationOverridden": "Location overridden by player",
+    "SOHL.Chat.Injury.locationSettled": "Location settled by the defence",
     "SOHL.Chat.Injury.makeShockRoll": "Make a Shock roll!",
     "SOHL.Chat.Injury.missed": "Missed",
     "SOHL.Chat.Injury.noInjury": "No Injury",

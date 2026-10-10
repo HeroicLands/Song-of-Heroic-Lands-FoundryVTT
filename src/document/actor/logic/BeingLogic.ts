@@ -185,6 +185,7 @@ import {
     createTraumaFromInjury,
     getActorBodyStructure,
     type InjuryAimTrace,
+    injuryLocationSource,
     readResolveInjuryForm,
     ResolveInjuryData,
 } from "@src/document/actor/logic/injury-actions";
@@ -2783,6 +2784,10 @@ export class BeingLogic<TData extends BeingData = BeingData> extends SohlActorBa
             return;
         }
 
+        // The location the scope seeded, kept to tell a location the exchange
+        // settled (a limb block's) from one the player picks in the dialog.
+        const seededLocationCode = data.bodyLocationCode;
+
         // Confirm/tune via the dialog. The Location dropdown defaults to
         // "(derive from Target ZN + ZD)"; Target ZN and Zone Die drive that
         // derivation and are enabled/required only while it is selected.
@@ -2807,12 +2812,15 @@ export class BeingLogic<TData extends BeingData = BeingData> extends SohlActorBa
             if (data.zoneDie < 1) data.zoneDie = body.maxZoneNumber || 1;
         }
 
-        // Determine the hit location: a specified Location is a player override;
+        // Determine the hit location: a specified Location was either settled
+        // by the exchange and kept, or chosen by the player (an override);
         // otherwise derive it by Zone-Number + Zone-Die aiming, which may miss.
         let location: BodyLocation | undefined;
         let aim: InjuryAimTrace | undefined;
-        const locationOverridden = !!data.bodyLocationCode;
-        if (locationOverridden) {
+        const locationSource = injuryLocationSource(seededLocationCode, data.bodyLocationCode);
+        const locationOverridden = locationSource === "overridden";
+        const locationSettled = locationSource === "settled";
+        if (locationSource !== "derived") {
             location = this.findLocation(body, data.bodyLocationCode);
             if (!location) {
                 sohl.log.uiWarn(`${this.name}: unknown hit location "${data.bodyLocationCode}".`);
@@ -2882,6 +2890,7 @@ export class BeingLogic<TData extends BeingData = BeingData> extends SohlActorBa
             amputation,
             aim,
             locationOverridden,
+            locationSettled,
         });
     }
 
@@ -3167,6 +3176,8 @@ export class BeingLogic<TData extends BeingData = BeingData> extends SohlActorBa
      * @param result.amputation - The performed amputation outcome, if any.
      * @param result.aim - The zone-die aim trace, when the location was derived.
      * @param result.locationOverridden - Whether the player set the location by hand.
+     * @param result.locationSettled - Whether the exchange settled the location
+     *   and the player kept it.
      */
     private async postResolveInjuryCard(
         injury: ResolvedInjury,
@@ -3177,6 +3188,7 @@ export class BeingLogic<TData extends BeingData = BeingData> extends SohlActorBa
             amputation?: AmputationCardInfo;
             aim?: InjuryAimTrace;
             locationOverridden: boolean;
+            locationSettled: boolean;
         },
     ): Promise<void> {
         const cardData = buildInjuryCardData(injury, {
@@ -3189,6 +3201,7 @@ export class BeingLogic<TData extends BeingData = BeingData> extends SohlActorBa
             amputation: result.amputation,
             aim: result.aim,
             locationOverridden: result.locationOverridden,
+            locationSettled: result.locationSettled,
         });
         await this.speaker.toChat(
             toFilePath("systems/sohl/templates/chat/injury-card.hbs"),

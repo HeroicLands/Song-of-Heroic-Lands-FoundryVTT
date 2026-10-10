@@ -207,11 +207,39 @@ export interface InjuryCardContext {
     /** The performed amputation test's outcome, when the wound triggered one. */
     amputation?: AmputationCardInfo;
     /** The zone-die aim trace, present only when the location was **derived**;
-     *  the card shows it in place of the "location overridden" notice. */
+     *  the card shows it in place of the location notices. */
     aim?: InjuryAimTrace;
     /** True when the player specified the hit location by hand rather than
      *  deriving it; the card then shows a "Location overridden by player" note. */
     locationOverridden?: boolean;
+    /** True when the exchange settled the hit location before the injury was
+     *  resolved — the limb a limb block raised — and the player kept it; the
+     *  card then says the defence settled it. */
+    locationSettled?: boolean;
+}
+
+/**
+ * How a resolved injury's hit location was decided, for the result card:
+ * `"derived"` by Zone-Number + Zone-Die aiming, `"overridden"` by the player
+ * choosing a location in the dialog, or `"settled"` by the exchange that
+ * forwarded it (a limb block lands on the blocking limb) with the player
+ * keeping it.
+ */
+export type InjuryLocationSource = "derived" | "overridden" | "settled";
+
+/**
+ * Classify how the hit location was decided by comparing the location the
+ * action's scope seeded against the one the dialog returned. An empty chosen
+ * location means the aim derives it; a chosen location equal to the seeded one
+ * was settled before the flow began; any other chosen location is the player's
+ * own. Pure and Foundry-free.
+ * @param seededCode - The location shortcode the scope supplied (`""` for none).
+ * @param chosenCode - The location shortcode after the dialog (`""` to derive).
+ * @returns The location's source.
+ */
+export function injuryLocationSource(seededCode: string, chosenCode: string): InjuryLocationSource {
+    if (!chosenCode) return "derived";
+    return chosenCode === seededCode ? "settled" : "overridden";
 }
 
 /**
@@ -282,10 +310,12 @@ export function buildInjuryCardData(
         addToCharSheet: ctx.addToCharSheet,
         // A resolved injury is never a miss; the miss card is built separately.
         isMiss: false,
-        // How the location was determined: the zone-die aim trace (derived) or a
-        // player override notice — mutually exclusive on the card.
+        // How the location was determined: the zone-die aim trace (derived), a
+        // player override notice, or a defence-settled notice — mutually
+        // exclusive on the card.
         locationDerived: !!ctx.aim,
         locationOverridden: !!ctx.locationOverridden,
+        locationSettled: !!ctx.locationSettled,
         ...(ctx.aim ? aimTraceCardFields(ctx.aim) : {}),
     };
 }
@@ -330,6 +360,7 @@ export function buildMissCardData(
         isInjured: false,
         locationDerived: true,
         locationOverridden: false,
+        locationSettled: false,
         addToCharSheet: false,
         ...aimTraceCardFields(aim),
     };
