@@ -63,7 +63,13 @@ Cypress.Commands.add("login", (opts = {}) => {
     );
 
     cy.visit("/game");
-    cy.window({ timeout: 60000 }).its("game").its("ready").should("eq", true);
+    // The world takes longer than the default command timeout to reach `ready`
+    // on a cold load, and `.its()` takes its own timeout rather than the
+    // window's, so each step of the chain is given the same minute.
+    cy.window({ timeout: 60000 })
+        .its("game", { timeout: 60000 })
+        .its("ready", { timeout: 60000 })
+        .should("eq", true);
     cy.window({ log: false }).then((win) => {
         guardHeadlessTokenDraw(win);
         guardHeadlessRegionShapeConstraints(win);
