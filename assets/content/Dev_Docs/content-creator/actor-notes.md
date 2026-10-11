@@ -19,16 +19,16 @@ what it can do, and what it is carrying.
 
 The distinguishing feature, and the thing most worth understanding before you
 write one, is that **an actor note does not contain its items — it addresses
-them**. Its skills, attributes and gear are named by `(type, shortcode)` and
-resolved at build time against the compiled item packs. That address space is
+them**. Its skills, attributes and gear are named by the address of the item each
+copies and resolved at build time against the compiled item packs. That address space is
 what the second half of this page is about.
 
 ## One type compiles, not four
 
 The system defines four Actor types — `being`, `cohort`, `structure` and
 `vehicle` (see the [[doc-typecatalog|Type Catalog]]). **The content
-pipeline compiles exactly one of them: `being`.** All 95 actor notes in
-`assets/content/` are beings.
+pipeline compiles exactly one of them: `being`.** Every actor note in
+`assets/content/` is a being.
 
 That is not an oversight in the compiler so much as a statement about where
 those documents come from. A cohort, a structure and a vehicle are created in
@@ -85,79 +85,71 @@ its documentation journal.
 
 ## The `sohl:` block
 
-| Field                | Shape                     | Meaning                                                      |
-| -------------------- | ------------------------- | ------------------------------------------------------------ |
-| `attributes`         | map of shortcode > number | Embedded attribute items, each opened at that score.         |
-| `items`              | list of entries           | Everything else the being embeds. See below.                 |
-| `body`               | nested object             | The being's physical body. Omit it for an incorporeal being. |
-| `currentMoveMedium`  | string, default `"none"`  | Which medium it is currently moving through.                 |
-| `movementProfiles`   | list of profiles          | Speed per medium.                                            |
-| `defaultCombatGroup` | string                    | Which side it joins in a combat. Emitted only when declared. |
-| `templatePriority`   | number or `null`          | Required, as on every item note.                             |
+| Field                | Shape            | Meaning                                                                |
+| -------------------- | ---------------- | ---------------------------------------------------------------------- |
+| `items`              | list of entries  | Everything the being embeds: attributes, skills and gear. See below.   |
+| `system`             | nested object    | The being's own document fields, at the data model's paths. See below. |
+| `defaultCombatGroup` | string           | Which side it joins in a combat. Emitted only when declared.           |
+| `attrRollFormula`    | string           | The formula shown for the being's attribute rolls.                     |
+| `templatePriority`   | number or `null` | Required, as on every item note.                                       |
 
-**`sohl.skills` is ignored.** It is read by nothing and compiles to nothing.
-Skills are embedded through `sohl.items`, like every other item; a `skills:`
-block is silently inert, which makes it exactly the kind of authoring mistake
-this page exists to prevent.
+### `system`
 
-### `body`
+`sohl.system` is written at the data model's own paths, so the being's physical
+body is `sohl.system.body`, with `sohl.system.currentMoveMedium` and
+`sohl.system.movementProfiles` beside it. Movement sits flat _alongside_ the body
+rather than inside it, because movement is a universal actor capability rather
+than a property of a body.
 
-`sohl.body` mirrors `system.body` field for field: `structure`, `weight`
-(`base`, `calc`), `reachBase`, `bodyScaleBase` and `personalFatigue`. Movement
-sits flat _alongside_ it rather than inside it, because movement is a universal
-actor capability rather than a property of a body.
-
-Absence is meaningful. **A being that omits `sohl.body` is incorporeal** and
-keeps the schema's empty body — that is a supported state, not a missing field.
-What is _not_ supported is a `sohl.body` that is present but not an object; that
-is reported as an error naming the note and the type it got instead.
+A being that authors no body is incorporeal and keeps the data model's empty
+body — that is a supported state, not a missing field.
 
 ```yaml
 sohl:
-  body:
-    weight:
-      base: 165
-    reachBase: 5
-    bodyScaleBase: 1
-    personalFatigue: enc
-  currentMoveMedium: terrestrial
-  movementProfiles:
-    - medium: terrestrial
-      feetPerRound: 30
-      leaguesPerWatch: 4
+  system:
+    body:
+      weight:
+        base: 165
+      reachBase: 5
+      bodyScaleBase: 1
+      personalFatigue: enc
+    currentMoveMedium: terrestrial
+    movementProfiles:
+      - medium: terrestrial
+        feetPerRound: 30
+        leaguesPerWatch: 4
 ```
+
+Attributes and skills are not keys of their own. Each is an entry in
+`sohl.items` that names the catalogue item it copies, with the score or the
+mastery level as that entry's `system` overlay.
 
 ## The address space
 
 This is the part that has no counterpart in an item note.
 
-**A being names an item by `(type, shortcode)`, and never by the pack it ships
-in.** At build time the actors pass loads the generated JSON of _every_ Item
+**A being names an item by its address (`type-shortcode`), and never by the
+pack it ships in.** At build time the actors pass loads the generated JSON of _every_ Item
 pack into one map keyed `type:shortcode`, and each embedded entry is looked up
 in it.
 
 ```yaml
 sohl:
-  attributes:
-    str: 13
-    agl: 11
   items:
-    - type: skill
-      shortcode: Dagger
-    - type: weapongear
-      shortcode: Dagger
+    - { model: attribute-str, system: { scoreBase: 13 } }
+    - { model: attribute-agl, system: { scoreBase: 11 } }
+    - { model: skill-dgr, system: { masteryLevelBase: 40 } }
+    - model: weapongear-dgr
       system:
         qualityBase: 2
 ```
 
-An entry is `type` (required), an optional `shortcode`, and any other keys,
+An entry names the item it copies with `model` and carries any other keys,
 which are **deep-merged over the resolved item**: plain objects merge key by
 key, while arrays, primitives and `null` replace outright. That is how the
 `weapongear` above ships as a better-than-average dagger without restating the
-dagger.
-
-Attributes are the same mechanism with a shorthand — `str: 13` resolves
-`attribute:str` and overlays `system.scoreBase`.
+dagger, and how an attribute carries its `scoreBase` and a skill its
+`masteryLevelBase`.
 
 ### When an address does not resolve
 
@@ -169,13 +161,13 @@ actor "Trader Wulfe": no predefined item for "weapongear:Dagr"
 
 The pass records it, keeps going, and the accumulated error count makes the
 build refuse to compile the packs. So a mistyped shortcode fails the build
-rather than shipping an actor quietly missing a weapon — the opposite of the
-`skills:` behaviour above, and the reason to prefer an address over an inline
-item wherever one exists.
+rather than shipping an actor quietly missing a weapon, which is the reason to
+prefer an address over an inline item wherever one exists.
 
 Other errors in the same family: an entry that is not an object, an entry with
-no `type`, and an entry with neither a `shortcode` nor enough fields to stand
-alone (an item with no address must supply at least a `name` and a `system`).
+neither a `model` nor a `type`, and an entry with no `model` and too few fields
+to stand alone (an item with no address must supply at least a `name`, a `type`
+and a `system.shortcode`).
 
 ### Uniqueness spans every Item pack
 
@@ -204,22 +196,50 @@ error: pack "actors" (Actor) reads the compiled output of the Item pack "items",
        hold — compile the whole package, or compile "items" first
 ```
 
-### A cross-package address does not work
+### A cross-package address names the package
 
-**The address space is one build's Item packs — not the packages it depends
-on.** A being in a module cannot embed an item defined in another package's
-compendium by shortcode, because that package's items were never compiled into
-this build's JSON tree and are simply absent from the map.
+**An unqualified `model` resolves within this build's own Item packs.** To embed
+an item that another package defines, the entry writes the longer address,
+`package-system-type-shortcode`, and the repository declares that package as a
+dependency whose relationship sets `itemCatalog: true`:
 
-This is not hypothetical. It is what blocked the `sohl-kethira-basic` migration
-: its 17 character notes carry 895 embedded-item references across 113
-distinct addresses belonging to the `sohl` package, which that repository does
-not hold. Every one of them resolves to nothing.
+```yaml
+sohl:
+  items:
+    - { model: sohl-sohl-skill-wpnc, system: { masteryLevelBase: 40 } }
+    - { model: sohl-sohl-attribute-str, system: { scoreBase: 13 } }
+```
 
-There are two honest answers, and no third. Either the module **defines the
-items it embeds**, in its own content tree and its own Item pack, or the being
-**carries the item inline** — an entry with no `shortcode`, supplying its own
-`name` and `system`, which stands alone precisely because it addresses nothing.
-Cross-package _links_ are a solved problem via the
-[[doc-linkmanifest|link manifest]], but a link is a reference a
-reader follows; an embedded item is data that has to exist at build time.
+`npm run build:deps` downloads the pinned release of each such dependency and
+extracts its Item packs into a local cache; the compile reads only that cache
+and never reaches the network. A cold cache fails the compile naming the
+`deps fetch` step that fills it.
+
+A local item shadows a foreign one with the same address, while two _local_
+packs claiming one address still collide. An address that resolves in no
+catalogue is a hard error, and generation refuses to compile any pack from
+incomplete output, so one broken Actor pack stops the Item packs with it.
+
+### An entry that carries its item inline
+
+An entry with no `model` addresses nothing, so it must stand alone: it supplies
+its own `type`, `name` and `system`, with the item's identity in
+`system.shortcode`. A top-level `shortcode` on an entry is refused, as is an
+entry stating both `model` and `type`, because the address in `model` already
+names the type.
+
+```yaml
+sohl:
+  items:
+    - type: weapongear
+      name: Heirloom Dagger
+      system:
+        shortcode: heirloomdgr
+        qualityBase: 3
+```
+
+Prefer an address wherever the item exists in a catalogue: an inline item is
+data the note owns, with nothing to keep it in step with the item it resembles.
+Cross-package _links_ in prose go through the
+[[doc-linkmanifest|link manifest]]; an embedded item is data that has to exist
+at build time.
