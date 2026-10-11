@@ -11,8 +11,8 @@ export default {
     // WHAT THIS GATE IS FOR
     //
     // Prettier already owns the whitespace of every `.scss` file in the tree.
-    // stylelint is here for the checks Prettier structurally cannot perform
-    // (#1622): invalid declarations, unknown properties and units, duplicate
+    // stylelint is here for the checks Prettier structurally cannot perform:
+    // invalid declarations, unknown properties and units, duplicate
     // and dead selectors, and — the reason it matters most — the naming
     // conventions that `assets/content/Dev_Docs/concepts/css-architecture.md` documents as
     // an extension surface third-party modules compile against.

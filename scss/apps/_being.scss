@@ -1,12 +1,11 @@
 @use "../abstracts/typography";
 
-// Being-sheet per-tab styling (Manuscript redesign, epic #783). Sheet-specific
-// presentation layered on top of the shared Feature-0 component blocks and the
+// Being-sheet per-tab styling (Manuscript redesign). Sheet-specific
+// presentation layered on top of the shared component blocks and the
 // generic sheet frame in layout/_sheet.scss.
 //
 // Loaded from sohl.scss under the COMPOUND `.sohl.being` selector — ApplicationV2
-// puts `sohl` and the `being` sheet-type class on the SAME frame element (the #87
-// same-element trap; a plain `.sohl .being` descendant would never match). It
+// puts `sohl` and the `being` sheet-type class on the SAME frame element (the same-element trap; a plain `.sohl .being` descendant would never match). It
 // sits in the `sohl.apps` layer so these being-only overrides beat the shared
 // `layout`/`components` layers without `!important`. Selectors are written bare
 // because the compound wrapper is applied in sohl.scss.

@@ -5,7 +5,7 @@
 // component. The only cue that remains here is the muted colour on a disabled
 // effect row (`.ledger__row.disabled`); the legacy `<ol class="effects__list">`
 // list scaffold it used to carry was removed in the item-sheet Manuscript
-// redesign (epic #800), since no template renders a non-ledger effects list.
+// redesign, since no template renders a non-ledger effects list.
 .effects {
     .disabled {
         color: var(--sohl-color-text-muted);

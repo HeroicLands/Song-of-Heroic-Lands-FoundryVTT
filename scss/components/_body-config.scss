@@ -5,8 +5,7 @@
 //
 // Exposed as the `editor($prefix)` mixin so the two structurally-identical
 // windows share one rule set, applied in `sohl.scss` under each COMPOUND root
-// (`.sohl.body-part-config`, `.sohl.body-location-config`) — the #87
-// same-element reason a compound selector is required (see css-architecture.md
+// (`.sohl.body-part-config`, `.sohl.body-location-config`) — the same-element reason a compound selector is required (see css-architecture.md
 // §6): ApplicationV2 puts both the `sohl` and component classes on the one frame
 // element, so a plain `.sohl` wrapper would compile to the never-matching
 // descendant `.sohl .body-part-config …`.

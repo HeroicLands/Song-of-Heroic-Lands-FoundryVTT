@@ -3,7 +3,7 @@
 // by the actor gear tab (`templates/actor/parts/gear.hbs`, keyed by the
 // `.gear-list` drag selector in `BeingSheet`); the item-sheet property tabs no
 // longer use the legacy `.list-section` / `.actions-list` list widgets, which
-// were removed in the item-sheet Manuscript redesign (epic #800).
+// were removed in the item-sheet Manuscript redesign.
 .gear-list {
     .list__header .list__capacity {
         margin-left: auto;

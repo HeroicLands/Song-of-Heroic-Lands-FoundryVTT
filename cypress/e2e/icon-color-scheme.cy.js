@@ -12,7 +12,7 @@
  */
 
 /**
- * #917 — SVG icons invisible on first load when the OS appearance and Foundry's
+ * SVG icons invisible on first load when the OS appearance and Foundry's
  * UI theme disagree.
  *
  * The bundled icons are `<img>`-embedded SVGs whose fill follows the element's

@@ -1,5 +1,4 @@
-// Health bar — the ruled vitality bar in the sheet header (Manuscript redesign,
-// epic #783 / Feature 0). A label ("Health · <band>"), a ruled track, a colored
+// Health bar — the ruled vitality bar in the sheet header (Manuscript redesign). A label ("Health · <band>"), a ruled track, a colored
 // fill, and a mono percentage. The band word is colored to match the bar tier
 // (green → gold → red); the `%` value and band word carry the state redundantly
 // so it survives grayscale print and color-blind viewers.

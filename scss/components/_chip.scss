@@ -1,5 +1,4 @@
-// Chip — a small rounded qualitative/status label (Manuscript redesign, epic
-// #783 / Feature 0). Neutral ink-on-stamp by default; semantic variants tint
+// Chip — a small rounded qualitative/status label (Manuscript redesign). Neutral ink-on-stamp by default; semantic variants tint
 // for bleeding/critical (`--danger`) and caution (`--warn`). `--role` is the
 // body-part role tag; `--hit` is a mono tabular tag for zone numbers / hit
 // ranges.
@@ -58,7 +57,7 @@
     }
 }
 
-// Legacy removable-tag aliases (epic #800 / Feature 1). The mystery
+// Legacy removable-tag aliases. The mystery
 // Affected-Skills and armorgear Body-Armor-Location templates still emit ad-hoc
 // `.mystery-skill` / `.armor-location` `<li>`s (a `.name` value + a delete `<a>`).
 // Give them the descriptor-chip look NOW so they match the Manuscript language

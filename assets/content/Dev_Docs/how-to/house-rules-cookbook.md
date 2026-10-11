@@ -156,9 +156,9 @@ await affliction.update({
 ```
 
 `outcomeTraumas` is a Safe Expression, so it can branch — e.g.
-`"level >= 4 ? 'weakness20' : 'weakness10'"` — evaluated against the affliction's
-bindings. It carries only shortcode **references** to trauma templates, never item
-data.
+`"roll('1d3').total >= 2 ? 'weakness20' : 'weakness10'"` — using helper calls and
+literals only, since the expression has no bindings. It carries only shortcode
+**references** to trauma templates, never item data.
 
 ## Tradeoffs summary
 

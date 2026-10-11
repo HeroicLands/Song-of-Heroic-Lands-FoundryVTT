@@ -35,7 +35,7 @@ export const PRINT_INFINITY = "∞";
 /**
  * Plain-text labels for a body part's impairment status, used in the
  * letterhead's injury summary (the interactive header encodes these as lozenge
- * colors, which do not survive grayscale print — #464 print-safe rule).
+ * colors, which do not survive grayscale print).
  */
 export const BODY_PART_STATUS_PRINT_LABEL: Record<BodyPartStatus, string> = {
     none: "healthy",

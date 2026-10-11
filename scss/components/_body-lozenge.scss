@@ -1,5 +1,5 @@
 // Body-part lozenge — one chip per body part in the header impairment strip
-// (Manuscript redesign, epic #783 / Feature 0). Impairment severity is encoded
+// (Manuscript redesign). Impairment severity is encoded
 // legibly, not subtly: `--minor`/`--major` keep an accent under-rule whose
 // weight grows with severity (major adds a faint accent tint + bold);
 // `--unusable` is a solid warn-orange fill with contrast ink — categorically

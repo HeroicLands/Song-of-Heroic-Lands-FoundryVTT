@@ -11,7 +11,7 @@ section.highlight {
     @include typography.type-style("editor");
     // Own the content color so it follows the light/dark token swap instead of
     // falling through to Foundry's editor default (dark, invisible on the dark
-    // sheet — #893). The toolbar is themed below; this is the typed text itself.
+    // sheet). The toolbar is themed below; this is the typed text itself.
     color: var(--sohl-color-text-primary);
 }
 

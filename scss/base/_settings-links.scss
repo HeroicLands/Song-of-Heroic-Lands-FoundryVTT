@@ -1,5 +1,5 @@
 // The branded "Game System" section injected into the Game Settings sidebar
-// (issue #915, polished in the follow-up). UNSCOPED — the settings sidebar is
+// UNSCOPED — the settings sidebar is
 // Foundry chrome, outside the `.sohl` frame — so rules target only our own
 // `.sohl-game-system` block.
 //
@@ -10,7 +10,7 @@
 // theme a near-black one. SoHL's own `--sohl-color-*` tokens, by contrast, follow
 // the OS `prefers-color-scheme`. When the two disagree the section's text mismatch
 // its ground — a Foundry-dark sidebar under an OS-light preference rendered dark
-// ink on black (issue #931), and a fixed dark pin then vanished on the light
+// ink on black, and a fixed dark pin then vanished on the light
 // parchment. So we bind the palette to Foundry's theme class instead: light tokens
 // (dark ink, `color-scheme: light` → ink emblem) under `theme-light`, dark tokens
 // (cream, `color-scheme: dark` → cream emblem) under `theme-dark`. The section then

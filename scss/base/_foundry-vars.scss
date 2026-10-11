@@ -38,7 +38,7 @@
      * These are mapped to the SANS token on purpose, matching what they already
      * resolve to, so this owns the stack without restyling it. Which headings
      * take the Manuscript serif is a design decision that belongs to the sheet
-     * redesign (§2.2 of the epic: serif for wordmark, section legends and
+     * redesign (serif for wordmark, section legends and
      * attribute names; sans for chrome and body) — the SoHL rules that already
      * make that choice win here on specificity and are untouched. */
     --font-primary: var(--sohl-font-sans);

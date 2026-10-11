@@ -3,7 +3,7 @@
 // background and foreground both from SoHL tokens — so it is self-consistent and
 // readable in both themes. (Previously it forced `text-inverse`, which is light
 // in light mode but flips to near-black in dark mode, leaving dark text on a dark
-// menu — #893.)
+// menu.)
 #context-menu {
     background: var(--sohl-color-bg-surface);
     color: var(--sohl-color-text-primary);

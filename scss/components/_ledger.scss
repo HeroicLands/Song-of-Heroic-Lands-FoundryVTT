@@ -1,5 +1,5 @@
 // Ledger — the CSS-grid data table shared by every list/section on the Being
-// sheet (Manuscript redesign, epic #783 / Feature 0). Replaces the old flexbox
+// sheet (Manuscript redesign). Replaces the old flexbox
 // `.list` rows. Each ledger sets its own column template with the inline
 // `--ledger-cols` custom property; the head and each row are grids that consume
 // it, so columns stay aligned. Numeric cells are mono + tabular-nums.

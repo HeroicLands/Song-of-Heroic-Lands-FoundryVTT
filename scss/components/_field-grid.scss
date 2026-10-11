@@ -1,5 +1,5 @@
 // Field-grid — the Manuscript wrapper for the item property `formGroup` layouts
-// (Manuscript redesign, epic #800 / Feature 1). It replaces the ad-hoc
+// (Manuscript redesign). It replaces the ad-hoc
 // `grid grid-3col` / `grid grid-4col` containers the property tabs wrap their
 // `{{formGroup … classes="text-field" stacked=true}}` calls in, and retunes the
 // emitted Foundry `.form-group.text-field` chrome (label · hint · input) to the
@@ -53,7 +53,7 @@
             font-variant-numeric: tabular-nums;
         }
 
-        // Multi-select list (the gear cohort-sharing control, #76). Foundry
+        // Multi-select list (the gear cohort-sharing control). Foundry
         // sizes every `<select>` to the single-line `--input-height`, which
         // squashes a `multiple` list to one row and spills the rest of its
         // options past the fieldset. Let it size to its own rows instead.

@@ -1,5 +1,4 @@
-// Drag grip — the first-class reorder affordance (Manuscript redesign, epic
-// #783 / Feature 0). A ruled "gutter" grip with `cursor:grab`, faded until its
+// Drag grip — the first-class reorder affordance (Manuscript redesign). A ruled "gutter" grip with `cursor:grab`, faded until its
 // row is hovered. Inside a `.ledger` the gutter cell is `.ledger__grip`; this
 // standalone block is for non-ledger reorder rows (the Profile body-structure
 // tree). The two share the same look.

@@ -54,7 +54,7 @@
         // children and the editable `.editor-content` is `position: absolute;
         // inset: 0` inside the `flex: 1` container. Forcing `display: block`
         // here drops both children out of flex flow, collapsing the editor to
-        // zero height (empty WYSIWYG + source view over the toolbar, #897).
+        // zero height (empty WYSIWYG + source view over the toolbar).
         // `flex: 1; min-height: 0` fills the card; `height: auto` neutralizes
         // the global `.editor { height: 100% }`.
         display: flex;

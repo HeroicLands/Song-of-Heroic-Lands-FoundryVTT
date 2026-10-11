@@ -35,7 +35,7 @@
     @include meta.load-css("base/editor");
     @include meta.load-css("base/hotbar");
     // Unscoped: the branded "Game System" section injected into the settings
-    // sidebar (Foundry chrome, outside the `.sohl` frame). #915.
+    // sidebar (Foundry chrome, outside the `.sohl` frame).
     @include meta.load-css("base/settings-links");
 
     .sohl {
@@ -46,7 +46,7 @@
 
 // layout — structural skeleton: the tab system and the document-sheet frame. The
 // frame is loaded under the COMPOUND `.sohl.sheet` selector because ApplicationV2
-// puts `sohl` and `sheet` on the same element (see css-architecture.md §6, #87).
+// puts `sohl` and `sheet` on the same element (see css-architecture.md §6).
 @layer sohl.layout {
     @include meta.load-css("layout/grid");
 
@@ -69,7 +69,7 @@
     // sheets, chat cards and tooltips, not only under a `.sohl` frame.
     @include meta.load-css("components/unresolved-link");
     // Unscoped for the same reason: a link into a note that exists but is not
-    // written yet is marked in the same prose (package-build#183).
+    // written yet is marked in the same prose.
     @include meta.load-css("components/draft-link");
     // Unscoped as well: a draft document's image is outlined on its sheet, in
     // the sidebar directory and in the compendium browser, and two of those are
@@ -100,7 +100,7 @@
         @include meta.load-css("components/context-menu");
         @include meta.load-css("components/fence-banner");
 
-        // Manuscript redesign (epic #783, Feature 0) — the shared BEM component
+        // Manuscript redesign — the shared BEM component
         // blocks every re-skinned Being-sheet tab consumes. See
         // nogit/CONTRACT.md for the class inventory and HTML skeletons.
         @include meta.load-css("components/section-legend");
@@ -115,7 +115,7 @@
         @include meta.load-css("components/disclosure");
         @include meta.load-css("components/body-structure");
 
-        // Item-sheet Manuscript foundation (epic #800, Feature 1) — the shared
+        // Item-sheet Manuscript foundation — the shared
         // BEM blocks the re-skinned item property tabs consume. See
         // nogit/ITEM-CONTRACT.md for the class inventory and HTML skeletons.
         @include meta.load-css("components/array-list");
@@ -130,14 +130,14 @@
     }
 
     // Strike Mode editor window, loaded under the COMPOUND
-    // `.sohl.strike-mode-config` selector for the same #87 same-element reason as
+    // `.sohl.strike-mode-config` selector for the same-element reason as
     // `.sohl.being`: ApplicationV2 puts both classes on the one frame element.
     .sohl.strike-mode-config {
         @include meta.load-css("components/strike-mode-config");
     }
 
     // Body Part / Body Location editor windows, under their COMPOUND roots for
-    // the same #87 same-element reason as the strike-mode editor above. Both
+    // the same-element reason as the strike-mode editor above. Both
     // share one rule set via the `body-config.editor($prefix)` mixin.
     .sohl.body-part-config {
         @include body-config.editor("body-part-config");
@@ -149,15 +149,14 @@
 
 // apps — sheet-specific styling that layers on top of the shared components.
 // The Being sheet is loaded under the COMPOUND `.sohl.being` selector for the
-// same #87 same-element reason as the strike-mode/body-config editors above:
+// same-element reason as the strike-mode/body-config editors above:
 // ApplicationV2 puts `sohl` and the `being` type-class on the one frame element.
 @layer sohl.apps {
     .sohl.being {
         @include meta.load-css("apps/being");
     }
 
-    // Item sheets carry the type-class + `sohl` on the one frame element (the #87
-    // same-element trap), so this loads under the COMPOUND `.sohl.item` selector,
+    // Item sheets carry the type-class + `sohl` on the one frame element (the same-element trap), so this loads under the COMPOUND `.sohl.item` selector,
     // mirroring `.sohl.being` above. See the integration note in apps/_item.scss:
     // the item frame needs the `item` class added in the TS wave for these rules
     // to match.

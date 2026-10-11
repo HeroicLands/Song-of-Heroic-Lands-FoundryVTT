@@ -1,6 +1,5 @@
-// Profile tab — attribute cards + the dossier editor (Manuscript redesign, epic
-// #783). Affiliations, movement, and the body-structure tree render through the
-// shared Feature-0 `.ledger` / `.body-structure` components; only the attribute
+// Profile tab — attribute cards + the dossier editor (Manuscript redesign). Affiliations, movement, and the body-structure tree render through the
+// shared `.ledger` / `.body-structure` components; only the attribute
 // score-cards and the dossier editor need bespoke rules here.
 //
 // Loaded under `.sohl { }` (components layer); selectors written bare.

@@ -3,7 +3,7 @@
 //
 // Loaded from `sohl.scss` under the COMPOUND `.sohl.strike-mode-config` selector,
 // because ApplicationV2 places the `sohl` and `strike-mode-config` classes on the
-// SAME frame element (the #87 same-element trap — see css-architecture.md §6). A
+// SAME frame element (the same-element trap — see css-architecture.md §6). A
 // partial loaded under the plain `.sohl { }` wrapper compiles its top-level rules
 // to the never-matching descendant `.sohl .strike-mode-config …`; the compound
 // `.sohl.strike-mode-config …` matches.

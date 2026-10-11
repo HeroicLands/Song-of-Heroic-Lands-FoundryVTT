@@ -75,7 +75,7 @@ const FOUNDRY_FREE_ZONES = [
  * The registered entity classes (`src/entity/entityRegistry.ts`) — the classes a
  * variant module may override via `sohl.entity.register(...)`. A bare `new X(...)`
  * of any of these bypasses the registry and always builds the base class, even
- * after an override is registered, so it is banned (issue #83): inside SoHL
+ * after an override is registered, so it is banned: inside SoHL
  * construct through `new entity.X(...)` (`import { entity }` from
  * `@src/entity/registry`, or the cycle-free leaf `@src/entity/entityRegistry` for
  * a base class); outside SoHL use `new sohl.entity.X(...)`. Keep this list in sync
@@ -195,7 +195,7 @@ export default [
         },
     },
     {
-        // Construction-indirection rule (issue #83): a registered entity class
+        // Construction-indirection rule: a registered entity class
         // must never be built with a bare `new` — that bypasses the registry and
         // ignores any override. Only `src/` production code is constrained; tests
         // construct the concrete classes directly to exercise them. The selector

@@ -1,12 +1,11 @@
-// Item-sheet frame styling (Manuscript redesign, epic #800 / Feature 1). The
+// Item-sheet frame styling (Manuscript redesign). The
 // slim, edit-focused item header — image + name + shortcode + type label, and
 // deliberately NO health / status / body chrome (that belongs to the Being
-// sheet). Sheet-specific presentation layered on top of the shared Feature-0
+// sheet). Sheet-specific presentation layered on top of the shared
 // component blocks and the generic sheet frame in layout/_sheet.scss.
 //
 // Loaded from sohl.scss under the COMPOUND `.sohl.item` selector — ApplicationV2
-// puts the sheet-type class and `sohl` on the SAME frame element (the #87
-// same-element trap; a plain `.sohl .item` descendant would never match), so
+// puts the sheet-type class and `sohl` on the SAME frame element (the same-element trap; a plain `.sohl .item` descendant would never match), so
 // this mirrors how apps/_being.scss is wired under `.sohl.being`. It sits in the
 // `sohl.apps` layer so these item-only overrides beat the shared
 // `layout`/`components` layers without `!important`. Selectors are written bare
