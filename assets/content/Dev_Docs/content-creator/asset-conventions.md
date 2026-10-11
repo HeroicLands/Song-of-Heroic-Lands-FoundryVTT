@@ -158,7 +158,7 @@ pathname with no package prefix belongs to the package being compiled.
 ```markdown
 ![A map of the Vale](images/maps/valeofthorns.webp)
 
-![A shield](sohl/assets/icons/noun/shield.svg)
+![A shield](sohl/assets/icons/noun/shieldnn.svg)
 ```
 
 **A `systems/…` or `modules/…` pathname is refused**, with a finding naming the
@@ -180,21 +180,21 @@ An item note naming no `icon` gets the art paired with its type. SoHL's own map 
 `DEFAULT_ITEM_ART` in `@heroiclands/package-build/sohl/default-item-art`, and
 every entry is a bundled SVG written in the ownership form:
 
-| Item type         | Default art                                         |
-| ----------------- | --------------------------------------------------- |
-| `affiliation`     | `sohl/assets/icons/noun/shield.svg`                 |
-| `affliction`      | `sohl/assets/icons/other/sick.svg`                  |
-| `armorgear`       | `sohl/assets/icons/game-icons/lorc/breastplate.svg` |
-| `attribute`       | `sohl/assets/icons/other/charm.svg`                 |
-| `concoctiongear`  | `sohl/assets/icons/game-icons/badges/flask.svg`     |
-| `containergear`   | `sohl/assets/icons/other/sack.svg`                  |
-| `miscgear`        | `sohl/assets/icons/other/question-mark.svg`         |
-| `mystery`         | `sohl/assets/icons/other/sparkles.svg`              |
-| `mysticalability` | `sohl/assets/icons/other/hand-sparkles.svg`         |
-| `projectilegear`  | `sohl/assets/icons/noun/arrow.svg`                  |
-| `skill`           | `sohl/assets/icons/other/head-gear.svg`             |
-| `trauma`          | `sohl/assets/icons/other/injury.svg`                |
-| `weapongear`      | `sohl/assets/icons/other/sword.svg`                 |
+| Item type         | Default art                                            |
+| ----------------- | ------------------------------------------------------ |
+| `affiliation`     | `sohl/assets/icons/noun/shieldnn.svg`                  |
+| `affliction`      | `sohl/assets/icons/other/sick.svg`                     |
+| `armorgear`       | `sohl/assets/icons/game-icons/lorc/breastplate.svg`    |
+| `attribute`       | `sohl/assets/icons/game-icons/lorc/charm.svg`          |
+| `concoctiongear`  | `sohl/assets/icons/game-icons/badges/flask.svg`        |
+| `containergear`   | `sohl/assets/icons/other/sack.svg`                     |
+| `miscgear`        | `sohl/assets/icons/other/questionmark.svg`             |
+| `mystery`         | `sohl/assets/icons/game-icons/delapouite/sparkles.svg` |
+| `mysticalability` | `sohl/assets/icons/other/handsparkles.svg`             |
+| `projectilegear`  | `sohl/assets/icons/noun/arrow.svg`                     |
+| `skill`           | `sohl/assets/icons/other/headgear.svg`                 |
+| `trauma`          | `sohl/assets/icons/other/injury.svg`                   |
+| `weapongear`      | `sohl/assets/icons/other/sword.svg`                    |
 
 The keys are SoHL **document** subtypes rather than note types, because the
 runtime reads the map with a Foundry Item subtype.
