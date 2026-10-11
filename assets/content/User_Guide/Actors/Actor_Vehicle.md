@@ -35,6 +35,29 @@ For a fixed place that does not move — a building, a wall, a bridge — use a 
 - **Actions** — procedures you attach to the vehicle.
 - **Effects** — active effects on the vehicle.
 
+# Movement
+
+A vehicle carries one **movement profile** per medium it can travel in (land, water, and so on), each a rate. The **star** beside a profile on the **Profile** tab makes that medium the active one, and **Add Movement Profile** adds a rate for a medium it lacks. The rates and the active medium are recorded for you to read.
+
+The system does not move a vehicle. It does not step the token, charge a crew's effort, change speed with the load or the weather, or advance a voyage; you move the token and decide how far a day's travel goes, using the rate on the sheet as your figure. Because the active medium and its rate belong to the vehicle, a barge on a river and the same barge at sea can each carry the rate you choose.
+
+# Crew and Passengers
+
+The **Occupants** tab lists who is aboard. Each row shows the occupant's portrait, name, role (**crew**, **passenger** or **draft creature**), optional title and current health band. An occupant is a reference, not a copy, exactly as a [[doc-cohortug|Cohort]]'s members are: it is named by a shortcode, or by a UUID for a token actor, and an entry may name a whole cohort to stand for all its members. A row whose actor cannot be found stays, named by its raw handle, so you can see and remove it.
+
+Two actions manage the list, and both run only when you invoke them, from the tab's controls, the **Actions** tab or the context menu:
+
+- **Add Occupant** asks for the shortcode or UUID, the role (passenger unless you choose otherwise) and an optional title. It refuses a handle that names no actor you can see, and one already aboard.
+- **Remove Occupant** removes the entry after you confirm. The actor itself is untouched.
+
+The role and title are a record of who is doing what. The system does not require a crew, check that a helmsman is aboard, or slow a vehicle that is short-handed; deciding what a vehicle can do with the crew it has is a ruling for the GM. The vehicle also never moves an occupant's token with its own, so when a vehicle moves, you move the occupants' tokens as well.
+
+# Combat and Boarding
+
+A vehicle does not fight and the system does not resolve a boarding. The vehicle has no attack, no health and no protection rating, and the attack procedures require a [[doc-beingug|Being]] as the attacker. Fighting aboard a ship is a fight between the Beings aboard, run with the ordinary combat tools, with [[doc-cmbtntug|combat groups]] to mark who is on which side.
+
+For a boarding, the sheet records the facts you need and the rest is yours to run: add the boarders to the **Occupants** list as **passengers** (or remove defenders who go over the side), and place their tokens where the story puts them. Nothing is transferred or checked when you do, because the list is a record, not a mechanism.
+
 # What a Vehicle Does Not Model
 
 A Vehicle is a container and a conveyance, not a creature:
@@ -59,7 +82,7 @@ The Vehicle sheet has these tabs:
 
 The **Profile** tab carries three things, and it is where a vehicle's private notes live:
 
-- **Attributes** — normally empty for a vehicle. The section is kept so a world that wants to give a ship a Quality a rating of its own can.
+- **Attributes** — normally empty for a vehicle. The section is kept so a world that wants to give a ship a Quality rating of its own can.
 - **Movement** — the travel rate for each medium, with a star marking the active one.
 - **Biography** — the **dossier**, the private description only you and the GM see. The public description a player sees stays on **Facade**.
 
@@ -67,7 +90,14 @@ The one difference: a Being's Gear tab reports carried weight and encumbrance, b
 
 # Intrinsic Actions
 
-A Vehicle defines no actions of its own. It carries only the actions every actor shares:
+A Vehicle defines two actions of its own, which manage its occupants:
+
+| Action          | Shortcode        |
+| --------------- | ---------------- |
+| Add Occupant    | `addOccupant`    |
+| Remove Occupant | `removeOccupant` |
+
+Both are described under _Crew and Passengers_. It also carries the actions every actor shares:
 
 | Action              | Shortcode           |
 | ------------------- | ------------------- |

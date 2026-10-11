@@ -33,11 +33,21 @@ Use a Cohort when a set of characters has an identity as a group that outlives a
 - **Actions** — procedures you attach to the group itself.
 - **Effects** — active effects on the group.
 
-# What a Cohort Does Not Model
+# Skills, Attributes and Members
 
-A Cohort has **no characteristics of its own**. It has no group attributes, no group skills, no group health, and it makes no rolls. It is not a creature and cannot be attacked, injured, or placed on the map as a combatant — everything that happens in play happens to its **members**, individually.
+**A cohort's rolls are always its members' rolls.** Every test, whether a skill roll, an attribute check or an attack, is made on a member's own sheet, against that member's own skills and attributes. Nothing on a cohort is consulted when a member rolls, and nothing a member rolls is rolled up into the cohort.
 
-So a Cohort never acts as one. If you want ten soldiers to attack together, ten attacks are made; the Cohort simply tells you which ten soldiers those are.
+A cohort has no skills tab and no health of its own. It can carry **Attribute** items, which appear in the **Attributes** section of its **Profile** tab with a score and a descriptor, but no test or procedure in the system reads them. Treat them as a rating you keep for the group (a warband's Discipline, say) and decide yourself when it matters: you read the number off the Profile tab and apply it as a modifier or a ruling at the table. A cohort created fresh carries none.
+
+What the cohort does read back from its members is their condition. Each row of the **Members** tab shows the member's health as a band, so the roster is the place to see how the group is faring. Reading is all it does: the cohort never changes a member's health, skills or attributes.
+
+# Fighting as a Cohort
+
+A cohort does not fight. It is not a creature, it has no health to lose and no body to strike, and the system offers it no attack, defence or morale procedure. The attack procedures require a [[doc-beingug|Being]] as the attacker, so a combat is always a set of individual Beings attacking and defending.
+
+To run a group in a fight, expand it into its members (see _What the Roster Feeds_ below) and let each member act on its own turn, with its own initiative, attacks and wounds. Which members are on which side is a matter for [[doc-cmbtntug|combat groups]], which are separate from cohort membership. If you want the whole body to be treated as one unit, as a mob or a rank of soldiers, that is a ruling you make and a single Being you stand in for it; the system does not combine members' scores for you.
+
+When a cohort is placed on a scene as a **single group token** (see below), the token marks where the group is, for travel and positioning on a large map. The group token is a marker: use it for movement across a map and expand it before the fighting begins.
 
 # The Cohort Sheet
 
@@ -54,7 +64,7 @@ The Cohort sheet has these tabs:
 
 The **Profile** tab carries three things, and it is where a cohort's private notes live:
 
-- **Attributes** — normally empty for a cohort. The section is kept so a world that wants to give a warband a rating a rating of its own can.
+- **Attributes** — normally empty for a cohort. Any Attribute item you add is displayed here for your own reference; no rule reads it.
 - **Movement** — the travel rate for each medium, with a star marking the active one.
 - **Biography** — the **dossier**, the private description only you and the GM see. The public description a player sees stays on **Facade**.
 
@@ -89,7 +99,7 @@ The **trashcan** on a row removes that member from the cohort, after asking you 
 
 The roster is what the rest of the cohort reads:
 
-- **Expanding onto a scene.** Dropping a cohort and choosing _Individual Tokens_ (or using the token's expand button) places one token per member, resolved through these same handles. See [[doc-scnsetuptokug|Scene Setup]].
+- **Expanding onto a scene.** Dragging a cohort onto a scene asks whether to place **one group token** or **an individual token per member**. The individual option puts one token per member in a cluster around the drop point, resolved through these same handles, on cells free of walls. A member that cannot be found is skipped. A cohort's group token carries an **expand** button on its token HUD that deletes the group token and places the member tokens where it stood. Only the cohort's owner is offered the choice; the drop does nothing for anyone else. See [[doc-scnsetuptokug|Scene Setup]].
 - **Shared Gear.** The gear listed on the next tab is gathered from these members — see below.
 
 # The Shared Gear Tab

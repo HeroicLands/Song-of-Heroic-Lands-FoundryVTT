@@ -31,11 +31,27 @@ For something that moves and carries people, use a [[doc-vehicleug|Vehicle]] ins
 - **Actions** — procedures attached to the place.
 - **Effects** — active effects on the place, such as wards or consecrations.
 
+# Damage, Protection and Sieges
+
+**The system applies no damage to a structure and resolves no siege.** A structure has no health, no structural integrity and no protection rating. No procedure computes how much a wall absorbs, how a breach opens or when a gate gives way, and the combat procedures work on Beings: an attack requires a [[doc-beingug|Being]] as the attacker, and aiming offers only a Being's body parts.
+
+A siege is therefore yours to adjudicate, and the structure is where you record the outcome. Some ways to keep the state in the sheet:
+
+- Add an **Attribute** item for a rating you care about (Wall Integrity, say) and edit its score as the siege progresses. It is displayed on the **Profile** tab, and no rule reads it, so what the number means is your call.
+- Lay an **active effect** on the structure to mark a standing condition, such as a breached gate, so the state shows on the sheet and in the **Effects** tab.
+- Note the state in the **Biography** dossier, which only you and the GM see.
+
+Everything here is a record you keep. The system never reduces a rating, applies an effect or tells you a wall has fallen: you decide each step.
+
+# Placing a Structure on a Scene
+
+A structure is placed like any other actor: drag it from the sidebar onto the scene and Foundry creates one token for it. There is no group-or-individual choice and no expansion, as there is for a [[doc-cohortug|Cohort]]. The token carries the structure's name and portrait and does not move on its own. See [[doc-scnsetuptokug|Scene Setup]] for token sizing and vision.
+
 # What a Structure Does Not Model
 
 A Structure is scenery with an inventory, not a combatant:
 
-- **No condition.** It has no structural integrity, no hit points, and no damage model. Walls cannot be battered down by the rules; a siege is narrated, not resolved against the Structure.
+- **No condition.** It has no structural integrity, no hit points, and no damage model. Walls cannot be battered down by the rules; see _Damage, Protection and Sieges_ above.
 - **No capacity.** A storeroom holds as much as you say it does — nothing counts or refuses the contents.
 - **No occupants.** A Structure does not track who is inside it. If who is present matters, that is a matter for tokens on the scene, or a [[doc-cohortug|Cohort]] if the people form a standing group.
 
@@ -54,7 +70,7 @@ All six are the common actor tabs, and they behave exactly as they do on a [[doc
 
 The **Profile** tab carries three things, and it is where a structure's private notes live:
 
-- **Attributes** — normally empty for a structure. The section is kept so a world that wants to give a keep a Condition a rating of its own can.
+- **Attributes** — normally empty for a structure. The section is kept so a world that wants to give a keep a Condition rating of its own can.
 - **Movement** — the travel rate for each medium, with a star marking the active one.
 - **Biography** — the **dossier**, the private description only you and the GM see. The public description a player sees stays on **Facade**.
 
