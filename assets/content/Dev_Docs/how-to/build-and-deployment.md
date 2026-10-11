@@ -50,29 +50,33 @@ sequence; `run-p` runs them in parallel.
 
 ### Build
 
-| Script                | What it does                                                                                                                                                         |
-| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `build`               | Full production build: `npm ci` then `build:noci`. The canonical "build it all" entry.                                                                               |
-| `build:local`         | Same as `build` but `npm i` (allows lockfile updates) instead of `npm ci`.                                                                                           |
-| `build:noci`          | The pipeline without install: `lint > build:types > build:prepare > test:coverage > test:purity > build:code > lint:bundle-globals`.                                 |
-| `build:prepare`       | In parallel: `build:css`, `build:db`, `build:system`.                                                                                                                |
-| `build:types`         | TypeScript type-check / compile (`tsc -p tsconfig.json`). No emit beyond `.d.ts`/checking.                                                                           |
-| `build:css`           | Compile `scss/sohl.scss` > `build/stage/css/sohl.css` (Sass).                                                                                                        |
-| `build:system`        | Generate `build/stage/system.json` from `package-build.config.yaml` (`package-build manifest`).                                                                      |
-| `build:assets`        | Copy `templates/`, `lang/`, `assets/*`, `LICENSE.md`, `README.md` into `build/stage/` (`package-build assets`).                                                      |
-| `build:db`            | `build:assets` then `build:compiledb` — stage assets, then compile packs.                                                                                            |
-| `build:compiledb`     | Generate JSON from `assets/content/` Markdown, then compile LevelDB packs in `build/stage/packs/`.                                                                   |
-| `build:unpackdb`      | The reverse: unpack the staged LevelDB packs back to JSON (for inspection).                                                                                          |
-| `build:code`          | Bundle the system with Vite (`vite build --mode release`) > `build/stage/sohl.js`.                                                                                   |
-| `build:icons`         | Rebuild the icon font from SVGs (`utils/build-icon-font.mjs`). Run by hand when icons change.                                                                        |
-| `build:icon-legend`   | Regenerate the user guide's Icon Legend page from `src/` + `lang/en.json` (`utils/build-icon-legend.mjs`). Verified by `lint:icon-legend`.                           |
-| `build:deps`          | Fetch what the site build reads from the network — the shared header navigation, and any declared dependency (`package-build deps fetch`).                           |
-| `build:kb-content`    | Generate the Hugo source tree, `build/hugo/`: the content from `assets/content/`, and `hugo.toml` (`package-build site`). No Hugo needed.                            |
-| `build:kb`            | `build:deps`, `build:kb-content`, then render `build/hugo/` with Hugo > `build/site/sohl/`. Needs Hugo and the theme (installed by `npm ci`).                        |
-| `site:assemble`       | Write the deployment root's `_headers` and `_redirects` (`package-build site-root`), then mount the TypeDoc HTML at `build/site/sohl/api/` (`utils/build-site.mjs`). |
-| `build:site`          | The whole of `/sohl/`: `docs:prepare > docs:html > build:kb > site:assemble`.                                                                                        |
-| `build:pack-release`  | Zip `build/stage/` > `build/dist/system.zip` and copy `system.json` (`package-build release`).                                                                       |
-| `clean` / `distclean` | Remove build output (`distclean` also clears caches/`node_modules`-level artifacts).                                                                                 |
+| Script                 | What it does                                                                                                                                                                 |
+| ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `build`                | Full production build: `npm ci` then `build:noci`. The canonical "build it all" entry.                                                                                       |
+| `build:local`          | Same as `build` but `npm i` (allows lockfile updates) instead of `npm ci`.                                                                                                   |
+| `build:noci`           | The pipeline without install: `lint`, then `build:checked`, then `lint:bundle-globals` against the bundle it produced. A lint failure stops the build before any of it runs. |
+| `build:checked`        | In parallel: `build:types` and `build:tested-stage`.                                                                                                                         |
+| `build:tested-stage`   | `build:reset-stage`, then `build:schema`, then `build:stage-and-test`. The schema comes first because the tests read `build/schema.json`.                                    |
+| `build:stage-and-test` | In parallel: `build:css`, `build:system`, `build:code`, `build:packs`, `test:coverage` and `test:purity`.                                                                    |
+| `build:packs`          | `build:content-index`, `build:assets`, then `build:compiledb`: `build:db` without the schema, which `build:tested-stage` has already written.                                |
+| `build:prepare`        | In parallel: `build:css`, `build:db`, `build:system`.                                                                                                                        |
+| `build:types`          | TypeScript type-check / compile (`tsc -p tsconfig.json`). No emit beyond `.d.ts`/checking.                                                                                   |
+| `build:css`            | Compile `scss/sohl.scss` > `build/stage/css/sohl.css` (Sass).                                                                                                                |
+| `build:system`         | Generate `build/stage/system.json` from `package-build.config.yaml` (`package-build manifest`).                                                                              |
+| `build:assets`         | Copy `templates/`, `lang/`, `assets/*`, `LICENSE.md`, `README.md` into `build/stage/` (`package-build assets`).                                                              |
+| `build:db`             | `build:content-index`, `build:schema`, `build:assets`, then `build:compiledb`. The e2e fast loop rebuilds packs through it.                                                  |
+| `build:compiledb`      | Generate JSON from `assets/content/` Markdown, then compile LevelDB packs in `build/stage/packs/`.                                                                           |
+| `build:unpackdb`       | The reverse: unpack the staged LevelDB packs back to JSON (for inspection).                                                                                                  |
+| `build:code`           | Bundle the system with Vite (`vite build --mode release`) > `build/stage/sohl.js`.                                                                                           |
+| `build:icons`          | Rebuild the icon font from SVGs (`utils/build-icon-font.mjs`). Run by hand when icons change.                                                                                |
+| `build:icon-legend`    | Regenerate the user guide's Icon Legend page from `src/` + `lang/en.json` (`utils/build-icon-legend.mjs`). Verified by `lint:icon-legend`.                                   |
+| `build:deps`           | Fetch what the site build reads from the network — the shared header navigation, and any declared dependency (`package-build deps fetch`).                                   |
+| `build:kb-content`     | Generate the Hugo source tree, `build/hugo/`: the content from `assets/content/`, and `hugo.toml` (`package-build site`). No Hugo needed.                                    |
+| `build:kb`             | `build:deps`, `build:kb-content`, then render `build/hugo/` with Hugo > `build/site/sohl/`. Needs Hugo and the theme (installed by `npm ci`).                                |
+| `site:assemble`        | Write the deployment root's `_headers` and `_redirects` (`package-build site-root`), then mount the TypeDoc HTML at `build/site/sohl/api/` (`utils/build-site.mjs`).         |
+| `build:site`           | The whole of `/sohl/`: `docs:prepare > docs:html > build:kb > site:assemble`.                                                                                                |
+| `build:pack-release`   | Zip `build/stage/` > `build/dist/system.zip` and copy `system.json` (`package-build release`).                                                                               |
+| `clean` / `distclean`  | Remove build output (`distclean` also clears caches/`node_modules`-level artifacts).                                                                                         |
 
 ### Compendium packs
 

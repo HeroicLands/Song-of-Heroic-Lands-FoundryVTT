@@ -262,7 +262,9 @@ describe("what the contributor says about itself", () => {
     });
 });
 
-describe("against the real tree", () => {
+// Each test here parses all of src/, so it is CPU-bound and slows sharply when
+// the suite shares the machine with the rest of a parallel build.
+describe("against the real tree", { timeout: 30_000 }, () => {
     // Not a snapshot of a number for its own sake: a contributor that silently
     // stops finding anything still returns a well-formed empty set, and the
     // coverage command would then report every prefix missing. Something has to
