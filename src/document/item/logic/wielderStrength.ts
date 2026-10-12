@@ -28,6 +28,9 @@
  * governing mastery-level wiring makes.
  */
 
+import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
+import { resolveHeft } from "@src/entity/strikemode/heft";
+import type { WeaponGearLogic } from "@src/document/item/logic/WeaponGearLogic";
 import type { BodyPart } from "@src/entity/body/BodyPart";
 import type { StrikeModeBase } from "@src/entity/strikemode/StrikeModeBase";
 import { applyStrengthImpact, isThrownStrikeMode } from "@src/entity/strikemode/strengthImpact";
@@ -81,5 +84,41 @@ export function applyWielderStrengthImpact(logic: StrikeModeCarrier): void {
             offHand,
             thrown: isThrownStrikeMode(sm),
         });
+    }
+}
+
+/**
+ * Apply weapon-owned Heft to melee attacks and defenses after grip and Strength settle.
+ * Combat techniques never call this wiring and receive no Heft modifiers.
+ * @param weapon - The weapon whose effective Heft and held limbs are resolved.
+ */
+export function applyWielderHeft(weapon: WeaponGearLogic): void {
+    const strength = weapon.actorLogic?.getItemLogic(ATTRIBUTE_CODE.STRENGTH, ITEM_KIND.ATTRIBUTE)
+        ?.score?.effective;
+    if (strength == null) return;
+    const held = weapon.heldBy ?? [];
+    const shield = weapon.strikeModes.some((mode) => Number(mode.traits.shieldMod) > 0);
+    for (const mode of weapon.strikeModes) {
+        if (!(mode instanceof MeleeStrikeMode)) continue;
+        const result = resolveHeft({
+            strength,
+            listedHeft: weapon.heft.effective,
+            twoHanded: held.length >= 2,
+            offHand: isOffHandGrip(
+                held,
+                (weapon.actorLogic as { dominantSide?: BodySide } | undefined)?.dominantSide,
+            ),
+            shield,
+            swung: !!mode.traits.swung,
+        });
+        for (const modifier of [mode.attack, mode.defense.block, mode.defense.counterstrike]) {
+            const i = modifier.deltas.findIndex((delta) => delta.abbrev === "Heft");
+            if (i >= 0) modifier.deltas.splice(i, 1);
+            if (result.penalty) modifier.add("SOHL.INFO.Heft", "Heft", result.penalty);
+        }
+        const i = mode.impact.deltas.findIndex((delta) => delta.abbrev === "TwoHnd");
+        if (i >= 0) mode.impact.deltas.splice(i, 1);
+        if (result.impactBonus)
+            mode.impact.add("SOHL.INFO.TwoHandedSwing", "TwoHnd", result.impactBonus);
     }
 }

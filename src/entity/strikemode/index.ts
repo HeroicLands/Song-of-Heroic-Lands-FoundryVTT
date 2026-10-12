@@ -16,6 +16,7 @@
 
 export * from "./blankStrikeMode";
 export * from "./governing";
+export * from "./heft";
 export * from "./impactTacticalAdvantage";
 export * from "./MeleeStrikeMode";
 export * from "./MissileStrikeMode";

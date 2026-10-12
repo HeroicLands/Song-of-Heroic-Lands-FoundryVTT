@@ -907,6 +907,8 @@
     "SOHL.Health.BAND.Good": "Good",
     "SOHL.Health.BAND.Morbid": "Morbid",
     "SOHL.Health.BAND.Poor": "Poor",
+    "SOHL.INFO.Heft": "Heft",
+    "SOHL.INFO.TwoHandedSwing": "Two-handed swing",
     "SOHL.INFO.ActiveEffect": "Active Effect",
     "SOHL.INFO.ImpactTA": "Impact TA",
     "SOHL.INFO.OffHand": "Off-hand",

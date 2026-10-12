@@ -134,3 +134,7 @@ The techniques no hand performs are unaffected. A [[doc-unrmdcmb#the-strength-tr
 ## Choosing a Strike Mode {#choosing-a-strike-mode}
 
 Because a weapon may offer several strike modes — and some are melee while others are missile — choosing the right mode is part of using the weapon well. A thrown spear and a couched spear are the same item but very different attacks; a broadsword's thrust reaches a piercing-armored foe differently than its cut. The strike mode is where those differences live.
+
+## Weapon Heft
+
+Weapon Heft governs how demanding a weapon is to wield: see [[doc-gearrules|Gear]]. It does not apply to combat techniques. Two-handed relief lowers the attack and defense threshold, but the +1 impact for a two-handed swing requires Strength to meet the weapon’s unadjusted Heft.

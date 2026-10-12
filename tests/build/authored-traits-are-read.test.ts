@@ -74,7 +74,6 @@ const AWAITING_A_RULE: Record<string, string> = {
     shaft: "the shaft strike",
     slow: "the slow weapon's cost in initiative",
     strRoll: "the Strength Trial a manoeuvre resolves through",
-    swung: "the swung-two-handed impact bonus, part of Heft",
     thrust: "the thrusting mode set against a charge",
     twoHndLen: "the reach a two-handed grip adds",
 };

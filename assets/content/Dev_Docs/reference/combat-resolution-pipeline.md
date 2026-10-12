@@ -455,3 +455,7 @@ manual Add Injury flow:
 - [[doc-extensionpoints|Extension Points]]
 - [[doc-modifiermodel|Modifier Model]]
 - [[doc-bodystructure|Body Structure]].
+
+## Weapon Heft
+
+WeaponGearLogic.finalize applies weapon-owned Heft after Strength and grip resolve. applyWielderHeft uses the weapon’s effective Heft, heldBy and wielder dominance; positive shieldMod identifies shield weapons. It writes idempotent Heft deltas to melee attack/block/counterstrike and TwoHnd to qualifying swung impact. SkillLogic never calls this wiring, so combat techniques are excluded. Missile modes are excluded.

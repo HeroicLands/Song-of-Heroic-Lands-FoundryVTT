@@ -105,3 +105,7 @@ Quality has one consumer: when a weapon or shield blocks and the block ties, the
 - [[doc-cohortug|Cohort]] — pooling gear across a group, and who is carrying what.
 - [[doc-beingug|Being]] — the Gear tab and the encumbrance it feeds.
 - [[doc-userguide|User Guide]] — back to the index.
+
+## Weapon Heft
+
+Weapon Heft appears as a named penalty in melee attack, block and counterstrike breakdowns when Strength is too low. Holding the weapon in two hands reduces its Heft by 5; the non-primary hand increases it by 5, except for shields. A swung two-handed mode gains +1 impact only when Strength meets the original Heft. Combat techniques have no Heft.

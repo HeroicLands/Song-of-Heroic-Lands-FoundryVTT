@@ -296,7 +296,7 @@ WHERE type = 'containergear'
 
 A **weapon** is a piece of gear made for attacking — a sword, a spear, a bow, a mace, a dagger. Along with the common gear properties, a weapon has:
 
-- **Heft** — a measure of the weapon's weight and balance in the hand, affecting how demanding it is to wield.
+- **Heft** — a weapon’s Strength threshold. Each point of Strength below Heft gives −5 to attacks and defenses with that weapon. Two-handed wielding reduces Heft by 5; the non-primary hand increases it by 5, except for shields. A swung two-handed strike gains +1 impact when Strength meets the unadjusted Heft. Combat techniques, including Grab, have no Heft.
 - an optional **encumbrance value** — see below.
 - one or more **[[doc-strkmds|Strike Modes]]**.
 
