@@ -59,7 +59,7 @@ Along with the [[doc-baseitemug|Standard Item Properties]], the following proper
 - **Common Skills:** Skills commonly taught by the organization. Select **Add Common Skill** and paste the skill Item's UUID from its sheet header, including a skill in an installed compendium. Select a listed skill to open its sheet, or use the remove control to clear the reference. An unavailable skill remains listed with its UUID so you can identify it. This list describes the organization; it does not add skills to a character.
 - **Standing Toward Others:** How this affiliation regards other affiliations, one row per relation. Select **Add Relation**, name the other affiliation by shortcode, and set the standing: **Aligned**, **Rival**, or **Nemesis**. Only a standing that is not neutral needs a row — an affiliation named nowhere in this list is read as **Unaligned** toward this one.
 
-> **Known gap.** An affiliation also carries **Parent Affiliations** (the bodies it is subordinate to), a **Domain** (the places it holds sway over), and a **Seat** (where its authority sits) — all by place or affiliation shortcode. None of the three has a control on the Properties tab; a compendium entry sets them, and they cannot be set or changed from the sheet.
+> **Known gap.** An affiliation also carries **Parent Affiliations** (the bodies it is subordinate to) and a **Seat** (where its authority sits) — all by place or affiliation shortcode. Neither has a control on the Properties tab; a compendium entry sets them, and they cannot be set or changed from the sheet.
 
 # Intrinsic Actions
 

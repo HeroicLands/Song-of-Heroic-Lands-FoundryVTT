@@ -46,7 +46,7 @@ sohl:
           twoHndLen: 0
           shaft: false
           pommel: false
-          noStrMod: false
+          noStrMod: true
           halfImpact: false
           lowAim: false
         lengthBase: 2
@@ -82,7 +82,7 @@ sohl:
           twoHndLen: 0
           shaft: false
           pommel: false
-          noStrMod: false
+          noStrMod: true
           halfImpact: false
           lowAim: false
         projectileType: ""

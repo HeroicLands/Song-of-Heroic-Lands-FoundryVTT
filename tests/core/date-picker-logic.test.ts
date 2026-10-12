@@ -12,6 +12,8 @@ import {
     skipDays,
     calendarSecondsPerDay,
     monthChoices,
+    datePartsToCalendaria,
+    calendariaToWorldTime,
 } from "@src/core/logic/date-picker-logic";
 
 const SECONDS_PER_DAY = 24 * 60 * 60;
@@ -208,5 +210,104 @@ describe("skipDays", () => {
 
     it("returns null when the starting date is invalid", () => {
         expect(skipDays(uniform, parts(0, 99, 0), 1)).toBeNull();
+    });
+});
+
+describe("optional public calendar picker conversion", () => {
+    it("round-trips every month with one-based public dates and preserved seconds", () => {
+        for (const calendar of [uniform, variable])
+            for (let month = 0; month < 12; month++) {
+                const previous = parts(month, 15, 3, 13, 47, 29);
+                const selected = datePartsToCalendaria(calendar, previous);
+                expect(selected.month).toBe(month + 1);
+                expect(selected.day).toBe(15);
+                expect(calendariaToWorldTime(calendar, selected, previous)).toBe(
+                    datePartsToWorldTime(calendar, previous),
+                );
+            }
+    });
+    it("applies the calendar's display year offset in both directions", () => {
+        const config = makeConfig([31, 28, 31]);
+        config.years.yearZero = 1492;
+        const calendar = new (foundry as any).data.CalendarData(config);
+        const previous = parts(1, 12, 4, 13, 47, 29);
+        expect(datePartsToCalendaria(calendar, previous).year).toBe(1496);
+        const selected = { year: 1497, month: 3, day: 2, hour: 6, minute: 10 };
+        expect(calendariaToWorldTime(calendar, selected, previous)).toBe(
+            datePartsToWorldTime(calendar, parts(2, 2, 5, 6, 10, 29)),
+        );
+    });
+    it("date-only selections preserve hours, minutes, and seconds", () => {
+        expect(
+            calendariaToWorldTime(
+                variable,
+                { year: 2, month: 3, day: 17 },
+                parts(0, 1, 0, 7, 23, 51),
+            ),
+        ).toBe(datePartsToWorldTime(variable, parts(2, 17, 2, 7, 23, 51)));
+    });
+    it.each([
+        { year: 0, month: 0, day: 1 },
+        { year: 0, month: 13, day: 1 },
+        { year: 0, month: 2, day: 31 },
+        { year: 0, month: 1, day: 1, hour: 24 },
+    ])("rejects invalid public date %j", (selected) => {
+        expect(calendariaToWorldTime(variable, selected, parts(0, 1, 0))).toBeNull();
+    });
+});
+
+/** A custom calendar matching Calendaria's month/dayOfMonth input contract. */
+function makeMonthCalendar(leap: boolean): any {
+    const actualDays = [31, leap ? 29 : 28, 31];
+    const backing = makeCalendar(actualDays);
+    const config = makeConfig([31, 28, 31]);
+    config.years.yearZero = 1492;
+    config.months.values[1].leapDays = 29;
+    class MonthCalendar extends (foundry as any).data.CalendarData {
+        constructor(calendarConfig: any) {
+            super(calendarConfig);
+        }
+        isLeapYear() {
+            return leap;
+        }
+        componentsToTime({ year = 0, month = 0, dayOfMonth = 0, ...time }: any) {
+            // Deliberately ignore `day`, as Calendaria 1.4.5 does.
+            const day =
+                actualDays.slice(0, month).reduce((sum, length) => sum + length, 0) + dayOfMonth;
+            return backing.componentsToTime({ ...time, year, day });
+        }
+        timeToComponents(time: number) {
+            return backing.timeToComponents(time);
+        }
+    }
+    return new MonthCalendar(config);
+}
+
+describe("custom calendar month/dayOfMonth contract", () => {
+    it.each([false, true])(
+        "converts later months with leap=%s and preserves display year and seconds",
+        (leap) => {
+            const calendar = makeMonthCalendar(leap);
+            const previous = parts(0, 1, 0, 7, 23, 29);
+            const selected = { year: 1496, month: 3, day: 2, hour: 6, minute: 10 };
+            const expectedDay = 31 + (leap ? 29 : 28) + 1;
+            const daysPerYear = 31 + (leap ? 29 : 28) + 31;
+            const expected =
+                (4 * daysPerYear + expectedDay) * SECONDS_PER_DAY + 6 * 3600 + 10 * 60 + 29;
+            expect(calendariaToWorldTime(calendar, selected, previous)).toBe(expected);
+            expect(worldTimeToDateParts(calendar, expected)).toEqual(parts(2, 2, 4, 6, 10, 29));
+            expect(datePartsToCalendaria(calendar, parts(2, 2, 4, 6, 10, 29))).toEqual({
+                ...selected,
+            });
+        },
+    );
+    it("accepts the leap-only day and rejects overflow in both calendar contracts", () => {
+        const calendar = makeMonthCalendar(true);
+        const previous = parts(0, 1, 0, 7, 23, 29);
+        const time = calendariaToWorldTime(calendar, { year: 1492, month: 2, day: 29 }, previous);
+        expect(time).toBe(59 * SECONDS_PER_DAY + 7 * 3600 + 23 * 60 + 29);
+        expect(worldTimeToDateParts(calendar, time!)).toEqual(parts(1, 29, 0, 7, 23, 29));
+        expect(datePartsToWorldTime(calendar, parts(1, 30, 0))).toBeNull();
+        expect(datePartsToWorldTime(makeMonthCalendar(false), parts(1, 29, 0))).toBeNull();
     });
 });

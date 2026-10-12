@@ -152,11 +152,6 @@ export interface AffiliationData<
      * where none is recorded.
      */
     seat: string | null;
-    /**
-     * The places it holds sway over, by place shortcode. The geographic
-     * relation, kept apart from the organisational one in {@link parents}.
-     */
-    domain: string[];
     /** Exact Foundry UUIDs of native skill Items commonly taught by the body. */
     commonSkills: string[];
 }

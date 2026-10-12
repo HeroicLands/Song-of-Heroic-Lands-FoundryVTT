@@ -53,6 +53,10 @@ icons:
         style: solid
         icon: flag
         label: answer the rally
+    apply-enveloped:
+        style: solid
+        icon: hand
+        label: apply enveloped
     arm-blood-loss-advance:
         style: solid
         icon: droplet

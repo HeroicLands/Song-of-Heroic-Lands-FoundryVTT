@@ -11,6 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { applyEnvelopedCombat } from "@src/document/item/logic/enveloped";
 import { entity } from "@src/entity/registry";
 import type { MysteryLogic } from "./MysteryLogic";
 import { SafeExpression, SafeExpressionError } from "@src/entity/expr/SafeExpression";
@@ -939,6 +940,7 @@ export class SkillLogic<TData extends SkillData = SkillData> extends SohlItemBas
         // which belongs to the shield. Outside the strike-mode guard above,
         // because Dodge carries no strike mode at all.
         applyHeldShieldDefense(this);
+        applyEnvelopedCombat(this);
     }
 }
 

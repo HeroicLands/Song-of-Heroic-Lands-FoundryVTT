@@ -60,8 +60,6 @@ const AWAITING_A_RULE: Record<string, string> = {
     couched: "the couched lance, a mounted-combat rule",
     cxSLMod: "the success-level adjustment on a counterstrike",
     durabilityMod: "the weapon-breakage check",
-    entangle: "Entangle — a hold offered in place of a damaging strike",
-    envelop: "Envelop — the Enveloped condition and its penalty to every defence",
     halfImpact: "the strike that lands at half impact",
     halfSword: "the half-sword grip",
     long: "weapon length as an engagement-zone rule",

@@ -22,6 +22,8 @@ Every item note carries the frontmatter envelope described in [[doc-authoringwor
 
 The tables are rendered from the declaration that _builds_ each document, not from a description of it, so a field listed here is a field the compiler reads and a field absent here is one it ignores. An unrecognised `sohl:` key is silently dropped, so a typo shows up as a missing value rather than an error — check the spelling here first.
 
+Place government is stated on each place as `data.government`, addressing its governing affiliation. An affiliation's persisted system data records its parents and seat; place government metadata supplies the geographic relation.
+
 13 of the 13 item types this repository compiles declare their frontmatter below. Every field is written under a note's `sohl:` block; a dotted name such as `impact.die` is a nested key. A field a note does not carry takes the default shown; a **required** field has none — omitting it fails the build rather than guessing — and one shown as _omitted_ has none either, because leaving it out leaves the key out of the compiled document, so the data model's own initial value stands.
 
 ## affiliation

@@ -71,6 +71,20 @@ Each manoeuvre reads its winning margin off its own table, and the tables are gi
 - **Trip** puts them [[doc-prone|prone]], and at a wide margin throws them and leaves them open to an automatic Grab.
 - **Grab** either **takes** an object out of the limb struck — the disarm — or **holds** that limb fast. A hold costs the victim their next turn, though they may still defend, and it must be renewed by a fresh Strength Trial every round. A held limb keeps what it was holding: a hold is not a disarm, which is why the grabber must declare which of the two they are attempting before rolling.
 
+## Entangling and enveloping weapons {#entangling-and-enveloping-weapons}
+
+A weapon carrying **Entangle** offers a Hold attack instead of its damaging
+strike, at that weapon's reach. Winning the Melee exchange earns the same
+opposed Strength Trial as Grab (Hold); the trial must be won before the hold
+begins. Entangling deals **no impact**, and a maintained hold follows the
+ordinary Hold rules above. It does not take the target's weapon.
+
+A weapon carrying **Envelop**, such as a net, leaves a struck target
+**Enveloped**. The initial attack is defended normally unless the target is
+already Enveloped. While the condition remains, attacks and **every defence,
+including Dodge, take −20**. Enveloped lasts until removed: it has **no timer
+and no escape roll**. The table decides when it can be removed.
+
 ## Limb Block {#limb-block}
 
 **Limb Block** is the defence of last resort — no weapon, no shield, and something already coming at you. It is a Block made with a forearm, a shin or a shoulder, and it is genuinely dangerous.

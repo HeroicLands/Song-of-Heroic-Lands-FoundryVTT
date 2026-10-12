@@ -11,6 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { offerEnveloped } from "@src/document/actor/logic/envelop-actions";
 import { offerGrabTrial } from "@src/document/actor/logic/grab-actions";
 import { entity } from "@src/entity/registry";
 import type { MissileStrikeMode } from "@src/entity/strikemode/MissileStrikeMode";
@@ -775,7 +776,10 @@ export class SohlCombatantLogic<
 
         // Evaluate the combat result (both sides)
         await combatResult.evaluate();
-        if (!context.noChat) await offerGrabTrial(combatResult, context.speaker);
+        if (!context.noChat) {
+            await offerGrabTrial(combatResult, context.speaker);
+            await offerEnveloped(combatResult, context.speaker);
+        }
         await this.recordBlockMode(blockStrikeMode);
 
         // If no chat is required, return early
@@ -825,7 +829,10 @@ export class SohlCombatantLogic<
 
         // Evaluate the combat result (both sides)
         await combatResult.evaluate();
-        if (!context.noChat) await offerGrabTrial(combatResult, context.speaker);
+        if (!context.noChat) {
+            await offerGrabTrial(combatResult, context.speaker);
+            await offerEnveloped(combatResult, context.speaker);
+        }
 
         // If no chat is required, return early
         if (context.noChat) return combatResult;
@@ -931,7 +938,10 @@ export class SohlCombatantLogic<
 
         // Evaluate the combat result (both sides)
         await combatResult.evaluate();
-        if (!context.noChat) await offerGrabTrial(combatResult, context.speaker);
+        if (!context.noChat) {
+            await offerGrabTrial(combatResult, context.speaker);
+            await offerEnveloped(combatResult, context.speaker);
+        }
         await this.recordAttackMode(attackMode);
 
         // If no chat is required, return early
@@ -987,7 +997,10 @@ export class SohlCombatantLogic<
 
         // Evaluate the combat result (both sides)
         await combatResult.evaluate();
-        if (!context.noChat) await offerGrabTrial(combatResult, context.speaker);
+        if (!context.noChat) {
+            await offerGrabTrial(combatResult, context.speaker);
+            await offerEnveloped(combatResult, context.speaker);
+        }
 
         // If no chat is required, return early
         if (context.noChat) return combatResult;

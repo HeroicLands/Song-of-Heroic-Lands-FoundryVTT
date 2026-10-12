@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { fvttIsActiveGM } from "@src/core/FoundryHelpers";
+import { fvttHookOnError, fvttIsActiveGM } from "@src/core/FoundryHelpers";
 import type { SohlCombatant } from "@src/document/combatant/foundry/SohlCombatant";
 import {
     type ExistingGroup,
@@ -57,7 +57,23 @@ export class SohlCombat<SubType extends Combat.SubType = Combat.SubType> extends
         );
         if (collection !== "combatants") return;
         if (!fvttIsActiveGM()) return;
-        void this.seedCombatantGroups(documents as SohlCombatant[]);
+        void this.seedCombatantGroups(documents as SohlCombatant[]).catch((error: unknown) => {
+            // Deletion may win a race with an already-issued embedded-document write.
+            if (!this.isLiveCombat()) return;
+            fvttHookOnError(
+                "SohlCombat.seedCombatantGroups",
+                error instanceof Error ? error : new Error(String(error)),
+                { log: "error", combatId: this.id },
+            );
+        });
+    }
+
+    /**
+     * A pending task belongs only to this exact still-registered Combat document.
+     * @returns Whether the world collection still contains this Combat instance.
+     */
+    private isLiveCombat(): boolean {
+        return !!this.id && this.collection?.get(this.id) === this;
     }
 
     /**
@@ -68,6 +84,7 @@ export class SohlCombat<SubType extends Combat.SubType = Combat.SubType> extends
      * @param combatants - The combatants to seed into groups.
      */
     private async seedCombatantGroups(combatants: SohlCombatant[]): Promise<void> {
+        if (!this.isLiveCombat() || !fvttIsActiveGM()) return;
         const newCombatants: SeedingCombatant[] = combatants.map((c) => ({
             id: c.id!,
             hasGroup: !!c.groupId,
@@ -91,6 +108,9 @@ export class SohlCombat<SubType extends Combat.SubType = Combat.SubType> extends
             )) as any[];
         }
 
+        // Revalidate after creation: the Combat or GM authority can disappear while awaiting it.
+        if (!this.isLiveCombat() || !fvttIsActiveGM()) return;
+
         // Case-insensitive name -> id map from existing + freshly created groups.
         const idByLower = new Map<string, string>();
         for (const g of this.groups.contents as any[]) {
@@ -102,8 +122,11 @@ export class SohlCombat<SubType extends Combat.SubType = Combat.SubType> extends
 
         const updates = plan.assignments
             .map((a) => {
+                const combatant = this.combatants.get(a.combatantId);
                 const groupId = idByLower.get(a.groupName.toLowerCase());
-                return groupId ? { _id: a.combatantId, group: groupId } : null;
+                return combatant && !combatant.groupId && groupId ?
+                        { _id: a.combatantId, group: groupId }
+                    :   null;
             })
             .filter((u): u is { _id: string; group: string } => u !== null);
 

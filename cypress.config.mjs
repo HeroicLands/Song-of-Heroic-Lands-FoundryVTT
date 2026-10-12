@@ -36,6 +36,9 @@ export default defineConfig({
         baseUrl: `http://localhost:${port}`,
         supportFile: "cypress/support/e2e.js",
         specPattern: "cypress/e2e/**/*.cy.js",
+        // Optional-module proof is selected explicitly in a dedicated test world.
+        excludeSpecPattern:
+            process.env.SOHL_E2E_CALENDARIA === "1" ? [] : ["**/calendaria-date-picker.cy.js"],
         // Specs log in once (in `before`) and persist the game session across
         // their tests, resetting world state (documents) rather than the page
         // between tests. The default (true) would reload to about:blank between

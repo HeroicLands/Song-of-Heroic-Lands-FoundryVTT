@@ -386,3 +386,16 @@ The two combine, which is where the interesting endings live: an affliction with
 - [[doc-afflctnrules|Afflictions]] and [[doc-hlngtst|Healing Test]] (rules) — the mechanics behind the Course Test, the reaction table, and the outcomes.
 - [[doc-ugitems|Items]] — every item type at a glance.
 - [[doc-userguide|User Guide]] — back to the index.
+
+## Editing Dates
+
+Use the calendar icon beside a date to edit it in the world's active calendar.
+**Now** records the current world time, **Clear** empties the field, and
+**Cancel** leaves it unchanged.
+
+If the optional Calendaria module is active, **Pick date** opens its date/time
+picker. It edits the date, hour, and minute while keeping the stored seconds.
+Choose **Use basic editor** to enter leap days or edit seconds directly.
+Without that module, SoHL's editor includes seconds and a day-skip control.
+Both editors store numeric world time, so a calendar's month names and year
+numbering affect display without changing how the date is stored.

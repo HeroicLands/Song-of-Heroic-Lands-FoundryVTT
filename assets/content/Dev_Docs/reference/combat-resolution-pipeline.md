@@ -324,7 +324,7 @@ melee/missile (a grab is melee, a thrown net is missile):
 | impact              | the mode's own dice          | nearly all of them             |
 | projectile-supplied | the ammunition               | bows, crossbows, siege engines |
 | trial               | a Strength Trial             | Grab, Press, Trip              |
-| entangle            | the Entangle rules           | the Net                        |
+| envelop             | an owner-confirmed condition | the Net                        |
 
 An impact-free mode is therefore ordinary rather than anomalous — a longbow has
 no impact of its own either. The axis has no schema field: the trait that gates

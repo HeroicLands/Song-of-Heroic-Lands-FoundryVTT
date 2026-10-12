@@ -217,3 +217,27 @@ To keep the two dispatchers from drifting:
 Built-in triggers do **not** go through `fireSohlTrigger`: Foundry's own code already calls `registry.refresh(name, ctx)` next to each hook (`client/helpers/time.mjs`, `client/documents/combat.mjs`), so dual-dispatching the built-ins would expire effects twice. `SohlHookBridge` therefore only calls `sohl.events.fire(...)` for built-ins.
 
 See [[doc-eventqueue|Event Queue]] for the subscription model, cascading dispatch on `updateWorldTime`, and loop protection.
+
+## Enveloped physical condition {#enveloped-physical-condition}
+
+Enveloped is a persistent `physcond` Trauma with shortcode `enveloped`, not a
+timed Active Effect or an automatic escape routine. Like the Prone combat
+penalty, it has a named modifier contribution: `Env`, −20. It covers every
+weapon/technique attack and melee defence plus the Dodge skill's mastery level.
+{@link sohl.document.item.logic.applyEnvelopedCombat} reads the owner's trauma
+during finalization. Removing the trauma removes the delta through the modifier's
+`delete` API, which also invalidates its cached effective value.
+
+{@link sohl.document.actor.logic.offerEnveloped} records a successful enveloping
+exchange on a participant controlled by the posting client and addresses
+**Apply Enveloped** to the affected controller. It adds no initial-defence
+penalty. {@link sohl.document.actor.logic.applyEnveloped} revalidates ownership,
+the bound controller and the immutable offer after confirmation. A fixed
+trauma identity and offer marker make retry safe; a GM's ownership does not
+replace the player's controller binding. There is no timer and no escape roll.
+
+{@link sohl.entity.strikemode.entangleAlternative} derives a zero-impact Hold
+option from an entangling melee mode. Its runtime shortcode is stable and avoids
+authored collisions; the original persisted mode is untouched. Skill, reach
+and grip belong to the weapon, while the shared Grab trial and Hold lifecycle
+remain the only resolution machinery.

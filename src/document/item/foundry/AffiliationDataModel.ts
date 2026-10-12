@@ -26,7 +26,7 @@ const { ArrayField, StringField, NumberField, TypedObjectField } = foundry.data.
  * Builds the data schema for the Affiliation item, extending the base item
  * schema with affiliation-specific fields (subtype, society, office, title,
  * level, standing toward other affiliations, the bodies it is subordinate to,
- * where its authority sits, and the places it holds sway over).
+ * where its authority sits, and its common skills).
  * @returns The Foundry data schema for the affiliation.
  */
 function defineAffiliationDataSchema(): foundry.data.fields.DataSchema {
@@ -97,19 +97,6 @@ function defineAffiliationDataSchema(): foundry.data.fields.DataSchema {
             blank: false,
             initial: null,
         }),
-        // The places it holds sway over, by place shortcode. A list, since a
-        // polity can span several regions and a guild can operate in several
-        // settlements.
-        //
-        // This is the geographic relation, kept apart from the organisational
-        // one above: `parents` is *subordinate to*, `domain` is *holds sway
-        // over*, and grouping them under one key made a note say the wrong one.
-        //
-        // The seat normally lies within the domain. Worth a warning where it
-        // does not — a government in exile — never an error.
-        domain: new ArrayField(new StringField({ required: true, blank: false }), {
-            initial: [],
-        }),
         commonSkills: new ArrayField(new StringField({ required: true, blank: false }), {
             initial: [],
         }),
@@ -138,7 +125,6 @@ export class AffiliationDataModel<
     relations!: Record<string, AffiliationStanding>;
     parents!: string[];
     seat!: string | null;
-    domain!: string[];
     commonSkills!: string[];
 
     /**

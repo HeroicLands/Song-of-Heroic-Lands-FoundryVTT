@@ -11,6 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { entangleAlternative } from "@src/entity/strikemode/entangle";
+import { applyEnvelopedCombat } from "@src/document/item/logic/enveloped";
 import { entity } from "@src/entity/registry";
 import { GearLogic, GearData } from "@src/document/item/logic/GearLogic";
 import { anyMeleeStrikeMode, runStrikeModeTest } from "@src/document/item/logic/strikeModeTest";
@@ -231,7 +233,23 @@ export class WeaponGearLogic<
         super.initialize();
         this.encumbrance = new entity.ValueModifier(this).setBase(this.data.encumbranceBase);
         this.heft = new entity.ValueModifier(this).setBase(this.data.heftBase);
-        this.strikeModes = (this.data.strikeModes ?? []).map((d) =>
+        const authored = this.data.strikeModes ?? [];
+        const codes = new Set(authored.map((mode) => mode.shortcode));
+        const modes = [...authored];
+        for (const mode of authored) {
+            let code = `${mode.shortcode}entangle`;
+            while (codes.has(code)) code += "x";
+            const alternative = entangleAlternative(
+                mode,
+                code,
+                sohl.i18n.format("SOHL.Enveloped.entangleName", { name: mode.name }),
+            );
+            if (alternative) {
+                modes.push(alternative);
+                codes.add(code);
+            }
+        }
+        this.strikeModes = modes.map((d) =>
             d.type === STRIKE_MODE_TYPE.MELEE ?
                 new entity.MeleeStrikeMode(d as MeleeStrikeMode.Data, this, d.shortcode)
             :   new entity.MissileStrikeMode(d as MissileStrikeMode.Data, this, d.shortcode),
@@ -278,6 +296,7 @@ export class WeaponGearLogic<
         // made with this weapon in the other hand. Also a cross-item read — the
         // shield is a different document — so it belongs to this phase.
         applyHeldShieldDefense(this);
+        applyEnvelopedCombat(this);
     }
 }
 

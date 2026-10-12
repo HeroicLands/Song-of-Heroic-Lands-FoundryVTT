@@ -12,6 +12,10 @@
  */
 
 import {
+    applyEnveloped as applyEnvelopedAction,
+    type EnvelopScope,
+} from "@src/document/actor/logic/envelop-actions";
+import {
     applyGrabHold as applyGrabHoldAction,
     beginMaintainGrabHold as beginMaintainGrabHoldAction,
     answerMaintainGrabHold as answerMaintainGrabHoldAction,
@@ -2242,10 +2246,29 @@ export class BeingLogic<TData extends BeingData = BeingData> extends SohlActorBa
         return releaseGrabHoldAction(this, context);
     }
 
+    /**
+     * Confirm a persistent Enveloped condition on this actor's controlling client.
+     * @param context - Canonical exchange lookup keys.
+     * @returns Completion of the owner-controlled condition offer.
+     */
+    async applyEnveloped(context: SohlActionContext<Partial<EnvelopScope>>) {
+        return applyEnvelopedAction(this, context);
+    }
+
     /** @inheritdoc */
     static override defineIntrinsicActions(): Partial<SohlAction.Data>[] {
         return [
             ...SohlActorBaseLogic.defineIntrinsicActions(),
+            {
+                shortcode: "applyEnveloped",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Enveloped.apply",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fa-solid fa-hand",
+                executor: "applyEnveloped",
+                visible: "false",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+            },
             ...Object.entries({
                 activateGrabTrial: "answer",
                 beginGrabTrial: "choose",

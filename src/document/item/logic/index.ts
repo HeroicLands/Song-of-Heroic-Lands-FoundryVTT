@@ -50,3 +50,5 @@ export * from "./heldShield";
 export * from "./techniqueLimb";
 export * from "./wielderStrength";
 export * from "./worn-armour-effects";
+
+export * from "./enveloped";

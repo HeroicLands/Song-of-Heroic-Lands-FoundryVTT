@@ -17,6 +17,9 @@ import {
     datePartsToWorldTime,
     skipDays,
     monthChoices,
+    datePartsToCalendaria,
+    calendariaToWorldTime,
+    type CalendariaDate,
 } from "@src/core/logic/date-picker-logic";
 import { dialog, fvttWorldTime } from "@src/core/FoundryHelpers";
 import { toHTMLString } from "@src/utils/helpers";
@@ -66,6 +69,26 @@ function activeCalendar(): PickerCalendar {
     return sohl.calendar;
 }
 
+/** The supported public picker; the optional module supplies this at runtime. */
+interface CalendariaPicker {
+    showDatePicker(options: {
+        date: CalendariaDate;
+        showTime: boolean;
+        title: string;
+    }): Promise<CalendariaDate | null>;
+}
+
+/**
+ * Read the active module's public API without making it an install requirement.
+ * @returns Public picker when the module is active and exposes it.
+ */
+function optionalCalendariaPicker(): CalendariaPicker | undefined {
+    if (!game.modules.get("calendaria")?.active) return undefined;
+    const api = (globalThis as unknown as { CALENDARIA?: { api?: Partial<CalendariaPicker> } })
+        .CALENDARIA?.api;
+    return typeof api?.showDatePicker === "function" ? (api as CalendariaPicker) : undefined;
+}
+
 /**
  * Open the calendar-aware date-picker dialog for a stored worldTime value.
  *
@@ -73,7 +96,9 @@ function activeCalendar(): PickerCalendar {
  * (which rolls months/years over correctly via {@link skipDays}), previews the
  * resulting date live with the calendar's formatter, and shows a red
  * "Invalid Date Format" when the parts don't resolve to a real date. **Now**
- * chooses the current world time; **Clear** chooses the empty value.
+ * chooses the current world time; **Clear** chooses the empty value. When
+ * Calendaria is active, **Pick date** opens its public date/time picker; seconds
+ * remain unchanged and the numeric value uses the active calendar.
  *
  * @param current - The field's current worldTime (seconds since epoch), or
  *   `null`/`undefined` when unset (the dialog then opens on the current world time).
@@ -86,6 +111,43 @@ export async function openDatePickerDialog(
     const calendar = activeCalendar();
     const startTime = typeof current === "number" ? current : fvttWorldTime();
     const parts = worldTimeToDateParts(calendar, startTime);
+    const picker = optionalCalendariaPicker();
+    if (picker) {
+        const choice = await dialog({
+            title: sohl.i18n.localize("SOHL.DatePicker.title"),
+            content: toHTMLString("<p>{{message}}</p>"),
+            data: { message: sohl.i18n.localize("SOHL.DatePicker.chooseAction") },
+            buttons: [
+                {
+                    action: "pick",
+                    label: sohl.i18n.localize("SOHL.DatePicker.pick"),
+                    default: true,
+                },
+                { action: "basic", label: sohl.i18n.localize("SOHL.DatePicker.basic") },
+                { action: "now", label: sohl.i18n.localize("SOHL.DatePicker.now") },
+                { action: "clear", label: sohl.i18n.localize("SOHL.DatePicker.clear") },
+                { action: "cancel", label: sohl.i18n.localize("SOHL.DatePicker.cancel") },
+            ],
+        });
+        if (choice?.action === "now") return fvttWorldTime();
+        if (choice?.action === "clear") return null;
+        if (choice?.action !== "pick" && choice?.action !== "basic") return undefined;
+        if (choice.action === "pick") {
+            try {
+                const selected = await picker.showDatePicker({
+                    date: datePartsToCalendaria(calendar, parts),
+                    showTime: true,
+                    title: sohl.i18n.localize("SOHL.DatePicker.title"),
+                });
+                if (selected === null) return undefined;
+                const time = calendariaToWorldTime(calendar, selected, parts);
+                if (time !== null) return time;
+            } catch (error) {
+                sohl.log.warn("Calendar picker failed", error as PlainObject);
+            }
+        }
+        // Basic editing and invalid selections use the native editor.
+    }
     const { hoursPerDay, minutesPerHour, secondsPerMinute } = calendar.days;
 
     const result = await dialog({

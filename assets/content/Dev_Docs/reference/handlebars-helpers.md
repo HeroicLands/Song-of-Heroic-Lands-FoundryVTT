@@ -109,6 +109,22 @@ the numeric worldTime**; only display and editing use calendar format.
 | `value`  | positional | The current worldTime (seconds), or `null` when unset. |
 | `name`   | hash       | The update path (e.g. `"system.treatmentDate"`).       |
 
+When **Calendaria** is active and exposes its public picker API, the date action
+first offers **Pick date**, **Use basic editor**, **Now**, **Clear**, and **Cancel**. **Pick date** opens
+Calendaria's date/time picker. Month and day use that API's one-based values;
+year uses the calendar's display-year offset. Hours and minutes are editable,
+and seconds retain their stored value. Cancelling either dialog leaves the
+field untouched. **Now** stores the current world time and **Clear** stores
+`null`. **Use basic editor** opens SoHL's editor for any valid date in the active
+calendar, including leap days, and allows editing seconds.
+
+Calendaria is optional. An absent module or missing picker API uses SoHL's
+native editor. A failed picker or an invalid returned date also opens that
+editor. Both paths keep numeric world time as the stored value; `displayWorldTime`
+and the `sohl.default`, `sohl.timestamp`, and `sohl.relative` formatters use the
+active calendar independently of the picker. The public integration uses
+`CALENDARIA.api.showDatePicker({ date, showTime: true, title })`.
+
 The dialog offers a month dropdown, day/year and hour/minute/second inputs, a
 ±N-day stepper (rolling months/years over correctly), **Now** (current world
 time) and **Clear** (empty) buttons, a live preview, and a red

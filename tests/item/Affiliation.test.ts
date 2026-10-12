@@ -25,7 +25,6 @@ function affiliationFields(overrides: Record<string, unknown> = {}) {
         relations: {},
         parents: [],
         seat: null,
-        domain: [],
         commonSkills: [],
         ...overrides,
     };
@@ -265,7 +264,6 @@ describe("affiliation references", () => {
     it("answers to nobody by default, and that is a value rather than an absence", () => {
         const logic = makeAffiliation();
         expect(logic.data.parents).toEqual([]);
-        expect(logic.data.domain).toEqual([]);
     });
 
     it("records more than one parent, because a body may sit under several at once", () => {
@@ -278,18 +276,16 @@ describe("affiliation references", () => {
         expect(makeAffiliation({ seat: "tashal" }).data.seat).toBe("tashal");
     });
 
-    it("holds sway over several places, the geographic relation kept apart from the parent one", () => {
+    it("keeps parent, seat, common skills, and standing independently", () => {
         const logic = makeAffiliation({
-            parents: ["vylarianempire"],
-            domain: ["kaldorregion", "tashal"],
+            parents: ["council"],
+            seat: "capital",
+            commonSkills: ["Compendium.sohl.skills.Item.abc"],
+            relations: { rival: "adversary" },
         });
-        expect(logic.data.parents).toEqual(["vylarianempire"]);
-        expect(logic.data.domain).toEqual(["kaldorregion", "tashal"]);
-    });
-
-    it("allows a seat outside its domain — a government in exile is a real case", () => {
-        const logic = makeAffiliation({ seat: "golotha", domain: ["kaldorregion"] });
-        expect(logic.data.domain).not.toContain(logic.data.seat);
-        expect(logic.data.seat).toBe("golotha");
+        expect(logic.data.parents).toEqual(["council"]);
+        expect(logic.data.seat).toBe("capital");
+        expect(logic.data.commonSkills).toEqual(["Compendium.sohl.skills.Item.abc"]);
+        expect(logic.data.relations).toEqual({ rival: "adversary" });
     });
 });

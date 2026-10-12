@@ -27,3 +27,5 @@ export * from "./shieldDefense";
 export * from "./strengthImpact";
 export * from "./strengthTrial";
 export * from "./StrikeModeBase";
+
+export * from "./entangle";

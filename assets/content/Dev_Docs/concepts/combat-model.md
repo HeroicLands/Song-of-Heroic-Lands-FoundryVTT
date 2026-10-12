@@ -212,6 +212,13 @@ It is Foundry's native `CombatantGroup` embedded document (SoHL registers no dat
 model, sheet, or document subclass for it) and lives only as long as the combat
 does.
 
+Group seeding is asynchronous and belongs to the exact live Combat instance.
+After creating missing groups, the active GM rechecks that the combat still
+exists before assigning combatants. Deleting the combat stops follow-up seeding;
+a rejection from an already-issued write is handled without an unhandled
+promise. Live-combat failures are reported through Foundry's hook error handler.
+Combatants removed or manually grouped during creation keep their newer state.
+
 **Why the concept exists.** Combat resolution needs one fact that nothing else in
 the system models: _who is fighting whom_. It cannot come from the actor —
 allegiance is a property of the encounter, not of the character, and the same

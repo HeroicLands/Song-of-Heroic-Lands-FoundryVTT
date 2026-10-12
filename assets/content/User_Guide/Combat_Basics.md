@@ -220,3 +220,17 @@ injury result in addition to the manoeuvre.
 - [[doc-afflinjug|Afflictions & Injuries]] — recording and healing the injuries combat produces.
 - [[doc-thftsystug|Fate System]] — spending fate to re-roll.
 - [[doc-userguide|User Guide]] — back to the index.
+
+## Entangle and Enveloped {#entangle-and-enveloped}
+
+An entangling weapon offers its ordinary damaging strike and an **Entangle**
+alternative in the strike-mode choices. Entangle keeps the weapon's reach,
+deals no impact, and offers the target the normal Hold Strength Trial. A won
+trial offers temporary immobilization and the Hold maintenance loop.
+
+A landed enveloping attack posts **Apply Enveloped** to the affected actor's
+controller. It does not penalize that initial defence or change their character
+without confirmation. Accepting creates an **Enveloped** physical-condition
+Trauma. It contributes a named −20 to attacks, Block, Counterstrike and Dodge.
+The trauma stays until its owner deletes it; no clock or automatic escape test
+removes it. Deleting the trauma restores the combat modifiers.

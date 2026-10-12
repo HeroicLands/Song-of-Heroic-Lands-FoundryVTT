@@ -61,6 +61,7 @@ Icons come from two families: [Font Awesome](https://fontawesome.com) (its free 
 |          :icon add-member:{size=2x}          | **Add Member**                   | Cohort                     |
 |         :icon add-occupant:{size=2x}         | **Add Occupant**                 | Vehicle                    |
 |       :icon answer-the-rally:{size=2x}       | **Answer the Rally**             | Being                      |
+|       :icon apply-enveloped:{size=2x}        | **Apply Enveloped**              | Being                      |
 |    :icon arm-blood-loss-advance:{size=2x}    | **Arm Blood-Loss Advance**       | Trauma                     |
 |       :icon arm-course-check:{size=2x}       | **Arm Course Check**             | Affliction                 |
 |      :icon arm-healing-check:{size=2x}       | **Arm Healing Check**            | Trauma                     |

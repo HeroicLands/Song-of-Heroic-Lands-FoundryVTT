@@ -907,3 +907,42 @@ when a spec touches these areas:
   [[doc-runtimecontracts#updating-array-fields-write-the-whole-array-never-an-element-by-index|Runtime Contracts > Updating array fields]]).
   Note a valid field value is needed to trigger it — an invalid one is dropped and
   the update no-ops, so placeholder-id tests hide the bug.
+
+## Optional calendar picker integration
+
+The normal suite includes `date-picker.cy.js`, which exercises the basic editor
+without requiring an optional module. `calendaria-date-picker.cy.js` is excluded
+from the normal and nightly selections. It is enabled explicitly with
+`SOHL_E2E_CALENDARIA=1` and requires the real Calendaria public picker; an absent
+module or API fails that selected integration check.
+
+The focused integration is verified with Calendaria 1.4.5 and 3DS:ATLAS 1.4.7 on Foundry 14.359. Its fixture waits for Calendaria’s active calendar after the public API is published; bundled calendar loading finishes asynchronously.
+
+Install Calendaria and its required 3DS:ATLAS dependency through Foundry's Setup
+module installer. Use a separate disposable SoHL world, enable both modules in
+**Manage Modules**, and reload that world. Existing test-world settings remain
+in their original world. The supported seed command can create the temporary
+world with the harness's GM identity:
+
+```bash
+SOHL_E2E_WORLD_ID=sohl-calendaria-e2e package-build e2e seed
+```
+
+The Cypress configuration and harness use `SOHL_E2E_WORLD_ID` for world and GM
+identity. Fast container recreation also needs `FOUNDRYVTT_TEST_WORLD` to select
+the same world. GM name/password overrides are `SOHL_E2E_GM_NAME` and
+`SOHL_E2E_GM_PASSWORD`; keep passwords in private local environment settings.
+After the staged package is current and the real modules are active, run only
+the focused integration:
+
+```bash
+SOHL_E2E_CALENDARIA=1 SOHL_E2E_WORLD_ID=sohl-calendaria-e2e \
+FOUNDRYVTT_TEST_WORLD=sohl-calendaria-e2e \
+package-build e2e fast --build=none --recreate -- \
+  --spec cypress/e2e/calendaria-date-picker.cy.js
+```
+
+The fixture edits real Affliction and Trauma date fields, preserves seconds,
+checks formatted values, and exercises Clear and the basic-editor override.
+Restore the original world selection after this isolated check. Module
+installation and activation are setup steps, not automatic suite behavior.

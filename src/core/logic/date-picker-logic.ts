@@ -23,9 +23,9 @@
  * calendar facts:
  *
  * - {@link foundry.data.CalendarData.componentsToTime} consumes **day-of-year**
- *   (`components.day`) and ignores `month`/`dayOfMonth`, so
- *   {@link datePartsToWorldTime} builds day-of-year from each month's own length
- *   (`days`/`leapDays`, which vary per month and per leap year).
+ *   (`components.day`), while custom calendars can consume `month` and
+ *   `dayOfMonth`. Both consistent representations are supplied, with day-of-year
+ *   built from each month's leap-aware length (`days`/`leapDays`).
  * - Validity is confirmed by **round-trip** (`componentsToTime` →
  *   `timeToComponents` → compare), which tolerates calendars with intercalary
  *   days and rejects an out-of-range day without assuming uniform months.
@@ -188,6 +188,8 @@ export function datePartsToWorldTime(calendar: PickerCalendar, parts: DateParts)
     const time = calendar.componentsToTime({
         year,
         day: doy,
+        month: monthIndex,
+        dayOfMonth: day - 1,
         hour,
         minute,
         second,
@@ -200,4 +202,51 @@ export function datePartsToWorldTime(calendar: PickerCalendar, parts: DateParts)
         return null;
     }
     return time;
+}
+
+/** The public calendar picker uses display years and one-based month/day. */
+export interface CalendariaDate {
+    year: number;
+    month: number;
+    day: number;
+    hour?: number;
+    minute?: number;
+}
+
+/**
+ * Translate editable parts to the optional public picker's date vocabulary.
+ * @param calendar - Active world calendar.
+ * @param parts - Internal calendar parts.
+ * @returns Display year and one-based date with editable time.
+ */
+export function datePartsToCalendaria(calendar: PickerCalendar, parts: DateParts): CalendariaDate {
+    return {
+        year: parts.year + (calendar.years?.yearZero ?? 0),
+        month: parts.monthIndex + 1,
+        day: parts.day,
+        hour: parts.hour,
+        minute: parts.minute,
+    };
+}
+
+/**
+ * Translate a public picker selection while retaining unedited time components.
+ * @param calendar - Active world calendar.
+ * @param selected - Selected display date.
+ * @param previous - Original internal parts, including seconds.
+ * @returns Valid numeric world time, or null for an invalid selection.
+ */
+export function calendariaToWorldTime(
+    calendar: PickerCalendar,
+    selected: CalendariaDate,
+    previous: DateParts,
+): number | null {
+    return datePartsToWorldTime(calendar, {
+        year: selected.year - (calendar.years?.yearZero ?? 0),
+        monthIndex: selected.month - 1,
+        day: selected.day,
+        hour: selected.hour ?? previous.hour,
+        minute: selected.minute ?? previous.minute,
+        second: previous.second,
+    });
 }
