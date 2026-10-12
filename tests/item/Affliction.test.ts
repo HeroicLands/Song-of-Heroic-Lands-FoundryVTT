@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
-import { AfflictionLogic } from "@src/document/item/logic/AfflictionLogic";
+import { AfflictionLogic, rollDurationFormula } from "@src/document/item/logic/AfflictionLogic";
 import { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import {
     AFFLICTION_SUBTYPE,
@@ -766,5 +766,26 @@ describe("view-only computed dates", () => {
         });
         logic.initialize();
         expect(logic.nextHealTest).toBeUndefined();
+    });
+});
+
+describe("rollDurationFormula (onset seeding)", () => {
+    const parent = {} as any;
+
+    it("rolls a dice formula instead of reading it as a bare number", () => {
+        for (let i = 0; i < 20; i++) {
+            const seconds = rollDurationFormula("2d6+3600", parent);
+            expect(seconds).toBeGreaterThanOrEqual(3602);
+            expect(seconds).toBeLessThanOrEqual(3612);
+        }
+    });
+
+    it("reads a bare whole number of seconds", () => {
+        expect(rollDurationFormula("3600", parent)).toBe(3600);
+    });
+
+    it("yields 0 for an empty or unset formula", () => {
+        expect(rollDurationFormula("", parent)).toBe(0);
+        expect(rollDurationFormula(null, parent)).toBe(0);
     });
 });

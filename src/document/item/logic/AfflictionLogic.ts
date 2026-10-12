@@ -69,6 +69,7 @@ import { rollTimedTest } from "@src/document/item/logic/timed-test";
 import { SHOCK_STATE, shockStateLabelKey } from "@src/document/actor/logic/shock";
 import { SohlItemBaseLogic, type SohlItemData } from "@src/document/item/logic/SohlItemBaseLogic";
 import { SohlAction } from "@src/entity/action/SohlAction";
+import type { SohlLogic } from "@src/core/logic/SohlLogic";
 
 /**
  * An ongoing condition affecting a character.
@@ -638,15 +639,7 @@ export class AfflictionLogic<
      * @returns The rolled duration in seconds.
      */
     private rollDuration(formula: string | null): number {
-        if (!formula) return 0;
-        try {
-            const rolled = SimpleRoll.fromFormula(formula, this).roll();
-            if (Number.isFinite(rolled)) return rolled;
-        } catch {
-            // fall through to a numeric parse
-        }
-        const n = Number(formula);
-        return Number.isFinite(n) ? n : 0;
+        return rollDurationFormula(formula, this);
     }
 
     /**
@@ -1309,4 +1302,24 @@ export interface AfflictionData<
     contagionIndexBase: number;
     /** How this affliction spreads (Contact, Airborne, etc.) */
     transmission: AfflictionTransmission;
+}
+
+/**
+ * Roll a duration formula to a number of seconds. Falls back to a plain
+ * numeric parse, or `0` when neither yields a finite number.
+ *
+ * @param formula - The duration formula (dice expression or bare seconds).
+ * @param parent - The Logic that owns the roll.
+ * @returns The rolled duration in seconds.
+ */
+export function rollDurationFormula(formula: string | null, parent: SohlLogic<any>): number {
+    if (!formula) return 0;
+    try {
+        const rolled = SimpleRoll.fromFormula(formula, parent).roll();
+        if (Number.isFinite(rolled)) return rolled;
+    } catch {
+        // fall through to a numeric parse
+    }
+    const n = Number(formula);
+    return Number.isFinite(n) ? n : 0;
 }
