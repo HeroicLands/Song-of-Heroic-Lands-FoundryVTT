@@ -1,0 +1,54 @@
+name: Full Foundry e2e
+
+on:
+    schedule:
+        # Gitea cron is UTC; the gate selects 01:30 in Los Angeles.
+        - cron: "30 8,9 * * *"
+    workflow_dispatch:
+    pull_request:
+        branches: [main]
+        types: [labeled, synchronize, reopened]
+
+permissions:
+    contents: read
+
+concurrency:
+    group: full-e2e-${{ github.event.pull_request.number || github.ref }}
+    cancel-in-progress: false
+
+jobs:
+    requested:
+        runs-on: ubuntu-latest
+        if: >-
+            github.event_name != 'pull_request' ||
+            contains(github.event.pull_request.labels.*.name, 'e2e')
+        outputs:
+            run: ${{ steps.time.outputs.run }}
+        steps:
+            - name: Select the nightly local-time slot
+              id: time
+              env:
+                  EVENT_NAME: ${{ github.event_name }}
+              run: |
+                  run=true
+                  if [ "$EVENT_NAME" = schedule ]; then
+                      hour=$(TZ=America/Los_Angeles date +%H)
+                      run=false
+                      if [ "$hour" = 01 ]; then
+                          run=true
+                          # Fall-back repeats 01:30. Use its second occurrence.
+                          local_date=$(TZ=America/Los_Angeles date +%m:%d:%u:%Z)
+                          case "$local_date" in
+                              11:0[1-7]:7:PDT) run=false ;;
+                          esac
+                      fi
+                  fi
+                  echo "run=$run" >> "$GITHUB_OUTPUT"
+
+    full-e2e:
+        needs: requested
+        if: needs.requested.outputs.run == 'true'
+        uses: HeroicLands/.github/.gitea/workflows/e2e-full.yml@main
+        with:
+            package: sohl
+            build-script: build:tested-stage

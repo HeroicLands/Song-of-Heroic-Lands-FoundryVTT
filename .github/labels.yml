@@ -75,3 +75,7 @@
 - name: wontfix
   color: "ffffff"
   description: This will not be worked on.
+
+- name: e2e
+  color: "44e6ce"
+  description: Requests a full Foundry end-to-end run on the dedicated e2e runner before merge.

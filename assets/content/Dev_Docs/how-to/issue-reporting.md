@@ -73,7 +73,9 @@ priority answers "when I next sit down, what deserves my time?" not "what is due
 
 ## 3. Labels — the closed registry
 
-Labels are for **categorization only**. The table below is the **complete,
+Apply `e2e` to a pull request to request the full Foundry suite on Intrepid before merge. New commits on a labelled PR request a fresh run. The same workflow runs nightly at 01:30 America/Los_Angeles and can be started manually with `workflow_dispatch`. Local iteration uses focused `e2e:fast` specs.
+
+Labels categorize work; the `e2e` label also requests a full Foundry end-to-end run on the dedicated runner before merge. The table below is the **complete,
 authoritative set**. Its machine-readable twin is `.github/labels.yml`, which the
 `labels-sync` workflow reconciles onto GitHub (the set is _closed_ — a label not
 in the registry is deleted on sync). `npm run lint` fails if the two disagree
@@ -94,6 +96,7 @@ in the registry is deleted on sync). `npm run lint` fails if the two disagree
 | `vault`           | **Retired.** The HeroicLands vault is archived; the label is kept only so historical issues keep their delivery target. Do not apply it.   |
 | `devops`          | Build, tooling, release pipeline, repo config.                                                                                             |
 | `tests`           | Vitest, Quench, or Playwright test suites and harness.                                                                                     |
+| `e2e`             | Requests a full Foundry end-to-end run on the dedicated e2e runner before merge.                                                           |
 | `security`        | Touches an attack surface: auth, data integrity, macro/script execution, injection, or anything warranting private disclosure (see §7).    |
 | `tech-debt`       | Restructuring or cleanup of working code; refactors.                                                                                       |
 | `regression`      | Something that previously worked and stopped. Pairs with type `bug`.                                                                       |
