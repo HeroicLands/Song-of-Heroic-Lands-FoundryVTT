@@ -14,10 +14,9 @@ The Item sheet displays information about the individual item. There are four ta
 
 ## Properties Tab
 
-Although each type of Item has different properties, some properties are common among all Items. These properties include:
+The Properties tab holds fields specific to that item type. The item's **Shortcode** appears beside its name in the sheet header, not on this tab. See [[doc-shortcodesug|Shortcodes]] for what a shortcode means and why two items that share one are treated as the same thing.
 
-- **Shortcode:** A relatively short alphanumeric text string that uniquely identifies this item within similarly-typed items. The shortcode is often used in code to identify an item, since name can change through localization (shortcodes are never localized). See [[doc-shortcodesug|Shortcodes]] for what a shortcode means and why two items that share one are treated as the same thing.
-- **Notes:** A single-line note associated with an item that is normally displayed on the character sheet next to the item. This differs from the Description, which is a rich text multi-line block of text.
+**Notes** is not a field shared by every item type. It appears on selected Trauma subtypes; when present, it is a short note distinct from the rich-text **Documentation** on the Description tab.
 
 ## Description Tab
 

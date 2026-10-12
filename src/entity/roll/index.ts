@@ -15,3 +15,6 @@
 // verifies every sibling module and subfolder here is re-exported.
 
 export * from "./SimpleRoll";
+
+/** N d10 qualifier rolls against one TN, with a caller-supplied success ladder. */
+export * from "./qualifierRoll";

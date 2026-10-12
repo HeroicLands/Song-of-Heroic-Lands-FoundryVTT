@@ -78,6 +78,13 @@ Run one from a skill the same way you run a Success Test: click the skill's **Su
 
 The card also shows the underlying roll and target, so you can see how the grade was reached. See the [[doc-sccssvlt|Success Value Tests]] rules for the full scale.
 
+Some rules pair the main test with a **qualifier batch**: several independent d10s
+against one Target Number. Each die at or below that TN is one success; the count
+selects an outcome from the calling rule's own effect ladder. The batch is
+separate from the main test and does not change its Success Value. TNs of 0 or
+less fail every die, while TNs of 10 or more succeed with every die. See the
+[[doc-scndryms#secondary-roll|Secondary Roll]] rules for the complete rule.
+
 # Editing a Test Result (GM) {#tests-gm-edit}
 
 Every posted test result card carries a small **edit pencil** in its header. This is a **GM-only** tool — players do not see it — and it is the GM's higher-fidelity counterpart to a player spending [[doc-thftsystug|Fate]]: it lets you correct or adjust a result you have already rolled **without re-rolling the dice**.

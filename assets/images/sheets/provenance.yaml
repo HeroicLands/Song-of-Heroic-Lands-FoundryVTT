@@ -1,0 +1,5 @@
+attribution: Tom Rodriguez
+source: "Song of Heroic Lands 0.8.8 live sheet UI with synthetic guide documents"
+ai: false
+license: CC-BY-SA-4.0
+notes: "Captured with Cypress 16.1.1 and headless Chromium 154 against Foundry VTT 14.359. Native sheet UI with synthetic guide documents, in-browser DOM labels and field callouts; no raster transformations."

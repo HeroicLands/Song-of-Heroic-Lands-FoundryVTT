@@ -1,7 +1,9 @@
 contentPackage: sohl
 
 authors:
-    - name: Toasty
+    - name: Tom Rodriguez
+      email: toasty@heroiclands.org
+      url: https://www.heroiclands.org/
       discord: toasty#8538
 
 packageKind: systems
@@ -47,6 +49,12 @@ packs:
     - { name: journals, label: Journals, type: JournalEntry }
     - { name: actors, label: Actors, type: Actor }
     - { name: macros, label: Macros, type: Macro }
+    - name: scenes
+      label: Scenes
+      type: Scene
+      companions:
+          - { name: adventures, label: Map Adventures, type: Adventure, system: sohl }
+    - { name: tutorial-adventures, label: Tutorial Adventures, type: Adventure, system: sohl }
 
 packageBuild:
     # Both registries live in one configuration module here, so the file is
@@ -282,6 +290,9 @@ packageBuild:
                   - journals
                   - actors
                   - macros
+                  - scenes
+                  - adventures
+                  - tutorial-adventures
         media:
             - type: setup
               url: systems/sohl/assets/ui/sohl-icon-3d-1920x1080.webp
@@ -352,7 +363,7 @@ site:
 # content tree the same way.
 pdf:
     books:
-        - id: sohl
+        - id: core
           title: Song of Heroic Lands
           subtitle: Rules, User Guide, and Reference
           document: book.yaml

@@ -44,7 +44,7 @@
         "build:prepare": "run-p build:css build:db build:system",
         "build:db": "run-s build:content-index build:schema build:assets build:compiledb",
         "build:types": "tsc -p tsconfig.json",
-        "build:system": "package-build manifest",
+        "build:system": "node utils/build-system-manifest.mjs",
         "build:css": "sass --load-path=scss scss/sohl.scss build/stage/css/sohl.css",
         "build:code": "vite build --mode release",
         "build:schema": "package-build schema",

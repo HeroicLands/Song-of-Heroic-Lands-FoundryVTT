@@ -36,6 +36,7 @@ import * as body from "@src/entity/body";
 import * as event from "@src/entity/event";
 import * as expr from "@src/entity/expr";
 import * as modifier from "@src/entity/modifier";
+import * as random from "@src/entity/random";
 import * as result from "@src/entity/result";
 import * as roll from "@src/entity/roll";
 import * as strikemode from "@src/entity/strikemode";
@@ -48,6 +49,7 @@ type EntityNamespaces = {
     event: typeof event;
     expr: typeof expr;
     modifier: typeof modifier;
+    random: typeof random;
     result: typeof result;
     roll: typeof roll;
     strikemode: typeof strikemode;
@@ -72,6 +74,7 @@ export const entitySurface: SohlEntitySurface & EntityNamespaces = (() => {
         event,
         expr,
         modifier,
+        random,
         result,
         roll,
         strikemode,

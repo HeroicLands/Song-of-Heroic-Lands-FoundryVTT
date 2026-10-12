@@ -62,7 +62,7 @@ sequence; `run-p` runs them in parallel.
 | `build:prepare`        | In parallel: `build:css`, `build:db`, `build:system`.                                                                                                                        |
 | `build:types`          | TypeScript type-check / compile (`tsc -p tsconfig.json`). No emit beyond `.d.ts`/checking.                                                                                   |
 | `build:css`            | Compile `scss/sohl.scss` > `build/stage/css/sohl.css` (Sass).                                                                                                                |
-| `build:system`         | Generate `build/stage/system.json` from `package-build.config.yaml` (`package-build manifest`).                                                                              |
+| `build:system`         | Generate `build/stage/system.json` from `package-build.config.yaml` with SoHL's runtime pack projection.                                                                     |
 | `build:assets`         | Copy `templates/`, `lang/`, `assets/*`, `LICENSE.md`, `README.md` into `build/stage/` (`package-build assets`).                                                              |
 | `build:db`             | `build:content-index`, `build:schema`, `build:assets`, then `build:compiledb`. The e2e fast loop rebuilds packs through it.                                                  |
 | `build:compiledb`      | Generate JSON from `assets/content/` Markdown, then compile LevelDB packs in `build/stage/packs/`.                                                                           |
@@ -340,23 +340,20 @@ directory, and `build:pack-release` simply zips its contents into the release
 `system.zip`. There is no separate transform step — the staged directory **is** the
 system, and `system.zip` is just an archive of it.
 
-**How `system.json` is assembled** (`package-build manifest`): everything it
-declares comes from `package-build.config.yaml`. The `packageBuild.manifest`
-block is emitted unchanged; `id`, `version`, the four release addresses,
-`compatibility` and `packs` are **derived** and may not be declared there; and
-`packageBuild.manifestFlags` names `utils/manifest-flags.mjs`, which computes
-the `sohl` flag namespace — the credits journal's `@UUID` only exists once the
-content tree has been walked.
-
-There is no template. The manifest is generated in full; the pack list, the
-package id and the Foundry range are declared once, in configuration.
+**How `system.json` is assembled** (`build:system`): the local wrapper calls
+the shared manifest writer with the pack configuration. The manifest block,
+package identity, release addresses, compatibility, and computed flags still
+come from the shared configuration and writer. The wrapper keeps `scenes` and
+its `adventures` companion as compiler inputs for map content, while registering
+`tutorial-adventures` at runtime. Tutorial Adventures carry copies of their
+listed actors, scenes, and journals, so importing one does not require the map
+helper packs to be registered. Pack folders follow the same published set.
 
 ## 5. Compendium packs from in-repo Markdown {#5-compendium-packs-from-in-repo-markdown}
 
-SoHL ships three compendium packs — **items**, **journals**, **actors** — declared
-in the system manifest. Each has a committed JSON source tree at
-`assets/packs/<pack>/_source/`, which `build:compiledb` compiles into Foundry's
-LevelDB format under `build/stage/packs/<pack>/`.
+SoHL declares its **items**, **journals**, **actors**, and **macros** packs in
+the package configuration. `build:compiledb` compiles content notes into
+Foundry LevelDB packs under `build/stage/packs/`.
 
 ### Design decision — Markdown in the repository, build-only JSON
 

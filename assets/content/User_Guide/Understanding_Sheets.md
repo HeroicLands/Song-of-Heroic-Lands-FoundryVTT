@@ -46,6 +46,26 @@ Two things worth knowing:
   the checkbox leaves the sentence alone — edit the description yourself if you
   want it gone.
 
+# Actor Sheet Examples {#actor-sheet-examples}
+
+These live sheet captures use sample documents. The labels point out the sheet header, tab strip, and active tab body.
+
+## Being
+
+![Being sheet with its header, tab strip, and active Facade body labelled.](images/sheets/actorbeing.png){size=full-width}
+
+## Cohort
+
+![Cohort sheet with its header, tab strip, and active Facade body labelled.](images/sheets/actorcohort.png){size=full-width}
+
+## Structure
+
+![Structure sheet with its header, tab strip, and active Facade body labelled.](images/sheets/actorstructure.png){size=full-width}
+
+## Vehicle
+
+![Vehicle sheet with its header, tab strip, and active Facade body labelled.](images/sheets/actorvehicle.png){size=full-width}
+
 # Common Actor Tabs {#sheets-actor-tabs}
 
 Actor sheets (Beings, Cohorts, Structures, Vehicles) share several common tabs. Not every actor type has every tab, but when a tab appears, it works the same way across all actor types — the **Gear**, **Actions**, and **Effects** tabs described below are the same tab on a character, a ship, and a warehouse, and this is the one place they are documented. The individual type pages ([[doc-beingug|Being]], [[doc-vehicleug|Vehicle]], [[doc-structureug|Structure]], [[doc-cohortug|Cohort]]) describe only what is particular to that type.
@@ -130,6 +150,62 @@ Item sheets share a consistent tab layout across all item types:
 The **Properties** tab shows the type-specific fields for this item. The content varies by item type — a Skill shows its skill base formula and mastery level, a Weapon shows its damage and range, and so on. This is where you configure the item's game-mechanical properties.
 
 **Each item type's own guide page carries the field-by-field reference for its Properties tab**, named field by field in the shape [[doc-skillug|Skill]] uses. See [[doc-ugitems|Items]] for the full list of type pages.
+
+### Properties field examples {#item-properties-examples}
+
+The numbered labels in these captures mark a few fields on each type's Properties tab. They are landmarks for finding the full set of controls described on each item guide page.
+
+#### [[doc-affltnug|Affiliation]]
+
+![Affiliation Properties with numbered labels for Affiliation Type, Society, and Office.](images/sheets/itemaffiliationproperties.png){size=full-width}
+
+#### [[doc-afflctnug|Affliction]]
+
+![Affliction Properties with numbered labels for its category, level, transmission, and onset interval.](images/sheets/itemafflictionproperties.png){size=full-width}
+
+#### [[doc-armorgearug|Armor]]
+
+![Armor Properties with numbered labels for Quantity, Carried, Worn, and Blunt protection.](images/sheets/itemarmorgearproperties.png){size=full-width}
+
+#### [[doc-attributeug|Attribute]]
+
+![Attribute Properties with numbered labels for Score and initial score dice formula.](images/sheets/itemattributeproperties.png){size=full-width}
+
+#### [[doc-concoctiongearug|Concoction]]
+
+![Concoction Properties with numbered labels for Quantity, Potency, and Strength.](images/sheets/itemconcoctiongearproperties.png){size=full-width}
+
+#### [[doc-containergearug|Container]]
+
+![Container Properties with numbered labels for Quantity and Capacity.](images/sheets/itemcontainergearproperties.png){size=full-width}
+
+#### [[doc-traumaug|Trauma]]
+
+![Injury Trauma Properties with numbered labels for Body Location, Heal Test Interval, and Blood-Loss Interval.](images/sheets/itemtraumaproperties.png){size=full-width}
+
+#### [[doc-miscgearug|Misc Gear]]
+
+![Misc Gear Properties with numbered labels for Quantity, Weight, and Value.](images/sheets/itemmiscgearproperties.png){size=full-width}
+
+#### [[doc-mysteryug|Mystery]]
+
+![Mystery Properties with numbered labels for Level, Current Charges, and Maximum Charges.](images/sheets/itemmysteryproperties.png){size=full-width}
+
+#### [[doc-mysticalabilityug|Mystical Ability]]
+
+![Mystical Ability Properties with numbered labels for Mastery Level, Level, and Current Charges.](images/sheets/itemmysticalabilityproperties.png){size=full-width}
+
+#### [[doc-projectilegearug|Projectile]]
+
+![Projectile Properties with numbered labels for Quantity and the number of dice rolled for Impact.](images/sheets/itemprojectilegearproperties.png){size=full-width}
+
+#### [[doc-skillug|Skill]]
+
+![Skill Properties with numbered labels for Mastery Level and Skill Base Formula.](images/sheets/itemskillproperties.png){size=full-width}
+
+#### [[doc-weapongearug|Weapon]]
+
+![Weapon Properties with numbered labels for Quantity, Encumbrance, and Heft.](images/sheets/itemweapongearproperties.png){size=full-width}
 
 ## Description
 

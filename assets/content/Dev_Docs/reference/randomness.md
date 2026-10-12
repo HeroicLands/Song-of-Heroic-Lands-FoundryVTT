@@ -80,6 +80,20 @@ because Foundry rolls client-side, a shared deterministic stream desyncs across
 clients anyway (each advances it a different number of times). **Fixed seeds are
 strictly a test/e2e affordance.**
 
+## Qualifier batches
+
+{@link sohl.entity.roll.qualifierRoll} rolls independent d10s against one TN and
+indexes the caller's effect ladder by the resulting success count. A die succeeds
+at or below the TN; there are no criticals. TNs at or below 0 fail the whole
+batch, and TNs at or above 10 succeed with every die, without drawing from the
+RNG or consuming queued forced values. The caller supplies the effect ladder with
+one entry for every count from zero through the number of dice.
+
+The helper takes the owning `SohlLogic` because its `SimpleRoll` is a parented
+entity. Pass an injected {@link sohl.entity.random.Rng} for an isolated seeded
+stream, or omit it to use `sohl.random`. It returns the die values, success count,
+and the selected ladder entry; clamped batches return an empty value list.
+
 ## Determinism in tests
 
 Two seams, by environment:

@@ -21,10 +21,10 @@ SPDX-License-Identifier: GPL-3.0-or-later
             {{clearableNumberInput fields.healingRateBase name="system.healingRateBase" value=logic.data.healingRateBase}}
         </div>
         {{formGroup fields.contagionIndexBase rootId="ail-contidx" classes="stacked" value=logic.data.contagionIndexBase}}
-        {{formGroup fields.transmission rootId="ail-trx" classes="stacked" value=logic.data.transmission}}
+        {{formGroup fields.transmission rootId="ail-trx" classes="stacked" localize=true value=logic.data.transmission}}
         {{formGroup fields.onsetFormula rootId="ail-onsetf" classes="stacked" value=logic.data.onsetFormula}}
         {{formGroup fields.onsetMacroUuid rootId="ail-onset-macro" classes="stacked" value=logic.data.onsetMacroUuid}}
-        {{formGroup fields.outcome rootId="ail-outcome" classes="stacked" value=logic.data.outcome}}
+        {{formGroup fields.outcome rootId="ail-outcome" classes="stacked" localize=true value=logic.data.outcome}}
         {{> expressionField field=fields.outcomeTraumas rootId="ail-outcome-traumas" name="system.outcomeTraumas" value=logic.data.outcomeTraumas}}
         <div class="form-group stacked">
             <label>{{localize "SOHL.Affliction.FIELDS.contractDate.label"}}</label>

@@ -27,6 +27,10 @@ Convention notes:
 - **Hash arguments** are Handlebars named arguments, written `key=value`.
 - Input-building helpers return escaped HTML (a `SafeString`); the value/logic
   helpers return plain values usable inside `{{…}}` or `{{#if …}}`.
+- When a schema field's `choices` map uses localization keys as labels,
+  pass `localize=true` to Foundry's `formGroup` so the generated select labels
+  resolve while option values remain the schema's stored values:
+  `{{formGroup fields.transmission localize=true value=system.transmission}}`.
 
 ---
 
