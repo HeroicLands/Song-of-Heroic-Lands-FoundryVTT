@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, afterEach, beforeEach } from "vitest";
 import { AfflictionLogic } from "@src/document/item/logic/AfflictionLogic";
+import { pushDeltaToValueModifier } from "@src/document/effect/logic/effect-logic";
 import { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
 import {
@@ -38,7 +39,11 @@ function afflictionFields(overrides: Record<string, unknown> = {}) {
  * Build an affliction on an actor whose Healing Base is `healingBase`, run the
  * full lifecycle, and hand back the logic.
  */
-function makeAffliction(overrides: Record<string, unknown> = {}, healingBase = 12) {
+function makeAffliction(
+    overrides: Record<string, unknown> = {},
+    healingBase = 12,
+    disableDuringInitialEffects = false,
+) {
     const actor = makeMockActor();
     // `actorLogic` resolves to the mock document's `.logic`, so the Healing Base
     // the affliction reads must be stubbed there, not on the document.
@@ -51,6 +56,13 @@ function makeAffliction(overrides: Record<string, unknown> = {}, healingBase = 1
     );
     (logic.item as any).uuid = "Item.affliction00";
     logic.initialize();
+    if (disableDuringInitialEffects) {
+        pushDeltaToValueModifier(logic.healing, {
+            type: "custom",
+            value: " disable ",
+            effect: { name: "Binding Curse" },
+        });
+    }
     logic.evaluate();
     logic.finalize();
     return logic;
@@ -197,7 +209,9 @@ describe("an untreated affliction resolves its healing test as a CF", () => {
     });
 
     it("forces the healing test's die to the CF face when healing is disabled", async () => {
-        const logic = makeAffliction({ treatmentDate: null, levelBase: 3 });
+        const logic = makeAffliction({ levelBase: 3 }, 12, true);
+        expect(logic.healing.disabled).toBe("SOHL.ValueModifier.disabledByEffect");
+        expect(logic.healing.disabledByEffect).toBe("Binding Curse");
         const spy = vi
             .spyOn(MasteryLevelModifier.prototype, "successTest")
             .mockResolvedValue({ normSuccessLevel: CRITICAL_FAILURE } as any);

@@ -104,6 +104,7 @@ Icons come from two families: [Font Awesome](https://fontawesome.com) (its free 
 |         :icon resume-dodge:{size=2x}         | **Resume (Dodge)**               | A combatant in the tracker |
 |        :icon resume-ignore:{size=2x}         | **Resume (Ignore)**              | A combatant in the tracker |
 |     :icon resume-opposed-test:{size=2x}      | **Resume Opposed Test**          | A token on the canvas      |
+|    :icon roll-init-dice-formula:{size=2x}    | **Roll Init Dice Formula**       | Attribute                  |
 |          :icon set-onset:{size=2x}           | **Set Onset**                    | Affliction                 |
 |        :icon set-resolution:{size=2x}        | **Set Resolution**               | Affliction                 |
 |        :icon shock-re-test:{size=2x}         | **Shock Re-Test**                | Being                      |

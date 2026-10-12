@@ -1046,6 +1046,11 @@ export class TraumaLogic<TData extends TraumaData = TraumaData> extends SohlItem
         } else {
             this.healingRate.setBase(this.data.healingRateBase);
         }
+        // Active Effects in the `initial` phase are applied immediately after
+        // initialize(). Keep this modifier stable across the later finalize()
+        // pass so those changes (especially disable/source metadata) survive.
+        this.healing = new entity.ValueModifier({}, { parent: this });
+        if (!this.isTreated) this.healing.disabled = "SOHL.Trauma.Untreated";
         this.treatmentModifier = new entity.ValueModifier({}, { parent: this }).setBase(
             this.data.treatmentModifierBase ?? 0,
         );
@@ -1102,21 +1107,11 @@ export class TraumaLogic<TData extends TraumaData = TraumaData> extends SohlItem
     override finalize(): void {
         super.finalize();
 
-        // The Healing Test target is `Healing Rate × Healing Base`, and the
-        // being's Healing Base is only seeded in its own `evaluate()` — so this
-        // builds here, in `finalize`, where the actor's value has settled.
-        // Building it in `initialize` would read 0 and silently disable every
-        // healing test.
-        //
-        // An **untreated** wound has no target to roll against — that is a state,
-        // not a target of zero — so the modifier is DISABLED rather than seeded.
-        // Being disabled is itself the trigger for the auto-Critical-Failure in
-        // `rollHealingTest`, so anything that disables healing (now or later)
-        // gets that outcome for free.
-        this.healing = new entity.ValueModifier({}, { parent: this });
-        if (!this.isTreated) {
-            this.healing.disabled = "SOHL.Trauma.Untreated";
-        } else {
+        // Healing Base is seeded during the Being's evaluate(), so calculate
+        // the target here after that value has settled. Mutate the modifier
+        // created in initialize() rather than replacing it: initial-phase
+        // Active Effects have already applied to that instance.
+        if (this.isTreated) {
             const healingBase = Math.max(
                 0,
                 (

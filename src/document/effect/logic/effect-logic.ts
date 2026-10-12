@@ -64,6 +64,16 @@ export function changeTypeToOperator(type: string): ValueDeltaOperator {
 export function pushDeltaToValueModifier(vm: ValueModifier, change: any): void {
     const effectName = change?.effect?.name ?? "Active Effect";
     const abbrev = effectName.slice(0, 16);
+    if (
+        String(change?.type ?? "add").toLowerCase() === "custom" &&
+        String(change?.value ?? "")
+            .trim()
+            .toLowerCase() === "disable"
+    ) {
+        vm.deltas = vm.deltas.filter((d) => d.abbrev !== abbrev);
+        vm.setDisabledByEffect("SOHL.ValueModifier.disabledByEffect", effectName);
+        return;
+    }
     try {
         const delta = new entity.ValueDelta(
             {

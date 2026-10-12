@@ -565,6 +565,11 @@ export class AfflictionLogic<
         } else {
             this.healingRate.base = this.data.healingRateBase;
         }
+        // Initial-phase Active Effects run between initialize() and finalize().
+        // Preserve their changes by keeping this ValueModifier for the full
+        // preparation cycle; finalize() only seeds its computed base.
+        this.healing = new entity.ValueModifier({}, { parent: this });
+        if (!this.isTreated) this.healing.disabled = "SOHL.Affliction.Untreated";
         this.contagionIndex = new entity.ValueModifier(
             { baseValue: this.data.contagionIndexBase },
             { parent: this },
@@ -602,8 +607,7 @@ export class AfflictionLogic<
 
         // The course/healing targets are `Healing Rate × Healing Base`, and the
         // being's Healing Base is only seeded in its own `evaluate()` — so these
-        // build here, in `finalize`, where the actor's value has settled. Building
-        // them in `initialize` would read 0 and silently disable every course test.
+        // bases are calculated here, after that value has settled.
         const healingBase = Math.max(
             0,
             (this.actorLogic as { healingBase?: { effective?: number } } | null)?.healingBase
@@ -613,16 +617,11 @@ export class AfflictionLogic<
         const target = healingBase * hr;
         this.course = new entity.ValueModifier({}, { parent: this }).setBase(target);
 
-        // An **untreated** affliction has no target to roll against — a state,
-        // not a target of zero — so the modifier is DISABLED rather than seeded,
-        // exactly as a wound's is. Being disabled is itself the trigger for the
-        // auto-Critical-Failure in `healingTest`, so anything that disables
-        // healing gets that outcome for free. The Healing
+        // Keep the modifier initialized before Active Effects are applied;
+        // replacing it here would discard an effect's disable/source metadata.
+        // An untreated affliction was disabled in initialize(), and the Healing
         // Test stays offered either way; it simply cannot succeed.
-        this.healing = new entity.ValueModifier({}, { parent: this });
-        if (!this.isTreated) {
-            this.healing.disabled = "SOHL.Affliction.Untreated";
-        } else {
+        if (this.isTreated) {
             this.healing.setBase(target);
         }
 

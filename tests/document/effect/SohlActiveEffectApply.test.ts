@@ -96,6 +96,40 @@ describe("SohlActiveEffect._applyChangeUnguided", () => {
             expect(vm.effective).toBe(42);
         });
 
+        it.each(["disable", "Disable", "DISABLE", "  DiSaBlE  "])(
+            "disables the modifier for custom value %s without adding a delta",
+            (value) => {
+                const vm = newVM(10);
+                const target = { uuid: "X", logic: { score: vm } };
+                call(target, fakeChange("mod:logic.score", value, "custom"));
+
+                expect(vm.disabled).toBe("SOHL.ValueModifier.disabledByEffect");
+                expect(vm.effective).toBe(0);
+                expect(vm.deltas).toHaveLength(0);
+                expect(vm.disabledByEffect).toBe("Test Effect");
+            },
+        );
+
+        it("keeps other custom values as custom deltas", () => {
+            const vm = newVM(10);
+            const target = { uuid: "X", logic: { score: vm } };
+            call(target, fakeChange("mod:logic.score", "custom marker", "custom"));
+
+            expect(vm.disabled).toBeFalsy();
+            expect(vm.deltas).toHaveLength(1);
+            expect(vm.deltas[0].op).toBe("custom");
+            expect(vm.deltas[0].value).toBe("custom marker");
+        });
+
+        it("does not treat a non-custom disable value as an instruction", () => {
+            const vm = newVM(10);
+            const target = { uuid: "X", logic: { score: vm } };
+            call(target, fakeChange("mod:logic.score", "disable", "add"));
+
+            expect(vm.disabled).toBeFalsy();
+            expect(vm.deltas).toHaveLength(0);
+        });
+
         it("warns when the path does not resolve to a ValueModifier", () => {
             const target = { uuid: "X", logic: { plainField: 5 } };
             // Should not throw

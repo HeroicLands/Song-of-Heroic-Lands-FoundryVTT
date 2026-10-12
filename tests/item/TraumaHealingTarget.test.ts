@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { TraumaLogic } from "@src/document/item/logic/TraumaLogic";
+import { pushDeltaToValueModifier } from "@src/document/effect/logic/effect-logic";
 import { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
 import {
@@ -12,7 +13,11 @@ import {
 import { makeItemLogic, makeMockActor } from "@tests/mocks/logicHarness";
 
 /** A wound on an actor whose Healing Base is `healingBase`. */
-function makeWound(overrides: Record<string, unknown> = {}, healingBase: number | null = 12) {
+function makeWound(
+    overrides: Record<string, unknown> = {},
+    healingBase: number | null = 12,
+    disableDuringInitialEffects = false,
+) {
     const opts: Record<string, unknown> = {};
     if (healingBase !== null) {
         const actor = makeMockActor();
@@ -36,6 +41,13 @@ function makeWound(overrides: Record<string, unknown> = {}, healingBase: number 
     );
     (logic.item as any).uuid = "Item.wound00000";
     logic.initialize();
+    if (disableDuringInitialEffects) {
+        pushDeltaToValueModifier(logic.healing, {
+            type: "custom",
+            value: " disable ",
+            effect: { name: "Binding Curse" },
+        });
+    }
     logic.evaluate();
     logic.finalize();
     return logic;
@@ -87,9 +99,9 @@ describe("a disabled healing target auto-Critically-Fails, whatever disabled it"
     it("forces the 00 face when healing is disabled for ANY reason", async () => {
         // Keyed on `disabled`, not on `isTreated` — so any future disabler (a
         // rule, a condition, an effect channel) inherits the auto-CF for free.
-        const logic = makeWound({ levelBase: 3 }, 12);
-        expect(logic.healing.disabled).toBeFalsy();
-        logic.healing.disabled = "SOHL.Trauma.Untreated";
+        const logic = makeWound({ levelBase: 3 }, 12, true);
+        expect(logic.healing.disabled).toBe("SOHL.ValueModifier.disabledByEffect");
+        expect(logic.healing.disabledByEffect).toBe("Binding Curse");
 
         const spy = vi
             .spyOn(MasteryLevelModifier.prototype, "successTest")

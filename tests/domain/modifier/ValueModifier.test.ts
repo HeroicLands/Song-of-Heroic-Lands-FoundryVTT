@@ -601,5 +601,36 @@ describe("ValueModifier", () => {
             vm.disabled = true;
             expect(vm.deltaLabel).toBe(VALUE_DELTA_INFO.DISABLED);
         });
+
+        it("identifies the disabling effect in the modifier tooltip", () => {
+            const vm = createVM({ baseValue: 40 });
+            vm.disabled = "SOHL.ValueModifier.disabledByEffect";
+            vm.disabledByEffect = "A Binding Curse";
+
+            expect(vm.deltaLabel).toContain(VALUE_DELTA_INFO.DISABLED);
+            expect(vm.deltaLabel).toContain("A Binding Curse");
+        });
+
+        it("identifies the disabling effect in the chat breakdown", () => {
+            const vm = createVM();
+            vm.disabled = "SOHL.ValueModifier.disabledByEffect";
+            vm.disabledByEffect = "A Binding Curse";
+            const localize = vi
+                .spyOn((globalThis as any).sohl.i18n, "localize")
+                .mockImplementation((key: any) =>
+                    key === "SOHL.ValueModifier.disabledByEffect" ? "Disabled by an effect" : key,
+                );
+            const format = vi
+                .spyOn((globalThis as any).sohl.i18n, "format")
+                .mockImplementation((key: any) =>
+                    key === "SOHL.ValueModifier.disabledByEffectSource" ? "Source: A Binding Curse"
+                    :   key,
+                );
+
+            expect(vm.chatHtml).toContain("Disabled by an effect");
+            expect(vm.chatHtml).toContain("A Binding Curse");
+            localize.mockRestore();
+            format.mockRestore();
+        });
     });
 });

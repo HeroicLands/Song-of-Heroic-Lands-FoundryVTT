@@ -86,4 +86,65 @@ describe("active effects", () => {
                 .should("contain.text", "Misc Gear");
         });
     });
+
+    it("disables a modifier through a Custom change and shows the source", () => {
+        cy.importActor().then((actor) => {
+            cy.createItemOn(actor, "skill", {
+                name: "Cursed Skill",
+                system: {
+                    shortcode: "cursedskill",
+                    subType: "craft",
+                    masteryLevelBase: 45,
+                    skillBaseFormula: "sb(attr.str, attr.dex)",
+                },
+            }).then((skill) => {
+                cy.foundry(async (win) => {
+                    const document = win.game.actors.get(actor.id).items.get(skill.id);
+                    await document.createEmbeddedDocuments("ActiveEffect", [
+                        win.JSON.parse(
+                            JSON.stringify({
+                                name: "Binding Curse",
+                                type: "sohleffectdata",
+                                system: {
+                                    scope: "this",
+                                    changes: [
+                                        {
+                                            key: "mod:logic.masteryLevel",
+                                            type: "custom",
+                                            value: "  Disable  ",
+                                            phase: "initial",
+                                            priority: 0,
+                                        },
+                                    ],
+                                },
+                            }),
+                        ),
+                    ]);
+                    return null;
+                });
+                cy.prepare(actor);
+                cy.foundry((win) => {
+                    const document = win.game.actors.get(actor.id).items.get(skill.id);
+                    const modifier = document.logic.masteryLevel;
+                    return {
+                        disabled: modifier.disabled,
+                        effective: modifier.effective,
+                        summary: modifier.deltaLabel,
+                        chatHtml: modifier.chatHtml,
+                    };
+                }).should((result) => {
+                    expect(result.disabled).to.equal("SOHL.ValueModifier.disabledByEffect");
+                    expect(result.effective).to.equal(0);
+                    expect(result.summary).to.contain("Binding Curse");
+                    expect(result.chatHtml).to.contain("Disabled by an effect");
+                    expect(result.chatHtml).to.contain("Binding Curse");
+                });
+                cy.openSheet(actor);
+                cy.switchTab("skills", "primary");
+                cy.get(`.ledger__row[data-item-id="${skill.id}"] .ledger__cell--rollable`)
+                    .should("have.attr", "data-tooltip")
+                    .and("contain", "Binding Curse");
+            });
+        });
+    });
 });

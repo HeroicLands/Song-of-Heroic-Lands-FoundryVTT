@@ -30,6 +30,7 @@ import {
 } from "./fate-host";
 import { SohlAction } from "@src/entity/action/SohlAction";
 import { fvttActiveTokenLogicForActor } from "@src/core/FoundryHelpers";
+import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
 import {
     ACTION_SUBTYPE,
     SOHL_ACTION_SCOPE,
@@ -202,12 +203,80 @@ export class AttributeLogic<
     }
 
     /**
+     * Offer to set this attribute's base score from its Init Dice Formula.
+     *
+     * Intrinsic-action executor for `rollInitDiceFormula`. Nothing is rolled
+     * during actor creation or import; invoking this action rolls once, then
+     * asks the user to confirm the displayed change before persisting it.
+     * A blank formula or an invalid formula leaves the score untouched.
+     *
+     * @param _context - The action context (unused; this action is self-scoped).
+     */
+    async rollInitDiceFormula(_context: SohlActionContext): Promise<void> {
+        const formula = this.data.initDiceFormula?.trim();
+        if (!formula) return;
+
+        let proposedScore: number;
+        try {
+            if (/^[+-]?\d+$/.test(formula)) {
+                proposedScore = Number(formula);
+                if (!Number.isFinite(proposedScore) || !Number.isInteger(proposedScore)) {
+                    throw new Error("The score must be a finite integer.");
+                }
+            } else {
+                const roll = SimpleRoll.fromFormula(formula, this);
+                if (!roll.numDice || !roll.dieFaces) {
+                    throw new Error("Dice count and faces must be positive.");
+                }
+                roll.roll();
+                proposedScore = roll.total;
+            }
+        } catch {
+            sohl.log.uiWarn(
+                sohl.i18n.format("SOHL.Attribute.InitDiceFormula.invalid", {
+                    name: this.name,
+                }),
+            );
+            return;
+        }
+
+        const escapedName = foundry.utils.escapeHTML(this.name);
+        const escapedFormula = foundry.utils.escapeHTML(formula);
+        const confirmed = await foundry.applications.api.DialogV2.confirm({
+            window: {
+                title: sohl.i18n.format("SOHL.Attribute.InitDiceFormula.confirm.title", {
+                    name: escapedName,
+                }),
+            },
+            content: sohl.i18n.format("SOHL.Attribute.InitDiceFormula.confirm.content", {
+                name: escapedName,
+                formula: escapedFormula,
+                current: this.data.scoreBase,
+                proposed: proposedScore,
+            }),
+        } as any);
+        if (!confirmed) return;
+
+        await this.data.update({ "system.scoreBase": proposedScore });
+    }
+
+    /**
      * Define and return all intrinsic actions for this logic type.
      * @returns The attribute intrinsic-action definitions.
      */
     static override defineIntrinsicActions(): Partial<SohlAction.Data>[] {
         return [
             ...SohlItemBaseLogic.defineIntrinsicActions(),
+            {
+                shortcode: "rollInitDiceFormula",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Attribute.Action.rollInitDiceFormula",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fa-solid fa-dice",
+                executor: "rollInitDiceFormula",
+                visible: "!!itemLogic.data.initDiceFormula",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+            },
             {
                 shortcode: "successTest",
                 subType: ACTION_SUBTYPE.INTRINSIC,

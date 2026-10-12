@@ -2,6 +2,7 @@ import { describe, it, expect, vi, afterEach } from "vitest";
 import { AttributeLogic } from "@src/document/item/logic/AttributeLogic";
 import { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import { MasteryLevelModifier } from "@src/entity/modifier/MasteryLevelModifier";
+import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
 import { ITEM_KIND } from "@src/utils/constants";
 import * as FoundryHelpersMock from "@src/core/FoundryHelpers";
 import { makeItemLogic } from "@tests/mocks/logicHarness";
@@ -27,7 +28,11 @@ function makeAttribute(
     });
 }
 
+const originalDialogApi = (globalThis as any).foundry.applications.api;
+
 afterEach(() => {
+    SimpleRoll.clearForced();
+    (globalThis as any).foundry.applications.api = originalDialogApi;
     vi.restoreAllMocks();
 });
 
@@ -53,6 +58,11 @@ describe("AttributeLogic", () => {
             const logic = makeAttribute();
             expect(logic.actions.has("successTest")).toBe(true);
         });
+
+        it("declares the rollInitDiceFormula intrinsic action", () => {
+            const logic = makeAttribute();
+            expect(logic.actions.has("rollInitDiceFormula")).toBe(true);
+        });
     });
 
     describe("intrinsic executors", () => {
@@ -77,6 +87,82 @@ describe("AttributeLogic", () => {
             await expect(logic.opposedTestStart(ctx)).resolves.toBe(result);
             expect(opposedTestStart).toHaveBeenCalledWith(ctx);
             expect(ctx.scope.logicUuid).toBe(logic.uuid);
+        });
+
+        it("rollInitDiceFormula - confirms and saves the proposed score", async () => {
+            const confirm = vi.fn().mockResolvedValue(true);
+            (globalThis as any).foundry.applications.api = { DialogV2: { confirm } };
+            const format = vi.spyOn(sohl.i18n, "format");
+            const logic = makeAttribute({ scoreBase: 10, initDiceFormula: "3d6" });
+            SimpleRoll.forceValues(1, 4, 2);
+
+            await logic.rollInitDiceFormula({} as any);
+
+            expect(confirm).toHaveBeenCalledOnce();
+            expect(format).toHaveBeenCalledWith("SOHL.Attribute.InitDiceFormula.confirm.content", {
+                name: "Strength",
+                formula: "3d6",
+                current: 10,
+                proposed: 7,
+            });
+            expect(logic.data.update).toHaveBeenCalledExactlyOnceWith({ "system.scoreBase": 7 });
+        });
+
+        it("rollInitDiceFormula - keeps the score when the user declines", async () => {
+            const confirm = vi.fn().mockResolvedValue(false);
+            (globalThis as any).foundry.applications.api = { DialogV2: { confirm } };
+            const logic = makeAttribute({ scoreBase: 10, initDiceFormula: "3d6" });
+            SimpleRoll.forceValues(1, 4, 2);
+
+            await logic.rollInitDiceFormula({} as any);
+
+            expect(confirm).toHaveBeenCalledOnce();
+            expect(logic.data.update).not.toHaveBeenCalled();
+        });
+
+        it("rollInitDiceFormula - confirms and saves a fixed zero score", async () => {
+            const confirm = vi.fn().mockResolvedValue(true);
+            (globalThis as any).foundry.applications.api = { DialogV2: { confirm } };
+            const format = vi.spyOn(sohl.i18n, "format");
+            const logic = makeAttribute({ scoreBase: 10, initDiceFormula: "0" });
+            SimpleRoll.forceValues(6);
+
+            await logic.rollInitDiceFormula({} as any);
+
+            expect(confirm).toHaveBeenCalledOnce();
+            expect(format).toHaveBeenCalledWith("SOHL.Attribute.InitDiceFormula.confirm.content", {
+                name: "Strength",
+                formula: "0",
+                current: 10,
+                proposed: 0,
+            });
+            expect(logic.data.update).toHaveBeenCalledExactlyOnceWith({ "system.scoreBase": 0 });
+            expect(SimpleRoll.forcedRemaining).toBe(1);
+        });
+
+        it.each(["", "   ", null])(
+            "rollInitDiceFormula - ignores blank formula %s",
+            async (formula) => {
+                const confirm = vi.fn();
+                (globalThis as any).foundry.applications.api = { DialogV2: { confirm } };
+                const logic = makeAttribute({ scoreBase: 10, initDiceFormula: formula });
+
+                await logic.rollInitDiceFormula({} as any);
+
+                expect(confirm).not.toHaveBeenCalled();
+                expect(logic.data.update).not.toHaveBeenCalled();
+            },
+        );
+
+        it("rollInitDiceFormula - leaves the score unchanged for an invalid formula", async () => {
+            const confirm = vi.fn();
+            (globalThis as any).foundry.applications.api = { DialogV2: { confirm } };
+            const logic = makeAttribute({ scoreBase: 10, initDiceFormula: "3d6 + xx" });
+
+            await logic.rollInitDiceFormula({} as any);
+
+            expect(confirm).not.toHaveBeenCalled();
+            expect(logic.data.update).not.toHaveBeenCalled();
         });
 
         it("opposedTestStart - warns and returns null when the actor has no token", async () => {

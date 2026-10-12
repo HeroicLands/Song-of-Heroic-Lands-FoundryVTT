@@ -395,6 +395,10 @@ icons:
         style: solid
         icon: people-arrows
         label: resume opposed test
+    roll-init-dice-formula:
+        style: solid
+        icon: dice
+        label: roll init dice formula
     run:
         style: solid
         icon: play

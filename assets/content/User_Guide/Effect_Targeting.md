@@ -75,6 +75,8 @@ SoHL keys use a `mod:` prefix and push a modifier onto a _computed_ value rather
 
 A strike-mode key applies to _each_ strike mode the predicate matched — so an effect can raise attack rolls without touching the underlying weapon skill (the `melee` skill still governs shield blocks, for instance).
 
+For any `mod:` key, choose **Custom** and enter `disable` as the value to make that modifier unavailable. The match ignores case and surrounding spaces. The modifier shows a disabled marker and the effect's name in its tooltip and chat breakdown; other Custom values keep their existing behavior.
+
 # Worked examples
 
 ## 1. Buff only the item the effect is on

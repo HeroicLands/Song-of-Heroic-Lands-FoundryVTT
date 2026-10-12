@@ -98,6 +98,8 @@ export class ValueModifier extends SohlEntity {
     private _effective!: number;
     /** Reason the value is disabled as an i18n **key**; empty string means enabled. Localize for display via {@link disabledLabel}. See {@link disabled}. */
     disabledReason!: string;
+    /** Display name of the Active Effect that disabled this modifier, when applicable. */
+    disabledByEffect!: string;
     /** The base value before deltas (undefined until set; treated as 0 by {@link base}). */
     baseValue?: number;
     /** Handler invoked by a `CUSTOM` delta to compute a value, when one is used. */
@@ -134,6 +136,7 @@ export class ValueModifier extends SohlEntity {
         );
         const data = SohlEntity.dataOf<ValueModifier.Data>(dataOrParent);
         this.disabledReason = data.disabledReason ?? "";
+        this.disabledByEffect = data.disabledByEffect ?? "";
         this.baseValue = data.baseValue ?? undefined;
         this.customFunction = data.customFunction ?? undefined;
         this.deltas = data.deltas ?? [];
@@ -157,6 +160,7 @@ export class ValueModifier extends SohlEntity {
         return {
             ...super.toJSON(),
             disabledReason: this.disabledReason,
+            disabledByEffect: this.disabledByEffect,
             baseValue: this.baseValue,
             deltas: this.deltas.map((d) => d.toJSON()),
             customFunction: defaultToJSON(this.customFunction),
@@ -326,6 +330,7 @@ export class ValueModifier extends SohlEntity {
      * {@link disabledLabel}.
      */
     set disabled(reason: string | boolean) {
+        this.disabledByEffect = "";
         if (typeof reason === "string") {
             this.disabledReason = reason;
         } else {
@@ -344,6 +349,21 @@ export class ValueModifier extends SohlEntity {
      */
     setDisabled(reason: string | boolean): this {
         this.disabled = reason;
+        return this;
+    }
+
+    /**
+     * Disable this modifier on behalf of an Active Effect while retaining its
+     * display name for the modifier tooltip and chat breakdown.
+     *
+     * @param reason - The localization key explaining the disabled state.
+     * @param effectName - The display name of the disabling effect.
+     * @returns `this`, for chaining.
+     */
+    setDisabledByEffect(reason: string, effectName: string): this {
+        this.disabledReason = reason;
+        this.disabledByEffect = effectName;
+        this.dirty = true;
         return this;
     }
 
@@ -674,10 +694,19 @@ export class ValueModifier extends SohlEntity {
 
         // When disabled, the delta breakdown is moot — surface *why* instead of
         // rendering nothing, localizing the stored i18n-key reason.
-        if (this.disabled)
+        if (this.disabled) {
+            const source =
+                this.disabledByEffect ?
+                    `<div>${escapeHTML(
+                        sohl.i18n.format("SOHL.ValueModifier.disabledByEffectSource", {
+                            effectName: this.disabledByEffect,
+                        }),
+                    )}</div>`
+                :   "";
             return `<div class="adjustment adjustment--disabled">${escapeHTML(
                 this.disabledLabel,
-            )}</div>`;
+            )}${source}</div>`;
+        }
         const fragHtml = `<div class="adjustment">
         <div class="flexrow">
             <span class="label adj-name">${sohl.i18n.format("SOHL.ValueModifier.Adjustment")}</span>
@@ -703,7 +732,10 @@ export class ValueModifier extends SohlEntity {
      */
     protected _calcDeltaLabel(): void {
         if (this.disabled) {
-            this._deltaLabel = VALUE_DELTA_INFO.DISABLED;
+            this._deltaLabel =
+                this.disabledByEffect ?
+                    `${VALUE_DELTA_INFO.DISABLED} (${this.disabledByEffect})`
+                :   VALUE_DELTA_INFO.DISABLED;
             return;
         }
 
@@ -757,6 +789,7 @@ export namespace ValueModifier {
     export interface Data extends SohlEntity.Data {
         /** Reason the value is disabled; `""` (or falsy) means enabled. */
         disabledReason: string;
+        disabledByEffect: string;
         /** The base value before deltas (`null` to leave unset). */
         baseValue: number | null;
         /** Handler for a `CUSTOM` delta (`null` if unused). */

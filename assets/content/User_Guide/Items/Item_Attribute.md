@@ -10,7 +10,7 @@ data: {packFolder: items}
 
 An attribute represents a fundamental intrinsic characteristic of a Being, something about what they are. Attributes cover a wide range: physical like Strength or Dexterity, psyche like Reasoning or Eloquence, and transcendent qualities such as Aura. These serve as the foundation for skill calculations throughout the system.
 
-An attribute is also **rollable in its own right**. Every attribute has a Target Level — its score × 5 — and can be tested against it exactly the way a skill is tested against its mastery level. That is what the two actions on this page do.
+An attribute is also **rollable in its own right**. Every attribute has a Target Level — its score × 5 — and can be tested against it exactly the way a skill is tested against its mastery level. The **Success Test** and **Opposed Test** actions do that; an attribute with an Init Dice Formula also offers an action to roll and confirm its base Score.
 
 # Where It Appears
 
@@ -37,7 +37,7 @@ An attribute turns up in one more place: when someone answers an [[#opposed-test
 Along with the [[doc-baseitemug|Standard Item Properties]], the following properties also appear in the **Properties** tab:
 
 - **Score:** The attribute's base value — the number the Profile card shows, and the number the Target Level is five times. This is the **first** of the two boxes on the tab.
-- **Init Dice Formula:** The dice formula a new character's score for this attribute is meant to be rolled from, such as `3d6`. It is a record of the generation rule, not a control: **nothing rolls it for you today** — you enter the score yourself. Leave it blank for an attribute that is not randomly generated. This is the **second** box on the tab.
+- **Init Dice Formula:** The dice formula used to generate this attribute's score, such as `3d6`. Leave it blank for an attribute that is not randomly generated. This is the **second** box on the tab.
 - **Value Descriptors:** A table of names for score bands — the word shown under the score on the Profile card. Each row is a **Label** and a **Max Value**, and the label used is the first band whose Max Value is at or above the score, so a list of _Feeble 4 / Weak 8 / Average 12 / Forceful 16 / Mighty 999_ calls a score of 10 _Average_. Use **Add** to add a band and the :icon delete: to remove one. An attribute with no bands simply shows no descriptor.
 - **Impaired By Roles:** A list of body roles whose injury impairs this attribute — _vital_, _core_, _manipulator_, or _locomotor_. An unhealed injury at a body part carrying one of these roles penalizes this attribute's tests, and an unusable part makes them fail automatically. Use **Add Role** to add one and the :icon delete: to remove it. Physical attributes name the roles they depend on; mental attributes normally leave this empty.
 
@@ -45,12 +45,17 @@ Along with the [[doc-baseitemug|Standard Item Properties]], the following proper
 
 # The Attribute Actions
 
-| Action                          | Shortcode          | Where you meet it    |
-| ------------------------------- | ------------------ | -------------------- |
-| [[#success-test\|Success Test]] | `successTest`      | Actions context menu |
-| [[#opposed-test\|Opposed Test]] | `opposedTestStart` | Actions context menu |
+| Action                          | Shortcode             | Where you meet it    |
+| ------------------------------- | --------------------- | -------------------- |
+| Roll Init Dice Formula          | `rollInitDiceFormula` | Actions context menu |
+| [[#success-test\|Success Test]] | `successTest`         | Actions context menu |
+| [[#opposed-test\|Opposed Test]] | `opposedTestStart`    | Actions context menu |
 
-Every attribute also carries the shared document actions — **Edit**, **Delete**, and **Output Description to Chat** — described once on [[doc-baseitemug|Base Item]]. The full menu on an attribute is therefore: _Edit_, _Success Test_, _Delete_, _Output Description to Chat_, _Opposed Test_.
+Every attribute also carries the shared document actions — **Edit**, **Delete**, and **Output Description to Chat** — described once on [[doc-baseitemug|Base Item]]. The full menu on an attribute is therefore: _Edit_, _Roll Init Dice Formula_, _Success Test_, _Delete_, _Output Description to Chat_, _Opposed Test_. The formula action appears when the attribute has a formula.
+
+## Roll Init Dice Formula
+
+Choose **Roll Init Dice Formula** from the attribute's Actions menu to roll its formula. It accepts SoHL's simple dice formulas such as `3d6` or `2d6+1`, and fixed integers such as `0`; arbitrary Foundry roll expressions are not supported. A confirmation shows the current Score and proposed result; confirm to save the new base Score. Dismissing the confirmation keeps the current Score. Nothing rolls automatically when an actor is created or imported. A blank formula does nothing, and an invalid formula is not saved.
 
 To reach any of them, click the **:icon menu:** on the attribute's card on the Profile tab, or open the attribute and use its **Actions** tab.
 
