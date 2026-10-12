@@ -1,5 +1,9 @@
 contentPackage: sohl
 
+authors:
+    - name: Toasty
+      discord: toasty#8538
+
 packageKind: systems
 
 stats:
@@ -179,10 +183,6 @@ packageBuild:
             and new players, SoHL captures the essence of detailed game mechanics while leveraging the power
             of Foundry VTT to streamline gameplay, enhance storytelling, and immerse you in the lore-rich
             environment.</p>"
-        authors:
-            - name: Toasty
-              discord: toasty#8538
-              flags: {}
         license: LICENSE.md
         readme: README.md
         changelog: CHANGELOG.md
@@ -351,6 +351,9 @@ site:
 # pages and their embedded content tables, so the two surfaces describe the
 # content tree the same way.
 pdf:
-    title: Song of Heroic Lands
-    subtitle: Rules, User Guide, and Reference
-    document: book.yaml
+    books:
+        - id: sohl
+          title: Song of Heroic Lands
+          subtitle: Rules, User Guide, and Reference
+          document: book.yaml
+          out: sohl

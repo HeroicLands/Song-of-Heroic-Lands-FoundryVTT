@@ -385,7 +385,7 @@ The prose here compiles into the item's documentation.
 | `data.durability` | as authored                                          | no       | `0`     | How much punishment the article takes before it fails. |
 | `encumbrance`     | number                                               | no       | `0`     | What carrying it costs in encumbrance.                 |
 | `heft`            | number                                               | no       | `0`     | How unwieldy it is in the hand.                        |
-| `strikeModes`     | list of strike modes, each with a unique `shortcode` | no       | `[]`    | The ways the weapon can be used to strike.             |
+| `strikeModes`     | list of strike modes, each with a unique `shortcode` | no       | `[]`    | The ways the weapon can strike.                        |
 
 ```markdown
 ---
