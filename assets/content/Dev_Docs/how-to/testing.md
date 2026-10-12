@@ -532,12 +532,18 @@ specs](#writing-specs). Cypress run artifacts (`cypress/videos`,
 `cypress/screenshots`) are gitignored; the config, support, and specs are
 committed.
 
-**Cypress version matters.** Foundry v14's client uses ES2024 `Set`
+**Cypress version and browser matter.** Foundry v14's client uses ES2024 `Set`
 methods (`Set.prototype.difference`), so Cypress must bundle **Chromium ≥ 122**
 — otherwise the app throws `.difference is not a function` on load and every
 spec fails. Cypress 15 (Electron 37 / Chromium 138) is fine; do not downgrade
 below the pinned major. If specs suddenly fail with a `foundry.mjs`
 `<static_initializer>` error, suspect an out-of-date bundled browser first.
+
+Headless `e2e:full` and `e2e:fast` runs select the installed Chromium browser.
+Foundry's PIXI renderer needs WebGL, so `cypress.config.mjs` enables Chromium's
+SwiftShader software renderer for headless runs on machines without a GPU. To
+choose a different browser explicitly, pass Cypress's `--browser` option after
+`--`; a browser without WebGL cannot run the Foundry client.
 
 ### Fast iteration: `npm run e2e:fast`
 

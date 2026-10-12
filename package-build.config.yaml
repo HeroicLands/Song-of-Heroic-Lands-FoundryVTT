@@ -143,7 +143,10 @@ packageBuild:
     # floor rather than a test tweak.
     e2e:
         suite:
-            run: [npx, cypress, run]
+            # Foundry's PIXI renderer needs WebGL. The headless Cypress run uses
+            # Chromium with SwiftShader (configured in cypress.config.mjs) so it
+            # works on CI and hosts without a GPU.
+            run: [npx, cypress, run, --browser, chromium]
             open: [npx, cypress, open]
 
         # What the fast loop can rebuild, in the order it must be built: vite

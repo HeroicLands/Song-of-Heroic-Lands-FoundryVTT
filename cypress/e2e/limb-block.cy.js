@@ -90,6 +90,13 @@ describe("limb block", () => {
     before(() => cy.login().then(() => cy.cleanupWorld()));
     afterEach(() => cy.cleanupWorld());
 
+    it("starts with a usable WebGL renderer in the headless browser", () => {
+        cy.foundry((win) => {
+            const canvas = win.document.createElement("canvas");
+            return Boolean(canvas.getContext("webgl2") || canvas.getContext("webgl"));
+        }).should("be.true");
+    });
+
     /**
      * Basic Folk, who carries every unarmed technique including Limb Block, with
      * its Melee skill set so the defence has a mastery level to roll.

@@ -46,5 +46,21 @@ export default defineConfig({
         // add little here, and specs share login state within a run.
         fixturesFolder: false,
         video: false,
+        setupNodeEvents(on) {
+            on("before:browser:launch", (browser, launchOptions) => {
+                if (
+                    browser.family === "chromium" &&
+                    browser.isHeadless &&
+                    browser.name !== "electron"
+                ) {
+                    launchOptions.args.push(
+                        "--use-gl=angle",
+                        "--use-angle=swiftshader",
+                        "--enable-unsafe-swiftshader",
+                    );
+                }
+                return launchOptions;
+            });
+        },
     },
 });
