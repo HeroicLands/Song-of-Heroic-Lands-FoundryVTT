@@ -427,14 +427,12 @@ then `dev` and `test` can run at once with no churn:
 # .env.local
 FOUNDRYVTT_TEST_DATA=/Users/you/Games/fvtt/data-e2e   # separate, EMPTY dir
 FOUNDRYVTT_TEST_LICENSE_KEY=XXXXX-XXXXX-XXXXX-XXXXX-XXXXX-XXXXX  # different key than dev
-FOUNDRY_USERNAME=your-foundry-account     # account-wide; lets felddy SIGN the key
-FOUNDRY_PASSWORD=your-foundry-password    # (a bare key stays unsigned)
+FOUNDRY_USERNAME=your-foundry-account     # account-wide; downloads Foundry
+FOUNDRY_PASSWORD=your-foundry-password    # download credentials, not licence signing
 ```
 
 `FOUNDRYVTT_<STAGE>_LICENSE_KEY` overrides the license for that stage's
-container. A bare key is _applied but unsigned_ ("license requires signature");
-`FOUNDRY_USERNAME`/`FOUNDRY_PASSWORD` (account-wide) let felddy fetch a **signed**
-license — or sign once in a browser at `http://localhost:30003/setup`. Foundry
+container. A new data root requires accepting the licence once in Foundry's own browser page at `http://localhost:30003/setup`. `FOUNDRY_USERNAME`/`FOUNDRY_PASSWORD` let the image download Foundry; they do not sign the licence. Foundry
 binds the signed license to the **container hostname**, so the container script
 pins a stable one (`heroiclands-foundry-<stage>`); the signed `license.json` then
 persists across recreates (the seed wipes only the world, not `Config`). Without

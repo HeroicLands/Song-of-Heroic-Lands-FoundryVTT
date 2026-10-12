@@ -115,7 +115,10 @@ describe("Scene-region & environment triggers", () => {
                     await token.update(win.structuredClone({ x: 1100, y: 1100 }), {
                         animate: false,
                     });
-                    await new Promise((res) => win.setTimeout(res, 200));
+                    const deadline = Date.now() + 10000;
+                    while (win.game.messages.size === before && Date.now() < deadline) {
+                        await new Promise((res) => win.setTimeout(res, 50));
+                    }
 
                     const msg = win.game.messages.contents.at(-1);
                     const div = win.document.createElement("div");
@@ -174,8 +177,11 @@ describe("Scene-region & environment triggers", () => {
                             environment: { darknessLevel: 0.9 },
                         }),
                     );
-                    // updateScene handlers are async; let the offer settle.
-                    await new Promise((res) => win.setTimeout(res, 50));
+                    // Wait for the async event offer instead of sampling once.
+                    const deadline = Date.now() + 10000;
+                    while (win.game.messages.size === before && Date.now() < deadline) {
+                        await new Promise((res) => win.setTimeout(res, 50));
+                    }
 
                     const msg = win.game.messages.contents.at(-1);
                     const div = win.document.createElement("div");

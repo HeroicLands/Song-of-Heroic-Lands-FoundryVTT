@@ -150,6 +150,17 @@ function guardHeadlessTokenDraw(win) {
         return Promise.resolve(this);
     };
     proto.applyRenderFlags = function () {};
+    // Movement can call stopAnimation even for an undrawn placeable. Core's
+    // animation refresh reads canvas.fog.sharedExploration unconditionally;
+    // without a fog manager there is no canvas perception state to refresh.
+    // TokenDocument region membership and event delivery remain untouched.
+    const animationUpdate = proto._onAnimationUpdate;
+    if (typeof animationUpdate === "function") {
+        proto._onAnimationUpdate = function (...args) {
+            if (!win.canvas?.fog) return;
+            return animationUpdate.apply(this, args);
+        };
+    }
     proto.__sohlHeadlessGuarded = true;
 }
 
