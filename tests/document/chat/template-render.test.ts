@@ -337,6 +337,19 @@ describe("injury-card zone-die states", () => {
         expect(html).not.toContain("Hit Location Roll:");
     });
 
+    it("says the defence set the location when a limb block decided it", () => {
+        const html = renderTemplateReal(`${CHAT}/injury-card.hbs`, {
+            ...base,
+            isMiss: false,
+            locationDerived: false,
+            locationOverridden: false,
+            locationSetByDefence: true,
+        });
+        expect(html).toContain("Location set by the defence (Limb Block)");
+        expect(html).not.toContain("Location overridden by player");
+        expect(html).not.toContain("Hit Location Roll:");
+    });
+
     it("renders the miss card with the aim trace and no injury details", () => {
         const html = renderTemplateReal(`${CHAT}/injury-card.hbs`, {
             actorId: "a1",

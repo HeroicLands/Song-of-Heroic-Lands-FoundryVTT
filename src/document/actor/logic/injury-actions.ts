@@ -62,6 +62,36 @@ export interface ResolveInjuryData {
     /** Set true when the dialog changed {@link bodyLocationCode} away from the
      *  derived/aimed location (a manual GM override). */
     bodyLocationOverriden: boolean;
+    /**
+     * Who settled {@link bodyLocationCode} when it is supplied: `"defence"` for a
+     * location the exchange decided (a limb block decides where the blow lands),
+     * `"player"` for one chosen by hand. Meaningful only when a location is
+     * supplied; an unspecified location is derived from the aim instead.
+     */
+    locationSource: LocationSource;
+}
+
+/** Who settled a supplied hit location. */
+export type LocationSource = "player" | "defence";
+
+/**
+ * The source of the final hit location once the dialog has been confirmed. A
+ * location forwarded by the defence stays the defence's while the dialog leaves
+ * it alone; any other supplied location is the player's.
+ *
+ * @param scopeSource - The source the action scope declared for its location.
+ * @param scopeCode - The location the action scope supplied (`""` when none).
+ * @param finalCode - The location after the dialog.
+ * @returns The source to record on the injury card.
+ */
+export function locationSourceAfterDialog(
+    scopeSource: LocationSource,
+    scopeCode: string,
+    finalCode: string,
+): LocationSource {
+    return scopeSource === "defence" && scopeCode !== "" && scopeCode === finalCode ?
+            "defence"
+        :   "player";
 }
 
 /**
@@ -131,6 +161,7 @@ export function buildResolveInjuryData(input: unknown, autoAddInjury: boolean): 
         bleedImpactPenalty: toInt(raw.bleedImpactPenalty),
         autoAddInjury,
         bodyLocationOverriden: false,
+        locationSource: raw.locationSource === "defence" ? "defence" : "player",
     };
 }
 
@@ -158,6 +189,7 @@ export function readResolveInjuryForm(formData: Record<string, unknown>): Resolv
         bleedImpactPenalty: toInt(formData.bleedImpactPenalty),
         autoAddInjury: !!formData.autoAddInjury,
         bodyLocationOverriden: false,
+        locationSource: "player",
     };
 }
 
@@ -209,9 +241,10 @@ export interface InjuryCardContext {
     /** The zone-die aim trace, present only when the location was **derived**;
      *  the card shows it in place of the "location overridden" notice. */
     aim?: InjuryAimTrace;
-    /** True when the player specified the hit location by hand rather than
-     *  deriving it; the card then shows a "Location overridden by player" note. */
-    locationOverridden?: boolean;
+    /** Who settled a supplied (not derived) hit location: the card notes a
+     *  `"player"` override or a location set by the `"defence"`. Omitted when the
+     *  location was derived from the aim. */
+    locationSource?: LocationSource;
 }
 
 /**
@@ -282,10 +315,12 @@ export function buildInjuryCardData(
         addToCharSheet: ctx.addToCharSheet,
         // A resolved injury is never a miss; the miss card is built separately.
         isMiss: false,
-        // How the location was determined: the zone-die aim trace (derived) or a
-        // player override notice — mutually exclusive on the card.
+        // How the location was determined: the zone-die aim trace (derived), a
+        // player override notice, or a defence notice — mutually exclusive on
+        // the card.
         locationDerived: !!ctx.aim,
-        locationOverridden: !!ctx.locationOverridden,
+        locationOverridden: !ctx.aim && ctx.locationSource === "player",
+        locationSetByDefence: !ctx.aim && ctx.locationSource === "defence",
         ...(ctx.aim ? aimTraceCardFields(ctx.aim) : {}),
     };
 }
@@ -330,6 +365,7 @@ export function buildMissCardData(
         isInjured: false,
         locationDerived: true,
         locationOverridden: false,
+        locationSetByDefence: false,
         addToCharSheet: false,
         ...aimTraceCardFields(aim),
     };

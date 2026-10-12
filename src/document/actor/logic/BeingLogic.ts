@@ -182,6 +182,8 @@ import {
     buildInjuryCardData,
     buildMissCardData,
     buildResolveInjuryData,
+    locationSourceAfterDialog,
+    type LocationSource,
     createTraumaFromInjury,
     getActorBodyStructure,
     type InjuryAimTrace,
@@ -2776,6 +2778,11 @@ export class BeingLogic<TData extends BeingData = BeingData> extends SohlActorBa
         // An unset zone die (the sentinel 0) covers the whole body: default it to
         // the body's max zone number so an unaimed derive can land anywhere.
         if (data.zoneDie < 1) data.zoneDie = body.maxZoneNumber || 1;
+        // What the scope said about its location, kept apart from the dialog's
+        // answer so a defence-set location the player leaves alone stays the
+        // defence's.
+        const scopeLocationCode = data.bodyLocationCode;
+        const scopeLocationSource = data.locationSource;
 
         // A supplied hit location must exist.
         if (data.bodyLocationCode && !this.findLocation(body, data.bodyLocationCode)) {
@@ -2841,6 +2848,15 @@ export class BeingLogic<TData extends BeingData = BeingData> extends SohlActorBa
             location = result.location;
         }
         data.bodyLocationOverriden = locationOverridden;
+        const locationSource: LocationSource | undefined =
+            locationOverridden ?
+                locationSourceAfterDialog(
+                    scopeLocationSource,
+                    scopeLocationCode,
+                    data.bodyLocationCode,
+                )
+            :   undefined;
+        if (locationSource) data.locationSource = locationSource;
 
         // Resolve the injury. Armor reduction applies only to a piercing aspect.
         const injury = resolveInjuryOutcome({
@@ -2881,7 +2897,7 @@ export class BeingLogic<TData extends BeingData = BeingData> extends SohlActorBa
             finalBleeder,
             amputation,
             aim,
-            locationOverridden,
+            locationSource,
         });
     }
 
@@ -3166,7 +3182,7 @@ export class BeingLogic<TData extends BeingData = BeingData> extends SohlActorBa
      * @param result.finalBleeder - Final bleeder disposition (amputation may set it).
      * @param result.amputation - The performed amputation outcome, if any.
      * @param result.aim - The zone-die aim trace, when the location was derived.
-     * @param result.locationOverridden - Whether the player set the location by hand.
+     * @param result.locationSource - Who supplied the location, when it was not derived.
      */
     private async postResolveInjuryCard(
         injury: ResolvedInjury,
@@ -3176,7 +3192,7 @@ export class BeingLogic<TData extends BeingData = BeingData> extends SohlActorBa
             finalBleeder: boolean;
             amputation?: AmputationCardInfo;
             aim?: InjuryAimTrace;
-            locationOverridden: boolean;
+            locationSource?: LocationSource;
         },
     ): Promise<void> {
         const cardData = buildInjuryCardData(injury, {
@@ -3188,7 +3204,7 @@ export class BeingLogic<TData extends BeingData = BeingData> extends SohlActorBa
             treatmentModifier: data.treatmentModifier,
             amputation: result.amputation,
             aim: result.aim,
-            locationOverridden: result.locationOverridden,
+            locationSource: result.locationSource,
         });
         await this.speaker.toChat(
             toFilePath("systems/sohl/templates/chat/injury-card.hbs"),

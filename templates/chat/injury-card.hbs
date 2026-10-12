@@ -67,6 +67,12 @@ SPDX-License-Identifier: GPL-3.0-or-later
     </div>
     {{/if}}
 
+    {{#if locationSetByDefence}}
+    <div class="card-content center">
+        <span class="note">{{localize "SOHL.Chat.Injury.locationSetByDefence"}}</span>
+    </div>
+    {{/if}}
+
     {{!-- Location: the struck hit-location's name. The Body Part is intentionally
     not shown — it is inferable from the location. --}}
     <div class="card-content center">

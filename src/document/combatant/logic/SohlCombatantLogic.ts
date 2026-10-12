@@ -2130,7 +2130,7 @@ function injuryButton(
     // A location the exchange already settled — the limb a limb block raised —
     // wins over the aim: the handler reads `bodyLocationCode` first, so the blow
     // lands where the defence put it rather than being drawn again.
-    const located = bodyLocationCode ? { bodyLocationCode } : {};
+    const located = bodyLocationCode ? { bodyLocationCode, locationSource: "defence" } : {};
     return {
         handlerUuid: targetCombatantLogic?.actor?.uuid ?? "",
         targetName: targetCombatantLogic.name,

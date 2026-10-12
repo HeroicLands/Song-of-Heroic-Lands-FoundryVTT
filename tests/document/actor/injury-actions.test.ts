@@ -15,6 +15,7 @@ import {
 } from "@tests/mocks/bodyFixture";
 import {
     buildResolveInjuryData,
+    locationSourceAfterDialog,
     readResolveInjuryForm,
     buildInjuryCardData,
     buildMissCardData,
@@ -65,6 +66,7 @@ describe("buildResolveInjuryData", () => {
                 bleedImpactPenalty: 0,
                 autoAddInjury: true,
                 bodyLocationOverriden: false,
+                locationSource: "player",
             });
         }
     });
@@ -147,6 +149,7 @@ describe("readResolveInjuryForm", () => {
             bleedImpactPenalty: 2,
             autoAddInjury: true,
             bodyLocationOverriden: false,
+            locationSource: "player",
         });
     });
 
@@ -162,6 +165,7 @@ describe("readResolveInjuryForm", () => {
             bleedImpactPenalty: 0,
             autoAddInjury: false,
             bodyLocationOverriden: false,
+            locationSource: "player",
         });
     });
 });
@@ -338,12 +342,78 @@ describe("buildInjuryCardData", () => {
             handlerActorUuid: "Actor.a1",
             name: "Axe",
             addToCharSheet: true,
-            locationOverridden: true,
+            locationSource: "player",
         });
         expect(data).toMatchObject({
             locationDerived: false,
             locationOverridden: true,
             isMiss: false,
+        });
+    });
+});
+
+describe("hit-location source", () => {
+    it("reads a defence-forwarded location source from the scope", () => {
+        const data = buildResolveInjuryData(
+            { bodyLocationCode: "lhand", locationSource: "defence", impact: 5 },
+            true,
+        );
+        expect(data.locationSource).toBe("defence");
+        expect(data.bodyLocationCode).toBe("lhand");
+    });
+
+    it("treats a scope location with no stated source as the player's", () => {
+        expect(buildResolveInjuryData({ bodyLocationCode: "neck" }, true).locationSource).toBe(
+            "player",
+        );
+    });
+
+    it("keeps the defence as the source while the dialog leaves its location alone", () => {
+        expect(locationSourceAfterDialog("defence", "lhand", "lhand")).toBe("defence");
+    });
+
+    it("credits the player when the dialog changes a defence location", () => {
+        expect(locationSourceAfterDialog("defence", "lhand", "neck")).toBe("player");
+    });
+
+    it("credits the player for a location chosen in the dialog", () => {
+        expect(locationSourceAfterDialog("player", "", "neck")).toBe("player");
+    });
+
+    it("gives the defence branch on the card only for a defence location", () => {
+        const body = makeBody();
+        const neck = body.getAllLocations().find((l) => l.shortcode === "neck")!;
+        const injury = resolveInjury({
+            impact: 22,
+            aspect: IMPACT_ASPECT.EDGED,
+            body,
+            location: neck,
+        });
+        const base = {
+            actorId: "a1",
+            handlerActorUuid: "Actor.a1",
+            name: "Axe",
+            addToCharSheet: true,
+        };
+        expect(buildInjuryCardData(injury, { ...base, locationSource: "defence" })).toMatchObject({
+            locationDerived: false,
+            locationOverridden: false,
+            locationSetByDefence: true,
+        });
+        expect(buildInjuryCardData(injury, { ...base, locationSource: "player" })).toMatchObject({
+            locationDerived: false,
+            locationOverridden: true,
+            locationSetByDefence: false,
+        });
+        expect(
+            buildInjuryCardData(injury, {
+                ...base,
+                aim: { targetZoneNumber: 2, zoneDie: 6, zoneDieResult: 3, hitZoneNumber: 4 },
+            }),
+        ).toMatchObject({
+            locationDerived: true,
+            locationOverridden: false,
+            locationSetByDefence: false,
         });
     });
 });
