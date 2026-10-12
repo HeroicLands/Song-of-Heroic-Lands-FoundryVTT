@@ -20,6 +20,7 @@ import { AttackResult } from "@src/entity/result/AttackResult";
 import { DefendResult } from "@src/entity/result/DefendResult";
 import type { ImpactResult } from "@src/entity/result/ImpactResult";
 import { OpposedTestResult } from "@src/entity/result/OpposedTestResult";
+import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
 import { weightedRandom } from "@src/entity/body/weighted-random";
 import type { BodyPart } from "@src/entity/body/BodyPart";
 import { TEST_TYPE } from "@src/utils/constants";
@@ -41,6 +42,27 @@ export interface TacticalAdvantages {
     side: CombatSide;
     /** How many Tactical Advantages were earned (`|VS| − 1` for the winner). */
     count: number;
+}
+
+/**
+ * The dice a weapon-break check rolls against the weapon's quality: a result
+ * above the quality breaks the weapon.
+ */
+const WEAPON_BREAK_FORMULA = "3d6";
+
+/**
+ * A weapon-break check that was rolled: a tied block rolls `3d6` against the
+ * blocking weapon's quality, and the weapon breaks when the roll is above it.
+ */
+export interface WeaponBreakRoll {
+    /** Whose weapon was checked. */
+    side: CombatSide;
+    /** The weapon's effective quality, the number the roll had to stay within. */
+    quality: number;
+    /** The rolled total. */
+    roll: number;
+    /** Whether the weapon broke — the roll was above its quality. */
+    broke: boolean;
 }
 
 /**
@@ -122,6 +144,13 @@ export class CombatResult extends OpposedTestResult {
     tacticalAdvantages: TacticalAdvantages;
     /** Whose weapon must roll for breakage as a result of the exchange. */
     weaponBreakCheck: CombatSide;
+    /**
+     * The weapon-break check as rolled, when {@link weaponBreakCheck} names a
+     * side whose weapon has a quality to roll against. `undefined` when no
+     * check is owed, and when the weapon's quality is unrated (`0` or absent),
+     * in which case the check is owed but no verdict is given.
+     */
+    weaponBreakRoll?: WeaponBreakRoll;
     /**
      * Shortcode of the hit location the blow lands on when a limb block takes
      * it ({@link limbBlockStrikesLimb}); `""` in every other exchange, and when
@@ -219,6 +248,7 @@ export class CombatResult extends OpposedTestResult {
      */
     opposedTestEvaluate(): void {
         this.weaponBreakCheck = "none";
+        this.weaponBreakRoll = undefined;
         this.blockingLimbLocationCode = "";
         this.margin = this.attackResult.normSuccessLevel - this.defendResult.normSuccessLevel;
         this.tacticalAdvantages = CombatResult.tacticalAdvantagesFor(this.margin);
@@ -236,6 +266,12 @@ export class CombatResult extends OpposedTestResult {
             this.attackResult.isSuccess
         ) {
             this.weaponBreakCheck = "defender";
+            // The check is rolled here, when the exchange resolves, as the
+            // impact is: a tie names the check, the dice give the verdict.
+            this.weaponBreakRoll = this.rollWeaponBreak(
+                "defender",
+                (this.defendResult as DefendResult).mode,
+            );
         }
 
         // A limb block that ties lands the blow on the limb that was raised, so
@@ -317,6 +353,29 @@ export class CombatResult extends OpposedTestResult {
         }
         if (candidates.length === 0) return "";
         return weightedRandom(candidates).getRandomLocation().shortcode;
+    }
+
+    /**
+     * Roll the weapon-break check for a side's blocking strike mode: `3d6`
+     * against the effective quality of the weapon the mode belongs to, broken on
+     * a roll above it. A mode with no weapon
+     * behind it, or a weapon whose quality is unrated (`0`), gets no roll: the
+     * check is owed, and there is no number to roll against.
+     *
+     * @param side - Whose weapon is checked.
+     * @param mode - The strike mode the block was made with.
+     * @returns The rolled check, or `undefined` when the quality is unrated.
+     */
+    private rollWeaponBreak(
+        side: CombatSide,
+        mode: DefendResult["mode"],
+    ): WeaponBreakRoll | undefined {
+        const quality =
+            (mode?.parent as { quality?: { effective?: number } } | undefined)?.quality
+                ?.effective ?? 0;
+        if (!(quality > 0)) return undefined;
+        const roll = SimpleRoll.fromFormula(WEAPON_BREAK_FORMULA, this.parent).roll();
+        return { side, quality, roll, broke: roll > quality };
     }
 
     /**

@@ -481,6 +481,7 @@
     "SOHL.Chat.Attack.stumbleTest": "{name} must make Stumble test!",
     "SOHL.Chat.Attack.subtitle": "{attacker} vs. {defender}",
     "SOHL.Chat.Attack.value": "Value",
+    "SOHL.Chat.Attack.weaponBreakUnrated": "{name}’s {weapon} must be checked for breakage; it has no Weapon Quality to roll against.",
     "SOHL.Chat.Attack.weaponBroke": "{name}’s {weapon} broke!",
     "SOHL.Chat.BloodStoppage.requestPrompt": "{patient} is bleeding from {wound} — a Physician may answer.",
     "SOHL.Chat.BloodStoppage.requestTitle": "Blood Stoppage Requested",

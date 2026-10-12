@@ -290,8 +290,10 @@ state in a few places (all verified against source):
 
 1. **`displayedMedium` is not honored by `computedMove`** — it seeds the tracker
    chip but movement always uses the actor's active medium (`currentMoveMedium`).
-2. **Weapon break is display-only** — `CombatResult.weaponBreakCheck` is computed
-   and shown on the card, but no breakage is applied.
+2. **Weapon break is rolled but not applied** — a tied block rolls
+   `CombatResult.weaponBreakRoll` against the blocking weapon's quality and the
+   card states the verdict, but nothing changes the weapon item: no durability is
+   reduced and no item is marked broken.
 3. **The group relations have no internal consumer** — `allies`, `threatenedBy`,
    `isThreatening`, and `reaches` are implemented and unit-tested, but nothing in
    `src/` reads them: no modifier, dialog, action, or card. Group membership

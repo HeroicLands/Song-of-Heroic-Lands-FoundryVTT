@@ -106,7 +106,7 @@ A [[doc-sccsstst#success-level|Critical Failure]] on an attack or a defence is n
 
 A fumble or a stumble is a **keep-control test**, made by the combatant it befell: a Fumble Test to keep hold of the weapon, a Stumble Test to keep your feet. Both are described under [[doc-character#mishaps-fumble-and-stumble|Mishaps]] — they are the same tests a wound to the hand or the leg provokes, and they fail the same way, with a dropped weapon or a fall to [[doc-prone|prone]].
 
-**Weapon breakage** is checked separately, and follows from a tied block rather than from a critical failure: the blocking weapon or shield absorbed a blow it did not out-fight, and may not survive doing so.
+**Weapon breakage** is checked separately, and follows from a tied block rather than from a critical failure: the blocking weapon or shield absorbed a blow it did not out-fight, and may not survive doing so. The check rolls **3d6** against the weapon's [[doc-gearrules|Quality]]: a roll **above** the Quality breaks it, and a roll at or under it leaves the weapon whole. A weapon with no Quality rated owes the check but has nothing to roll against, so the referee settles it.
 
 ## Aiming and Hit Location {#aiming-and-hit-location}
 
