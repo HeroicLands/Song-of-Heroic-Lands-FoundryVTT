@@ -15,6 +15,7 @@
 // verifies every sibling module and subfolder here is re-exported.
 
 export * from "./BeingLogic";
+export * from "./grab-actions";
 export * from "./BodyLogic";
 export * from "./CohortLogic";
 export * from "./SohlActorBaseLogic";
@@ -37,3 +38,5 @@ export * from "./reach-helpers";
 export * from "./sheet-parts";
 export * from "./shock";
 export * from "./token-helpers";
+export * from "./grab-hold";
+export * from "./grab-hold-dispatch";

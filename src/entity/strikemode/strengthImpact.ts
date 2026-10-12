@@ -155,8 +155,7 @@ export function applyStrengthImpact(sm: StrikeModeBase, options: StrengthImpactO
     for (const [name, abbrev, value] of contributions) {
         // Drop any prior application before re-adding, so a repeated lifecycle
         // phase restates the contribution instead of stacking it.
-        const existing = sm.impact.deltas.findIndex((d: { abbrev: string }) => d.abbrev === abbrev);
-        if (existing >= 0) sm.impact.deltas.splice(existing, 1);
+        sm.impact.delete(abbrev);
         if (value) sm.impact.add(name, abbrev, value);
     }
 }

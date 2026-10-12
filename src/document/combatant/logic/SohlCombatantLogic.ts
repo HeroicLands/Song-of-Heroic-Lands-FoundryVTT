@@ -11,6 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { offerGrabTrial } from "@src/document/actor/logic/grab-actions";
 import { entity } from "@src/entity/registry";
 import type { MissileStrikeMode } from "@src/entity/strikemode/MissileStrikeMode";
 import type { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
@@ -621,10 +622,11 @@ export class SohlCombatantLogic<
 
         // Assemble the attack result
         const attackResult = buildAttackResult({
+            mode: attackSM.pointerData,
             attackML: attackSM.attack,
             impact: attackSM.impact,
             parent: this,
-            tokenLogic: context.token,
+            tokenLogic: context.token ?? this.tokenLogic,
             testType:
                 attackSM.isMissile ? TEST_TYPE.AUTOCOMBATMISSILE.id : TEST_TYPE.AUTOCOMBATMELEE.id,
             aimBodyPartCode: attackDlgResult.aim,
@@ -750,6 +752,7 @@ export class SohlCombatantLogic<
 
         const defendResult = new entity.DefendResult(
             {
+                combatantUuid: this.uuid,
                 testType: TEST_TYPE.BLOCK.id,
                 // The mode that blocked: it names the weapon on the result card,
                 // and its `limbBlock` trait is what tells the exchange a limb
@@ -757,10 +760,9 @@ export class SohlCombatantLogic<
                 mode: blockStrikeMode.pointerData,
                 masteryLevelModifier: blockStrikeMode.defense.block.clone({}, { parent: this }),
                 situationalModifier: defenseDlgResult.situationalModifier,
-                speaker: context.speaker,
-                token: context.token ?? undefined,
+                tokenUuid: (context.token ?? this.tokenLogic)?.uuid,
             } as any,
-            { parent: this },
+            { parent: this, chatSpeaker: context.speaker },
         );
 
         // Build the combat result, taking into account the attacker's attack
@@ -773,6 +775,7 @@ export class SohlCombatantLogic<
 
         // Evaluate the combat result (both sides)
         await combatResult.evaluate();
+        if (!context.noChat) await offerGrabTrial(combatResult, context.speaker);
         await this.recordBlockMode(blockStrikeMode);
 
         // If no chat is required, return early
@@ -803,13 +806,13 @@ export class SohlCombatantLogic<
         }
         const defendResult = new entity.DefendResult(
             {
+                combatantUuid: this.uuid,
                 testType: TEST_TYPE.DODGE.id,
                 masteryLevelModifier: dodgeML.clone({}, { parent: this }),
                 situationalModifier: 0,
-                speaker: context.speaker,
-                token: context.token ?? undefined,
+                tokenUuid: (context.token ?? this.tokenLogic)?.uuid,
             } as any,
-            { parent: this },
+            { parent: this, chatSpeaker: context.speaker },
         );
 
         // Build the combat result, taking into account the attacker's
@@ -822,6 +825,7 @@ export class SohlCombatantLogic<
 
         // Evaluate the combat result (both sides)
         await combatResult.evaluate();
+        if (!context.noChat) await offerGrabTrial(combatResult, context.speaker);
 
         // If no chat is required, return early
         if (context.noChat) return combatResult;
@@ -849,13 +853,7 @@ export class SohlCombatantLogic<
             );
             return undefined;
         }
-        const attackCombatantLogic = SohlCombatantLogic.fromTokenLogic(
-            context.scope.attackResult?.speaker?.tokenLogic,
-        );
-        if (!context.target) {
-            sohl.log.uiWarn(`${this.name} automated attack requires a target combatant.`);
-            return undefined;
-        }
+        const attackCombatantLogic = context.scope.attackResult.combatant;
 
         // Both sides must be on the canvas: the counterstrike measures range
         // between their tokens.
@@ -903,11 +901,12 @@ export class SohlCombatantLogic<
         const spread = meleeSM.spread.effective ?? 0;
 
         const counterResult = buildAttackResult({
+            mode: meleeSM.pointerData,
             attackML: meleeSM.defense.counterstrike,
             impact: meleeSM.impact,
             parent: this,
-            tokenLogic: context.token,
-            testType: TEST_TYPE.AUTOCOMBATMELEE.id,
+            tokenLogic: context.token ?? this.tokenLogic,
+            testType: TEST_TYPE.COUNTERSTRIKE.id,
             aimBodyPartCode: attackDlgResult.aim,
             spread,
             title: meleeSM.fullLabel,
@@ -932,6 +931,7 @@ export class SohlCombatantLogic<
 
         // Evaluate the combat result (both sides)
         await combatResult.evaluate();
+        if (!context.noChat) await offerGrabTrial(combatResult, context.speaker);
         await this.recordAttackMode(attackMode);
 
         // If no chat is required, return early
@@ -952,10 +952,11 @@ export class SohlCombatantLogic<
         );
 
         // Post the counterstrike result card to chat
-        await context.speaker.toChat(
-            toFilePath("systems/sohl/templates/chat/attack-result-card.hbs"),
-            cxCardData,
-        );
+        if (cxCardData)
+            await context.speaker.toChat(
+                toFilePath("systems/sohl/templates/chat/attack-result-card.hbs"),
+                cxCardData,
+            );
         return { atkCardData, cxCardData };
     }
 
@@ -971,12 +972,12 @@ export class SohlCombatantLogic<
 
         const defendResult = new entity.DefendResult(
             {
+                combatantUuid: this.uuid,
                 testType: TEST_TYPE.IGNORE.id,
                 situationalModifier: 0,
-                speaker: context.speaker,
-                token: context.token ?? undefined,
+                tokenUuid: (context.token ?? this.tokenLogic)?.uuid,
             } as any,
-            { parent: this },
+            { parent: this, chatSpeaker: context.speaker },
         );
         const combatResult = this.buildCombatResult(
             context.scope?.attackResult,
@@ -986,6 +987,7 @@ export class SohlCombatantLogic<
 
         // Evaluate the combat result (both sides)
         await combatResult.evaluate();
+        if (!context.noChat) await offerGrabTrial(combatResult, context.speaker);
 
         // If no chat is required, return early
         if (context.noChat) return combatResult;
@@ -1365,7 +1367,8 @@ function combatantStatuses(combatant: SohlCombatant): Set<string> {
  * @returns A map of body-part shortcode to display label.
  */
 export function buildAimChoices(defenderActor: any): Record<string, string> {
-    const parts: any[] = getActorBody(defenderActor?.logic)?.structure?.parts ?? [];
+    const parts: any[] =
+        getActorBody(defenderActor?.logic ?? defenderActor)?.structure?.parts ?? [];
     const choices: Record<string, string> = {};
     for (const part of parts) {
         choices[part.shortcode] = part.locations?.[0]?.name ?? part.shortcode;
@@ -1844,6 +1847,8 @@ function rollAttackDie(parent: SohlLogic): SimpleRoll {
 
 /** Inputs for {@link buildAttackResult}. */
 export interface BuildAttackInput {
+    /** Serializable identity of the live strike mode used for this attack. */
+    mode: StrikeModeBase.PointerData;
     /** The strike mode's attack mastery-level modifier */
     attackML: MasteryLevelModifier;
     /** The strike mode's impact modifier. */
@@ -1890,14 +1895,16 @@ export function buildAttackResult(input: BuildAttackInput): AttackResult {
     );
     return new entity.AttackResult(
         {
+            mode: input.mode,
+            combatantUuid: input.parent.uuid,
             roll: input.roll ?? rollAttackDie(input.parent),
             masteryLevelModifier,
             impact,
-            tokenUuid: input.tokenLogic ?? undefined,
+            tokenUuid: input.tokenLogic?.uuid,
             testType: input.testType,
             title: input.title ?? "",
         } as Partial<AttackResult.Data>,
-        { parent: input.parent },
+        { parent: input.parent, chatSpeaker: input.parent.speaker },
     );
 }
 

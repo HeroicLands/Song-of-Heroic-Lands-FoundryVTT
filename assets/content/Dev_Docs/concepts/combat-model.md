@@ -131,7 +131,7 @@ Both converge on one executor, `SohlCombatantLogic.startAutomatedAttack`:
 | Stage                            | Driver                                                                                                           | What happens                                                                                                                                                                                                                                      |
 | -------------------------------- | ---------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **1. Attack roll**               | `startAutomatedAttack` > `commonAttack` (shared attack dialog) > `buildAttackResult` > `attackResult.evaluate()` | The attack is **pre-evaluated on the attacker's client** (the roll is the attacker's). A miss disables impact; impact is _not_ rolled yet.                                                                                                        |
-| **2. Attack card**               | `buildAttackCardData` > `templates/chat/attack-card.hbs`                                                         | Emits **all four** defense buttons; embeds the serialized `AttackResult` in the card's `data-scope`; addresses the **target actor** via `handlerActorUuid`.                                                                                       |
+| **2. Attack card**               | `buildAttackCardData` > `templates/chat/attack-card.hbs`                                                         | Emits **all four** defense buttons; embeds the serialized `AttackResult` in the card's `data-scope`; addresses the **target combatant** via `handlerUuid`.                                                                                        |
 | **3. Defender responds**         | Defender's intrinsic resume actions (all `visible: "false"`, group `HIDDEN`)                                     | The clicked button runs one of the `*Resume` executors below on the **defender's** combatant, reviving the attacker's result as `context.scope.attackResult`.                                                                                     |
 | **4. Defense roll + resolution** | `automated{Block,Dodge,Counterstrike,Ignore}Resume` > `buildCombatResult` > `CombatResult.evaluate()`            | Builds a `DefendResult`, composes it with the (already-evaluated) attack into a `CombatResult`, and runs the opposed test.                                                                                                                        |
 | **5. Impact**                    | `CombatResult` > `rollImpact`                                                                                    | Impact is rolled **only when a blow lands** (this is where damage dice are rolled), producing an `ImpactResult`.                                                                                                                                  |
@@ -163,9 +163,9 @@ The defender's buttons must appear on the _defender's_ client, and the click mus
 be authorized. The flow (`src/sohl.ts` `renderChatMessageHTML` hook, plus
 `src/document/chat/`):
 
-1. **Addressing.** The attack card sets `handlerActorUuid` to the **target
-   actor's** uuid (`buildAttackCardData`); the buttons carry it as
-   `data-handler-actor-uuid`.
+1. **Addressing.** The attack card sets `handlerUuid` to the **target
+   combatant's** uuid (`buildAttackCardData`); the buttons carry it as
+   `data-handler-uuid`.
 2. **Render-time gating (every client).** `gateAutomatedDefenseButtons`
    (`chat-card-gating.ts`) runs on each client and:
    - removes all buttons unless the viewer is the defender's **owner** (a GM owns
@@ -313,3 +313,19 @@ state in a few places (all verified against source):
   aggregation.
 - [[doc-macrosandactions|Macros and Actions]] — how intrinsic actions (the
   `*Resume` executors) are defined and dispatched.
+
+## Strength Trial Impact advantages
+
+The authored manoeuvre supplies the value of each Impact Tactical Advantage:
+Press overrides `impTA` to **2**, Grab keeps the blunt aspect default of **3**,
+and Trip overrides `impTA` to **4**. Use `impactTacticalAdvantageValue(mode)`
+to resolve the authored override or aspect default rather than assuming that
+all blunt manoeuvres share one value.
+
+The player chooses how many earned advantages to spend; the default is zero.
+Multiply that count by the resolved value when assembling the Strength Trial's
+named modifiers. This is arithmetic assistance, not an automatic spend.
+
+The content guard reads the Unarmed Combat rule figures and the authored
+manoeuvre frontmatter, then compares them through the runtime value resolver.
+Keep these surfaces consistent when changing a manoeuvre's rules.

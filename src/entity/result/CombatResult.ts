@@ -284,7 +284,11 @@ export class CombatResult extends OpposedTestResult {
         // Roll the impact for each side that lands a blow (this is *when* impact
         // is rolled). Guarded on the side carrying an impact formula — a
         // DefendResult (block/dodge/ignore) has none.
-        if (this.attackerLandsBlow && this.attackResult.impact) {
+        if (
+            this.attackerLandsBlow &&
+            this.attackResult.impact &&
+            !this.attackResult.impact.disabled
+        ) {
             // The partial ward comes off the impact as a named delta, so the
             // damage card says where the two points went. Same abbrev on a
             // re-evaluation replaces rather than stacks.
@@ -300,7 +304,12 @@ export class CombatResult extends OpposedTestResult {
             this.attackerImpact = undefined;
         }
         this.cxImpact =
-            this.defenderLandsBlow && this.defendResult instanceof AttackResult ?
+            (
+                this.defenderLandsBlow &&
+                this.defendResult instanceof AttackResult &&
+                this.defendResult.impact &&
+                !this.defendResult.impact.disabled
+            ) ?
                 this.rollImpact(this.defendResult)
             :   undefined;
     }

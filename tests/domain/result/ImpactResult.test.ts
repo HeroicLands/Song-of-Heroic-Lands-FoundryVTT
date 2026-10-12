@@ -32,6 +32,40 @@ function makeImpactMod(aimBodyPartCode = "", spread = 0): ImpactModifier {
 }
 
 describe("ImpactResult", () => {
+    it.each([2, 0, -2])(
+        "constructs, evaluates and revives fixed impact %s without consuming dice",
+        async (value) => {
+            const modifier = new ImpactModifier(
+                { baseValue: value, aspect: IMPACT_ASPECT.BLUNT },
+                { parent },
+            );
+            SimpleRoll.forceValues(6);
+            try {
+                const result = new ImpactResult({ impactModifier: modifier }, { parent });
+                expect(result.total).toBe(value);
+                expect(result.roll.numDice).toBe(0);
+                await result.evaluate();
+                expect(result.total).toBe(value);
+                const revived = instanceFromJSON(result.toJSON(), { parent }) as ImpactResult;
+                expect(revived).toBeInstanceOf(ImpactResult);
+                expect(revived.total).toBe(value);
+                expect(SimpleRoll.forcedRemaining).toBe(1);
+            } finally {
+                SimpleRoll.clearForced();
+            }
+        },
+    );
+    it("continues consuming dice for ordinary rolled impact", () => {
+        SimpleRoll.forceValues(3, 4);
+        try {
+            const result = new ImpactResult({ impactModifier: makeImpactMod() }, { parent });
+            expect(result.roll.numDice).toBe(2);
+            expect(result.total).toBe(7);
+            expect(SimpleRoll.forcedRemaining).toBe(0);
+        } finally {
+            SimpleRoll.clearForced();
+        }
+    });
     it("requires an impactModifier", () => {
         expect(() => new ImpactResult({} as any, { parent })).toThrow(/impactModifier/i);
     });

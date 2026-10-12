@@ -48,6 +48,8 @@ A combat exchange flows through these stages:
 
 Non-combat tests (skill checks, attribute tests) use steps 1-2 only, producing a `SuccessTestResult` directly.
 
+Impact resolution runs only when the landed strike has enabled impact, for both the attack and a counterstrike. Zero-damage techniques skip `ImpactResult` and retain their technique-specific follow-up. A fixed numeric impact creates a deterministic zero-dice roll; it consumes no random value. Dice formulas retain the normal `SimpleRoll` path. Counterstrike defense results use the `COUNTERSTRIKE` test type so their separate result card and follow-up identify the original defender as the initiator. Range measurement reads each token Logic’s owning TokenDocument, and chat attribution resolves the live speaker identities when preparing the message.
+
 ### Automated-combat invariants (enforced before step 1)
 
 Automated combat checks these invariants up front and aborts (with a player-facing UI notification) on any violation — both participants must be combatants in the same active combat, the attacker must be the current combatant (it must be its turn), the attacker must not be incapacitated/defeated/dead, and the target must not be out of the fight (dead or vanquished/defeated). Enforcement points:
@@ -260,7 +262,7 @@ applies to melee modes and thrown weapons only — a launcher firing separate
 ammunition is excluded, as is anything carrying the `noStrMod` trait.
 
 Off-hand determination runs through
-{@link sohl.entity.body.isOffHandGrip}; see
+{@link sohl.entity.body.isOffSideLimb}; see
 [[doc-bodystructure#laterality-and-dominance|Body Structure > Laterality and dominance]].
 
 ### Shield Mod {#shield-mod}
@@ -459,3 +461,13 @@ manual Add Injury flow:
 ## Weapon Heft
 
 WeaponGearLogic.finalize applies weapon-owned Heft after Strength and grip resolve. applyWielderHeft uses the weapon’s effective Heft, heldBy and wielder dominance; positive shieldMod identifies shield weapons. It writes idempotent Heft deltas to melee attack/block/counterstrike and TwoHnd to qualifying swung impact. SkillLogic never calls this wiring, so combat techniques are excluded. Missile modes are excluded.
+
+## Owner-addressed Grab trials
+
+Successful Grab exchanges create a target-owned `grabOffers` record. Chat buttons
+carry only its id and target UUID; the handlers re-read live participants and
+controller ownership before committing dice or effects. Initiator dice persist
+in `grabTrials` before the target is invited. Settled results repost without
+rerolling. Take uses a target-owned item subtree escrow and fixed destination
+ids; Hold uses a marked Immobilized Trauma and per-turn maintenance records.
+Weapon Heft never applies to these technique trials.

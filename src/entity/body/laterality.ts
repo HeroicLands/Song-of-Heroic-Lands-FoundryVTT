@@ -93,20 +93,16 @@ export function dominantSideFrom(
 }
 
 /**
- * Whether a grip is an **off-hand** one: every limb holding the item is on the
- * being's non-dominant side.
- *
- * A two-handed grip that includes the dominant limb is not off-hand, and a
- * being with no dominant side never grips off-hand at all.
- *
- * @param heldBy - The body parts gripping the item; empty for an unheld item or
- *   an intrinsic combat technique.
- * @param dominant - The being's dominant side, if it has one.
- * @returns `true` when the grip earns the off-hand penalty.
+ * Whether performing limbs are entirely on the being's non-dominant side.
+ * Weapon callers pass their gripping limbs; techniques pass resolved performing
+ * limbs, including feet. A two-limb action including the dominant side is not
+ * off-side, and a being with no dominant side never incurs this penalty.
+ * @param limbs - Parts performing the action; empty when none is available.
+ * @param dominant - The being's dominant side, if any.
+ * @returns Whether the action is performed only from the off side.
  */
-export function isOffHandGrip(heldBy: BodyPart[], dominant: BodySide | undefined): boolean {
-    if (!dominant || !heldBy.length) return false;
-    const sides = heldBy.map(bodyPartSide).filter(Boolean);
-    // Something must actually be on the far side, and nothing on the near one.
+export function isOffSideLimb(limbs: BodyPart[], dominant: BodySide | undefined): boolean {
+    if (!dominant || !limbs.length) return false;
+    const sides = limbs.map(bodyPartSide).filter(Boolean);
     return sides.length > 0 && sides.every((side) => side !== dominant);
 }

@@ -28,19 +28,24 @@
  * governing mastery-level wiring makes.
  */
 
+import { techniquePerformingLimbs } from "@src/document/item/logic/techniqueLimb";
 import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
 import { resolveHeft } from "@src/entity/strikemode/heft";
 import type { WeaponGearLogic } from "@src/document/item/logic/WeaponGearLogic";
 import type { BodyPart } from "@src/entity/body/BodyPart";
 import type { StrikeModeBase } from "@src/entity/strikemode/StrikeModeBase";
 import { applyStrengthImpact, isThrownStrikeMode } from "@src/entity/strikemode/strengthImpact";
-import { isOffHandGrip } from "@src/entity/body/laterality";
+import { isOffSideLimb } from "@src/entity/body/laterality";
 import { ATTRIBUTE_CODE, ITEM_KIND, type BodySide } from "@src/utils/constants";
 
 /** The subset of an item's logic this wiring reads. */
 interface StrikeModeCarrier {
     /** The strike modes to modify. */
     strikeModes: StrikeModeBase[];
+    /** Intrinsic mode, when this carrier is a combat technique. */
+    strikeMode?: StrikeModeBase;
+    /** Technique role declarations used to resolve its performing limbs. */
+    data?: unknown;
     /** The wielder's logic, when the item is owned. */
     actorLogic?: unknown;
     /** Limbs gripping the item; absent for an intrinsic combat technique. */
@@ -74,14 +79,16 @@ export function applyWielderStrengthImpact(logic: StrikeModeCarrier): void {
         ?.effective;
     if (strength == null) return;
 
-    // An intrinsic technique is gripped by nothing, so it is never off-hand:
-    // a being punches with whichever hand suits, and the data names no limb.
-    const offHand = isOffHandGrip(logic.heldBy ?? [], actorLogic.dominantSide);
+    // Techniques resolve their performing limb through the role-based gate;
+    // weapons retain their held-limb calculation.
+    const limbs =
+        logic.strikeMode ? (techniquePerformingLimbs(logic)?.limbs ?? []) : (logic.heldBy ?? []);
+    const offSide = isOffSideLimb(limbs, actorLogic.dominantSide);
 
     for (const sm of logic.strikeModes) {
         applyStrengthImpact(sm, {
             strength,
-            offHand,
+            offHand: offSide && (!logic.strikeMode || ["punch", "kick"].includes(sm.shortcode)),
             thrown: isThrownStrikeMode(sm),
         });
     }
@@ -104,7 +111,7 @@ export function applyWielderHeft(weapon: WeaponGearLogic): void {
             strength,
             listedHeft: weapon.heft.effective,
             twoHanded: held.length >= 2,
-            offHand: isOffHandGrip(
+            offHand: isOffSideLimb(
                 held,
                 (weapon.actorLogic as { dominantSide?: BodySide } | undefined)?.dominantSide,
             ),
@@ -112,12 +119,10 @@ export function applyWielderHeft(weapon: WeaponGearLogic): void {
             swung: !!mode.traits.swung,
         });
         for (const modifier of [mode.attack, mode.defense.block, mode.defense.counterstrike]) {
-            const i = modifier.deltas.findIndex((delta) => delta.abbrev === "Heft");
-            if (i >= 0) modifier.deltas.splice(i, 1);
+            modifier.delete("Heft");
             if (result.penalty) modifier.add("SOHL.INFO.Heft", "Heft", result.penalty);
         }
-        const i = mode.impact.deltas.findIndex((delta) => delta.abbrev === "TwoHnd");
-        if (i >= 0) mode.impact.deltas.splice(i, 1);
+        mode.impact.delete("TwoHnd");
         if (result.impactBonus)
             mode.impact.add("SOHL.INFO.TwoHandedSwing", "TwoHnd", result.impactBonus);
     }

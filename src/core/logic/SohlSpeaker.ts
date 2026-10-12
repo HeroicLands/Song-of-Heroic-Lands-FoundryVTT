@@ -48,7 +48,7 @@ import { SohlActorLogic } from "@src/document/actor/logic/SohlActorBaseLogic";
  *
  * Resolution rules applied at construction:
  *
- * - **token** is looked up on the active canvas; its `actor` becomes the
+ * - **token** is looked up on the active canvas or scene document; its `actor` becomes the
  *   speaker's actor when present;
  * - **actor** is resolved directly only if a token did not already supply one;
  * - **user** defaults to the current user when not given;
@@ -62,14 +62,23 @@ import { SohlActorLogic } from "@src/document/actor/logic/SohlActorBaseLogic";
  * template path and applies the speaker's roll mode automatically.
  */
 export class SohlSpeaker {
-    /** @internal Cached Foundry speaker-data used when building messages. */
-    protected _speaker!: SohlSpeaker.Data;
     /** The roll mode applied to messages this speaker posts. */
     readonly rollMode: string;
     /** The resolved token, or `null`. */
     readonly tokenLogic?: SohlTokenDocumentLogic;
-    /** The resolved actor (from the token or directly), or `null`. */
-    readonly actorLogic?: SohlActorLogic<any>;
+    /** Actor identity retained while a newly created actor enters the world collection. */
+    protected readonly _actorId?: string;
+    /** Actor resolved during construction, before it may enter the world collection. */
+    protected readonly _actorLogic?: SohlActorLogic<any>;
+
+    /** Resolve newly created actors once they enter the world collection. */
+    get actorLogic(): SohlActorLogic<any> | undefined {
+        return (
+            this.tokenLogic?.actor?.logic ??
+            (this._actorId ? fvttGetActor(this._actorId)?.logic : undefined) ??
+            this._actorLogic
+        );
+    }
     /** The resolved scene, or `null`. */
     readonly sceneId?: string;
     /** The display name/alias used for attribution. */
@@ -84,28 +93,23 @@ export class SohlSpeaker {
      * @param data - Speaker source data.
      * @param data.rollMode - The roll mode to use.
      * @param data.user - The user ID.
-     * @param data.token - The token ID; requires an initialized canvas.
+     * @param data.token - The token ID in the active scene, including before canvas rendering.
      * @param data.actor - The actor ID; used only when no token is provided.
      * @param data.scene - The scene ID.
      * @param data.alias - The explicit display name, overriding all resolved names.
-     * @throws {Error} If `data.token` is set but the Foundry canvas is not yet
-     *   initialized.
      */
     constructor(data: Partial<SohlSpeaker.Data> = {}) {
+        this._actorId = data.actor;
         this.rollMode =
             data.rollMode ||
             (fvttGetSetting("core", "rollMode") as string) ||
             SOHL_SPEAKER_ROLL_MODE.SYSTEM;
         if (data.token) {
-            if (!canvas.ready) {
-                throw new Error("Canvas is not initialized");
-            } else {
-                this.tokenLogic = fvttGetToken(data.token)?.logic;
-            }
-            this.actorLogic = this.tokenLogic?.actor?.logic;
+            this.tokenLogic = fvttGetToken(data.token)?.logic;
+            this._actorLogic = this.tokenLogic?.actor?.logic;
         }
         if (!this.actorLogic && data.actor) {
-            this.actorLogic = fvttGetActor(data.actor)?.logic;
+            this._actorLogic = fvttGetActor(data.actor)?.logic;
         }
         if (data.scene) {
             this.sceneId = data.scene;
@@ -127,7 +131,7 @@ export class SohlSpeaker {
         return {
             alias: this.name,
             token: this.tokenLogic?.parent?.id ?? null,
-            actor: this.actorLogic?.parent?.id ?? null,
+            actor: this.actorLogic?.parent?.id ?? this._actorId ?? null,
             scene: this.sceneId ?? null,
         };
     }
@@ -152,7 +156,7 @@ export class SohlSpeaker {
         return {
             [KIND_KEY]: SohlSpeaker.Kind,
             token: this.tokenLogic?.id ?? "",
-            actor: this.actorLogic?.id ?? "",
+            actor: this.actorLogic?.id ?? this._actorId ?? "",
             scene: this.sceneId ?? "",
             alias: this.name,
             user: this.userId || null,
@@ -269,7 +273,7 @@ export class SohlSpeaker {
             ...data,
             ...msgOptions,
             user: options.user,
-            speaker: this._speaker,
+            speaker: this.getChatMessageSpeaker(),
         };
 
         if (options.rolls) {

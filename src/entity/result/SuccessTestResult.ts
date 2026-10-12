@@ -263,6 +263,12 @@ export class SuccessTestResult extends TestResult {
         this._isSuccessValue = !!data.isSuccessValue;
         if (options.chatSpeaker) {
             this._speaker = options.chatSpeaker;
+        } else if (data.speaker) {
+            // A resumed exchange keeps the controller who initiated its roll.
+            this._speaker =
+                data.speaker instanceof SohlSpeaker ?
+                    data.speaker
+                :   new SohlSpeaker(data.speaker as unknown as Partial<SohlSpeaker.Data>);
         } else {
             this._speaker = new SohlSpeaker({
                 token: this._tokenLogic?.id ?? undefined,

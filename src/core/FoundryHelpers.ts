@@ -614,12 +614,12 @@ export function fvttGetScene(id: string): any {
 }
 
 /**
- * Get a token by ID from the current canvas.
+ * Get a token by ID from the current canvas, falling back to its scene document.
  * @param id - The token ID.
  * @returns The token, or `undefined` if not found.
  */
 export function fvttGetToken(id: string): any {
-    return (canvas as any)?.tokens?.get(id) ?? undefined;
+    return (canvas as any)?.tokens?.get(id) ?? (canvas as any)?.scene?.tokens?.get(id) ?? undefined;
 }
 
 /**
@@ -1281,7 +1281,8 @@ export function fvttGetTargetedTokens(single: boolean = false): SohlTokenDocumen
 function tokenMeasureCenter(
     tokenLogic: SohlTokenDocumentLogic,
 ): { x: number; y: number } | undefined {
-    const token = (tokenLogic as any)?.parent;
+    const token = tokenLogic?.document as
+        (SohlTokenDocument & { center?: { x: number; y: number } }) | undefined;
     return token?.object?.center ?? token?.center ?? undefined;
 }
 

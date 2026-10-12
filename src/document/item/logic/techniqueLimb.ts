@@ -32,6 +32,7 @@
  * against a body that had not yet been told what was wrong with it.
  */
 
+import { isOffSideLimb } from "@src/entity/body/laterality";
 import { getActorBody } from "@src/document/actor/logic/BodyLogic";
 import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
 import type { StrikeModeBase } from "@src/entity/strikemode/StrikeModeBase";
@@ -96,5 +97,27 @@ export function applyTechniqueLimbGate(logic: TechniqueCarrier): void {
     if (sm instanceof MeleeStrikeMode) {
         sm.defense.block.disabledReason = resolved.disabledReason;
         sm.defense.counterstrike.disabledReason = resolved.disabledReason;
+    }
+}
+
+/**
+ * Apply the flat off-side roll penalty to Punch, Kick, Grab and Limb Block.
+ * Trip is deliberately exempt. The performing limbs use the same live role and
+ * availability resolution as the limb gate; no weapon Heft is involved.
+ * @param logic - The combat technique whose roll breakdowns are modified.
+ */
+export function applyTechniqueOffSide(logic: TechniqueCarrier): void {
+    const sm = logic.strikeMode;
+    if (!(sm instanceof MeleeStrikeMode)) return;
+    const affected = ["punch", "kick", "grab", "limbblock"].includes(sm.shortcode);
+    const offSide =
+        affected &&
+        isOffSideLimb(
+            techniquePerformingLimbs(logic)?.limbs ?? [],
+            (logic.actorLogic as { dominantSide?: BodySide } | undefined)?.dominantSide,
+        );
+    for (const modifier of [sm.attack, sm.defense.block, sm.defense.counterstrike]) {
+        modifier.delete("OffSide");
+        if (offSide) modifier.add("SOHL.INFO.OffSide", "OffSide", -10);
     }
 }

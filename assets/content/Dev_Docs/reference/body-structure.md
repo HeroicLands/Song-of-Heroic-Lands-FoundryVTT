@@ -92,7 +92,18 @@ A **being's** dominant side is a different question, and comes from its characte
 | yes            | yes             | none — ambidextrous       |
 | no             | no              | none — no side is favored |
 
-This is the single home for the dominance question wherever a favored side matters; the off-hand impact reduction ({@link sohl.entity.body.isOffHandGrip}) is only its first caller. A grip is off-hand only when _every_ limb holding the item is on the non-dominant side, so a two-handed grip never is, and a being with no dominant side never grips off-hand at all.
+{@link sohl.entity.body.isOffSideLimb} tests performing limbs against the
+being's dominant side. Weapons pass `heldBy`; techniques pass the limbs from
+{@link sohl.document.item.logic.techniquePerformingLimbs}, including locomotor
+parts for Kick and Trip. An action is off-side only when every lateral
+performing limb is on the non-dominant side. A two-handed grip including the
+dominant limb is not off-side, and a being with no dominance takes no penalty.
+
+{@link sohl.document.item.logic.applyTechniqueOffSide} applies a named `OffSide`
+−10 to Punch, Kick, Grab and Limb Block rolls. Trip is expressly exempt.
+{@link sohl.document.item.logic.applyWielderStrengthImpact} uses that same limb
+resolution for the existing named `OffHnd` −1 impact on Punch and Kick only.
+The modifiers replace prior contributions when finalization runs again.
 
 ## Body locations
 
@@ -289,7 +300,7 @@ It returns the committed limbs (as many as the mode's `minParts`, **dominant sid
 first**) together with the localization key naming why none is available. The
 ordering is deterministic rather than drawn, because an off-side technique carries
 a rules consequence and a verdict that moved on re-preparation would be unreadable.
-`limbs[0]` is the performing limb, and `isOffHandGrip(limbs, dominantSide)`
+`limbs[0]` is the performing limb, and `isOffSideLimb(limbs, dominantSide)`
 answers whether the technique is performed off-side.
 
 **A free limb is wanted only by a technique a hand performs.** A

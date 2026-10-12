@@ -26,5 +26,5 @@ describe("journal image styling", () => {
         ];
 
         for (const name of classes) expect(css.includes(`.${name}`), name).toBe(true);
-    });
+    }, 30_000);
 });

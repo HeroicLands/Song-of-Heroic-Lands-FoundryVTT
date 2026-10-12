@@ -20,6 +20,51 @@ describe("SohlSpeaker serialization round-trip", () => {
 
 describe("SohlSpeaker", () => {
     describe("constructor", () => {
+        it("resolves a document speaker without requiring a rendered canvas", () => {
+            const token: any = {
+                id: "token",
+                parent: { id: "token" },
+                data: { isOwner: true },
+                actor: { logic: { id: "actor" } },
+            };
+            const lookup = vi
+                .spyOn(FoundryHelpers, "fvttGetToken")
+                .mockReturnValue({ logic: token });
+            const previous = (globalThis as any).canvas;
+            try {
+                (globalThis as any).canvas = { ...previous, ready: false };
+                const speaker = new SohlSpeaker({ token: "token" });
+                expect(speaker.tokenLogic).toBe(token);
+                expect(speaker.isOwner).toBe(true);
+            } finally {
+                (globalThis as any).canvas = previous;
+                lookup.mockRestore();
+            }
+        });
+
+        it("retains actor identity and resolves ownership after world insertion", () => {
+            let actor: any;
+            const lookup = vi.spyOn(FoundryHelpers, "fvttGetActor").mockImplementation(() => actor);
+            try {
+                const speaker = new SohlSpeaker({ actor: "new-actor", alias: "New actor" });
+                expect(speaker.isOwner).toBe(false);
+                expect((speaker.toJSON() as any).actor).toBe("new-actor");
+                actor = {
+                    logic: {
+                        id: "new-actor",
+                        parent: { id: "new-actor" },
+                        data: { isOwner: true },
+                    },
+                };
+                expect(speaker.actorLogic).toBe(actor.logic);
+                expect(speaker.isOwner).toBe(true);
+                expect(speaker.getChatMessageSpeaker().actor).toBe("new-actor");
+                expect(speaker.name).toBe("New actor");
+            } finally {
+                lookup.mockRestore();
+            }
+        });
+
         it.todo("initializes token, actor, scene to null by default");
         it.todo("sets rollMode from data or falls back to core setting or SYSTEM default");
         it.todo("resolves token from data.token via fvttGetToken");
@@ -87,6 +132,31 @@ describe("SohlSpeaker", () => {
         it.todo("includes empty rolls array by default");
         it.todo("evaluates roll objects from options.rolls");
         it.todo("includes rollMode from speaker");
+        it("attributes prepared chat to the live canonical actor instead of an uninitialized cache", async () => {
+            let actor: any;
+            const lookup = vi.spyOn(FoundryHelpers, "fvttGetActor").mockImplementation(() => actor);
+            try {
+                const speaker = new SohlSpeaker({
+                    actor: "late-actor",
+                    scene: "arena",
+                    alias: "Owner actor",
+                });
+                actor = { logic: { parent: { id: "late-actor" }, data: { isOwner: true } } };
+                const message = await (speaker as any)._prepareChat(
+                    { speaker: { actor: "wrong-actor" }, content: "card" },
+                    { user: "answering-owner", rollMode: "publicroll" },
+                );
+                expect(message.speaker).toEqual({
+                    actor: "late-actor",
+                    token: null,
+                    scene: "arena",
+                    alias: "Owner actor",
+                });
+                expect(message.user).toBe("answering-owner");
+            } finally {
+                lookup.mockRestore();
+            }
+        });
         it.todo("sets speaker property on the message data");
     });
 });

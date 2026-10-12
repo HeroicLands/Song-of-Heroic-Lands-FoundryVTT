@@ -177,10 +177,32 @@ High accuracy relative to the target makes aimed strikes reliable; low accuracy 
 
 Once a blow connects and a location is chosen:
 
-- **Impact (damage) is rolled** for the strike mode, by damage **aspect** (blunt, edged, piercing, etc.).
+- **Impact (damage) is rolled** for the strike mode, by damage **aspect** (blunt, edged, piercing, etc.). A fixed impact applies its stated value without a damage die. A technique with no impact skips damage resolution and offers its own follow-up instead.
 - The location's **effective protection** — its natural protection plus any worn armor covering it — is subtracted from the impact.
 - The remaining effective impact maps to an **injury level** (from a light M1 up through the grievous G-levels), and the system derives the **Shock Index**, whether it was a glancing blow, any stumble/fumble, and whether **bleeding** or **amputation** results.
 - In Automated Combat the injury is recorded on the target sheet for you; you can also produce the same injury by hand via the **Add Injury** flow (see [[doc-afflinjug|Afflictions & Injuries]]).
+
+# Grab, Take, and Hold
+
+After winning a Grab melee exchange, use the chat card to choose Take or Hold,
+one or two free usable hands, and the Impact Tactical Advantages to spend. Each
+participant confirms and rolls their own `d6 + Strength`. One hand costs 2;
+using only the non-primary hand costs another 3. A tie or loss has no effect.
+
+On a won Take, the target's owner confirms release of the item held by the
+struck limb. All grips on that item release together. The taker's owner then
+accepts the item and its contents; a free usable hand receives it, otherwise it
+arrives uncarried. Repeat clicks resume an interrupted handoff.
+
+On a won Hold, the target's owner applies Immobilized to the struck limb. Its
+equipment remains held. The victim receives a reminder to Pass their turn and
+may still defend. The grabber must maintain the Hold with a fresh opposed
+Strength Trial on their next turn. Losing maintenance, moving, or taking another
+action releases it; the grabber can also release it explicitly.
+
+A technique that only permits Take or Hold fixes that choice. When both traits
+are present, Hold applies. Techniques with an impact formula retain their normal
+injury result in addition to the manoeuvre.
 
 # Tips
 

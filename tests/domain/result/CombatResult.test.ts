@@ -10,6 +10,7 @@ import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
 import { CombatResult } from "@src/entity/result/CombatResult";
 import { OpposedTestResult } from "@src/entity/result/OpposedTestResult";
 import { AttackResult } from "@src/entity/result/AttackResult";
+import { ImpactModifier } from "@src/entity/modifier/ImpactModifier";
 import { ImpactResult } from "@src/entity/result/ImpactResult";
 import { makeBody, partData, locationData, zoneData } from "@tests/mocks/bodyFixture";
 import type { BodyStructure } from "@src/entity/body/BodyStructure";
@@ -487,6 +488,59 @@ describe("opposedTestEvaluate dispatch", () => {
 });
 
 describe("impact rolled on the blow landing", () => {
+    it.each(["attacker", "counterstrike"])(
+        "skips a real zero-impact non-Grab %s while preserving its landed blow",
+        (side) => {
+            const attack = makeSide({ level: 1, asAttack: true, withImpact: true });
+            attack.mode = { isMelee: true, shortcode: "net", traits: { envelop: true } };
+            attack.impact = new ImpactModifier(
+                { aspect: IMPACT_ASPECT.BLUNT },
+                { parent: attack.parent },
+            );
+            expect(attack.impact.disabled).toBeTruthy();
+            const failed = makeSide({ level: 0, testType: TEST_TYPE.DODGE.id });
+            const result =
+                side === "attacker" ? makeCombat(attack, failed) : makeCombat(failed, attack);
+            expect(() => result.opposedTestEvaluate()).not.toThrow();
+            expect(side === "attacker" ? result.attackerLandsBlow : result.defenderLandsBlow).toBe(
+                true,
+            );
+            expect(result.attackerImpact).toBeUndefined();
+            expect(result.cxImpact).toBeUndefined();
+        },
+    );
+    it("retains a real positive damaging impact for an Envelop mode", () => {
+        const attack = makeSide({ level: 1, withImpact: true });
+        attack.mode = { isMelee: true, shortcode: "net", traits: { envelop: true } };
+        attack.impact = new ImpactModifier(
+            {
+                baseValue: 2,
+                aspect: IMPACT_ASPECT.BLUNT,
+                roll: new SimpleRoll({ numDice: 1, dieFaces: 6 }, { parent: attack.parent }),
+            },
+            { parent: attack.parent },
+        );
+        const result = makeCombat(attack, makeSide({ level: 0, testType: TEST_TYPE.DODGE.id }));
+        result.opposedTestEvaluate();
+        expect(result.attackerImpact).toBeInstanceOf(ImpactResult);
+    });
+    it.each(["take", "hold"])("preserves ordinary impact for a damaging %s mode", (trait) => {
+        const attack = makeSide({ level: 1, withImpact: true });
+        attack.mode = { isMelee: true, shortcode: trait, traits: { strRoll: true, [trait]: true } };
+        attack.impact.disabled = false;
+        const result = makeCombat(attack, makeSide({ level: 0, testType: TEST_TYPE.DODGE.id }));
+        result.opposedTestEvaluate();
+        expect(result.attackerImpact).toBeInstanceOf(ImpactResult);
+    });
+    it("bare Grab with disabled impact creates no injury impact", () => {
+        const attack = makeSide({ level: 1, withImpact: true });
+        attack.mode = { isMelee: true, shortcode: "grab", traits: { strRoll: true } };
+        attack.impact.disabled = true;
+        const result = makeCombat(attack, makeSide({ level: 0, testType: TEST_TYPE.DODGE.id }));
+        result.opposedTestEvaluate();
+        expect(result.attackerImpact).toBeUndefined();
+    });
+
     it("produces an attacker ImpactResult when the attack lands", () => {
         const cr = makeCombat(
             makeSide({ level: 1, withImpact: true }),

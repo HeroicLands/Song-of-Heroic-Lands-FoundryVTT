@@ -568,9 +568,9 @@ options (`--browser`, `--headed`, `--reporter`, …) all work.
 **What it does, in order** (`package-build e2e fast`):
 
 1. **Build** the selected targets, in the order `packageBuild.e2e.build`
-   declares them — `code` first, because `vite` empties `build/stage` and a
-   later `build:code` would discard whatever the asset and pack passes had just
-   written into it.
+   declares them. Vite preserves `build/stage`, so a focused rebuild keeps the
+   unselected pack, stylesheet and manifest outputs. A fresh stage still needs
+   the complete build before deployment.
 2. **Deploy** into the test data root, mirroring `build/stage`. The mirror is
    destructive — it deletes anything not in the stage — which is why step 1 must
    leave the stage complete.
@@ -591,7 +591,7 @@ means meeting them one at a time:
 | Step                   | What goes wrong by hand                                                                                                                                                                                                                                                                                                                                                                                                  |
 | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | Build                  | The container serves the **built** system from `FOUNDRYVTT_TEST_DATA`, not `src/`. Templates need `build:assets`, TypeScript `build:code`, content `build:db`.                                                                                                                                                                                                                                                           |
-| Order                  | `vite` (`build:code`) **empties `build/stage`**, so building it after the asset/pack passes silently discards them, and `push:test` — a destructive mirror — then deletes them from the target.                                                                                                                                                                                                                          |
+| Order                  | A fresh or explicitly reset stage needs every output before deployment. Focused `build:code` preserves the other staged outputs, while `push:test` mirrors the stage destructively.                                                                                                                                                                                                                                      |
 | `system.json`          | Read only at world launch, so it needs a container **recreate**, not a restart. Its build target declares `recreate: true`, so naming it in `--build` implies `--recreate`.                                                                                                                                                                                                                                              |
 | Restart                | A running Foundry holds the old packs open, so a content change is invisible until the world reopens them.                                                                                                                                                                                                                                                                                                               |
 | Stale lock             | A container that died holding the data-root lock (`docker kill`, a crash, an OOM) leaves `Config/options.json.lock` behind, and Foundry then refuses to boot with "already locked by another process" — naming no owner, so it reads like corruption. Every boot path in `package-build container` (`start`, `restart`, `recreate`) sweeps it, which is safe precisely because each does so while the container is down. |

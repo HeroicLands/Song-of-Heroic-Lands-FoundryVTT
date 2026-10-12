@@ -73,7 +73,6 @@ const AWAITING_A_RULE: Record<string, string> = {
     pommel: "the pommel strike",
     shaft: "the shaft strike",
     slow: "the slow weapon's cost in initiative",
-    strRoll: "the Strength Trial a manoeuvre resolves through",
     thrust: "the thrusting mode set against a charge",
     twoHndLen: "the reach a two-handed grip adds",
 };

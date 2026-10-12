@@ -59,7 +59,7 @@ const FILES = globSync(
         "tests/**/*.{ts,js}",
         "*.{js,mjs,ts}",
     ],
-    { posix: true, ignore: ["tests/guards/no-tracker-numbers-in-comments.test.ts"] },
+    { posix: true, nodir: true, ignore: ["tests/guards/no-tracker-numbers-in-comments.test.ts"] },
 ).sort();
 
 /** Comment text of one source file, as `[lineIndex, text]` pairs. */

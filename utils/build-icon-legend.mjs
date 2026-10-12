@@ -36,6 +36,8 @@ import { emitDiagnostic } from "@heroiclands/package-build/engine/diagnostics";
 import { formatGenerated } from "./format-generated.mjs";
 import { globSync } from "glob";
 import YAML from "yaml";
+import ts from "typescript";
+import { pathToFileURL } from "node:url";
 
 const LANG_PATH = "lang/en.json";
 const CONSTANTS_PATH = "src/utils/constants.ts";
@@ -316,6 +318,46 @@ function ownerLabel(file, lang) {
 }
 
 /**
+ * Read literal title/icon pairs from the same intrinsic-action object.
+ * Dynamic mapped titles are intentionally omitted: no literal label can be
+ * attributed to their icon without evaluating author code.
+ * @param {string} source TypeScript source to inspect.
+ * @returns {{title: string, icon: string}[]} Literal action pairs.
+ */
+export function intrinsicActionIconPairs(source) {
+    const file = ts.createSourceFile("actions.ts", source, ts.ScriptTarget.Latest, true);
+    const pairs = [];
+    const literalProperty = (object, name) => {
+        const property = object.properties.find(
+            (entry) =>
+                ts.isPropertyAssignment(entry) &&
+                (ts.isIdentifier(entry.name) || ts.isStringLiteral(entry.name)) &&
+                entry.name.text === name,
+        );
+        return property && ts.isStringLiteralLike(property.initializer) ?
+                property.initializer.text
+            :   undefined;
+    };
+    const inspectObject = (node) => {
+        if (ts.isObjectLiteralExpression(node)) {
+            const title = literalProperty(node, "title");
+            const icon = literalProperty(node, "iconFAClass");
+            if (title && icon) pairs.push({ title, icon });
+        }
+        ts.forEachChild(node, inspectObject);
+    };
+    const visit = (node) => {
+        if (ts.isMethodDeclaration(node) && node.name.getText(file) === "defineIntrinsicActions") {
+            if (node.body) inspectObject(node.body);
+            return;
+        }
+        ts.forEachChild(node, visit);
+    };
+    visit(file);
+    return pairs;
+}
+
+/**
  * Action icons: every `iconFAClass` inside a `defineIntrinsicActions()` body.
  * Each entry's `title` gives the name the player sees in the context menu.
  */
@@ -323,27 +365,13 @@ function collectActionIcons(lang) {
     const rows = [];
     const seen = new Set();
     for (const file of globSync("src/**/*.ts")) {
-        const src = readFileSync(file, "utf8");
-        let at = src.indexOf("defineIntrinsicActions");
-        while (at >= 0) {
-            const block = braceBlock(src, at);
-            for (const entry of block.split(/\},\s*\{/)) {
-                const icon = entry.match(/iconFAClass:\s*"([^"]+)"/);
-                const title = entry.match(/title:\s*"([^"]+)"/);
-                if (!icon || !title) continue;
-                const name = lang[title[1]] ?? lang[`${title[1]}.title`];
-                if (!name) continue;
-                const key = `${icon[1]}|${name}`;
-                if (seen.has(key)) continue;
-                seen.add(key);
-                rows.push({
-                    group: "Actions",
-                    cls: icon[1],
-                    name,
-                    note: ownerLabel(file, lang),
-                });
-            }
-            at = src.indexOf("defineIntrinsicActions", at + 1);
+        for (const { title, icon } of intrinsicActionIconPairs(readFileSync(file, "utf8"))) {
+            const name = lang[title] ?? lang[`${title}.title`];
+            if (!name) continue;
+            const key = `${icon}|${name}`;
+            if (seen.has(key)) continue;
+            seen.add(key);
+            rows.push({ group: "Actions", cls: icon, name, note: ownerLabel(file, lang) });
         }
     }
     return rows;
@@ -802,4 +830,4 @@ function firstDifference(onDisk, generated) {
     ];
 }
 
-await main();
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) await main();

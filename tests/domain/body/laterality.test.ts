@@ -17,7 +17,7 @@ import {
     bodyPartSide,
     mirrorShortcode,
     dominantSideFrom,
-    isOffHandGrip,
+    isOffSideLimb,
 } from "@src/entity/body/laterality";
 import { BODY_SIDE } from "@src/utils/constants";
 
@@ -84,39 +84,39 @@ describe("dominantSideFrom", () => {
     });
 });
 
-describe("isOffHandGrip", () => {
+describe("isOffSideLimb", () => {
     const b = body();
     const left = b.getPartByCode("larmpart")!;
     const right = b.getPartByCode("rarmpart")!;
 
     it("is off-hand when the only gripping limb is the non-dominant one", () => {
-        expect(isOffHandGrip([left], BODY_SIDE.RIGHT)).toBe(true);
-        expect(isOffHandGrip([right], BODY_SIDE.LEFT)).toBe(true);
+        expect(isOffSideLimb([left], BODY_SIDE.RIGHT)).toBe(true);
+        expect(isOffSideLimb([right], BODY_SIDE.LEFT)).toBe(true);
     });
 
     it("is not off-hand when the dominant limb grips", () => {
-        expect(isOffHandGrip([right], BODY_SIDE.RIGHT)).toBe(false);
+        expect(isOffSideLimb([right], BODY_SIDE.RIGHT)).toBe(false);
     });
 
     it("is not off-hand for a two-handed grip including the dominant side", () => {
-        expect(isOffHandGrip([left, right], BODY_SIDE.RIGHT)).toBe(false);
+        expect(isOffSideLimb([left, right], BODY_SIDE.RIGHT)).toBe(false);
     });
 
     it("is never off-hand without a dominant side", () => {
         // Ambidextrous, or a creature with no laterality at all: neither limb
         // is the "off" one, so there is nothing to penalize.
-        expect(isOffHandGrip([left], undefined)).toBe(false);
-        expect(isOffHandGrip([right], undefined)).toBe(false);
+        expect(isOffSideLimb([left], undefined)).toBe(false);
+        expect(isOffSideLimb([right], undefined)).toBe(false);
     });
 
     it("is not off-hand when nothing grips it", () => {
         // An unheld weapon, or an intrinsic combat technique with no limb.
-        expect(isOffHandGrip([], BODY_SIDE.RIGHT)).toBe(false);
+        expect(isOffSideLimb([], BODY_SIDE.RIGHT)).toBe(false);
     });
 
     it("is not off-hand when gripped by a part with no side", () => {
         const withMouth = body([partData("headpart", "armszone", 5)]);
         const head = withMouth.getPartByCode("headpart")!;
-        expect(isOffHandGrip([head], BODY_SIDE.RIGHT)).toBe(false);
+        expect(isOffSideLimb([head], BODY_SIDE.RIGHT)).toBe(false);
     });
 });

@@ -63,9 +63,9 @@ const TRAITS: Record<string, Record<string, unknown>> = {
     bflkheadbutt: {},
     bflkkick: { lowAim: true },
     limbblock: { noAttack: true },
-    press: { strRoll: true },
+    press: { strRoll: true, impTA: 2 },
     bflkpunch: { impTA: 2 },
-    trip: { strRoll: true },
+    trip: { strRoll: true, impTA: 4 },
 };
 
 /** Read one item's `sohl` frontmatter, with its top-level fields. */

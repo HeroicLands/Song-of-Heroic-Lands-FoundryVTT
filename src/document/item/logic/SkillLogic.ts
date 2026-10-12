@@ -23,7 +23,10 @@ import { MeleeStrikeMode } from "@src/entity/strikemode/MeleeStrikeMode";
 import { applyProneMeleePenalty } from "@src/entity/strikemode/prone";
 import { applyWielderStrengthImpact } from "@src/document/item/logic/wielderStrength";
 import { applyHeldShieldDefense } from "@src/document/item/logic/heldShield";
-import { applyTechniqueLimbGate } from "@src/document/item/logic/techniqueLimb";
+import {
+    applyTechniqueLimbGate,
+    applyTechniqueOffSide,
+} from "@src/document/item/logic/techniqueLimb";
 import { applyGoverningMasteryLevel } from "@src/entity/strikemode/governing";
 import { resolveAssocSkill } from "@src/document/item/logic/resolveAssocSkill";
 import { calcMasteryBoost } from "@src/document/item/logic/masteryBoost";
@@ -923,13 +926,14 @@ export class SkillLogic<TData extends SkillData = SkillData> extends SohlItemBas
                 applyProneMeleePenalty(this.strikeMode);
             }
             // Fold the wielder's Strength into the technique's impact,
-            // as WeaponGearLogic does for weapon strike modes. A technique is
-            // gripped by no limb, so it is never off-hand.
+            // as WeaponGearLogic does for weapon strike modes, resolving the
+            // performing limb for the off-side Punch/Kick impact reduction.
             applyWielderStrengthImpact(this);
             // A technique is performed by a limb, so it is unavailable while
             // the wielder has none free — disabled with the reason rather than
             // quietly dropped off the combat tab.
             applyTechniqueLimbGate(this);
+            applyTechniqueOffSide(this);
         }
         // A held shield assists the wielder's Dodge and their Press, neither of
         // which belongs to the shield. Outside the strike-mode guard above,

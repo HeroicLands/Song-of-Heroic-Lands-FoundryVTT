@@ -60,16 +60,17 @@ describe("CombatantLogic", () => {
             expect(warn).toHaveBeenCalledWith(expect.stringMatching(/no Dodge skill/));
         });
 
-        it("automatedCounterstrikeResume warns when no target combatant is available", async () => {
+        it("automatedCounterstrikeResume warns when its snapshot has no canonical participant", async () => {
             const logic = makeCombatantLogic();
-            // attackResult present passes the first guard; with no target the
-            // next guard fires.
+            // A scope object alone does not establish the original combatant.
+            // Normal resumes obtain that participant from the actual AttackResult.
             await logic.automatedCounterstrikeResume({
                 scope: { attackResult: {} },
-                target: null,
             } as any);
             expect(warn).toHaveBeenCalledWith(
-                expect.stringMatching(/automated attack requires a target combatant/),
+                expect.stringMatching(
+                    /Counterstrike requires a valid attacker and defender combatant/,
+                ),
             );
         });
     });

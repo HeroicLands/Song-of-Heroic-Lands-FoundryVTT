@@ -15,6 +15,7 @@ import type { SohlLogic } from "@src/core/logic/SohlLogic";
 import { entity, registerEntity } from "@src/entity/entityRegistry";
 import {
     IMPACT_ASPECT,
+    ITEM_KIND,
     ImpactAspects,
     STRIKE_MODE_TYPE,
     StrikeModeTypes,
@@ -209,11 +210,11 @@ export abstract class StrikeModeBase extends SohlEntity {
         const itemLogic: SohlLogic | undefined = fvttLogicFromUuidSync(data.itemUuid);
         if (!itemLogic) return undefined;
         switch (itemLogic.kind) {
-            case "weapon":
+            case ITEM_KIND.WEAPONGEAR:
                 return (itemLogic as WeaponGearLogic).strikeModes.find(
                     (sm) => sm.shortcode === data.smId,
                 );
-            case "skill":
+            case ITEM_KIND.SKILL:
                 return (itemLogic as SkillLogic).strikeModes.find(
                     (sm) => sm.shortcode === data.smId,
                 );

@@ -11,6 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { beforeGrabHoldAction } from "@src/document/actor/logic/grab-hold-dispatch";
 import { entity } from "@src/entity/registry";
 import { registerEntity } from "@src/entity/entityRegistry";
 import { SohlActionContext } from "@src/entity/action/SohlActionContext";
@@ -345,6 +346,10 @@ export class SohlAction extends SohlEntity {
         // macro uses to reach the intrinsic it overrides
         // (`ctx.thisLogic.<executor>(ctx)`). It is the same target an intrinsic
         // method is bound to, so `this === ctx.thisLogic` inside that method.
+        await beforeGrabHoldAction(
+            actor ?? this.executorTarget?.actor ?? undefined,
+            this.shortcode,
+        );
         actionContext.thisLogic = this.executorTarget;
         const result = await Promise.resolve(this.executor(actionContext));
         // Generic run record: stamp `system.lastRun[shortcode]` on

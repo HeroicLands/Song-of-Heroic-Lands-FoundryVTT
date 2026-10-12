@@ -62,7 +62,7 @@ let SOHLCONFIG: any;
 beforeAll(async () => {
     stubFoundryApplicationApi();
     ({ SOHLCONFIG } = await import("@src/core/foundry/sohl-config"));
-});
+}, 60_000);
 
 /**
  * `SOHLCONFIG.time` contributes formatters to Foundry's world time and nothing

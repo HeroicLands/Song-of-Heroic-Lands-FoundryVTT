@@ -90,10 +90,25 @@ export class ImpactResult extends TestResult {
         if (data.roll) {
             this.roll = data.roll;
         } else {
-            this.roll = SimpleRoll.fromFormula(this.impactModifier.diceFormula, this.parent);
+            this.roll = this.createImpactRoll();
             this.roll.roll();
         }
         this.label = data.label ?? "";
+    }
+
+    /**
+     * Build fixed impacts locally without extending the shared roll-formula grammar.
+     * @returns Deterministic fixed roll or the parsed damage dice.
+     */
+    private createImpactRoll(): SimpleRoll {
+        const formula = this.impactModifier.diceFormula.trim();
+        if (/^[+-]?\d+(?:\.\d+)?$/.test(formula) && Number.isFinite(Number(formula))) {
+            return new SimpleRoll(
+                { numDice: 0, dieFaces: 0, modifier: Number(formula) },
+                { parent: this.parent },
+            );
+        }
+        return SimpleRoll.fromFormula(formula, this.parent);
     }
 
     /**
@@ -123,7 +138,7 @@ export class ImpactResult extends TestResult {
 
     /** @inheritdoc */
     override async evaluate(): Promise<boolean> {
-        this.roll = SimpleRoll.fromFormula(this.impactModifier.diceFormula, this.parent);
+        this.roll = this.createImpactRoll();
         this.roll.roll();
         return true;
     }

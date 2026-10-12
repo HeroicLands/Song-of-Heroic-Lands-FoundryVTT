@@ -83,6 +83,20 @@ describe("SuccessTestResult", () => {
         it.todo("initializes masteryLevelModifier from data or creates default");
         it.todo("initializes roll with an unrolled d100 by default (evaluate casts it)");
         it.todo("initializes testType, rollMode, movement, and mishaps");
+        it.each([false, true])(
+            "preserves the initiating controller when a speaker is %s serialized",
+            (serialized) => {
+                const initiating = new SohlSpeaker({ user: "initiator-owner", alias: "Initiator" });
+                const result = new SuccessTestResult(
+                    {
+                        speaker: serialized ? initiating.toJSON() : initiating,
+                    } as any,
+                    { parent },
+                );
+                expect(result.speaker.userId).toBe("initiator-owner");
+                expect(result.speaker.name).toBe("Initiator");
+            },
+        );
         it.todo("sets speaker from options.chatSpeaker or creates from token");
     });
 

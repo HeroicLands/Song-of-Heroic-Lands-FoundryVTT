@@ -45,7 +45,23 @@ Four of these describe **anatomy** and four describe **a rule**. Punch, Kick, He
 
 > **Both combatants roll `d6 + Strength`. The initiator must win it, and the margin decides how completely.**
 
-The Trial takes a bonus for each **Impact** [[doc-atkreslv#tactical-advantages|Tactical Advantage]] the winner earned in the exchange — **+2** for a Press, **+3** for a Grab, **+4** for a Trip — so a combatant who is comprehensively winning does these things almost at will, and one who scraped a narrow victory usually does not. Other circumstances adjust it too: pressing out of a charge, or having only one hand on an opponent.
+The Trial takes a bonus for each **Impact** [[doc-atkreslv#tactical-advantages|Tactical Advantage]] the winner chooses to spend from those earned in the exchange — **+2** for a Press, **+3** for a Grab, **+4** for a Trip — so a combatant who is comprehensively winning does these things almost at will, and one who scraped a narrow victory usually does not. Other circumstances adjust it too: pressing out of a charge, or having only one hand on an opponent.
+
+Before a Grab Trial, declare **Take** or **Hold**, the participating limbs, and
+how many Impact Tactical Advantages to spend (default **0**). Each spent
+advantage adds the strike mode's Impact TA value: normally **+3** for a blunt
+Grab, or the mode's explicit override. Using one hand applies **−2**; using only
+the non-primary hand applies another **−3**. These are named adjustments to the
+Strength Trial, separate from off-side penalties on the preceding Melee test.
+Combat techniques have no Heft.
+
+A Take targets the **part struck**, irrespective of the location within it. It
+releases every grip on that part's held item; an empty part yields no effect.
+The item goes into a usable free hand of the taker, or falls uncarried when none
+is free. A Hold immobilizes the struck part for one round without releasing its
+grip. The grabber's next turn repeats the Trial to maintain it; any other action
+or movement ends the Hold. The victim receives a Pass reminder and still controls
+their own turn and defences.
 
 **Only one Strength Trial is made per exchange**, and only the combatant who _initiated_ one and won the Melee test may inflict its effect. A counterstriking manoeuvre therefore cancels the attacker's: whoever won the exchange gets the Trial. If the initiator loses the Trial, nothing whatever happens — a manoeuvre against a markedly stronger opponent is a wasted turn.
 
@@ -71,7 +87,18 @@ Apply **−20** where the limb is at odds with the weapon's line — a leg raise
 
 Unarmed blows are the one case where the **attacker's** armour matters. A rigid helm, boot or gauntlet adds **2** to the impact of the strike it is worn on, which is most of the difference between a bare fist and a gauntleted one, and much of the reason an armoured fighter is dangerous even having lost their weapon.
 
-The ordinary off-hand rules apply and bite harder here than anywhere: a strike thrown with the off hand or off foot takes **−10** and loses a point of impact. See [[doc-character#dominance|Dominance]].
+The performing limb determines the off-side penalty. Punch and Kick from the
+non-dominant side take **−10 to the roll and −1 impact**. Grab and Limb Block
+from the non-dominant hand take **−10 to the roll**, with no impact reduction.
+**Trip is exempt**: either foot sweeps without an off-side penalty. A being with
+both dominance characteristics or neither has no off side and takes none of
+these penalties. The named off-side deltas appear in the roll and impact
+breakdowns. See [[doc-character#dominance|Dominance]].
+
+A technique uses the dominant eligible limb when available, then an eligible
+limb on the other side. Occupied or immobilized hands cannot perform a hand
+technique, and an unusable or immobilized foot cannot kick or trip. Weapons
+keep their separate Heft adjustment; this flat −10 belongs to techniques.
 
 ## See also {#see-also}
 

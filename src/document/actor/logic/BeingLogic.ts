@@ -11,7 +11,22 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import {
+    applyGrabHold as applyGrabHoldAction,
+    beginMaintainGrabHold as beginMaintainGrabHoldAction,
+    answerMaintainGrabHold as answerMaintainGrabHoldAction,
+    releaseGrabHold as releaseGrabHoldAction,
+} from "@src/document/actor/logic/grab-hold";
 import { entity } from "@src/entity/registry";
+import {
+    activateGrabTrial as activateGrabTrialAction,
+    type GrabTrialActivationScope,
+    beginGrabTrial as beginGrabTrialAction,
+    respondGrabTrial,
+    releaseGrabTake as releaseGrabTakeAction,
+    acceptGrabTake as acceptGrabTakeAction,
+    type GrabTrialScope,
+} from "@src/document/actor/logic/grab-actions";
 import { SafeExpression } from "@src/entity/expr/SafeExpression";
 import { expressionScopes } from "@src/entity/expr/ExpressionScopeRegistry";
 import { AffiliationLogic } from "@src/document/item/logic/AffiliationLogic";
@@ -2146,9 +2161,111 @@ export class BeingLogic<TData extends BeingData = BeingData> extends SohlActorBa
      * Define and return all intrinsic actions for this logic type.
      * @returns A map of action shortcodes to their definitions
      */
+    /**
+     * Accept a counterstrike trial on the addressed target's client.
+     * @param context - Canonical source activation lookup keys.
+     * @returns The owner-addressed activation result.
+     */
+    async activateGrabTrial(context: SohlActionContext<Partial<GrabTrialActivationScope>>) {
+        return activateGrabTrialAction(this, context);
+    }
+
+    /**
+     * Begin the owner-selected Grab trial from a successful melee offer.
+     * @param context - Canonical participant lookup keys.
+     * @returns The owner-controlled action result.
+     */
+    async beginGrabTrial(context: SohlActionContext<Partial<GrabTrialScope>>) {
+        return beginGrabTrialAction(this, context);
+    }
+
+    /**
+     * Answer a Grab trial on this target's controlling client.
+     * @param context - Canonical participant lookup keys.
+     * @returns The owner-controlled action result.
+     */
+    async answerGrabTrial(context: SohlActionContext<Partial<GrabTrialScope>>) {
+        return respondGrabTrial(this, context);
+    }
+
+    /**
+     * Release a won Take on the target owner's client.
+     * @param context - Canonical participant lookup keys.
+     * @returns The owner-controlled action result.
+     */
+    async releaseGrabTake(context: SohlActionContext<Partial<GrabTrialScope>>) {
+        return releaseGrabTakeAction(this, context);
+    }
+
+    /**
+     * Accept the released item on the taker's own client.
+     * @param context - Canonical participant lookup keys.
+     * @returns The owner-controlled action result.
+     */
+    async acceptGrabTake(context: SohlActionContext<Partial<GrabTrialScope>>) {
+        return acceptGrabTakeAction(this, context);
+    }
+
+    /**
+     * Owner-controlled Hold lifecycle action.
+     * @param context - Canonical participant lookup keys.
+     * @returns The owner-controlled action result.
+     */
+    async applyGrabHold(context: SohlActionContext<Partial<GrabTrialScope>>) {
+        return applyGrabHoldAction(this, context);
+    }
+
+    /**
+     * Owner-controlled Hold lifecycle action.
+     * @param context - Canonical participant lookup keys.
+     * @returns The owner-controlled action result.
+     */
+    async beginMaintainGrabHold(context: SohlActionContext<Partial<GrabTrialScope>>) {
+        return beginMaintainGrabHoldAction(this, context);
+    }
+
+    /**
+     * Owner-controlled Hold lifecycle action.
+     * @param context - Canonical participant lookup keys.
+     * @returns The owner-controlled action result.
+     */
+    async answerMaintainGrabHold(context: SohlActionContext<Partial<GrabTrialScope>>) {
+        return answerMaintainGrabHoldAction(this, context);
+    }
+
+    /**
+     * Owner-controlled Hold lifecycle action.
+     * @param context - Canonical participant lookup keys.
+     * @returns The owner-controlled action result.
+     */
+    async releaseGrabHold(context: SohlActionContext<Partial<GrabTrialScope>>) {
+        return releaseGrabHoldAction(this, context);
+    }
+
+    /** @inheritdoc */
     static override defineIntrinsicActions(): Partial<SohlAction.Data>[] {
         return [
             ...SohlActorBaseLogic.defineIntrinsicActions(),
+            ...Object.entries({
+                activateGrabTrial: "answer",
+                beginGrabTrial: "choose",
+                answerGrabTrial: "answer",
+                releaseGrabTake: "releaseTake",
+                acceptGrabTake: "acceptTake",
+                applyGrabHold: "applyHold",
+                beginMaintainGrabHold: "maintainHold",
+                answerMaintainGrabHold: "answer",
+                releaseGrabHold: "releaseHold",
+            }).map(([executor, title]) => ({
+                shortcode: executor,
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: `SOHL.Grab.${title}`,
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fa-solid fa-hand",
+                executor,
+                visible: "false",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+            })),
             {
                 shortcode: "performTreatmentTest",
                 subType: ACTION_SUBTYPE.INTRINSIC,
@@ -2608,7 +2725,7 @@ export class BeingLogic<TData extends BeingData = BeingData> extends SohlActorBa
                 p.locations.map((l) => l.shortcode),
                 injuries,
                 p.permanentImpairment,
-                p.isUnusable,
+                p.isUnusable || p.immobilized,
             );
             if (!imp.usable) for (const role of p.roles) roles.add(role);
         }

@@ -161,13 +161,10 @@ packageBuild:
             run: [npx, cypress, run, --browser, chromium]
             open: [npx, cypress, open]
 
-        # What the fast loop can rebuild, in the order it must be built: vite
-        # empties `build/stage`, so `code` goes first and the asset and pack
-        # passes copy into a stage it has already cleared. `db` runs before
-        # `assets` because `assets` stages `build/schema.json`, which `db`
-        # produces. `system` writes the manifest, which Foundry reads once at
-        # world launch — so producing it means the container is recreated, not
-        # merely restarted.
+        # Fast-loop targets run in declaration order and retain unselected stage
+        # outputs. A fresh stage needs all targets before the destructive mirror.
+        # `db` produces the schema staged by `assets`; `system` writes a manifest
+        # Foundry reads at world launch, so selecting it recreates the container.
         build:
             code: build:code
             css: build:css
