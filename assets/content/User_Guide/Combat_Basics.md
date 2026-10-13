@@ -235,3 +235,20 @@ without confirmation. Accepting creates an **Enveloped** physical-condition
 Trauma. It contributes a named −20 to attacks, Block, Counterstrike and Dodge.
 The trauma stays until its owner deletes it; no clock or automatic escape test
 removes it. Deleting the trauma restores the combat modifiers.
+
+## Choosing Impact Tactical Advantages
+
+On a landed damage result, the attacking player may select **Spend Impact TAs**
+and enter how many advantages to use. The count starts at **0**; cancelling or
+leaving the original result alone spends none. Include any additional advantages
+the referee awarded. The system applies the mode’s per-advantage value and posts
+an adjusted impact card without rerolling the damage dice. The recorded dice
+and damage aspect remain those of the original attack, even if the mode is
+edited later. Choose **Calculate
+Injury** on that adjusted card to use the new total; the target’s player still
+controls injury creation.
+
+Changing the chosen count replaces the previous bonus instead of adding it
+again. An authored Impact TA value of **0** means zero bonus, while a mode with
+no override uses its aspect’s default. Action, Precision and Setup advantages
+remain choices made at the table.

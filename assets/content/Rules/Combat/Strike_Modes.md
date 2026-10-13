@@ -83,7 +83,7 @@ The value belongs to the **aspect**, not to the weapon:
 
 A blunt attack with two Tactical Advantages, both spent on Impact, adds `2 × 3` = **+6**.
 
-Some strike modes **state a value of their own**, and that value **replaces** the aspect's rather than adding to it. A cut listed at 6 is worth 6 per Tactical Advantage instead of edged's 5. This is the knob a creature whose whole method is seizing and crushing is tuned with, so a leviathan's tentacle is worth more per advantage than a brawler's fist.
+Some strike modes **state a value of their own**, and that value **replaces** the aspect's rather than adding to it. An explicit value of **0** means no bonus; only an omitted value inherits the aspect default. A cut listed at 6 is worth 6 per Tactical Advantage instead of edged's 5. This is the knob a creature whose whole method is seizing and crushing is tuned with, so a leviathan's tentacle is worth more per advantage than a brawler's fist.
 
 **Spending a Tactical Advantage is your decision, and it is made aloud.** Say how many of yours go on Impact before the blow is worked out; until you say so, none of them do. A referee may grant an advantage for a circumstance no rule here enumerates, and three of the four kinds are settled between the two of you rather than by arithmetic.
 

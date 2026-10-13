@@ -49,6 +49,14 @@ Occupancy counts resolved Beings and the resolved members of Cohorts, counting e
 
 Use **Add Occupant** on the Occupants tab or the Actions tab to select an actor by shortcode or UUID, with an optional role and title. **Remove Occupant** removes only the reference, never the actor. Roles and titles are descriptive; they do not impose crew or eligibility rules.
 
+# Workshops
+
+Set **Workshop Rating** in the header to one through five stars for a workshop. Zero, the initial value, means this Structure is not a rated workshop. The rating supplies the same-numbered Target Number for crafting masterwork rolls: one star gives TN 1, up to five stars giving TN 5.
+
+The player or GM explicitly chooses which workshop a routine uses. The system does not select a workshop from the character's location, check its trade type, or add a tool-quality bonus. An unrated Structure supplies no workshop Target Number.
+
+Player-invoked macros and routines can use the public [[doc-workshopqualifiers|Workshop Qualifiers]] API to roll against the chosen workshop. See [[doc-crafting#workshop|The Workshop]] for the rules.
+
 # Placing a Structure on a Scene
 
 A structure is placed like any other actor: drag it from the sidebar onto the scene and Foundry creates one token for it. There is no group-or-individual choice and no expansion, as there is for a [[doc-cohortug|Cohort]]. The token carries the structure's name and portrait and does not move on its own. See [[doc-scnsetuptokug|Scene Setup]] for token sizing and vision.

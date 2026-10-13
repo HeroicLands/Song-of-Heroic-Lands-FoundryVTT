@@ -49,7 +49,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
             {{else}}
             <div class="ledger__cell ledger__cell--dim"><i class="fa-solid fa-xmark fa-lg"></i></div>
             {{/unless}}
-            <div class="ledger__cell">{{#if sm.impactTA}}{{sm.impactTA}}{{else}}&mdash;{{/if}}</div>
+            <div class="ledger__cell">{{#if sm.impactTA includeZero=true}}{{sm.impactTA}}{{else}}&mdash;{{/if}}</div>
             {{#unless sm.attack.disabled}}
             <div class="ledger__cell ledger__cell--rollable" data-action="rollStrikeModeTest" data-test-kind="attack" data-tooltip="{{sm.attack.deltaLabel}}" data-tooltip-direction="UP">{{sm.attack.effective}}</div>
             {{else}}
@@ -104,7 +104,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
             {{else}}
             <div class="ledger__cell ledger__cell--dim"><i class="fa-solid fa-xmark fa-lg"></i></div>
             {{/unless}}
-            <div class="ledger__cell">{{#if sm.impactTA}}{{sm.impactTA}}{{else}}&mdash;{{/if}}</div>
+            <div class="ledger__cell">{{#if sm.impactTA includeZero=true}}{{sm.impactTA}}{{else}}&mdash;{{/if}}</div>
             {{#unless sm.attack.disabled}}
             <div class="ledger__cell ledger__cell--rollable" data-action="rollStrikeModeTest" data-test-kind="attack" data-tooltip="{{sm.attack.deltaLabel}}" data-tooltip-direction="UP">{{sm.attack.effective}}</div>
             {{else}}

@@ -20,3 +20,5 @@ export * from "./SimpleRoll";
 export * from "./qualifierRoll";
 
 export * from "./parseSimpleRollFormula.mjs";
+
+export * from "./workshopQualifierRoll";

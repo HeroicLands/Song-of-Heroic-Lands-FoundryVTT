@@ -112,6 +112,7 @@ Icons come from two families: [Font Awesome](https://fontawesome.com) (its free 
 |        :icon shock-re-test:{size=2x}         | **Shock Re-Test**                | Being                      |
 |          :icon shock-test:{size=2x}          | **Shock Test**                   | Being                      |
 |    :icon shock-coma-course-test:{size=2x}    | **Shock/Coma Course Test**       | Trauma                     |
+|       :icon spend-impact-tas:{size=2x}       | **Spend Impact TAs**             | A combatant in the tracker |
 |         :icon stumble-test:{size=2x}         | **Stumble Test**                 | Being                      |
 |         :icon success-test:{size=2x}         | **Success Test**                 | Skill                      |
 |      :icon success-value-test:{size=2x}      | **Success Value Test**           | Skill                      |

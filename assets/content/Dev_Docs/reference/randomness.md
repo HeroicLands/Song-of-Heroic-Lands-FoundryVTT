@@ -120,3 +120,69 @@ cy.window().then((win) => win.sohl.random.seed("hit-location-suite-01"));
 See `tests/domain/random/Rng.test.ts`, `tests/domain/body/BodyStructure.test.ts`,
 and `cypress/e2e/seedable-random.cy.js` for worked examples, and the
 [[doc-testing|Testing]] guide for the dice-determinism levels.
+
+## Post-roll Value Diamond allocation {#diamond-allocation}
+
+{@link sohl.entity.result.offerValueDiamondAllocation} takes an actual recorded
+{@link sohl.entity.result.SuccessTestResult} and offers its controller the choice.
+It returns a separate allocation record: `qualifiers`, `timeDiamonds`,
+`timeReductionPercent`, `unspent`, and an optional `qualifierResult`. It never
+changes the originating roll, expenses, time, items or actors. Cancelling or
+losing source ownership returns `undefined`; both input counts default to zero.
+Whole nonnegative counts must fit the earned diamonds, and at most three can
+buy a 10% time reduction each. Set `allowTimeReduction: false` for a routine that
+permits qualifier rolls but has no fast-crafting use.
+
+This opt-in is deliberate: Treatment and other Success Value consumers give
+diamonds different meanings. An ordinary Success Value test retains its current
+behavior. A routine Macro can ask the skill to offer allocation after the test:
+
+```js
+const actor = game.actors.get("ACTOR_ID");
+const skill = actor.logic.allLogics.find((s) => s.kind === "skill" && s.data.shortcode === "wpnc");
+const context = new sohl.entity.action.SohlActionContext({
+  speaker: skill.speaker,
+  scope: {
+    diamondAllocation: {
+      noChat: true,
+      qualifier: {
+        targetNumber: 4, // the chosen workshop's four stars
+        effectLadder: ["base", "fine", "better", "superior", "excellent", "masterwork"],
+      },
+    },
+  },
+});
+await skill.successValueTest(context);
+const chosen = context.scope.valueDiamondAllocation;
+if (chosen) console.log(chosen.qualifierResult, chosen.timeReductionPercent);
+```
+
+The same offer can be called directly with a live result obtained locally:
+
+```js
+const context = new sohl.entity.action.SohlActionContext({ speaker: skill.speaker });
+const result = await skill.successValueTest(context);
+if (result) {
+  const chosen = await sohl.entity.result.offerValueDiamondAllocation(result, {
+    qualifier: { targetNumber: 4, effectLadder: [0, 1, 2, 3, 4, 5] },
+  });
+  if (chosen) console.log(chosen.qualifierResult, chosen.timeReductionPercent);
+}
+```
+
+A configured qualifier uses the existing independent-d10
+{@link sohl.entity.roll.qualifierRoll} contract, including its forced-value FIFO
+and TN clamp. Its ladder must cover every possible earned-diamond allocation;
+invalid rules reject before opening a dialog or drawing dice. Without a
+`qualifier` option the chosen count is returned, without drawing any dice, for
+caller-controlled resolution. `noChat: true` suppresses only the allocation
+summary, not the required player choice. Keep the recorded result local:
+its target-value callback is deliberately not serialized into chat data.
+Neither API invents a routine's TN, tiered effects, cost or duration; producing
+or modifying an article remains a separate accepted routine action.
+
+One accepted spending choice is retained for each local recorded result. Repeating
+the direct offer returns a copy of that receipt without another dialog, summary,
+or qualifier roll. Cancelling or accepting zero spend permits a later offer.
+Unspent diamonds remain explicitly reported for adjudication; the helper does
+not automatically consume them or schedule another allocation.

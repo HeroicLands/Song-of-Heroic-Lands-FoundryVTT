@@ -23,6 +23,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
         {{> draftField isDraft=isDraft}}
         <div class="item-subtitle">{{typeLabel}}</div>
         <div class="form-group">
+            <label>{{localize "SOHL.Structure.FIELDS.workshopRating.label"}}</label>
+            <input type="number" name="system.workshopRating" value="{{document.system.workshopRating}}" min="0" max="5" step="1" {{#unless isEditable}}disabled{{/unless}} />
+            <span class="hint">{{localize "SOHL.Structure.FIELDS.workshopRating.hint"}}</span>
+        </div>
+        <div class="form-group">
             <label>{{localize "SOHL.Structure.FIELDS.maxHealth.label"}}</label>
             <input type="number" name="system.maxHealth" value="{{document.system.maxHealth}}" min="0" step="1" {{#unless isEditable}}disabled{{/unless}} />
             <span>{{structureHealth.value}} / {{structureHealth.max}}</span>

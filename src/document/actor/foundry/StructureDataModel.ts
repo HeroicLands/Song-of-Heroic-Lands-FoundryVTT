@@ -50,6 +50,13 @@ function defineStructureDataSchema(): foundry.data.fields.DataSchema {
                 initial: [],
             },
         ),
+        workshopRating: new foundry.data.fields.NumberField({
+            initial: 0,
+            min: 0,
+            max: 5,
+            integer: true,
+            nullable: false,
+        }),
         maxHealth: new foundry.data.fields.NumberField({
             initial: 0,
             min: 0,
@@ -81,6 +88,7 @@ export class StructureDataModel<
     /** @inheritDoc */
     static override readonly LOCALIZATION_PREFIXES = ["SOHL.Structure", "SOHL.Actor"];
     occupants!: import("@src/document/actor/logic/StructureLogic").StructureOccupant[];
+    workshopRating!: number;
     maxHealth!: number;
     occupantCapacity!: number;
     cargoCapacity!: number;

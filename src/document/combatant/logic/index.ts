@@ -16,3 +16,5 @@
 
 export * from "./SohlCombatantLogic";
 export * from "./combatant-dialogs";
+
+export * from "./impact-ta-spend";

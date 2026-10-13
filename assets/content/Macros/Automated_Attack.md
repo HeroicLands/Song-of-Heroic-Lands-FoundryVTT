@@ -13,5 +13,5 @@ start an exchange from the macro bar rather than from the combatant's sheet.
 # Script {#script}
 
 ```js
-await CONFIG.SOHL.class.Utility.currentCombatantAttack();
+await game.combat?.combatant?.logic.executeAction("automatedCombatStart");
 ```

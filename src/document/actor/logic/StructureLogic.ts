@@ -387,6 +387,8 @@ export interface StructureData<
 > extends SohlActorData<TLogic> {
     /** Stored occupant actor references, using the established occupant shape. */
     occupants: StructureOccupant[];
+    /** Authored workshop stars, 1–5; zero means not a rated workshop. */
+    workshopRating: number;
     /** Authored maximum Health; zero means no Health has been assigned. */
     maxHealth: number;
     /** Authored number of people the structure accommodates. */

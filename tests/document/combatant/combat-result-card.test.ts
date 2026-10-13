@@ -130,6 +130,15 @@ describe("attack-result-card renders the supplied variables", () => {
         });
     }
 
+    it("renders an explicit zero Impact TA value beside the award", async () => {
+        const html = await render({
+            attackResult: {
+                ...side({ name: "Aldric", weapon: "Sword" }),
+                mode: { impactTA: 0, parent: { name: "Sword" } },
+            },
+        });
+        expect(html).toMatch(/Impact[^<]*<\/span>[\s\S]*?\+0/);
+    });
     it("renders the attacker adjustment table with a signed value", async () => {
         const html = await render();
         expect(html).toMatch(/adj-name">Situational<\/span>[\s\S]*?adj-value"\s*>\+2</);

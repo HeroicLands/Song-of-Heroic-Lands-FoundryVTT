@@ -99,6 +99,14 @@ const TourBase = (foundry as any).nue.Tour as {
 
 /** Document-mutation hooks a state gate watches to re-evaluate. */
 const STATE_HOOKS = [
+    "updateUser",
+    "createMacro",
+    "updateMacro",
+    "deleteMacro",
+    "createChatMessage",
+    "updateChatMessage",
+    "deleteChatMessage",
+    "updateCombat",
     "createActor",
     "updateActor",
     "deleteActor",
@@ -185,6 +193,11 @@ export class SohlTour extends TourBase {
      */
     #rngLease: RngLease | undefined;
 
+    /** Invalidates suspended step preparation across navigation and exit. */
+    #preparationGeneration = 0;
+    /** Distinguishes concurrent progress requests on the same tour instance. */
+    #progressGeneration = 0;
+
     /** `pagehide` restore hook — the navigation-away safety net, if seeded. */
     #unloadHandler: (() => void) | undefined;
 
@@ -242,9 +255,14 @@ export class SohlTour extends TourBase {
      * watchers before the step is shown.
      */
     async _preStep(): Promise<void> {
-        await super._preStep();
+        const generation = ++this.#preparationGeneration;
         const step = this.currentSohlStep;
-        if (!step) return;
+        const isCurrent = () =>
+            generation === this.#preparationGeneration &&
+            (TourBase as any).activeTour === this &&
+            this.currentSohlStep === step;
+        await super._preStep();
+        if (!step || !isCurrent()) return;
 
         // Seed the RNG once, at the first shown step, if this is a driven tour.
         // Establishing the lease here (rather than in start()) covers every entry
@@ -256,7 +274,14 @@ export class SohlTour extends TourBase {
         // a document a drive created (e.g. an actor from an imported adventure).
         // Each is awaited so the following step's selectors resolve.
         if (step.drive?.length) {
-            await runDrive(step.drive, this.#executeDrive, this);
+            await runDrive(
+                step.drive,
+                async (drive) => {
+                    if (isCurrent()) await this.#executeDrive(drive);
+                },
+                this,
+            );
+            if (!isCurrent()) return;
         }
 
         // Drop a stale sheet reference if that sheet has since closed.
@@ -500,6 +525,7 @@ export class SohlTour extends TourBase {
      * first, then defer to the base teardown.
      */
     exit(): void {
+        this.#preparationGeneration++;
         this.#restoreRng();
         this.#removeTourStyle();
         this.#teardownStepDom();
@@ -514,10 +540,17 @@ export class SohlTour extends TourBase {
      * @param stepIndex - The step index to progress to.
      */
     async progress(stepIndex: number): Promise<void> {
-        // On a render error the base wraps _renderStep in try/catch and calls
-        // this.exit() (which restores) before rethrowing — so a throw here has
-        // already torn down the lease; let it propagate.
-        await super.progress(stepIndex);
+        const generation = ++this.#progressGeneration;
+        try {
+            await super.progress(stepIndex);
+        } catch (error) {
+            // Core catches rendering errors, but preparation errors occur before
+            // its catch. Restore our lease for either, without exiting a newer run.
+            if (generation !== this.#progressGeneration) return;
+            if ((TourBase as any).activeTour === this) this.exit();
+            throw error;
+        }
+        if (generation !== this.#progressGeneration) return;
         const status = this.status;
         const TERMINAL = (TourBase as any).STATUS ?? {};
         if (status === TERMINAL.COMPLETED || status === TERMINAL.UNSTARTED) {
@@ -716,9 +749,14 @@ export class SohlTour extends TourBase {
             case TOUR_DRIVE_KIND.ROLL_INITIATIVE:
                 await this.#activeCombat()?.rollAll?.();
                 break;
-            case TOUR_DRIVE_KIND.ADVANCE_TURN:
-                await this.#activeCombat()?.nextTurn?.();
+            case TOUR_DRIVE_KIND.ADVANCE_TURN: {
+                const combat =
+                    drive.combatUuid ?
+                        await this.#resolveDocument(drive.combatUuid)
+                    :   this.#activeCombat();
+                await combat?.nextTurn?.();
                 break;
+            }
             case TOUR_DRIVE_KIND.SET_TARGET: {
                 const token = await this.#resolveTokenObject(drive.tokenUuid);
                 token?.setTarget?.(true, { releaseOthers: true });
@@ -741,7 +779,10 @@ export class SohlTour extends TourBase {
      * @param drive - The start-combat descriptor.
      */
     async #startCombat(drive: StartCombatDrive): Promise<void> {
-        const scene: any = (globalThis as any).canvas?.scene ?? (game as any).scenes?.active;
+        const scene: any =
+            drive.sceneUuid ?
+                await this.#resolveDocument(drive.sceneUuid)
+            :   ((globalThis as any).canvas?.scene ?? (game as any).scenes?.active);
         if (!scene) return;
 
         let tokens: any[];
@@ -759,6 +800,7 @@ export class SohlTour extends TourBase {
         const combat: any = await CombatCls.create({
             scene: scene.id,
             active: true,
+            ...(drive.combatFlags ? { flags: drive.combatFlags } : {}),
         });
         await combat.createEmbeddedDocuments(
             "Combatant",
@@ -769,8 +811,11 @@ export class SohlTour extends TourBase {
                 hidden: false,
             })),
         );
-        await combat.startCombat();
+        // Initiative updates preserve the current combatant. Fill the final
+        // order before startCombat selects turn zero, rather than preserving
+        // the arbitrary unrolled first turn.
         if (drive.rollInitiative) await combat.rollAll();
+        await combat.startCombat();
     }
 
     /**

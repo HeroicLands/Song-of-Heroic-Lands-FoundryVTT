@@ -58,9 +58,8 @@
  *
  * The Impact Tactical Advantage term is **not a Grab constant**. It is the
  * mode's own {@link sohl.entity.strikemode.impactTacticalAdvantageValue} — the
- * aspect default unless the mode authors an `impTA` of its own — and a grab is
- * blunt, which is where its printed value comes from. Spending several
- * multiplies.
+ * aspect default unless the mode authors an `impTA` of its own. Grab explicitly
+ * authors its approved Strength Trial value of 3. Spending several multiplies.
  *
  * **Nothing here spends a Tactical Advantage, and nothing rolls a die.** How
  * many advantages are spent is the player's decision and the referee's award,

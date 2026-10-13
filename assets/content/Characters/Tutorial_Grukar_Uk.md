@@ -360,7 +360,7 @@ sohl:
             probWeight: 20
             protectionBase: {blunt: 0, edged: 0, piercing: 0, fire: 0}
       weight: {base: 150, calc: (9 * str) + 50}
-      reachBase: 0
+      reachBase: 1
       bodyScaleBase: 1
       personalFatigue: enc + 5
     currentMoveMedium: terrestrial

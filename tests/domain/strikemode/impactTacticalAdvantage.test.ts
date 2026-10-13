@@ -50,10 +50,8 @@ describe("impactTacticalAdvantageValue", () => {
         expect(impactTacticalAdvantageValue(mode(IMPACT_ASPECT.EDGED, { impTA: 2 }))).toBe(2);
     });
 
-    it("a zero impTA is the authored default and defers to the aspect", () => {
-        // Content seeds `impTA: 0` on every mode that states no override, so a
-        // zero must read as "unset" or every aspect default would be erased.
-        expect(impactTacticalAdvantageValue(mode(IMPACT_ASPECT.BLUNT, { impTA: 0 }))).toBe(3);
+    it("an explicitly authored zero suppresses the aspect bonus", () => {
+        expect(impactTacticalAdvantageValue(mode(IMPACT_ASPECT.BLUNT, { impTA: 0 }))).toBe(0);
     });
 
     it("a mode with no traits bag at all resolves by aspect", () => {

@@ -11,6 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { spendImpactTAs as chooseImpactTAs, type ImpactTAScope } from "./impact-ta-spend";
 import { offerEnveloped } from "@src/document/actor/logic/envelop-actions";
 import { offerGrabTrial } from "@src/document/actor/logic/grab-actions";
 import { entity } from "@src/entity/registry";
@@ -1058,6 +1059,15 @@ export class SohlCombatantLogic<
     }
 
     /**
+     * Choose an optional Impact TA bonus using this controller's recorded damage.
+     * @param context - Original impact and participant references.
+     * @returns Adjusted damage card, or undefined when declined.
+     */
+    async spendImpactTAs(context: SohlActionContext<Partial<ImpactTAScope>>) {
+        return chooseImpactTAs(this, context);
+    }
+
+    /**
      * Define the combatant's intrinsic actions — the automated-combat defense
      * resumes, dispatched to this combatant from the attack card's defense
      * buttons.
@@ -1066,6 +1076,16 @@ export class SohlCombatantLogic<
     static override defineIntrinsicActions(): Partial<SohlAction.Data>[] {
         return [
             ...SohlLogic.defineIntrinsicActions(),
+            {
+                shortcode: "spendImpactTAs",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.ImpactTA.spend",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fa-solid fa-burst",
+                executor: "spendImpactTAs",
+                visible: "false",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
+            },
             {
                 shortcode: "automatedCombatStart",
                 subType: ACTION_SUBTYPE.INTRINSIC,
@@ -1650,6 +1670,8 @@ export function buildCombatCardData(combatResult: CombatResult): CombatCardData 
     let cxCardData: Record<string, unknown> | undefined;
     const atkCardData: Record<string, unknown> = {
         actorId: atkResult.combatant.actorLogic!.id,
+        attackerTokenUuid: atkResult.token?.uuid ?? "",
+        defenderTokenUuid: defResult.token?.uuid ?? "",
         title: atkResult.label,
         attacker: atkResult.combatant.name,
         defender: defResult.combatant.name,
@@ -1729,6 +1751,8 @@ export function buildCombatCardData(combatResult: CombatResult): CombatCardData 
 
         cxCardData = {
             actorId: atkResult.combatant.actorLogic!.id,
+            attackerTokenUuid: atkResult.token?.uuid ?? "",
+            defenderTokenUuid: combatResult.attackResult.token?.uuid ?? "",
             title: atkResult.label,
             attacker: atkResult.combatant.name,
             defender: combatResult.attackResult.combatant.name,
@@ -1782,6 +1806,53 @@ export function buildCombatCardData(combatResult: CombatResult): CombatCardData 
             defendInjuryScope: defInjury?.scopeData ?? {},
         };
     }
+    const choice = (
+        source: AttackResult,
+        impact: ImpactResult | undefined,
+        target: SohlTokenDocumentLogic | undefined,
+        location = "",
+    ) => {
+        if (!impact || !source.mode?.pointerData || !source.combatant?.uuid || !target?.uuid)
+            return {};
+        const injury = injuryButton(impact, target.uuid, location);
+        if (!injury) return {};
+        return {
+            hasImpactTAChoice: true,
+            impactTAHandlerUuid: source.combatant.uuid,
+            impactTAScope: {
+                sourceCombatantUuid: source.combatant.uuid,
+                mode: source.mode.pointerData,
+                impactResult: impact,
+                targetTokenUuid: target.uuid,
+                available:
+                    (
+                        combatResult.tacticalAdvantages.side ===
+                        (source === combatResult.attackResult ? "attacker" : "defender")
+                    ) ?
+                        combatResult.tacticalAdvantages.count
+                    :   0,
+                injuryScope: injury.scopeData,
+            },
+        };
+    };
+    Object.assign(
+        atkCardData,
+        choice(
+            combatResult.attackResult,
+            combatResult.attackerImpact,
+            combatResult.defendResult.token,
+            combatResult.blockingLimbLocationCode,
+        ),
+    );
+    if (cxCardData)
+        Object.assign(
+            cxCardData,
+            choice(
+                combatResult.defendResult as AttackResult,
+                combatResult.cxImpact,
+                combatResult.attackResult.token,
+            ),
+        );
     return { atkCardData, cxCardData };
 }
 

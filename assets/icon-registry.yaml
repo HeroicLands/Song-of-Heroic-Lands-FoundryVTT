@@ -439,6 +439,10 @@ icons:
         family: game-icons
         icon: skills
         label: skills
+    spend-impact-tas:
+        style: solid
+        icon: burst
+        label: spend impact tas
     star:
         style: solid
         icon: star

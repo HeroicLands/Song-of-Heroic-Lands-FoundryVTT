@@ -42,6 +42,9 @@
  * answers `0` for none.
  */
 
+import type { ImpactResult } from "@src/entity/result/ImpactResult";
+import { entity } from "@src/entity/entityRegistry";
+import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
 import type { StrikeModeBase } from "@src/entity/strikemode/StrikeModeBase";
 import { IMPACT_ASPECT, isImpactAspect, type ImpactAspect } from "@src/utils/constants";
 
@@ -66,9 +69,8 @@ export const IMPACT_TA_ABBREV = "ImpTA";
  * What one Tactical Advantage spent on Impact is worth behind a strike mode:
  * its `impTA` trait where it states one, else the default for its aspect.
  *
- * The trait is authored as `0` on every mode that states no override, so a `0`
- * reads as "unset" and defers to the aspect — treating it as a real value would
- * erase every default in content.
+ * An explicitly authored zero is an override yielding no bonus. Only a
+ * missing numeric override falls back to the aspect default.
  *
  * @param sm - The strike mode delivering the blow.
  * @returns The value per Tactical Advantage, or `undefined` when the mode's
@@ -76,7 +78,7 @@ export const IMPACT_TA_ABBREV = "ImpTA";
  */
 export function impactTacticalAdvantageValue(sm: StrikeModeBase): number | undefined {
     const override = sm.traits?.impTA;
-    if (typeof override === "number" && override !== 0) return override;
+    if (typeof override === "number") return override;
     const aspect = sm.impact?.aspectType;
     return isImpactAspect(aspect) ? IMPACT_TA_DEFAULT[aspect] : undefined;
 }
@@ -96,4 +98,46 @@ export function impactTacticalAdvantageBonus(sm: StrikeModeBase, spent: number):
     const count = Math.floor(spent);
     if (!(count > 0)) return 0;
     return count * (impactTacticalAdvantageValue(sm) ?? 0);
+}
+
+/**
+ * Replace a player-chosen Impact bonus while retaining the recorded damage dice.
+ * @param original - Already-rolled impact snapshot, never mutated.
+ * @param mode - Owning mode supplying its override or aspect default.
+ * @param spent - Whole nonnegative count explicitly selected by the player.
+ * @returns An adjusted snapshot with the named ImpTA contribution.
+ * @throws When the count or resulting contribution is not finite and safe.
+ */
+export function applyImpactTacticalAdvantages(
+    original: ImpactResult,
+    mode: StrikeModeBase,
+    spent: number,
+): ImpactResult {
+    if (!Number.isSafeInteger(spent) || spent < 0)
+        throw new RangeError("Choose a whole nonnegative Impact TA count");
+    const bonus = impactTacticalAdvantageBonus(mode, spent);
+    if (!Number.isFinite(bonus)) throw new RangeError("Impact TA contribution must be finite");
+    const previous = original.impactModifier.get(IMPACT_TA_ABBREV)?.numValue ?? 0;
+    const modifier = original.impactModifier.clone({}, { parent: original.impactModifier.parent });
+    modifier.delete(IMPACT_TA_ABBREV);
+    if (bonus) modifier.add("SOHL.ImpactTA.bonus", IMPACT_TA_ABBREV, bonus);
+    const roll = new SimpleRoll(
+        {
+            numDice: original.roll.numDice,
+            dieFaces: original.roll.dieFaces,
+            modifier: original.roll.modifier,
+            expression: `(${original.roll.formula})+(${bonus - previous})`,
+            rolls: [...original.roll.rolls],
+        },
+        { parent: original.parent },
+    );
+    return new entity.ImpactResult(
+        {
+            impactModifier: modifier,
+            roll,
+            speaker: original.speaker,
+            label: original.label,
+        },
+        { parent: original.parent },
+    );
 }

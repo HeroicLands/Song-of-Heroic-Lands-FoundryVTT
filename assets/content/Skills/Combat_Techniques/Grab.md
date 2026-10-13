@@ -26,7 +26,7 @@ sohl:
       durabilityMod: 0
       cxSLMod: 0
       oppDef: 0
-      impTA: 0
+      impTA: 3
       AR: 0
       noAttack: false
       noBlock: true

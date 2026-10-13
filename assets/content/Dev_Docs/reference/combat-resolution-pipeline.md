@@ -298,20 +298,27 @@ which is what {@link sohl.entity.strikemode.isShieldStrikeMode} answers.
 {@link sohl.entity.strikemode.impactTacticalAdvantageValue} resolves what one
 Tactical Advantage spent on Impact is worth behind a strike mode: the `impTA`
 trait where it states one, else {@link sohl.entity.strikemode.IMPACT_TA_DEFAULT}
-keyed by the mode's aspect. The trait is authored as `0` on every mode stating no
-override, so a zero reads as "unset" and defers to the aspect.
+keyed by the mode's aspect. An explicitly authored `impTA: 0` means no
+Impact bonus; only an absent value uses the aspect default.
 
 The value is exposed as `StrikeModeBase.impactTA` for the strike-mode ledgers and
 carried onto the attack-result card beside the Tactical Advantage count, so the
 count and its worth arrive together.
 
-**Spending is deliberately unimplemented, and that is the Prime Directive rather
-than an omission.** Three of the four Tactical Advantage kinds resolve at the
-table, a referee may award one under circumstances no rule enumerates, and only
-the player knows what they want from one. So
-{@link sohl.entity.strikemode.impactTacticalAdvantageBonus} takes the number
-spent as an argument and answers `0` for none: the system offers the arithmetic
-and never decides that an advantage was spent.
+The attacking controller may choose **Spend Impact TAs** on a landed damage
+result. The dialog defaults to zero and can be cancelled. The count displayed
+by the exchange is information, not a spending instruction; referee-granted
+advantages can also be included. The action validates the source combatant,
+mode owner and original controller, then replaces the named `ImpTA` contribution
+and posts an adjusted impact card. The saved impact supplies the authoritative
+dice and aspect even after a mode edit. Recorded dice, aimed zone and a limb-block
+location remain unchanged. **Calculate Injury** on that card remains addressed
+to the affected actor's owner. No remote actor or inventory is mutated.
+
+Repeated choices replace the contribution rather than stacking it or drawing
+new dice. {@link sohl.entity.strikemode.impactTacticalAdvantageBonus} performs
+`N × value`; zero means none. Action, Precision and Setup remain player/referee
+choices with no automatic allocation or new spending machinery.
 
 ### How a successful attack resolves {#how-an-attack-resolves}
 
@@ -361,7 +368,8 @@ Advantage value per advantage spent, then
 target and {@link sohl.entity.strikemode.GRAB_OFF_HANDED_TRIAL_MODIFIER} when
 that hand is the off one. A contribution worth nothing is left out rather than
 added as a zero. The Impact TA term is **not a Grab constant** — it is
-{@link sohl.entity.strikemode.impactTacticalAdvantageValue}, and a grab is blunt.
+{@link sohl.entity.strikemode.impactTacticalAdvantageValue}; Grab explicitly authors
+its approved Strength Trial value of 3.
 Each delta is labelled from the shared `SOHL.INFO.*` delta namespace, so the
 off-hand cost on a Trial reads as the off-hand reduction on an impact breakdown
 does.

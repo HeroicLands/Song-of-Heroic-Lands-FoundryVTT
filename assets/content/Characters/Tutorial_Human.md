@@ -26,7 +26,7 @@ sohl:
     - {model: skill-melee, system: {masteryLevelBase: 42}}
     - {model: skill-dge, system: {masteryLevelBase: 38}}
     - {model: skill-shok, system: {masteryLevelBase: 30}}
-    - {model: skill-init, system: {masteryLevelBase: 35}}
+    - {model: skill-init, system: {masteryLevelBase: 36}}
     - {model: skill-awar, system: {masteryLevelBase: 45}}
     - {model: skill-bflkbite, initSkillMult: 2}
     - {model: skill-bflkgrab, initSkillMult: 2}
@@ -360,7 +360,7 @@ sohl:
             probWeight: 20
             protectionBase: {blunt: 0, edged: 0, piercing: 0, fire: 0}
       weight: {base: 150, calc: (9 * str) + 50}
-      reachBase: 0
+      reachBase: 1
       bodyScaleBase: 1
       personalFatigue: enc + 5
     currentMoveMedium: terrestrial

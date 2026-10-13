@@ -21,3 +21,5 @@ export * from "./ImpactResult";
 export * from "./OpposedTestResult";
 export * from "./SuccessTestResult";
 export * from "./TestResult";
+
+export * from "./valueDiamondAllocation";

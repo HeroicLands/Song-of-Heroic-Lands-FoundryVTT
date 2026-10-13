@@ -45,6 +45,11 @@ import {
 import { perceptionPenaltyApplies } from "@src/document/item/logic/worn-armour-effects";
 import type { MissileStrikeMode } from "@src/entity/strikemode/MissileStrikeMode";
 import { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
+import {
+    offerValueDiamondAllocation,
+    type ValueDiamondAllocation,
+    type ValueDiamondAllocationOptions,
+} from "@src/entity/result/valueDiamondAllocation";
 import type { OpposedTestResult } from "@src/entity/result/OpposedTestResult";
 import {
     ACTION_SUBTYPE,
@@ -76,6 +81,14 @@ import {
 import { AttributeLogic } from "./AttributeLogic";
 import { getActorBody } from "@src/document/actor/logic/BodyLogic";
 import { SohlAction } from "@src/entity/action/SohlAction";
+
+/** Input and accepted output for an optional post-roll diamond allocation. */
+export interface SuccessValueTestScope extends Partial<SuccessTestResult.ContextScope> {
+    /** Routine-specific allocation rules; omitted by ordinary SV consumers. */
+    diamondAllocation?: ValueDiamondAllocationOptions;
+    /** Accepted choice, available even when the allocation summary is suppressed. */
+    valueDiamondAllocation?: ValueDiamondAllocation;
+}
 
 /**
  * A trained capability with a mastery level.
@@ -437,13 +450,26 @@ export class SkillLogic<TData extends SkillData = SkillData> extends SohlItemBas
      * drives the one generic success-test path with the svTable and grading
      * `targetValueFunc` supplied as data — no bespoke test code.
      *
+     * An optional `scope.diamondAllocation` supplies post-roll allocation rules.
+     * The player then chooses qualifier dice and, when enabled, 10% time reduction
+     * per diamond (maximum 30%). Other routines omit it to retain their own uses.
+     * The accepted record is written to `context.scope.valueDiamondAllocation`,
+     * including when allocation chat is suppressed. Stale output is cleared first.
+     * The original test result is returned unchanged; no expense or timer is mutated.
      * @param context - The action context (speaker, scope) for the test.
      * @returns The graded test result, `undefined` if cancelled, or `false` on error.
      */
     async successValueTest(
-        context: SohlActionContext,
+        context: SohlActionContext<SuccessValueTestScope>,
     ): Promise<SuccessTestResult | undefined | false> {
-        return this.masteryLevel.successValueTest(context);
+        delete context.scope.valueDiamondAllocation;
+        const result = await this.masteryLevel.successValueTest(context);
+        const allocationRules = context.scope.diamondAllocation;
+        if (result && allocationRules) {
+            const chosen = await offerValueDiamondAllocation(result, allocationRules);
+            if (chosen) context.scope.valueDiamondAllocation = chosen;
+        }
+        return result;
     }
 
     /**

@@ -11,6 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { guardUndrawnTokenTargets } from "./headless-token-targets.js";
+
 /**
  * Log in to the seeded test world and wait until the game client is ready.
  *
@@ -156,6 +158,10 @@ function guardHeadlessTokenDraw(win) {
         return Promise.resolve(this);
     };
     proto.applyRenderFlags = function () {};
+    // The target-animation ticker bypasses render flags and addresses graphics
+    // that skipped Token.draw never initialized. Only those absent graphics
+    // are inert; targeting state and initialized native renderers stay intact.
+    guardUndrawnTokenTargets(proto);
     // Movement can call stopAnimation even for an undrawn placeable. Core's
     // animation refresh reads canvas.fog.sharedExploration unconditionally;
     // without a fog manager there is no canvas perception state to refresh.

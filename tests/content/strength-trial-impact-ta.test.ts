@@ -48,9 +48,9 @@ describe("published Strength Trial TA bonuses agree with authored modes", () => 
             expect(impactTacticalAdvantageBonus(mode, 0)).toBe(0);
         },
     );
-    it("Grab retains the blunt default rather than an authored override", () => {
+    it("Grab explicitly retains the approved +3 Strength Trial bonus", () => {
         const mode = authoredMode("Grab");
-        expect(mode.traits.impTA ?? 0).toBe(0);
+        expect(mode.traits.impTA).toBe(3);
         expect(impactTacticalAdvantageValue(mode)).toBe(3);
     });
 });

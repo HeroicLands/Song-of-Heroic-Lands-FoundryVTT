@@ -14,6 +14,7 @@
 import { FRAMEWORK_DEMO_TOUR, buildFrameworkDemoTour } from "./framework-demo-tour";
 import { CHARACTER_CREATION_TOUR, buildCharacterCreationTour } from "./character-creation-tour";
 import { ASSISTED_COMBAT_TOUR, buildAssistedCombatTour } from "./assisted-combat-tour";
+import { AUTOMATED_COMBAT_TOUR, buildAutomatedCombatTour } from "./automated-combat-tour";
 
 /** Guards {@link bindTourStartButtons} so the render hook is installed only once. */
 let startHookBound = false;
@@ -47,6 +48,12 @@ export function registerSystemTours(): void {
         ASSISTED_COMBAT_TOUR.namespace,
         ASSISTED_COMBAT_TOUR.id,
         buildAssistedCombatTour,
+    );
+    registerTour(
+        tours,
+        AUTOMATED_COMBAT_TOUR.namespace,
+        AUTOMATED_COMBAT_TOUR.id,
+        buildAutomatedCombatTour,
     );
     bindTourStartButtons();
 }

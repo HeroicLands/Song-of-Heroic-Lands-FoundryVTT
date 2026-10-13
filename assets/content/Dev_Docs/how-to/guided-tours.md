@@ -11,6 +11,8 @@ sohl: {kbcat: devdocs}
 
 # Writing Guided Tours
 
+See also: [[doc-automatedcombattour|Automated Combat Tour]]
+
 > **Audience:** SoHL contributors adding an in-app guided **Tour** — an
 > interactive, in-context walkthrough that teaches a workflow (Character
 > Creation, combat setup, …) on the live sheets rather than in prose.

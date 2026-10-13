@@ -15,6 +15,7 @@
 // verifies every sibling module and subfolder here is re-exported.
 
 export * from "./assisted-combat-tour";
+export * from "./automated-combat-tour";
 export * from "./character-creation-tour";
 export * from "./framework-demo-tour";
 export * from "./register-tours";

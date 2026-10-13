@@ -121,6 +121,7 @@ export class StructureSheet extends SohlActorSheetBase {
         const logic = this.document
             .logic as import("@src/document/actor/logic/StructureLogic").StructureLogic;
         return Object.assign(context, {
+            isEditable: this.isEditable,
             structureOccupantCount: logic.occupantCount,
             structureOccupantsOverCapacity: logic.occupantsOverCapacity,
             structureHealth: logic.data.health,

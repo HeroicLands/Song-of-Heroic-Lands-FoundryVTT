@@ -327,3 +327,24 @@ Clicking the **Atk**, **Blk**, or **CX** cell on the Combat tab is the direct ro
 - [[doc-shortcodesug|Shortcodes]] — what **Parent Skill** and **Associated Skill** are naming.
 - [[doc-ugitems|Items]] — every item type at a glance.
 - [[doc-userguide|User Guide]] — back to the index.
+
+## Allocating Value Diamonds
+
+A crafting routine can offer **Allocate Value Diamonds** after its Success Value
+result. Both counts start at zero. Choose how many diamonds buy qualifier rolls
+and how many make the work faster: **10% per diamond, maximum 30%**. Their sum
+cannot exceed what the test earned. You may leave diamonds unspent, or cancel
+without allocating any.
+
+The choice is made after the roll; fast crafting requires no pre-roll promise.
+The original test and its dice remain unchanged. Repeating an accepted spending
+choice returns its recorded allocation and does not draw more qualifier dice.
+Cancelling or choosing zero leaves a later offer available. When the routine supplies a
+Target Number and effect ladder, only your chosen qualifier count is rolled.
+Otherwise the summary records that count for the referee or routine to resolve.
+The time reduction is a percentage, not an automatic change to a clock, cost,
+item or crafting expense. Routines with other uses for diamonds keep those uses
+and can omit this offer or disable the crafting-time choice.
+
+A Macro or Script Action can enable this offer through `scope.diamondAllocation`;
+see [[doc-randomness#diamond-allocation|the developer example]].

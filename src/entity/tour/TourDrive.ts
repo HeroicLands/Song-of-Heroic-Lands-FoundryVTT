@@ -77,8 +77,12 @@ export interface StartCombatDrive {
     kind: typeof TOUR_DRIVE_KIND.START_COMBAT;
     /** UUIDs of the TokenDocuments to enroll; defaults to all scene tokens. */
     tokenUuids?: string[];
+    /** Optional scene identity; otherwise uses the viewed scene. */
+    sceneUuid?: string;
     /** Whether to roll initiative for all as part of starting. Defaults to false. */
     rollInitiative?: boolean;
+    /** Plain document flags attached to this specific creation payload. */
+    combatFlags?: Record<string, unknown>;
 }
 
 /** Roll initiative for every combatant in the active combat. */
@@ -89,6 +93,8 @@ export interface RollInitiativeDrive {
 /** Advance the active combat to the next turn. */
 export interface AdvanceTurnDrive {
     kind: typeof TOUR_DRIVE_KIND.ADVANCE_TURN;
+    /** Optional encounter identity; otherwise advances the active encounter. */
+    combatUuid?: string;
 }
 
 /** Set the current user's target to a specific token. */

@@ -65,3 +65,12 @@ Diamonds grade a single piece of work against a fixed scale of five, and are unr
 ## SV tests and Secondary Mastery {#sv-secondary-mastery}
 
 [[doc-scndryms#secondary-modifier|Secondary Modifiers]] affect the EML rolled in step 2, and [[doc-scndryms#secondary-roll|Secondary Rolls]] accompany an SV test as they do any other. Neither touches step 1: the Index always comes from the unmodified Mastery Level.
+
+### Choosing a diamond allocation
+
+When a routine offers qualifier rolls and faster crafting, allocate earned
+Value Diamonds **after** the result. Each diamond assigned to fast crafting
+reduces the stated time by 10%, to a maximum 30%; each diamond assigned to
+qualifiers buys one d10 against that routine's Target Number. No allocation is
+made on your behalf, and the original test is not rerolled. Other routines keep
+the specific diamond uses their own rules state.
