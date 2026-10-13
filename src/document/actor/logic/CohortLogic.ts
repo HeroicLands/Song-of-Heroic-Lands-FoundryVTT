@@ -91,9 +91,9 @@ export interface CohortMemberRow {
 /**
  * A group of individuals acting as a unit.
  *
- * A Cohort represents multiple actors treated as a single entity for movement,
- * combat, and other mechanics. Examples include a party of adventurers, a squad
- * of soldiers, a pack of animals, or a ship's crew section.
+ * A Cohort records a roster of actors, their roles, a leader, available health
+ * information, and gear shared by its members. Examples include a party of
+ * adventurers, a squad of soldiers, a pack of animals, or a ship's crew section.
  *
  * Each member names its actor by a single handle — a `shortcode` for a world or
  * compendium actor, or a **UUID** for a Token Actor (several wolves sharing one
@@ -103,9 +103,9 @@ export interface CohortMemberRow {
  * One member may be the cohort's **leader**, named by
  * {@link CohortData.leaderCode}.
  *
- * When placed on a scene, a Cohort can appear as either a single group token
- * or individual tokens per member. Single-token cohorts cannot participate
- * in combat but are useful for representing group movement on large-scale maps.
+ * A Cohort token can represent the group on a scene, but this class does not
+ * move its members or resolve combat for them as a unit. Individual Being
+ * actors perform their own combat actions; group outcomes are GM-adjudicated.
  *
  * @typeParam TData - The Cohort data interface.
  */

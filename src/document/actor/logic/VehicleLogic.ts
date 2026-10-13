@@ -97,16 +97,14 @@ export interface VehicleOccupantRow {
 /**
  * A movable inanimate conveyance.
  *
- * A Vehicle represents a wagon, ship, cart, or any mobile platform that can
- * hold both **occupants** and embedded **items** (cargo, equipment, etc.).
- * Vehicles are not Beings — they have no anatomy, skills, or traits.
+ * A Vehicle records a wagon, ship, cart, or other conveyance with an occupant
+ * roster and embedded items. Occupant handles resolve to actor shortcodes or
+ * Token Actor UUIDs, with roles and optional titles; unresolved entries remain
+ * visible in the roster. Occupants may reference Beings or Cohorts.
  *
- * Occupants are tracked as an array of actor shortcodes. Each shortcode may
- * reference either a **Being** (a single individual) or a **Cohort** (which
- * is shorthand for all of that Cohort's members being occupants).
- *
- * Vehicles can own Protection items (hull armor, reinforced sides), Injuries
- * (structural damage), Container Gear (cargo holds), and Actions.
+ * This logic supports adding and removing occupants and displaying their
+ * available health information. Movement, carrying limits, combat, damage,
+ * and boarding are not calculated by this class and remain GM-adjudicated.
  *
  * @typeParam TData - The Vehicle data interface.
  */

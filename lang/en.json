@@ -151,6 +151,7 @@
     "SOHL.Affiliation.invalidCommonSkill": "Choose a skill Item that is available in this world or an installed compendium.",
     "SOHL.Affiliation.relationEmpty": "Unaligned toward every other affiliation.",
     "SOHL.Affiliation.unavailableCommonSkill": "Unavailable skill",
+    "SOHL.Affliction.RequiresActor": "Add this Affliction to a character before performing onset, treatment, healing, or resolution actions.",
     "SOHL.Affliction.Action.add": "Add Affliction",
     "SOHL.Affliction.Action.addSubType": "Add {subType} Affliction",
     "SOHL.Affliction.Action.courseCheck.title": "Arm Course Check",

@@ -1,4 +1,5 @@
 import { describe, it, expect, vi, afterEach, beforeEach } from "vitest";
+import { SohlAction } from "@src/entity/action/SohlAction";
 import { AfflictionLogic } from "@src/document/item/logic/AfflictionLogic";
 import { pushDeltaToValueModifier } from "@src/document/effect/logic/effect-logic";
 import { ValueModifier } from "@src/entity/modifier/ValueModifier";
@@ -204,11 +205,11 @@ describe("AfflictionLogic intrinsic action set", () => {
         }
     });
 
-    it("courseTest is always visible; courseCheck stays hidden", () => {
+    it("courseTest requires a bearer; courseCheck stays hidden", () => {
         const actions = AfflictionLogic.defineIntrinsicActions();
         const courseTest = actions.find((a) => a.shortcode === "courseTest");
         const courseCheck = actions.find((a) => a.shortcode === "courseCheck");
-        expect(courseTest?.visible).toBe("true");
+        expect(courseTest?.visible).toBe("!!actorLogic");
         expect(courseCheck?.group).toBe("hidden");
         // The run record follows the ACT, so the test carries it and the check
         // — which only posts the offer — does not.
@@ -261,6 +262,36 @@ describe("an untreated affliction resolves its healing test as a CF", () => {
         const action = AfflictionLogic.defineIntrinsicActions().find(
             (a) => a.shortcode === "healingTest",
         );
-        expect(action?.visible).toBe("true");
+        expect(action?.visible).toBe("!!actorLogic");
+    });
+});
+
+describe("Affliction template operational actions", () => {
+    const actions = AfflictionLogic.defineIntrinsicActions().filter(
+        ({ executor }) =>
+            typeof executor === "string" && Object.hasOwn(AfflictionLogic.prototype, executor),
+    );
+    for (const definition of actions) {
+        it(`hides ${definition.shortcode} on templates and rejects direct execution without side effects`, async () => {
+            const logic = makeItemLogic(AfflictionLogic, ITEM_KIND.AFFLICTION, afflictionFields());
+            const warning = vi.spyOn(sohl.log, "uiWarn");
+            const action = new SohlAction(definition, { parent: logic });
+            expect(action.visible({ closest: () => null } as unknown as HTMLElement)).toBe(false);
+            const executor = (logic as any)[definition.executor as string];
+            await expect(
+                executor.call(logic, { skipDialog: true, scope: {} }),
+            ).resolves.toBeUndefined();
+            expect(warning).toHaveBeenCalledWith("SOHL.Affliction.RequiresActor");
+            expect(logic.item.update).not.toHaveBeenCalled();
+        });
+    }
+    it("keeps Set Onset available on an actor-owned affliction", () => {
+        const logic = makeAffliction();
+        const definition = actions.find(({ shortcode }) => shortcode === "setOnset")!;
+        expect(
+            new SohlAction(definition, { parent: logic }).visible({
+                closest: () => null,
+            } as unknown as HTMLElement),
+        ).toBe(true);
     });
 });

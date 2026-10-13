@@ -88,7 +88,7 @@ describe("affliction phase scheduling on the generic store", () => {
         };
     }
     function affliction(overrides: Record<string, unknown> = {}) {
-        const logic = makeAffliction(overrides);
+        const logic = makeAffliction(overrides, { actor: makeMockActor() });
         (logic.item as any).uuid = "Item.affliction00";
         return logic;
     }

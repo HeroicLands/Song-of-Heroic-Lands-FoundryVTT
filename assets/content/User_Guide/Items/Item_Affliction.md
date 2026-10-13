@@ -22,6 +22,8 @@ The [[doc-afflctnrules|Afflictions]] rules describe the mechanics behind those p
 
 # Where It Appears
 
+Standalone Affliction items are templates. Add an Affliction to a character before performing its onset, treatment, healing, course, or resolution actions. These actions are hidden on standalone templates, and direct calls display a warning without changing the template.
+
 Afflictions live on the Being sheet's **Health** tab, in their own **Afflictions** list below the Traumas, grouped by SubType. Each row shows:
 
 | Column             | What it shows                                                                             |

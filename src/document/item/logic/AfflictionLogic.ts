@@ -347,6 +347,7 @@ export class AfflictionLogic<
      * @returns A promise that resolves once the request card is posted.
      */
     async requestTreatment(_context: SohlActionContext): Promise<void> {
+        if (!this.requireActor()) return;
         const uuid = this.item?.uuid;
         if (!uuid) return;
         await postActionCard(this.speaker, {
@@ -387,6 +388,7 @@ export class AfflictionLogic<
     async treatAffliction(
         context: SohlActionContext,
     ): Promise<{ treatmentDate: number; courseBonus: number } | undefined> {
+        if (!this.requireActor()) return undefined;
         const scope = context.scope as
             { valueDiamonds?: unknown; courseBonus?: unknown } | undefined;
         const seeded = Number(scope?.courseBonus ?? scope?.valueDiamonds ?? 0);
@@ -451,7 +453,7 @@ export class AfflictionLogic<
                 scope: SOHL_ACTION_SCOPE.SELF,
                 iconFAClass: "fa-solid fa-hand",
                 executor: "requestTreatment",
-                visible: "true",
+                visible: "!!actorLogic",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
             },
             {
@@ -461,7 +463,7 @@ export class AfflictionLogic<
                 scope: SOHL_ACTION_SCOPE.SELF,
                 iconFAClass: "fa-solid fa-staff-snake",
                 executor: "treatAffliction",
-                visible: "true",
+                visible: "!!actorLogic",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
             },
             {
@@ -472,7 +474,7 @@ export class AfflictionLogic<
                 iconFAClass: "fa-solid fa-heart-pulse",
                 executor: "healingTest",
                 recordsLastRun: true,
-                visible: "true",
+                visible: "!!actorLogic",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
             },
             {
@@ -482,7 +484,7 @@ export class AfflictionLogic<
                 scope: SOHL_ACTION_SCOPE.SELF,
                 iconFAClass: "fa-solid fa-bed-pulse",
                 executor: "healingCheck",
-                visible: "true",
+                visible: "!!actorLogic",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
             },
             {
@@ -493,7 +495,7 @@ export class AfflictionLogic<
                 iconFAClass: "ginf-heart-beats",
                 executor: "courseTest",
                 recordsLastRun: true,
-                visible: "true",
+                visible: "!!actorLogic",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
             },
             {
@@ -503,7 +505,7 @@ export class AfflictionLogic<
                 scope: SOHL_ACTION_SCOPE.SELF,
                 iconFAClass: "ginf-heart-beats",
                 executor: "courseCheck",
-                visible: "true",
+                visible: "!!actorLogic",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
             },
             {
@@ -513,7 +515,7 @@ export class AfflictionLogic<
                 scope: SOHL_ACTION_SCOPE.SELF,
                 iconFAClass: "fa-solid fa-hourglass-start",
                 executor: "setOnset",
-                visible: "true",
+                visible: "!!actorLogic",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
             },
             {
@@ -523,7 +525,7 @@ export class AfflictionLogic<
                 scope: SOHL_ACTION_SCOPE.SELF,
                 iconFAClass: "fa-solid fa-skull",
                 executor: "setResolution",
-                visible: "true",
+                visible: "!!actorLogic",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
             },
             {
@@ -631,11 +633,20 @@ export class AfflictionLogic<
     }
 
     /**
-     * Roll a duration formula to a number of seconds. Falls back to a plain
-     * numeric parse, or `0` when neither yields a finite number.
-     *
+     * Require a bearer before a patient action performs any work.
+     * @returns Whether this affliction belongs to an actor.
+     */
+    private requireActor(): boolean {
+        if (this.actorLogic) return true;
+        sohl.log.uiWarn("SOHL.Affliction.RequiresActor");
+        return false;
+    }
+
+    /**
+     * Evaluate a duration formula and require a finite, nonnegative whole
+     * number of seconds before a patient transition changes state.
      * @param formula - The duration formula (dice expression or bare seconds).
-     * @returns The rolled duration in seconds.
+     * @returns The validated duration in seconds.
      */
     private rollDuration(formula: string | null): Promise<number> {
         return rollDurationFormula(formula, this);
@@ -660,6 +671,7 @@ export class AfflictionLogic<
      *   schedule further events.
      */
     async onsetCheck(_context: SohlActionContext): Promise<void> {
+        if (!this.requireActor()) return;
         const uuid = this.item?.uuid;
         if (!uuid) return;
         await postActionCard(this.speaker, {
@@ -700,6 +712,7 @@ export class AfflictionLogic<
      * @returns The onset date, or `undefined` when the dialog was declined.
      */
     async setOnset(context: SohlActionContext): Promise<{ onsetDate: number } | undefined> {
+        if (!this.requireActor()) return undefined;
         if (!context.skipDialog) {
             const confirmed = await dialog({
                 title: sohl.i18n.localize("SOHL.Affliction.Action.setOnset.title"),
@@ -776,6 +789,7 @@ export class AfflictionLogic<
      * @returns A promise that resolves once the check card is posted.
      */
     async healingCheck(_context: SohlActionContext): Promise<void> {
+        if (!this.requireActor()) return;
         const uuid = this.item?.uuid;
         if (!uuid) return;
         await postActionCard(this.speaker, {
@@ -813,6 +827,7 @@ export class AfflictionLogic<
      * @returns The resulting Level, or `undefined` when the test was cancelled.
      */
     async healingTest(context: SohlActionContext): Promise<{ level: number } | undefined> {
+        if (!this.requireActor()) return undefined;
         const mlMod = new entity.MasteryLevelModifier(
             {
                 type: "affliction-healing-test",
@@ -871,6 +886,7 @@ export class AfflictionLogic<
      * @returns A promise that resolves once the check card is posted.
      */
     async courseCheck(_context: SohlActionContext): Promise<void> {
+        if (!this.requireActor()) return;
         const uuid = this.item?.uuid;
         if (!uuid) return;
         await postActionCard(this.speaker, {
@@ -916,6 +932,7 @@ export class AfflictionLogic<
     async courseTest(
         context: SohlActionContext,
     ): Promise<{ healingRate: number; applied: boolean } | undefined> {
+        if (!this.requireActor()) return undefined;
         const mlMod = new entity.MasteryLevelModifier(
             {
                 type: "affliction-course-test",
@@ -1107,6 +1124,7 @@ export class AfflictionLogic<
      *   then compendiums).
      */
     async resolutionCheck(_context: SohlActionContext): Promise<void> {
+        if (!this.requireActor()) return;
         const uuid = this.item?.uuid;
         if (!uuid) return;
         await postActionCard(this.speaker, {
@@ -1148,6 +1166,7 @@ export class AfflictionLogic<
     async setResolution(
         context: SohlActionContext,
     ): Promise<{ outcome: AfflictionOutcome; resolutionDate: number } | undefined> {
+        if (!this.requireActor()) return undefined;
         const seeded = (context.scope as { outcome?: unknown } | undefined)?.outcome;
         let outcome: AfflictionOutcome = isAfflictionOutcome(seeded) ? seeded : this.data.outcome;
 

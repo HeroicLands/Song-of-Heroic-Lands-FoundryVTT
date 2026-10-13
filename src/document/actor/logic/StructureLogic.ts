@@ -21,15 +21,11 @@ import {
 /**
  * A fixed installation or location.
  *
- * A Structure represents a building, fortification, bridge, ship hull, or any
- * other immovable (or semi-permanent) physical entity that can be targeted,
- * damaged, and repaired. Structures can own items such as Protection entries
- * (representing walls, doors, or barriers), Injuries (structural damage),
- * and Affiliations (ownership).
- *
- * Structures do not have anatomy, skills, or movement profiles. Their primary
- * mechanical role is as targets in siege or environmental encounters and as
- * containers for location-based items and effects.
+ * A Structure records a building, fortification, bridge, or other fixed
+ * installation using the common actor data and embedded-item support.
+ * This class adds no structure-specific fields or lifecycle calculations.
+ * Damage, repair, protection, and siege outcomes are adjudicated by the GM;
+ * this logic does not automate them.
  *
  * @typeParam TData - The Structure data interface.
  */

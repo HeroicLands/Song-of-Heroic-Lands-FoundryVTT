@@ -55,6 +55,49 @@ describe("Affliction duration formulas", () => {
         if (item) ownedItems.add(item.id);
         return item;
     }
+    it("hides template actions and safely rejects direct patient actions", () => {
+        cy.foundry(async (win) => {
+            const item = await create(win);
+            expect(win.game.i18n.localize("SOHL.Affliction.RequiresActor")).to.equal(
+                "Add this Affliction to a character before performing onset, treatment, healing, or resolution actions.",
+            );
+            const snapshot = JSON.stringify(item.toObject());
+            const messages = win.game.messages.size;
+            const originalWarning = win.sohl.log.uiWarn;
+            const warnings = [];
+            win.sohl.log.uiWarn = (message) => warnings.push(message);
+            try {
+                const definitions = item.logic.constructor
+                    .defineIntrinsicActions()
+                    .filter(
+                        ({ executor }) =>
+                            typeof executor === "string" &&
+                            Object.hasOwn(Object.getPrototypeOf(item.logic), executor),
+                    );
+                expect(definitions.length).to.be.greaterThan(0);
+                for (const definition of definitions) {
+                    const action = item.logic.actions.get(definition.shortcode);
+                    expect(
+                        action.visible(win.document.createElement("div")),
+                        definition.shortcode,
+                    ).to.equal(false);
+                    const result = await item.logic[definition.executor]({
+                        skipDialog: true,
+                        scope: {},
+                    });
+                    expect(result, definition.shortcode).to.equal(undefined);
+                }
+                expect(warnings).to.deep.equal(
+                    definitions.map(() => "SOHL.Affliction.RequiresActor"),
+                );
+                expect(JSON.stringify(item.toObject())).to.equal(snapshot);
+                expect(win.game.messages.size).to.equal(messages);
+            } finally {
+                win.sohl.log.uiWarn = originalWarning;
+            }
+            return true;
+        });
+    });
     it("uses the owned SimpleRoll FIFO for scaled creation and onset seconds", () => {
         carrier();
         cy.foundry(async (win) => {
