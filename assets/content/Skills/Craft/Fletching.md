@@ -59,7 +59,9 @@ Composite bows are sinew-backed, which is why they call for Hideworking; the mon
 
 **Arrowheads** may be bought in rather than forged. If they are, the Metalcraft Secondary Modifier derives from the smith's Mastery Level rather than the fletcher's — cost doubles, crafting time halves.
 
-**Spent projectiles** are maintained, not repaired. A recovered shaft is not a damaged article to be put right under the [[doc-crafting#craft-repair|repair]] rules — those restore a rating, and a projectile carries none — and the work divides in two.
+The GM decides which recovered arrows or bolts are serviceable, damaged, or broken using the [[doc-msslattc#spent-ammunition|spent ammunition guidance]]. The work below applies equally to arrows and bolts.
+
+**Spent projectiles** are maintained, not repaired. A recovered shaft is not a damaged article to be put right under the [[doc-crafting#craft-repair|repair]] rules — those restore gear ratings, while spent ammunition follows the maintenance and re-making rules below — and the work divides in two.
 
 **Maintenance** is the nightly business of anyone who shoots: shafts straightened over the knee or a warm stone, heads re-seated and re-bound, stripped fletching replaced from the quills in the case. A dozen damaged shafts are made serviceable again in about **two hours**, at no cost in materials. This is not the trade and does not require it — a character with no Fletching Mastery Level may do it at an Effective Mastery Level equal to **three times their Fletching [[doc-mstrylvl#skill-base|Skill Base]]**, the same allowance a crossbow gives an untrained shooter. A fletcher is quicker and wastes less; everyone else manages.
 

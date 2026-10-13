@@ -31,6 +31,19 @@ Every strike mode, whatever its type, records:
 
 A strike mode may also be flagged so that it cannot attack at all — some modes exist only to enable a weapon's defensive use.
 
+## Crewed Weapons {#crewed-weapons}
+
+Crew requirements are stated in the weapon's description and include the operator. The GM adjudicates every aspect of crewing a weapon: who participates, whether they can help, where they stand, and what their participation costs. SoHL neither determines crew locations nor uses them to gate an attack, and it does not select crew, collect their consent, or spend their actions.
+
+Minimum body parts describes a single wielder's grip; it is not a crew count. Do not increase `minParts` to represent additional people. Crew requirements remain descriptive information for the GM.
+
+| Engine                            | Required crew, including the operator |
+| --------------------------------- | ------------------------------------: |
+| [[weapongear-sprngld\|Springald]] |                                     2 |
+| [[weapongear-ballsta\|Ballista]]  |                                     4 |
+| [[weapongear-onagr\|Onager]]      |                                     6 |
+| [[weapongear-trebch\|Trebuchet]]  |                                    12 |
+
 ## The Strength Impact Modifier {#the-strength-impact-modifier}
 
 A strong combatant drives a weapon harder than a weak one. Every melee blow — and every thrown weapon — has its impact adjusted by the attacker's **Strength**:

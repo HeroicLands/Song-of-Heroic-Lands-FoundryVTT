@@ -60,3 +60,5 @@ A single throwing arm driven by one great torsion skein, stopped against a padde
 Everything it throws arcs. Inside its Base Range a crew can shoot flat at a wall, but the engine's useful work begins past that, where the shot becomes a Volley against a fifteen-foot area rather than an aimed strike at any one man.
 
 Six crew winch the arm down, load the sling and stand clear, and a well-drilled team gets a stone away every five minutes.
+
+The stated crew includes the operator. All crew participation is adjudicated by the GM; see [[doc-strkmds#crewed-weapons|Crewed Weapons]].

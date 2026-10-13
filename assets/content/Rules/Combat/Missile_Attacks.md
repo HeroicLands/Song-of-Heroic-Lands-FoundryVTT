@@ -95,18 +95,22 @@ Recovery therefore has three outcomes rather than two. A projectile comes back *
 
 No test is made and no skill is called for in the searching itself: walking the ground and finding what fell on it is not a craft check. What decides the yield is where the shafts went, and whether the ground can be searched at all.
 
-| Where the shaft went                        | Usual outcome                |
-| ------------------------------------------- | ---------------------------- |
-| A butt, a straw target, soft turf           | Serviceable                  |
-| Missed into hard ground, stone or gravel    | Damaged, often broken        |
-| Missed into timber                          | Damaged, often unrecoverable |
-| Struck an unarmoured target                 | Serviceable or damaged       |
-| Struck armour, a shield or a helm           | Damaged, sometimes broken    |
-| Struck game that ran, or a foe who withdrew | Lost                         |
+The GM adjudicates recovery. Head type and the material struck may inform that judgment, but supply no numeric recovery modifiers. Bolts use the same guidance as arrows; their shorter, sturdier construction may influence a particular ruling. Nothing automatically rolls recovery or deducts durability when a projectile is fired.
+
+| Where the shaft went                        | Usual outcome                           |
+| ------------------------------------------- | --------------------------------------- |
+| A butt, a straw target, soft turf           | Serviceable                             |
+| Missed into hard ground, stone or gravel    | Damaged, often broken                   |
+| Missed into timber                          | Damaged, sometimes unrecoverable intact |
+| Struck an unarmoured target                 | Serviceable or damaged                  |
+| Struck armour, a shield or a helm           | Damaged, sometimes broken               |
+| Struck game that ran, or a foe who withdrew | Lost                                    |
 
 **A field given up gives back nothing.** An archer who withdraws leaves their arrows where they fell, and one who routs is fortunate to keep the quiver. Water, deep snow, thick undergrowth and a night's delay each take their share of whatever would otherwise have been found.
 
-The GM may settle a volley in bulk rather than shaft by shaft. At the butts nearly everything comes back fit to shoot again. Shot at armoured men across hard ground, with the field held afterwards, expect **about half to come back needing work, a quarter serviceable, and a quarter gone for good** — and expect nothing whatever if the field is lost.
+A shaft carried away by fleeing game or a withdrawing foe is normally lost, but may be recovered if the characters find it later.
+
+The GM may settle a volley in bulk rather than shaft by shaft. At the butts nearly everything comes back fit to shoot again. Shot at armoured men across hard ground, with the field held afterwards, use **about half to come back needing work, a quarter serviceable, and a quarter gone** as a rough guideline — and expect nothing whatever if the field is lost.
 
 This is why ammunition is a supply rather than a consumable, and why an archer's evening belongs to their tackle. A full quiver is a real expense; holding the field recovers part of it, and the rest is recovered at the [[skill-fltch#crafting|bench]].
 

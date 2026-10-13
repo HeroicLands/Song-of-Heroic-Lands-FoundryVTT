@@ -12,6 +12,8 @@ Weapon represents an offensive device carried by a Being — a sword, axe, bow, 
 
 The weapon item is the physical object: its weight, value, quality, durability, and how awkward it is to carry. **What the weapon can actually _do_ lives in its strike modes** — the distinct ways it can be used in a fight. A staff might have a _swing_ and a _thrust_; a spear might thrust in the hand and be thrown; a bow has a single missile mode. A strike mode is not a separate item: the modes belong to the weapon and are edited on its own [[#the-strike-modes-tab|Strike Modes tab]].
 
+Crewed weapons state their required crew in their description, including the operator. See [[doc-strkmds#crewed-weapons|Crewed Weapons]]. The GM adjudicates crew participation; the sheet does not verify crew locations, eligibility, or actions.
+
 # Where It Appears
 
 Every weapon appears on the Being sheet's **Gear** tab, like any other piece of gear.

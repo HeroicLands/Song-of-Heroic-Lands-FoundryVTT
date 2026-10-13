@@ -60,3 +60,5 @@ The great counterweight engine: a pivoted beam with a box of stone or lead at th
 It is never aimed at anything. Its useful range begins well beyond the distance at which a shot would fly flat, so every stone it throws is a Volley against a fifteen-foot area. A crew ranges in on a section of wall over a morning, adjusting counterweight and sling release a little at a time, and the wall has the courtesy to stay where it is. Anything that can walk out of the area will.
 
 Twelve crew serve it, and a quarter of an hour passes between one stone and the next: the beam must be winched down, the counterweight checked, the sling laid out and the shot walked back onto its mark.
+
+The stated crew includes the operator. All crew participation is adjudicated by the GM; see [[doc-strkmds#crewed-weapons|Crewed Weapons]].
