@@ -3,6 +3,7 @@ shortcode: tokenug
 name: {full: "Token"}
 type: doc
 subType: userguide
+tags: [guide-scenes-and-tokens]
 data: {packFolder: userguide}
 ---
 

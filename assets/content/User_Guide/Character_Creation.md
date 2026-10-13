@@ -3,6 +3,7 @@ shortcode: charcreationug
 name: {full: "Character Creation"}
 type: doc
 subType: userguide
+tags: [guide-setting-up-a-world]
 data: {packFolder: userguide}
 ---
 

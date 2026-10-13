@@ -3,6 +3,7 @@ shortcode: mlattcks
 name: {full: Melee Attacks, aliases: []}
 type: doc
 subType: rules
+tags: [rules-combat, rules-combat-kinds-of-attack, rules-combat-sections]
 data: {packFolder: rulescombat}
 ---
 

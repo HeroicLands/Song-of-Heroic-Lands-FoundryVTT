@@ -38,6 +38,18 @@ SPDX-License-Identifier: GPL-3.0-or-later
         {{/if}}
     </div>
 
+    <div class="form-group">
+        <label>{{localize "SOHL.Vehicle.FIELDS.occupantCapacity.label"}}</label>
+        <input type="number" name="system.occupantCapacity" value="{{document.system.occupantCapacity}}" min="0" step="1" {{#unless isEditable}}disabled{{/unless}} />
+        <span>{{localize "SOHL.Vehicle.Load.occupants"}}: {{occupantCount}}</span>
+    </div>
+    <div class="form-group">
+        <label>{{localize "SOHL.Vehicle.FIELDS.carryingCapacity.label"}}</label>
+        <input type="number" name="system.carryingCapacity" value="{{document.system.carryingCapacity}}" min="0" step="any" {{#unless isEditable}}disabled{{/unless}} />
+        <span>{{localize "SOHL.Vehicle.Load.total"}}: {{totalLoad}} {{localize "SOHL.Vehicle.weightUnit"}}</span>
+    </div>
+    <p>{{localize "SOHL.Vehicle.Load.occupantWeight"}}: {{occupantWeight}} {{localize "SOHL.Vehicle.weightUnit"}}; {{localize "SOHL.Vehicle.Load.cargoWeight"}}: {{vehicleCargoWeight}} {{localize "SOHL.Vehicle.weightUnit"}}</p>
+
     {{#if occupants.length}}
     <div class="ledger"
         style="--ledger-cols:1.5rem minmax(140px,1.6fr) minmax(90px,1fr) minmax(80px,1fr) minmax(90px,1fr) 1.8rem">

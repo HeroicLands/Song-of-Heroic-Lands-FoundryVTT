@@ -3,6 +3,7 @@ shortcode: buildanddeployment
 name: {full: "Build, Deployment, and Release", aliases: []}
 type: doc
 subType: howto
+tags: [dev-how-to]
 data: {pack: none}
 sohl: {kbcat: devdocs}
 ---

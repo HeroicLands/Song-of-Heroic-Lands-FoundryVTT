@@ -3,6 +3,7 @@ shortcode: shortcodeintegrity
 name: {full: Shortcode Integrity, aliases: []}
 type: doc
 subType: reference
+tags: [dev-docs-content-creator-also-relevant-filed-elsewhere, dev-reference]
 data: {pack: none}
 sohl: {kbcat: devdocs}
 ---

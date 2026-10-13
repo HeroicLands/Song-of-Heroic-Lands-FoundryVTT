@@ -3,6 +3,7 @@ shortcode: cohortug
 name: {full: "Cohort"}
 type: doc
 subType: userguide
+tags: [guide-actors, user-guide-actors-sections]
 data: {packFolder: actors}
 ---
 
@@ -71,6 +72,10 @@ The **Profile** tab carries three things, and it is where a cohort's private not
 # The Members Tab
 
 **Members** is the cohort's roster: who belongs to this group, what part each plays in it, and which of them leads it. Each row shows the member's portrait, name, and role.
+
+The summary above the roster shows **Resolved members** and the number in each health band: **Excellent, Good, Fair, Poor, Morbid, and Dead**. These counts refresh automatically when membership or a member's condition changes. A missing actor remains visible as a row but contributes to neither the resolved count nor a health band. An actor that resolves but has no health contributes to the resolved count only. Zero health contributes to **Dead**.
+
+The summary does not give the group a health pool: injuries and healing still belong to the individual members.
 
 ## How a Member Is Named
 

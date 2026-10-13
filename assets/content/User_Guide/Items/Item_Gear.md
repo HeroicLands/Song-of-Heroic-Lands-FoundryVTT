@@ -3,6 +3,7 @@ shortcode: gearug
 name: {full: "Gear"}
 type: doc
 subType: userguide
+tags: [guide-items, user-guide-items-gear]
 data: {packFolder: items}
 ---
 

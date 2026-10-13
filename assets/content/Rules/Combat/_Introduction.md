@@ -3,6 +3,7 @@ shortcode: combatintro
 name: {full: Combat Introduction, aliases: []}
 type: doc
 subType: rules
+tags: [rules-combat]
 data: {packFolder: rulescombat}
 ---
 
@@ -34,17 +35,22 @@ An attack and the response to it are a single **exchange**, resolved at once rat
 
 How an attack is delivered depends on the strike mode being used — the specific way a weapon, a natural weapon, or an empty hand is brought to bear — and on whether the attacker closes to melee, looses at range, or fights unarmed:
 
-- **[[doc-mlattcks|Melee]]** — at contact, tested against **Melee**, with all four defences available and both combatants inside each other's reach.
-- **[[doc-msslattc|Missile]]** — across ground the attacker does not cross, tested against **Archery**, **Throwing** or **Sling**, where range costs precision and the target usually cannot strike back.
-- **[[doc-unrmdcmb|Unarmed]]** — trained techniques of the body, weak on damage but capable of things no weapon does: disarming, holding, tripping, pressing.
+**[[doc-mlattcks|Melee]]** — at contact, tested against **Melee**, with all four defences available and both combatants inside each other's reach.
+
+**[[doc-msslattc|Missile]]** — across ground the attacker does not cross, tested against **Archery**, **Throwing** or **Sling**, where range costs precision and the target usually cannot strike back.
+
+**[[doc-unrmdcmb|Unarmed]]** — trained techniques of the body, weak on damage but capable of things no weapon does: disarming, holding, tripping, pressing.
+
+```pagelist {tag="rules-combat-kinds-of-attack" type=doc sort=name descriptions=true}
+
+```
 
 A combatant's posture matters throughout: a [[doc-prone|prone]] fighter is at a disadvantage both in attacking and in answering an attack.
 
 ## Sections {#sections}
 
-- [[doc-atkreslv|Attack Resolution]]
-- [[doc-strkmds|Strike Modes]]
-- [[doc-mlattcks|Melee Attacks]]
-- [[doc-msslattc|Missile Attacks]]
-- [[doc-unrmdcmb|Unarmed Combat]]
-- [[doc-prone|Prone]]
+```pagelist {tag="rules-combat-sections" type=doc sort=name descriptions=true}
+
+```
+
+[[doc-atkreslv|Attack Resolution]]

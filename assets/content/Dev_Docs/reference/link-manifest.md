@@ -4,6 +4,7 @@ name: {full: The Link Manifest, aliases: []}
 type: doc
 subType: reference
 description: "Cross-package link resolution: each package's own content index, fetched by its consumers, and how a wikilink into another package finds the entry it names."
+tags: [dev-docs-content-creator-also-relevant-filed-elsewhere, dev-reference]
 data: {pack: none}
 sohl: {kbcat: devdocs}
 ---

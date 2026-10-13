@@ -3,6 +3,7 @@ shortcode: cmbtntug
 name: {full: "Combatant"}
 type: doc
 subType: userguide
+tags: [guide-combat-basics]
 data: {packFolder: userguide}
 ---
 

@@ -3,6 +3,7 @@ shortcode: mysticalabilityug
 name: {full: "Mystical Ability"}
 type: doc
 subType: userguide
+tags: [guide-items, user-guide-items-the-supernatural]
 data: {packFolder: items}
 ---
 

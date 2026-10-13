@@ -30,6 +30,17 @@ const { ArrayField, SchemaField, StringField } = foundry.data.fields;
 function defineVehicleDataSchema(): foundry.data.fields.DataSchema {
     return {
         ...SohlActorDataModel.defineSchema(),
+        occupantCapacity: new foundry.data.fields.NumberField({
+            initial: 0,
+            min: 0,
+            integer: true,
+            nullable: false,
+        }),
+        carryingCapacity: new foundry.data.fields.NumberField({
+            initial: 0,
+            min: 0,
+            nullable: false,
+        }),
         occupants: new ArrayField(
             new SchemaField({
                 actorCodeOrUuid: new StringField({
@@ -68,6 +79,8 @@ export class VehicleDataModel<
     /** @inheritDoc */
     static override readonly kind = ACTOR_KIND.VEHICLE;
     occupants!: VehicleOccupant[];
+    occupantCapacity!: number;
+    carryingCapacity!: number;
 
     /**
      * Returns the Foundry data schema for the vehicle actor.

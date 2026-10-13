@@ -4,6 +4,7 @@ name: {full: Map Notes, aliases: []}
 type: doc
 subType: howto
 description: "Authoring a map as a markdown note: the Foundry Scene exported under `data.scene`, asset fixups, pins bound to the note's own pages, and the place the map depicts."
+tags: [dev-content-creator, dev-docs-content-creator-per-type-references]
 data: {pack: none}
 sohl: {kbcat: devdocs}
 ---

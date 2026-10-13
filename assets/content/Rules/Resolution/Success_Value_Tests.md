@@ -3,6 +3,7 @@ shortcode: sccssvlt
 name: {full: Success Value Tests, aliases: []}
 type: doc
 subType: rules
+tags: [rules-resolution, rules-resolution-sections]
 data: {packFolder: resolution}
 ---
 

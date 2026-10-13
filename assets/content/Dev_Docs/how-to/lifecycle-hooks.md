@@ -3,6 +3,7 @@ shortcode: lifecyclehooks
 name: {full: Lifecycle Hooks, aliases: []}
 type: doc
 subType: howto
+tags: [dev-how-to]
 data: {pack: none}
 sohl: {kbcat: devdocs}
 ---

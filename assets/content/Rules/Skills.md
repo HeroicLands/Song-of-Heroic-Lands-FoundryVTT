@@ -3,6 +3,7 @@ shortcode: skills
 name: {full: Skills Introduction, aliases: []}
 type: doc
 subType: rules
+tags: [rules-skills]
 data: {packFolder: rules}
 ---
 

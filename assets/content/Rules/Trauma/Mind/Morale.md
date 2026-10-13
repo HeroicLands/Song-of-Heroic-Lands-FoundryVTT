@@ -3,6 +3,7 @@ shortcode: morale
 name: {full: Morale, aliases: []}
 type: doc
 subType: rules
+tags: [rules-trauma, rules-trauma-mind-sections]
 data: {packFolder: mind}
 ---
 

@@ -3,6 +3,7 @@ shortcode: thftsystug
 name: {full: "The Fate System"}
 type: doc
 subType: userguide
+tags: [guide-making-tests]
 data: {packFolder: userguide}
 ---
 

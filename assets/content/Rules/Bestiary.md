@@ -3,7 +3,7 @@ shortcode: bestiary
 name: {full: Bestiary, aliases: []}
 type: doc
 subType: rules
-tags: []
+tags: [rules-bestiary]
 data: {packFolder: rules}
 ---
 

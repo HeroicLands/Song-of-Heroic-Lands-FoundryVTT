@@ -3,6 +3,7 @@ shortcode: attributeug
 name: {full: "Attribute"}
 type: doc
 subType: userguide
+tags: [guide-items, user-guide-items-what-a-character-is]
 data: {packFolder: items}
 ---
 

@@ -3,6 +3,7 @@ shortcode: divintro
 name: {full: Divination Introduction, aliases: []}
 type: doc
 subType: rules
+tags: [rules-esoterica, rules-esoterica-mystical-abilities-arcane-mysteries]
 data: {packFolder: mysticalabilitiesdivination}
 ---
 
@@ -12,14 +13,25 @@ The divinatory arts differ in what they read, what they need, and how long they 
 
 ## The arts {#the-arts}
 
-- [[doc-ftdvn|Fate]] — reading, and tugging at, one's own thread
-- [[doc-astrlgy|Astrology]] — the heavens, charted
-- [[doc-augury|Augury]] — omens in the living world
-- [[doc-crtmncy|Cartomancy]] — cards laid out
-- [[doc-hrspcy|Haruspicy]] — the entrails of a sacrifice
-- [[doc-rncstng|Rune Casting]] — inscribed lots, cast and read
-- [[doc-scrying|Scrying]] — a still dark surface, looked into
-- [[doc-tssmncy|Tasseomancy]] — the residue in a drained cup
+[[doc-ftdvn|Fate]] — reading, and tugging at, one's own thread
+
+[[doc-astrlgy|Astrology]] — the heavens, charted
+
+[[doc-augury|Augury]] — omens in the living world
+
+[[doc-crtmncy|Cartomancy]] — cards laid out
+
+[[doc-hrspcy|Haruspicy]] — the entrails of a sacrifice
+
+[[doc-rncstng|Rune Casting]] — inscribed lots, cast and read
+
+[[doc-scrying|Scrying]] — a still dark surface, looked into
+
+[[doc-tssmncy|Tasseomancy]] — the residue in a drained cup
+
+```pagelist {tag="rules-esoterica-mystical-abilities-divination-the-arts" type=doc sort=name descriptions=true}
+
+```
 
 ## How a divination is resolved {#resolution}
 

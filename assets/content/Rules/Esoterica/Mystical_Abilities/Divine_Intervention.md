@@ -3,6 +3,7 @@ shortcode: divnint
 name: {full: Divine Intervention, aliases: []}
 type: doc
 subType: rules
+tags: [rules-esoterica, rules-esoterica-mystical-abilities-divine-mysteries]
 data: {packFolder: esotericamysticalabilities}
 ---
 

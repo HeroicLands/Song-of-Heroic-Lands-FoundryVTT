@@ -3,7 +3,7 @@ shortcode: automatedcombatframing
 name: {full: The Ambush on the Path, aliases: []}
 type: doc
 subType: userguide
-tags: [tutorial]
+tags: [tutorial, guide-combat-basics]
 data: {pack: journals}
 sohl: {kbcat: userguide}
 ---

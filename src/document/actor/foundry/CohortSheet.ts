@@ -157,6 +157,10 @@ export class CohortSheet extends SohlActorSheetBase {
         const members = logic.memberRows;
         return Object.assign(context, {
             members,
+            memberCount: logic.data.memberCount,
+            healthBandCounts: Object.entries(logic.data.healthBandCounts ?? {}).map(
+                ([band, count]) => ({ label: `SOHL.Health.BAND.${band}`, count }),
+            ),
             leaderName: logic.leader?.name ?? "",
         });
     }

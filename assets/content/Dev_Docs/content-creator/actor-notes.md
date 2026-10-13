@@ -4,6 +4,7 @@ name: {full: Actor Notes, aliases: []}
 type: doc
 subType: howto
 description: "Authoring a `being`, and the `(type, shortcode)` address space its embedded items resolve through."
+tags: [dev-content-creator, dev-docs-content-creator-per-type-references]
 data: {pack: none}
 sohl: {kbcat: devdocs}
 ---

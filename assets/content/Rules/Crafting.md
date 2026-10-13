@@ -3,6 +3,7 @@ shortcode: crafting
 name: {full: Crafting, aliases: []}
 type: doc
 subType: rules
+tags: [rules-crafting]
 data: {packFolder: rules}
 ---
 

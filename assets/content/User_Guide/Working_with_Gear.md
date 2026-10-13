@@ -3,6 +3,7 @@ shortcode: gearandequipug
 name: {full: "Working with Gear and Equipment"}
 type: doc
 subType: userguide
+tags: [guide-items]
 data: {packFolder: userguide}
 ---
 

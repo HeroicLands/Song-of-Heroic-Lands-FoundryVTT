@@ -3,6 +3,7 @@ shortcode: testing
 name: {full: Testing, aliases: []}
 type: doc
 subType: howto
+tags: [dev-how-to]
 data: {pack: none}
 sohl: {kbcat: devdocs}
 ---

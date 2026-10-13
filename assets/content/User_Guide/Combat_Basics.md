@@ -3,6 +3,7 @@ shortcode: cmbtbscsug
 name: {full: "Combat Basics"}
 type: doc
 subType: userguide
+tags: [guide-combat-basics]
 data: {packFolder: userguide}
 ---
 

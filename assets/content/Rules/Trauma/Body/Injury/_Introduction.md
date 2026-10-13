@@ -3,6 +3,7 @@ shortcode: injintro
 name: {full: Injury Introduction, aliases: []}
 type: doc
 subType: rules
+tags: [rules-trauma, rules-trauma-body-sections]
 data: {packFolder: injury}
 ---
 
@@ -34,11 +35,6 @@ Course Test drives its Healing Rate up and down as it runs. An injury that
 becomes infected does not turn into an affliction — the infection is recorded as
 its own harm, and nothing is attacking from outside.
 
-- [[doc-hlngbs|Healing Base]]
-- [[doc-hlngrt|Healing Rate]]
-- [[doc-hlngtst|Healing Test]]
-- [[doc-injrylvl|Injury Levels]]
-- [[doc-trtnginj|Treating Injuries]]
-- [[doc-bleeding|Bleeding]]
-- [[doc-imprmnt|Impairment]]
-- [[doc-infctn|Infection]]
+```pagelist {tag="rules-trauma-body-injury-sections" type=doc sort=name descriptions=true}
+
+```

@@ -38,6 +38,80 @@ Read the chapters in the order below. Each is written on the terms the ones befo
 
 The **[[doc-glossary|Glossary]]** indexes every term these chapters define, and is meant to be jumped into rather than read: when a chapter uses a word as though you already know it, look it up there.
 
+The chapter indexes below list pages alphabetically within each group; the reading order above remains the starting path.
+
+### Resolution
+
+```pagelist {tag="rules-resolution" type=doc sort=name descriptions=true}
+
+```
+
+### Attributes
+
+```pagelist {tag="rules-attributes" type=doc sort=name descriptions=true}
+
+```
+
+### Skills
+
+```pagelist {tag="rules-skills" type=doc sort=name descriptions=true}
+
+```
+
+### Affiliations
+
+```pagelist {tag="rules-affiliations" type=doc sort=name descriptions=true}
+
+```
+
+### Characters
+
+```pagelist {tag="rules-characters" type=doc sort=name descriptions=true}
+
+```
+
+### Gear
+
+```pagelist {tag="rules-gear" type=doc sort=name descriptions=true}
+
+```
+
+### Crafting
+
+```pagelist {tag="rules-crafting" type=doc sort=name descriptions=true}
+
+```
+
+### Combat
+
+```pagelist {tag="rules-combat" type=doc sort=name descriptions=true}
+
+```
+
+### Trauma
+
+```pagelist {tag="rules-trauma" type=doc sort=name descriptions=true}
+
+```
+
+### Esoterica
+
+```pagelist {tag="rules-esoterica" type=doc sort=name descriptions=true}
+
+```
+
+### Bestiary
+
+```pagelist {tag="rules-bestiary" type=doc sort=name descriptions=true}
+
+```
+
+### Glossary
+
+```pagelist {tag="rules-glossary" type=doc sort=name descriptions=true}
+
+```
+
 ## A note on compatibility
 
 _Song of Heroic Lands_ is an original work. It is intentionally compatible with [_HârnMaster: Roleplaying in the World of Kèthîra_](https://www.kelestia.com/hmk-pdf) (HMK), published by Kelestia Productions Ltd., so that a group may play using those rules with this game — but no HMK content appears here, and everything in these pages is unique to SoHL. A group wanting the fuller procedures these rules leave out, trekking among them, will find them in HMK, available from [kelestia.com](https://www.kelestia.com/). SoHL is not endorsed by, affiliated with, or licensed by Kelestia Productions Ltd.

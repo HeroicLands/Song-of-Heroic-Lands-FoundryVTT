@@ -12,7 +12,11 @@
  */
 
 import { SohlActorDataModel } from "@src/document/actor/foundry/SohlActorDataModel";
-import { ACTOR_KIND } from "@src/utils/constants";
+import {
+    VEHICLE_OCCUPANT_ROLE,
+    VehicleOccupantRoleChoices,
+    ACTOR_KIND,
+} from "@src/utils/constants";
 import type { StructureData } from "@src/document/actor/logic/StructureLogic";
 import { StructureLogic } from "@src/document/actor/logic/StructureLogic";
 
@@ -26,8 +30,43 @@ import { StructureLogic } from "@src/document/actor/logic/StructureLogic";
 function defineStructureDataSchema(): foundry.data.fields.DataSchema {
     return {
         ...SohlActorDataModel.defineSchema(),
+        occupants: new ArrayField(
+            new SchemaField({
+                actorCodeOrUuid: new StringField({
+                    nullable: false,
+                    required: true,
+                }),
+                role: new StringField({
+                    choices: VehicleOccupantRoleChoices,
+                    initial: VEHICLE_OCCUPANT_ROLE.PASSENGER,
+                }),
+                title: new StringField({
+                    blank: false,
+                    nullable: true,
+                    initial: null,
+                }),
+            }),
+            {
+                initial: [],
+            },
+        ),
+        maxHealth: new foundry.data.fields.NumberField({
+            initial: 0,
+            min: 0,
+            integer: true,
+            nullable: false,
+        }),
+        occupantCapacity: new foundry.data.fields.NumberField({
+            initial: 0,
+            min: 0,
+            integer: true,
+            nullable: false,
+        }),
+        cargoCapacity: new foundry.data.fields.NumberField({ initial: 0, min: 0, nullable: false }),
     };
 }
+
+const { ArrayField, SchemaField, StringField } = foundry.data.fields;
 
 type StructureDataSchema = ReturnType<typeof defineStructureDataSchema>;
 
@@ -39,15 +78,12 @@ export class StructureDataModel<
     TSchema extends foundry.data.fields.DataSchema = StructureDataSchema,
     TLogic extends StructureLogic<StructureData> = StructureLogic<StructureData>,
 > extends SohlActorDataModel<TSchema, TLogic> {
-    /**
-     * Localization prefixes for the Structure schema.
-     *
-     * @remarks Structure adds no fields of its own — its schema is exactly
-     * {@link SohlActorDataModel}'s — so every label and hint comes from
-     * `SOHL.Actor`. A `SOHL.Structure` prefix would resolve to nothing; add it
-     * back together with the first Structure-specific field and its keys.
-     */
-    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Actor"];
+    /** @inheritDoc */
+    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Structure", "SOHL.Actor"];
+    occupants!: import("@src/document/actor/logic/StructureLogic").StructureOccupant[];
+    maxHealth!: number;
+    occupantCapacity!: number;
+    cargoCapacity!: number;
     /** @inheritDoc */
     static override readonly kind = ACTOR_KIND.STRUCTURE;
 

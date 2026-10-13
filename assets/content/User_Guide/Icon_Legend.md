@@ -3,6 +3,7 @@ shortcode: iconlgndug
 name: {full: "Icon Legend"}
 type: doc
 subType: userguide
+tags: [guide-understanding-sheets]
 data: {packFolder: userguide}
 ---
 

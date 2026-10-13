@@ -4,7 +4,7 @@ name: {full: Combat Resolution Pipeline, aliases: []}
 type: doc
 subType: reference
 description: For SoHL maintainers extending tests, opposed rolls, or combat outcomes.
-tags: [rules, core-system, combat, injury]
+tags: [rules, core-system, combat, injury, dev-reference]
 data: {pack: none}
 sohl: {kbcat: devdocs}
 ---

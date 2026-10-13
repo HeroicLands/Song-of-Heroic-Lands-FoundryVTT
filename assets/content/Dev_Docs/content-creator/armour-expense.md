@@ -4,6 +4,7 @@ name: {full: Armour Expense Derivation, aliases: []}
 type: doc
 subType: reference
 description: "Build-generated armour crafting materials and hours from authored price and body coverage."
+tags: [dev-content-creator]
 data: {pack: none}
 sohl: {kbcat: devdocs}
 ---

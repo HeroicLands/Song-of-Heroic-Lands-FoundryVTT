@@ -3,6 +3,7 @@ shortcode: ugactors
 name: {full: Actors, aliases: []}
 type: doc
 subType: userguide
+tags: [guide-actors]
 data: {packFolder: actors}
 ---
 
@@ -35,9 +36,16 @@ A **[[doc-structureug|Structure]]** and a **[[doc-vehicleug|Vehicle]]** are both
 
 ## Sections {#sections}
 
-- [[doc-beingug|Being]] — a single person or creature, and the sheet you will use most
-- [[doc-cohortug|Cohort]] — a named body of individuals, its roster and its shared gear
-- [[doc-structureug|Structure]] — a place that persists, and the goods kept in it
-- [[doc-vehicleug|Vehicle]] — a conveyance, and who is aboard it
+[[doc-beingug|Being]] — a single person or creature, and the sheet you will use most
+
+[[doc-cohortug|Cohort]] — a named body of individuals, its roster and its shared gear
+
+[[doc-structureug|Structure]] — a place that persists, and the goods kept in it
+
+[[doc-vehicleug|Vehicle]] — a conveyance, and who is aboard it
+
+```pagelist {tag="user-guide-actors-sections" type=doc sort=name descriptions=true}
+
+```
 
 Back to the [[doc-userguide|User Guide]].

@@ -4,6 +4,7 @@ name: {full: The Authoring Workflow, aliases: []}
 type: doc
 subType: howto
 description: "Where content lives, the frontmatter every note carries whatever its type, and how a note becomes a compendium document."
+tags: [dev-content-creator, dev-docs-content-creator-start-here]
 data: {pack: none}
 sohl: {kbcat: devdocs}
 ---

@@ -4,6 +4,7 @@ name: {full: Writing Changesets, aliases: []}
 type: doc
 subType: howto
 description: "Record a change for the changelog and release notes."
+tags: [dev-contributing]
 data: {pack: none}
 sohl: {kbcat: devdocs}
 ---

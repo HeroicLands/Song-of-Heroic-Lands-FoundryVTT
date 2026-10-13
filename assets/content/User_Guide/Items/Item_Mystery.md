@@ -3,6 +3,7 @@ shortcode: mysteryug
 name: {full: "Mystery"}
 type: doc
 subType: userguide
+tags: [guide-items, user-guide-items-the-supernatural]
 data: {packFolder: items}
 ---
 

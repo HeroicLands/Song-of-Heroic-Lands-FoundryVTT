@@ -3,6 +3,7 @@ shortcode: afflinjug
 name: {full: "Afflictions and Injuries"}
 type: doc
 subType: userguide
+tags: [guide-afflictions-and-injuries]
 data: {packFolder: userguide}
 ---
 

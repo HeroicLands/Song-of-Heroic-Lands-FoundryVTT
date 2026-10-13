@@ -3,6 +3,7 @@ shortcode: modifiermodel
 name: {full: Modifier Model, aliases: []}
 type: doc
 subType: reference
+tags: [dev-reference]
 data: {pack: none}
 sohl: {kbcat: devdocs}
 ---

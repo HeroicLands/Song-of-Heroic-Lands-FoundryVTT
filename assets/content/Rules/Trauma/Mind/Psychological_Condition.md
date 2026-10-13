@@ -3,6 +3,7 @@ shortcode: psychlgc
 name: {full: Psychological Condition, aliases: []}
 type: doc
 subType: rules
+tags: [rules-trauma, rules-trauma-mind-sections]
 data: {packFolder: mind}
 ---
 

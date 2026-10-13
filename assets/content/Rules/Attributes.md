@@ -3,6 +3,7 @@ shortcode: attributes
 name: {full: Attributes, aliases: []}
 type: doc
 subType: rules
+tags: [rules-attributes]
 data: {packFolder: rules}
 ---
 

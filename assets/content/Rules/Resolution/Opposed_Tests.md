@@ -3,6 +3,7 @@ shortcode: oppsdtst
 name: {full: Opposed Tests, aliases: []}
 type: doc
 subType: rules
+tags: [rules-resolution, rules-resolution-sections]
 data: {packFolder: resolution}
 ---
 

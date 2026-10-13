@@ -4,6 +4,7 @@ name: {full: Combat Model, aliases: []}
 type: doc
 subType: concept
 description: "Assisted vs. automated combat, and how the combat flow is wired programmatically (combatants, the exchange workflow, resolution)."
+tags: [dev-concepts]
 data: {pack: none}
 sohl: {kbcat: devdocs}
 ---

@@ -3,6 +3,7 @@ shortcode: sprtactn
 name: {full: Spirit Action, aliases: []}
 type: doc
 subType: rules
+tags: [rules-esoterica, rules-esoterica-mystical-abilities-spirit-mysteries]
 data: {packFolder: esotericamysticalabilities}
 ---
 

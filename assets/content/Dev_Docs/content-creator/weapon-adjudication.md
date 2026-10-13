@@ -4,6 +4,7 @@ name: {full: Weapon Crew and Ammunition Guidance, aliases: []}
 type: doc
 subType: howto
 description: "Authoring descriptive crew requirements and GM-adjudicated ammunition recovery."
+tags: [dev-content-creator]
 data: {pack: none}
 sohl: {kbcat: devdocs}
 ---

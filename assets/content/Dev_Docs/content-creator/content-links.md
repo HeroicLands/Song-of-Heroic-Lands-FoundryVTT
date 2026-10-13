@@ -4,6 +4,7 @@ name: {full: Linking Between Content Notes, aliases: []}
 type: doc
 subType: howto
 description: "Wikilinks for content authors: the three forms, and why an item and its documentation need two different addresses."
+tags: [dev-content-creator, dev-docs-content-creator-conventions]
 data: {pack: none}
 sohl: {kbcat: devdocs}
 ---

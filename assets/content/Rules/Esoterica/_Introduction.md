@@ -3,6 +3,7 @@ shortcode: estrcint
 name: {full: Esoterica Introduction, aliases: []}
 type: doc
 subType: rules
+tags: [rules-esoterica]
 data: {packFolder: esoterica}
 ---
 
@@ -18,5 +19,6 @@ A **Mystical Ability** is something a character _does_: a spell, rite, prayer, o
 
 Most mystical traditions combine the two. A spirit-worker _is_ bonded to spirits (Spirit Powers, a kind of ability that stands ready) and _does_ perform rites and spirit actions through them; a priest _has_ piety (a Mystery) and _performs_ ritual actions and incantations (Mystical Abilities) that draw on it.
 
-- [[doc-mysteryintro|Mysteries]]
-- [[doc-mystabilintro|Mystical Abilities]]
+```pagelist {tag="rules-esoterica-mysteries-and-mystical-abilities" type=doc sort=name descriptions=true}
+
+```

@@ -48,9 +48,9 @@ describe("StructureLogic", () => {
             expect(logic.id).toBe("struct000000001");
         });
 
-        it("carries the base default health of 100/100 (no type-specific derivation yet)", () => {
-            // Health lives on the base actor data model so every actor shows a
-            // full token bar by default; only Being derives it down today.
+        it("carries the harness Health seed before lifecycle derivation", () => {
+            // The harness supplies the common actor Health seed; the Structure
+            // replaces it from authored maxHealth during preparation.
             const logic = makeStructure();
             expect((logic.data as any).health).toEqual({
                 value: 100,
@@ -198,9 +198,123 @@ describe("StructureLogic", () => {
 describe("StructureDataModel", () => {
     describe("defineSchema", () => {
         it.todo("includes SohlActorDataModel base schema fields");
-        it.todo("has no additional fields beyond base actor schema");
+        it.todo("declares authored Health, occupant and cargo capacities and occupants");
     });
 
     it.todo("has kind set to ACTOR_KIND.STRUCTURE");
     it.todo("has correct LOCALIZATION_PREFIXES");
+});
+
+describe("Structure derived state", () => {
+    it("uses authored Health and only physical Injury severity", () => {
+        const logic = makeStructure({
+            maxHealth: 20,
+            occupantCapacity: 0,
+            cargoCapacity: 0,
+            occupants: [],
+        });
+        (logic.data as any).actor.itemTypes = {
+            trauma: [
+                { logic: { data: { subType: "injury", levelBase: 2 }, level: { effective: 4 } } },
+                { logic: { data: { subType: "fear", levelBase: 8 }, level: { effective: 8 } } },
+            ],
+        };
+        logic.initialize();
+        logic.evaluate();
+        logic.finalize();
+        expect(logic.data.health).toEqual({ value: 16, max: 20 });
+        expect(logic.structuralDamage).toBe(4);
+        expect(logic.data.update).not.toHaveBeenCalled();
+    });
+    it("floors remaining Health and handles empty structures without invented defaults", () => {
+        const logic = makeStructure({ maxHealth: 0, occupants: [] });
+        logic.initialize();
+        logic.evaluate();
+        logic.finalize();
+        expect(logic.data.health).toEqual({ value: 0, max: 0 });
+        expect(logic.structuralDamage).toBe(0);
+    });
+    it("counts cargo by effective weight times quantity and warns without blocking", () => {
+        const logic = makeStructure({ maxHealth: 10, cargoCapacity: 5, occupants: [] });
+        (logic.data as any).actor.itemTypes = {
+            miscgear: [
+                { logic: { data: { weightBase: 1, quantity: 3 }, weight: { effective: 2 } } },
+            ],
+        };
+        logic.initialize();
+        logic.evaluate();
+        logic.finalize();
+        expect(logic.cargoWeight).toBe(6);
+        expect(logic.cargoOverCapacity).toBe(true);
+        expect(logic.data.update).not.toHaveBeenCalled();
+    });
+});
+
+describe("Structure occupancy", () => {
+    it("counts resolved people and cohort members, keeping missing rows visible", () => {
+        const person = { data: { kind: "being", uuid: "Actor.person" } };
+        const cohort = {
+            data: { kind: "cohort" },
+            memberLogics: [person, { data: { kind: "being", uuid: "Actor.other" } }],
+        };
+        vi.spyOn(FoundryHelpersMock, "fvttActorByRef").mockImplementation(
+            (ref: string) =>
+                (
+                    ({
+                        person: { logic: person, name: "Person" },
+                        group: { logic: cohort, name: "Group" },
+                    }) as any
+                )[ref],
+        );
+        const logic = makeStructure({
+            maxHealth: 12,
+            occupantCapacity: 1,
+            cargoCapacity: 0,
+            occupants: ["person", "group", "missing"].map((actorCodeOrUuid) => ({
+                actorCodeOrUuid,
+                role: "passenger",
+                title: null,
+            })),
+        });
+        logic.initialize();
+        logic.evaluate();
+        logic.finalize();
+        expect(logic.occupantCount).toBe(2);
+        expect(logic.occupantsOverCapacity).toBe(true);
+        expect(logic.occupantRows).toHaveLength(3);
+        expect(logic.occupantRows[2].isResolved).toBe(false);
+        expect(logic.data.update).not.toHaveBeenCalled();
+    });
+    it("recomputes Health and cargo after injuries or quantities change", () => {
+        const logic = makeStructure({ maxHealth: 5, cargoCapacity: 3, occupants: [] });
+        const trauma = { data: { subType: "injury", levelBase: 4 }, level: { effective: 8 } };
+        const gear = { data: { weightBase: 1, quantity: 4 }, weight: { effective: 1 } };
+        (logic.data as any).actor.itemTypes = {
+            trauma: [{ logic: trauma }],
+            miscgear: [{ logic: gear }],
+        };
+        logic.deriveStructureState();
+        expect(logic.data.health.value).toBe(0);
+        expect(logic.cargoOverCapacity).toBe(true);
+        trauma.level.effective = 1;
+        gear.data.quantity = 2;
+        logic.deriveStructureState();
+        expect(logic.data.health.value).toBe(4);
+        expect(logic.cargoOverCapacity).toBe(false);
+    });
+    it("adds occupants only when explicitly invoked and removes references without deleting actors", async () => {
+        const actor = { logic: { data: { kind: "being" } }, name: "Visitor" };
+        vi.spyOn(FoundryHelpersMock, "fvttActorByRef").mockReturnValue(actor as any);
+        const logic = makeStructure({ occupants: [] });
+        await logic.addOccupant({ skipDialog: true, scope: { actorCodeOrUuid: "visitor" } } as any);
+        expect(logic.data.update).toHaveBeenCalledWith({
+            "system.occupants": [{ actorCodeOrUuid: "visitor", role: "passenger", title: null }],
+        });
+        logic.data.occupants = [{ actorCodeOrUuid: "visitor", role: "passenger", title: null }];
+        await logic.removeOccupant({
+            skipDialog: true,
+            scope: { actorCodeOrUuid: "visitor" },
+        } as any);
+        expect(logic.data.update).toHaveBeenLastCalledWith({ "system.occupants": [] });
+    });
 });

@@ -718,6 +718,7 @@ subType: userguide
 name:
     full: "Icon Legend"
 shortcode: ${PAGE_SHORTCODE}
+tags: [guide-understanding-sheets]
 data:
   packFolder: ${PAGE_PACK_FOLDER}
 ---

@@ -3,6 +3,7 @@ shortcode: scnsetuptokug
 name: {full: "Scene Setup and Tokens"}
 type: doc
 subType: userguide
+tags: [guide-scenes-and-tokens]
 data: {packFolder: userguide}
 ---
 

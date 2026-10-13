@@ -3,6 +3,7 @@ shortcode: beingug
 name: {full: "Being"}
 type: doc
 subType: userguide
+tags: [guide-actors, user-guide-actors-sections]
 data: {packFolder: actors}
 ---
 

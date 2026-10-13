@@ -3,6 +3,7 @@ shortcode: projectilegearug
 name: {full: "Projectile"}
 type: doc
 subType: userguide
+tags: [guide-items, user-guide-items-gear]
 data: {packFolder: items}
 ---
 

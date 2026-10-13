@@ -4,6 +4,7 @@ name: {full: Issue Reporting, aliases: []}
 type: doc
 subType: howto
 description: "How issues are typed, prioritized, labeled, and tied to capability milestones."
+tags: [dev-how-to]
 data: {pack: none}
 sohl: {kbcat: devdocs}
 ---

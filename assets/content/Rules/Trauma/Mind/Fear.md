@@ -3,6 +3,7 @@ shortcode: fear
 name: {full: Fear, aliases: []}
 type: doc
 subType: rules
+tags: [rules-trauma, rules-trauma-mind-sections]
 data: {packFolder: mind}
 ---
 

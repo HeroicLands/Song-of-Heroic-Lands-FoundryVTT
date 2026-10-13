@@ -3,6 +3,7 @@ shortcode: scenetokencombatant
 name: {full: "Scene, Token, and Combatant Systems", aliases: []}
 type: doc
 subType: reference
+tags: [dev-reference]
 data: {pack: none}
 sohl: {kbcat: devdocs}
 ---

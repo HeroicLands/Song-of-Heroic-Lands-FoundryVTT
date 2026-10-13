@@ -4,6 +4,7 @@ name: {full: Asset Conventions, aliases: []}
 type: doc
 subType: reference
 description: "Where art files live, how a note addresses one, image and SVG standards, and default item art."
+tags: [dev-content-creator, dev-docs-content-creator-conventions]
 data: {pack: none}
 sohl: {kbcat: devdocs}
 ---

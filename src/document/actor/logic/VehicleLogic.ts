@@ -11,6 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { cargoWeightOf, occupantsWeightOf, resolvedPeople } from "./occupancy-state";
 import type { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import {
     ACTION_SUBTYPE,
@@ -102,15 +103,34 @@ export interface VehicleOccupantRow {
  * Token Actor UUIDs, with roles and optional titles; unresolved entries remain
  * visible in the roster. Occupants may reference Beings or Cohorts.
  *
- * This logic supports adding and removing occupants and displaying their
- * available health information. Movement, carrying limits, combat, damage,
- * and boarding are not calculated by this class and remain GM-adjudicated.
+ * Occupant references may name a Being or a Cohort. Authored capacities and
+ * derived counts and weights are informational and change no mechanics.
+ * Movement profiles, cargo, actions and effects are recorded on the actor.
+ * Vehicles have no implemented structural Health or protection model.
  *
  * @typeParam TData - The Vehicle data interface.
  */
 export class VehicleLogic<
     TData extends VehicleData = VehicleData,
 > extends SohlActorBaseLogic<TData> {
+    /** Number of distinct resolved people aboard. */
+    occupantCount = 0;
+    /** Occupants' body and carried gear weight, in pounds. */
+    occupantWeight = 0;
+    /** Owned cargo weight, in pounds. */
+    cargoWeight = 0;
+    /** Informational combined load; never modifies movement. */
+    totalLoad = 0;
+
+    /** Refresh informational totals without changing stored data or movement. */
+    deriveVehicleState(): void {
+        const occupants = this.occupantLogics;
+        this.occupantCount = resolvedPeople(occupants).length;
+        this.occupantWeight = occupantsWeightOf(occupants);
+        this.cargoWeight = cargoWeightOf(this.allLogics);
+        this.totalLoad = this.occupantWeight + this.cargoWeight;
+    }
+
     /* --------------------------------------------- */
     /* Common Lifecycle Actions                      */
     /* --------------------------------------------- */
@@ -398,11 +418,13 @@ export class VehicleLogic<
     /** @inheritdoc */
     override evaluate(): void {
         super.evaluate();
+        this.deriveVehicleState();
     }
 
     /** @inheritdoc */
     override finalize(): void {
         super.finalize();
+        this.deriveVehicleState();
     }
 }
 
@@ -420,4 +442,8 @@ export interface VehicleData<
      * @see {@link VehicleOccupant}
      */
     occupants: VehicleOccupant[];
+    /** Authored number of people the vehicle can carry. */
+    occupantCapacity: number;
+    /** Authored total occupant and cargo weight capacity, in pounds. */
+    carryingCapacity: number;
 }

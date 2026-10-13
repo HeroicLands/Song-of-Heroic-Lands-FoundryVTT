@@ -27,3 +27,5 @@ export * from "./StructureSheet";
 export * from "./VehicleDataModel";
 export * from "./VehicleSheet";
 export * from "./grab-hold-hooks";
+
+export * from "./actor-derivation-hooks";

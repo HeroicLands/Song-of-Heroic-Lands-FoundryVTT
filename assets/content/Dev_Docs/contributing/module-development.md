@@ -4,6 +4,7 @@ name: {full: Writing Modules for SoHL, aliases: []}
 type: doc
 subType: howto
 description: "Build a Foundry module that extends SoHL without forking."
+tags: [dev-contributing]
 data: {pack: none}
 sohl: {kbcat: devdocs}
 ---

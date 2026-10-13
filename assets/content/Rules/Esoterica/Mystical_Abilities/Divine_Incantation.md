@@ -3,6 +3,7 @@ shortcode: dvnincnt
 name: {full: Divine Incantation, aliases: []}
 type: doc
 subType: rules
+tags: [rules-esoterica, rules-esoterica-mystical-abilities-divine-mysteries]
 data: {packFolder: esotericamysticalabilities}
 ---
 

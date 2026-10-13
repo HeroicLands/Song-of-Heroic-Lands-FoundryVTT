@@ -3,6 +3,7 @@ shortcode: cssarchitecture
 name: {full: CSS Architecture & Styleguide, aliases: []}
 type: doc
 subType: concept
+tags: [dev-concepts]
 data: {pack: none}
 sohl: {kbcat: devdocs}
 ---

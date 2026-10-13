@@ -3,6 +3,7 @@ shortcode: shortcodesug
 name: {full: "Shortcodes"}
 type: doc
 subType: userguide
+tags: [guide-understanding-sheets, user-guide-items-shared-by-every-item]
 data: {packFolder: userguide}
 ---
 

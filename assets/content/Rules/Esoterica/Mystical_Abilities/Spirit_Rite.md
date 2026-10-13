@@ -3,6 +3,7 @@ shortcode: sprtrt
 name: {full: Spirit Rite, aliases: []}
 type: doc
 subType: rules
+tags: [rules-esoterica, rules-esoterica-mystical-abilities-spirit-mysteries]
 data: {packFolder: esotericamysticalabilities}
 ---
 

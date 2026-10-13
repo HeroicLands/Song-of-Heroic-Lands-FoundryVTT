@@ -3,6 +3,7 @@ shortcode: resultdescriptiontables
 name: {full: Result-description tables, aliases: []}
 type: doc
 subType: reference
+tags: [dev-reference]
 data: {pack: none}
 sohl: {kbcat: devdocs}
 ---

@@ -3,6 +3,7 @@ shortcode: skillug
 name: {full: "Skill"}
 type: doc
 subType: userguide
+tags: [guide-items, user-guide-items-what-a-character-is]
 data: {packFolder: items}
 ---
 

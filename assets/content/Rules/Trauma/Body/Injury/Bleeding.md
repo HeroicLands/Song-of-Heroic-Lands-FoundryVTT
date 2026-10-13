@@ -3,6 +3,7 @@ shortcode: bleeding
 name: {full: Bleeding, aliases: []}
 type: doc
 subType: rules
+tags: [rules-trauma, rules-trauma-body-injury-sections]
 data: {packFolder: injury}
 ---
 

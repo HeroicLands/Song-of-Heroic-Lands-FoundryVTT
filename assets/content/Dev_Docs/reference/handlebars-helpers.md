@@ -3,6 +3,7 @@ shortcode: handlebarshelpers
 name: {full: Handlebars Template Helpers, aliases: []}
 type: doc
 subType: reference
+tags: [dev-reference]
 data: {pack: none}
 sohl: {kbcat: devdocs}
 ---

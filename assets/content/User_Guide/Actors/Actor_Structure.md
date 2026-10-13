@@ -3,6 +3,7 @@ shortcode: structureug
 name: {full: "Structure"}
 type: doc
 subType: userguide
+tags: [guide-actors, user-guide-actors-sections]
 data: {packFolder: actors}
 ---
 
@@ -10,7 +11,7 @@ data: {packFolder: actors}
 
 A Structure is a **place** — a house, a keep, a shrine, a storeroom, a bridge. It is somewhere things are kept and things happen, given an actor of its own so that it can be described, own its contents, and be pointed at.
 
-**Its unique capability is simply that it is a place that persists.** Unlike the other actor kinds, a Structure has no properties of its own at all — and that is deliberate. It is the plainest actor in the system: a name, a description, the gear stored in it, the actions you attach to it, and the effects laid on it. What distinguishes it from a [[doc-vehicleug|Vehicle]] is not a mechanic but a fact about the fiction — **it does not go anywhere**, and so it has no occupants and no journey.
+A Structure records its **maximum Health**, its remaining Health after structural Injuries, and separate limits for people and stored cargo. Its Occupants list names the actors staying there. It remains a fixed place rather than a [[doc-vehicleug|Vehicle]] that travels.
 
 Use it when a location deserves to be a thing in the game rather than a note: an inn the party keeps returning to, a cache in the woods, a temple with a standing blessing on it.
 
@@ -27,21 +28,26 @@ For something that moves and carries people, use a [[doc-vehicleug|Vehicle]] ins
 
 # What a Structure Contains
 
-- **Gear** — everything stored in the place. There is no limit on how much.
+- **Gear** — everything stored in the place. The cargo limit gives an advisory warning when total stored weight exceeds it.
+- **Occupants** — actor references for people staying there, including Cohorts whose resolved members count toward occupancy.
 - **Actions** — procedures attached to the place.
 - **Effects** — active effects on the place, such as wards or consecrations.
 
 # Damage, Protection and Sieges
 
-**The system applies no damage to a structure and resolves no siege.** A structure has no health, no structural integrity and no protection rating. No procedure computes how much a wall absorbs, how a breach opens or when a gate gives way, and the combat procedures work on Beings: an attack requires a [[doc-beingug|Being]] as the attacker, and aiming offers only a Being's body parts.
+Set **Maximum Health** in the header. The system subtracts the sum of the structure's physical Injury severities, using their effective levels, and stops remaining Health at zero. Other Trauma types do not count as structural damage. Removing an Injury or changing its level recalculates Health; no derived value is written over the authored maximum.
 
-A siege is therefore yours to adjudicate, and the structure is where you record the outcome. Some ways to keep the state in the sheet:
+Maximum Health starts at zero until you assign it. The system does not choose a maximum for a building or turn zero Health into an automatic destruction result. The GM adjudicates damage, repair, breaches, and destruction. Record structural damage with embedded Injury items.
 
-- Add an **Attribute** item for a rating you care about (Wall Integrity, say) and edit its score as the siege progresses. It is displayed on the **Profile** tab, and no rule reads it, so what the number means is your call.
-- Lay an **active effect** on the structure to mark a standing condition, such as a breached gate, so the state shows on the sheet and in the **Effects** tab.
-- Note the state in the **Biography** dossier, which only you and the GM see.
+**Protection remains unimplemented.** No rule determines what a wall or door absorbs or resolves a siege attack against a Structure.
 
-Everything here is a record you keep. The system never reduces a rating, applies an effect or tells you a wall has fallen: you decide each step.
+# Health and Capacity
+
+The header shows remaining and maximum Health. Set **Occupant Capacity** as a person count and **Cargo Capacity** as a weight limit in pounds. Both limits start at zero until authored. Exceeding either limit shows a warning; adding occupants or cargo remains allowed.
+
+Occupancy counts resolved Beings and the resolved members of Cohorts, counting each person once. Missing actor references stay visible in the Occupants list but do not contribute to the count. Other actor kinds are not people. Cargo weight sums the effective weight of every embedded gear item multiplied by its quantity; nested contents are counted once, separately from their container.
+
+Use **Add Occupant** on the Occupants tab or the Actions tab to select an actor by shortcode or UUID, with an optional role and title. **Remove Occupant** removes only the reference, never the actor. Roles and titles are descriptive; they do not impose crew or eligibility rules.
 
 # Placing a Structure on a Scene
 
@@ -49,11 +55,7 @@ A structure is placed like any other actor: drag it from the sidebar onto the sc
 
 # What a Structure Does Not Model
 
-A Structure is scenery with an inventory, not a combatant:
-
-- **No condition.** It has no structural integrity, no hit points, and no damage model. Walls cannot be battered down by the rules; see _Damage, Protection and Sieges_ above.
-- **No capacity.** A storeroom holds as much as you say it does — nothing counts or refuses the contents.
-- **No occupants.** A Structure does not track who is inside it. If who is present matters, that is a matter for tokens on the scene, or a [[doc-cohortug|Cohort]] if the people form a standing group.
+Structural Health and capacity warnings record the state of the location. The GM adjudicates breaches, repairs, destruction, and movement of people in or out. Protection ratings and siege resolution remain unspecified. The occupant roster does not move anyone's token.
 
 # The Structure Sheet
 
@@ -61,12 +63,13 @@ The Structure sheet has these tabs:
 
 - **Facade** — the public description
 - **Profile** — the private dossier, movement rates, and attributes
+- **Occupants** — the people staying at the location
 - **Mysteries** — mysteries and mystical abilities attached to the place
 - **Gear** — stored contents and equipment
 - **Actions** — available actions
 - **Effects** — active effects
 
-All six are the common actor tabs, and they behave exactly as they do on a [[doc-beingug|Being]]: the Gear tab is the same inventory ledger (a structure's stores instead of a character's possessions), the Mysteries tab lists the same Mystery and Mystical Ability items (a structure usually carries none), and the Actions and Effects tabs are identical. They are documented once, in [[doc-undrstndsheetug|Understanding Sheets]] under _Common Actor Tabs_ — see that page for the columns, controls, and how to add, stow, and remove things.
+Six are the common actor tabs, and they behave exactly as they do on a [[doc-beingug|Being]]: the Gear tab is the same inventory ledger (a structure's stores instead of a character's possessions), the Mysteries tab lists the same Mystery and Mystical Ability items (a structure usually carries none), and the Actions and Effects tabs are identical. They are documented once, in [[doc-undrstndsheetug|Understanding Sheets]] under _Common Actor Tabs_ — see that page for the columns, controls, and how to add, stow, and remove things.
 
 The **Profile** tab carries three things, and it is where a structure's private notes live:
 
@@ -78,15 +81,17 @@ The one difference: a Being's Gear tab reports carried weight and encumbrance, b
 
 # Intrinsic Actions
 
-A Structure defines no actions of its own. It carries only the actions every actor shares:
+A Structure adds occupant-management actions alongside the actions every actor shares:
 
 | Action              | Shortcode           |
 | ------------------- | ------------------- |
 | Edit                | `editDocument`      |
 | Delete              | `deleteDocument`    |
 | Make Default Medium | `makeDefaultMedium` |
+| Add Occupant        | `addOccupant`       |
+| Remove Occupant     | `removeOccupant`    |
 
-All three belong to every actor and are described on [[doc-baseitemug|Base Item]], which covers what each one does, how it is invoked, and what it produces — the shared document actions are the same wherever they appear.
+The first three belong to every actor and are described on [[doc-baseitemug|Base Item]], which covers what each one does, how it is invoked, and what it produces — the shared document actions are the same wherever they appear.
 
 **Make Default Medium** picks which movement medium an actor is currently moving in, driven by the star control in the movement table on the structure's own **Profile** tab. A structure does not move, so in practice it stays on the _None_ row; the control is there because movement is a capability every actor carries, not because a building is expected to use it.
 

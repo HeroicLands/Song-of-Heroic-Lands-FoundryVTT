@@ -3,6 +3,7 @@ shortcode: msslattc
 name: {full: Missile Attacks, aliases: []}
 type: doc
 subType: rules
+tags: [rules-combat, rules-combat-kinds-of-attack, rules-combat-sections]
 data: {packFolder: rulescombat}
 ---
 

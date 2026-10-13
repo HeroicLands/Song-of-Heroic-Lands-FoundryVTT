@@ -3,6 +3,7 @@ shortcode: glossary
 name: {full: Glossary, aliases: []}
 type: doc
 subType: rules
+tags: [rules-glossary]
 data: {packFolder: rules}
 ---
 

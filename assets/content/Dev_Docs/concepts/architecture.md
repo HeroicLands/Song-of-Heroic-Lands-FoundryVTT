@@ -4,6 +4,7 @@ name: {full: SoHL Architecture, aliases: []}
 type: doc
 subType: concept
 description: "The mental model and a map of the `src/` tree."
+tags: [dev-concepts]
 data: {pack: none}
 sohl: {kbcat: devdocs}
 ---

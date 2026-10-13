@@ -3,6 +3,7 @@ shortcode: sccsstst
 name: {full: Success Tests, aliases: []}
 type: doc
 subType: rules
+tags: [rules-resolution, rules-resolution-sections]
 data: {packFolder: resolution}
 ---
 

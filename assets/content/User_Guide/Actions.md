@@ -3,6 +3,7 @@ shortcode: actionsug
 name: {full: "Actions"}
 type: doc
 subType: userguide
+tags: [guide-making-tests, user-guide-items-shared-by-every-item]
 data: {packFolder: userguide}
 ---
 

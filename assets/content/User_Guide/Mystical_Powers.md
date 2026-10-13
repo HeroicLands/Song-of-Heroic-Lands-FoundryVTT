@@ -3,6 +3,7 @@ shortcode: mystclpwug
 name: {full: Mystical Powers}
 type: doc
 subType: userguide
+tags: [guide-mystical-powers]
 data: {packFolder: userguide}
 ---
 

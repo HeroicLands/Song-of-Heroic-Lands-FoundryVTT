@@ -3,6 +3,7 @@ shortcode: augury
 name: {full: Augury, aliases: []}
 type: doc
 subType: rules
+tags: [rules-esoterica, rules-esoterica-mystical-abilities-divination-the-arts]
 data: {packFolder: mysticalabilitiesdivination}
 ---
 

@@ -42,3 +42,5 @@ export * from "./grab-hold";
 export * from "./grab-hold-dispatch";
 
 export * from "./envelop-actions";
+
+export * from "./occupancy-state";

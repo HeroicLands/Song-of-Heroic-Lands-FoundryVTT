@@ -3,14 +3,13 @@ shortcode: mysteryintro
 name: {full: Mysteries Introduction, aliases: []}
 type: doc
 subType: rules
+tags: [rules-esoterica, rules-esoterica-mysteries-and-mystical-abilities]
 data: {packFolder: mysteries}
 ---
 
-- [[doc-brthsgn|Birthsign]]
-- [[doc-boon|Boon]]
-- [[doc-boost|Boost]]
-- [[doc-grace|Grace]]
-- [[doc-piety|Piety]]
+```pagelist {tag="rules-esoterica-mysteries-sections" type=doc sort=name descriptions=true}
+
+```
 
 A character's Fate is held as a Mystery too, but because it acts on any test at all it is described with the rest of the resolution rules, under [[doc-fatepnts|Fate]].
 

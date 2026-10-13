@@ -1,0 +1,79 @@
+{{!--
+This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.org>
+
+Licensed under the GNU General Public License v3.0 (GPLv3).
+You may copy, modify, and distribute this file under the terms of that license.
+
+See LICENSE.md in the project root or:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+SPDX-License-Identifier: GPL-3.0-or-later
+--}}
+
+{{!-- Stored actor references remain visible even when they no longer resolve.
+      Roles and titles are descriptive metadata; no crew policy is enforced. --}}
+
+<section class="tab occupants{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="occupants">
+    <div class="section-legend">
+        <span class="section-legend__name">{{localize "SOHL.Structure.FIELDS.occupants.label"}}</span>
+        <span class="section-legend__rule"></span>
+        {{#if isEditable}}
+        <span class="section-legend__add">
+            <a class="add-button" data-action="addStructureOccupant"
+                data-tooltip="{{localize 'SOHL.Structure.Occupants.add.title'}}">
+                <i class="fa-solid fa-user-plus"></i><span>{{localize "SOHL.Structure.Occupants.add.control"}}</span>
+            </a>
+        </span>
+        {{/if}}
+    </div>
+
+    {{#if occupants.length}}
+    <div class="ledger"
+        style="--ledger-cols:1.5rem minmax(140px,1.6fr) minmax(90px,1fr) minmax(80px,1fr) minmax(90px,1fr) 1.8rem">
+        <div class="ledger__head">
+            <div></div>
+            <div>{{localize "SOHL.Structure.Occupants.column.name"}}</div>
+            <div>{{localize "SOHL.Structure.Occupants.column.role"}}</div>
+            <div>{{localize "SOHL.Structure.Occupants.column.title"}}</div>
+            <div>{{localize "SOHL.Structure.Occupants.column.health"}}</div>
+            <div></div>
+        </div>
+        {{#each occupants as |occupant|}}
+        <div class="ledger__row{{#unless occupant.isResolved}} ledger__row--disabled{{/unless}}"
+            data-search-name="{{occupant.name}}" data-occupant-ref="{{occupant.ref}}" data-uuid="{{occupant.uuid}}">
+            <div class="ledger__icon">
+                {{#if occupant.img}}<img src="{{occupant.img}}" alt="{{occupant.name}}" />{{/if}}
+            </div>
+            <div class="ledger__name" data-tooltip="{{occupant.ref}}">{{occupant.name}}{{#unless
+                occupant.isResolved}}<span class="member-missing"
+                    data-tooltip="{{localize 'SOHL.Structure.Occupants.notFound.tooltip'}}"><i
+                        class="fa-solid fa-triangle-exclamation fa-fw warning-icon"></i><span
+                        class="member-missing__label">{{localize
+                        "SOHL.Structure.Occupants.notFound.label"}}</span></span>{{/unless}}</div>
+            <div class="ledger__cell ledger__cell--text">{{localize occupant.roleLabel}}</div>
+            <div class="ledger__cell ledger__cell--text">{{occupant.title}}</div>
+            <div
+                class="ledger__cell ledger__cell--health{{#if occupant.healthBand}} ledger__cell--health--{{toLowerCase occupant.healthBand}}{{/if}}">
+                {{#if occupant.healthBandLabel}}
+                <span class="member-health__pct">{{occupant.healthPct}}%</span>
+                <span class="member-health__band">{{localize occupant.healthBandLabel}}</span>
+                {{/if}}
+            </div>
+            <div class="ledger__controls">
+                {{!-- `@root` because `#each` rebinds the context to the row. --}}
+                {{#if @root.isEditable}}
+                <a class="icon-button icon-button--danger" data-action="removeStructureOccupant"
+                    data-occupant-ref="{{occupant.ref}}"
+                    data-tooltip="{{localize 'SOHL.Structure.Occupants.remove.control'}}">
+                    <i class="fa-solid fa-trash fa-fw"></i>
+                </a>
+                {{/if}}
+            </div>
+        </div>
+        {{/each}}
+    </div>
+    {{else}}
+    <p class="notes">{{localize "SOHL.Structure.Occupants.empty"}}</p>
+    {{/if}}
+</section>

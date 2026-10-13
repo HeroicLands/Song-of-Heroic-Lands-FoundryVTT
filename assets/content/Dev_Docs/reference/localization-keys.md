@@ -4,6 +4,7 @@ name: {full: Localization Keys, aliases: []}
 type: doc
 subType: reference
 description: "The naming standard for `lang/en.json`: namespaces, group and leaf case, what may never appear in a key, and why keys are permanent."
+tags: [dev-reference]
 data: {pack: none}
 sohl: {kbcat: devdocs}
 ---

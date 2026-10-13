@@ -3,6 +3,7 @@ shortcode: strkmds
 name: {full: Strike Modes, aliases: []}
 type: doc
 subType: rules
+tags: [rules-combat, rules-combat-sections]
 data: {packFolder: rulescombat}
 ---
 

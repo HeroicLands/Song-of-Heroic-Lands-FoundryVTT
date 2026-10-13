@@ -4,6 +4,7 @@ name: {full: Writing Guided Tours, aliases: []}
 type: doc
 subType: howto
 description: "The `SohlTour` framework: step kinds, value/action gates, sheet navigation, and how to register a tour."
+tags: [dev-how-to]
 data: {pack: none}
 sohl: {kbcat: devdocs}
 ---

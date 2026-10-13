@@ -3,6 +3,7 @@ shortcode: apiaccessmap
 name: {full: API Access Map (Macros and Modules), aliases: []}
 type: doc
 subType: howto
+tags: [dev-how-to]
 data: {pack: none}
 sohl: {kbcat: devdocs}
 ---

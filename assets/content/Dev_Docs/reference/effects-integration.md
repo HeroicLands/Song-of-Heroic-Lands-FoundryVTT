@@ -3,6 +3,7 @@ shortcode: effectsintegration
 name: {full: Effects Integration, aliases: []}
 type: doc
 subType: reference
+tags: [dev-reference]
 data: {pack: none}
 sohl: {kbcat: devdocs}
 ---

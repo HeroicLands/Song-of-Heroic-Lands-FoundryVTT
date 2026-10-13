@@ -3,6 +3,7 @@ shortcode: crtngactitemug
 name: {full: "Creating Actors and Items"}
 type: doc
 subType: userguide
+tags: [guide-setting-up-a-world, user-guide-items-shared-by-every-item]
 data: {packFolder: userguide}
 ---
 

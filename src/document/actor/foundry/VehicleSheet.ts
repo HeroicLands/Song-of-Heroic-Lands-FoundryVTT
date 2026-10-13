@@ -126,6 +126,10 @@ export class VehicleSheet extends SohlActorSheetBase {
         const logic = this.document.logic as unknown as VehicleLogic;
         return Object.assign(context, {
             occupants: logic.occupantRows,
+            occupantCount: logic.occupantCount,
+            occupantWeight: Math.round(logic.occupantWeight * 10) / 10,
+            vehicleCargoWeight: Math.round(logic.cargoWeight * 10) / 10,
+            totalLoad: Math.round(logic.totalLoad * 10) / 10,
             isEditable: this.isEditable,
         });
     }

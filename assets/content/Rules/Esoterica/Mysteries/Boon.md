@@ -3,6 +3,7 @@ shortcode: boon
 name: {full: Boon, aliases: []}
 type: doc
 subType: rules
+tags: [rules-esoterica, rules-esoterica-mysteries-sections]
 data: {packFolder: mysteries}
 ---
 

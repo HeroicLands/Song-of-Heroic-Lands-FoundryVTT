@@ -4,6 +4,7 @@ name: {full: SoHL Type Catalog, aliases: []}
 type: doc
 subType: reference
 description: Every actor and item type the system compiles, with the summary of its Logic class.
+tags: [dev-docs-content-creator-also-relevant-filed-elsewhere, dev-reference]
 data: {pack: none}
 sohl: {kbcat: devdocs}
 ---

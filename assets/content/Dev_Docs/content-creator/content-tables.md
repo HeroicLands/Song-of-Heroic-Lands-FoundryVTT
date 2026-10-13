@@ -4,6 +4,7 @@ name: {full: Generated Content Tables, aliases: []}
 type: doc
 subType: howto
 description: "SQL queries that tabulate content notes from their frontmatter."
+tags: [dev-content-creator, dev-docs-content-creator-conventions]
 data: {pack: none}
 sohl: {kbcat: devdocs}
 ---

@@ -3,6 +3,7 @@ shortcode: houserulescookbook
 name: {full: House Rules Cookbook, aliases: []}
 type: doc
 subType: howto
+tags: [dev-how-to]
 data: {pack: none}
 sohl: {kbcat: devdocs}
 ---

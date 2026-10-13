@@ -3,6 +3,7 @@ shortcode: traumaintro
 name: {full: Trauma Introduction, aliases: []}
 type: doc
 subType: rules
+tags: [rules-trauma]
 data: {packFolder: rulestrauma}
 ---
 
@@ -12,6 +13,6 @@ A **Trauma** is harm to a character — to the physical **body**, to the **mind*
 
 ## Forms of trauma
 
-- [[doc-bodytrmaintro|Body]]
-- [[doc-mindtraumaintro|Mind]]
-- [[doc-sprttraumaintro|Spirit]]
+```pagelist {tag="rules-trauma-forms-of-trauma" type=doc sort=name descriptions=true}
+
+```

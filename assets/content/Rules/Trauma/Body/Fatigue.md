@@ -3,6 +3,7 @@ shortcode: fatigue
 name: {full: Fatigue, aliases: []}
 type: doc
 subType: rules
+tags: [rules-trauma, rules-trauma-body-sections]
 data: {packFolder: body}
 ---
 

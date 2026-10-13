@@ -647,3 +647,46 @@ describe("CohortDataModel", () => {
     it.todo("has kind set to ACTOR_KIND.COHORT");
     it.todo("has correct LOCALIZATION_PREFIXES");
 });
+
+describe("Cohort derived membership", () => {
+    it("stores resolved size and every existing health band, excluding stale handles", () => {
+        const values = [100, 80, 60, 30, 1, 0];
+        const refs: Record<string, Record<string, unknown>> = Object.fromEntries(
+            values.map((value, i) => [
+                String(i),
+                { logic: { data: { health: { value, max: 100 } } } },
+            ]),
+        );
+        refs.unknown = { logic: { data: {} } };
+        resolveRefs(refs);
+        const logic = makeCohort({
+            members: [...Object.keys(refs), "missing"].map((ref) => member(ref)),
+        });
+        logic.evaluate();
+        expect(logic.data.memberCount).toBe(7);
+        expect(logic.data.healthBandCounts).toEqual({
+            Excellent: 1,
+            Good: 1,
+            Fair: 1,
+            Poor: 1,
+            Morbid: 1,
+            Dead: 1,
+        });
+        expect(logic.memberRows).toHaveLength(8);
+    });
+
+    it("replaces counts after membership and member health change without persisting", () => {
+        const actor = { logic: { data: { health: { value: 100, max: 100 } } } };
+        resolveRefs({ first: actor });
+        const logic = makeCohort({ members: [member("first")] });
+        logic.evaluate();
+        actor.logic.data.health.value = 0;
+        logic.deriveMembershipState();
+        expect(logic.data.healthBandCounts.Excellent).toBe(0);
+        expect(logic.data.healthBandCounts.Dead).toBe(1);
+        logic.data.members = [];
+        logic.deriveMembershipState();
+        expect(logic.data.memberCount).toBe(0);
+        expect(Object.values(logic.data.healthBandCounts)).toEqual([0, 0, 0, 0, 0, 0]);
+    });
+});

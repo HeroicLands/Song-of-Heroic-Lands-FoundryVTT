@@ -38,6 +38,10 @@ SPDX-License-Identifier: GPL-3.0-or-later
         </span>
     </div>
 
+    <p class="notes" data-cohort-member-count="{{memberCount}}">{{localize "SOHL.Cohort.Aggregate.resolved"}}: {{memberCount}}.
+        {{#each healthBandCounts}}<span data-health-band="{{label}}">{{localize label}}: {{count}}</span> {{/each}}
+    </p>
+
     {{#if members.length}}
     <div class="ledger" style="--ledger-cols:1.5rem minmax(140px,1.6fr) minmax(90px,1fr) minmax(90px,1fr) 1.8rem 1.8rem">
         <div class="ledger__head">

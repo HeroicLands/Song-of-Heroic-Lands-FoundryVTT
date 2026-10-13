@@ -3,6 +3,7 @@ shortcode: sfexprssug
 name: {full: "Safe Expressions"}
 type: doc
 subType: userguide
+tags: [guide-customizing-the-system]
 data: {packFolder: userguide}
 ---
 

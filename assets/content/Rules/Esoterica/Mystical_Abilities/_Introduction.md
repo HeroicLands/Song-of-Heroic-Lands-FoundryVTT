@@ -3,6 +3,7 @@ shortcode: mystabilintro
 name: {full: Mystical Abilities Introduction, aliases: []}
 type: doc
 subType: rules
+tags: [rules-esoterica, rules-esoterica-mysteries-and-mystical-abilities]
 ---
 
 Supernatural powers are expressed in _Song of Heroic Lands_ as a **Mystical Ability**.
@@ -19,10 +20,9 @@ Note that abilities do not themselves carry any skill base. **No mystical abilit
 
 The **Arcane** tradition draws its power from the caster's own aura and from formally taught lore. Arcane practitioners shape unseen forces directly — where a priest asks and a spirit-worker petitions, an arcanist commands.
 
-- [[doc-arcnincn|Arcane Incantation]]
-- [[doc-arcntlnt|Arcane Talent]]
-- [[doc-alchemy|Alchemy]]
-- [[doc-divintro|Divination]]
+```pagelist {tag="rules-esoterica-mystical-abilities-arcane-mysteries" type=doc sort=name descriptions=true}
+
+```
 
 # Divine Mysteries
 
@@ -34,18 +34,17 @@ Note that there is a clear and important distinction between a **religion** and 
 
 Some, none, or all dietys may exist.
 
-- [[doc-dvnincnt|Divine Incantation]]
-- [[doc-rtlactn|Ritual Action]]
-- [[doc-divnint|Divine Intervention]]
+```pagelist {tag="rules-esoterica-mystical-abilities-divine-mysteries" type=doc sort=name descriptions=true}
+
+```
 
 # Spirit Mysteries
 
 The **Spirit** tradition draws its power from spirits — ancestors, totems, and the wild energies of the world. A spirit-worker does not command power directly, as an arcanist does, nor petition a distant god, as a priest does; they cultivate relationships with spirits, who confer **Spirit Powers** on them. Those powers are the standing conduit through which every spirit rite and action is performed.
 
-- [[doc-sprtpwr|Spirit Power]]
-- [[doc-sprtactn|Spirit Action]]
-- [[doc-sprtrt|Spirit Rite]]
-- [[doc-sprttlnt|Spirit Talent]]
+```pagelist {tag="rules-esoterica-mystical-abilities-spirit-mysteries" type=doc sort=name descriptions=true}
+
+```
 
 # Birthsign
 

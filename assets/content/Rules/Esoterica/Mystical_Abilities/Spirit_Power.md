@@ -3,6 +3,7 @@ shortcode: sprtpwr
 name: {full: Spirit Power, aliases: []}
 type: doc
 subType: rules
+tags: [rules-esoterica, rules-esoterica-mystical-abilities-spirit-mysteries]
 data: {packFolder: esotericamysticalabilities}
 ---
 

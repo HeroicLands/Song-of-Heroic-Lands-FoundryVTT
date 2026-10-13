@@ -21,6 +21,7 @@ import {
     type SharedGearEntry,
 } from "@src/document/actor/logic/cohort-shared-gear";
 import {
+    HEALTH_BAND,
     healthBand as healthBandFor,
     healthBandLabel as healthBandLabelFor,
     healthPercent,
@@ -581,6 +582,26 @@ export class CohortLogic<TData extends CohortData = CohortData> extends SohlActo
     /* Common Lifecycle Actions                      */
     /* --------------------------------------------- */
 
+    /**
+     * Refresh the read-only membership aggregates from the currently resolved
+     * actors. No source document is updated; unresolved rows remain visible.
+     */
+    deriveMembershipState(): void {
+        const counts = Object.fromEntries(
+            Object.values(HEALTH_BAND).map((band) => [band, 0]),
+        ) as Record<HealthBand, number>;
+        let memberCount = 0;
+        for (const member of this.data.members) {
+            const actor = fvttActorByRef(member.shortcodeOrUuid);
+            if (!actor) continue;
+            memberCount++;
+            const percent = healthPercent(actor.logic?.data?.health);
+            if (percent !== undefined && Number.isFinite(percent)) counts[healthBandFor(percent)]++;
+        }
+        this.data.memberCount = memberCount;
+        this.data.healthBandCounts = counts;
+    }
+
     /** @inheritdoc */
     override initialize(): void {
         super.initialize();
@@ -589,11 +610,13 @@ export class CohortLogic<TData extends CohortData = CohortData> extends SohlActo
     /** @inheritdoc */
     override evaluate(): void {
         super.evaluate();
+        this.deriveMembershipState();
     }
 
     /** @inheritdoc */
     override finalize(): void {
         super.finalize();
+        this.deriveMembershipState();
     }
 }
 
@@ -612,6 +635,10 @@ export interface CohortData<
      * it through {@link CohortLogic.leaderCode}, never raw.
      */
     leaderCode: string | null;
+    /** Resolved membership count, derived and never persisted. */
+    memberCount: number;
+    /** Counts in the existing health bands; members without health are omitted. */
+    healthBandCounts: Record<HealthBand, number>;
     /** The individuals that make up this cohort */
     members: {
         /**

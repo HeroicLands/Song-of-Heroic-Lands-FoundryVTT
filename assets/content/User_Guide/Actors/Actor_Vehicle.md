@@ -3,6 +3,7 @@ shortcode: vehicleug
 name: {full: "Vehicle"}
 type: doc
 subType: userguide
+tags: [guide-actors, user-guide-actors-sections]
 data: {packFolder: actors}
 ---
 
@@ -10,7 +11,7 @@ data: {packFolder: actors}
 
 A Vehicle is a **conveyance that carries people** — a wagon, a ship, a boat, a cart. It is the thing the party travels _on_, and the thing their cargo travels _in_.
 
-**Its unique capability is its occupants.** A Vehicle is the only actor other than a [[doc-beingug|Being]] that carries a property of its own, and that property is the list of who is aboard: each occupant named, with a role — **crew**, **passenger**, or **draft creature** — and an optional style such as _Bosun_ or _Helmsman_. An entry may name a single character or a whole [[doc-cohortug|Cohort]], which is shorthand for all of that cohort's members riding along.
+A Vehicle records its occupants, its passenger and carrying capacities, and its current load. Each occupant has a role — **crew**, **passenger**, or **draft creature** — and an optional title such as _Bosun_ or _Helmsman_. An entry may name a single character or a whole [[doc-cohortug|Cohort]], which stands for that cohort's resolved members riding along.
 
 That is the question a Vehicle exists to answer: **who is on board, and in what capacity.** Everything else it does — holding cargo, carrying actions, taking effects — any actor can do.
 
@@ -34,6 +35,22 @@ For a fixed place that does not move — a building, a wall, a bridge — use a 
 - **Movement** — its travel rates, per medium.
 - **Actions** — procedures you attach to the vehicle.
 - **Effects** — active effects on the vehicle.
+
+# Capacity and Load
+
+Set **Occupant Capacity** as a number of people and **Carrying Capacity** as a total weight in pounds. These authored figures start at zero until supplied. They are information for the GM, not enforced limits: the system does not refuse occupants or cargo based on either figure.
+
+The occupant count expands Cohorts into their resolved members and counts each person once. Listing a Being directly and through a Cohort does not count them twice. Missing references stay visible in the Occupants list but contribute neither a person nor weight.
+
+**Total Load** combines:
+
+- The body weight and carried gear of each distinct resolved Being aboard
+- Gear owned directly by each referenced Cohort
+- The vehicle's own cargo, using each gear item's effective weight multiplied by its quantity
+
+Container contents contribute their own weights once, separately from the container's weight. Totals refresh when the referenced actors or their gear change. Missing or unavailable weights contribute zero, so these figures report the weight the system knows about.
+
+**Weight has no effect on speed or any other mechanic.** Exceeding either authored capacity changes no movement rate, action budget, crew requirement, or boarding permission. The GM decides what the figures mean in play.
 
 # Movement
 
@@ -62,7 +79,7 @@ For a boarding, the sheet records the facts you need and the rest is yours to ru
 
 A Vehicle is a container and a conveyance, not a creature:
 
-- **No capacity.** There is no cargo limit and no passenger limit. Nothing weighs the load or refuses to accept more; how much a wagon can really take is yours to judge.
+- **No automatic capacity enforcement.** Passenger capacity, carrying capacity and total load are reported for the GM. They do not prevent additions or change what the vehicle can do.
 - **No condition of its own.** A Vehicle has no structural integrity, no hit points, and no damage model. It cannot be worn down, holed, or wrecked by the rules — a ship that catches fire is a matter for narration.
 - **No crew effects.** Having a helmsman aboard, or losing one, changes nothing mechanically. The roles are there to record who is doing what, not to modify anything.
 
@@ -78,7 +95,7 @@ The Vehicle sheet has these tabs:
 - **Actions** — available actions
 - **Effects** — active effects
 
-**Facade**, **Gear**, **Actions**, and **Effects** are the common actor tabs and behave exactly as they do on a [[doc-beingug|Being]]: the Gear tab is the same inventory ledger (a vehicle's cargo instead of a character's possessions), and the Actions and Effects tabs are identical. They are documented once, in [[doc-undrstndsheetug|Understanding Sheets]] under _Common Actor Tabs_ — see that page for the columns, controls, and how to add, stow, and remove things. The **Mysteries** tab works the same way, listing any Mystery or Mystical Ability item placed on the vehicle; most vehicles carry none. The **Occupants** tab is particular to a Vehicle: it rosters who is aboard, with a role and an optional title, exactly as described above.
+**Facade**, **Gear**, **Actions**, and **Effects** are the common actor tabs and behave exactly as they do on a [[doc-beingug|Being]]: the Gear tab is the same inventory ledger (a vehicle's cargo instead of a character's possessions), and the Actions and Effects tabs are identical. They are documented once, in [[doc-undrstndsheetug|Understanding Sheets]] under _Common Actor Tabs_ — see that page for the columns, controls, and how to add, stow, and remove things. The **Mysteries** tab works the same way, listing any Mystery or Mystical Ability item placed on the vehicle; most vehicles carry none. The **Occupants** tab rosters who is aboard, with a role and an optional title, exactly as described above.
 
 The **Profile** tab carries three things, and it is where a vehicle's private notes live:
 

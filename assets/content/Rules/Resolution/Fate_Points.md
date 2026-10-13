@@ -3,6 +3,7 @@ shortcode: fatepnts
 name: {full: Fate Points, aliases: []}
 type: doc
 subType: rules
+tags: [rules-resolution, rules-resolution-sections]
 data: {packFolder: resolution}
 ---
 

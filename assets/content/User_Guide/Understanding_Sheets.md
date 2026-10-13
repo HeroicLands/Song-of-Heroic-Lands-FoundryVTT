@@ -3,6 +3,7 @@ shortcode: undrstndsheetug
 name: {full: "Understanding Sheets"}
 type: doc
 subType: userguide
+tags: [guide-understanding-sheets]
 data: {packFolder: userguide}
 ---
 

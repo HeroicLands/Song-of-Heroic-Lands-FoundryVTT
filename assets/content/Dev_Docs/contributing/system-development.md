@@ -4,6 +4,7 @@ name: {full: System Development, aliases: []}
 type: doc
 subType: howto
 description: "Standards, the rules of development, and how to submit a change."
+tags: [dev-contributing]
 data: {pack: none}
 sohl: {kbcat: devdocs}
 ---

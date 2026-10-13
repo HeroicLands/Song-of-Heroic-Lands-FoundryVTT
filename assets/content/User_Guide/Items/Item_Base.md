@@ -3,6 +3,7 @@ shortcode: baseitemug
 name: {full: Base Item}
 type: doc
 subType: userguide
+tags: [guide-items, user-guide-items-shared-by-every-item]
 data: {packFolder: items}
 ---
 

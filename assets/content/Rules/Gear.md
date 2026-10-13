@@ -3,6 +3,7 @@ shortcode: gearrules
 name: {full: Gear, aliases: []}
 type: doc
 subType: rules
+tags: [rules-gear]
 data: {packFolder: rules}
 ---
 

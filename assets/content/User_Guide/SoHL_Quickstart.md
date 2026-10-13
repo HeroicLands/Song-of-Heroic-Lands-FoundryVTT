@@ -3,6 +3,7 @@ shortcode: quickstartug
 name: {full: Song of Heroic Lands Quickstart, aliases: []}
 type: doc
 subType: userguide
+tags: [guide-quickstart]
 data: {packFolder: userguide}
 ---
 

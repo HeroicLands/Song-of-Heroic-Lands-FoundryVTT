@@ -6,7 +6,7 @@ name:
 type: doc
 subType: reference
 description: For developers wiring document behavior to lifecycle moments (combat start/end, round/turn boundaries, world-time scheduling).
-tags: [core-system, time, lifecycle]
+tags: [core-system, time, lifecycle, dev-reference]
 data: {pack: none}
 sohl: {kbcat: devdocs}
 ---

@@ -3,6 +3,7 @@ shortcode: syssetngug
 name: {full: "System Settings"}
 type: doc
 subType: userguide
+tags: [guide-setting-up-a-world]
 data: {packFolder: userguide}
 ---
 

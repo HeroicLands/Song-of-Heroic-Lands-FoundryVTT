@@ -3,6 +3,7 @@ shortcode: effcttrgug
 name: {full: "Effect Targeting"}
 type: doc
 subType: userguide
+tags: [guide-customizing-the-system]
 data: {packFolder: userguide}
 ---
 

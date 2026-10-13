@@ -3,6 +3,7 @@ shortcode: affiliation
 name: {full: Affiliations, aliases: []}
 type: doc
 subType: rules
+tags: [rules-affiliations]
 data: {packFolder: rules}
 ---
 

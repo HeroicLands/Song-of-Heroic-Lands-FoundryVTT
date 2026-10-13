@@ -4,6 +4,7 @@ name: {full: Security Model & Guardrails, aliases: []}
 type: doc
 subType: concept
 description: "The threat model and the standing rules every change must respect."
+tags: [dev-concepts]
 data: {pack: none}
 sohl: {kbcat: devdocs}
 ---

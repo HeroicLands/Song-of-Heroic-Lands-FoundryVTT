@@ -22,5 +22,22 @@ SPDX-License-Identifier: GPL-3.0-or-later
         {{> archetypeField canMarkArchetype=canMarkArchetype templatePriority=templatePriority}}
         {{> draftField isDraft=isDraft}}
         <div class="item-subtitle">{{typeLabel}}</div>
+        <div class="form-group">
+            <label>{{localize "SOHL.Structure.FIELDS.maxHealth.label"}}</label>
+            <input type="number" name="system.maxHealth" value="{{document.system.maxHealth}}" min="0" step="1" {{#unless isEditable}}disabled{{/unless}} />
+            <span>{{structureHealth.value}} / {{structureHealth.max}}</span>
+        </div>
+        <div class="form-group">
+            <label>{{localize "SOHL.Structure.FIELDS.occupantCapacity.label"}}</label>
+            <input type="number" name="system.occupantCapacity" value="{{document.system.occupantCapacity}}" min="0" step="1" {{#unless isEditable}}disabled{{/unless}} />
+            <span>{{structureOccupantCount}}</span>
+            {{#if structureOccupantsOverCapacity}}<strong class="warning">{{localize "SOHL.Structure.capacityExceeded"}}</strong>{{/if}}
+        </div>
+        <div class="form-group">
+            <label>{{localize "SOHL.Structure.FIELDS.cargoCapacity.label"}}</label>
+            <input type="number" name="system.cargoCapacity" value="{{document.system.cargoCapacity}}" min="0" step="any" {{#unless isEditable}}disabled{{/unless}} />
+            <span>{{structureCargoWeight}} {{localize "SOHL.Structure.weightUnit"}}</span>
+            {{#if structureCargoOverCapacity}}<strong class="warning">{{localize "SOHL.Structure.capacityExceeded"}}</strong>{{/if}}
+        </div>
     </div>
 </header>

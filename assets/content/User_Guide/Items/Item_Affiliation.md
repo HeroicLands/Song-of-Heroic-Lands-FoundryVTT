@@ -3,6 +3,7 @@ shortcode: affltnug
 name: {full: "Affiliation"}
 type: doc
 subType: userguide
+tags: [guide-items, user-guide-items-what-a-character-is]
 data: {packFolder: items}
 ---
 

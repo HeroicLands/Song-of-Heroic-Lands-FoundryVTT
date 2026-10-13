@@ -3,6 +3,7 @@ shortcode: scndryms
 name: {full: Secondary Mastery, aliases: []}
 type: doc
 subType: rules
+tags: [rules-resolution, rules-resolution-sections]
 data: {packFolder: resolution}
 ---
 

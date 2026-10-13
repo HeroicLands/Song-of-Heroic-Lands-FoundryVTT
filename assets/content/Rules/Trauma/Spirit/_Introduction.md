@@ -3,6 +3,7 @@ shortcode: sprttraumaintro
 name: {full: Spirit Trauma Introduction, aliases: []}
 type: doc
 subType: rules
+tags: [rules-trauma, rules-trauma-forms-of-trauma]
 data: {packFolder: spirit}
 ---
 
@@ -26,5 +27,6 @@ The two reach the other sections at their failures. A critical failure on an
 Aural Shock recovery test generates Psyche Stress, which is resolved as a
 [[doc-psychlgc|psychological condition]] under [[doc-mindtraumaintro|Mind]].
 
-- [[doc-arlshck|Aural Shock]]
-- [[doc-thepall|The Pall]]
+```pagelist {tag="rules-trauma-spirit-sections" type=doc sort=name descriptions=true}
+
+```

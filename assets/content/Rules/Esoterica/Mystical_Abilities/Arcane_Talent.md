@@ -3,6 +3,7 @@ shortcode: arcntlnt
 name: {full: Arcane Talent, aliases: []}
 type: doc
 subType: rules
+tags: [rules-esoterica, rules-esoterica-mystical-abilities-arcane-mysteries]
 data: {packFolder: esotericamysticalabilities}
 ---
 

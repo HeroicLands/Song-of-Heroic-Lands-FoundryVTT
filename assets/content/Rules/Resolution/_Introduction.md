@@ -3,6 +3,7 @@ shortcode: resolutionintro
 name: {full: Resolution, aliases: []}
 type: doc
 subType: rules
+tags: [rules-resolution]
 data: {packFolder: resolution}
 ---
 
@@ -36,9 +37,18 @@ Standing apart from all four, **[[doc-fatepnts#fate|Fate]]** lets a character wh
 
 ## Sections
 
-- [[doc-mstrylvl|Mastery Level]] — ML, Index, and Effective Mastery Level: what a test is measured against
-- [[doc-sccsstst|Success Tests]] — the d100 test and the success levels it produces
-- [[doc-oppsdtst|Opposed Tests]] — contests, Victory Stars, ties and tiebreaks
-- [[doc-sccssvlt|Success Value Tests]] — graded outcomes for sustained work
-- [[doc-scndryms|Secondary Mastery]] — Secondary Modifiers and Secondary Rolls
-- [[doc-fatepnts|Fate]] — spending Fate to improve a settled result
+[[doc-mstrylvl|Mastery Level]] — ML, Index, and Effective Mastery Level: what a test is measured against
+
+[[doc-sccsstst|Success Tests]] — the d100 test and the success levels it produces
+
+[[doc-oppsdtst|Opposed Tests]] — contests, Victory Stars, ties and tiebreaks
+
+[[doc-sccssvlt|Success Value Tests]] — graded outcomes for sustained work
+
+[[doc-scndryms|Secondary Mastery]] — Secondary Modifiers and Secondary Rolls
+
+[[doc-fatepnts|Fate]] — spending Fate to improve a settled result
+
+```pagelist {tag="rules-resolution-sections" type=doc sort=name descriptions=true}
+
+```

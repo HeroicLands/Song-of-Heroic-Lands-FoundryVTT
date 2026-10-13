@@ -3,6 +3,7 @@ shortcode: mindtraumaintro
 name: {full: Mind Trauma Introduction, aliases: []}
 type: doc
 subType: rules
+tags: [rules-trauma, rules-trauma-forms-of-trauma]
 data: {packFolder: mind}
 ---
 
@@ -27,6 +28,6 @@ Fear hands off to the body as well: [[doc-shock|shock]] is brought on by fear an
 other systemic forces exactly as it is by a wound, and it is resolved under
 [[doc-bodytrmaintro|Body]].
 
-- [[doc-fear|Fear]]
-- [[doc-morale|Morale]]
-- [[doc-psychlgc|Psychological Condition]]
+```pagelist {tag="rules-trauma-mind-sections" type=doc sort=name descriptions=true}
+
+```

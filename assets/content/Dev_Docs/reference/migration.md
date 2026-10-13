@@ -6,7 +6,7 @@ name:
 type: doc
 subType: reference
 description: For developers who change a persisted schema and need old worlds to upgrade seamlessly on load.
-tags: [core-system, data-model, lifecycle]
+tags: [core-system, data-model, lifecycle, dev-reference]
 data: {pack: none}
 sohl: {kbcat: devdocs}
 ---

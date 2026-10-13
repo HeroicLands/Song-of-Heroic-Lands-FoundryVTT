@@ -3,6 +3,7 @@ shortcode: arlshck
 name: {full: Aural Shock, aliases: []}
 type: doc
 subType: rules
+tags: [rules-trauma, rules-trauma-spirit-sections]
 data: {packFolder: spirit}
 ---
 

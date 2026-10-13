@@ -3,6 +3,7 @@ shortcode: atkreslv
 name: {full: Attack Resolution, aliases: []}
 type: doc
 subType: rules
+tags: [rules-combat, rules-combat-sections]
 data: {packFolder: rulescombat}
 ---
 

@@ -3,6 +3,7 @@ shortcode: sprttlnt
 name: {full: Spirit Talent, aliases: []}
 type: doc
 subType: rules
+tags: [rules-esoterica, rules-esoterica-mystical-abilities-spirit-mysteries]
 data: {packFolder: esotericamysticalabilities}
 ---
 

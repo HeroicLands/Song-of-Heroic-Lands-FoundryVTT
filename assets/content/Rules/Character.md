@@ -3,6 +3,7 @@ shortcode: character
 name: {full: Characters Introduction, aliases: []}
 type: doc
 subType: rules
+tags: [rules-characters]
 data: {packFolder: rules}
 ---
 

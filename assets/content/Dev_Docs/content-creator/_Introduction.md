@@ -4,6 +4,7 @@ name: {full: Content Creator, aliases: []}
 type: doc
 subType: reference
 description: "The section landing: what a content note is, and which page answers which question."
+tags: [dev-content-creator]
 data: {pack: none}
 sohl: {kbcat: devdocs}
 ---
@@ -26,9 +27,13 @@ runtime; if you are changing how a document _behaves_, you want
 
 ## Start here
 
-- [[doc-authoringworkflow|The Authoring Workflow]] — where content lives, the
-  frontmatter every note carries whatever its type, and how a note becomes a
-  compendium document. **Read this first.**
+[[doc-authoringworkflow|The Authoring Workflow]] — where content lives, the
+frontmatter every note carries whatever its type, and how a note becomes a
+compendium document. **Read this first.**
+
+```pagelist {tag="dev-docs-content-creator-start-here" type=doc sort=name descriptions=true}
+
+```
 
 > **You do not declare a note's package.** It is the repository's configured
 > `contentPackage`, and every note in this tree belongs to it. Declaring
@@ -39,38 +44,57 @@ runtime; if you are changing how a document _behaves_, you want
 
 What frontmatter each kind of note accepts.
 
-- [[doc-itemfrontmatter|Item Note Frontmatter]] — the generated per-type field
-  reference for all 13 item types: every `sohl:` field, its shape, whether it is
-  required, and what it defaults to.
-- [[doc-actornotes|Actor Notes]] — authoring a `being`, and the
-  `(type, shortcode)` address space its embedded items are resolved through.
-- [[doc-mapnotes|Map Notes]] — authoring a map as a markdown note: the Foundry
-  Scene exported under `data.scene`, asset fixups, pins bound to the note's own
-  pages, and the place the map depicts.
-- [[doc-macronotes|Authoring a Macro Content Note]] — how a `type: macro` note
-  compiles into a Foundry Macro plus its documentation, and what the `{#script}`
-  anchor does.
+[[doc-itemfrontmatter|Item Note Frontmatter]] — the generated per-type field
+reference for all 13 item types: every `sohl:` field, its shape, whether it is
+required, and what it defaults to.
+
+[[doc-actornotes|Actor Notes]] — authoring a `being`, and the
+`(type, shortcode)` address space its embedded items are resolved through.
+
+[[doc-mapnotes|Map Notes]] — authoring a map as a markdown note: the Foundry
+Scene exported under `data.scene`, asset fixups, pins bound to the note's own
+pages, and the place the map depicts.
+
+[[doc-macronotes|Authoring a Macro Content Note]] — how a `type: macro` note
+compiles into a Foundry Macro plus its documentation, and what the `{#script}`
+anchor does.
+
+```pagelist {tag="dev-docs-content-creator-per-type-references" type=doc sort=name descriptions=true}
+
+```
 
 ## Conventions
 
 Rules that apply across every note type.
 
-- [[doc-contentlinks|Linking Between Content Notes]] — wikilinks: the four forms,
-  and why an item and its documentation need two different addresses.
-- [[doc-assetconventions|Asset Conventions]] — where art files live, how `img:`
-  resolves to a shipped path, image formats, and what makes an SVG themeable.
-- [[doc-contenttables|Generated Content Tables]] — SQL queries that tabulate
-  content notes from their frontmatter.
+[[doc-contentlinks|Linking Between Content Notes]] — wikilinks: the four forms,
+and why an item and its documentation need two different addresses.
+
+[[doc-assetconventions|Asset Conventions]] — where art files live, how `img:`
+resolves to a shipped path, image formats, and what makes an SVG themeable.
+
+[[doc-contenttables|Generated Content Tables]] — SQL queries that tabulate
+content notes from their frontmatter.
+
+```pagelist {tag="dev-docs-content-creator-conventions" type=doc sort=name descriptions=true}
+
+```
 
 ## Also relevant, filed elsewhere
 
 These are system-facing references rather than authoring guides, but a content
 author reaches for them often enough to be worth naming here.
 
-- [[doc-shortcodeintegrity|Shortcode Integrity]] — a type and a
-  shortcode together are a **logical identity**, not a lookup convenience. The
-  uniqueness rule, the shape rule, and why renaming a shortcode is expensive.
-- [[doc-linkmanifest|The Link Manifest]] — how one package's notes
-  address another package's documents.
-- [[doc-typecatalog|Type Catalog]] — the generated list of every
-  Actor and Item type the system defines, with one line each.
+[[doc-shortcodeintegrity|Shortcode Integrity]] — a type and a
+shortcode together are a **logical identity**, not a lookup convenience. The
+uniqueness rule, the shape rule, and why renaming a shortcode is expensive.
+
+[[doc-linkmanifest|The Link Manifest]] — how one package's notes
+address another package's documents.
+
+[[doc-typecatalog|Type Catalog]] — the generated list of every
+Actor and Item type the system defines, with one line each.
+
+```pagelist {tag="dev-docs-content-creator-also-relevant-filed-elsewhere" type=doc sort=name descriptions=true}
+
+```

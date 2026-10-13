@@ -3,6 +3,7 @@ shortcode: brthsgn
 name: {full: Birthsign, aliases: []}
 type: doc
 subType: rules
+tags: [rules-esoterica, rules-esoterica-mysteries-sections]
 data: {packFolder: mysteries}
 ---
 

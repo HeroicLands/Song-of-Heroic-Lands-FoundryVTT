@@ -56,6 +56,74 @@ The chapters below are in the order a new group meets them: get a world running,
 
 **Customizing the system** is the last chapter, and is for GMs who want to go past what the sheets offer: [[doc-sfexprssug|Safe Expressions]] is the small expression language SoHL evaluates wherever a value can be computed, and [[doc-effcttrgug|Effect Targeting]] is how an active effect chooses what it applies to.
 
+The chapter indexes below list pages alphabetically within each group; the reading order above remains the starting path.
+
+### Quickstart
+
+```pagelist {tag="guide-quickstart" type=doc sort=name descriptions=true}
+
+```
+
+### Setting up a world
+
+```pagelist {tag="guide-setting-up-a-world" type=doc sort=name descriptions=true}
+
+```
+
+### Understanding Sheets
+
+```pagelist {tag="guide-understanding-sheets" type=doc sort=name descriptions=true}
+
+```
+
+### Actors
+
+```pagelist {tag="guide-actors" type=doc sort=name descriptions=true}
+
+```
+
+### Items
+
+```pagelist {tag="guide-items" type=doc sort=name descriptions=true}
+
+```
+
+### Making tests
+
+```pagelist {tag="guide-making-tests" type=doc sort=name descriptions=true}
+
+```
+
+### Scenes and tokens
+
+```pagelist {tag="guide-scenes-and-tokens" type=doc sort=name descriptions=true}
+
+```
+
+### Combat Basics
+
+```pagelist {tag="guide-combat-basics" type=doc sort=name descriptions=true}
+
+```
+
+### Afflictions and Injuries
+
+```pagelist {tag="guide-afflictions-and-injuries" type=doc sort=name descriptions=true}
+
+```
+
+### Mystical Powers
+
+```pagelist {tag="guide-mystical-powers" type=doc sort=name descriptions=true}
+
+```
+
+### Customizing the system
+
+```pagelist {tag="guide-customizing-the-system" type=doc sort=name descriptions=true}
+
+```
+
 ## Where to look something up
 
 - **A glyph you do not recognize** — [[doc-iconlgndug|Icon Legend]].

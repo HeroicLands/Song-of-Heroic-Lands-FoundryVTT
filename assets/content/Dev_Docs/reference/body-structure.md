@@ -6,7 +6,7 @@ name:
 type: doc
 subType: reference
 description: For developers and content authors defining creature anatomy.
-tags: [rules, core-system, combat, injury]
+tags: [rules, core-system, combat, injury, dev-reference]
 data: {pack: none}
 sohl: {kbcat: devdocs}
 ---

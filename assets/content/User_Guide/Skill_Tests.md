@@ -3,6 +3,7 @@ shortcode: sklltestug
 name: {full: "Skill Tests and Opposed Tests"}
 type: doc
 subType: userguide
+tags: [guide-making-tests]
 data: {packFolder: userguide}
 ---
 

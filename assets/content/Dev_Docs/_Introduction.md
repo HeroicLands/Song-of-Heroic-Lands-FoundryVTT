@@ -13,7 +13,7 @@ The entry point for working **on** the Song of Heroic Lands (SoHL) system — fo
 
 This documentation is **developer- and API-facing only**. Player- and GM-facing rules and play guides are not duplicated here — they live on the project site (see [Player & GM rules](#player--gm-rules-external) below).
 
-Every page below carries `sohl.kbcat: devdocs`, and each table is generated from the content index, so a page is listed by being written rather than by being added here.
+Every page below carries `sohl.kbcat: devdocs`, and each list is generated from the content index, so a page joins an editorial group by carrying its tag rather than by being added to a hand-maintained list.
 
 ## Start here
 
@@ -32,75 +32,40 @@ Every page below carries `sohl.kbcat: devdocs`, and each table is generated from
 
 Design and rationale — how and why the system is built the way it is.
 
-```sql
-SELECT address.slug AS _ref,
-       name.full    AS "Page",
-       description  AS "Description"
-FROM notes
-WHERE type = 'doc'
-  AND sohl.kbcat = 'devdocs'
-  AND file.folder = 'Dev_Docs/concepts'
-ORDER BY name.full COLLATE NOCASE
+```pagelist {tag="dev-concepts" type=doc sort=name descriptions=true}
+
 ```
 
 ## How-to
 
 Task-oriented guides for getting something done.
 
-```sql
-SELECT address.slug AS _ref,
-       name.full    AS "Page",
-       description  AS "Description"
-FROM notes
-WHERE type = 'doc'
-  AND sohl.kbcat = 'devdocs'
-  AND file.folder = 'Dev_Docs/how-to'
-ORDER BY name.full COLLATE NOCASE
+```pagelist {tag="dev-how-to" type=doc sort=name descriptions=true}
+
 ```
 
 ## Content Creator
 
 Authoring the content notes in `assets/content/` that compile into compendium documents — for the person writing notes rather than changing the system. Start with [[doc-contentcreator|Content Creator]], the section's own introduction.
 
-```sql
-SELECT address.slug AS _ref,
-       name.full    AS "Page",
-       description  AS "Description"
-FROM notes
-WHERE type = 'doc'
-  AND sohl.kbcat = 'devdocs'
-  AND file.folder = 'Dev_Docs/content-creator'
-ORDER BY name.full COLLATE NOCASE
+```pagelist {tag="dev-content-creator" type=doc sort=name descriptions=true}
+
 ```
 
 ## Reference
 
 Contracts, catalogs, and specifications.
 
-```sql
-SELECT address.slug AS _ref,
-       name.full    AS "Page",
-       description  AS "Description"
-FROM notes
-WHERE type = 'doc'
-  AND sohl.kbcat = 'devdocs'
-  AND file.folder = 'Dev_Docs/reference'
-ORDER BY name.full COLLATE NOCASE
+```pagelist {tag="dev-reference" type=doc sort=name descriptions=true}
+
 ```
 
 ## Contributing
 
 How to contribute: standards, the development workflow, and maintainer/project-meta.
 
-```sql
-SELECT address.slug AS _ref,
-       name.full    AS "Page",
-       description  AS "Description"
-FROM notes
-WHERE type = 'doc'
-  AND sohl.kbcat = 'devdocs'
-  AND file.folder = 'Dev_Docs/contributing'
-ORDER BY name.full COLLATE NOCASE
+```pagelist {tag="dev-contributing" type=doc sort=name descriptions=true}
+
 ```
 
 ## Player & GM rules (external)

@@ -5,6 +5,7 @@ type: doc
 subType: reference
 description: >-
   The generated per-type field reference for all 13 item types: every `sohl:` field, its shape, requiredness, and default.
+tags: [dev-content-creator, dev-docs-content-creator-per-type-references]
 data: {pack: none}
 sohl: {kbcat: devdocs}
 ---

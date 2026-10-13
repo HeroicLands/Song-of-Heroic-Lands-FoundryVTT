@@ -4,7 +4,7 @@ name: {full: Randomness, aliases: [PRNG, sohl.random, Rng, SimpleRoll RNG]}
 type: doc
 subType: reference
 description: For developers generating randomness in the logic layer, or driving RNG-gated flows deterministically in tests.
-tags: [core-system, dice, testing]
+tags: [core-system, dice, testing, dev-reference]
 data: {pack: none}
 sohl: {kbcat: devdocs}
 ---

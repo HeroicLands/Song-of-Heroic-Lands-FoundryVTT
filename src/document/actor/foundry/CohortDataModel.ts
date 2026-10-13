@@ -71,6 +71,10 @@ export class CohortDataModel<
     static override readonly LOCALIZATION_PREFIXES = ["SOHL.Cohort", "SOHL.Actor"];
     /** @inheritDoc */
     static override readonly kind = ACTOR_KIND.COHORT;
+    /** Derived only: never part of the persisted schema. */
+    declare memberCount: CohortData["memberCount"];
+    /** Derived only: never part of the persisted schema. */
+    declare healthBandCounts: CohortData["healthBandCounts"];
     leaderCode!: string | null;
     members!: { shortcodeOrUuid: string; role: string }[];
 

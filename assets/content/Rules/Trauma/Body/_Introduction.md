@@ -3,6 +3,7 @@ shortcode: bodytrmaintro
 name: {full: Body Trauma Introduction, aliases: []}
 type: doc
 subType: rules
+tags: [rules-trauma, rules-trauma-forms-of-trauma]
 data: {packFolder: body}
 ---
 
@@ -30,9 +31,6 @@ Harm to the mind and to the spirit are their own sections —
 the body here, because fear and other systemic forces bring on shock exactly as
 a wound does.
 
-- [[doc-injintro|Injuries]]
-- [[doc-afflctnrules|Afflictions]]
-- [[doc-fatigue|Fatigue]]
-- [[doc-physclcn|Physical Condition]]
-- [[doc-shock|Shock]]
-- [[doc-coma|Coma]]
+```pagelist {tag="rules-trauma-body-sections" type=doc sort=name descriptions=true}
+
+```

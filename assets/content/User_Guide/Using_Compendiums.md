@@ -3,6 +3,7 @@ shortcode: usingpacksug
 name: {full: "Using Compendiums"}
 type: doc
 subType: userguide
+tags: [guide-setting-up-a-world]
 data: {packFolder: userguide}
 ---
 
