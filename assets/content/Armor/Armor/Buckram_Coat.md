@@ -31,7 +31,7 @@ sohl:
         - lthghloc
         - rthghloc
       rigid: []
-    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
+    protectionBase: {blunt: 0, edged: 1, piercing: 0, fire: 1}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

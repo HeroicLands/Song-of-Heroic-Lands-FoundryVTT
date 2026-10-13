@@ -68,7 +68,7 @@ Arms and armour are made by the common [[doc-crafting|crafting routine]] — wor
 
 ## Armour
 
-Armour follows the same shape, with the test set by the material rather than by the article. It carries no separate expense table; the article's catalogue entry gives its cost.
+Armour follows the same shape, with the test set by the material rather than by the article. Materials and hours are derived from sale price and coverage, with labour capped at the plain grade's price; see the generated [[doc-crafting#armour-expense|armour expense tables]].
 
 | Material                         | Success Value test                    |
 | -------------------------------- | ------------------------------------- |

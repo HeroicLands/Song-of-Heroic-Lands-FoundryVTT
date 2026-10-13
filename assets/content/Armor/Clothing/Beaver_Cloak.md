@@ -12,7 +12,7 @@ sohl:
   detailMaterial: Beaver
   system:
     weightBase: 4.2
-    valueBase: 145
+    valueBase: 415
     durabilityBase: 9
     material: Leather
     locations:
@@ -39,7 +39,7 @@ sohl:
         - {location: rkneeloc, side: back}
         - {location: lcalfloc, side: back}
         - {location: rcalfloc, side: back}
-    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
+    protectionBase: {blunt: 1, edged: 1, piercing: 1, fire: 1}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

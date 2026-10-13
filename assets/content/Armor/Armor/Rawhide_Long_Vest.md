@@ -16,7 +16,7 @@ sohl:
     durabilityBase: 11
     material: Leather
     locations: {flexible: [lshldloc, rshldloc, thrxloc, abdmnloc, plvisloc], rigid: []}
-    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
+    protectionBase: {blunt: 1, edged: 2, piercing: 1, fire: 3}
     encumbrance: 5
     perceptionPenaltyBase: 0
 ---

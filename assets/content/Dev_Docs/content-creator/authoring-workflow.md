@@ -388,3 +388,24 @@ Evaluation does not open a dice dialog. An invalid formula or a negative, fracti
 Content validation reports invalid Affliction duration formulas during authoring checks. Correct the reported note and field before building; a failed formula must never silently become an immediate onset or resolution.
 
 These rules apply to the three **Affliction** duration fields. The separate `onsetFormula` used by Contagion expresses incubation in days, so its unit differs from these stored seconds.
+
+## Armour grade authority
+
+For SoHL armour catalogue notes, `sohl.detailMaterial` selects the approved
+Legendary grade from the [[doc-gearrules|Gear]] armour tables. Author that grade’s
+four values explicitly in `sohl.system.protectionBase`, and its durability in
+`sohl.system.durabilityBase`. The broader `sohl.system.material` controls the
+material label; it does not distinguish Cloth from Linen or Rawhide from
+Leather. Runtime does not fill protection from either label.
+
+Canvas uses Blunt/Edged/Piercing/Fire 0/1/0/1 and Durability 11. Waxed Canvas
+uses 0/1/0/0 and Durability 12: wax removes Canvas’s fire protection. These
+authored grades supplement the Legendary source table. Do not substitute
+Misty Isle values or use the Scale row as a default for other grades.
+
+`tests/content/armour-grade-protection.test.ts` checks every armour article
+against the approved grade specification, including Durability and unknown
+grade detection. A new catalogue grade requires a rules decision and an
+explicit expectation before its articles pass this check. The Gear journal
+renders its tables from these notes, keeping published protection aligned with
+compendium data.

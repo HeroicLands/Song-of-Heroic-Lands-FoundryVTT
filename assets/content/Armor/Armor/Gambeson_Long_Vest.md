@@ -16,7 +16,7 @@ sohl:
     durabilityBase: 11
     material: Gambeson
     locations: {flexible: [neckloc, lshldloc, rshldloc], rigid: [thrxloc, abdmnloc, plvisloc]}
-    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
+    protectionBase: {blunt: 6, edged: 5, piercing: 4, fire: 5}
     encumbrance: 5
     perceptionPenaltyBase: 0
 ---

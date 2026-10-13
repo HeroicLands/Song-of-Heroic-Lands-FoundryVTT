@@ -18,7 +18,7 @@ sohl:
     locations:
       flexible: [plvisloc, lthghloc, rthghloc, lkneeloc, rkneeloc, lcalfloc, rcalfloc]
       rigid: []
-    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
+    protectionBase: {blunt: 4, edged: 3, piercing: 2, fire: 3}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

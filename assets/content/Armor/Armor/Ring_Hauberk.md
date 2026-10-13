@@ -31,7 +31,7 @@ sohl:
         - plvisloc
         - lthghloc
         - rthghloc
-    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
+    protectionBase: {blunt: 3, edged: 7, piercing: 5, fire: 4}
     encumbrance: 15
     perceptionPenaltyBase: 0
 ---

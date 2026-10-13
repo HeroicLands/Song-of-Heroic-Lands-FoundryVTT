@@ -11,12 +11,12 @@ sohl:
   armorType: Shoes
   detailMaterial: Leather
   system:
-    weightBase: 1.1
+    weightBase: 0.7
     valueBase: 60
     durabilityBase: 9
     material: Leather
     locations: {flexible: [lfootloc, rfootloc], rigid: []}
-    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
+    protectionBase: {blunt: 1, edged: 1, piercing: 1, fire: 1}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

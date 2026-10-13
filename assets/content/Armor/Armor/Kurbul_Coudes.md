@@ -16,7 +16,7 @@ sohl:
     durabilityBase: 13
     material: Kûrbúl
     locations: {flexible: [], rigid: [lelbloc, relbloc]}
-    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
+    protectionBase: {blunt: 4, edged: 6, piercing: 5, fire: 4}
     encumbrance: 0
     encumbranceGroup: arm
     perceptionPenaltyBase: 0

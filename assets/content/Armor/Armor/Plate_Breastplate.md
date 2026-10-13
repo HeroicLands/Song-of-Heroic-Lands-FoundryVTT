@@ -19,7 +19,7 @@ sohl:
       flexible: []
       rigid: [thrxloc, abdmnloc]
       facing: [{location: thrxloc, side: front}, {location: abdmnloc, side: front}]
-    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
+    protectionBase: {blunt: 6, edged: 11, piercing: 9, fire: 5}
     encumbrance: 5
     perceptionPenaltyBase: 0
 ---

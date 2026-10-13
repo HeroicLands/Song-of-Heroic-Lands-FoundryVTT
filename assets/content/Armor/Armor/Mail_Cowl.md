@@ -16,7 +16,7 @@ sohl:
     durabilityBase: 13
     material: Mail
     locations: {flexible: [], rigid: [skullloc, neckloc]}
-    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
+    protectionBase: {blunt: 2, edged: 8, piercing: 7, fire: 3}
     encumbrance: 0
     perceptionPenaltyBase: -5
 ---

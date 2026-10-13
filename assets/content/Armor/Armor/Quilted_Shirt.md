@@ -16,7 +16,7 @@ sohl:
     durabilityBase: 11
     material: Quilted
     locations: {flexible: [lshldloc, rshldloc, lupaloc, rupaloc, thrxloc, abdmnloc], rigid: []}
-    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
+    protectionBase: {blunt: 4, edged: 3, piercing: 2, fire: 3}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

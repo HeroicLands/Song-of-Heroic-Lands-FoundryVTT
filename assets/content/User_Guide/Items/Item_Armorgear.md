@@ -30,6 +30,27 @@ In addition to the [[doc-gearug|Standard Gear Properties]], the following additi
 
 > **Known gap.** A covered location can also carry a **facing** — front, rear, or all-round — distinguishing, for instance, a cloak's rear-facing coverage of the torso from a breastplate's front-facing coverage of the same location. There is no control for it on the Properties tab; a compendium entry sets it, and an absent entry is read as all-round.
 
+# Material Grades
+
+Standard compendium armor uses the Legendary material-grade values shown in
+[[doc-gearrules|Gear]]. Its grade determines the four Protection Base values and
+starting Durability: Cloth protects at 0/1/0/1, Quilted at 4/3/2/3, and Plate
+at 6/11/9/5, in Blunt/Edged/Piercing/Fire order. Articles of the same grade have
+the same protection values; their coverage determines which locations benefit.
+
+A grade is a catalogue distinction, not the Quality field or an automatic
+runtime material lookup. Editing an item’s Material does not replace its
+Protection Base values.
+
+# Crafting Expense
+
+The [[doc-crafting#armour-expense|Crafting armour expense tables]] list materials
+and labour hours for each compendium article. They use its authored sale price
+and body coverage, counting one-sided coverage as half. Labour is capped at
+the plain grade’s price, so a luxury grade adds material expense without
+increasing work hours; a cheaper grade reduces both. These are reference
+figures for the crafting rules, not new fields or actions on the armor sheet.
+
 # Encumbrance
 
 Armor and clothing that is worn (i.e., equipped) does not have any encumbrance, regardless of its weight. This is due to the distribution across the body, which is such that it normally does not cause any movement difficulty when worn. However, if there is a specific encumbrance value, then that is used as the encumbrance of that armor when equipped.

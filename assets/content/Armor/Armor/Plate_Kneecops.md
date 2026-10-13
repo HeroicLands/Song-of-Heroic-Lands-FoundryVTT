@@ -16,7 +16,7 @@ sohl:
     durabilityBase: 14
     material: Plate
     locations: {flexible: [], rigid: [lkneeloc, rkneeloc]}
-    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
+    protectionBase: {blunt: 6, edged: 11, piercing: 9, fire: 5}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

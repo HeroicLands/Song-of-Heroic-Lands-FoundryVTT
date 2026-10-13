@@ -16,7 +16,7 @@ sohl:
     durabilityBase: 5
     material: Cloth
     locations: {flexible: [lthghloc, rthghloc, lkneeloc, rkneeloc], rigid: []}
-    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
+    protectionBase: {blunt: 0, edged: 0, piercing: 0, fire: 0}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

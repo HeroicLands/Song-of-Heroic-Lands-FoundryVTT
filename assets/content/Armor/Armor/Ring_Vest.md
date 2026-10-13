@@ -16,7 +16,7 @@ sohl:
     durabilityBase: 13
     material: Ring
     locations: {flexible: [], rigid: [thrxloc, abdmnloc]}
-    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
+    protectionBase: {blunt: 3, edged: 7, piercing: 5, fire: 4}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

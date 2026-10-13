@@ -35,7 +35,7 @@ sohl:
         - lcalfloc
         - rcalfloc
       rigid: []
-    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
+    protectionBase: {blunt: 1, edged: 2, piercing: 1, fire: 3}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---

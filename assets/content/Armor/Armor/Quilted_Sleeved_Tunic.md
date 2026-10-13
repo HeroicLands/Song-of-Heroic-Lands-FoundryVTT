@@ -29,7 +29,7 @@ sohl:
         - abdmnloc
         - plvisloc
       rigid: []
-    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
+    protectionBase: {blunt: 4, edged: 3, piercing: 2, fire: 3}
     encumbrance: 5
     perceptionPenaltyBase: 0
 ---

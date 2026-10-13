@@ -12,7 +12,7 @@ sohl:
   detailMaterial: Sealskin
   system:
     weightBase: 6.1
-    valueBase: 145
+    valueBase: 415
     durabilityBase: 11
     material: Leather
     locations:
@@ -39,7 +39,7 @@ sohl:
         - {location: rkneeloc, side: back}
         - {location: lcalfloc, side: back}
         - {location: rcalfloc, side: back}
-    protectionBase: {blunt: 4, edged: 8, piercing: 5, fire: 5}
+    protectionBase: {blunt: 1, edged: 2, piercing: 1, fire: 3}
     encumbrance: 0
     perceptionPenaltyBase: 0
 ---
