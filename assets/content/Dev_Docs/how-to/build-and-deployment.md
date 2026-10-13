@@ -62,7 +62,7 @@ sequence; `run-p` runs them in parallel.
 | `build:prepare`        | In parallel: `build:css`, `build:db`, `build:system`.                                                                                                                        |
 | `build:types`          | TypeScript type-check / compile (`tsc -p tsconfig.json`). No emit beyond `.d.ts`/checking.                                                                                   |
 | `build:css`            | Compile `scss/sohl.scss` > `build/stage/css/sohl.css` (Sass).                                                                                                                |
-| `build:system`         | Generate `build/stage/system.json` from `package-build.config.yaml` with SoHL's runtime pack projection.                                                                     |
+| `build:system`         | Generate `build/stage/system.json` from `package-build.config.mjs` with SoHL's runtime pack projection.                                                                      |
 | `build:assets`         | Copy `templates/`, `lang/`, `assets/*`, `LICENSE.md`, `README.md` into `build/stage/` (`package-build assets`).                                                              |
 | `build:db`             | `build:content-index`, `build:schema`, `build:assets`, then `build:compiledb`. The e2e fast loop rebuilds packs through it.                                                  |
 | `build:compiledb`      | Generate JSON from `assets/content/` Markdown, then compile LevelDB packs in `build/stage/packs/`.                                                                           |
@@ -375,7 +375,7 @@ empty **output**, when a pass compiles zero entries from a tree that is not
 empty. That second case is what a wrong package id looks like: every note is
 rejected because it declares a package this build does not compile. A pack that
 genuinely ships nothing in some consuming package declares `mayBeEmpty: true` on
-its entry in `package-build.config.yaml`, rather than the guard being relaxed for
+its entry in `package-build.config.mjs`, rather than the guard being relaxed for
 everyone.
 
 Cross-package references are resolved through published link manifests rather
@@ -389,7 +389,7 @@ Items, actors, and journal entries are Markdown files with YAML frontmatter
 (a `type:`, a `shortcode:` — together the address the document's id derives
 from — and folder/embedding metadata; the content package is
 not authored per note — it is the `contentPackage` declared once in
-`package-build.config.yaml`, `sohl` here),
+`package-build.config.mjs`, `sohl` here),
 authored anywhere under `assets/content/`.
 **Classification is frontmatter-driven, not directory-driven:** a file joins a
 pack because of its `type` (item kinds >
@@ -532,7 +532,7 @@ which the build passes through unchanged, applying `data.fixup` and binding
 
 Everything about the pipeline that is _this repository's_ rather than any
 consumer's lives in one file at the repository root,
-**`package-build.config.yaml`**. Nothing inside the shared package spells a
+**`package-build.config.mjs`**. Nothing inside the shared package spells a
 path, a package name, or a pack list of its own; each module reads the resolved
 configuration through `@heroiclands/package-build/engine/pack-config`, which
 locates the config file by walking up from itself — so it lands on the consuming
@@ -643,9 +643,13 @@ The `assets/` root a content note's `img:` resolves to is derived, not written:
 
 Which `type:` values compile into an Item is declared **once**, in the registry
 `@heroiclands/package-build/sohl/item-builders`: `ITEM_BUILDERS` pairs each type with the builder
-that produces its `system` block. This repository **names** that registry —
-`itemBuilders: sohl` in `package-build.config.yaml`, since data cannot carry
-functions — the loader resolves the name to the table, and
+that produces its `system` block. This repository supplies that stock registry
+through `utils/item-builders.mjs` in `package-build.config.mjs`, wrapping only
+Affliction duration readers with the same pure arithmetic dice parser used at runtime.
+The code configuration retains every other stock builder and field declaration.
+Malformed duration formulas fail compilation with a finding at their source key;
+no dice are rolled during validation. The configuration is read synchronously,
+so its imports must avoid top-level await and runtime globals. Then
 `@heroiclands/package-build/engine/item-registry` reads it back out of the
 resolved configuration — both the whitelist `itemTypes()` (its key set, which
 `@heroiclands/package-build/engine/item-docs` re-exports and assembles
@@ -661,7 +665,7 @@ consumer got the types it asked for and the builders it did not.
 
 Adding a type is therefore one entry in `ITEM_BUILDERS`, its subtype declaration
 in `documentTypes.Item` (`packageBuild.manifest` in
-`package-build.config.yaml`), and its
+`package-build.config.mjs`), and its
 default artwork in `@heroiclands/package-build/sohl/default-item-art` — the last
 of which the unit
 suite holds in exact step with the registry. Removing a type is the same three
@@ -837,7 +841,7 @@ Configuration lives in `.env.local` (all optional):
 | `FOUNDRY_*` / `CONTAINER_*`  | —                      | Passed through to the image (licensing, cache, tuning — see below).   |
 
 **The `test` stage's Foundry build is `compatibility.minimum` itself** — read
-from the top level of `package-build.config.yaml` and passed to felddy as
+from the top level of `package-build.config.mjs` and passed to felddy as
 `FOUNDRY_VERSION`, so it downloads that exact build rather than the newest of the
 `:14` tag. That is what makes the e2e suite reproducible: without it the test
 container drifts to whatever the floating tag serves, and "the suite passes"
@@ -862,7 +866,7 @@ full suite has **actually passed**, never an aspiration.
 `FOUNDRYVTT_<STAGE>_VERSION` in `.env.local` overrides the committed default for
 any run. Raising the committed pin, by contrast, is a decision to **raise the
 supported floor**: move the top-level `compatibility.minimum` in
-`package-build.config.yaml` with it. See
+`package-build.config.mjs` with it. See
 [[doc-testing#which-build-the-suite-runs-on-the-two-tracks|Testing > Which build the suite runs on]].
 
 **Manual — first-run licensing.** felddy needs to fetch Foundry once. Supply your
@@ -1055,7 +1059,7 @@ is built from the page's own `.RelPermalink`, so moving the package or its
 artwork is a config edit rather than a sweep through the templates.
 Worth knowing when you add one: with `cdnBaseURL` unset the partial falls back
 to `relURL`, so a missing param yields `/sohl/images/…` — a 404 against this
-deploy, not a build failure. `site.assets` in `package-build.config.yaml`, which
+deploy, not a build failure. `site.assets` in `package-build.config.mjs`, which
 the generated configuration writes as `params.cdnBaseURL`, is the guard, not
 the template.
 
@@ -1064,7 +1068,7 @@ from Hugo.** Hugo prefixes what it emits itself (permalinks, assets), but the
 wikilinks and cross-references written into `build/hugo/content/` are ordinary site paths
 that nothing rewrites afterwards. They are composed from `site.base` (defaulting
 to `/<contentPackage>/`), `publish.address.prefix` and `site.passOptions.apiBase`
-in `package-build.config.yaml`, which is where a relocation is edited.
+in `package-build.config.mjs`, which is where a relocation is edited.
 
 **Each page states its own `url`.** A page's address is `(type, shortcode)` and
 not the path its file sits at, so the builder writes the address into the

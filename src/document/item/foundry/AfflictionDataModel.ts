@@ -202,7 +202,7 @@ export class AfflictionDataModel<
         if (allowed === false) return false;
 
         const now = game.time.worldTime;
-        const onsetInterval = rollDurationFormula(this.onsetDurationFormula, this.logic);
+        const onsetInterval = await rollDurationFormula(this.onsetDurationFormula, this.logic);
         this.updateSource({
             contractDate: now,
             onsetDurationBase: onsetInterval,

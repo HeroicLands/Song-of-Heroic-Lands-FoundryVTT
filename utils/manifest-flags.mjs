@@ -16,7 +16,7 @@
  * state, called by `package-build manifest`.
  *
  * Everything else in the manifest is a literal, and literals belong in
- * `package-build.config.yaml`. What is left here is the one value that cannot
+ * `package-build.config.mjs`. What is left here is the one value that cannot
  * be written down: an address that does not exist until the content tree has
  * been walked.
  *

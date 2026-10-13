@@ -11,6 +11,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import {
+    parseSimpleRollExpression,
+    formatSimpleRollExpression,
+} from "@src/entity/roll/parseSimpleRollFormula.mjs";
 import { SimpleRoll } from "@src/entity/roll/SimpleRoll";
 import {
     FilePath,
@@ -191,28 +195,34 @@ export async function fvttLogicFromUuid<T extends SohlLogic<any> = SohlLogic<any
  *   (the count of rolled values differs from the number of dice to seed).
  */
 export async function fvttToFoundryRoll(simpleRoll: SimpleRoll): Promise<foundry.dice.Roll> {
-    const formulaParts: string[] = [];
-    if (simpleRoll.numDice > 0 && simpleRoll.dieFaces > 0) {
-        formulaParts.push(`${simpleRoll.numDice}d${simpleRoll.dieFaces}`);
-    }
-    if (simpleRoll.modifier !== 0) {
-        formulaParts.push((simpleRoll.modifier > 0 ? "+" : "") + simpleRoll.modifier);
-    }
-
-    const formula = formulaParts.join(" ");
+    const formula =
+        simpleRoll.expression ?
+            formatSimpleRollExpression(parseSimpleRollExpression(simpleRoll.expression))
+        :   simpleRoll.formula;
     const roll = new Roll(formula);
-    for (const term of roll.terms) {
-        if (term instanceof foundry.dice.terms.Die) {
-            if (simpleRoll.rolls.length !== term.number) {
-                throw new Error("Mismatch between term and provided rolls.");
+    let offset = 0;
+    const seed = async (terms: readonly unknown[]): Promise<void> => {
+        for (const value of terms) {
+            const term = value as any;
+            if (term instanceof foundry.dice.terms.Die) {
+                const values = simpleRoll.rolls.slice(offset, offset + (term.number ?? 0));
+                if (values.length !== term.number)
+                    throw new Error("Mismatch between term and provided rolls.");
+                offset += term.number ?? 0;
+                term.results = values.map((result) => ({ result, active: true }));
+                await term.evaluate();
+            } else if (typeof term.term === "string") {
+                term.roll ??= new Roll(term.term);
+                await seed(term.roll.terms);
+            } else if (term.roll?.terms) {
+                await seed(term.roll.terms);
+            } else if (term.terms) {
+                await seed(term.terms);
             }
-            term.results = simpleRoll.rolls.map((r) => ({
-                result: r,
-                active: true,
-            }));
-            await term.evaluate();
         }
-    }
+    };
+    await seed(roll.terms);
+    if (offset !== simpleRoll.rolls.length) throw new Error("Unused provided roll results.");
     return roll;
 }
 

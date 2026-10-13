@@ -12,7 +12,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 // The transform `package-build assets` runs over every staged SVG
-// (`assetTransform: svg-theme` in `package-build.config.yaml`).
+// (`assetTransform: svg-theme` in `package-build.config.mjs`).
 import { injectAdaptiveFill } from "@heroiclands/package-build/engine/svg-theme";
 import { ItemMetadatas, ActorMetadatas } from "@src/utils/constants";
 

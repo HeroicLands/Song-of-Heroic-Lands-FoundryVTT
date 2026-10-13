@@ -13,7 +13,7 @@ import { fileURLToPath } from "node:url";
 
 // Build-time helper (plain ESM, no Foundry). Imported by relative path
 // because the build scripts live outside the `@src` alias tree.
-import { parse as parseYaml } from "yaml";
+import { loadPackConfig } from "@heroiclands/package-build/engine/pack-config";
 
 import { REQUIRED, SITE_OUT, missingRequired } from "../../utils/build-site.mjs";
 
@@ -37,7 +37,7 @@ import { REQUIRED, SITE_OUT, missingRequired } from "../../utils/build-site.mjs"
  *   without it — so these assertions read the file directly rather than
  *   taking the manifest's word for it.
  * - _This repository_ owns the wording and the routes back, via
- *   `site.notfound` in `package-build.config.yaml` — written into the generated
+ *   `site.notfound` in `package-build.config.mjs` — written into the generated
  *   Hugo configuration as `params.notfound` — and owns the deploy that
  *   publishes the artifact.
  *
@@ -55,12 +55,11 @@ const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..
 const read = (rel: string) => fs.readFileSync(path.join(REPO_ROOT, rel), "utf8");
 
 describe("the /sohl/ site's 404 page", () => {
-    const CONFIG = "package-build.config.yaml";
     const DEPLOY = ".gitea/workflows/deploy-sohl.yml";
 
     type NotFound = { tagline?: string; links?: Array<{ url: string }> };
     const notfound = (): NotFound | undefined =>
-        (parseYaml(read(CONFIG)) as { site?: { notfound?: NotFound } }).site?.notfound;
+        (loadPackConfig() as { site?: { notfound?: NotFound } }).site?.notfound;
 
     it("supplies the 404 page's wording, which the theme leaves to us", () => {
         // The theme carries layout, not addresses: it renders generic

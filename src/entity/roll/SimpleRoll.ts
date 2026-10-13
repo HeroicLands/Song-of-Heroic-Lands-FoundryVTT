@@ -11,6 +11,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import {
+    parseSimpleRollFormula,
+    parseSimpleRollExpression,
+    evaluateSimpleRollExpression,
+    simpleRollDiceGroups,
+} from "./parseSimpleRollFormula.mjs";
 import { SohlEntity } from "@src/entity/SohlEntity";
 import { registerKind } from "@src/utils/kindRegistry";
 import type { SohlLogic } from "@src/core/logic/SohlLogic";
@@ -18,7 +24,7 @@ import type { Rng } from "@src/entity/random/Rng";
 import { defaultRng } from "@src/entity/random/createRng";
 
 /**
- * A Foundry-free dice primitive for structured `NdM+K` rolls.
+ * A Foundry-free dice primitive supporting arithmetic expressions and legacy structured dice.
  *
  * Unlike Foundry's Roll class, SimpleRoll requires no runtime environment,
  * supports deterministic testing via {@link setRolls}, and provides a
@@ -38,6 +44,11 @@ export class SimpleRoll extends SohlEntity {
     dieFaces: number;
     /** Flat modifier added to the dice total (the `K` in `NdM+K`). */
     modifier: number;
+    /** Affine scale applied to the entire dice group and its modifier. */
+    scale: number;
+    /** Original arithmetic expression, absent for legacy structured rolls. */
+    expression?: string;
+    private expressionAst?: ReturnType<typeof parseSimpleRollExpression>;
     /** The individual die results; empty until {@link roll} or {@link setRolls} is called. */
     rolls: number[];
 
@@ -92,6 +103,18 @@ export class SimpleRoll extends SohlEntity {
         this.numDice = data.numDice ?? 0;
         this.dieFaces = data.dieFaces ?? 0;
         this.modifier = data.modifier ?? 0;
+        this.scale = data.scale ?? 1;
+        if (!Number.isSafeInteger(this.scale)) throw new Error("Roll scale must be a safe integer");
+        this.expression = data.expression;
+        if (this.expression) {
+            this.expressionAst = parseSimpleRollExpression(this.expression);
+            const groups = simpleRollDiceGroups(this.expressionAst);
+            this.numDice = groups.reduce(
+                (sum: number, group: { count: number }) => sum + group.count,
+                0,
+            );
+            this.dieFaces = groups[0]?.faces ?? 0;
+        }
         this.rolls = data.rolls ?? [];
     }
 
@@ -106,6 +129,8 @@ export class SimpleRoll extends SohlEntity {
             dieFaces: this.dieFaces,
             modifier: this.modifier,
             rolls: [...this.rolls],
+            ...(this.scale !== 1 ? { scale: this.scale } : {}),
+            ...(this.expression ? { expression: this.expression } : {}),
         };
     }
 
@@ -148,6 +173,17 @@ export class SimpleRoll extends SohlEntity {
      */
     roll(rng: Rng = defaultRng()): number {
         if (!this.rolls.length) {
+            if (this.expressionAst) {
+                this.rolls = simpleRollDiceGroups(this.expressionAst).flatMap(
+                    (group: { count: number; faces: number }) =>
+                        Array.from({ length: group.count }, () =>
+                            SimpleRoll._forced.length ?
+                                (SimpleRoll._forced.shift() as number)
+                            :   rng.die(group.faces),
+                        ),
+                );
+                return this.total;
+            }
             this.rolls = Array.from({ length: this.numDice }, () =>
                 SimpleRoll._forced.length ?
                     (SimpleRoll._forced.shift() as number)
@@ -178,7 +214,9 @@ export class SimpleRoll extends SohlEntity {
     }
 
     /**
-     * The **average (expected value)** of this roll — the mean outcome of
+     * For arithmetic expressions this is the expression evaluated at each dice group's mean,
+     * a deterministic statistical center rather than an exact median for nonlinear operators.
+     * For legacy structured dice, the **average (expected value)** of this roll — the mean outcome of
      * `numDice` dice of `dieFaces` faces, plus the flat `modifier`. It is the
      * roll's fixed statistical center, with no randomness.
      *
@@ -193,20 +231,36 @@ export class SimpleRoll extends SohlEntity {
      * half-integer (e.g. `1d6` → `3.5`, `1d20` → `10.5`); round at the call
      * site if you want an integer. With no dice, it is just the `modifier`.
      *
-     * @returns The average/expected result of the roll, possibly fractional.
+     * @returns The exact legacy affine mean/median, or expression value at each
+     * dice group's mean for general arithmetic; nonlinear expressions are approximate.
      */
     get median(): number {
+        if (this.expressionAst)
+            return evaluateSimpleRollExpression(
+                this.expressionAst,
+                (count: number, faces: number) => (count * (faces + 1)) / 2,
+            );
         if (this.numDice <= 0 || this.dieFaces <= 0) {
-            return this.modifier;
+            return this.modifier * this.scale;
         }
-        return (this.numDice * (this.dieFaces + 1)) / 2 + this.modifier;
+        return ((this.numDice * (this.dieFaces + 1)) / 2 + this.modifier) * this.scale;
     }
 
     /**
      * Compute the total result.
      */
     get total(): number {
-        return this.rolls.reduce((sum, r) => sum + r, 0) + this.modifier;
+        if (this.expressionAst) {
+            let offset = 0;
+            return evaluateSimpleRollExpression(this.expressionAst, (count: number) => {
+                const total = this.rolls
+                    .slice(offset, offset + count)
+                    .reduce((sum, value) => sum + value, 0);
+                offset += count;
+                return total;
+            });
+        }
+        return (this.rolls.reduce((sum, r) => sum + r, 0) + this.modifier) * this.scale;
     }
 
     /**
@@ -231,6 +285,7 @@ export class SimpleRoll extends SohlEntity {
      * e.g. `"[3, 5] + 2"` for 2d6+2 with rolls of 3 and 5.
      */
     get result(): string {
+        if (this.expression) return `${this.expression} = ${this.total}`;
         const parts: string[] = [];
         if (this.rolls.length > 0) {
             parts.push(this.rolls.length === 1 ? `${this.rolls[0]}` : `[${this.rolls.join(", ")}]`);
@@ -238,13 +293,15 @@ export class SimpleRoll extends SohlEntity {
         if (this.modifier !== 0) {
             parts.push((this.modifier > 0 && parts.length > 0 ? "+" : "") + `${this.modifier}`);
         }
-        return parts.join(" ") || "0";
+        const result = parts.join(" ") || "0";
+        return this.scale === 1 ? result : `(${result}) * ${this.scale}`;
     }
 
     /**
      * The dice formula string, e.g. `"2d6+3"` or `"1d100"`.
      */
     get formula(): string {
+        if (this.expression) return this.expression;
         const parts: string[] = [];
         if (this.numDice > 0 && this.dieFaces > 0) {
             parts.push(`${this.numDice}d${this.dieFaces}`);
@@ -252,42 +309,41 @@ export class SimpleRoll extends SohlEntity {
         if (this.modifier !== 0) {
             parts.push((this.modifier > 0 && parts.length > 0 ? "+" : "") + `${this.modifier}`);
         }
-        return parts.join("") || "0";
+        const formula = parts.join("") || "0";
+        return this.scale === 1 ? formula : `(${formula})*${this.scale}`;
     }
 
     /**
      * Parse a dice formula string into an unrolled {@link SimpleRoll}.
      *
      * Accepts forms like `"2d6+3"`, `"1d100"`, `"d20"` (implicit one die),
-     * `"-2"` (modifier only), with optional whitespace around the modifier
-     * sign.
+     * `"-2"` (modifier only), and `"(2d6+3)*3600"`. Arithmetic uses normal precedence with dice binding most tightly, unary signs next,
+     * then multiplication/division and addition/subtraction. Parentheses override precedence.
      * @param formula - The dice formula to parse.
      * @param parent - The Logic that owns the resulting roll.
      * @returns A new {@link SimpleRoll} with no dice rolled yet.
-     * @throws Error if `formula` does not match the `NdM+K` grammar.
+     * @throws Error if the expression grammar or dice metadata is invalid.
      */
     static fromFormula(formula: string, parent: SohlLogic<any>): SimpleRoll {
-        const match = formula.trim().match(/^(?:(\d*)d(\d+))?(?:\s*([+-]\s*\d+))?$/i);
-        if (!match) {
-            throw new Error(`Invalid formula: ${formula}`);
+        const ast = parseSimpleRollExpression(formula);
+        try {
+            return new SimpleRoll({ ...parseSimpleRollFormula(formula), rolls: [] }, { parent });
+        } catch {
+            const groups = simpleRollDiceGroups(ast);
+            return new SimpleRoll(
+                {
+                    expression: formula,
+                    numDice: groups.reduce(
+                        (sum: number, group: { count: number }) => sum + group.count,
+                        0,
+                    ),
+                    dieFaces: groups[0]?.faces ?? 0,
+                    modifier: 0,
+                    rolls: [],
+                },
+                { parent },
+            );
         }
-
-        let [, numDiceStr, dieFacesStr, modifierStr] = match;
-        const numDice =
-            numDiceStr ? parseInt(numDiceStr)
-            : dieFacesStr ? 1
-            : 0;
-        const dieFaces = dieFacesStr ? parseInt(dieFacesStr) : 0;
-        const modifier = modifierStr ? parseInt(modifierStr.replace(/\s+/g, "")) : 0;
-        return new SimpleRoll(
-            {
-                numDice,
-                dieFaces,
-                modifier,
-                rolls: [],
-            },
-            { parent },
-        );
     }
 }
 
@@ -303,6 +359,10 @@ export namespace SimpleRoll {
         dieFaces: number;
         /** Flat modifier (the `K` in `NdM+K`). */
         modifier: number;
+        /** Optional affine scale; absent legacy data retains scale1. */
+        scale?: number;
+        /** Arithmetic expression for rolls requiring multiple terms. */
+        expression?: string;
         /** Individual die results, if already rolled. */
         rolls: number[];
     }

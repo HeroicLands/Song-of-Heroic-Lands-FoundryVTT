@@ -324,7 +324,7 @@ sidebar and create dialog).
 
 ### `retained` and `allow` — the escape hatches
 
-Each guard has one allowlist, and both live in `package-build.config.yaml` under
+Each guard has one allowlist, and both live in `package-build.config.mjs` under
 `packageBuild.lang`. Both take the same shape: a prefix (or literal) plus **a reason a
 reviewer can check** — the reason is required, not decorative.
 

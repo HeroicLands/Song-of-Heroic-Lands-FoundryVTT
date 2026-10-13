@@ -60,24 +60,24 @@ The prose here compiles into the item's documentation.
 
 ## affliction
 
-| Field                              | Shape                                      | Required | Default   | Description                                                                                                |
-| ---------------------------------- | ------------------------------------------ | -------- | --------- | ---------------------------------------------------------------------------------------------------------- |
-| `subType`                          | string                                     | **yes**  | —         | What kind of affliction it is.                                                                             |
-| `category`                         | as authored                                | no       | `""`      | The grouping it belongs to within its subtype.                                                             |
-| `levelBase`                        | number                                     | no       | `0`       | Severity, before any modifier.                                                                             |
-| `healingRateBase`                  | number                                     | no       | `0`       | How readily the host throws it off.                                                                        |
-| `data.contagionIndex`              | number                                     | no       | `0`       | How readily it passes to someone else.                                                                     |
-| `data.transmission`                | as authored                                | no       | `none`    | The route by which it spreads.                                                                             |
-| `onsetFormula`                     | as authored, blank is unset                | no       | `null`    | Days from contracting to onset, rolled by the receiving actor. Unset means no incubation.                  |
-| `onsetMacroUuid`                   | as authored, blank is unset                | no       | `null`    | UUID of the macro run when symptoms begin, if any.                                                         |
-| `data.outcomeTraumas`              | as authored, blank is unset                | no       | `null`    | SafeExpression selecting traumas caused by the affliction's outcome.                                       |
-| `data.outcome`                     | as authored, blank is the default          | no       | `cured`   | What running the course to the end does to the host: `death`, or the benign default `cured`.               |
-| `data.onsetDurationFormula`        | roll formula, or a whole number of seconds | no       | _omitted_ | Interval from contracting the affliction to the start of onset. Omitted when unset, leaving no incubation. |
-| `data.onsetDurationBase`           | whole number of seconds                    | no       | _omitted_ | The onset interval in seconds, standing in for a roll of the formula. Omitted when unset.                  |
-| `data.healingCheckDurationFormula` | roll formula, or a whole number of seconds | no       | _omitted_ | Interval between healing checks, once the affliction is symptomatic. Omitted when unset.                   |
-| `data.healingCheckDurationBase`    | whole number of seconds                    | no       | _omitted_ | The healing-check interval in seconds, standing in for a roll of the formula. Omitted when unset.          |
-| `data.resolutionDurationFormula`   | roll formula, or a whole number of seconds | no       | _omitted_ | Interval from onset to the affliction running its course. Omitted when unset.                              |
-| `data.resolutionDurationBase`      | whole number of seconds                    | no       | _omitted_ | The resolution interval in seconds, standing in for a roll of the formula. Omitted when unset.             |
+| Field                              | Shape                                                      | Required | Default   | Description                                                                                                |
+| ---------------------------------- | ---------------------------------------------------------- | -------- | --------- | ---------------------------------------------------------------------------------------------------------- |
+| `subType`                          | string                                                     | **yes**  | —         | What kind of affliction it is.                                                                             |
+| `category`                         | as authored                                                | no       | `""`      | The grouping it belongs to within its subtype.                                                             |
+| `levelBase`                        | number                                                     | no       | `0`       | Severity, before any modifier.                                                                             |
+| `healingRateBase`                  | number                                                     | no       | `0`       | How readily the host throws it off.                                                                        |
+| `data.contagionIndex`              | number                                                     | no       | `0`       | How readily it passes to someone else.                                                                     |
+| `data.transmission`                | as authored                                                | no       | `none`    | The route by which it spreads.                                                                             |
+| `onsetFormula`                     | as authored, blank is unset                                | no       | `null`    | Days from contracting to onset, rolled by the receiving actor. Unset means no incubation.                  |
+| `onsetMacroUuid`                   | as authored, blank is unset                                | no       | `null`    | UUID of the macro run when symptoms begin, if any.                                                         |
+| `data.outcomeTraumas`              | as authored, blank is unset                                | no       | `null`    | SafeExpression selecting traumas caused by the affliction's outcome.                                       |
+| `data.outcome`                     | as authored, blank is the default                          | no       | `cured`   | What running the course to the end does to the host: `death`, or the benign default `cured`.               |
+| `data.onsetDurationFormula`        | dice and seconds with arithmetic operators and parentheses | no       | _omitted_ | Interval from contracting the affliction to the start of onset. Omitted when unset, leaving no incubation. |
+| `data.onsetDurationBase`           | whole number of seconds                                    | no       | _omitted_ | The onset interval in seconds, standing in for a roll of the formula. Omitted when unset.                  |
+| `data.healingCheckDurationFormula` | dice and seconds with arithmetic operators and parentheses | no       | _omitted_ | Interval between healing checks, once the affliction is symptomatic. Omitted when unset.                   |
+| `data.healingCheckDurationBase`    | whole number of seconds                                    | no       | _omitted_ | The healing-check interval in seconds, standing in for a roll of the formula. Omitted when unset.          |
+| `data.resolutionDurationFormula`   | dice and seconds with arithmetic operators and parentheses | no       | _omitted_ | Interval from onset to the affliction running its course. Omitted when unset.                              |
+| `data.resolutionDurationBase`      | whole number of seconds                                    | no       | _omitted_ | The resolution interval in seconds, standing in for a roll of the formula. Omitted when unset.             |
 
 **Never authored.** These fields are part of the document and are written during play, so a note that declares one fails the build. Left out of the compiled document entirely, they carry the data model's own initial value until play writes them.
 

@@ -637,7 +637,7 @@ export class AfflictionLogic<
      * @param formula - The duration formula (dice expression or bare seconds).
      * @returns The rolled duration in seconds.
      */
-    private rollDuration(formula: string | null): number {
+    private rollDuration(formula: string | null): Promise<number> {
         return rollDurationFormula(formula, this);
     }
 
@@ -728,8 +728,8 @@ export class AfflictionLogic<
         }
 
         const now = fvttWorldTime();
-        const resolution = this.rollDuration(this.data.resolutionDurationFormula);
-        const healing = this.rollDuration(this.data.healingCheckDurationFormula);
+        const resolution = await this.rollDuration(this.data.resolutionDurationFormula);
+        const healing = await this.rollDuration(this.data.healingCheckDurationFormula);
         this.resolutionDurationBase.setBase(resolution);
         this.healingCheckDurationBase.setBase(healing);
         await this.item.update({
@@ -849,9 +849,10 @@ export class AfflictionLogic<
         if (sl >= CRITICAL_SUCCESS) level = Math.max(0, level - 2);
         else if (sl >= MARGINAL_SUCCESS) level = Math.max(0, level - 1);
 
+        const nextInterval =
+            level > 0 ? await this.rollDuration(this.data.healingCheckDurationFormula) : 0;
         await this.item.update({ "system.levelBase": level } as PlainObject);
 
-        const nextInterval = this.rollDuration(this.data.healingCheckDurationFormula);
         if (level <= 0) await sohl.unschedule(this.item, "healingCheck");
         else await offerSchedule(context, this.item, "healingCheck", nextInterval);
         return { level };
@@ -1304,21 +1305,20 @@ export interface AfflictionData<
 }
 
 /**
- * Roll a duration formula to a number of seconds. Falls back to a plain
- * numeric parse, or `0` when neither yields a finite number.
- *
- * @param formula - The duration formula (dice expression or bare seconds).
- * @param parent - The Logic that owns the roll.
- * @returns The rolled duration in seconds.
+ * Evaluate an Affliction duration as whole seconds with the shared arithmetic SimpleRoll grammar.
+ * @param formula - Formula or numeric seconds; empty means zero.
+ * @param _parent - Existing caller contract, retained without inventing actor roll data.
+ * @returns The asynchronously evaluated duration.
+ * @throws For invalid, negative, fractional or non-finite durations.
  */
-export function rollDurationFormula(formula: string | null, parent: SohlLogic<any>): number {
-    if (!formula) return 0;
-    try {
-        const rolled = SimpleRoll.fromFormula(formula, parent).roll();
-        if (Number.isFinite(rolled)) return rolled;
-    } catch {
-        // fall through to a numeric parse
-    }
-    const n = Number(formula);
-    return Number.isFinite(n) ? n : 0;
+export async function rollDurationFormula(
+    formula: string | null,
+    _parent: SohlLogic<any>,
+): Promise<number> {
+    if (formula == null || formula.trim() === "") return 0;
+    const roll = SimpleRoll.fromFormula(formula, _parent);
+    const total = roll.numDice > 0 ? roll.roll() : roll.total;
+    if (!Number.isFinite(total) || !Number.isInteger(total) || total < 0)
+        throw new RangeError("Affliction duration must evaluate to non-negative whole seconds");
+    return total;
 }

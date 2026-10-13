@@ -110,6 +110,52 @@ describe("affliction phase scheduling on the generic store", () => {
         );
     });
 
+    it("rejects an invalid second duration before onset persistence or schedule changes", async () => {
+        const { schedule, unschedule } = withStore();
+        const logic = affliction({
+            resolutionDurationFormula: "700",
+            healingCheckDurationFormula: "invalid",
+        });
+        logic.initialize();
+        const before = logic.resolutionDurationBase.effective;
+        await expect(
+            logic.setOnset({ skipDialog: true, scope: { schedule: false } } as any),
+        ).rejects.toThrow();
+        expect(logic.item.update).not.toHaveBeenCalled();
+        expect(schedule).not.toHaveBeenCalled();
+        expect(unschedule).not.toHaveBeenCalled();
+        expect(logic.resolutionDurationBase.effective).toBe(before);
+    });
+    it("awaits both duration evaluations before setting onset and keeps world time zero", async () => {
+        withStore();
+        vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(0);
+        const logic = affliction({
+            resolutionDurationFormula: "2d6*86400",
+            healingCheckDurationFormula: "1d4*3600",
+        });
+        logic.initialize();
+        let finish!: (n: number) => void;
+        const boundary = vi
+            .spyOn(logic as any, "rollDuration")
+            .mockResolvedValueOnce(604800)
+            .mockImplementationOnce(
+                () =>
+                    new Promise((resolve) => {
+                        finish = resolve;
+                    }),
+            );
+        const result = logic.setOnset({ skipDialog: true, scope: { schedule: false } } as any);
+        await vi.waitFor(() => expect(boundary).toHaveBeenCalledTimes(2));
+        expect(logic.item.update).not.toHaveBeenCalled();
+        finish(7200);
+        await expect(result).resolves.toEqual({ onsetDate: 0 });
+        expect(logic.item.update).toHaveBeenCalledWith({
+            "system.onsetDate": 0,
+            "system.resolutionDurationBase": 604800,
+            "system.healingCheckDurationBase": 7200,
+        });
+    });
+
     it("setOnset crystallizes onsetDate, rolls the intervals, and OFFERS the two follow-ons", async () => {
         const { schedule, unschedule } = withStore();
         vi.spyOn(FoundryHelpersMock, "fvttWorldTime").mockReturnValue(2000);
@@ -772,20 +818,20 @@ describe("view-only computed dates", () => {
 describe("rollDurationFormula (onset seeding)", () => {
     const parent = {} as any;
 
-    it("rolls a dice formula instead of reading it as a bare number", () => {
+    it("rolls a dice formula instead of reading it as a bare number", async () => {
         for (let i = 0; i < 20; i++) {
-            const seconds = rollDurationFormula("2d6+3600", parent);
+            const seconds = await rollDurationFormula("2d6+3600", parent);
             expect(seconds).toBeGreaterThanOrEqual(3602);
             expect(seconds).toBeLessThanOrEqual(3612);
         }
     });
 
-    it("reads a bare whole number of seconds", () => {
-        expect(rollDurationFormula("3600", parent)).toBe(3600);
+    it("reads a bare whole number of seconds", async () => {
+        expect(await rollDurationFormula("3600", parent)).toBe(3600);
     });
 
-    it("yields 0 for an empty or unset formula", () => {
-        expect(rollDurationFormula("", parent)).toBe(0);
-        expect(rollDurationFormula(null, parent)).toBe(0);
+    it("yields 0 for an empty or unset formula", async () => {
+        expect(await rollDurationFormula("", parent)).toBe(0);
+        expect(await rollDurationFormula(null, parent)).toBe(0);
     });
 });

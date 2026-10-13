@@ -77,6 +77,29 @@ beforeEach(() => {
 afterEach(() => vi.restoreAllMocks());
 
 describe("AfflictionLogic course/healing targets", () => {
+    it("validates the next healing interval before changing severity", async () => {
+        const logic = makeAffliction({ levelBase: 3, healingCheckDurationFormula: "invalid" });
+        vi.spyOn(MasteryLevelModifier.prototype, "successTest").mockResolvedValue({
+            normSuccessLevel: MARGINAL_SUCCESS,
+        } as any);
+        await expect(
+            logic.healingTest({ skipDialog: true, scope: { schedule: false } } as any),
+        ).rejects.toThrow();
+        expect(logic.item.update).not.toHaveBeenCalled();
+    });
+    it("does not evaluate a needless interval when healing removes the last level", async () => {
+        const logic = makeAffliction({ levelBase: 1, healingCheckDurationFormula: "invalid" });
+        vi.spyOn(MasteryLevelModifier.prototype, "successTest").mockResolvedValue({
+            normSuccessLevel: MARGINAL_SUCCESS,
+        } as any);
+        const duration = vi.spyOn(logic as any, "rollDuration");
+        await expect(
+            logic.healingTest({ skipDialog: true, scope: { schedule: false } } as any),
+        ).resolves.toEqual({ level: 0 });
+        expect(duration).not.toHaveBeenCalled();
+        expect(logic.item.update).toHaveBeenCalledWith({ "system.levelBase": 0 });
+    });
+
     it("course is a ValueModifier based on Healing Rate × Healing Base", () => {
         const logic = makeAffliction({ healingRateBase: 4 }, 12);
         expect(logic.course).toBeInstanceOf(ValueModifier);

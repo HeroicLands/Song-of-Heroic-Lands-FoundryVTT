@@ -18,3 +18,5 @@ export * from "./SimpleRoll";
 
 /** N d10 qualifier rolls against one TN, with a caller-supplied success ladder. */
 export * from "./qualifierRoll";
+
+export * from "./parseSimpleRollFormula.mjs";

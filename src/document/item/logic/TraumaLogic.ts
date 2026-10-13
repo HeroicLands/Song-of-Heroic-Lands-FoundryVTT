@@ -1156,7 +1156,8 @@ export class TraumaLogic<TData extends TraumaData = TraumaData> extends SohlItem
     private rollDuration(formula: string | null): number {
         if (!formula) return 0;
         try {
-            const rolled = SimpleRoll.fromFormula(formula, this).roll();
+            const roll = SimpleRoll.fromFormula(formula, this);
+            const rolled = roll.numDice > 0 ? roll.roll() : roll.total;
             if (Number.isFinite(rolled)) return rolled;
         } catch {
             // fall through to a numeric parse

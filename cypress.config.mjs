@@ -13,7 +13,8 @@
 
 import { defineConfig } from "cypress";
 import dotenv from "dotenv";
-import { loadPackageBuildConfig } from "@heroiclands/package-build/config";
+import { resolvePackageBuildConfig } from "@heroiclands/package-build/config";
+import sharedConfig from "./package-build.config.mjs";
 import { resolveStagePort } from "@heroiclands/package-build/container";
 import { resolveE2EWorld } from "@heroiclands/package-build/e2e";
 
@@ -23,7 +24,9 @@ dotenv.config({ path: ".env" });
 // The seeded world and the specs that drive it read the *same* resolution the
 // harness seeds with, so neither the port nor the credentials are stated twice
 // — `package-build e2e seed` and this file cannot disagree about the world.
-const buildConfig = loadPackageBuildConfig();
+// Import the project config through ESM: Cypress's TSX hook otherwise rewrites
+// the shared loader's synchronous require into CJS package-export resolution.
+const buildConfig = resolvePackageBuildConfig(sharedConfig);
 const port = resolveStagePort(buildConfig.e2eStage, {
     stages: buildConfig.containerStages,
 });

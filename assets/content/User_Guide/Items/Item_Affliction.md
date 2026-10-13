@@ -387,6 +387,18 @@ The two combine, which is where the interesting endings live: an affliction with
 - [[doc-ugitems|Items]] — every item type at a glance.
 - [[doc-userguide|User Guide]] — back to the index.
 
+## Affliction duration formulas
+
+The Affliction fields `onsetDurationFormula`, `resolutionDurationFormula`, and `healingCheckDurationFormula` use **SimpleRoll**, with durations in whole seconds. Formulas support finite numeric constants, one or more `NdM` dice groups, unary `+` and `-`, arithmetic `+`, `-`, `*`, `/`, and parentheses. Dice bind most tightly, multiplication and division precede addition and subtraction, and parentheses override that order. For example, `(2d6)*86400` means 2d6 days. `2d6+3*3600` adds three hours to the dice result in seconds; `(2d6+3)*3600` instead treats the entire dice-plus-three result as hours. Multiple groups roll from left to right: `(1d4*60+1d6*3600)/2` combines the two dice results before halving the total. Division and decimal constants are allowed, but the final duration must be a whole number of seconds. `600` means ten minutes. Empty means zero; `0` is valid. Dice counts and face counts may use deterministic grouped arithmetic: `(2+1)d6` is three six-sided dice, and `2d(4+2)` is two six-sided dice. Random counts or faces such as `(1d4)d6` are not supported. Advanced dice modifiers, pools, functions, and actor references are not supported.
+
+For complex expressions, SimpleRoll’s statistical center is an approximation rather than an exact distribution median. Duration values use the actual recorded dice, not that estimate.
+
+Evaluation does not open a dice dialog. An invalid formula or a negative, fractional or non-finite result rejects the operation before its dates or duration values are saved. At onset, both follow-on durations must evaluate before onset is persisted; healing checks that remove the last severity level need no future interval. Scheduling remains a separate owner choice.
+
+Content validation reports invalid Affliction duration formulas during authoring checks. Correct the reported note and field before building; a failed formula must never silently become an immediate onset or resolution.
+
+These rules apply to the three **Affliction** duration fields. The separate `onsetFormula` used by Contagion expresses incubation in days, so its unit differs from these stored seconds.
+
 ## Editing Dates
 
 Use the calendar icon beside a date to edit it in the world's active calendar.

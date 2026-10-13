@@ -78,7 +78,7 @@ itself an asset: the walk takes image and audio extensions alone, so an
 attribution record is read as attribution.
 
 **What ships.** `npm run build:assets` (`package-build assets`, driven by
-`packageBuild.assets` in `package-build.config.yaml`) mirrors `assets/audio`,
+`packageBuild.assets` in `package-build.config.mjs`) mirrors `assets/audio`,
 `assets/icons`, `assets/images`, `assets/fonts` and `assets/ui` into
 `build/stage/`, along with `lang/`, `templates/`, `LICENSE.md`, `README.md` and
 `build/schema.json`. `assets/content/` is **not** copied — a file dropped in
@@ -231,7 +231,7 @@ including the Foundry compendium and directory windows, whose `<img>` thumbnails
 SoHL's `.sohl`-scoped CSS cannot reach. The only styling that travels with an SVG
 loaded through `<img>` is the SVG itself, so staging runs every `.svg` under
 `assets/icons` through the toolchain's `svg-theme` transform (`assetTransform:
-svg-theme` in `package-build.config.yaml`), which inserts a `<style>` block
+svg-theme` in `package-build.config.mjs`), which inserts a `<style>` block
 carrying a `@media (prefers-color-scheme: dark)` fill swap: iron-gall ink
 `#211d16` in light, cream `#ece3cf` in dark, mirroring
 `--sohl-color-text-primary` (see [[doc-cssarchitecture|CSS Architecture]]). The
