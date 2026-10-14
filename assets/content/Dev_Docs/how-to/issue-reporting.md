@@ -18,7 +18,7 @@ The core discipline is simple — four axes, each answering a different question
 
 - **Type** — _"what shape of work is this?"_ One per issue, from a closed set of five.
 - **Priority** — _"how soon and how badly does this need doing?"_ A GitHub issue field, one value, defaults to Medium.
-- **Labels** — _"what is this about?"_ Categorization only, chosen **only** from the registry below. Never invent a label.
+- **Labels** — _"what is this about?"_ Categorization only, chosen **only** from the organisation's label set (§3). Never invent a label.
 - **Milestone** — _"which capability gate does this advance?"_ A native GitHub milestone (no due date), at most one, selected from a curated set (see §4).
 
 Type, priority, and milestone are structured single values (one each). Labels
@@ -45,7 +45,7 @@ doubt. Do not leave an issue untyped.
 - A **bug** is _broken_; a **feature** is _missing_. That distinction resolves most ambiguity — decide which word fits before anything else.
 - An **epic** MUST link its sub-issues (native GitHub sub-issues; see §6) and SHOULD carry little implementation detail of its own. Its acceptance is "all sub-issues closed and the whole verified together."
 - A **spike** MUST state (a) the question it answers and (b) its timebox. It closes when the question is answered, and it typically _spawns_ follow-up feature/task/bug issues rather than doing the work itself.
-- A **refactor** that changes no external behavior is a **task**, tagged `tech-debt` — it is not a feature and not a bug.
+- A **refactor** that changes no external behavior is a **task**, tagged `flag/tech-debt` — it is not a feature and not a bug.
 
 ## 2. Priority (GitHub issue field)
 
@@ -69,53 +69,42 @@ priority answers "when I next sit down, what deserves my time?" not "what is due
 
 - **MUST** set a priority on every issue.
 - **Default to Medium.** Anything higher MUST be justified in the body (one line: why the impact warrants it). Do not inflate — not everything is High.
-- Priority is independent of type, labels, **and** milestone. A `security`-labelled issue is **not** automatically Urgent: a hardening task with no known exploit can be Low; an exploit in the wild is Urgent. Judge impact, not the topic.
+- Priority is independent of type, labels, **and** milestone. A `flag/security`-labelled issue is **not** automatically Urgent: a hardening task with no known exploit can be Low; an exploit in the wild is Urgent. Judge impact, not the topic.
 - An **epic**'s priority reflects the initiative's importance, not the max of its children.
 
-## 3. Labels — the closed registry
+## 3. Labels
 
-Apply `e2e` to a pull request to request the full Foundry suite on Intrepid before merge. New commits on a labelled PR request a fresh run. The same workflow runs nightly at 01:30 America/Los_Angeles and can be started manually with `workflow_dispatch`. Local iteration uses focused `e2e:fast` specs.
+Labels are defined once for the whole organisation, in `labels.yml` of the
+`HeroicLands/.github` repository. This repository keeps no registry of its own,
+and does not create labels; a label that does not exist there is not applied.
+If none fits, note the gap in the issue body for a maintainer to decide.
 
-Labels categorize work; the `e2e` label also requests a full Foundry end-to-end run on the dedicated runner before merge. The table below is the **complete,
-authoritative set**. Its machine-readable twin is `.github/labels.yml`, which the
-`labels-sync` workflow reconciles onto GitHub (the set is _closed_ — a label not
-in the registry is deleted on sync). `npm run lint` fails if the two disagree
-(`lint:labels`), so they cannot drift.
+| Group         | Labels                                                                                                                       |
+| ------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| `type/`       | `type/bug`, `type/feature`, `type/epic`, `type/task`, `type/spike` — exactly one per issue                                   |
+| `area/`       | `area/documentation`, `area/devops`, `area/tests`, `area/content`, `area/system`, `area/site`, `area/layout`, `area/styling` |
+| `flag/`       | `flag/breaking-change`, `flag/security`, `flag/regression`, `flag/tech-debt`                                                 |
+| `status/`     | `status/blocked`, `status/question`                                                                                          |
+| `resolution/` | `resolution/duplicate`, `resolution/wontfix`                                                                                 |
+| `ci/`         | `ci/e2e`                                                                                                                     |
 
-> **MUST NOT invent, rename, or improvise labels.** If no existing label fits, add
-> none and (if it matters) note the gap in the issue body for a maintainer to decide.
-> Extending this registry is a deliberate decision made by editing **both** this
-> table and `.github/labels.yml`, not something done at filing time.
+**When to use them here**
 
-| Label             | Scope                                                                                                                                      |
-| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| `system`          | The Foundry VTT game system code (TypeScript, data model, sheets, logic).                                                                  |
-| `documentation`   | The Foundry VTT game system documents (dev, api, user docs, rules content, etc.)                                                           |
-| `content`         | Non-documentation assets, such as new or modified images, compendium packs, actors, items, journals, or other content                      |
-| `thalorna`        | **Retired.** `sohl-thalorna` tracks its own work; the label is kept only so historical issues keep their delivery target. Do not apply it. |
-| `site`            | heroiclands.org — Hugo site, Cloudflare Pages, CDN.                                                                                        |
-| `vault`           | **Retired.** The HeroicLands vault is archived; the label is kept only so historical issues keep their delivery target. Do not apply it.   |
-| `devops`          | Build, tooling, release pipeline, repo config.                                                                                             |
-| `tests`           | Vitest, Quench, or Playwright test suites and harness.                                                                                     |
-| `e2e`             | Requests a full Foundry end-to-end run on the dedicated e2e runner before merge.                                                           |
-| `security`        | Touches an attack surface: auth, data integrity, macro/script execution, injection, or anything warranting private disclosure (see §7).    |
-| `tech-debt`       | Restructuring or cleanup of working code; refactors.                                                                                       |
-| `regression`      | Something that previously worked and stopped. Pairs with type `bug`.                                                                       |
-| `breaking-change` | Alters a public API, data schema, or save compatibility.                                                                                   |
-| `blocked`         | Cannot proceed until an external dependency or another issue clears.                                                                       |
-| `duplicate`       | This issue or pull request already exists                                                                                                  |
-| `question`        | Further information is requested                                                                                                           |
-| `wontfix`         | This will not be worked on                                                                                                                 |
-
-> **No capability-gate labels.** Progress toward a capability is tracked by
-> **milestones** (§4), not labels. Do not add `combat`-style or `v3.0`-style labels
-> to mark what a milestone already carries.
+- `area/system` — the Foundry VTT game system code (TypeScript, data model, sheets, logic).
+- `area/documentation` — developer, API and user documentation, and rules content.
+- `area/content` — non-documentation assets: images, compendium packs, actors, items, journals.
+- `area/site` — heroiclands.org: Hugo site, Cloudflare Pages, CDN. `heroiclands-site` has no tracker of its own and is tracked here.
+- `area/devops` — build, tooling, release pipeline, repository configuration.
+- `area/tests` — Vitest, Quench, or Cypress test suites and harness.
+- `flag/breaking-change` — alters a public API, data schema, or save compatibility.
+- `flag/security` — touches an attack surface: auth, data integrity, macro/script execution, injection, or anything warranting private disclosure (§7).
+- `ci/e2e` — on a pull request, runs the full Foundry end-to-end suite on the dedicated runner before merge. New commits on a labelled pull request request a fresh run. The same workflow runs nightly at 01:30 America/Los_Angeles and can be started manually with `workflow_dispatch`. Local iteration uses focused `e2e:fast` specs.
 
 **Label rules**
 
-- Choose labels **only** from this file. No exceptions.
-- Labels are additive and orthogonal — `security` + `system` + `regression` on one bug is fine.
+- Labels are additive and orthogonal — `area/content` + `area/site` + `flag/regression` on one bug is fine.
 - Do not use a label to express something a type, the priority field, or a milestone already expresses.
+- Progress toward a capability is tracked by **milestones** (§4), not labels.
 
 ## 4. Milestones — capability gates
 
@@ -160,7 +149,7 @@ thumb:** every major capability gets a **milestone**; add an **epic** only for a
 big enough to need its own sub-issue tree. A gate reached with a handful of loose
 issues needs the milestone but no epic.
 
-**The milestone set is curated, like the label registry** — select from
+**The milestone set is curated, like the label set** — select from
 existing gates and never invent one.
 
 Because gates are capability-based, their mapping is usually inferable
@@ -183,7 +172,7 @@ schedule the project keeps. Leave every milestone's due date blank.
 
 Walk this in order; take the first match.
 
-1. Is something **broken** relative to intended behavior? > **bug** (add `regression` if it used to work).
+1. Is something **broken** relative to intended behavior? > **bug** (add `flag/regression` if it used to work).
 2. Is the outcome **genuinely uncertain** and the deliverable a **decision/answer**? > **spike** (state question + timebox).
 3. Is this too large to ship as one issue, needing **multiple sub-issues** to coordinate? > **epic**.
 4. Is it a **new capability or enhancement** that doesn't exist yet? > **feature**.
@@ -295,7 +284,7 @@ Note that follow-up feature/task/bug issues will be filed from the outcome.
 
 ## 7. Security issues — special handling
 
-If an issue would be labelled `security` **and** describes an exploitable weakness
+If an issue would be labelled `flag/security` **and** describes an exploitable weakness
 (not merely hardening), **do not open a public issue**. Use GitHub's private
 security advisories / vulnerability reporting instead. SoHL ships into users'
 Foundry instances, so a disclosed macro-injection or data-execution path has a
@@ -307,37 +296,37 @@ maintainer decide whether to make it public.
 **Bug, High, regression**
 
 > **Title:** Fix character sheet failing to render after v14 migration
-> **Type:** bug · **Priority:** High · **Labels:** `system`, `regression` · **Milestone:** _(unset — maintenance on an already-crossed gate)_
+> **Type:** bug · **Priority:** High · **Labels:** `area/system`, `flag/regression` · **Milestone:** _(unset — maintenance on an already-crossed gate)_
 > Body: reproduces on Foundry v14; sheet threw before the migration didn't. No workaround > High.
 
 **Feature, Medium**
 
 > **Title:** Add wound tracking to combat resolution
-> **Type:** feature · **Priority:** Medium · **Labels:** `system` · **Milestone:** `Combat-capable` (advances exactly this gate)
+> **Type:** feature · **Priority:** Medium · **Labels:** `area/system` · **Milestone:** `Combat-capable` (advances exactly this gate)
 > Body: new capability, single shippable unit, not blocking > Medium.
 
 **Epic, Medium**
 
 > **Title:** Core combat resolution
-> **Type:** epic · **Priority:** Medium · **Labels:** `system` · **Milestone:** `Combat-capable`
+> **Type:** epic · **Priority:** Medium · **Labels:** `area/system` · **Milestone:** `Combat-capable`
 > Body: coordinates ~8 sub-issues (initiative, attack rolls, damage, defense, …), each filed separately and linked. Serves the `Combat-capable` gate alongside other work.
 
 **Task, Low**
 
 > **Title:** Bump Vitest to latest and refresh snapshots
-> **Type:** task · **Priority:** Low · **Labels:** `tests`, `devops` · **Milestone:** _(unset — serves no gate)_
+> **Type:** task · **Priority:** Low · **Labels:** `area/tests`, `area/devops` · **Milestone:** _(unset — serves no gate)_
 > Body: routine maintenance, deferrable > Low.
 
 **Spike, Medium**
 
 > **Title:** Evaluate migrating data model to Foundry v14 DataModel API
-> **Type:** spike · **Priority:** Medium · **Labels:** `system` · **Milestone:** _(unset — informs future work)_
+> **Type:** spike · **Priority:** Medium · **Labels:** `area/system` · **Milestone:** _(unset — informs future work)_
 > Body: **Question** — is the v14 DataModel API worth adopting now? **Timebox** — 1 day. **Deliverable** — written recommendation + rough migration cost. Follow-up issues to be filed from the finding.
 
 **Security, Urgent**
 
 > **Title:** (private advisory) Sanitize macro input in item description renderer
-> **Type:** bug · **Priority:** Urgent · **Labels:** `security`, `system`
+> **Type:** bug · **Priority:** Urgent · **Labels:** `flag/security`, `area/system`
 > Filed as a **private advisory**, not a public issue, because it's exploitable.
 
 ## 9. Which repository does an issue belong in? {#9-which-repository-does-an-issue-belong-in}
@@ -350,11 +339,11 @@ one tracks its own work.** There is no central tracker.
 | `Song-of-Heroic-Lands-FoundryVTT` | **This repository** — the system code, the `sohl` package, the system build | This document                                                                                                                  |
 | `sohl-thalorna`                   | The `thalorna` package — original setting content, and the `/thalorna` site | [its `.github/ISSUE_REPORTING.md`](https://github.com/HeroicLands/sohl-thalorna/blob/main/.github/ISSUE_REPORTING.md)          |
 | `sohl-kethira-basic`              | The `kethira` package — unofficial Hârn fan material, Foundry packs only    | [its `.github/ISSUE_REPORTING.md`](https://github.com/HeroicLands/sohl-kethira-basic/blob/main/.github/ISSUE_REPORTING.md)     |
-| `heroiclands-site`                | heroiclands.org — the Hugo site, Cloudflare Pages, the CDN                  | This document, via the `site` label                                                                                            |
+| `heroiclands-site`                | heroiclands.org — the Hugo site, Cloudflare Pages, the CDN                  | This document, via the `area/site` label                                                                                       |
 | `heroiclands-hugo-theme`          | The Hugo theme all three sites render through — layouts, partials, styling  | [its `.github/ISSUE_REPORTING.md`](https://github.com/HeroicLands/heroiclands-hugo-theme/blob/main/.github/ISSUE_REPORTING.md) |
 
 Only `heroiclands-site` has no tracker of its own: it is tracked here under the
-`site` label, and closed here. That is a choice about where the work is _watched_,
+`area/site` label, and closed here. That is a choice about where the work is _watched_,
 not a contradiction of the delivery rule below — the rule picks the repository among
 those that keep a backlog.
 
@@ -367,10 +356,8 @@ consumer's — the theme carries no addresses.
 **Every repository runs the same four axes.** Types and the Priority field are
 organization-level, so they are literally shared. The issue forms and the §1–§8 rules
 are duplicated into each repository and kept deliberately identical — a contributor
-who knows one tracker knows them all. Only the **label registry** differs, because a
-closed registry should describe what its repository can actually hold: the satellites
-carry no `system`, `tests`, or `thalorna` label, since they hold no system code and
-no test suite, and each is its own subject by definition.
+who knows one tracker knows them all. Labels are the same everywhere: they come from the organisation set in §3, and each
+repository applies the ones that fit what it holds.
 
 ### Choosing the repository
 
@@ -404,24 +391,15 @@ any tracked work, wherever it lands: a tracking issue in the delivering reposito
 correctly named branch, a verification step appropriate to that repository, updated
 documentation, and a description of what changed and why.
 
-### Historical note
-
-Until 2026-08-20 this repository was the single tracker for the whole project, and
-carried delivery-target labels (`thalorna`, `site`) so an issue filed here could say
-where its work would land. `sohl-thalorna` and `sohl-kethira-basic` now track their
-own work; the `thalorna` label is retired, and open issues carrying it were either
-transferred there or reclassified as work delivered here. `site` remains active,
-because `heroiclands-site` is still tracked from this repository.
-
 ## Self-check before filing
 
 You should confirm all of these before submitting an issue:
 
 - Exactly **one type** assigned, chosen via the §5 procedure.
 - A **priority** is set. If above Medium, the body justifies it in one line.
-- Every label comes from the §3 registry. **Zero** invented labels.
+- Every label comes from the organisation set in §3. **Zero** invented labels.
 - No label duplicates what the type, priority field, or milestone already says.
 - **Milestone** set only when the issue clearly advances one existing capability gate (§4); otherwise unset. **Never** invented.
 - Title is imperative and specific; body follows the §6 shape for its type. Title should not encode labels or other field information.
-- If `security` + exploitable > routed to **private advisory**, not a public issue (§7).
+- If `flag/security` + exploitable > routed to **private advisory**, not a public issue (§7).
 - If **epic** > sub-issues are linked. If **spike** > question and timebox are present.
