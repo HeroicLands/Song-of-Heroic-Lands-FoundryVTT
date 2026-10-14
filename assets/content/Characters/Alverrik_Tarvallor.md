@@ -15,11 +15,11 @@ data:
   weight: 82
   frame: heavy
   appearance:
-    eye_color: black
-    hair_color: black
-    skin_color: olive
-    complexion: olive_toned
-    extra_features: [a scar on the left shoulder]
+    eye_color: "black"
+    hair_color: "black"
+    skin_color: "olive"
+    extra_features: ["a scar on the left shoulder"]
+    complexion: ["scarred"]
   packFolder: pregens
 sohl:
   kbcat: npc

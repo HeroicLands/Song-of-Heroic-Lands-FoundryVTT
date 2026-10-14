@@ -15,11 +15,11 @@ data:
   weight: 68
   frame: medium
   appearance:
-    eye_color: hazel
-    hair_color: brown
-    skin_color: fair
-    complexion: freckled
-    extra_features: [boyish face that makes him look younger than his years, fidgets constantly]
+    eye_color: "hazel"
+    hair_color: "brown"
+    skin_color: "fair"
+    complexion: ["freckled"]
+    extra_features: []
   packFolder: pregens
 sohl:
   kbcat: npc

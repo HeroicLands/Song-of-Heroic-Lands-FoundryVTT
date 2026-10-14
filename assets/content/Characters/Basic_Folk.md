@@ -15,11 +15,11 @@ data:
   weight: 68
   frame: medium
   appearance:
-    eye_color: brown
-    hair_color: brown
-    skin_color: pale
-    complexion: fair
+    eye_color: "brown"
+    hair_color: "brown"
+    skin_color: "pale"
     extra_features: []
+    complexion: ["clear"]
   packFolder: archetypes
 sohl:
   kbcat: archetype

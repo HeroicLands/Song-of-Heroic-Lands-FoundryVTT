@@ -15,11 +15,11 @@ data:
   weight: 67
   frame: medium
   appearance:
-    eye_color: dark_brown
-    hair_color: blonde
-    skin_color: fair
-    complexion: weathered
-    extra_features: [missing tooth]
+    eye_color: "dark_brown"
+    hair_color: "blonde"
+    skin_color: "fair"
+    complexion: ["weathered"]
+    extra_features: ["missing tooth"]
   packFolder: pregens
 sohl:
   kbcat: npc
