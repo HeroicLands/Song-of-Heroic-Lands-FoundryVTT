@@ -46,6 +46,8 @@ export default defineConfig({
         ],
     },
     test: {
+        // Generates build/schema.json for the tests that read it.
+        globalSetup: ["./tests/global-setup.ts"],
         // One project. This repository consumes `@heroiclands/package-build`
         // from the registry, exactly as any other consumer resolves it, and it
         // does not run its own suite from this config.

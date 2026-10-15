@@ -39,6 +39,8 @@ npm run test:coverage  # Generate coverage report
 npm run test:purity    # Logic-layer purity smoke test (see below)
 ```
 
+Three test files assert against `build/schema.json`, the published DataModel field sets (`tests/core/archetype-schema.test.ts`, `tests/core/isdraft-schema.test.ts`, `tests/item/temporal-fields.test.ts`). The vitest `globalSetup` in `tests/global-setup.ts` runs `npm run build:schema` before every run, so `npm test` passes in a fresh worktree after `npm ci` alone. It regenerates rather than reusing an existing file, because the schema depends on the installed package-build as well as on `src/`, and generation takes about a second.
+
 Tests live in `tests/` mirroring the `src/` directory structure:
 
 ```
