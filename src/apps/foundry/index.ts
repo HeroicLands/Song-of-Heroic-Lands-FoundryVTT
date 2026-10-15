@@ -14,6 +14,7 @@
 // Namespace barrel — hand-maintained. `npm run lint` (check-ns-barrels)
 // verifies every sibling module and subfolder here is re-exported.
 
+export * from "./AssetPacksMenu";
 export * from "./BodyLocationConfig";
 export * from "./BodyPartConfig";
 export * from "./BodyZoneConfig";
@@ -21,6 +22,7 @@ export * from "./ExpressionLibraryMenu";
 export * from "./SohlContextMenu";
 export * from "./SohlTour";
 export * from "./StrikeModeConfig";
+export * from "./asset-packs";
 export * from "./credits";
 export * from "./date-picker-dialog";
 export * from "./draft-marks";

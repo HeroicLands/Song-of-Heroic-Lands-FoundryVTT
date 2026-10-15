@@ -15,5 +15,6 @@
 // verifies every sibling module and subfolder here is re-exported.
 
 export * from "./ContextMenuEntry";
+export * from "./asset-packs";
 export * from "./expression-library-view";
 export * from "./skill-reorder";

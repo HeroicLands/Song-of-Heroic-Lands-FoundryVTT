@@ -947,3 +947,47 @@ The fixture edits real Affliction and Trauma date fields, preserves seconds,
 checks formatted values, and exercises Clear and the basic-editor override.
 Restore the original world selection after this isolated check. Module
 installation and activation are setup steps, not automatic suite behavior.
+
+## Optional S3 asset-pack integration
+
+`asset-packs.cy.js` exercises asset packs against a `data` folder in the normal
+suite. `asset-packs-s3.cy.js` repeats the download path against an S3 folder and
+is excluded unless `SOHL_E2E_S3=1`. It needs three things beside the test
+container:
+
+- **An S3-compatible server** reachable at the same address from the browser and
+  from the Foundry container. The default is `http://s3.localhost:8333`
+  (`SOHL_E2E_S3_ENDPOINT` overrides it): Chromium resolves every `*.localhost`
+  name to loopback, where the server's port is published, and the Foundry
+  container reaches it through a shared Docker network on which the server
+  carries the alias `s3.localhost`.
+- **A bucket**, `sohl-e2e` by default (`SOHL_E2E_S3_BUCKET`), readable
+  anonymously, with CORS allowing `GET` and `HEAD` from the Foundry origin. The
+  test identities are in `cypress/s3/s3-identities.json`; the credentials are
+  test-only.
+- **Foundry's `awsConfig`**: `cypress/s3/aws-e2e.json` copied into the data
+  root's `Config/`, and `FOUNDRY_AWS_CONFIG=aws-e2e.json` in the environment
+  when the container is created (the harness passes every `FOUNDRY_*` variable
+  through), so `FilePicker.matchS3URL` recognises the bucket.
+
+With SeaweedFS as the server:
+
+```bash
+docker network create heroiclands-e2e
+docker run -d --name heroiclands-s3-test --network heroiclands-e2e \
+  --network-alias s3.localhost -p 8333:8333 \
+  -v "$PWD/cypress/s3/s3-identities.json:/etc/seaweedfs/s3.json:ro" \
+  chrislusf/seaweedfs:3.80 server -dir=/data -s3 -s3.port=8333 \
+  -s3.config=/etc/seaweedfs/s3.json -s3.allowedOrigins='*'
+docker exec heroiclands-s3-test sh -c \
+  'echo "s3.bucket.create -name sohl-e2e" | weed shell -master=localhost:9333'
+cp cypress/s3/aws-e2e.json "$FOUNDRYVTT_TEST_DATA/Config/"
+FOUNDRY_AWS_CONFIG=aws-e2e.json npm run e2e:fast -- --recreate --no-run
+docker network connect heroiclands-e2e heroiclands-foundry-test
+SOHL_E2E_S3=1 npm run e2e:fast -- --build=none \
+  --spec cypress/e2e/asset-packs-s3.cy.js
+```
+
+The second `e2e:fast` restarts Foundry after the network is connected, so its
+S3 client starts with the server reachable. Recreate the container without
+`FOUNDRY_AWS_CONFIG` afterwards to return it to the ordinary configuration.

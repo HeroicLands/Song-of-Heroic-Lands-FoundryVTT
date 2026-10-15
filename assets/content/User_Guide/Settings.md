@@ -90,6 +90,52 @@ The unit used for measuring overland travel distance (trekking, marching, sailin
 
 As with tactical distance, this is a display preference and does not affect the underlying mechanics.
 
+## Asset Packs {#AssetPacks}
+
+**Default:** every package uses the art it ships with
+
+An asset pack is a set of icons and images for one content package — the system or a module that ships its own art. Each package ships its **Default** pack. Other packs are published separately, each as a pack file at a web address; a package's own site lists the packs made for it.
+
+Open **Configure Asset Packs** to see one row per package:
+
+- **Pack** — the pack the package uses: **Default**, or a pack you have added.
+- **Add new…** — enter the address of a pack file. The file is read and stored in the world, and the pack becomes the package's selected pack. A file meant for another package, or one named `default.json`, is refused. Adding a pack downloads no art; adding the same address again replaces the stored copy, which is how a pack that has been updated is refreshed.
+- **Remove** — listed under a package's row for each added pack that is not selected. After a confirmation the pack leaves the list; the files it downloaded stay in their folder, and documents already pointing at them are unchanged. Default and the selected pack have no Remove button.
+- **Fix** — makes the world match every package's selected pack.
+
+Pressing **Fix** does the following for each package:
+
+1. **Default** needs nothing downloaded: every icon and image goes back to the files the package ships with.
+2. **Any other pack** asks for a folder in the world's storage — user data, an S3 bucket or the Forge Assets Library — offering the folder last used for that pack. A warning follows, because files in that folder's `icons/` and `images/` with the same names are overwritten. Cancelling either question leaves that package as it was.
+3. Fix downloads every file the pack lists that the folder lacks or holds at a different size, then points every actor, item, journal page, scene, macro and roll table in the world at the files. A report shows what was downloaded, what was already present, what failed, and how many documents changed.
+
+Things to know:
+
+- Nothing changes until you press **Fix**. Pressing it again changes nothing unless the pack or its folder has changed; a file that failed to download is tried again.
+- Use a different folder for each pack you keep, so switching between them downloads nothing.
+- A pack may cover only part of a package. Anything it does not cover keeps the package's own picture.
+- A picture you set by hand is never replaced. Neither is a token's randomly chosen image.
+- Documents you import from a compendium arrive pointing at the selected pack's files already downloaded; nothing is downloaded on import.
+- Compendiums are never changed: they show the package's own art.
+- Downloading needs permission to upload files.
+
+### Using asset packs on the Forge
+
+On the Forge the art lives in your Assets Library, so nothing is added to the packages themselves:
+
+1. Open **Configure Asset Packs**, press **Add new…** beside the package, and enter the pack file's address.
+2. Press **Fix**. The Forge's file picker opens on your Assets Library; choose or create a folder for the pack.
+3. Confirm the overwrite warning. Fix uploads each file into that folder through your own Forge login — no API key is involved — and points the world at the uploaded files.
+
+Pictures stored in the Assets Library do not count against the allowance for private modules, so a pack's art stays within the Forge's free allowance.
+
+### Overwriting in place
+
+A GM who runs Foundry on their own machine can replace a package's art directly. Unzip a pack's `icons.zip` and `images.zip` over the package's `icons/` and `images/` folders. Every picture then changes everywhere the package's art is used, compendiums included, and Fix is not needed.
+
+- It cannot work on the Forge, where a listed package is one shared read-only copy.
+- Every update of the package restores its own art and undoes the overwrite.
+
 # Player Settings {#PlayerSettings}
 
 Player settings are configured independently by each user and only affect that user's client. They are found under **Settings > Configure Settings > System Settings**.

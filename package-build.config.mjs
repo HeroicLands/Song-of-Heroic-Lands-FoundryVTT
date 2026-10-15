@@ -117,14 +117,6 @@ const options = {
                 to: "assets/audio",
             },
             {
-                from: "assets/icons",
-                to: "assets/icons",
-            },
-            {
-                from: "assets/images",
-                to: "assets/images",
-            },
-            {
                 from: "assets/fonts",
                 to: "assets/fonts",
             },

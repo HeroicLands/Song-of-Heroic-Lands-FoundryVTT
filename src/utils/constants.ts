@@ -235,67 +235,67 @@ export const {
 } = defineType("SOHL.Item.METADATA", {
     affiliation: {
         IconCssClass: "fa-solid fa-certificate",
-        Image: "systems/sohl/assets/icons/other/peoplegroup.svg",
+        Image: "systems/sohl/icons/peoplegroup.svg",
         KeyChoices: [] as StrictObject<string>[],
     },
     affliction: {
         IconCssClass: "fa-solid fa-disease",
-        Image: "systems/sohl/assets/icons/game-icons/lorc/oppression.svg",
+        Image: "systems/sohl/icons/oppression.svg",
         KeyChoices: [] as StrictObject<string>[],
     },
     armorgear: {
         IconCssClass: "fa-solid fa-shield-halved",
-        Image: "systems/sohl/assets/icons/noun/armor.svg",
+        Image: "systems/sohl/icons/armor.svg",
         KeyChoices: [] as StrictObject<string>[],
     },
     attribute: {
         IconCssClass: "fa-solid fa-user-gear",
-        Image: "systems/sohl/assets/icons/other/usergear.svg",
+        Image: "systems/sohl/icons/usergear.svg",
         KeyChoices: [] as StrictObject<string>[],
     },
     concoctiongear: {
         IconCssClass: "fa-solid fa-bottle-droplet",
-        Image: "systems/sohl/assets/icons/other/potion.svg",
+        Image: "systems/sohl/icons/potion.svg",
         KeyChoices: [] as StrictObject<string>[],
     },
     containergear: {
         IconCssClass: "ginf-chest",
-        Image: "systems/sohl/assets/icons/other/sack.svg",
+        Image: "systems/sohl/icons/sack.svg",
         KeyChoices: [] as StrictObject<string>[],
     },
     trauma: {
         IconCssClass: "fa-solid fa-user-injured",
-        Image: "systems/sohl/assets/icons/other/injury.svg",
+        Image: "systems/sohl/icons/injury.svg",
         KeyChoices: [] as StrictObject<string>[],
     },
     miscgear: {
         IconCssClass: "ginf-stockpiles",
-        Image: "systems/sohl/assets/icons/other/miscgear.svg",
+        Image: "systems/sohl/icons/miscgear.svg",
         KeyChoices: [] as StrictObject<string>[],
     },
     mystery: {
         IconCssClass: "ginf-sparkles",
-        Image: "systems/sohl/assets/icons/game-icons/delapouite/sparkles.svg",
+        Image: "systems/sohl/icons/sparkles.svg",
         KeyChoices: [] as StrictObject<string>[],
     },
     mysticalability: {
         IconCssClass: "fa-solid fa-hand-sparkles",
-        Image: "systems/sohl/assets/icons/other/handsparkles.svg",
+        Image: "systems/sohl/icons/handsparkles.svg",
         KeyChoices: [] as StrictObject<string>[],
     },
     projectilegear: {
         IconCssClass: "ginf-bow-arrow",
-        Image: "systems/sohl/assets/icons/noun/arrow.svg",
+        Image: "systems/sohl/icons/arrow.svg",
         KeyChoices: [] as StrictObject<string>[],
     },
     skill: {
         IconCssClass: "ginf-skills",
-        Image: "systems/sohl/assets/icons/other/headgear.svg",
+        Image: "systems/sohl/icons/headgear.svg",
         KeyChoices: [] as StrictObject<string>[],
     },
     weapongear: {
         IconCssClass: "ginf-broadsword",
-        Image: "systems/sohl/assets/icons/other/sword.svg",
+        Image: "systems/sohl/icons/sword.svg",
         KeyChoices: [] as StrictObject<string>[],
     },
 });
@@ -318,22 +318,22 @@ export const {
 } = defineType("SOHL.Actor.METADATA", {
     being: {
         IconCssClass: "fa-solid fa-user",
-        Image: "systems/sohl/assets/icons/game-icons/delapouite/person.svg",
+        Image: "systems/sohl/icons/person.svg",
         KeyChoices: [] as StrictObject<string>[],
     },
     cohort: {
         IconCssClass: "fa-solid fa-people-group",
-        Image: "systems/sohl/assets/icons/other/peoplegroup.svg",
+        Image: "systems/sohl/icons/peoplegroup.svg",
         KeyChoices: [] as StrictObject<string>[],
     },
     structure: {
         IconCssClass: "fa-solid fa-building-columns",
-        Image: "systems/sohl/assets/icons/game-icons/delapouite/house.svg",
+        Image: "systems/sohl/icons/house.svg",
         KeyChoices: [] as StrictObject<string>[],
     },
     vehicle: {
         IconCssClass: "ginf-old-wagon",
-        Image: "systems/sohl/assets/icons/game-icons/delapouite/oldwagon.svg",
+        Image: "systems/sohl/icons/oldwagon.svg",
         KeyChoices: [] as StrictObject<string>[],
     },
 });

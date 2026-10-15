@@ -71,9 +71,10 @@ describe("pack pipeline severance from src/", () => {
     });
 
     it("shares the default-art map with the runtime from the build package", () => {
-        // The map holds pathnames — a statement of which package owns the file
-        // — and every surface derives its own address from one.
-        expect(DEFAULT_ITEM_ART.weapongear).toBe("sohl/assets/icons/other/sword.svg");
+        // The map holds the deployed form of a file's path — the owning package,
+        // then the flat icons location — and every surface derives its own
+        // address from one.
+        expect(DEFAULT_ITEM_ART.weapongear).toBe("sohl/icons/sword.svg");
     });
 
     it("keeps the shared standings list identical to the runtime enum", () => {

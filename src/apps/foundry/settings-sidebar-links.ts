@@ -61,7 +61,7 @@ export const SETTINGS_LINKS_TEMPLATE = "systems/sohl/templates/apps/settings-lin
 export const SETTINGS_LINKS_MARKER = "data-sohl-links";
 
 /**
- * The coiled-dragon emblem. Ships as a solid black SVG under `assets/icons/`,
+ * The coiled-dragon emblem. Ships as a solid black SVG under `icons/`,
  * which the build (`package-build assets`, its `svg-theme` transform) recolors to adapt to
  * light/dark mode, so the same mark reads as ink on the light settings sidebar
  * and cream on the dark one.
@@ -71,7 +71,7 @@ export const SETTINGS_LINKS_MARKER = "data-sohl-links";
  * Trademarks & Service Marks section of LICENSE.md (and
  * assets/icons/brand/NOTICE.md). Do not relicense or repurpose it.
  */
-export const SOHL_EMBLEM_PATH = "systems/sohl/assets/icons/brand/sohldragon.svg";
+export const SOHL_EMBLEM_PATH = "systems/sohl/icons/sohldragon.svg";
 
 /**
  * The inline entries, in display order, each paired with its `lang/en.json`

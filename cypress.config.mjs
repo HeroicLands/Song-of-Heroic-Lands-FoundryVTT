@@ -32,16 +32,26 @@ const port = resolveStagePort(buildConfig.e2eStage, {
 });
 const { worldId, gmId, gmName, gmPassword } = resolveE2EWorld(buildConfig);
 
+// The S3 spec needs an S3-compatible server set up as the testing guide
+// describes ("Optional S3 asset-pack integration"); it is selected
+// explicitly, like Calendaria's.
+const s3 = {
+    s3Endpoint: process.env.SOHL_E2E_S3_ENDPOINT ?? "http://s3.localhost:8333",
+    s3Bucket: process.env.SOHL_E2E_S3_BUCKET ?? "sohl-e2e",
+};
+
 export default defineConfig({
-    expose: { worldId, gmId, gmName },
+    expose: { worldId, gmId, gmName, ...s3 },
     env: { gmPassword },
     e2e: {
         baseUrl: `http://localhost:${port}`,
         supportFile: "cypress/support/e2e.js",
         specPattern: "cypress/e2e/**/*.cy.js",
         // Optional-module proof is selected explicitly in a dedicated test world.
-        excludeSpecPattern:
-            process.env.SOHL_E2E_CALENDARIA === "1" ? [] : ["**/calendaria-date-picker.cy.js"],
+        excludeSpecPattern: [
+            ...(process.env.SOHL_E2E_CALENDARIA === "1" ? [] : ["**/calendaria-date-picker.cy.js"]),
+            ...(process.env.SOHL_E2E_S3 === "1" ? [] : ["**/asset-packs-s3.cy.js"]),
+        ],
         // Specs log in once (in `before`) and persist the game session across
         // their tests, resetting world state (documents) rather than the page
         // between tests. The default (true) would reload to about:blank between

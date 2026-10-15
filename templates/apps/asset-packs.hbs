@@ -1,0 +1,59 @@
+{{!--
+This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.org>
+
+Licensed under the GNU General Public License v3.0 (GPLv3).
+You may copy, modify, and distribute this file under the terms of that license.
+
+See LICENSE.md in the project root or:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+SPDX-License-Identifier: GPL-3.0-or-later
+--}}
+
+<section class="asset-packs">
+    <p class="hint">{{localize "SOHL.AssetPacks.hint"}}</p>
+    {{#each packages}}
+    <fieldset class="asset-packs__package" data-package="{{this.pkg}}">
+        <legend>{{this.title}}</legend>
+        <div class="form-group">
+            <label for="sohl-asset-pack-{{this.pkg}}">{{localize "SOHL.AssetPacks.pack"}}</label>
+            <div class="form-fields">
+                <select id="sohl-asset-pack-{{this.pkg}}" name="pack.{{this.pkg}}">
+                    {{#each this.options}}
+                    <option value="{{this.value}}" {{#if this.selected}}selected{{/if}}>{{this.label}}</option>
+                    {{/each}}
+                </select>
+                <button type="button" data-action="addPack" data-package="{{this.pkg}}">
+                    <i class="fa-solid fa-plus" inert></i>
+                    {{localize "SOHL.AssetPacks.Add.button"}}
+                </button>
+            </div>
+            {{#if this.removable.length}}
+            <ul class="asset-packs__removable">
+                {{#each this.removable}}
+                <li>
+                    <span>{{this.name}}</span>
+                    <button type="button" data-action="removePack" data-package="{{../pkg}}" data-url="{{this.url}}" data-name="{{this.name}}">
+                        <i class="fa-solid fa-trash" inert></i>
+                        {{localize "SOHL.AssetPacks.Remove.button"}}
+                    </button>
+                </li>
+                {{/each}}
+            </ul>
+            {{/if}}
+            {{#if this.folder}}
+            <p class="hint">{{localize "SOHL.AssetPacks.folder"}}: <code>{{this.folder}}</code></p>
+            {{/if}}
+        </div>
+    </fieldset>
+    {{else}}
+    <p class="hint">{{localize "SOHL.AssetPacks.none"}}</p>
+    {{/each}}
+    <footer class="form-footer">
+        <button type="button" data-action="fix">
+            <i class="fa-solid fa-wand-magic-sparkles" inert></i>
+            {{localize "SOHL.AssetPacks.Fix.button"}}
+        </button>
+    </footer>
+</section>

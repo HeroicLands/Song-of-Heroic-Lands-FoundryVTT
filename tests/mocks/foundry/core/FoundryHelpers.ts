@@ -121,6 +121,38 @@ export function fvttGetSetting(_module: string, _key: string): unknown {
     return undefined;
 }
 
+export type FvttFileSource = "data" | "s3" | "forgevtt";
+
+export function fvttFileStorageEnv(_folder: string): {
+    forgePrefix?: string;
+    s3?: { bucket: string; key: string };
+} {
+    return {};
+}
+
+export async function fvttBrowseFiles(
+    _source: FvttFileSource,
+    _path: string,
+    _bucket?: string,
+): Promise<{ files: string[]; dirs: string[] }> {
+    return { files: [], dirs: [] };
+}
+
+export async function fvttCreateDirectory(
+    _source: FvttFileSource,
+    _path: string,
+    _bucket?: string,
+): Promise<void> {}
+
+export async function fvttUploadFile(
+    _source: FvttFileSource,
+    _path: string,
+    _file: File,
+    _bucket?: string,
+): Promise<string | undefined> {
+    return undefined;
+}
+
 export async function fvttSetSetting(
     _module: string,
     _key: string,

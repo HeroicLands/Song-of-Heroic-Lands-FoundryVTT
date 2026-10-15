@@ -65,8 +65,16 @@ function skipped(rel: string): boolean {
     return injectAdaptiveFill(src) === src;
 }
 
-/** `systems/sohl/assets/…` (a Foundry path) → repo-relative. */
-const toRepoPath = (image: string) => image.replace(/^systems\/sohl\//, "");
+/**
+ * `systems/sohl/icons/<basename>` (a deployed Foundry path) → the repo-relative
+ * source file, found by basename: the deployed layout is flat, and basenames
+ * are unique per package and type.
+ */
+function toRepoPath(image: string): string {
+    const base = image.slice(image.lastIndexOf("/") + 1);
+    const matches = bundledIcons().filter((rel) => path.basename(rel) === base);
+    return matches.length === 1 ? matches[0] : `assets/icons/${base}`;
+}
 
 describe("bundled icon dark-mode theming", () => {
     it("finds the bundled icon set", () => {

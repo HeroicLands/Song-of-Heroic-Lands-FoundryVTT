@@ -306,6 +306,96 @@ export function fvttSetSetting(module: string, key: string, value: unknown): Pro
     return (game as any).settings.set(module, key, value);
 }
 
+/** A Foundry file storage: user data, an S3 bucket, or the Forge Assets Library. */
+export type FvttFileSource = "data" | "s3" | "forgevtt";
+
+/**
+ * What decides a folder's storage: the Forge Assets Library prefix when
+ * running on the Forge, and the folder's S3 bucket and key when it is an S3
+ * URL of the configured endpoint.
+ * @param folder - Folder path or URL.
+ * @returns The Forge prefix and S3 match, each when present.
+ */
+export function fvttFileStorageEnv(folder: string): {
+    forgePrefix?: string;
+    s3?: { bucket: string; key: string };
+} {
+    const forge = (globalThis as any).ForgeVTT;
+    const forgePrefix: string | undefined =
+        forge?.usingTheForge ? forge.ASSETS_LIBRARY_URL_PREFIX : undefined;
+    let s3: { bucket: string; key: string } | undefined;
+    try {
+        const m = filePickerClass().matchS3URL(folder);
+        if (m?.groups) s3 = { bucket: m.groups.bucket, key: m.groups.key };
+    } catch {
+        s3 = undefined;
+    }
+    return { ...(forgePrefix ? { forgePrefix } : {}), ...(s3 ? { s3 } : {}) };
+}
+
+/**
+ * The configured FilePicker class.
+ * @returns The class.
+ */
+function filePickerClass(): any {
+    return (foundry.applications.apps as any).FilePicker.implementation;
+}
+
+/**
+ * List a folder. The `forgevtt` source is registered by the Forge's client
+ * module and authenticates with the user's session.
+ * @param source - Storage.
+ * @param path - Folder within the storage.
+ * @param bucket - S3 bucket, for `s3`.
+ * @returns The folder's files and subfolders.
+ */
+export async function fvttBrowseFiles(
+    source: FvttFileSource,
+    path: string,
+    bucket?: string,
+): Promise<{ files: string[]; dirs: string[] }> {
+    const result = await filePickerClass().browse(source, path, bucket ? { bucket } : {});
+    return { files: result?.files ?? [], dirs: result?.dirs ?? [] };
+}
+
+/**
+ * Create one folder level.
+ * @param source - Storage.
+ * @param path - Folder within the storage; its parent must exist.
+ * @param bucket - S3 bucket, for `s3`.
+ */
+export async function fvttCreateDirectory(
+    source: FvttFileSource,
+    path: string,
+    bucket?: string,
+): Promise<void> {
+    await filePickerClass().createDirectory(source, path, bucket ? { bucket } : {});
+}
+
+/**
+ * Upload a file into a folder, replacing a file of the same name.
+ * @param source - Storage.
+ * @param path - Folder within the storage.
+ * @param file - The file; its name is kept.
+ * @param bucket - S3 bucket, for `s3`.
+ * @returns The uploaded file's path or URL, when the server reports one.
+ * @throws When the server refuses the upload.
+ */
+export async function fvttUploadFile(
+    source: FvttFileSource,
+    path: string,
+    file: File,
+    bucket?: string,
+): Promise<string | undefined> {
+    const result = await filePickerClass().upload(source, path, file, bucket ? { bucket } : {}, {
+        notify: false,
+    });
+    if (!result || result.status === "error") {
+        throw new Error(result?.message ?? "upload refused");
+    }
+    return typeof result.path === "string" ? result.path : undefined;
+}
+
 /**
  * Read the running system's identity and external links from `game.system`.
  *

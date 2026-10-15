@@ -1,0 +1,10 @@
+{
+    "identities": [
+        { "name": "anonymous", "actions": ["Read"] },
+        {
+            "name": "e2e",
+            "credentials": [{ "accessKey": "sohl-e2e", "secretKey": "sohl-e2e-secret" }],
+            "actions": ["Admin", "Read", "List", "Tagging", "Write"]
+        }
+    ]
+}

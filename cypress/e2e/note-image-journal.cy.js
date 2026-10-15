@@ -7,7 +7,7 @@
 import { toRealm } from "../support/resolve";
 
 const NAME = "Journal Image Layout Test";
-const IMAGE = "systems/sohl/assets/icons/game-icons/cathelineau/dread.svg";
+const IMAGE = "systems/sohl/icons/dread.svg";
 
 describe("note images in a Foundry journal", () => {
     before(() => cy.login());

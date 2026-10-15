@@ -35,6 +35,7 @@ import { registerDraftMarkHooks } from "@src/apps/foundry/draft-marks";
 import { wireSohlHookBridge } from "@src/core/logic/SohlHookBridge";
 import { ExpressionLibraryMenu } from "@src/apps/foundry/ExpressionLibraryMenu";
 import { registerCreditsMenu } from "@src/apps/foundry/credits";
+import { registerAssetPacks } from "@src/apps/foundry/AssetPacksMenu";
 import { registerSystemTours } from "@src/apps/foundry/tours/register-tours";
 import { postWelcomeCard } from "@src/apps/foundry/welcome-card";
 import { injectSettingsLinks } from "@src/apps/foundry/settings-sidebar-links";
@@ -432,6 +433,7 @@ function registerSystemHooks() {
     console.log(`SoHL | ${initMessage}`);
 
     registerSystemSettings();
+    registerAssetPacks();
 
     // Bind the runtime namespace tree onto the `sohl` global. Done here (the
     // last-loaded module) rather than in SohlSystem so importing these barrels —
