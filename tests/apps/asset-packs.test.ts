@@ -37,7 +37,7 @@ import {
 } from "@src/apps/logic/asset-packs";
 import type { AssetEntry, DOMParserLike } from "@src/utils/asset-rewrite";
 
-const URL_A = "https://cdn.example/thalorna/ai-art.json";
+const URL_A = "https://cdn.example/thalorna/alt-art.json";
 const INSTALL = "modules/thalorna/";
 
 const entry = (address: string, target: string, size = 10): AssetEntry => ({
@@ -69,7 +69,7 @@ const pack = (over: Partial<AssetPackFile> = {}): AssetPackFile => ({
 
 describe("packFileName", () => {
     it("is the URL's last path segment, without query or fragment", () => {
-        expect(packFileName("https://x.example/a/b/ai-art.json?v=2#top")).toBe("ai-art.json");
+        expect(packFileName("https://x.example/a/b/alt-art.json?v=2#top")).toBe("alt-art.json");
         expect(packFileName("worlds/w/packs/my%20art.json")).toBe("my art.json");
     });
 });
