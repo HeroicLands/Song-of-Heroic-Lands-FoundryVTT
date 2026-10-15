@@ -38,7 +38,7 @@ Reach is what the technique adds to the fighter's own bodily reach, so a bite or
 
 Four of these describe **anatomy** and four describe **a rule**. Punch, Kick, Headbutt and Bite say what a human fist, foot, skull and jaw do, and mean nothing on a creature built differently — a bear's paw is not a punch and a wolf's bite is not a person's. Grab, Press, Trip and Limb Block inflict no damage of their own, so their rules hold for any creature with the limbs to perform them.
 
-**Other creatures fight with their own techniques**, derived from their own anatomy and their own Strength: claws, gores, tail lashes, talons, stings, constricting coils, breath. Where such a creature does share a name with a folk technique — a bite is a bite — it does not share the numbers. See the [[doc-bestiary|Bestiary]].
+**Other creatures fight with their own techniques**, derived from their own anatomy and their own Strength: claws, gores, tail lashes, talons, stings, constricting coils, breath. Where such a creature does share a name with a folk technique — a bite is a bite — it does not share the numbers.
 
 ## The Strength Trial {#the-strength-trial}
 

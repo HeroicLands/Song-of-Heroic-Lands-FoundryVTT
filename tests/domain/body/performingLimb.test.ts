@@ -71,8 +71,7 @@ function person(over: { left?: Partial<Part>; right?: Partial<Part> } = {}) {
 }
 
 /**
- * A wolf, shaped as `Bestiary/Animal/Gray_Wolf.md` authors it: the head carries
- * `manipulator` because the bite is how a wolf takes hold of things, and no
+ * A wolf: the head carries `manipulator` because the bite is how a wolf takes hold of things, and no
  * part of it can grip.
  */
 function wolf() {

@@ -34,7 +34,6 @@ Read the chapters in the order below. Each is written on the terms the ones befo
 8. **[[doc-combatintro|Combat]]** — the most rules-dense part of play, and the one with the most at stake. An exchange is a single contest between attacker and defender; everything else hangs off that comparison.
 9. **[[doc-traumaintro|Trauma]]** — what a blow leaves behind, and everything else that harms a character: injury, bleeding, shock, sickness, fear, and the slow business of recovering from any of them.
 10. **[[doc-estrcint|Esoterica]]** — the supernatural, in two parts: the standing conditions a character _is_ subject to ([[doc-mysteryintro|Mysteries]]), and the acts a character _performs_ ([[doc-mystabilintro|Mystical Abilities]]).
-11. **[[doc-bestiary|Bestiary]]** — the animals of the world, and what they can do to a character who misjudges them.
 
 The **[[doc-glossary|Glossary]]** indexes every term these chapters define, and is meant to be jumped into rather than read: when a chapter uses a word as though you already know it, look it up there.
 
@@ -97,12 +96,6 @@ The chapter indexes below list pages alphabetically within each group; the readi
 ### Esoterica
 
 ```pagelist {tag="rules-esoterica" type=doc sort=name descriptions=true}
-
-```
-
-### Bestiary
-
-```pagelist {tag="rules-bestiary" type=doc sort=name descriptions=true}
 
 ```
 

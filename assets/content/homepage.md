@@ -73,10 +73,9 @@ it implements.
 
 ### What it ships with
 
-Hundreds of ready creatures and items to drag onto a sheet, each documented
+Hundreds of ready characters and items to drag onto a sheet, each documented
 exactly as it is implemented.
 
-- [Beings](doc-bestiary/) — every creature and character it ships
 - [Weapons](doc-weapongear/)
 - [Armour and clothing](doc-armorgear/)
 - [Skills and attributes](doc-skill/)

@@ -19,9 +19,9 @@ SoHL ships with these compendium packs:
 
 ## People & Creatures
 
-Contains pre-built Beings — archetypes, named NPCs, and creatures ready to use. Each Being comes fully equipped with attributes, skills, body structure, and sometimes gear.
+Contains pre-built Beings — archetypes and named NPCs ready to use. Each Being comes fully equipped with attributes, skills, body structure, and sometimes gear.
 
-The pack's animals are catalogued on the [[doc-bestiary|Bestiary]] rules page rather than repeated here. Beyond them, it carries:
+Animals are in the Thalorna setting's compendium. This pack carries:
 
 ```sql
 SELECT address.slug AS _ref,

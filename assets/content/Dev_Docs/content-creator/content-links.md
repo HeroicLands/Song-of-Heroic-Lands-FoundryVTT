@@ -230,7 +230,7 @@ uses — this one is on the other end of it.
 An address that resolves in no package is a typo and **fails the build**:
 
 ```text
-Bestiary/Animal/Giraffe.md:337:29: error: address [[doc-xerathia]] resolves to no note — no package publishes it.
+Rules/Combat/Unarmed_Combat.md:41:12: error: address [[doc-xerathia]] resolves to no note — no package publishes it.
 ```
 
 `npm run lint:content-links` (part of `npm run lint`, so it gates every build) is

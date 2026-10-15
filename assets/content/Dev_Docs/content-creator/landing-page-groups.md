@@ -37,7 +37,6 @@ Tags follow the existing chapter names and landing headings, with a context pref
 | `rules-combat`                                           | [[doc-rulesintro\|Combat]]                             |
 | `rules-trauma`                                           | [[doc-rulesintro\|Trauma]]                             |
 | `rules-esoterica`                                        | [[doc-rulesintro\|Esoterica]]                          |
-| `rules-bestiary`                                         | [[doc-rulesintro\|Bestiary]]                           |
 | `rules-glossary`                                         | [[doc-rulesintro\|Glossary]]                           |
 | `guide-quickstart`                                       | [[doc-userguide\|Quickstart]]                          |
 | `guide-setting-up-a-world`                               | [[doc-userguide\|Setting up a world]]                  |

@@ -106,7 +106,7 @@ it are not part of the address:
 
 ```text
 assets/icons/game-icons/lorc/anvil.svg      →  sohl-none-icon-anvil
-assets/images/beings/creatures/mntrlzrd.webp →  sohl-none-image-mntrlzrd
+assets/images/tutorial/tutorialgrukar.svg   →  sohl-none-image-tutorialgrukar
 ```
 
 Three consequences follow.
@@ -315,7 +315,7 @@ other.
 | Item icon          | SVG    | every type default is an SVG                         |
 | Actor icon / token | SVG    | `icon` feeds the actor and its prototype token       |
 | Portrait           | WebP   | the lead image of the note's `{#appearance}` section |
-| Creature art       | WebP   | under `images/beings/creatures/`                     |
+| Tutorial art       | SVG    | under `images/tutorial/`                             |
 | Map background     | JPEG   | `images/ui/parchment.jpg`, 512×512                   |
 | UI / branding      | WebP   | a responsive set under `assets/ui`                   |
 
