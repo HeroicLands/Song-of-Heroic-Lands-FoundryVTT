@@ -116,11 +116,12 @@ describe("asset packs (S3 storage)", () => {
             win.__fix = ap(win).runFix();
             return null;
         });
-        cy.window().should((win) => {
-            expect(openPicker(win)?.element?.querySelector('input[name="file"]')).to.exist;
+        cy.window({ timeout: 12000 }).should((win) => {
+            const picker = openPicker(win);
+            expect(picker?.element?.querySelector('input[name="file"]')).to.exist;
+            // The listing has loaded, so its filter has run before the picker re-renders.
+            expect(picker.result, "picker listing").to.exist;
         });
-        // Let the picker's debounced listing filter run before re-rendering it.
-        cy.wait(500);
         cy.foundry(async (win) => {
             const picker = openPicker(win);
             expect(picker.sources.s3, "the picker offers S3").to.exist;
@@ -130,7 +131,11 @@ describe("asset packs (S3 storage)", () => {
             await picker.render();
             return null;
         });
-        cy.wait(500);
+        cy.window({ timeout: 12000 }).should((win) => {
+            const picker = openPicker(win);
+            expect(picker.activeSource).to.equal("s3");
+            expect(picker.element?.querySelector('input[name="file"]')).to.exist;
+        });
         cy.foundry((win) => {
             const picker = openPicker(win);
             picker.element.querySelector('input[name="file"]').value = KEY;

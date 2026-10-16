@@ -32,15 +32,25 @@ function actorRef(win, actor) {
 }
 
 /**
+ * Longest an awaited Foundry call may take. Document creation, pack loading and
+ * file uploads are network round-trips, so they get their own bound rather than
+ * the 4 s default for a DOM query.
+ */
+const FOUNDRY_CALL_TIMEOUT = 30000;
+
+/**
  * Run `fn(win)` against the live game client and yield its resolved value through
  * the command queue. `fn` may be sync or async; either way the result is awaited.
  *
  * @param {(win: Window) => any | Promise<any>} fn
+ * @param {{timeout?: number}} [options] - `timeout` bounds the awaited call, in ms.
  */
-Cypress.Commands.add("foundry", (fn) =>
+Cypress.Commands.add("foundry", (fn, { timeout = FOUNDRY_CALL_TIMEOUT } = {}) =>
     cy
-        .window({ log: false })
-        .then((win) => cy.wrap(Cypress.Promise.resolve(fn(win)), { log: false })),
+        .window({ log: false, timeout })
+        .then({ timeout }, (win) =>
+            cy.wrap(Cypress.Promise.resolve(fn(win)), { log: false, timeout }),
+        ),
 );
 
 /**

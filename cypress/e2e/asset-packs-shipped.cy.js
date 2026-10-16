@@ -21,7 +21,8 @@
 import { tagName } from "../support/factories/ids.js";
 import { toRealm } from "../support/resolve.js";
 
-const JOURNAL_ID = "da819734d9127a24";
+/** A shipped journal whose pages embed an image through its asset address. */
+const JOURNAL_NAME = "Understanding Sheets";
 
 describe("asset packs (shipped pack)", () => {
     const ids = {};
@@ -68,10 +69,12 @@ describe("asset packs (shipped pack)", () => {
                 toRealm(win, { name: tagName("Torch") }),
             );
             ids.item = item.id;
+            const journals = win.game.packs.get("sohl.journals");
+            const journalEntry = (await journals.getIndex()).find((e) => e.name === JOURNAL_NAME);
             const journal = await win.game.journal.importFromCompendium(
-                win.game.packs.get("sohl.journals"),
-                JOURNAL_ID,
-                toRealm(win, { name: tagName("Cobra") }),
+                journals,
+                journalEntry._id,
+                toRealm(win, { name: tagName("Sheets") }),
             );
             ids.journal = journal.id;
             const html = journal.pages.contents.map((p) => p.text?.content ?? "").join("");
@@ -87,8 +90,8 @@ describe("asset packs (shipped pack)", () => {
         }).then((r) => {
             expect(r.itemFlag).to.match(/^sohl-none-icon-/);
             expect(r.itemImg).to.match(/^systems\/sohl\/icons\/[^/]+$/);
-            expect(r.journalAsset).to.equal("sohl-none-image-cobra");
-            expect(r.journalSrc).to.equal("systems/sohl/images/cobra.webp");
+            expect(r.journalAsset).to.equal("sohl-none-image-actorbeing");
+            expect(r.journalSrc).to.equal("systems/sohl/images/actorbeing.png");
             cy.request({ url: `/${r.itemImg}`, method: "HEAD" })
                 .its("status")
                 .should("eq", 200);

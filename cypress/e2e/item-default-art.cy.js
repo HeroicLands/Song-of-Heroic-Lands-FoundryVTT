@@ -20,9 +20,9 @@ describe("item default artwork", () => {
                 noType: Cls.getDefaultArtwork({}).img,
             };
         }).should((art) => {
-            expect(art.trauma).to.eq("systems/sohl/assets/icons/other/injury.svg");
-            expect(art.affliction).to.eq("systems/sohl/assets/icons/other/sick.svg");
-            expect(art.weapongear).to.eq("systems/sohl/assets/icons/other/sword.svg");
+            expect(art.trauma).to.eq("systems/sohl/icons/injury.svg");
+            expect(art.affliction).to.eq("systems/sohl/icons/sick.svg");
+            expect(art.weapongear).to.eq("systems/sohl/icons/sword.svg");
             // Unknown/`base`/typeless fall back to Foundry's default (no throw).
             expect(art.unknown).to.eq(BAG);
             expect(art.noType).to.eq(BAG);
@@ -33,7 +33,7 @@ describe("item default artwork", () => {
         cy.importActor().as("actor");
         cy.then(function () {
             cy.createItemOn(this.actor, "trauma", { name: "Gash" }).should((item) => {
-                expect(item.img).to.eq("systems/sohl/assets/icons/other/injury.svg");
+                expect(item.img).to.eq("systems/sohl/icons/injury.svg");
                 expect(item.img).to.not.eq(BAG);
             });
         });
@@ -45,7 +45,7 @@ describe("item default artwork", () => {
             cy.createItemOn(this.actor, "affliction", {
                 name: "Ague",
             }).should((item) => {
-                expect(item.img).to.eq("systems/sohl/assets/icons/other/sick.svg");
+                expect(item.img).to.eq("systems/sohl/icons/sick.svg");
                 expect(item.img).to.not.eq(BAG);
             });
         });
@@ -53,7 +53,7 @@ describe("item default artwork", () => {
 
     it("a world (unowned) item created without an img gets its themed default", () => {
         cy.createWorldItem("weapongear", { name: "Blade" }).should((item) => {
-            expect(item.img).to.eq("systems/sohl/assets/icons/other/sword.svg");
+            expect(item.img).to.eq("systems/sohl/icons/sword.svg");
             expect(item.img).to.not.eq(BAG);
         });
     });

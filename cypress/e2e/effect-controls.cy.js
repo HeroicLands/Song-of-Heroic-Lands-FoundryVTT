@@ -52,11 +52,13 @@ describe("active-effect controls", () => {
             cy.switchTab("effects", "primary");
             cy.get(`${EFFECTS} [data-action="effectCreate"]`).first().click();
             // createEffect resolves asynchronously; poll the document.
-            cy.foundry((win) => win.game.actors.get(actor.id).effects.contents.length).should(
-                "be.greaterThan",
+            cy.window({ log: false, timeout: 12000 }).should((win) => {
+                expect(win.game.actors.get(actor.id).effects.contents.length).to.be.greaterThan(0);
+            });
+            cy.get(`${EFFECTS} .effects__row`, { timeout: 12000 }).should(
+                "have.length.greaterThan",
                 0,
             );
-            cy.get(`${EFFECTS} .effects__row`).should("have.length.greaterThan", 0);
         });
     });
 

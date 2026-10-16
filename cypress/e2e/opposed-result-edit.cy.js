@@ -47,23 +47,21 @@ const RESULT_CARD = "systems/sohl/templates/chat/opposed-result-card.hbs";
  * out of the message's own stored content in the game realm. `null` until the
  * card has actually been created.
  */
+/**
+ * The opposed result card's pencil. The two success tests behind the contest each
+ * post a card with a pencil of their own, so only the opposed action identifies
+ * the card the contest posted.
+ */
 function findPencil(win) {
-    const content = win.game.messages.contents
-        .map((m) => m.content ?? "")
-        .reverse()
-        .find((c) => c.includes("edit-action"));
-    if (!content) return null;
-    const el = win.document.createElement("div");
-    el.innerHTML = content;
-    return el.querySelector("a.edit-action");
+    for (const message of [...win.game.messages.contents].reverse()) {
+        const el = win.document.createElement("div");
+        el.innerHTML = message.content ?? "";
+        const pencil = el.querySelector('a.edit-action[data-action="opposedResultEdit"]');
+        if (pencil) return pencil;
+    }
+    return null;
 }
 
-/**
- * Build a settled contest in the game realm from two real skill success tests on
- * `actor` and post the Opposed Action Result card. Source rolls 34 (pass vs.
- * 50); target rolls 80 (miss vs. 50), so the source wins. The live result is
- * stashed on `win.__opposed` for later steps.
- */
 function buildSettledContest(win, actorId, srcSkillId, tgtSkillId) {
     const SimpleRoll = win.sohl.entity.roll.SimpleRoll;
     const a = win.game.actors.get(actorId);
@@ -124,7 +122,7 @@ function withContestActor(fn) {
 /** Build the contest and wait for its result card to actually exist. */
 function postContest(actor, srcSkill, tgtSkill) {
     cy.foundry((win) => buildSettledContest(win, actor.id, srcSkill.id, tgtSkill.id));
-    cy.window().should((win) => {
+    cy.window({ timeout: 12000 }).should((win) => {
         expect(findPencil(win), "result card posted with a pencil").to.not.be.null;
     });
 }

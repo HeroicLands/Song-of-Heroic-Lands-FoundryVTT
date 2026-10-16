@@ -321,16 +321,15 @@ describe("asset packs (data storage)", () => {
             win.__fix = ap(win).runFix();
             return null;
         });
-        cy.window().should((win) => {
+        cy.window({ timeout: 12000 }).should((win) => {
             const picker = [...win.foundry.applications.instances.values()].find(
                 (a) => a.constructor.name === "FilePicker" && a.rendered,
             );
             expect(picker, "folder picker").to.exist;
             expect(picker.type).to.equal("folder");
+            // The listing has loaded, so the filter's callback has an element to position.
+            expect(picker.result, "folder listing").to.exist;
         });
-        // The picker filters its listing on a debounce after rendering; closing it
-        // first leaves that callback positioning a removed element.
-        cy.wait(500);
         cy.foundry(async (win) => {
             const picker = [...win.foundry.applications.instances.values()].find(
                 (a) => a.constructor.name === "FilePicker" && a.rendered,

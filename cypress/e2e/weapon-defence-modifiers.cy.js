@@ -26,6 +26,11 @@
 const PENALISED = { shortcode: "haxe", name: "Handaxe", block: -10, counterstrike: -10 };
 /** A weapon whose modes take no defence penalty at all. */
 const UNPENALISED = { shortcode: "brdswd", name: "Broadsword" };
+/**
+ * Strength that clears the Handaxe's Heft, so the only defence delta is the
+ * authored modifier. A weaker wielder takes a further Heft penalty.
+ */
+const STRONG = 15;
 
 describe("weapon defence modifiers", () => {
     before(() => cy.login().then(() => cy.cleanupWorld()));
@@ -50,6 +55,14 @@ describe("weapon defence modifiers", () => {
     it("seeds the modifier onto the strike mode as a named delta", () => {
         cy.importActor().as("actor");
         cy.then(function () {
+            cy.foundry(async (win) => {
+                const actor = win.game.actors.get(this.actor.id);
+                const str = actor.items.find(
+                    (i) => i.type === "attribute" && i.system.shortcode === "str",
+                );
+                await str.update(win.structuredClone({ "system.scoreBase": STRONG }));
+                return true;
+            });
             cy.ensureSkillML(this.actor, "melee", 60);
             cy.getFromCompendium("sohl.items", "weapongear", PENALISED.shortcode).then((weapon) =>
                 cy.dropOnActor(this.actor, weapon),
