@@ -1,5 +1,76 @@
 # sohl
 
+## 0.9.0
+
+### Minor Changes
+
+- The SoHL compendium carries no animals; the bestiary is in the Thalorna setting's compendium.
+
+### Patch Changes
+
+- Cohort sheets show resolved member counts and Health bands.
+
+- Structures track structural Health, occupants, and advisory cargo and person capacities.
+
+- Vehicles show capacities and occupant and cargo loads; weight changes no mechanics.
+
+- Documentation landing pages group their page lists by topic and sort them alphabetically.
+
+- Affliction templates hide patient actions and explain that they must belong to a character before onset, treatment, healing, or resolution can run.
+
+Attacking players can choose Impact Tactical Advantages without rerolling damage; explicit zero values now mean no bonus. The GM's Automated Combat tour demonstrates two exchanges and recording an S2 injury, and the Automated Attack macro now starts the supported attack workflow. Leaving or restarting a seeded tour restores ordinary rolls. Crafting macros can offer player-chosen Value Diamond allocation after a roll, and explicitly selected workshops use their recorded star rating as the qualifier Target Number. Structure header fields now follow the sheet's editing permissions.
+
+The injury card says when the defence, not the player, decided where a blow landed.
+
+Rules can resolve d10 qualifier batches against a shared Target Number and apply the matching effect rung.
+An importable combat tutorial supplies a human, a grukar-uk, and an adjacent-token path scene ready for a referee to start combat.
+The sheet guide includes labelled actor layouts and annotated item Properties examples.
+Affliction transmission and outcome choices and concoction potency display their translated labels on item sheets.
+
+Actor appearance summaries show skin conditions and visible physical traits.
+
+- Weapon crew requirements include the operator and remain under GM adjudication.
+
+- Spent-ammunition guidance covers head type, target material, bolts, later recovery and the distinction between maintenance and re-making.
+
+Weapons penalize attacks and defenses when Strength falls below Heft, account for grip, and reward qualifying two-handed swings; combat techniques remain exempt.
+
+**Rolls and afflictions**
+
+- SimpleRoll formulas support arithmetic precedence, parentheses, and multiple dice groups, preserving saved rolls and chat results.
+- Affliction duration formulas such as `(2d6)*86400` resolve to whole seconds and reject invalid results before changing onset or healing state.
+- Content builds report malformed Affliction duration formulas at their source location using the same parser as runtime.
+
+**Armour and crafting**
+
+- Armour and clothing provide protection appropriate to their material grade.
+- The Crafting journal lists armour material costs and labour time for each producing craft.
+- Leather-family cloak prices and Leather Shoes weight match their material and coverage.
+
+**Asset packs**
+
+- A new **Asset Packs** setting lets a GM choose, per package, between the art it ships with and other art packs added by the address of their pack file.
+- **Fix** downloads the chosen pack's art into a folder you pick — user data, S3 or the Forge — and points the world's documents at it; pictures set by hand are left alone.
+- Documents imported from a compendium arrive pointing at the chosen pack's downloaded art.
+- An asset pack that is added but not selected can be removed from the Asset Packs setting; its downloaded files stay where they are.
+- Active Effects can disable a skill, attribute, healing target, or other modifier outright.
+- Attribute scores can be generated from their initial dice formulas, with confirmation before saving.
+
+**Combat**
+
+- Grab now offers owner-confirmed Take and Hold Strength Trials with chosen hands and Tactical Advantages.
+- Take disarms the struck limb and transfers held items and their contents, placing them uncarried when the taker has no free hand.
+- Hold temporarily immobilizes the struck limb without dropping equipment, reminds the victim to Pass, and requires maintenance each round.
+- Off-side penalties on Punch, Kick, Grab, and Limb Block now follow the performing limb and clear when it changes.
+- Strength Trial Impact Tactical Advantages now match the manoeuvre rules: Press +2, Grab +3, and Trip +4.
+- Combat skips disabled impact rolls and resolves fixed impact without consuming damage dice, including counterstrikes.
+
+**Dates** — Date fields can use an active optional calendar picker while retaining stored seconds. The date action offers the basic editor, current time, clearing, and cancellation; the basic editor remains available for leap days and editing seconds.
+
+**Affiliations** — Affiliation items keep organisational parents and seat, while each place states its governing body.
+
+**Combat groups** — Pending automatic group assignment stops safely if its combat or combatant disappears, and reports failures while the combat remains live.
+
 ## 0.8.8
 
 ### Patch Changes
