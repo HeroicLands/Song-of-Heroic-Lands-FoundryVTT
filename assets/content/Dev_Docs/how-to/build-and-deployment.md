@@ -897,8 +897,8 @@ forwarded (use `FOUNDRYVTT_CACHE` instead).
 ## 7. Cutting a release
 
 A release is cut by **merging the auto-generated "Version Packages" PR**; the
-`Version and Release` GitHub Actions workflow (`.github/workflows/release.yml`)
-does the build, tag, GitHub Release, and asset upload. The only command you
+`Version and Release` workflow on Gitea (`.gitea/workflows/release.yml`) does
+the build, tag, GitHub Release, and asset upload. The only command you
 type by hand is the docs-deploy dispatch at the end.
 
 ### While developing
@@ -921,12 +921,9 @@ These accumulate on `main` as PRs merge.
    **`chore(release): version packages`** — it runs `changeset version` to bump
    `package.json` and rewrite `CHANGELOG.md`. Review it (the version and changelog
    are the release).
-3. **Manual — merge that PR** — in the GitHub UI, or from the CLI (the changesets
-   action opens it from the `changeset-release/main` branch):
-
-   ```bash
-   gh pr merge changeset-release/main [--admin] --squash --delete-branch
-   ```
+3. **Manual — approve that PR on Gitea.** It is opened from the
+   `changeset-release/main` branch, and its squash merge runs once the approval
+   and the required checks both hold.
 
    Merging _is_ the release — there's nothing else to run locally. The workflow
    re-runs on the merge, sees a new untagged version, and automatically:
