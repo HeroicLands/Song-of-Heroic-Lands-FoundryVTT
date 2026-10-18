@@ -71,10 +71,10 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout
-              uses: actions/checkout@v7
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
             - name: Setup Node.js
-              uses: actions/setup-node@v7
+              uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
               with:
                   node-version: 24
                   cache: npm
@@ -83,7 +83,7 @@ jobs:
               run: npm ci
 
             - name: Setup Hugo
-              uses: peaceiris/actions-hugo@v3
+              uses: peaceiris/actions-hugo@2752ce1d29631191ea3f27c23495fa06139a5b78 # v3
               with:
                   hugo-version: "0.163.3"
                   extended: true
@@ -118,7 +118,7 @@ jobs:
                   echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
 
             - name: Checkout the release tag
-              uses: actions/checkout@v7
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
               with:
                   ref: ${{ steps.release.outputs.tag }}
                   path: release
@@ -175,7 +175,7 @@ jobs:
             # own pages, `cdn`) on every publish (#1484). If a Cache Rule is
             # ever added over `/sohl/`, purge those URLs — not the zone.
             - name: Deploy to Cloudflare Pages (production)
-              uses: cloudflare/wrangler-action@v4
+              uses: cloudflare/wrangler-action@953926a2e2182532811c01a25e53647d93bf07c0 # v4
               with:
                   apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
                   accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
