@@ -15,9 +15,9 @@
  * Builds the icon assets the knowledgebase needs to render SoHL glyphs.
  *
  * In Foundry the system stylesheet is already loaded, so a `<i class="ginf-…">`
- * in a journal just works. The knowledgebase is a separate Hugo site that loads
+ * in a journal just works. The knowledgebase is a separate site that loads
  * neither Font Awesome nor the game-icons webfont, so the same markup renders as
- * nothing there. This emits a drop-in pair for the shared Hugo theme:
+ * nothing there. This emits a drop-in pair for the shared site theme:
  *
  *   build/kb-icons/game-icons-kb.woff2  — the webfont, SUBSET to the glyphs the
  *                                         published docs actually reference

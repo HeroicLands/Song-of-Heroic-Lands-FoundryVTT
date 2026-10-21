@@ -20,8 +20,8 @@ import path from "node:path";
  *
  * At render end, walks every reflection that has a rendered page (or member
  * anchor) and records its `sohl`-rooted full name against its `.url`. The map is
- * written to `build/hugo/data/api-symbols.json` — a build output, beside the
- * generated Hugo tree — so the knowledgebase build can resolve `{@link sohl.*}`
+ * written to `build/api-symbols.json` — a build output — so the
+ * knowledgebase build can resolve `{@link sohl.*}`
  * references in the developer documentation to the API site without itself
  * running TypeDoc. `docs:html` therefore runs before `package-build site`.
  *
@@ -43,7 +43,7 @@ export function load(app) {
         if (!router) {
             throw new Error(
                 "symbol-map: the renderer exposed no router, so no symbol URL " +
-                    "can be resolved. Refusing to write build/hugo/data/api-symbols.json.",
+                    "can be resolved. Refusing to write build/api-symbols.json.",
             );
         }
 
@@ -59,7 +59,7 @@ export function load(app) {
         if (Object.keys(map).length === 0) {
             throw new Error(
                 "symbol-map: resolved 0 symbols, which would blank " +
-                    "build/hugo/data/api-symbols.json and break every API link " +
+                    "build/api-symbols.json and break every API link " +
                     "in the knowledgebase. Refusing to write.",
             );
         }
@@ -67,7 +67,7 @@ export function load(app) {
         const sorted = {};
         for (const key of Object.keys(map).sort()) sorted[key] = map[key];
 
-        const out = path.resolve("build/hugo/data/api-symbols.json");
+        const out = path.resolve("build/api-symbols.json");
         fs.mkdirSync(path.dirname(out), { recursive: true });
         fs.writeFileSync(out, JSON.stringify(sorted, null, 2) + "\n");
         app.logger.info(`symbol-map: wrote ${Object.keys(sorted).length} entries to ${out}`);

@@ -17,10 +17,9 @@
  * This repository publishes one standalone site covering everything under
  * `/sohl/`, and two different builds produce it:
  *
- * - **Hugo** renders the package landing and the knowledgebase into
- *   `build/site/sohl/` (`npm run build:kb` — the prefix comes from the
- *   `publishDir` the toolchain generates into `build/hugo/hugo.toml`, not from
- *   this script).
+ * - **`package-build site build`** renders the package landing and the
+ *   knowledgebase into `build/site/sohl/` (`npm run build:kb` — the prefix is
+ *   the package's `contentPackage`, not something this script chooses).
  * - **TypeDoc** generates the API documentation into `build/docs-html`
  *   (`npm run docs:html`), which is plain HTML with relative links, so it is
  *   mounted here as a static tree at `build/site/sohl/api/`.
@@ -32,8 +31,8 @@
  * a pure path-preserving pass-through with nothing to rewrite.
  *
  * The files beside the prefix — the deployment root's `_headers` and
- * `_redirects` — are the toolchain's: `package-build site-root` writes them,
- * and `npm run site:assemble` runs it before this script.
+ * `_redirects` — are the toolchain's: `package-build site build` writes them
+ * before this script runs.
  *
  * Usage: node utils/build-site.mjs [--api <dir>]
  */

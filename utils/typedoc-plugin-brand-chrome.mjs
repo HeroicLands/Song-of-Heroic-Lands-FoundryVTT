@@ -19,7 +19,7 @@ import { JSX } from "typedoc";
  * The API documentation, the knowledgebase and the site are one property, and
  * one hostname: everything this repository publishes is a path under
  * www.heroiclands.org/sohl/. The site and the KB share
- * `HeroicLands/heroiclands-hugo-theme`;
+ * the shared site theme;
  * this plugin brings the generated API docs into the same look without a bespoke
  * TypeDoc theme, by injecting the theme's masthead, footer, palette, and fonts
  * through the renderer's page hooks:
@@ -33,7 +33,7 @@ import { JSX } from "typedoc";
  *   from the theme.
  * - `body.begin` — the static masthead (logo + nav), with absolute www URLs, as
  *   the knowledgebase's nav also uses — the docs are generated to a fixed tree
- *   and cannot resolve a link against the page's own depth the way Hugo does.
+ *   and cannot resolve a link against the page's own depth the way the site build does.
  * - `body.end` — the static footer and the mobile nav-toggle script.
  *
  * The nav mirrors the theme's `menu.main`; keep it in sync when the theme menu
@@ -60,7 +60,7 @@ const HEAD_HTML = `
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap" rel="stylesheet">
 <style id="hl-brand-chrome">
 :root {
-  /* Brand palette (shared with the Hugo theme). */
+  /* Brand palette (shared with the site theme). */
   --hl-bg:            #0f1923;
   --hl-bg-deeper:     #0a1219;
   --hl-bg-card:       #15202d;

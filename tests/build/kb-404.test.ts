@@ -30,25 +30,24 @@ import { REQUIRED, SITE_OUT, missingRequired } from "../../utils/build-site.mjs"
  * and none should keep its own copy. That splits the contract in
  * two, and only one half is ours:
  *
- * - _The theme_ owns `layouts/404.html`, at `hugo-theme/layouts/404.html`
- *   inside the npm package `@heroiclands/package-build`, which ships the
+ * - _The theme_ owns the page-not-found layout, at
+ *   `site-theme/layouts/not-found.hbs` inside the npm package `@heroiclands/package-build`, which ships the
  *   theme alongside the rest of the build toolchain. The job running this
  *   suite installs that package for its own sake — the build cannot run
  *   without it — so these assertions read the file directly rather than
  *   taking the manifest's word for it.
  * - _This repository_ owns the wording and the routes back, via
- *   `site.notfound` in `package-build.config.mjs` — written into the generated
- *   Hugo configuration as `params.notfound` — and owns the deploy that
+ *   `site.notfound` in `package-build.config.mjs`, and owns the deploy that
  *   publishes the artifact.
  *
  * So the assertions below pin what this repository can actually regress: the
  * consumer configuration, the assembly step that refuses to ship a build
- * missing the file, and a deploy that puts the theme in front of Hugo at all.
+ * missing the file, and a deploy that puts the theme in front of the site build at all.
  *
  * That last one is deliberately pinned to the *outcome* rather than to a
  * mechanism. Pinning how the theme arrives makes the assertion fail whenever
  * that changes, while the behaviour it guards is fine. What must hold is that
- * the theme is installed before Hugo runs, whatever installs it.
+ * the theme is installed before the site builds, whatever installs it.
  */
 const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 
@@ -80,21 +79,23 @@ describe("the /sohl/ site's 404 page", () => {
         // address — and it has to offer both the homepage and the API.
         const urls = (notfound()?.links ?? []).map((link) => link.url);
         expect(urls).toContain("/");
-        expect(urls).toContain("/api/");
+        // The API tree is mounted after the site build, so the site build does
+        // not know the page and the link is written as an absolute address.
+        expect(urls).toContain("https://www.heroiclands.org/sohl/api/");
     });
 
     it("installs the theme, which is where the template lives", () => {
-        // Without the theme, `layouts/404.html` is absent and Hugo emits no 404
-        // at all — the exact soft-404 this guards against, reintroduced by a
-        // build-order change rather than by deleting anything.
+        // Without the theme, the page-not-found template is absent and the
+        // build emits no 404 at all — the exact soft-404 this guards against,
+        // reintroduced by a build-order change rather than by deleting anything.
         const deploy = read(DEPLOY);
         const install = deploy.indexOf("npm ci");
-        const hugo = deploy.search(/uses:\s*peaceiris\/actions-hugo/);
+        const build = deploy.indexOf("npm run build:kb");
         expect(install, "the deploy must install dependencies").toBeGreaterThan(-1);
-        expect(hugo, "the deploy must set up Hugo").toBeGreaterThan(-1);
-        // Order is the whole point: installing *after* Hugo has already run
-        // publishes a site built without the theme.
-        expect(install).toBeLessThan(hugo);
+        expect(build, "the deploy must build the site").toBeGreaterThan(-1);
+        // Order is the whole point: building *before* the install publishes a
+        // site built without the theme.
+        expect(install).toBeLessThan(build);
 
         // And what `npm ci` installs has to include the theme. Read from the
         // manifest rather than the lockfile: the declaration is the intent, and
@@ -110,14 +111,14 @@ describe("the /sohl/ site's 404 page", () => {
             fs.existsSync(
                 path.join(
                     REPO_ROOT,
-                    "node_modules/@heroiclands/package-build/hugo-theme/layouts/404.html",
+                    "node_modules/@heroiclands/package-build/site-theme/layouts/not-found.hbs",
                 ),
             ),
         ).toBe(true);
     });
 
     it("is required by the assembly step, which the deploy runs", () => {
-        // The vitest suite does not run Hugo, so the build that actually
+        // The vitest suite does not run the site build, so the build that actually
         // produces the artifact asserts it, rather than the absence surfacing
         // in production.
         expect(REQUIRED).toContain("sohl/404.html");
@@ -146,11 +147,11 @@ describe("assembling the /sohl/ deployment", () => {
 
     it("writes the root files the toolchain owns, where Pages reads them", () => {
         // `_headers` — the `noindex` on every host-assigned address — is
-        // `package-build site-root`'s, written beside the prefix. Pages reads
-        // it only from the root of the uploaded directory, so the assembly
-        // has to run the command and the deploy has to upload that directory.
+        // `package-build site build`'s, written beside the prefix. Pages reads
+        // it only from the root of the uploaded directory, so the build has
+        // to run the command and the deploy has to upload that directory.
         const scripts = JSON.parse(read("package.json")).scripts as Record<string, string>;
-        expect(scripts["site:assemble"]).toMatch(/package-build site-root/);
+        expect(scripts["build:kb"]).toMatch(/package-build site build/);
         expect(read(".gitea/workflows/deploy-sohl.yml")).toContain(`pages deploy ${SITE_OUT} `);
     });
 });

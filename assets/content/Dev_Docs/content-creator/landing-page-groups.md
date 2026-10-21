@@ -13,7 +13,7 @@ sohl: {kbcat: devdocs}
 
 Documentation landings keep their editorial headings, reading advice and explanatory prose. Their page directories use grouping tags, so adding a page to a group means adding its tag to that page's frontmatter. A page may belong to several groups. Preserve any other content or engineering tags already present.
 
-Write the directory with the toolchain's fenced `pagelist` construct, not the site's Hugo shortcode:
+Write the directory with the toolchain's fenced `pagelist` construct, not a shortcode:
 
 ````markdown
 ```pagelist {tag="rules-combat" type=doc sort=name descriptions=true}

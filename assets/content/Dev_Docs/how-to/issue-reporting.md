@@ -93,7 +93,7 @@ If none fits, note the gap in the issue body for a maintainer to decide.
 - `area/system` — the Foundry VTT game system code (TypeScript, data model, sheets, logic).
 - `area/documentation` — developer, API and user documentation, and rules content.
 - `area/content` — non-documentation assets: images, compendium packs, actors, items, journals.
-- `area/site` — heroiclands.org: Hugo site, Cloudflare Pages, CDN. `heroiclands-site` has no tracker of its own and is tracked here.
+- `area/site` — heroiclands.org: the site, Cloudflare Pages, CDN. `heroiclands-site` has no tracker of its own and is tracked here.
 - `area/devops` — build, tooling, release pipeline, repository configuration.
 - `area/tests` — Vitest, Quench, or Cypress test suites and harness.
 - `flag/breaking-change` — alters a public API, data schema, or save compatibility.
@@ -334,13 +334,13 @@ maintainer decide whether to make it public.
 The project spans several repositories in the `HeroicLands` organization, and **each
 one tracks its own work.** There is no central tracker.
 
-| Repository                        | Tracks                                                                      | Standard                                                                                                                       |
-| --------------------------------- | --------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| `Song-of-Heroic-Lands-FoundryVTT` | **This repository** — the system code, the `sohl` package, the system build | This document                                                                                                                  |
-| `sohl-thalorna`                   | The `thalorna` package — original setting content, and the `/thalorna` site | [its `.github/ISSUE_REPORTING.md`](https://github.com/HeroicLands/sohl-thalorna/blob/main/.github/ISSUE_REPORTING.md)          |
-| `sohl-kethira-basic`              | The `kethira` package — unofficial Hârn fan material, Foundry packs only    | [its `.github/ISSUE_REPORTING.md`](https://github.com/HeroicLands/sohl-kethira-basic/blob/main/.github/ISSUE_REPORTING.md)     |
-| `heroiclands-site`                | heroiclands.org — the Hugo site, Cloudflare Pages, the CDN                  | This document, via the `area/site` label                                                                                       |
-| `heroiclands-hugo-theme`          | The Hugo theme all three sites render through — layouts, partials, styling  | [its `.github/ISSUE_REPORTING.md`](https://github.com/HeroicLands/heroiclands-hugo-theme/blob/main/.github/ISSUE_REPORTING.md) |
+| Repository                        | Tracks                                                                                                | Standard                                                                                                                   |
+| --------------------------------- | ----------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| `Song-of-Heroic-Lands-FoundryVTT` | **This repository** — the system code, the `sohl` package, the system build                           | This document                                                                                                              |
+| `sohl-thalorna`                   | The `thalorna` package — original setting content, and the `/thalorna` site                           | [its `.github/ISSUE_REPORTING.md`](https://github.com/HeroicLands/sohl-thalorna/blob/main/.github/ISSUE_REPORTING.md)      |
+| `sohl-kethira-basic`              | The `kethira` package — unofficial Hârn fan material, Foundry packs only                              | [its `.github/ISSUE_REPORTING.md`](https://github.com/HeroicLands/sohl-kethira-basic/blob/main/.github/ISSUE_REPORTING.md) |
+| `heroiclands-site`                | heroiclands.org — the site, Cloudflare Pages, the CDN                                                 | This document, via the `area/site` label                                                                                   |
+| `package-build`                   | The shared build toolchain and the site theme every site renders through — layouts, partials, styling | [its `.github/ISSUE_REPORTING.md`](https://github.com/HeroicLands/package-build/blob/main/.github/ISSUE_REPORTING.md)      |
 
 Only `heroiclands-site` has no tracker of its own: it is tracked here under the
 `area/site` label, and closed here. That is a choice about where the work is _watched_,

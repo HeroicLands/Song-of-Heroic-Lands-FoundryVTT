@@ -356,7 +356,7 @@ const options = {
         pass: "sohlKb",
         passOptions: {
             apiBase: "/sohl/api/",
-            symbolMap: "build/hugo/data/api-symbols.json",
+            symbolMap: "build/api-symbols.json",
         },
         notfound: {
             heroimage: "images/brand/sohl-banner.webp",
@@ -370,7 +370,7 @@ const options = {
                 },
                 {
                     title: "API Documentation",
-                    url: "/api/",
+                    url: "https://www.heroiclands.org/sohl/api/",
                     text: "Generated reference for the current release.",
                 },
                 {
@@ -389,16 +389,6 @@ const options = {
                     text: "Success and opposed tests, injury, healing, shock, bleeding, and trauma.",
                 },
             ],
-        },
-        hugo: {
-            params: {
-                search: true,
-            },
-            markup: {
-                highlight: {
-                    style: "monokai",
-                },
-            },
         },
     },
     pdf: {

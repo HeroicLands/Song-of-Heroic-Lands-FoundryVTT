@@ -150,7 +150,7 @@ Both surfaces mark it, in the same markup:
 The appearance is not shared, because the two hosts theme differently. In
 Foundry it comes from `scss/components/_unresolved-link.scss`, which uses
 `light-dark()` — Foundry drives its themes through `color-scheme`. On the
-knowledgebase it comes from the Hugo theme, which is single-mode dark and pins
+knowledgebase it comes from the site theme, which is single-mode dark and pins
 the dark value; `light-dark()` there would resolve to the _light_ colour and
 render the marker at roughly 2.5:1 against the page, which is a marker nobody
 can see.
@@ -176,7 +176,7 @@ Both surfaces mark it, in the same markup, with the link left live inside:
 ```
 
 The appearance follows the same split as above: `scss/components/_draft-link.scss`
-in Foundry, the Hugo theme on the knowledgebase. It is deliberately unlike the
+in Foundry, the site theme on the knowledgebase. It is deliberately unlike the
 unresolved marking — normal weight, amber, a dashed underline rather than a bold
 red dotted one — because a reader has to be able to tell the two apart.
 

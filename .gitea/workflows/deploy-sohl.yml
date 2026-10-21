@@ -82,12 +82,6 @@ jobs:
             - name: Install dependencies
               run: npm ci
 
-            - name: Setup Hugo
-              uses: peaceiris/actions-hugo@2752ce1d29631191ea3f27c23495fa06139a5b78 # v3
-              with:
-                  hugo-version: "0.163.3"
-                  extended: true
-
             # The API documentation is built from the newest *release*, not from
             # main: it documents what people are running (#1452). Resolved here
             # rather than inherited from the triggering ref, which is irrelevant
@@ -137,17 +131,17 @@ jobs:
             # resolves `{@link sohl.*}` against. The map has to describe the
             # API pages that are published — the release's — so it is carried
             # across before the site build reads it from this checkout's
-            # `build/hugo/data/`. Where the release checkout wrote it is the
-            # release's own plugin's decision, so both of its locations are
+            # `build/api-symbols.json`. Where the release checkout wrote it is the
+            # release's own plugin's decision, so each of its locations is
             # accepted; a release that wrote neither fails here, before a site
             # with every API link degraded could be published.
             - name: Carry the API symbol map to the site build
               run: |
                   set -euo pipefail
-                  for candidate in release/build/hugo/data/api-symbols.json release/kb/data/api-symbols.json; do
+                  for candidate in release/build/api-symbols.json release/build/hugo/data/api-symbols.json release/kb/data/api-symbols.json; do
                       if [ -f "$candidate" ]; then
-                          mkdir -p build/hugo/data
-                          cp "$candidate" build/hugo/data/api-symbols.json
+                          mkdir -p build
+                          cp "$candidate" build/api-symbols.json
                           echo "Symbol map taken from $candidate."
                           exit 0
                       fi
