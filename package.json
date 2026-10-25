@@ -186,6 +186,7 @@
         "@codemirror/state": "^6.7.6",
         "@codemirror/view": "^6.43.13",
         "@lezer/highlight": "^1.2.5",
-        "jsep": "^1.4.0"
+        "jsep": "^1.4.0",
+        "source-map": "^0.6.1"
     }
 }
