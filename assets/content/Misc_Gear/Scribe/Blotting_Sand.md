@@ -1,6 +1,6 @@
 ---
 shortcode: blotsand
-name: {full: Blotting Sand, aliases: [Drying Sand]}
+name: {full: Blotting Sand, en: [Drying Sand]}
 type: miscgear
 description: "Fine sand scattered over wet ink; absorbs moisture, prevents smudging."
 tags: [scribe]

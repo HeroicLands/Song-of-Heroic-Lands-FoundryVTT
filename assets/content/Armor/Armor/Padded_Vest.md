@@ -1,6 +1,6 @@
 ---
 shortcode: pvest
-name: {full: Padded Vest, aliases: []}
+name: {full: Padded Vest}
 type: armorgear
 description: "Quilted linen vest; inner padding offers warmth and under-armor cushioning."
 tags: []

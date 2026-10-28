@@ -1,6 +1,6 @@
 ---
 shortcode: pilotinstr
-name: {full: Pilot's Instruments, aliases: []}
+name: {full: Pilot's Instruments}
 type: miscgear
 description: "Brass-bound case with compass, astrolabe, cross-staff, dividers, rule, charts; navigators."
 tags: [instruments]

@@ -1,6 +1,6 @@
 ---
 shortcode: cbw100
-name: {full: Composite Bow 100, aliases: []}
+name: {full: Composite Bow 100}
 type: weapongear
 description: "Horn-and-sinew composite at one-hundred pound draw; cavalry archer standard."
 tags: []

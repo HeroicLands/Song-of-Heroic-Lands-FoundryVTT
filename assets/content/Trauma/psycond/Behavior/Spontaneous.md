@@ -1,6 +1,6 @@
 ---
 shortcode: spntns
-name: {full: Spontaneous, aliases: []}
+name: {full: Spontaneous}
 type: trauma
 subType: psycond
 tags: []

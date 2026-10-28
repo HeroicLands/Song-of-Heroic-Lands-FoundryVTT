@@ -1,6 +1,6 @@
 ---
 shortcode: tarot
-name: {full: Tarotry, aliases: []}
+name: {full: Tarotry}
 type: mysticalability
 subType: divination
 description: "Laying cards in a spread and reading the human situation they describe."

@@ -1,6 +1,6 @@
 ---
 shortcode: vialglassm
-name: {full: "Vial, glass, medium", aliases: []}
+name: {full: "Vial, glass, medium"}
 type: containergear
 description: "Glass vial with stopper for traveling medicine kits and apothecary supplies."
 tags: []

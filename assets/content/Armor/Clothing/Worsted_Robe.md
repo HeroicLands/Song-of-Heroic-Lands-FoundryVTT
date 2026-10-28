@@ -1,6 +1,6 @@
 ---
 shortcode: wrobe
-name: {full: Worsted Robe, aliases: []}
+name: {full: Worsted Robe}
 type: armorgear
 description: "Tightly-spun wool robe; durable, practical versatile garment."
 tags: []

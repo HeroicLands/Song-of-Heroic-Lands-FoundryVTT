@@ -1,6 +1,6 @@
 ---
 shortcode: end
-name: {full: Endurance, aliases: []}
+name: {full: Endurance}
 type: attribute
 description: "Stamina and constitutional health: hardship borne without collapse."
 tags: []

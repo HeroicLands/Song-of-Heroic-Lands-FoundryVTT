@@ -1,6 +1,6 @@
 ---
 shortcode: beakerglsm
-name: {full: "Beaker, glass, small", aliases: []}
+name: {full: "Beaker, glass, small"}
 type: containergear
 description: "Small open glass beaker."
 tags: []

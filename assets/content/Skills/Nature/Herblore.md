@@ -1,6 +1,6 @@
 ---
 shortcode: herb
-name: {full: Herblore, aliases: []}
+name: {full: Herblore}
 type: skill
 subType: nature
 description: "Identifying, gathering, preparing plants for medicinal, culinary, mystical use."

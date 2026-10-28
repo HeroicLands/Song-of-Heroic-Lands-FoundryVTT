@@ -1,6 +1,6 @@
 ---
 shortcode: anchovies
-name: {full: Anchovies, aliases: []}
+name: {full: Anchovies}
 type: miscgear
 description: "Salt-packed small fish; intense savory depth, travels well in sealed jars."
 tags: [food]

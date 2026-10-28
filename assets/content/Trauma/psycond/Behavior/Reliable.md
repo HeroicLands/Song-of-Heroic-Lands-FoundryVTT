@@ -1,6 +1,6 @@
 ---
 shortcode: reliable
-name: {full: Reliable, aliases: []}
+name: {full: Reliable}
 type: trauma
 subType: psycond
 tags: []

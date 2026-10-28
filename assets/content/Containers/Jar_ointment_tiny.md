@@ -1,6 +1,6 @@
 ---
 shortcode: jarointmen4
-name: {full: "Jar, ointment, tiny", aliases: []}
+name: {full: "Jar, ointment, tiny"}
 type: containergear
 description: "Thumb-sized ceramic vessel for precious unguent or poison antidote."
 tags: []

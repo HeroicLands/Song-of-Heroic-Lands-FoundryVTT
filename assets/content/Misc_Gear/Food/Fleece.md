@@ -1,6 +1,6 @@
 ---
 shortcode: fleece
-name: {full: Fleece, aliases: []}
+name: {full: Fleece}
 type: miscgear
 description: "Raw wool sheared or combed; fine yields soft yarn, coarse felts."
 tags: [food]

@@ -1,6 +1,6 @@
 ---
 shortcode: slng
-name: {full: Sling, aliases: []}
+name: {full: Sling}
 type: weapongear
 description: "Leather cradle on cords; low-cost ranged arm for skirmishers."
 tags: []

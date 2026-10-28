@@ -1,6 +1,6 @@
 ---
 shortcode: hideelk
-name: {full: "Hide, Elk", aliases: []}
+name: {full: "Hide, Elk"}
 type: miscgear
 description: "Thick durable elk hide; heavy leather for armor backing and saddles. Price is for one whole skin."
 tags: [natural]

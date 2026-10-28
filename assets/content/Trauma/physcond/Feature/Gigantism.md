@@ -1,6 +1,6 @@
 ---
 shortcode: ggntsm
-name: {full: Gigantism, aliases: []}
+name: {full: Gigantism}
 type: trauma
 subType: physcond
 tags: []

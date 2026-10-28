@@ -1,6 +1,6 @@
 ---
 shortcode: ballsta
-name: {full: Ballista, aliases: []}
+name: {full: Ballista}
 type: weapongear
 description: "Heavy torsion bolt-thrower; four-crew engine that spits a shaft through shield, mail and man."
 tags: []

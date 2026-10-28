@@ -1,6 +1,6 @@
 ---
 shortcode: map
-name: {full: Map, aliases: []}
+name: {full: Map}
 type: miscgear
 description: "Territory sketch on linen or parchment; guarded treasure for merchants, captains."
 tags: [scribe]

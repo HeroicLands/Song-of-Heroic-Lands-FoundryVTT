@@ -1,6 +1,6 @@
 ---
 shortcode: holysymiron
-name: {full: "Holy Symbol, iron", aliases: []}
+name: {full: "Holy Symbol, iron"}
 type: miscgear
 description: "Forged iron token of a god, plain and heavy; a smith's or soldier's symbol."
 tags: [religious]

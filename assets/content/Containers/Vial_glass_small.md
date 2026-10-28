@@ -1,6 +1,6 @@
 ---
 shortcode: vialglasss
-name: {full: "Vial, glass, small", aliases: []}
+name: {full: "Vial, glass, small"}
 type: containergear
 description: "Thumb-sized vial for single dose of poison, antidote, or rare oil."
 tags: []

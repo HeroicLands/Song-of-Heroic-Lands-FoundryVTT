@@ -1,6 +1,6 @@
 ---
 shortcode: clstrphb
-name: {full: Claustrophobia, aliases: []}
+name: {full: Claustrophobia}
 type: trauma
 subType: fear
 tags: []

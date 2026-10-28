@@ -1,6 +1,6 @@
 ---
 shortcode: indcsv
-name: {full: Indecisive, aliases: []}
+name: {full: Indecisive}
 type: trauma
 subType: psycond
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: hsdress
-name: {full: Homespun Dress, aliases: []}
+name: {full: Homespun Dress}
 type: armorgear
 description: "Simple homemade dress providing coverage and comfort."
 tags: []

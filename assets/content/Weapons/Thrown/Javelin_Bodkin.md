@@ -1,6 +1,6 @@
 ---
 shortcode: bodjav
-name: {full: "Javelin, Bodkin", aliases: []}
+name: {full: "Javelin, Bodkin"}
 type: weapongear
 description: "Bodkin-pointed throw-spear penetrates mail; cavalry-disruptor."
 tags: []

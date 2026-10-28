@@ -1,6 +1,6 @@
 ---
 shortcode: chestwklg
-name: {full: "Chest, wicker, large", aliases: []}
+name: {full: "Chest, wicker, large"}
 type: containergear
 description: "Large lidded wicker chest."
 tags: []

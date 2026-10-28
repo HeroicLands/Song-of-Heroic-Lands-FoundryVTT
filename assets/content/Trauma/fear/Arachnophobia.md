@@ -1,6 +1,6 @@
 ---
 shortcode: aracphb
-name: {full: Arachnophobia, aliases: []}
+name: {full: Arachnophobia}
 type: trauma
 subType: fear
 tags: []

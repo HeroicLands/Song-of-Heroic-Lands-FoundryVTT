@@ -1,6 +1,6 @@
 ---
 shortcode: mackerel
-name: {full: Mackerel, aliases: []}
+name: {full: Mackerel}
 type: miscgear
 description: "Oily fish gutted fresh or salt-packed; substantial meal, keeps indefinitely."
 tags: [food]

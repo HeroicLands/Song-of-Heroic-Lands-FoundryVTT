@@ -1,6 +1,6 @@
 ---
 shortcode: parchment
-name: {full: Parchment, aliases: []}
+name: {full: Parchment}
 type: miscgear
 description: "Sheepskin stretched, chalked, pumiced; durable centuries, preferred for records."
 tags: [scribe]

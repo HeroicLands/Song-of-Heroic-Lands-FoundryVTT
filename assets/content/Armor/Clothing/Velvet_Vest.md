@@ -1,6 +1,6 @@
 ---
 shortcode: vvest
-name: {full: Velvet Vest, aliases: []}
+name: {full: Velvet Vest}
 type: armorgear
 description: "Soft plush velvet vest; symbol of opulence for formal occasions."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: cbw40
-name: {full: Composite Bow 40, aliases: []}
+name: {full: Composite Bow 40}
 type: weapongear
 description: "Light forty-pound scout's composite; training bow or child's reach."
 tags: []

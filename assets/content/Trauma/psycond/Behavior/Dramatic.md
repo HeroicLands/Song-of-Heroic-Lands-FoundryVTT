@@ -1,6 +1,6 @@
 ---
 shortcode: dramatic
-name: {full: Dramatic, aliases: []}
+name: {full: Dramatic}
 type: trauma
 subType: psycond
 tags: []

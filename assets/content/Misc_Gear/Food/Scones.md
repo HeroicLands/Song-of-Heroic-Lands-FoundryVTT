@@ -1,6 +1,6 @@
 ---
 shortcode: scones
-name: {full: Scones, aliases: []}
+name: {full: Scones}
 type: miscgear
 description: "Wheat flour rounds lightly sweetened, bakery luxury keeping several days."
 tags: [food]

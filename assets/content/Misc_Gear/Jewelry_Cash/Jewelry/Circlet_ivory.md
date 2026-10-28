@@ -1,6 +1,6 @@
 ---
 shortcode: circletivory
-name: {full: "Circlet, ivory", aliases: []}
+name: {full: "Circlet, ivory"}
 type: miscgear
 description: "A plain band for the brow, worn by those with rank enough to show it and not enough for a coronet, in carved ivory."
 tags: [jewelry_cash]

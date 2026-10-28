@@ -1,6 +1,6 @@
 ---
 shortcode: vtrsr
-name: {full: Velvet Trousers, aliases: []}
+name: {full: Velvet Trousers}
 type: armorgear
 description: "Soft plush velvet trousers; luxurious garment for high-status formal events."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: stnsge
-name: {full: Siege Stone, aliases: []}
+name: {full: Siege Stone}
 type: projectilegear
 subType: bullet
 description: "Dressed round shot for an engine; a stone the weight of a man."

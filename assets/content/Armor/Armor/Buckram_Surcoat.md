@@ -1,6 +1,6 @@
 ---
 shortcode: bscoat
-name: {full: Buckram Surcoat, aliases: []}
+name: {full: Buckram Surcoat}
 type: armorgear
 description: "Stiff buckram surcoat providing durability and reliable structured fit."
 tags: []

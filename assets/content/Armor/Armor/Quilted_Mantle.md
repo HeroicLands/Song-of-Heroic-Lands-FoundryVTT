@@ -1,6 +1,6 @@
 ---
 shortcode: qmntl
-name: {full: Quilted Mantle, aliases: []}
+name: {full: Quilted Mantle}
 type: armorgear
 description: "Layered shoulder-wrap; insulates without restriction."
 tags: []

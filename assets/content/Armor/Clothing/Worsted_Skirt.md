@@ -1,6 +1,6 @@
 ---
 shortcode: wskirt
-name: {full: Worsted Skirt, aliases: []}
+name: {full: Worsted Skirt}
 type: armorgear
 description: "Tightly-spun wool skirt; durable, practical versatile garment."
 tags: []

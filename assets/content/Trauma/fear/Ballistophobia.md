@@ -1,6 +1,6 @@
 ---
 shortcode: ballphb
-name: {full: Ballistophobia, aliases: []}
+name: {full: Ballistophobia}
 type: trauma
 subType: fear
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: tssmncy
-name: {full: Tasseomancy, aliases: []}
+name: {full: Tasseomancy}
 type: doc
 subType: rules
 tags: [rules-esoterica, rules-esoterica-mystical-abilities-divination-the-arts]

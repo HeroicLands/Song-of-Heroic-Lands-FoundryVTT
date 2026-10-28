@@ -1,6 +1,6 @@
 ---
 shortcode: rhcowl
-name: {full: Rawhide Cowl, aliases: []}
+name: {full: Rawhide Cowl}
 type: armorgear
 description: "Sturdy hide hood; protects head and shoulders."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: hideexotic
-name: {full: "Hide, Exotic", aliases: []}
+name: {full: "Hide, Exotic"}
 type: miscgear
 description: "Rare distant pelts: crocodile, ostrich, tiger, python; premium prices for noble collectors. Price is for one whole skin."
 tags: [natural]

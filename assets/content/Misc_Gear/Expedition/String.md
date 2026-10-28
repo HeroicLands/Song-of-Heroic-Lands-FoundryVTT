@@ -1,6 +1,6 @@
 ---
 shortcode: string
-name: {full: String, aliases: []}
+name: {full: String}
 type: miscgear
 description: "Twisted twine bundled for bundling firewood and lashing bedrolls closed."
 tags: [expedition]

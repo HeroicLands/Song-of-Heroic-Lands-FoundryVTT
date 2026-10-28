@@ -1,6 +1,6 @@
 ---
 shortcode: pediophb
-name: {full: Pediophobia, aliases: []}
+name: {full: Pediophobia}
 type: trauma
 subType: fear
 tags: []

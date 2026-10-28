@@ -1,6 +1,6 @@
 ---
 shortcode: tndrbx
-name: {full: Tinderbox, aliases: []}
+name: {full: Tinderbox}
 type: miscgear
 description: "Iron box with charred linen, steel striker, flint; kindles fire anywhere."
 tags: [lighting]

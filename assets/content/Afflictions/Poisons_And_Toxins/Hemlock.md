@@ -1,6 +1,6 @@
 ---
 shortcode: hemlock
-name: {full: Hemlock, aliases: []}
+name: {full: Hemlock}
 type: affliction
 subType: poisontoxin
 description: "Toxic alkaloid plant; muscle paralysis progressing from extremities; respiratory failure."

@@ -1,6 +1,6 @@
 ---
 shortcode: scrphb
-name: {full: Sicariophobia, aliases: []}
+name: {full: Sicariophobia}
 type: trauma
 subType: fear
 tags: []

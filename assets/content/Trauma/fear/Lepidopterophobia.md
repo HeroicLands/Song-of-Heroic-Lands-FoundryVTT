@@ -1,6 +1,6 @@
 ---
 shortcode: lepidopt
-name: {full: Lepidopterophobia, aliases: []}
+name: {full: Lepidopterophobia}
 type: trauma
 subType: fear
 tags: []

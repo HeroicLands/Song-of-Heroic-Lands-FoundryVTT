@@ -1,6 +1,6 @@
 ---
 shortcode: handlebarshelpers
-name: {full: Handlebars Template Helpers, aliases: []}
+name: {full: Handlebars Template Helpers}
 type: doc
 subType: reference
 tags: [dev-reference]

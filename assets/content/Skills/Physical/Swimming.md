@@ -1,6 +1,6 @@
 ---
 shortcode: swim
-name: {full: Swimming, aliases: []}
+name: {full: Swimming}
 type: skill
 subType: physical
 description: "Moving through water across rivers, during shipwrecks, or beneath surfaces."

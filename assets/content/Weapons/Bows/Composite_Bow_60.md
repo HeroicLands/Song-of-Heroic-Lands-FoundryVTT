@@ -1,6 +1,6 @@
 ---
 shortcode: cbw60
-name: {full: Composite Bow 60, aliases: []}
+name: {full: Composite Bow 60}
 type: weapongear
 description: "Sixty-pound compact horse-bow; mounted skirmisher's maneuvrable reach."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: mglmn
-name: {full: Megalomania, aliases: []}
+name: {full: Megalomania}
 type: trauma
 subType: psycond
 tags: []

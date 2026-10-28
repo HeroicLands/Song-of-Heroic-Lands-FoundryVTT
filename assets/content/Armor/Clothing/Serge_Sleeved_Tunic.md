@@ -1,6 +1,6 @@
 ---
 shortcode: sgstnc
-name: {full: Serge Sleeved Tunic, aliases: []}
+name: {full: Serge Sleeved Tunic}
 type: armorgear
 description: "Twilled serge sleeved tunic; practical, versatile everyday garment."
 tags: []

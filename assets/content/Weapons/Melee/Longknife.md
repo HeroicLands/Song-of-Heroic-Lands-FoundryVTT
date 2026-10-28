@@ -1,6 +1,6 @@
 ---
 shortcode: lkni
-name: {full: Longknife, aliases: []}
+name: {full: Longknife}
 type: weapongear
 description: "Extended single-edged blade for close-quarters reach; soldier's secondary weapon."
 tags: []

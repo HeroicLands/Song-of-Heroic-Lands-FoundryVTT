@@ -1,6 +1,6 @@
 ---
 shortcode: malaria
-name: {full: Malaria, aliases: []}
+name: {full: Malaria}
 type: affliction
 subType: disease
 description: "Plasmodium parasite via mosquito; cyclical fever and chills; often fatal untreated."

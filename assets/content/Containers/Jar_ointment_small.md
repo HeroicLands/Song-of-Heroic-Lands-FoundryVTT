@@ -1,6 +1,6 @@
 ---
 shortcode: jarointmen3
-name: {full: "Jar, ointment, small", aliases: []}
+name: {full: "Jar, ointment, small"}
 type: containergear
 description: "Small ceramic ointment jar for salves and medicinal paste samples."
 tags: []

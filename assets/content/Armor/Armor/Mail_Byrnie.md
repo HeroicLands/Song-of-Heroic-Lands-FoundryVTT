@@ -1,6 +1,6 @@
 ---
 shortcode: mbyr
-name: {full: Mail Byrnie, aliases: []}
+name: {full: Mail Byrnie}
 type: armorgear
 description: "Metal ring shirt providing significant protection against slashes and thrusts."
 tags: []

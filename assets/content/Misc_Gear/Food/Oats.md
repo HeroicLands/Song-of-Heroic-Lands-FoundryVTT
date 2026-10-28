@@ -1,6 +1,6 @@
 ---
 shortcode: oats
-name: {full: Oats, aliases: []}
+name: {full: Oats}
 type: miscgear
 description: "Northern staple grain feeding both livestock and humans, years of storage."
 tags: [food]

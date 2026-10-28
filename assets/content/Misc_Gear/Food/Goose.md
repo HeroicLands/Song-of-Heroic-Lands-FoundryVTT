@@ -1,6 +1,6 @@
 ---
 shortcode: goose
-name: {full: Goose, aliases: []}
+name: {full: Goose}
 type: miscgear
 description: "Plucked rich waterfowl; dark robust meat, rendered fat serves kitchen and lamp."
 tags: [food]

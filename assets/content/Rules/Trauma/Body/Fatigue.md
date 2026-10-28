@@ -1,6 +1,6 @@
 ---
 shortcode: fatigue
-name: {full: Fatigue, aliases: []}
+name: {full: Fatigue}
 type: doc
 subType: rules
 tags: [rules-trauma, rules-trauma-body-sections]

@@ -1,6 +1,6 @@
 ---
 shortcode: shkn
-name: {full: Throwing Axe, aliases: []}
+name: {full: Throwing Axe}
 type: weapongear
 description: "Balanced head tumbling end-over-end to break skirmish formation."
 tags: []

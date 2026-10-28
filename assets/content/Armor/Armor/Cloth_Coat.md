@@ -1,6 +1,6 @@
 ---
 shortcode: ccoat
-name: {full: Cloth Coat, aliases: []}
+name: {full: Cloth Coat}
 type: armorgear
 description: "Simple cloth coat providing comfort and warmth for everyday use."
 tags: []

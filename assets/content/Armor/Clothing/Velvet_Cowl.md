@@ -1,6 +1,6 @@
 ---
 shortcode: vcowl
-name: {full: Velvet Cowl, aliases: []}
+name: {full: Velvet Cowl}
 type: armorgear
 description: "Soft plush velvet cowl; elegant, luxury garment for formal occasions."
 tags: []

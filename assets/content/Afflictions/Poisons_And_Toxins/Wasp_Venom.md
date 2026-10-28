@@ -1,6 +1,6 @@
 ---
 shortcode: waspvnm
-name: {full: Wasp Venom, aliases: []}
+name: {full: Wasp Venom}
 type: affliction
 subType: poisontoxin
 description: "Peptide and enzyme toxins from sting; intense pain and swelling."

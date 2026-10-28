@@ -1,6 +1,6 @@
 ---
 shortcode: ltlngvst
-name: {full: Leather Long Vest, aliases: []}
+name: {full: Leather Long Vest}
 type: armorgear
 description: "Stylish leather outer layer providing minimal protection for everyday wear."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: lbw150
-name: {full: Longbow 150, aliases: []}
+name: {full: Longbow 150}
 type: weapongear
 description: "Hundred-fifty pound border-garrison warbow; armor-penetrating distance-carrier."
 tags: []

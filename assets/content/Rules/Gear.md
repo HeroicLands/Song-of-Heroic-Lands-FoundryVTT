@@ -1,6 +1,6 @@
 ---
 shortcode: gearrules
-name: {full: Gear, aliases: []}
+name: {full: Gear}
 type: doc
 subType: rules
 tags: [rules-gear]

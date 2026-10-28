@@ -1,6 +1,6 @@
 ---
 shortcode: shpw
-name: {full: Shipwright, aliases: []}
+name: {full: Shipwright}
 type: skill
 subType: lore
 description: "Designing and constructing watercraft from materials and structural principles."

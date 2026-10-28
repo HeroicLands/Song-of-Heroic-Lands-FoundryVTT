@@ -1,6 +1,6 @@
 ---
 shortcode: ccap
-name: {full: Cloth Cap, aliases: []}
+name: {full: Cloth Cap}
 type: armorgear
 description: "Simple cloth cap offering basic comfort and everyday protection."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: pursesilk
-name: {full: "Purse, silk", aliases: []}
+name: {full: "Purse, silk"}
 type: containergear
 description: "Drawstring silk purse, often embroidered; conspicuously fine."
 tags: []

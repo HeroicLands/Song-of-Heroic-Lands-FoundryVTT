@@ -1,6 +1,6 @@
 ---
 shortcode: photosen
-name: {full: Photosensitivity, aliases: []}
+name: {full: Photosensitivity}
 type: trauma
 subType: physcond
 tags: []

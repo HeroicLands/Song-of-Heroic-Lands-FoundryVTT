@@ -1,6 +1,6 @@
 ---
 shortcode: whclk
-name: {full: Worsted Hooded Cloak, aliases: []}
+name: {full: Worsted Hooded Cloak}
 type: armorgear
 description: "Tightly-spun wool cloak with a hood; durable, practical garment for weather."
 tags: []

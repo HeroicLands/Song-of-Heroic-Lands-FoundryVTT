@@ -1,6 +1,6 @@
 ---
 shortcode: satchcvlg
-name: {full: "Satchel, canvas, lg", aliases: []}
+name: {full: "Satchel, canvas, lg"}
 type: containergear
 description: "Large canvas shoulder bag with a folding flap."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: iconwdlg
-name: {full: "Icon, religious, wood, lg", aliases: []}
+name: {full: "Icon, religious, wood, lg"}
 type: miscgear
 description: "Hand-painted oak or pine panel depicting saint or patron god in tempera."
 tags: [religious]

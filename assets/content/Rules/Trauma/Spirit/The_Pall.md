@@ -1,6 +1,6 @@
 ---
 shortcode: thepall
-name: {full: The Pall, aliases: []}
+name: {full: The Pall}
 type: doc
 subType: rules
 tags: [rules-trauma, rules-trauma-spirit-sections]

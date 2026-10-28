@@ -1,6 +1,6 @@
 ---
 shortcode: sgvest
-name: {full: Serge Vest, aliases: []}
+name: {full: Serge Vest}
 type: armorgear
 description: "Twilled serge vest; practical, durable garment for various activities."
 tags: []

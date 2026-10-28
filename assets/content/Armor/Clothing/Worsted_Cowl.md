@@ -1,6 +1,6 @@
 ---
 shortcode: wcowl
-name: {full: Worsted Cowl, aliases: []}
+name: {full: Worsted Cowl}
 type: armorgear
 description: "Tightly-spun wool cowl; durable, versatile head covering."
 tags: []

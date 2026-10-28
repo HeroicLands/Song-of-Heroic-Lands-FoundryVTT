@@ -1,6 +1,6 @@
 ---
 shortcode: arrogant
-name: {full: Arrogant, aliases: []}
+name: {full: Arrogant}
 type: trauma
 subType: psycond
 tags: []

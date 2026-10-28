@@ -1,6 +1,6 @@
 ---
 shortcode: trak
-name: {full: Tracking, aliases: []}
+name: {full: Tracking}
 type: skill
 subType: nature
 description: "Reading footprints, vegetation, and signs of passage through environments."

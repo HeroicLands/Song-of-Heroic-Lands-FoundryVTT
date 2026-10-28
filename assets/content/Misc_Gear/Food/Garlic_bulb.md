@@ -1,6 +1,6 @@
 ---
 shortcode: garlic
-name: {full: Garlic bulb, aliases: []}
+name: {full: Garlic bulb}
 type: miscgear
 description: "Papery-skinned bulb of cloves; sharp pungent seasoning, keeps for months."
 tags: [food]

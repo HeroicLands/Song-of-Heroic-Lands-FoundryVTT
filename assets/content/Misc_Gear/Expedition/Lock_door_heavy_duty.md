@@ -1,6 +1,6 @@
 ---
 shortcode: lockdoorhe
-name: {full: "Lock, door, heavy-duty", aliases: []}
+name: {full: "Lock, door, heavy-duty"}
 type: miscgear
 description: "Heavy iron triple-warded deadbolt; secures vault doors and fortified manor gates."
 tags: [expedition]

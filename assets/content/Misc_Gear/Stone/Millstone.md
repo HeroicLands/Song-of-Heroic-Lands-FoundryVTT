@@ -1,6 +1,6 @@
 ---
 shortcode: millstone
-name: {full: Millstone, aliases: []}
+name: {full: Millstone}
 type: miscgear
 description: "Large granite or basalt disc with dressed furrows; grinds grain for decades."
 tags: [stone]

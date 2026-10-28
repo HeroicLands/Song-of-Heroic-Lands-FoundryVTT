@@ -1,6 +1,6 @@
 ---
 shortcode: rdmnc
-name: {full: Right Dominance, aliases: []}
+name: {full: Right Dominance}
 type: trauma
 subType: physcond
 tags: []

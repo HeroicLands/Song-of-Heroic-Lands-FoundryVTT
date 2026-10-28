@@ -1,6 +1,6 @@
 ---
 shortcode: knsh
-name: {full: Knight's Shield, aliases: []}
+name: {full: Knight's Shield}
 type: weapongear
 description: "Heater-shield painted with heraldic coat; nobleman's marked defense."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: onyxcut
-name: {full: "Onyx, cut", aliases: []}
+name: {full: "Onyx, cut"}
 type: miscgear
 description: "Black-and-white banded chalcedony; striking striped pattern, favored for signet rings."
 tags: [jewelry_cash]

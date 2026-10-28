@@ -1,6 +1,6 @@
 ---
 shortcode: landingpagegroups
-name: {full: Documentation Landing Groups, aliases: []}
+name: {full: Documentation Landing Groups}
 type: doc
 subType: reference
 description: "Editorial tags that place documentation pages in generated landing lists."

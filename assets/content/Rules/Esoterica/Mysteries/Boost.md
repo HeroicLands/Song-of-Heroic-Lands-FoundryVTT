@@ -1,6 +1,6 @@
 ---
 shortcode: boost
-name: {full: Boost, aliases: []}
+name: {full: Boost}
 type: doc
 subType: rules
 tags: [rules-esoterica, rules-esoterica-mysteries-sections]

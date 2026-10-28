@@ -1,6 +1,6 @@
 ---
 shortcode: drumhand
-name: {full: "Drum, hand", aliases: []}
+name: {full: "Drum, hand"}
 type: miscgear
 description: "Shallow frame drum played with palms; quick bright voice; favored by minstrels."
 tags: [music]

@@ -1,6 +1,6 @@
 ---
 shortcode: bskirt
-name: {full: Buckram Skirt, aliases: []}
+name: {full: Buckram Skirt}
 type: armorgear
 description: "Stiff buckram skirt offering durability and dependable rigid structure."
 tags: []

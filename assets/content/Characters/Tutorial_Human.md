@@ -1,6 +1,6 @@
 ---
 shortcode: tutorialhuman
-name: {full: The Traveler, aliases: []}
+name: {full: The Traveler}
 type: being
 subType: character
 description: "A human traveling the path."

@@ -1,6 +1,6 @@
 ---
 shortcode: wedgestayi
-name: {full: "Wedge, staying", aliases: []}
+name: {full: "Wedge, staying"}
 type: miscgear
 description: "Small wooden or bone wedge; prevents tent poles and wagon wheels slipping."
 tags: [expedition]

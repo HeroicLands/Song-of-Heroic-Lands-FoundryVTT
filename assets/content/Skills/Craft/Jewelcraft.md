@@ -1,6 +1,6 @@
 ---
 shortcode: jewl
-name: {full: Jewelcraft, aliases: []}
+name: {full: Jewelcraft}
 type: skill
 subType: craft
 description: "Gem-cutting, goldsmithing, creating fine ornamental metalwork and jewelry."

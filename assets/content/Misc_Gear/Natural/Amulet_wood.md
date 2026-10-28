@@ -1,6 +1,6 @@
 ---
 shortcode: amuletwood
-name: {full: "Amulet, wood", aliases: []}
+name: {full: "Amulet, wood"}
 type: miscgear
 description: "Carved wooden charm on a thong; often cut by the wearer or a household elder."
 tags: [jewelry_cash]

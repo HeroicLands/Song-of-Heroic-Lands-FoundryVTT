@@ -1,6 +1,6 @@
 ---
 shortcode: potcer2qt
-name: {full: "Pot, ceramic, 2 quart", aliases: []}
+name: {full: "Pot, ceramic, 2 quart"}
 type: containergear
 description: "Round earthenware cooking pot that sits in the embers (2 quarts)."
 tags: []

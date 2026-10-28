@@ -1,6 +1,6 @@
 ---
 shortcode: mirroriron
-name: {full: "Mirror, iron, silver-coated", aliases: []}
+name: {full: "Mirror, iron, silver-coated"}
 type: miscgear
 description: "Iron mirror backed with silver; superior reflection for noble and field use."
 tags: [expedition]

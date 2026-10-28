@@ -1,6 +1,6 @@
 ---
 shortcode: jarglassla
-name: {full: "Jar, glass, 1/2-gallon", aliases: []}
+name: {full: "Jar, glass, 1/2-gallon"}
 type: containergear
 description: "Capacious blown glass jar for preserves and dried herbs (1/2 gallon)."
 tags: []

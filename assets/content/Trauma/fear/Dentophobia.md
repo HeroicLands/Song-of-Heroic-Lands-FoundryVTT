@@ -1,6 +1,6 @@
 ---
 shortcode: dentophb
-name: {full: Dentophobia, aliases: []}
+name: {full: Dentophobia}
 type: trauma
 subType: fear
 tags: []

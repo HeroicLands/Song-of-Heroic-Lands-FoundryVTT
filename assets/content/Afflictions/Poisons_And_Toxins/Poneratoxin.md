@@ -1,6 +1,6 @@
 ---
 shortcode: ponrtxn
-name: {full: Poneratoxin, aliases: []}
+name: {full: Poneratoxin}
 type: affliction
 subType: poisontoxin
 description: "Ant venom neurotoxin; the most painful insect sting imaginable; lasts 24 hours."

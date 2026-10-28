@@ -1,6 +1,6 @@
 ---
 shortcode: scalesweig
-name: {full: "Scales & Weights", aliases: []}
+name: {full: "Scales & Weights"}
 type: miscgear
 description: "Brass balance with calibrated weights; merchants weigh goods and settle accounts fairly."
 tags: [instruments]

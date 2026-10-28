@@ -1,6 +1,6 @@
 ---
 shortcode: cbw120
-name: {full: Composite Bow 120, aliases: []}
+name: {full: Composite Bow 120}
 type: weapongear
 description: "One-hundred-twenty pound horse-bow; only veteran cavalry can draw."
 tags: []

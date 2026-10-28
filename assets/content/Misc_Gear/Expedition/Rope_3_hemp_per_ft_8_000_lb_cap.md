@@ -1,6 +1,6 @@
 ---
 shortcode: rope3hempp
-name: {full: "Rope, 3” hemp, per ft (8,000 lb cap.)", aliases: []}
+name: {full: "Rope, 3” hemp, per ft (8,000 lb cap.)"}
 type: miscgear
 description: "Massive cable for anchoring vessels and hoisting siege equipment."
 tags: [expedition]

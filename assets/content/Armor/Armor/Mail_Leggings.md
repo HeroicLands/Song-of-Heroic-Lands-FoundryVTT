@@ -1,6 +1,6 @@
 ---
 shortcode: mleg
-name: {full: Mail Leggings, aliases: []}
+name: {full: Mail Leggings}
 type: armorgear
 description: "Metal ring leg coverings providing substantial protection against slashes."
 tags: []

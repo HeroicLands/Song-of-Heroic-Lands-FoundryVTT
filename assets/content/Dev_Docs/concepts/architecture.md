@@ -1,6 +1,6 @@
 ---
 shortcode: architecture
-name: {full: SoHL Architecture, aliases: []}
+name: {full: SoHL Architecture}
 type: doc
 subType: concept
 description: "The mental model and a map of the `src/` tree."

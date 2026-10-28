@@ -1,6 +1,6 @@
 ---
 shortcode: sgtrsr
-name: {full: Serge Trousers, aliases: []}
+name: {full: Serge Trousers}
 type: armorgear
 description: "Twilled serge trousers; practical, versatile everyday leg wear."
 tags: []

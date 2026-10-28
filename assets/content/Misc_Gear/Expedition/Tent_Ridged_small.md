@@ -1,6 +1,6 @@
 ---
 shortcode: tentridged2
-name: {full: "Tent, Ridged, small", aliases: []}
+name: {full: "Tent, Ridged, small"}
 type: miscgear
 description: "One-person ridge-pole tent; tight profile resists wind, packs readily."
 tags: [expedition]

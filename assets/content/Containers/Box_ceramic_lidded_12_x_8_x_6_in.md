@@ -1,6 +1,6 @@
 ---
 shortcode: boxcerlid
-name: {full: "Box, ceramic, lidded, 12 x 8 x 6 in", aliases: []}
+name: {full: "Box, ceramic, lidded, 12 x 8 x 6 in"}
 type: containergear
 description: "Lidded earthenware box for dry goods kept away from damp and vermin."
 tags: []

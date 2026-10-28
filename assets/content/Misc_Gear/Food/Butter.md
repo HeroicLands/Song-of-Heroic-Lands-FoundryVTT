@@ -1,6 +1,6 @@
 ---
 shortcode: butter
-name: {full: Butter, aliases: []}
+name: {full: Butter}
 type: miscgear
 description: "Pale yellow churned cream; enriches vegetables, fries meat, keeps better salted."
 tags: [food]

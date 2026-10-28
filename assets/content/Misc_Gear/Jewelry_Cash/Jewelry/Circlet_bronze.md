@@ -1,6 +1,6 @@
 ---
 shortcode: circletbronze
-name: {full: "Circlet, bronze", aliases: []}
+name: {full: "Circlet, bronze"}
 type: miscgear
 description: "A plain band for the brow, worn by those with rank enough to show it and not enough for a coronet, in cast bronze."
 tags: [jewelry_cash]

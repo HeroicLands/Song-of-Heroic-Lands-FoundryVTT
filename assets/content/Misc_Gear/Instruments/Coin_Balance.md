@@ -1,6 +1,6 @@
 ---
 shortcode: coinbalanc
-name: {full: Coin Balance, aliases: []}
+name: {full: Coin Balance}
 type: miscgear
 description: "Bronze hand-scale with shallow pans; merchants detect shaved or debased coins."
 tags: [instruments]

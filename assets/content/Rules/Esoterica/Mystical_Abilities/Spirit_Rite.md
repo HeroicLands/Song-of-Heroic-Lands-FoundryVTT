@@ -1,6 +1,6 @@
 ---
 shortcode: sprtrt
-name: {full: Spirit Rite, aliases: []}
+name: {full: Spirit Rite}
 type: doc
 subType: rules
 tags: [rules-esoterica, rules-esoterica-mystical-abilities-spirit-mysteries]

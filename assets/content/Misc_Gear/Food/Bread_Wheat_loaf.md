@@ -1,6 +1,6 @@
 ---
 shortcode: breadwheat
-name: {full: "Bread, Wheat, loaf", aliases: []}
+name: {full: "Bread, Wheat, loaf"}
 type: miscgear
 description: "Light golden loaf; finer crumb than rye, keeps shorter than peasant bread."
 tags: [food]

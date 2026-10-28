@@ -1,6 +1,6 @@
 ---
 shortcode: vmntl
-name: {full: Velvet Mantle, aliases: []}
+name: {full: Velvet Mantle}
 type: armorgear
 description: "Soft plush velvet mantle; opulent garment for nobility and grandeur."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: eosophb
-name: {full: Eosophobia, aliases: []}
+name: {full: Eosophobia}
 type: trauma
 subType: fear
 tags: []

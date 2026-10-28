@@ -1,6 +1,6 @@
 ---
 shortcode: emntl
-name: {full: Ermine Mantle, aliases: []}
+name: {full: Ermine Mantle}
 type: armorgear
 description: "White ermine mantle signifying wealth and elite nobility."
 tags: []

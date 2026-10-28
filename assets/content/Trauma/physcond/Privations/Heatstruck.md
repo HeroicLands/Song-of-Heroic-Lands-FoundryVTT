@@ -1,6 +1,6 @@
 ---
 shortcode: htstrk
-name: {full: Heatstruck, aliases: []}
+name: {full: Heatstruck}
 type: trauma
 subType: physcond
 description: "Catastrophic heat injury; dry hot skin, confusion, seizure, death."

@@ -1,6 +1,6 @@
 ---
 shortcode: grace
-name: {full: Grace, aliases: []}
+name: {full: Grace}
 type: doc
 subType: rules
 tags: [rules-esoterica, rules-esoterica-mysteries-sections]

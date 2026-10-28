@@ -1,6 +1,6 @@
 ---
 shortcode: bpchlg
-name: {full: "Belt pouch, leather, lg", aliases: []}
+name: {full: "Belt pouch, leather, lg"}
 type: containergear
 description: "Large leather pouch for coins, rations, or daily essentials."
 tags: []

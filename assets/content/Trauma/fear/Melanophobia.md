@@ -1,6 +1,6 @@
 ---
 shortcode: mlnphb
-name: {full: Melanophobia, aliases: []}
+name: {full: Melanophobia}
 type: trauma
 subType: fear
 tags: []

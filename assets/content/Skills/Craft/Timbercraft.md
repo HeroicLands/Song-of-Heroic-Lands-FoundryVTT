@@ -1,6 +1,6 @@
 ---
 shortcode: timb
-name: {full: Timbercraft, aliases: []}
+name: {full: Timbercraft}
 type: skill
 subType: nature
 description: "Forest knowledge for selecting timber and managing woodland for sustainable yield."

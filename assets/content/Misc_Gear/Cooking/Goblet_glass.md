@@ -1,6 +1,6 @@
 ---
 shortcode: gobletglas
-name: {full: "Goblet, glass", aliases: []}
+name: {full: "Goblet, glass"}
 type: miscgear
 description: "Stemmed glass goblet; rare and costly for formal feasts and display."
 tags: [cooking]

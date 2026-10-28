@@ -1,6 +1,6 @@
 ---
 shortcode: hornfanfar
-name: {full: "Horn, fanfare", aliases: []}
+name: {full: "Horn, fanfare"}
 type: miscgear
 description: "Curved brass-bronze flared bell; triumphant blare for court heralds and royal processions."
 tags: [music]

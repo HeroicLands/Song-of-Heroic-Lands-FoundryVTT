@@ -1,6 +1,6 @@
 ---
 shortcode: iconcrmcsm
-name: {full: "Icon, religious, ceramic, sm", aliases: []}
+name: {full: "Icon, religious, ceramic, sm"}
 type: miscgear
 description: "Small fired-clay devotional figure for a household shrine or a traveller's pack."
 tags: [religious]

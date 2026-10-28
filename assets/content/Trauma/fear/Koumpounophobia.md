@@ -1,6 +1,6 @@
 ---
 shortcode: kmpnphb
-name: {full: Koumpounophobia, aliases: []}
+name: {full: Koumpounophobia}
 type: trauma
 subType: fear
 tags: []

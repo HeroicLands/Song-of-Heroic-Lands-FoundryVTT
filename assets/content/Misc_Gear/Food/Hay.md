@@ -1,6 +1,6 @@
 ---
 shortcode: hay
-name: {full: Hay, aliases: []}
+name: {full: Hay}
 type: miscgear
 description: "Sun-dried grasses bundled; feeds horses and livestock through winter reliably."
 tags: [food]

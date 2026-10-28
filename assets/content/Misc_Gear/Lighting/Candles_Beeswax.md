@@ -1,6 +1,6 @@
 ---
 shortcode: candlesbee
-name: {full: "Candles, Beeswax", aliases: []}
+name: {full: "Candles, Beeswax"}
 type: miscgear
 description: "Pure beeswax candles; bright, sweet-scented; favored by churches and gentry."
 tags: [lighting]

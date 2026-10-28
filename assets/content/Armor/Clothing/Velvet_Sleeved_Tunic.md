@@ -1,6 +1,6 @@
 ---
 shortcode: vstnc
-name: {full: Velvet Sleeved Tunic, aliases: []}
+name: {full: Velvet Sleeved Tunic}
 type: armorgear
 description: "Soft plush velvet sleeved tunic; luxurious garment for formal occasions."
 tags: []

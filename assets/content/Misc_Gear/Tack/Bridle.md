@@ -1,6 +1,6 @@
 ---
 shortcode: bridle
-name: {full: Bridle, aliases: []}
+name: {full: Bridle}
 type: miscgear
 description: "Leather straps and iron rings; fits horse's head, steers via reins."
 tags: [tack]

@@ -1,6 +1,6 @@
 ---
 shortcode: imprmnt
-name: {full: Impairment, aliases: []}
+name: {full: Impairment}
 type: doc
 subType: rules
 tags: [rules-trauma, rules-trauma-body-injury-sections]

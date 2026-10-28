@@ -1,6 +1,6 @@
 ---
 shortcode: irrespon
-name: {full: Irresponsible, aliases: []}
+name: {full: Irresponsible}
 type: trauma
 subType: psycond
 tags: []

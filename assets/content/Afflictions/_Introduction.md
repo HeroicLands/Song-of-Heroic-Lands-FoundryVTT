@@ -1,6 +1,6 @@
 ---
 shortcode: affliction
-name: {full: Afflictions, aliases: []}
+name: {full: Afflictions}
 type: doc
 subType: reference
 description: "Diseases, curses, poisons, and other ailments."

@@ -1,6 +1,6 @@
 ---
 shortcode: calm
-name: {full: Calm, aliases: []}
+name: {full: Calm}
 type: trauma
 subType: psycond
 tags: []

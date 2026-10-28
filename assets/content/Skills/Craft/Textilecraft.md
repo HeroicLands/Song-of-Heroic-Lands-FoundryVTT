@@ -1,6 +1,6 @@
 ---
 shortcode: txtl
-name: {full: Textilecraft, aliases: []}
+name: {full: Textilecraft}
 type: skill
 subType: craft
 description: "Spinning, weaving, dyeing, and sewing fabrics into finished textile goods."

@@ -1,6 +1,6 @@
 ---
 shortcode: hide
-name: {full: Hideworking, aliases: []}
+name: {full: Hideworking}
 type: skill
 subType: craft
 description: "Tanning furs and hides into leather goods; producing armor and equipment."

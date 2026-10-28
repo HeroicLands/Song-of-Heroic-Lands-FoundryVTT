@@ -1,6 +1,6 @@
 ---
 shortcode: hsswd
-name: {full: Homespun Swaddle, aliases: []}
+name: {full: Homespun Swaddle}
 type: armorgear
 description: "Simple homemade infant swaddle offering comfort and warmth."
 tags: []

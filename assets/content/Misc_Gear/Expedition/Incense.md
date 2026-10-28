@@ -1,6 +1,6 @@
 ---
 shortcode: incense
-name: {full: Incense, aliases: []}
+name: {full: Incense}
 type: miscgear
 description: "Frankincense, myrrh, or eastern spices; marks holy occasions and scents chambers."
 tags: [expedition]

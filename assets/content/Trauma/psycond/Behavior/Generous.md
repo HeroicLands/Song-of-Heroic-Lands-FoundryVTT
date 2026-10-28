@@ -1,6 +1,6 @@
 ---
 shortcode: generous
-name: {full: Generous, aliases: []}
+name: {full: Generous}
 type: trauma
 subType: psycond
 tags: []

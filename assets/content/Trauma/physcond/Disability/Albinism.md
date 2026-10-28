@@ -1,6 +1,6 @@
 ---
 shortcode: albinism
-name: {full: Albinism, aliases: []}
+name: {full: Albinism}
 type: trauma
 subType: physcond
 tags: []

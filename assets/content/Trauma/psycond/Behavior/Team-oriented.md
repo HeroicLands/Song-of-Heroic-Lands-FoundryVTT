@@ -1,6 +1,6 @@
 ---
 shortcode: tmrntd
-name: {full: Team-oriented, aliases: []}
+name: {full: Team-oriented}
 type: trauma
 subType: psycond
 tags: []

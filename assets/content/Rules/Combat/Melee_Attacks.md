@@ -1,6 +1,6 @@
 ---
 shortcode: mlattcks
-name: {full: Melee Attacks, aliases: []}
+name: {full: Melee Attacks}
 type: doc
 subType: rules
 tags: [rules-combat, rules-combat-kinds-of-attack, rules-combat-sections]

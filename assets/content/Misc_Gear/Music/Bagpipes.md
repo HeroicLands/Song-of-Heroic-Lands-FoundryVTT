@@ -1,6 +1,6 @@
 ---
 shortcode: bagpipes
-name: {full: Bagpipes, aliases: []}
+name: {full: Bagpipes}
 type: miscgear
 description: "Sheepskin-covered wooden stock with drones and chanter; penetrating wail for festivals, marches."
 tags: [music]

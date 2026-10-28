@@ -1,6 +1,6 @@
 ---
 shortcode: limbblock
-name: {full: Limb Block, aliases: []}
+name: {full: Limb Block}
 type: skill
 subType: combattechnique
 description: "Warding a blow with a limb — desperate bare-armed, deliberate in a mail sleeve."

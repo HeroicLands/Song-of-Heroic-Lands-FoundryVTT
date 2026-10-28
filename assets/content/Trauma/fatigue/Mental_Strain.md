@@ -1,6 +1,6 @@
 ---
 shortcode: mentstn
-name: {full: Mental Strain, aliases: []}
+name: {full: Mental Strain}
 type: trauma
 subType: fatigue
 description: "Sustained weariness from prolonged mental effort — reading, scribing, calculation, deep focus."

@@ -1,6 +1,6 @@
 ---
 shortcode: bdrt
-name: {full: Blowgun Dart, aliases: []}
+name: {full: Blowgun Dart}
 type: projectilegear
 subType: dart
 description: "Slender splinter tipped and fletched with fluff wadding; carried on breath, not force."

@@ -1,6 +1,6 @@
 ---
 shortcode: elo
-name: {full: Eloquence, aliases: []}
+name: {full: Eloquence}
 type: attribute
 description: "The power of chosen words to convince, inspire, teach, or deceive."
 tags: []

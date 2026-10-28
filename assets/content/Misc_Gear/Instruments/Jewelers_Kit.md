@@ -1,6 +1,6 @@
 ---
 shortcode: jewelerskt
-name: {full: Jeweler's Kit, aliases: []}
+name: {full: Jeweler's Kit}
 type: miscgear
 description: "Fine leather roll with graduated files, pin hammer, pliers, loupe, tweezers, drawplate, burnishers; goldsmiths' precision tools."
 tags: [instruments]

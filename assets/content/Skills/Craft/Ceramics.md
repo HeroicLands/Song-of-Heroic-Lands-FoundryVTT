@@ -1,6 +1,6 @@
 ---
 shortcode: cmcs
-name: {full: Ceramics, aliases: []}
+name: {full: Ceramics}
 type: skill
 subType: craft
 description: "Shaping clay into durable pots, bowls, tiles, bricks, and sculpture."

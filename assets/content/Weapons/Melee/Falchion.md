@@ -1,6 +1,6 @@
 ---
 shortcode: falcn
-name: {full: Falchion, aliases: []}
+name: {full: Falchion}
 type: weapongear
 description: "Single-edged curved blade favors overhead chop; sailor and soldier's steel."
 tags: []

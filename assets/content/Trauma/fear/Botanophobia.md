@@ -1,6 +1,6 @@
 ---
 shortcode: btnphb
-name: {full: Botanophobia, aliases: []}
+name: {full: Botanophobia}
 type: trauma
 subType: fear
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: homespun
-name: {full: "Homespun, per sq yard", aliases: []}
+name: {full: "Homespun, per sq yard"}
 type: miscgear
 description: "Unregulated flax cloth of linen weight, woven at the manor and sold by the cloth."
 tags: [clothing]

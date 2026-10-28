@@ -1,6 +1,6 @@
 ---
 shortcode: hidepig
-name: {full: "Hide, Pig", aliases: []}
+name: {full: "Hide, Pig"}
 type: miscgear
 description: "Hog hide thicker than sheep; moderately soft leather for gloves and belts. Price is for one whole skin."
 tags: [natural]

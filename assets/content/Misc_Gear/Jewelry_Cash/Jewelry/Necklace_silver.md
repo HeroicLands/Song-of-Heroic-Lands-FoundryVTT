@@ -1,6 +1,6 @@
 ---
 shortcode: necklacesilver
-name: {full: "Necklace, silver", aliases: []}
+name: {full: "Necklace, silver"}
 type: miscgear
 description: "Silver chain or collar; a prosperous household's showpiece, worn on feast days."
 tags: [jewelry_cash]

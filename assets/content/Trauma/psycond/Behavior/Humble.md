@@ -1,6 +1,6 @@
 ---
 shortcode: humble
-name: {full: Humble, aliases: []}
+name: {full: Humble}
 type: trauma
 subType: psycond
 tags: []

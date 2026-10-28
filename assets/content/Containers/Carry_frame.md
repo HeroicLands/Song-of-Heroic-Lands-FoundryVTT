@@ -1,6 +1,6 @@
 ---
 shortcode: carryframe
-name: {full: "Carry frame", aliases: []}
+name: {full: "Carry frame"}
 type: containergear
 description: "Wooden pack frame for lashing loads to."
 tags: []

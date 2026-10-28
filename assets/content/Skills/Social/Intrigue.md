@@ -1,6 +1,6 @@
 ---
 shortcode: intr
-name: {full: Intrigue, aliases: []}
+name: {full: Intrigue}
 type: skill
 subType: social
 description: "Detecting hidden motives, deception; unraveling plots and conspiracies."

@@ -1,6 +1,6 @@
 ---
 shortcode: sprtactn
-name: {full: Spirit Action, aliases: []}
+name: {full: Spirit Action}
 type: doc
 subType: rules
 tags: [rules-esoterica, rules-esoterica-mystical-abilities-spirit-mysteries]

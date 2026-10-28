@@ -1,6 +1,6 @@
 ---
 shortcode: lang
-name: {full: Language, aliases: []}
+name: {full: Language}
 type: skill
 subType: language
 description: "Proficiency in some particular tongue — the generic skill used wherever a named-language entry would overspecify."

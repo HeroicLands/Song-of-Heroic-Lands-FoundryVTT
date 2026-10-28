@@ -1,6 +1,6 @@
 ---
 shortcode: bench
-name: {full: "Bench", aliases: []}
+name: {full: "Bench"}
 type: miscgear
 description: "Long backless wooden seat for a table, hall, or workshop."
 tags: [furniture]

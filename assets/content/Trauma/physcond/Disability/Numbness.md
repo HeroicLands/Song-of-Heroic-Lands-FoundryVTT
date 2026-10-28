@@ -1,6 +1,6 @@
 ---
 shortcode: numbness
-name: {full: Numbness, aliases: []}
+name: {full: Numbness}
 type: trauma
 subType: physcond
 tags: []

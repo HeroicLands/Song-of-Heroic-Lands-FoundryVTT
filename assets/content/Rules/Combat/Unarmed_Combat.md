@@ -1,6 +1,6 @@
 ---
 shortcode: unrmdcmb
-name: {full: Unarmed Combat, aliases: []}
+name: {full: Unarmed Combat}
 type: doc
 subType: rules
 tags: [rules-combat, rules-combat-kinds-of-attack, rules-combat-sections]

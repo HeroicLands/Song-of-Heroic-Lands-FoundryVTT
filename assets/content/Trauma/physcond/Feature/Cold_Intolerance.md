@@ -1,6 +1,6 @@
 ---
 shortcode: coldinto
-name: {full: Cold Intolerance, aliases: []}
+name: {full: Cold Intolerance}
 type: trauma
 subType: physcond
 tags: []

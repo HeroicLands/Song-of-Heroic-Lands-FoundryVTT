@@ -1,6 +1,6 @@
 ---
 shortcode: ergophb
-name: {full: Ergophobia, aliases: []}
+name: {full: Ergophobia}
 type: trauma
 subType: fear
 tags: []

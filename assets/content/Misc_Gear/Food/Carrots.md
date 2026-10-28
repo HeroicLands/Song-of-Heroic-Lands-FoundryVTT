@@ -1,6 +1,6 @@
 ---
 shortcode: carrots
-name: {full: Carrots, aliases: []}
+name: {full: Carrots}
 type: miscgear
 description: "Orange root vegetables; sweet cooked, dried for long-simmering pots."
 tags: [food]

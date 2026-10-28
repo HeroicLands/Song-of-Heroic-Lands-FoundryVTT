@@ -1,6 +1,6 @@
 ---
 shortcode: amuletbone
-name: {full: "Amulet, bone", aliases: []}
+name: {full: "Amulet, bone"}
 type: miscgear
 description: "A charm hung at the neck on a cord or chain, in carved bone."
 tags: [jewelry_cash]

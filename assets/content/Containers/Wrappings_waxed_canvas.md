@@ -1,6 +1,6 @@
 ---
 shortcode: wrapwaxcv
-name: {full: "Wrappings, waxed canvas", aliases: []}
+name: {full: "Wrappings, waxed canvas"}
 type: containergear
 description: "Waxed canvas sheet for wrapping and waterproofing."
 tags: []

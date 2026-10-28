@@ -1,6 +1,6 @@
 ---
 shortcode: thghtfl
-name: {full: Thoughtful, aliases: []}
+name: {full: Thoughtful}
 type: trauma
 subType: psycond
 tags: []

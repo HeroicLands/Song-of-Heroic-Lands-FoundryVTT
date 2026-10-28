@@ -1,6 +1,6 @@
 ---
 shortcode: cdrpt
-name: {full: "Cider, Pint", aliases: []}
+name: {full: "Cider, Pint"}
 type: miscgear
 description: "Fermented apple cider; mellow lightly sour; autumn harvest-market drink."
 tags: [spirits]

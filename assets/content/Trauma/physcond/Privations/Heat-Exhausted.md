@@ -1,6 +1,6 @@
 ---
 shortcode: htexh
-name: {full: Heat-Exhausted, aliases: []}
+name: {full: Heat-Exhausted}
 type: trauma
 subType: physcond
 description: "Moderate heat injury; pale, clammy skin, weak pulse, nausea, faintness."

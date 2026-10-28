@@ -1,6 +1,6 @@
 ---
 shortcode: slngstf
-name: {full: Sling Staff, aliases: []}
+name: {full: Sling Staff}
 type: weapongear
 description: "Pole-mounted sling multiplying range and power for peasant levy."
 tags: []

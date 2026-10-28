@@ -1,6 +1,6 @@
 ---
 shortcode: typecatalog
-name: {full: SoHL Type Catalog, aliases: []}
+name: {full: SoHL Type Catalog}
 type: doc
 subType: reference
 description: Every actor and item type the system compiles, with the summary of its Logic class.

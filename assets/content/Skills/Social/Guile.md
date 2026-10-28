@@ -1,6 +1,6 @@
 ---
 shortcode: guil
-name: {full: Guile, aliases: []}
+name: {full: Guile}
 type: skill
 subType: social
 description: "Deliberate deception; distorting facts while appearing truthful oneself."

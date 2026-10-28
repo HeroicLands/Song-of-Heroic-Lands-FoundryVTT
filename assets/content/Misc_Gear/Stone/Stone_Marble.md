@@ -1,6 +1,6 @@
 ---
 shortcode: stonemarbl
-name: {full: "Stone, Marble", aliases: []}
+name: {full: "Stone, Marble"}
 type: miscgear
 description: "Banded metamorphic stone; costly beautiful durable; altars, memorials, noble halls."
 tags: [stone]

@@ -1,6 +1,6 @@
 ---
 shortcode: boneforcar
-name: {full: Bone (for carving), aliases: []}
+name: {full: Bone (for carving)}
 type: miscgear
 description: "Scraped bone scraps; used by carvers and flute-makers for chess, combs, ornaments."
 tags: [natural]

@@ -1,6 +1,6 @@
 ---
 shortcode: stdrtns
-name: {full: "Rations, Standard", aliases: []}
+name: {full: "Rations, Standard"}
 type: miscgear
 description: "Bread, dried meat, cheese, fruit bundle for traveler's day of moderate labor."
 tags: [food]

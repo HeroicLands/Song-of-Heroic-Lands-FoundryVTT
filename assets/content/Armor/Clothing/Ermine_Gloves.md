@@ -1,6 +1,6 @@
 ---
 shortcode: eglv
-name: {full: Ermine Gloves, aliases: []}
+name: {full: Ermine Gloves}
 type: armorgear
 description: "Soft white ermine gloves; mark of high status and wealth."
 tags: []

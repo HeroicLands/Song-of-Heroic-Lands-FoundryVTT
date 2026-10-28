@@ -1,6 +1,6 @@
 ---
 shortcode: cream
-name: {full: Cream, aliases: []}
+name: {full: Cream}
 type: miscgear
 description: "Rich pale cream; enriches sauces and custards, highly perishable, used fresh."
 tags: [food]

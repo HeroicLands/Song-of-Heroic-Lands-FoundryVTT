@@ -1,6 +1,6 @@
 ---
 shortcode: ltsndls
-name: {full: Leather Sandals, aliases: []}
+name: {full: Leather Sandals}
 type: armorgear
 description: "Lightweight leather foot covering combining comfort with rugged charm."
 tags: []

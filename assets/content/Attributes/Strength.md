@@ -1,6 +1,6 @@
 ---
 shortcode: str
-name: {full: Strength, aliases: []}
+name: {full: Strength}
 type: attribute
 description: "The power of muscle and bone brought to bear by physical exertion."
 tags: []

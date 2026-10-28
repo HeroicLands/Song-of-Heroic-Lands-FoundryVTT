@@ -1,6 +1,6 @@
 ---
 shortcode: belltemple
-name: {full: "Bell, temple", aliases: []}
+name: {full: "Bell, temple"}
 type: miscgear
 description: "Substantial bronze bell on frame; deep tone carries far beyond sanctuary."
 tags: [music]

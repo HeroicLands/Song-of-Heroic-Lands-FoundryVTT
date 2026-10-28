@@ -1,6 +1,6 @@
 ---
 shortcode: cssarchitecture
-name: {full: CSS Architecture & Styleguide, aliases: []}
+name: {full: CSS Architecture & Styleguide}
 type: doc
 subType: concept
 tags: [dev-concepts]

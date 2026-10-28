@@ -1,6 +1,6 @@
 ---
 shortcode: bloodstone
-name: {full: "Bloodstone, cut", aliases: []}
+name: {full: "Bloodstone, cut"}
 type: miscgear
 description: "Deep green stone streaked with red; favored for signet rings of soldiers."
 tags: [jewelry_cash]

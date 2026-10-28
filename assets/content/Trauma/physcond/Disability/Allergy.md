@@ -1,6 +1,6 @@
 ---
 shortcode: alrgmjr
-name: {full: Allergy, aliases: []}
+name: {full: Allergy}
 type: trauma
 subType: physcond
 tags: []

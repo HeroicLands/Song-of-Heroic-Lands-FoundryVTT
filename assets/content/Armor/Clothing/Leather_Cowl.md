@@ -1,6 +1,6 @@
 ---
 shortcode: ltcowl
-name: {full: Leather Cowl, aliases: []}
+name: {full: Leather Cowl}
 type: armorgear
 description: "Lightweight leather head and shoulder covering offering rugged simplicity."
 tags: []

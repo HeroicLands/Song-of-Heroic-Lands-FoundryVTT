@@ -1,6 +1,6 @@
 ---
 shortcode: intrvrtd
-name: {full: Introverted, aliases: []}
+name: {full: Introverted}
 type: trauma
 subType: psycond
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: steel
-name: {full: Steel, aliases: []}
+name: {full: Steel}
 type: miscgear
 description: "Carburised iron, twice the price; takes and holds an edge where iron will not."
 tags: [jewelry_cash]

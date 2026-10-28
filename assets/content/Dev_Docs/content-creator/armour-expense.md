@@ -1,6 +1,6 @@
 ---
 shortcode: armourexpense
-name: {full: Armour Expense Derivation, aliases: []}
+name: {full: Armour Expense Derivation}
 type: doc
 subType: reference
 description: "Build-generated armour crafting materials and hours from authored price and body coverage."

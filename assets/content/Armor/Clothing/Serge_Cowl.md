@@ -1,6 +1,6 @@
 ---
 shortcode: sgcowl
-name: {full: Serge Cowl, aliases: []}
+name: {full: Serge Cowl}
 type: armorgear
 description: "Twilled serge cowl; provides warmth and protection for everyday wear."
 tags: []

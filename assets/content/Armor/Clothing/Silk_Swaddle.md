@@ -1,6 +1,6 @@
 ---
 shortcode: slkswd
-name: {full: Silk Swaddle, aliases: []}
+name: {full: Silk Swaddle}
 type: armorgear
 description: "Luxurious silk swaddle for infants; soft, elegant formal wear."
 tags: []

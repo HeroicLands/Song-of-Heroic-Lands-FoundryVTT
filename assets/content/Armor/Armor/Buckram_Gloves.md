@@ -1,6 +1,6 @@
 ---
 shortcode: bglv
-name: {full: Buckram Gloves, aliases: []}
+name: {full: Buckram Gloves}
 type: armorgear
 description: "Stiff buckram gloves offering rigid hand covering for structured tasks."
 tags: []

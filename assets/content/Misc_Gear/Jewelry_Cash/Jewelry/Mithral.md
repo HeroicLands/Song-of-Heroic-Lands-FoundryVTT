@@ -1,6 +1,6 @@
 ---
 shortcode: mithral
-name: {full: Mithral, aliases: []}
+name: {full: Mithral}
 type: miscgear
 description: "Rare silvery metal harder than steel; prized by weaponcrafters and crown."
 tags: [jewelry_cash]

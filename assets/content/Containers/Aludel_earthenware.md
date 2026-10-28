@@ -1,6 +1,6 @@
 ---
 shortcode: aludelew
-name: {full: "Aludel, earthenware", aliases: []}
+name: {full: "Aludel, earthenware"}
 type: containergear
 description: "Earthenware sublimation vessel, pear-shaped."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: hideermine
-name: {full: "Hide, Ermine/Sable", aliases: []}
+name: {full: "Hide, Ermine/Sable"}
 type: miscgear
 description: "Small pelt of stoat or marten; snow-white or dark fur for cloak-trim. Price is for one whole skin."
 tags: [natural]

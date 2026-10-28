@@ -1,6 +1,6 @@
 ---
 shortcode: mtcls
-name: {full: Meticulous, aliases: []}
+name: {full: Meticulous}
 type: trauma
 subType: psycond
 tags: []

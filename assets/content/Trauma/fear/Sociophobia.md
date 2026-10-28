@@ -1,6 +1,6 @@
 ---
 shortcode: sociophb
-name: {full: Sociophobia, aliases: []}
+name: {full: Sociophobia}
 type: trauma
 subType: fear
 tags: []

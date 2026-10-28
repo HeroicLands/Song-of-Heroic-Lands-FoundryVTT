@@ -1,6 +1,6 @@
 ---
 shortcode: wshirt
-name: {full: Worsted Shirt, aliases: []}
+name: {full: Worsted Shirt}
 type: armorgear
 description: "Tightly-spun wool shirt; durable, practical garment for activities."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: talcrough
-name: {full: "Talc, Rough", aliases: []}
+name: {full: "Talc, Rough"}
 type: miscgear
 description: "Soft slippery stone chunks; reduces friction, absorbs moisture; fullers, tanners, metalworkers."
 tags: [stone]

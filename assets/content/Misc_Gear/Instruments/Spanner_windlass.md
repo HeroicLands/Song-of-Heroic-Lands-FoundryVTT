@@ -1,6 +1,6 @@
 ---
 shortcode: spannerwindlass
-name: {full: "Spanner, windlass", aliases: []}
+name: {full: "Spanner, windlass"}
 type: miscgear
 description: "Cranked cord-and-pulley windlass for the heaviest crossbows; tenfold draw."
 tags: [instruments]

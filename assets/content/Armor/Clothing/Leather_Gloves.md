@@ -1,6 +1,6 @@
 ---
 shortcode: ltglove
-name: {full: Leather Gloves, aliases: []}
+name: {full: Leather Gloves}
 type: armorgear
 description: "Lightweight leather hand covering offering style and minor protection."
 tags: []

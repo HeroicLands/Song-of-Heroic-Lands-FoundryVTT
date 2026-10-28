@@ -1,6 +1,6 @@
 ---
 shortcode: bvglv
-name: {full: Beaver Gloves, aliases: []}
+name: {full: Beaver Gloves}
 type: armorgear
 description: "Beaver fur gloves delivering warmth and luxury for the cold-season wearer."
 tags: []

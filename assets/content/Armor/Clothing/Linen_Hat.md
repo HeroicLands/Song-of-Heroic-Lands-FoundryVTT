@@ -1,6 +1,6 @@
 ---
 shortcode: lhat
-name: {full: Linen Hat, aliases: []}
+name: {full: Linen Hat}
 type: armorgear
 description: "Light breathable head covering for warm climates with sun protection."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: runic
-name: {full: Runic, aliases: []}
+name: {full: Runic}
 type: skill
 subType: script
 description: "Reading and writing ancient runic scripts carved into stone and wood."

@@ -1,6 +1,6 @@
 ---
 shortcode: barrel50gal
-name: {full: "Barrel, 50 gallon", aliases: []}
+name: {full: "Barrel, 50 gallon"}
 type: containergear
 description: "Large coopered tun for brewing, salting, or shipping in bulk (50 gallons)."
 tags: []

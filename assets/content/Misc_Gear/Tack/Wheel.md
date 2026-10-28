@@ -1,6 +1,6 @@
 ---
 shortcode: wheel
-name: {full: "Wheel", aliases: []}
+name: {full: "Wheel"}
 type: miscgear
 description: "Spoked and iron-tyred cart wheel; a specialist's work."
 tags: [tack]

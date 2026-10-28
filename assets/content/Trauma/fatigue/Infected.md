@@ -1,6 +1,6 @@
 ---
 shortcode: infect
-name: {full: Infected, aliases: []}
+name: {full: Infected}
 type: trauma
 subType: fatigue
 description: "Long-term weakness from septic injury or contaminated wound."

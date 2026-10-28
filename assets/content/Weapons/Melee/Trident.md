@@ -1,6 +1,6 @@
 ---
 shortcode: tri
-name: {full: Trident, aliases: []}
+name: {full: Trident}
 type: weapongear
 description: "Three-pronged fork binding and piercing; favored by pit-fighters."
 tags: []

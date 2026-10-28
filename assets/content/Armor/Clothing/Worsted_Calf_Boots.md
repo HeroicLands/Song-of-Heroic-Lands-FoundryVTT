@@ -1,6 +1,6 @@
 ---
 shortcode: wcboot
-name: {full: Worsted Calf Boots, aliases: []}
+name: {full: Worsted Calf Boots}
 type: armorgear
 description: "Tightly-spun wool calf boots; warm, practical footwear for cold."
 tags: []

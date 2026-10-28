@@ -1,6 +1,6 @@
 ---
 shortcode: injintro
-name: {full: Injury Introduction, aliases: []}
+name: {full: Injury Introduction}
 type: doc
 subType: rules
 tags: [rules-trauma, rules-trauma-body-sections]

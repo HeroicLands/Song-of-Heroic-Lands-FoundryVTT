@@ -1,6 +1,6 @@
 ---
 shortcode: tar
-name: {full: Tar, aliases: []}
+name: {full: Tar}
 type: miscgear
 description: "Pine-birch pitch sold in pots; seals hull seams, waterproofs leather, tars rope."
 tags: [natural]

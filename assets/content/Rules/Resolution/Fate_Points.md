@@ -1,6 +1,6 @@
 ---
 shortcode: fatepnts
-name: {full: Fate Points, aliases: []}
+name: {full: Fate Points}
 type: doc
 subType: rules
 tags: [rules-resolution, rules-resolution-sections]

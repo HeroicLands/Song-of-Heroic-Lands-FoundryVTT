@@ -1,6 +1,6 @@
 ---
 shortcode: eels
-name: {full: Eels, aliases: []}
+name: {full: Eels}
 type: miscgear
 description: "Fresh freshwater fish; rich fat, distinctive flavor, preserves well smoked."
 tags: [food]

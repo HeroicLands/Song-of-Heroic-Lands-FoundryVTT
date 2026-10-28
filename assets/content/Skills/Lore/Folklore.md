@@ -1,6 +1,6 @@
 ---
 shortcode: folklr
-name: {full: Folklore, aliases: []}
+name: {full: Folklore}
 type: skill
 subType: lore
 description: "Knowledge of homeland culture, history, traditions, myth and social customs."

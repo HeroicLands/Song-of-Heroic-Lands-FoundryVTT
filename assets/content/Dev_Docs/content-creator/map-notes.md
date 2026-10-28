@@ -1,6 +1,6 @@
 ---
 shortcode: mapnotes
-name: {full: Map Notes, aliases: []}
+name: {full: Map Notes}
 type: doc
 subType: howto
 description: "Authoring a map as a markdown note: the Foundry Scene exported under `data.scene`, asset fixups, pins bound to the note's own pages, and the place the map depicts."
@@ -116,7 +116,7 @@ identifiers the pins address.
 ```yaml
 ---
 shortcode: wolfden
-name: { full: The Wolf's Den, aliases: [] }
+name: { full: The Wolf's Den }
 type: map
 subType: battlemap
 description: "A burrow under a hillside, one chamber deep."

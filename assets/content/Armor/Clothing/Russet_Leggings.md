@@ -1,6 +1,6 @@
 ---
 shortcode: rleg
-name: {full: Russet Leggings, aliases: []}
+name: {full: Russet Leggings}
 type: armorgear
 description: "Reddish-brown wool leg-covers; warmth for the lower body."
 tags: []

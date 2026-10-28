@@ -1,6 +1,6 @@
 ---
 shortcode: lamb
-name: {full: Lamb, aliases: []}
+name: {full: Lamb}
 type: miscgear
 description: "Tender pale meat; roasted whole or smoked into jerky for caravans."
 tags: [food]

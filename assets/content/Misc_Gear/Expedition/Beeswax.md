@@ -1,6 +1,6 @@
 ---
 shortcode: bswax
-name: {full: Beeswax, aliases: []}
+name: {full: Beeswax}
 type: miscgear
 description: "Pale honey-colored cake; waterproofs leather, caulks wood, and makes fine candles."
 tags: [expedition]

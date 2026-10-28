@@ -1,6 +1,6 @@
 ---
 shortcode: dyeindg
-name: {full: "Dye, Indigo Blue", aliases: []}
+name: {full: "Dye, Indigo Blue"}
 type: miscgear
 description: "Precious indigo powder; rich permanent blue for wealthy merchants and court dyers."
 tags: [clothing]

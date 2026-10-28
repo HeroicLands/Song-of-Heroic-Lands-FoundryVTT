@@ -1,6 +1,6 @@
 ---
 shortcode: oilcook
-name: {full: "Oil, Cooking", aliases: []}
+name: {full: "Oil, Cooking"}
 type: miscgear
 description: "Golden neutral vegetable oil for frying and lighting, gallons at markets."
 tags: [food]

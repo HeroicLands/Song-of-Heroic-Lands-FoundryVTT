@@ -1,6 +1,6 @@
 ---
 shortcode: vellumperp
-name: {full: "Vellum, per page", aliases: []}
+name: {full: "Vellum, per page"}
 type: miscgear
 description: "Calf skin; finest white durable surface for royal charters, illuminated gospels."
 tags: [scribe]

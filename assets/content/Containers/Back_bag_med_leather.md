@@ -1,6 +1,6 @@
 ---
 shortcode: backbagmed
-name: {full: "Back bag, med, leather", aliases: []}
+name: {full: "Back bag, med, leather"}
 type: containergear
 description: "Moderate leather shoulder pouch for daily personal belongings."
 tags: []

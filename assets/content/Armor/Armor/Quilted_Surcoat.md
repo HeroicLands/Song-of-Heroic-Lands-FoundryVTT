@@ -1,6 +1,6 @@
 ---
 shortcode: qscoat
-name: {full: Quilted Surcoat, aliases: []}
+name: {full: Quilted Surcoat}
 type: armorgear
 description: "Stitched outer garment; layered insulation over other dress."
 tags: []

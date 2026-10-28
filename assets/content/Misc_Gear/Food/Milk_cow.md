@@ -1,6 +1,6 @@
 ---
 shortcode: milkcow
-name: {full: "Milk, cow", aliases: []}
+name: {full: "Milk, cow"}
 type: miscgear
 description: "Fresh dairy, curdles into cheese and butter by afternoon daily."
 tags: [food]

@@ -1,6 +1,6 @@
 ---
 shortcode: holysymbrass
-name: {full: "Holy Symbol, brass", aliases: []}
+name: {full: "Holy Symbol, brass"}
 type: miscgear
 description: "Cast brass token of a god, hung at the neck; the commonest metal symbol."
 tags: [religious]

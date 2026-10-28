@@ -1,6 +1,6 @@
 ---
 shortcode: phagophb
-name: {full: Phagophobia, aliases: []}
+name: {full: Phagophobia}
 type: trauma
 subType: fear
 tags: []

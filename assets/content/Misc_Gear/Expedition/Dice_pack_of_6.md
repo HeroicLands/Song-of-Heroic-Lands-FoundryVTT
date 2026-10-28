@@ -1,6 +1,6 @@
 ---
 shortcode: dicepackof
-name: {full: "Dice, pack of 6", aliases: []}
+name: {full: "Dice, pack of 6"}
 type: miscgear
 description: "Six bone or wooden dice; used in taverns and camps for gaming."
 tags: [expedition]

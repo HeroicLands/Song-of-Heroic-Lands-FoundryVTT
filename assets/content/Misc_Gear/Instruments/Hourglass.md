@@ -1,6 +1,6 @@
 ---
 shortcode: hourglass
-name: {full: "Hourglass", aliases: []}
+name: {full: "Hourglass"}
 type: miscgear
 description: "Paired glass bulbs and graded sand in a wooden frame; measures a fixed interval."
 tags: [instruments]

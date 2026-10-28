@@ -1,6 +1,6 @@
 ---
 shortcode: oillamp
-name: {full: "Oil, Lamp", aliases: []}
+name: {full: "Oil, Lamp"}
 type: miscgear
 description: "Animal fat or oil in clay-bronze reservoir; steady flame with twisted-flax wick."
 tags: [lighting]

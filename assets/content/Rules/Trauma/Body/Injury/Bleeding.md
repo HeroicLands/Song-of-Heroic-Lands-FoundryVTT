@@ -1,6 +1,6 @@
 ---
 shortcode: bleeding
-name: {full: Bleeding, aliases: []}
+name: {full: Bleeding}
 type: doc
 subType: rules
 tags: [rules-trauma, rules-trauma-body-injury-sections]

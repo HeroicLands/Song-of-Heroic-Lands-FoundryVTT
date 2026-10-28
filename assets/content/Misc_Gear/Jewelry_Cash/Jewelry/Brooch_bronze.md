@@ -1,6 +1,6 @@
 ---
 shortcode: broochbronze
-name: {full: "Brooch, bronze", aliases: []}
+name: {full: "Brooch, bronze"}
 type: miscgear
 description: "A pin and catch worked into a plate, worn to fasten a cloak at the shoulder, in cast bronze."
 tags: [jewelry_cash]

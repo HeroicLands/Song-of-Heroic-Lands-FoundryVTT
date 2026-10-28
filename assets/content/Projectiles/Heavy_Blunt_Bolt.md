@@ -1,6 +1,6 @@
 ---
 shortcode: blthblt
-name: {full: Heavy Blunt Bolt, aliases: []}
+name: {full: Heavy Blunt Bolt}
 type: projectilegear
 subType: bolt
 description: "Heavy hardwood quarrel with ball head; breaks ribs, clears crowds bloodlessly."

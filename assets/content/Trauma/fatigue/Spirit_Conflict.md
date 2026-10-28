@@ -1,6 +1,6 @@
 ---
 shortcode: spiritcnfl
-name: {full: Spirit Conflict, aliases: []}
+name: {full: Spirit Conflict}
 type: trauma
 subType: fatigue
 description: "Acute windedness from spiritual struggle against a contesting entity."

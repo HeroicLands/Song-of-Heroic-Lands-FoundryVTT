@@ -1,6 +1,6 @@
 ---
 shortcode: prfctnst
-name: {full: Perfectionist, aliases: []}
+name: {full: Perfectionist}
 type: trauma
 subType: psycond
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: glas
-name: {full: Glassworking, aliases: []}
+name: {full: Glassworking}
 type: skill
 subType: craft
 description: "Shaping molten glass into bottles, goblets, vials, windows, lenses."

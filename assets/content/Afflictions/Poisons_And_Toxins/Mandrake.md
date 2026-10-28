@@ -1,6 +1,6 @@
 ---
 shortcode: mandrk
-name: {full: Mandrake, aliases: []}
+name: {full: Mandrake}
 type: affliction
 subType: poisontoxin
 description: "Tropane alkaloid; hallucinations and confusion; large doses cause respiratory failure."

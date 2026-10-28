@@ -1,6 +1,6 @@
 ---
 shortcode: earringshorn
-name: {full: "Earrings, horn", aliases: []}
+name: {full: "Earrings, horn"}
 type: miscgear
 description: "A matched pair, hooked or hung, in carved horn."
 tags: [jewelry_cash]

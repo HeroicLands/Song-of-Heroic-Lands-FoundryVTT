@@ -1,6 +1,6 @@
 ---
 shortcode: alekeg
-name: {full: "Ale, Keg", aliases: []}
+name: {full: "Ale, Keg"}
 type: miscgear
 description: "Tarred stave-built keg; pale malty ale for tavern supply, military provisioning."
 tags: [spirits]

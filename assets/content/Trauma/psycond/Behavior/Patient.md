@@ -1,6 +1,6 @@
 ---
 shortcode: patient
-name: {full: Patient, aliases: []}
+name: {full: Patient}
 type: trauma
 subType: psycond
 tags: []

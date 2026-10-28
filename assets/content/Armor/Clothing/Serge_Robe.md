@@ -1,6 +1,6 @@
 ---
 shortcode: sgrobe
-name: {full: Serge Robe, aliases: []}
+name: {full: Serge Robe}
 type: armorgear
 description: "Twilled serge robe; practical, versatile everyday garment."
 tags: []

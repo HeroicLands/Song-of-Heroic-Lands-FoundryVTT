@@ -1,6 +1,6 @@
 ---
 shortcode: anklethorn
-name: {full: "Anklet, horn", aliases: []}
+name: {full: "Anklet, horn"}
 type: miscgear
 description: "A band worn at the ankle, closed or hinged, and often hung with small charms, in carved horn."
 tags: [jewelry_cash]

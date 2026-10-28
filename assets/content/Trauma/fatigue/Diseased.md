@@ -1,6 +1,6 @@
 ---
 shortcode: disd
-name: {full: Diseased, aliases: [Disease]}
+name: {full: Diseased, en: [Disease]}
 type: trauma
 subType: fatigue
 description: "Long-term weakness from carrying an active disease."

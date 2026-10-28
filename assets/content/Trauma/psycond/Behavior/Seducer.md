@@ -1,6 +1,6 @@
 ---
 shortcode: seducer
-name: {full: Seducer, aliases: []}
+name: {full: Seducer}
 type: trauma
 subType: psycond
 tags: []

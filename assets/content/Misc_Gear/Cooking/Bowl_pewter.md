@@ -1,6 +1,6 @@
 ---
 shortcode: bowlpewter
-name: {full: "Bowl, pewter", aliases: []}
+name: {full: "Bowl, pewter"}
 type: miscgear
 description: "Cast pewter bowl; durable, soft-sheen, and safe for food and drink."
 tags: [cooking]

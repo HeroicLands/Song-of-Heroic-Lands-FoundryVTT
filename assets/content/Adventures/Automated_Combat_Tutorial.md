@@ -1,6 +1,6 @@
 ---
 shortcode: automatedcombattutorial
-name: {full: Automated Combat Tutorial, aliases: []}
+name: {full: Automated Combat Tutorial}
 type: bundle
 tags: [tutorial]
 data:

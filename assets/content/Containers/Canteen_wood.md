@@ -1,6 +1,6 @@
 ---
 shortcode: cantwood
-name: {full: "Canteen, wood", aliases: []}
+name: {full: "Canteen, wood"}
 type: containergear
 description: "Turned wooden canteen with a stopper."
 tags: []

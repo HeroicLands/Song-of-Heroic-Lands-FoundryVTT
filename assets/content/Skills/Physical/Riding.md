@@ -1,6 +1,6 @@
 ---
 shortcode: ridg
-name: {full: Riding, aliases: []}
+name: {full: Riding}
 type: skill
 subType: physical
 description: "Controlling mounted animals through communication and empathic connection."

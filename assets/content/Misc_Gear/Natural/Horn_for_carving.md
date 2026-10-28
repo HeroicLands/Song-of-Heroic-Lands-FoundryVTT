@@ -1,6 +1,6 @@
 ---
 shortcode: hornforcar
-name: {full: Horn (for carving), aliases: []}
+name: {full: Horn (for carving)}
 type: miscgear
 description: "Cattle horn and deer or elk antler; twice the price of bone, and worked much the same."
 tags: [natural]

@@ -1,6 +1,6 @@
 ---
 shortcode: plgthlm
-name: {full: Plate Great Helm, aliases: []}
+name: {full: Plate Great Helm}
 type: armorgear
 description: "Fully enclosed steel helm; maximum head-and-face coverage for warriors."
 tags: []

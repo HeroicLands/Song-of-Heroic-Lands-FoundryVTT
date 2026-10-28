@@ -1,6 +1,6 @@
 ---
 shortcode: backpkwc
-name: {full: "Backpack, waxed canvas", aliases: []}
+name: {full: "Backpack, waxed canvas"}
 type: containergear
 description: "Frameless waxed canvas pack; sheds rain."
 tags: []

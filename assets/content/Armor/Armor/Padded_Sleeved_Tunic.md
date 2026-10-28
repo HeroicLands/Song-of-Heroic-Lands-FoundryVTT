@@ -1,6 +1,6 @@
 ---
 shortcode: pstnc
-name: {full: Padded Sleeved Tunic, aliases: []}
+name: {full: Padded Sleeved Tunic}
 type: armorgear
 description: "Cushioned sleeved garment for cold weather or under-armor protection."
 tags: []

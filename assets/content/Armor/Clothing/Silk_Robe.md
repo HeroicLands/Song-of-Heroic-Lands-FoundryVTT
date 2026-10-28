@@ -1,6 +1,6 @@
 ---
 shortcode: slkrobe
-name: {full: Silk Robe, aliases: []}
+name: {full: Silk Robe}
 type: armorgear
 description: "Elegant silk robe; luxurious garment for formal occasions and refinement."
 tags: []

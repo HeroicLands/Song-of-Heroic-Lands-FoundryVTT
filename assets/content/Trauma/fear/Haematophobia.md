@@ -1,6 +1,6 @@
 ---
 shortcode: hmtphb
-name: {full: Haematophobia, aliases: []}
+name: {full: Haematophobia}
 type: trauma
 subType: fear
 tags: []

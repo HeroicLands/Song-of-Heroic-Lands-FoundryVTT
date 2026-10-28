@@ -1,6 +1,6 @@
 ---
 shortcode: character
-name: {full: Characters Introduction, aliases: []}
+name: {full: Characters Introduction}
 type: doc
 subType: rules
 tags: [rules-characters]

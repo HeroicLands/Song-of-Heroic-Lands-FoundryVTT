@@ -1,6 +1,6 @@
 ---
 shortcode: lrobe
-name: {full: Linen Robe, aliases: []}
+name: {full: Linen Robe}
 type: armorgear
 description: "Light breathable long garment perfect for warm weather wear."
 tags: []

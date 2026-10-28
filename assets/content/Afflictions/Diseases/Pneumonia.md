@@ -1,6 +1,6 @@
 ---
 shortcode: pnmna
-name: {full: Pneumonia, aliases: []}
+name: {full: Pneumonia}
 type: affliction
 subType: disease
 description: "Lung infection; fever, productive cough, chest pain, shortness of breath."

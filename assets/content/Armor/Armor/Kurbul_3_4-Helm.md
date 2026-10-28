@@ -1,6 +1,6 @@
 ---
 shortcode: k34hlm
-name: {full: Kûrbúl ¾-Helm, aliases: []}
+name: {full: Kûrbúl ¾-Helm}
 type: armorgear
 description: "Treated leather helm with reinforced ridges and embossing for protection and style."
 tags: []

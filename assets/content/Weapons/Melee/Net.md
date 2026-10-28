@@ -1,6 +1,6 @@
 ---
 shortcode: net
-name: {full: Net, aliases: []}
+name: {full: Net}
 type: weapongear
 description: "Weighted mesh entangles limbs; gladiatorial disarm-and-strike with spear."
 tags: []

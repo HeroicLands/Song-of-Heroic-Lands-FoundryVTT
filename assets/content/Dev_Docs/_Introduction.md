@@ -1,6 +1,6 @@
 ---
 shortcode: devdocs
-name: {full: SoHL Developer & API Documentation, aliases: []}
+name: {full: SoHL Developer & API Documentation}
 type: doc
 subType: reference
 data: {pack: none}

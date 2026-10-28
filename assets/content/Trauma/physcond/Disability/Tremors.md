@@ -1,6 +1,6 @@
 ---
 shortcode: tremors
-name: {full: Tremors, aliases: []}
+name: {full: Tremors}
 type: trauma
 subType: physcond
 tags: []

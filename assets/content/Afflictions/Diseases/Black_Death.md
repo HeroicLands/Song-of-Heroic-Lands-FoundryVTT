@@ -1,6 +1,6 @@
 ---
 shortcode: blkdth
-name: {full: Black Death, aliases: []}
+name: {full: Black Death}
 type: affliction
 subType: disease
 description: "Pestilential fever with black buboes; highly contagious, usually fatal."

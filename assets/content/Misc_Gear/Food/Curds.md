@@ -1,6 +1,6 @@
 ---
 shortcode: curds
-name: {full: Curds, aliases: []}
+name: {full: Curds}
 type: miscgear
 description: "Soft fresh curd drained from whey; eaten warm with salt or honey."
 tags: [food]

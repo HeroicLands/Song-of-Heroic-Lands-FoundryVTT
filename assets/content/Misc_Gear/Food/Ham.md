@@ -1,6 +1,6 @@
 ---
 shortcode: ham
-name: {full: Ham, aliases: []}
+name: {full: Ham}
 type: miscgear
 description: "Salt-cured smoked hog hind leg; sliced thin or diced, keeps months."
 tags: [food]

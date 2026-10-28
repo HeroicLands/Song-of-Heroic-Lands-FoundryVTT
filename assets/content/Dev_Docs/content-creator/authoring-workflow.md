@@ -1,6 +1,6 @@
 ---
 shortcode: authoringworkflow
-name: {full: The Authoring Workflow, aliases: []}
+name: {full: The Authoring Workflow}
 type: doc
 subType: howto
 description: "Where content lives, the frontmatter every note carries whatever its type, and how a note becomes a compendium document."
@@ -81,7 +81,7 @@ Prose goes here, and becomes this skill's write-up.
 **The order the compiler applies these is load-bearing**, because it decides
 which mistake produces which symptom. Each pass walks the whole content tree once
 and tests, in this order: first the **refused frontmatter fields** — `package:`,
-`draft:`, `aliases:`, `section:`, each rejected by name — then whether the
+`draft:`, `section:`, each rejected by name — then whether the
 `type:` is one of the refused names, then whether this pass claims the type at
 all, then whether the note has an **address** to derive an id from, then
 `pack:`, then the pass's own rejection rules. A note rejected early never

@@ -1,6 +1,6 @@
 ---
 shortcode: mmtn
-name: {full: Mail Mittens, aliases: []}
+name: {full: Mail Mittens}
 type: armorgear
 description: "Metal ring hand protection offering excellent defense in combat."
 tags: []

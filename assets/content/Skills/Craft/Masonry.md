@@ -1,6 +1,6 @@
 ---
 shortcode: masn
-name: {full: Masonry, aliases: []}
+name: {full: Masonry}
 type: skill
 subType: craft
 description: "Quarrying, cutting, and laying stone for walls, buildings, and fortifications."

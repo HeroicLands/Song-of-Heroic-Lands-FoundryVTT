@@ -1,6 +1,6 @@
 ---
 shortcode: clubfoot
-name: {full: Clubfoot, aliases: []}
+name: {full: Clubfoot}
 type: trauma
 subType: physcond
 tags: []

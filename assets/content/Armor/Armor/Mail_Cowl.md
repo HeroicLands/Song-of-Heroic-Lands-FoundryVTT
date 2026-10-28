@@ -1,6 +1,6 @@
 ---
 shortcode: mcwl
-name: {full: Mail Cowl, aliases: []}
+name: {full: Mail Cowl}
 type: armorgear
 description: "Metal ring head and neck armor providing substantial combat protection."
 tags: []

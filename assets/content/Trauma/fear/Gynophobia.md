@@ -1,6 +1,6 @@
 ---
 shortcode: gynophb
-name: {full: Gynophobia, aliases: []}
+name: {full: Gynophobia}
 type: trauma
 subType: fear
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: snstv
-name: {full: Sensitive, aliases: []}
+name: {full: Sensitive}
 type: trauma
 subType: psycond
 tags: []

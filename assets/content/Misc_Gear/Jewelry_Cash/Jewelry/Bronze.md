@@ -1,6 +1,6 @@
 ---
 shortcode: bronze
-name: {full: Bronze, aliases: []}
+name: {full: Bronze}
 type: miscgear
 description: "Copper-and-tin alloy, harder than copper; cast into tools, vessels, and ornament."
 tags: [jewelry_cash]

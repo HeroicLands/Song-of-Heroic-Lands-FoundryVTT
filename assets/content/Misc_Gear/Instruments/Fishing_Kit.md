@@ -1,6 +1,6 @@
 ---
 shortcode: fishgkit
-name: {full: Fishing Kit, aliases: []}
+name: {full: Fishing Kit}
 type: miscgear
 description: "Cloth pouch with hooks, sinker, horsehair line, bone needle for riverside hunting."
 tags: [instruments]

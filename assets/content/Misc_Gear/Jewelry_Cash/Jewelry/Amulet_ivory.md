@@ -1,6 +1,6 @@
 ---
 shortcode: amuletivory
-name: {full: "Amulet, ivory", aliases: []}
+name: {full: "Amulet, ivory"}
 type: miscgear
 description: "A charm hung at the neck on a cord or chain, in carved ivory."
 tags: [jewelry_cash]

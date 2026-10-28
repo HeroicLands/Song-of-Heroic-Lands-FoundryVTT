@@ -1,6 +1,6 @@
 ---
 shortcode: boon
-name: {full: Boon, aliases: []}
+name: {full: Boon}
 type: doc
 subType: rules
 tags: [rules-esoterica, rules-esoterica-mysteries-sections]

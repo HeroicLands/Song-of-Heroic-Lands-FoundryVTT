@@ -1,6 +1,6 @@
 ---
 shortcode: cofferlw
-name: {full: "Coffer, leather & wood", aliases: []}
+name: {full: "Coffer, leather & wood"}
 type: containergear
 description: "Leather-covered wooden coffer with a key lock."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: dulcimer
-name: {full: Dulcimer, aliases: []}
+name: {full: Dulcimer}
 type: miscgear
 description: "Trapezoidal frame with gut strings struck by hammers; sweet, haunting chiming voice."
 tags: [music]

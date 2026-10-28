@@ -1,6 +1,6 @@
 ---
 shortcode: linen
-name: {full: "Linen, per sq yard", aliases: []}
+name: {full: "Linen, per sq yard"}
 type: miscgear
 description: "Light flax cloth, somewhat coarse, cheap colours; the common shift and shirt cloth."
 tags: [clothing]

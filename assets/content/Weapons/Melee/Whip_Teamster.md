@@ -1,6 +1,6 @@
 ---
 shortcode: twhp
-name: {full: "Whip, Teamster", aliases: []}
+name: {full: "Whip, Teamster"}
 type: weapongear
 description: "Short cord lash stinging rather than cutting; driver's incidental combat tool."
 tags: []

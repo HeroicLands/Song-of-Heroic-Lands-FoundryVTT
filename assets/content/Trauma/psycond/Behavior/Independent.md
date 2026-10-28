@@ -1,6 +1,6 @@
 ---
 shortcode: indpndnt
-name: {full: Independent, aliases: []}
+name: {full: Independent}
 type: trauma
 subType: psycond
 tags: []

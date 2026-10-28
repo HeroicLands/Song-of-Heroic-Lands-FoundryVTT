@@ -1,6 +1,6 @@
 ---
 shortcode: stonerough
-name: {full: "Stone, Rough", aliases: []}
+name: {full: "Stone, Rough"}
 type: miscgear
 description: "Unsquared fieldstone blocks; cheap practical; barn walls, boundary fences."
 tags: [stone]

@@ -1,6 +1,6 @@
 ---
 shortcode: ldmnc
-name: {full: Left Dominance, aliases: []}
+name: {full: Left Dominance}
 type: trauma
 subType: physcond
 tags: []

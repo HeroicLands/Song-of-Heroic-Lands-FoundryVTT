@@ -1,6 +1,6 @@
 ---
 shortcode: serge
-name: {full: "Serge, per sq yard", aliases: []}
+name: {full: "Serge, per sq yard"}
 type: miscgear
 description: "Cheap unfulled wool, coarse thread, rural work; brown and grey only."
 tags: [clothing]

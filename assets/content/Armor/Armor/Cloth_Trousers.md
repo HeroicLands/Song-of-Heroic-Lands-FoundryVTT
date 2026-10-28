@@ -1,6 +1,6 @@
 ---
 shortcode: ctrsr
-name: {full: Cloth Trousers, aliases: []}
+name: {full: Cloth Trousers}
 type: armorgear
 description: "Simple cloth trousers offering comfort and warmth for everyday wear."
 tags: []

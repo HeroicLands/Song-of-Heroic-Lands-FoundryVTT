@@ -1,6 +1,6 @@
 ---
 shortcode: jarliddeds
-name: {full: "Jar, lidded, 1 pint", aliases: []}
+name: {full: "Jar, lidded, 1 pint"}
 type: containergear
 description: "Compact stoneware jar with tight seal for spices and traveling supplies (1 pint)."
 tags: []

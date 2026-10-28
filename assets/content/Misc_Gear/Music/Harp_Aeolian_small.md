@@ -1,6 +1,6 @@
 ---
 shortcode: harpaeolia
-name: {full: "Harp, Aeolian (small)", aliases: []}
+name: {full: "Harp, Aeolian (small)"}
 type: miscgear
 description: "Compact stringed frame harp; gut-silk strings in diatonic scale; bright ringing voice."
 tags: [music]

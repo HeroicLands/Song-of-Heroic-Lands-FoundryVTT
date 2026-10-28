@@ -1,6 +1,6 @@
 ---
 shortcode: cfs
-name: {full: Chronic Fatigue Syndrome, aliases: []}
+name: {full: Chronic Fatigue Syndrome}
 type: trauma
 subType: physcond
 tags: []

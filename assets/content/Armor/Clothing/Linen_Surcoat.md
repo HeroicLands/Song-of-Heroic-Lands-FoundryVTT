@@ -1,6 +1,6 @@
 ---
 shortcode: lscoat
-name: {full: Linen Surcoat, aliases: []}
+name: {full: Linen Surcoat}
 type: armorgear
 description: "Light breathable outer layer suitable for warm weather casual wear."
 tags: []

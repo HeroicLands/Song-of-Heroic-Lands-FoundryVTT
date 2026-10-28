@@ -1,6 +1,6 @@
 ---
 shortcode: sackcanvas50
-name: {full: "Sack, canvas, 50 lb", aliases: []}
+name: {full: "Sack, canvas, 50 lb"}
 type: containergear
 description: "Heavy canvas sack sized for a porter's load (50 lb)."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: jump
-name: {full: Jumping, aliases: []}
+name: {full: Jumping}
 type: skill
 subType: physical
 description: "Leaping horizontally and vertically; reaching above normal reach."

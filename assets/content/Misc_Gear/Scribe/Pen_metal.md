@@ -1,6 +1,6 @@
 ---
 shortcode: penmetal
-name: {full: "Pen, metal", aliases: []}
+name: {full: "Pen, metal"}
 type: miscgear
 description: "Steel nib in bone or wood handle; steady line, favored by professionals."
 tags: [scribe]

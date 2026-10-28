@@ -1,6 +1,6 @@
 ---
 shortcode: necklacehorn
-name: {full: "Necklace, horn", aliases: []}
+name: {full: "Necklace, horn"}
 type: miscgear
 description: "A chain or strung band worn at the throat, in carved horn."
 tags: [jewelry_cash]

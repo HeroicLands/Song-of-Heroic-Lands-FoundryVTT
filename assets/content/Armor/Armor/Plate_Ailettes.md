@@ -1,6 +1,6 @@
 ---
 shortcode: plail
-name: {full: Plate Ailettes, aliases: []}
+name: {full: Plate Ailettes}
 type: armorgear
 description: "Broad steel shoulder-guards; display heraldic pride and shield upper arms."
 tags: []

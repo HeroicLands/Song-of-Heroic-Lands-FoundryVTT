@@ -1,6 +1,6 @@
 ---
 shortcode: jarliddedl
-name: {full: "Jar, lidded, 1 gallon", aliases: []}
+name: {full: "Jar, lidded, 1 gallon"}
 type: containergear
 description: "Stoneware jar with fitted lid for dried goods and seasonal preserves (1 gallon)."
 tags: []

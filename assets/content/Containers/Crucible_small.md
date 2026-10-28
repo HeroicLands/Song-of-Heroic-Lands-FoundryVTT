@@ -1,6 +1,6 @@
 ---
 shortcode: cruciblesm
-name: {full: "Crucible, small", aliases: []}
+name: {full: "Crucible, small"}
 type: containergear
 description: "Small thin-walled ceramic crucible."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: bedsingle
-name: {full: "Bed, single", aliases: []}
+name: {full: "Bed, single"}
 type: miscgear
 description: "Wooden bedstead with a roped frame to carry a mattress."
 tags: [furniture]

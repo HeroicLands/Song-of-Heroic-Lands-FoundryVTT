@@ -1,6 +1,6 @@
 ---
 shortcode: cswd
-name: {full: Cloth Swaddle, aliases: []}
+name: {full: Cloth Swaddle}
 type: armorgear
 description: "Soft cloth infant swaddle offering comfort and basic warmth."
 tags: []

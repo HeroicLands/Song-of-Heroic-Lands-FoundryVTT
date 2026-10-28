@@ -1,6 +1,6 @@
 ---
 shortcode: pleg
-name: {full: Padded Leggings, aliases: []}
+name: {full: Padded Leggings}
 type: armorgear
 description: "Cushioned leg coverings providing warmth for armor wear."
 tags: []

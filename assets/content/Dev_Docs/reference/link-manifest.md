@@ -1,6 +1,6 @@
 ---
 shortcode: linkmanifest
-name: {full: The Link Manifest, aliases: []}
+name: {full: The Link Manifest}
 type: doc
 subType: reference
 description: "Cross-package link resolution: each package's own content index, fetched by its consumers, and how a wikilink into another package finds the entry it names."

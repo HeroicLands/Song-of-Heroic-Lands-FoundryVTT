@@ -1,6 +1,6 @@
 ---
 shortcode: fear
-name: {full: Fear, aliases: []}
+name: {full: Fear}
 type: doc
 subType: rules
 tags: [rules-trauma, rules-trauma-mind-sections]

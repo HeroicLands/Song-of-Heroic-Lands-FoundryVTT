@@ -1,6 +1,6 @@
 ---
 shortcode: wtrskin
-name: {full: "Waterskin, 2qt.", aliases: []}
+name: {full: "Waterskin, 2qt."}
 type: containergear
 description: "Pitch-lined hide waterskin with horn plug; essential traveling gear."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: barjav
-name: {full: "Javelin, Barbed", aliases: []}
+name: {full: "Javelin, Barbed"}
 type: weapongear
 description: "Barbed leaf-shaped throw-spear; wounds and disrupt before close-quarters."
 tags: []

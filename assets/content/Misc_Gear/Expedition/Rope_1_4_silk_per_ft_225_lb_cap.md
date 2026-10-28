@@ -1,6 +1,6 @@
 ---
 shortcode: rope14silk
-name: {full: "Rope, ¼” silk, per ft (225 lb cap.)", aliases: []}
+name: {full: "Rope, ¼” silk, per ft (225 lb cap.)"}
 type: miscgear
 description: "Light silk rope; strong, rot-resistant, preferred by wealthy climbers."
 tags: [expedition]

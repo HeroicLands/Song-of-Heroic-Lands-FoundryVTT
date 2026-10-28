@@ -1,6 +1,6 @@
 ---
 shortcode: lclk
-name: {full: Linen Cloak, aliases: []}
+name: {full: Linen Cloak}
 type: armorgear
 description: "Breathable outer garment protecting from sun without causing overheating."
 tags: []

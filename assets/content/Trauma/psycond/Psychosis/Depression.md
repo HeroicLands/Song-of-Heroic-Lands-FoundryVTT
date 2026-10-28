@@ -1,6 +1,6 @@
 ---
 shortcode: dprssn
-name: {full: Depression, aliases: []}
+name: {full: Depression}
 type: trauma
 subType: psycond
 tags: []

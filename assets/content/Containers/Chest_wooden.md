@@ -1,6 +1,6 @@
 ---
 shortcode: chestwood
-name: {full: "Chest, wooden", aliases: []}
+name: {full: "Chest, wooden"}
 type: containergear
 description: "Carved storage chest with a flat hinged lid (1 x 2 x 2 feet)."
 tags: []

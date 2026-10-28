@@ -1,6 +1,6 @@
 ---
 shortcode: crwbr
-name: {full: Crowbar, aliases: []}
+name: {full: Crowbar}
 type: weapongear
 description: "Carpenter's iron tool; claw hooks and shaft bludgeons alike."
 tags: []

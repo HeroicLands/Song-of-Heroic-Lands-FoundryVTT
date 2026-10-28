@@ -1,6 +1,6 @@
 ---
 shortcode: per
-name: {full: Perception, aliases: []}
+name: {full: Perception}
 type: attribute
 description: "Acuity of the senses taken together: eye, ear, and nose."
 tags: []

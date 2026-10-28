@@ -1,6 +1,6 @@
 ---
 shortcode: candlestic
-name: {full: "Candlestick, iron", aliases: []}
+name: {full: "Candlestick, iron"}
 type: miscgear
 description: "Iron socket with weighted base; holds candle upright for table or shelf."
 tags: [lighting]

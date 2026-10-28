@@ -1,6 +1,6 @@
 ---
 shortcode: rabbit
-name: {full: Rabbit, aliases: []}
+name: {full: Rabbit}
 type: miscgear
 description: "Lean pale meat cooks quickly, jerked for campaigns, fur for furriers."
 tags: [food]

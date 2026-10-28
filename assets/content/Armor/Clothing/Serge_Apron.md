@@ -1,6 +1,6 @@
 ---
 shortcode: sgapn
-name: {full: Serge Apron, aliases: []}
+name: {full: Serge Apron}
 type: armorgear
 description: "Diagonal-twill apron; durable and functional for heavy labor."
 tags: []

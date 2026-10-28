@@ -1,6 +1,6 @@
 ---
 shortcode: dyefst
-name: {full: "Dye, Forest Green", aliases: []}
+name: {full: "Dye, Forest Green"}
 type: miscgear
 description: "Woad and madder blend; dark sage green favored by hunters and foresters."
 tags: [clothing]

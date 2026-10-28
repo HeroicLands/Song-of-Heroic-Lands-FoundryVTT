@@ -1,6 +1,6 @@
 ---
 shortcode: hscoat
-name: {full: Homespun Coat, aliases: []}
+name: {full: Homespun Coat}
 type: armorgear
 description: "Basic homemade coat providing warmth and simple protection."
 tags: []

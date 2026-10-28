@@ -1,6 +1,6 @@
 ---
 shortcode: arwlbrd
-name: {full: Light Broad Arrow, aliases: []}
+name: {full: Light Broad Arrow}
 type: projectilegear
 subType: arrow
 description: "Light hunting shaft, leaf-shaped iron edge; bleeds prey, deer, fox, unarmoured men."

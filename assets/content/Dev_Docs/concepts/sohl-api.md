@@ -1,6 +1,6 @@
 ---
 shortcode: sohlapi
-name: {full: The SoHL API, aliases: []}
+name: {full: The SoHL API}
 type: doc
 subType: concept
 tags: [dev-concepts]

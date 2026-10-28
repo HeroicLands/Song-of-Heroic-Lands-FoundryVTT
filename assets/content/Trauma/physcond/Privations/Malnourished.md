@@ -1,6 +1,6 @@
 ---
 shortcode: malnut
-name: {full: Malnourished, aliases: []}
+name: {full: Malnourished}
 type: trauma
 subType: physcond
 description: "Chronic shortage of nutrients; poor healing, scurvy-like signs."

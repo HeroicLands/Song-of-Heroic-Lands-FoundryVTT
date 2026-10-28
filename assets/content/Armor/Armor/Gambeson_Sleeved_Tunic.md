@@ -1,6 +1,6 @@
 ---
 shortcode: gstnc
-name: {full: Gambeson Sleeved Tunic, aliases: []}
+name: {full: Gambeson Sleeved Tunic}
 type: armorgear
 description: "Padded tunic worn under armor or as standalone defense."
 tags: []

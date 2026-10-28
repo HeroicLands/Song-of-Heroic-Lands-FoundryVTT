@@ -1,6 +1,6 @@
 ---
 shortcode: opalcut
-name: {full: "Opal, cut", aliases: []}
+name: {full: "Opal, cut"}
 type: miscgear
 description: "Luminous pale gem with rainbow-color flashes; iridescent, softer and requires gentle handling."
 tags: [jewelry_cash]

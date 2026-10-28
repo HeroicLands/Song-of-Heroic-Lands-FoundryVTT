@@ -1,6 +1,6 @@
 ---
 shortcode: brdswd
-name: {full: Broadsword, aliases: []}
+name: {full: Broadsword}
 type: weapongear
 description: "Wide flat double-edged blade excels at choppy cuts; footman's reliable steel."
 tags: []

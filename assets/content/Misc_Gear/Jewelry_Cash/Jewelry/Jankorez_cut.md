@@ -1,6 +1,6 @@
 ---
 shortcode: jankorezcu
-name: {full: "Jankorez, cut", aliases: []}
+name: {full: "Jankorez, cut"}
 type: miscgear
 description: "Rare pale blue-white gem; clarity rivals diamonds; royal use only."
 tags: [jewelry_cash]

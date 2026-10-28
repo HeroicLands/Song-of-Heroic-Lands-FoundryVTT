@@ -1,6 +1,6 @@
 ---
 shortcode: qsht
-name: {full: Quilted Shirt, aliases: []}
+name: {full: Quilted Shirt}
 type: armorgear
 description: "Stitched-layer shirt; winter-weight padding for torso."
 tags: []

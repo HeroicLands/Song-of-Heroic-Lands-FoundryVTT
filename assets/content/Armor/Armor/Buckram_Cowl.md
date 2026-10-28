@@ -1,6 +1,6 @@
 ---
 shortcode: bcowl
-name: {full: Buckram Cowl, aliases: []}
+name: {full: Buckram Cowl}
 type: armorgear
 description: "Stiff buckram cowl providing durability and rigid head-shoulder coverage."
 tags: []

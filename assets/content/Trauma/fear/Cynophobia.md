@@ -1,6 +1,6 @@
 ---
 shortcode: cynophb
-name: {full: Cynophobia, aliases: []}
+name: {full: Cynophobia}
 type: trauma
 subType: fear
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: ltloin
-name: {full: Leather Loincloth, aliases: []}
+name: {full: Leather Loincloth}
 type: armorgear
 description: "Simple lightweight leather garment providing basic coverage and rugged charm."
 tags: []

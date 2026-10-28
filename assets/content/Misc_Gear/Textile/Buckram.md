@@ -1,6 +1,6 @@
 ---
 shortcode: buckram
-name: {full: "Buckram, per sq yard", aliases: []}
+name: {full: "Buckram, per sq yard"}
 type: miscgear
 description: "Heavy coarse linen, loosely woven; cloth armour, sailcloth and sacking."
 tags: [clothing]

@@ -1,6 +1,6 @@
 ---
 shortcode: waxsealing
-name: {full: "Wax, sealing", aliases: []}
+name: {full: "Wax, sealing"}
 type: miscgear
 description: "Beeswax or tallow stick; melted, impressed with seal ring to authenticate letters."
 tags: [scribe]

@@ -1,6 +1,6 @@
 ---
 shortcode: amphoracer15
-name: {full: "Amphora, ceramic, 15 gallon", aliases: []}
+name: {full: "Amphora, ceramic, 15 gallon"}
 type: containergear
 description: "Two-handled earthenware jar for bulk oil, wine, or grain (15 gallons)."
 tags: []

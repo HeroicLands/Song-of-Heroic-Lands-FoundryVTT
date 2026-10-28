@@ -1,6 +1,6 @@
 ---
 shortcode: circletsilver
-name: {full: "Circlet, silver", aliases: []}
+name: {full: "Circlet, silver"}
 type: miscgear
 description: "A plain band for the brow, worn by those with rank enough to show it and not enough for a coronet, in silver."
 tags: [jewelry_cash]

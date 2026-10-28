@@ -1,6 +1,6 @@
 ---
 shortcode: wapn
-name: {full: Worsted Apron, aliases: []}
+name: {full: Worsted Apron}
 type: armorgear
 description: "Tightly-spun wool apron; durable for tasks requiring resilience."
 tags: []

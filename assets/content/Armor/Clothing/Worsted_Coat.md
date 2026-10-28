@@ -1,6 +1,6 @@
 ---
 shortcode: wcoat
-name: {full: Worsted Coat, aliases: []}
+name: {full: Worsted Coat}
 type: armorgear
 description: "Tightly-spun wool coat; warm, durable garment for protection."
 tags: []

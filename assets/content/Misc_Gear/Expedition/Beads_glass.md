@@ -1,6 +1,6 @@
 ---
 shortcode: beadsglass
-name: {full: "Beads, glass", aliases: []}
+name: {full: "Beads, glass"}
 type: miscgear
 description: "Colored glass beads with swirls; prized for beadwork and fine clothing ornament."
 tags: [expedition]

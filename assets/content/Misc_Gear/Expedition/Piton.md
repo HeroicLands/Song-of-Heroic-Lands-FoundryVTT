@@ -1,6 +1,6 @@
 ---
 shortcode: piton
-name: {full: Piton, aliases: ["Piton, iron", "Piton, iron, looped"]}
+name: {full: Piton, en: ["Piton, iron", "Piton, iron, looped"]}
 type: miscgear
 description: "Iron spike with looped eye; ~1 per 10 ft of vertical climb. Consumable — usually left in the rock."
 tags: [expedition]

@@ -1,6 +1,6 @@
 ---
 shortcode: pmitn
-name: {full: Padded Mittens, aliases: []}
+name: {full: Padded Mittens}
 type: armorgear
 description: "Cushioned hand coverings providing warmth for cold weather conditions."
 tags: []

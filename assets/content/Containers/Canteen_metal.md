@@ -1,6 +1,6 @@
 ---
 shortcode: cantmetal
-name: {full: "Canteen, metal", aliases: []}
+name: {full: "Canteen, metal"}
 type: containergear
 description: "Metal drinking canteen with a stopper."
 tags: []

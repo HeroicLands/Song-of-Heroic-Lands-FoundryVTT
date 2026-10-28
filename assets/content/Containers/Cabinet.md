@@ -1,6 +1,6 @@
 ---
 shortcode: cabinet
-name: {full: "Cabinet", aliases: []}
+name: {full: "Cabinet"}
 type: containergear
 description: "Standing carved cabinet with doors and shelves; a decorative woodworker's showpiece."
 tags: []

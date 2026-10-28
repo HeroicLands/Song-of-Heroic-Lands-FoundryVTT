@@ -1,6 +1,6 @@
 ---
 shortcode: contenttables
-name: {full: Generated Content Tables, aliases: []}
+name: {full: Generated Content Tables}
 type: doc
 subType: howto
 description: "SQL queries that tabulate content notes from their frontmatter."

@@ -1,6 +1,6 @@
 ---
 shortcode: rmntl
-name: {full: Russet Mantle, aliases: []}
+name: {full: Russet Mantle}
 type: armorgear
 description: "Reddish-brown wool shoulder-wrap; practical outer layer."
 tags: []

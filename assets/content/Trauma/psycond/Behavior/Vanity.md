@@ -1,6 +1,6 @@
 ---
 shortcode: vanity
-name: {full: Vanity, aliases: []}
+name: {full: Vanity}
 type: trauma
 subType: psycond
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: cunning
-name: {full: Cunning, aliases: []}
+name: {full: Cunning}
 type: trauma
 subType: psycond
 tags: []

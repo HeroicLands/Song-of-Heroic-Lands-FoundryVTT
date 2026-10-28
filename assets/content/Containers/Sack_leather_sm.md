@@ -1,6 +1,6 @@
 ---
 shortcode: sackltsm
-name: {full: "Sack, leather, sm", aliases: []}
+name: {full: "Sack, leather, sm"}
 type: containergear
 description: "Small leather sack closed by a drawstring."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: wedgesplit
-name: {full: "Wedge, splitting", aliases: []}
+name: {full: "Wedge, splitting"}
 type: miscgear
 description: "Steel wedge for cleaving logs; lasts years and saves labor on campaign."
 tags: [expedition]

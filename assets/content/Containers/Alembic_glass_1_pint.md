@@ -1,6 +1,6 @@
 ---
 shortcode: alembgl1p
-name: {full: "Alembic, glass, 1 pint", aliases: []}
+name: {full: "Alembic, glass, 1 pint"}
 type: containergear
 description: "Small glass still-head for fine distillation."
 tags: []

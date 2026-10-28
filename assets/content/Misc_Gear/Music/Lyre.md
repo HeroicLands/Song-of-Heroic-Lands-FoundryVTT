@@ -1,6 +1,6 @@
 ---
 shortcode: lyre
-name: {full: Lyre, aliases: []}
+name: {full: Lyre}
 type: miscgear
 description: "Ancient wooden frame, curved arms and strings; bright voice for hymns."
 tags: [music]

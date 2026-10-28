@@ -1,6 +1,6 @@
 ---
 shortcode: hypgly
-name: {full: Hypoglycemic, aliases: []}
+name: {full: Hypoglycemic}
 type: trauma
 subType: physcond
 description: "Blood sugar crashes; tremor, sweating, confusion, collapse."

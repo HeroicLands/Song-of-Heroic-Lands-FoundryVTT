@@ -1,6 +1,6 @@
 ---
 shortcode: ankletivory
-name: {full: "Anklet, ivory", aliases: []}
+name: {full: "Anklet, ivory"}
 type: miscgear
 description: "A band worn at the ankle, closed or hinged, and often hung with small charms, in carved ivory."
 tags: [jewelry_cash]

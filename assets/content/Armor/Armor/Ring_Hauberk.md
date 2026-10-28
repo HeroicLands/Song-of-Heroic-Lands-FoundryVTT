@@ -1,6 +1,6 @@
 ---
 shortcode: rhbk
-name: {full: Ring Hauberk, aliases: []}
+name: {full: Ring Hauberk}
 type: armorgear
 description: "Long leather coat with metal-ring overlay; full-torso and arm-coverage."
 tags: []

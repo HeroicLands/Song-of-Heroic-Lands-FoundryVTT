@@ -1,6 +1,6 @@
 ---
 shortcode: glossary
-name: {full: Glossary, aliases: []}
+name: {full: Glossary}
 type: doc
 subType: rules
 tags: [rules-glossary]

@@ -1,6 +1,6 @@
 ---
 shortcode: rspnsv
-name: {full: Responsive, aliases: []}
+name: {full: Responsive}
 type: trauma
 subType: psycond
 tags: []

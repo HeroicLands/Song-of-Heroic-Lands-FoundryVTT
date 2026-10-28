@@ -1,6 +1,6 @@
 ---
 shortcode: autoattack
-name: {full: Automated Attack, aliases: []}
+name: {full: Automated Attack}
 type: macro
 description: "Runs the combat attack workflow for the combatant whose turn it is."
 tags: []

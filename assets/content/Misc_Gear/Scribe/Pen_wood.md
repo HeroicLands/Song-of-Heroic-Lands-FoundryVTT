@@ -1,6 +1,6 @@
 ---
 shortcode: penwood
-name: {full: "Pen, wood", aliases: []}
+name: {full: "Pen, wood"}
 type: miscgear
 description: "Fruitwood or ash charred tip; cheap disposable; suits paper, cloth, tallies."
 tags: [scribe]

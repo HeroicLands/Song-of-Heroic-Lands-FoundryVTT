@@ -1,6 +1,6 @@
 ---
 shortcode: jarointmen
-name: {full: "Jar, ointment, large", aliases: []}
+name: {full: "Jar, ointment, large"}
 type: containergear
 description: "Wide-mouthed ceramic vessel for apothecaries storing balms and salves."
 tags: []

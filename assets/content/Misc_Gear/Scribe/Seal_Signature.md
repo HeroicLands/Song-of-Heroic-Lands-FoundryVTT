@@ -1,6 +1,6 @@
 ---
 shortcode: sealsignat
-name: {full: "Seal, Signature", aliases: []}
+name: {full: "Seal, Signature"}
 type: miscgear
 description: "Brass or iron seal carved with owner's mark; authenticates charters, contracts, deeds."
 tags: [scribe]

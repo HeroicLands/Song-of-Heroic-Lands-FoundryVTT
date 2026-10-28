@@ -1,6 +1,6 @@
 ---
 shortcode: brthsgn
-name: {full: Birthsign, aliases: []}
+name: {full: Birthsign}
 type: doc
 subType: rules
 tags: [rules-esoterica, rules-esoterica-mysteries-sections]

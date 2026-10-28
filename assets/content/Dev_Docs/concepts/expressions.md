@@ -1,6 +1,6 @@
 ---
 shortcode: expressions
-name: {full: Expressions and Scripts, aliases: []}
+name: {full: Expressions and Scripts}
 type: doc
 subType: concept
 description: "The ways author-supplied logic runs: `SafeExpression`, Macros, and the Expression Library."

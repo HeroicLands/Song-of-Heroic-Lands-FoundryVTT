@@ -1,6 +1,6 @@
 ---
 shortcode: hrspcy
-name: {full: Haruspicy, aliases: []}
+name: {full: Haruspicy}
 type: doc
 subType: rules
 tags: [rules-esoterica, rules-esoterica-mystical-abilities-divination-the-arts]

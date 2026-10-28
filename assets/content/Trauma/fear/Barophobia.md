@@ -1,6 +1,6 @@
 ---
 shortcode: barophb
-name: {full: Barophobia, aliases: []}
+name: {full: Barophobia}
 type: trauma
 subType: fear
 tags: []

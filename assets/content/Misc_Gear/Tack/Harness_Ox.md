@@ -1,6 +1,6 @@
 ---
 shortcode: harnessox
-name: {full: "Harness, Ox", aliases: []}
+name: {full: "Harness, Ox"}
 type: miscgear
 description: "Stout leather bands, rope, iron; yoke-fitted; moves stone, timber, heavy laden carts."
 tags: [tack]

@@ -1,6 +1,6 @@
 ---
 shortcode: btunic
-name: {full: Buckram Tunic, aliases: []}
+name: {full: Buckram Tunic}
 type: armorgear
 description: "Stiff buckram tunic offering durability and reliable rigid protection."
 tags: []

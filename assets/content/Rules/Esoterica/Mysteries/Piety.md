@@ -1,6 +1,6 @@
 ---
 shortcode: piety
-name: {full: Piety, aliases: []}
+name: {full: Piety}
 type: doc
 subType: rules
 tags: [rules-esoterica, rules-esoterica-mysteries-sections]

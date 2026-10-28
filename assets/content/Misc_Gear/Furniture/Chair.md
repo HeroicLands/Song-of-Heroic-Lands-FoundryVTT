@@ -1,6 +1,6 @@
 ---
 shortcode: chair
-name: {full: "Chair", aliases: []}
+name: {full: "Chair"}
 type: miscgear
 description: "Single wooden seat with a back; a mark of standing in the household."
 tags: [furniture]

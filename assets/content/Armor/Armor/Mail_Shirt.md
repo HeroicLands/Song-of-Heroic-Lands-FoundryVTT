@@ -1,6 +1,6 @@
 ---
 shortcode: mshirt
-name: {full: Mail Shirt, aliases: []}
+name: {full: Mail Shirt}
 type: armorgear
 description: "Metal ring torso and upper arm protection with excellent defense."
 tags: []

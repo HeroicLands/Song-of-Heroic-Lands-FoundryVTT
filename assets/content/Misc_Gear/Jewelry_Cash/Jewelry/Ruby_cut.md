@@ -1,6 +1,6 @@
 ---
 shortcode: rubycut
-name: {full: "Ruby, cut", aliases: []}
+name: {full: "Ruby, cut"}
 type: miscgear
 description: "Rarest gem; deep crimson corundum glowing like fire; marks power and wealth."
 tags: [jewelry_cash]

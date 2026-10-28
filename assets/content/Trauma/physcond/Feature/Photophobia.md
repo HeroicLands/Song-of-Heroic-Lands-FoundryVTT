@@ -1,6 +1,6 @@
 ---
 shortcode: photophb
-name: {full: Photophobia, aliases: []}
+name: {full: Photophobia}
 type: trauma
 subType: physcond
 tags: []

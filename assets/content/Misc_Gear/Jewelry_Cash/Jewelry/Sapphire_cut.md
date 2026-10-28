@@ -1,6 +1,6 @@
 ---
 shortcode: sapphirecu
-name: {full: "Sapphire, cut", aliases: []}
+name: {full: "Sapphire, cut"}
 type: miscgear
 description: "Brilliant deep-blue corundum; reserved for the highest nobility and clergy."
 tags: [jewelry_cash]

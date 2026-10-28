@@ -1,6 +1,6 @@
 ---
 shortcode: hypox
-name: {full: Hypoxic, aliases: []}
+name: {full: Hypoxic}
 type: trauma
 subType: physcond
 description: "Insufficient oxygen reaching tissues; breathlessness, blue lips, confusion."

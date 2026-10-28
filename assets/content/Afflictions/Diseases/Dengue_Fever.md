@@ -1,6 +1,6 @@
 ---
 shortcode: dngfvr
-name: {full: Dengue Fever, aliases: []}
+name: {full: Dengue Fever}
 type: affliction
 subType: disease
 description: "Mosquito-borne virus; high fever, joint pain, mild bleeding."

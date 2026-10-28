@@ -1,6 +1,6 @@
 ---
 shortcode: veal
-name: {full: Veal, aliases: []}
+name: {full: Veal}
 type: miscgear
 description: "Pale tender young calf meat, fine-grained, favored by wealthy households."
 tags: [food]

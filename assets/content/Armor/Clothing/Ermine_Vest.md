@@ -1,6 +1,6 @@
 ---
 shortcode: evest
-name: {full: Ermine Vest, aliases: []}
+name: {full: Ermine Vest}
 type: armorgear
 description: "White ermine fur vest signifying high status and elite prestige."
 tags: []

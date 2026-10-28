@@ -1,6 +1,6 @@
 ---
 shortcode: shok
-name: {full: Shock, aliases: []}
+name: {full: Shock}
 type: skill
 subType: combat
 description: "Physiological resilience to absorb violent blows without incapacitation."

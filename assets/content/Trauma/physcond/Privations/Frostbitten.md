@@ -1,6 +1,6 @@
 ---
 shortcode: frost
-name: {full: Frostbitten, aliases: []}
+name: {full: Frostbitten}
 type: trauma
 subType: physcond
 description: "Tissue freezes in extremities; numbness, waxy skin, blackened flesh."

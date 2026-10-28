@@ -1,6 +1,6 @@
 ---
 shortcode: cndntxn
-name: {full: Cnidarian Toxin, aliases: []}
+name: {full: Cnidarian Toxin}
 type: affliction
 subType: poisontoxin
 description: "Jellyfish nematocyst toxin; excruciating pain and welts; cardiotoxic in severe cases."

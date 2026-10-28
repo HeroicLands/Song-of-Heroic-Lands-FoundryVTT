@@ -1,6 +1,6 @@
 ---
 shortcode: waxe
-name: {full: Wood Axe, aliases: []}
+name: {full: Wood Axe}
 type: weapongear
 description: "Heavy felling tool; slow-swinging militia arm pressed into service."
 tags: []

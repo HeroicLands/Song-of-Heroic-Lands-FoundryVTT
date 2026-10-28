@@ -1,6 +1,6 @@
 ---
 shortcode: blgn
-name: {full: Blowgun, aliases: []}
+name: {full: Blowgun}
 type: skill
 subType: combat
 description: "Breath-driven darts from a hollow tube; silent range work for hunters and stealthy strikes."

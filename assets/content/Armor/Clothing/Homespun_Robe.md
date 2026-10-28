@@ -1,6 +1,6 @@
 ---
 shortcode: hsrobe
-name: {full: Homespun Robe, aliases: []}
+name: {full: Homespun Robe}
 type: armorgear
 description: "Simple homemade robe providing comfort and warmth for everyday."
 tags: []

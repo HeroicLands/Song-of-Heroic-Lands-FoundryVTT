@@ -1,6 +1,6 @@
 ---
 shortcode: cmd
-name: {full: Command, aliases: []}
+name: {full: Command}
 type: skill
 subType: social
 description: "Compelling obedience through authority, intimidation, and commanding presence."

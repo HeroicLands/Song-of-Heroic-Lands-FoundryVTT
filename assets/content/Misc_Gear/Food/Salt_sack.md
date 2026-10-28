@@ -1,6 +1,6 @@
 ---
 shortcode: saltsack
-name: {full: "Salt, sack", aliases: []}
+name: {full: "Salt, sack"}
 type: miscgear
 description: "Bulk coarse crystals, preserves a dozen fish or full ham."
 tags: [food]

@@ -1,6 +1,6 @@
 ---
 shortcode: spurs
-name: {full: Spurs, aliases: []}
+name: {full: Spurs}
 type: miscgear
 description: "Iron or bronze rowels on heel straps; urges horse; marks cavalry rank."
 tags: [tack]

@@ -1,6 +1,6 @@
 ---
 shortcode: neurofib
-name: {full: Neurofibromatosis, aliases: []}
+name: {full: Neurofibromatosis}
 type: trauma
 subType: physcond
 tags: []

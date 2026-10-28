@@ -1,6 +1,6 @@
 ---
 shortcode: slktunic
-name: {full: Silk Tunic, aliases: []}
+name: {full: Silk Tunic}
 type: armorgear
 description: "Elegant silk tunic; luxurious, refined garment for formal occasions."
 tags: []

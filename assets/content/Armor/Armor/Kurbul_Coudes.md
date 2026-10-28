@@ -1,6 +1,6 @@
 ---
 shortcode: kcou
-name: {full: Kûrbúl Coudes, aliases: []}
+name: {full: Kûrbúl Coudes}
 type: armorgear
 description: "Treated leather elbow protection with intricate patterns for function and flair."
 tags: []

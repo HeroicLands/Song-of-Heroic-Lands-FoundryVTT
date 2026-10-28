@@ -1,6 +1,6 @@
 ---
 shortcode: handdrill
-name: {full: Hand drill, aliases: []}
+name: {full: Hand drill}
 type: miscgear
 description: "Spring-driven iron spindle with rocking crank; carpenters bore clean holes for rivets."
 tags: [instruments]

@@ -1,6 +1,6 @@
 ---
 shortcode: scmtr
-name: {full: Scimitar, aliases: []}
+name: {full: Scimitar}
 type: weapongear
 description: "Curved single-edged blade favors mounted slash; southern cavalry's efficiency."
 tags: []

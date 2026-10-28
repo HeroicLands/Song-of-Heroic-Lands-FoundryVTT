@@ -1,6 +1,6 @@
 ---
 shortcode: schizop
-name: {full: Schizophrenia, aliases: []}
+name: {full: Schizophrenia}
 type: trauma
 subType: psycond
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: archery
-name: {full: Archery, aliases: []}
+name: {full: Archery}
 type: skill
 subType: combat
 description: "Striking distant targets with bows and crossbows; reading windage and elevation."

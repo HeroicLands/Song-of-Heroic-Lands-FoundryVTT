@@ -1,6 +1,6 @@
 ---
 shortcode: batlswd
-name: {full: Battlesword, aliases: []}
+name: {full: Battlesword}
 type: weapongear
 description: "Broad heavy blade for mounted sweeping cuts; pitched-field workhorse."
 tags: []

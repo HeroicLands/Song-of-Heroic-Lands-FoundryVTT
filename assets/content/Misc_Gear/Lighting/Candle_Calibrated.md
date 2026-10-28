@@ -1,6 +1,6 @@
 ---
 shortcode: candlecali
-name: {full: "Candle, Calibrated", aliases: []}
+name: {full: "Candle, Calibrated"}
 type: miscgear
 description: "Marked candle burned to measure hours; favored by scribes, scholars, astrologers."
 tags: [lighting]

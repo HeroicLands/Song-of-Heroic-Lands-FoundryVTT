@@ -1,6 +1,6 @@
 ---
 shortcode: cre
-name: {full: Creativity, aliases: []}
+name: {full: Creativity}
 type: attribute
 description: "Imagination: seeing new connections and forging original solutions."
 tags: []

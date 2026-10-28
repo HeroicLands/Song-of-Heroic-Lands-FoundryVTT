@@ -1,6 +1,6 @@
 ---
 shortcode: rbrch
-name: {full: Russet Breeches, aliases: []}
+name: {full: Russet Breeches}
 type: armorgear
 description: "Reddish-brown wool breeches; warm and hardy leg-wear."
 tags: []

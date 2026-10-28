@@ -1,6 +1,6 @@
 ---
 shortcode: sackwcsm
-name: {full: "Sack, waxed canvas, sm", aliases: []}
+name: {full: "Sack, waxed canvas, sm"}
 type: containergear
 description: "Small waxed canvas sack; keeps the wet out."
 tags: []

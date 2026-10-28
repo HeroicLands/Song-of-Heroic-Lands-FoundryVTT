@@ -1,6 +1,6 @@
 ---
 shortcode: keys
-name: {full: Keys, aliases: []}
+name: {full: Keys}
 type: miscgear
 description: "Iron keys on leather thong or ring; merchants and stewards carry daily."
 tags: [expedition]

@@ -1,6 +1,6 @@
 ---
 shortcode: cupwood
-name: {full: "Cup, wooden", aliases: []}
+name: {full: "Cup, wooden"}
 type: miscgear
 description: "Turned wooden cup; the everyday drinking vessel."
 tags: [cooking]

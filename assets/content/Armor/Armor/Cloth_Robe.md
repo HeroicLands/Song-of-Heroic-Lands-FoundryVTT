@@ -1,6 +1,6 @@
 ---
 shortcode: crobe
-name: {full: Cloth Robe, aliases: []}
+name: {full: Cloth Robe}
 type: armorgear
 description: "Simple cloth robe providing comfort and warmth for practical wear."
 tags: []

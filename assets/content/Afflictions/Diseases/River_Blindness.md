@@ -1,6 +1,6 @@
 ---
 shortcode: rivrblnd
-name: {full: River Blindness, aliases: []}
+name: {full: River Blindness}
 type: affliction
 subType: disease
 description: "Filarial worm parasite; intense itching and skin rashes; eventual blindness."

@@ -1,6 +1,6 @@
 ---
 shortcode: earringscopper
-name: {full: "Earrings, copper", aliases: []}
+name: {full: "Earrings, copper"}
 type: miscgear
 description: "Cheap copper wire hoops; a child's first pair, easily replaced when lost."
 tags: [jewelry_cash]

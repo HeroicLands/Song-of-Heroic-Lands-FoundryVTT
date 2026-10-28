@@ -1,6 +1,6 @@
 ---
 shortcode: litebdrl
-name: {full: "Bedroll, light", aliases: []}
+name: {full: "Bedroll, light"}
 type: miscgear
 description: "Compact quilted linen bedroll with fleece; portable for mild seasons."
 tags: [expedition]

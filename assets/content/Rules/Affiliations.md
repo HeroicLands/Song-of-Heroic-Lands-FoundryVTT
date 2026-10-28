@@ -1,6 +1,6 @@
 ---
 shortcode: affiliation
-name: {full: Affiliations, aliases: []}
+name: {full: Affiliations}
 type: doc
 subType: rules
 tags: [rules-affiliations]

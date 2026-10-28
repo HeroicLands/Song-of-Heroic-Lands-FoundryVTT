@@ -1,6 +1,6 @@
 ---
 shortcode: spinelcut
-name: {full: "Spinel, cut", aliases: []}
+name: {full: "Spinel, cut"}
 type: miscgear
 description: "Hard gemstone in red-pink-purple; brilliant and durable; often confused with ruby."
 tags: [jewelry_cash]

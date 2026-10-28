@@ -1,6 +1,6 @@
 ---
 shortcode: disgkit
-name: {full: Disguise Kit, aliases: []}
+name: {full: Disguise Kit}
 type: miscgear
 description: "Cloth-wrapped case with pigments, wax, false hair, padding, voice-pipe, mirror; used with the Theatrics skill to alter one's appearance."
 tags: [instruments]

@@ -1,6 +1,6 @@
 ---
 shortcode: auralshk
-name: {full: Aural Shock, aliases: []}
+name: {full: Aural Shock}
 type: trauma
 subType: fatigue
 description: "Long-term weakness from spiritual aura damage."

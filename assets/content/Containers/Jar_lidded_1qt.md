@@ -1,6 +1,6 @@
 ---
 shortcode: jarliddedm
-name: {full: "Jar, lidded, 1 quart", aliases: []}
+name: {full: "Jar, lidded, 1 quart"}
 type: containergear
 description: "Stoneware jar for household storage of honey, jam, oil, or salt (1 quart)."
 tags: []

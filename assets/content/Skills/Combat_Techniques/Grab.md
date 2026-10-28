@@ -1,6 +1,6 @@
 ---
 shortcode: bflkgrab
-name: {full: Grab, aliases: []}
+name: {full: Grab}
 type: skill
 subType: combattechnique
 description: "Seize a limb — to take the weapon out of it, or to hold it still."

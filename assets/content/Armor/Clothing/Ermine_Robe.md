@@ -1,6 +1,6 @@
 ---
 shortcode: erobe
-name: {full: Ermine Robe, aliases: []}
+name: {full: Ermine Robe}
 type: armorgear
 description: "Full-length ermine robe; ceremonial dress of the highest rank."
 tags: []

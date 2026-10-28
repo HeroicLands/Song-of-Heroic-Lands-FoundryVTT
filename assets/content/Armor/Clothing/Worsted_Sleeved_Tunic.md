@@ -1,6 +1,6 @@
 ---
 shortcode: wstnc
-name: {full: Worsted Sleeved Tunic, aliases: []}
+name: {full: Worsted Sleeved Tunic}
 type: armorgear
 description: "Tightly-spun wool sleeved tunic; durable, practical garment."
 tags: []

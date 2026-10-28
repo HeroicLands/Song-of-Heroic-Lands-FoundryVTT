@@ -1,6 +1,6 @@
 ---
 shortcode: slslgsh
-name: {full: Sealskin Longshirt, aliases: []}
+name: {full: Sealskin Longshirt}
 type: armorgear
 description: "Waterproof seal-fur shirt; extended coverage for wet climates."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: rnvest
-name: {full: Ring Vest, aliases: []}
+name: {full: Ring Vest}
 type: armorgear
 description: "Sleeveless ring-reinforced leather vest; light-duty torso armor."
 tags: []

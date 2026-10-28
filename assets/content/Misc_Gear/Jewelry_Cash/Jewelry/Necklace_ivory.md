@@ -1,6 +1,6 @@
 ---
 shortcode: necklaceivory
-name: {full: "Necklace, ivory", aliases: []}
+name: {full: "Necklace, ivory"}
 type: miscgear
 description: "A chain or strung band worn at the throat, in carved ivory."
 tags: [jewelry_cash]

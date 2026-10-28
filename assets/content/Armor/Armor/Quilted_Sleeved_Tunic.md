@@ -1,6 +1,6 @@
 ---
 shortcode: qstnc
-name: {full: Quilted Sleeved Tunic, aliases: []}
+name: {full: Quilted Sleeved Tunic}
 type: armorgear
 description: "Padded sleeved tunic; cold-weather garment with full-arm coverage."
 tags: []

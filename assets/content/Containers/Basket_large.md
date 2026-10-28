@@ -1,6 +1,6 @@
 ---
 shortcode: bktlrg
-name: {full: "Basket, large", aliases: []}
+name: {full: "Basket, large"}
 type: containergear
 description: "Woven wicker or willow basket for produce or storage."
 tags: []

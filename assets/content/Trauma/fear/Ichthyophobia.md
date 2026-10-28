@@ -1,6 +1,6 @@
 ---
 shortcode: ichthyop
-name: {full: Ichthyophobia, aliases: []}
+name: {full: Ichthyophobia}
 type: trauma
 subType: fear
 tags: []

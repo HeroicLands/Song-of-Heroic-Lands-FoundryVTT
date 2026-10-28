@@ -1,6 +1,6 @@
 ---
 shortcode: aggr
-name: {full: Aggressive, aliases: []}
+name: {full: Aggressive}
 type: trauma
 subType: psycond
 tags: []

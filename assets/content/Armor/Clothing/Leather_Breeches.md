@@ -1,6 +1,6 @@
 ---
 shortcode: ltbrch
-name: {full: Leather Breeches, aliases: []}
+name: {full: Leather Breeches}
 type: armorgear
 description: "Lightweight stylish leather leg covering for rugged adventuring or everyday wear."
 tags: []

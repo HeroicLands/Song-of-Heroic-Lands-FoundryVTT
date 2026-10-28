@@ -1,6 +1,6 @@
 ---
 shortcode: crtmncy
-name: {full: Cartomancy, aliases: []}
+name: {full: Cartomancy}
 type: doc
 subType: rules
 tags: [rules-esoterica, rules-esoterica-mystical-abilities-divination-the-arts]

@@ -1,6 +1,6 @@
 ---
 shortcode: cauldronir
-name: {full: "Cauldron, Iron", aliases: []}
+name: {full: "Cauldron, Iron"}
 type: containergear
 description: "Heavy cast-iron pot for communal cooking or laundry."
 tags: []

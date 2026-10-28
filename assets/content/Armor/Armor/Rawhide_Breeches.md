@@ -1,6 +1,6 @@
 ---
 shortcode: rhbrch
-name: {full: Rawhide Breeches, aliases: []}
+name: {full: Rawhide Breeches}
 type: armorgear
 description: "Tough hide leg-wear; harsh-climate work or rough labor."
 tags: []

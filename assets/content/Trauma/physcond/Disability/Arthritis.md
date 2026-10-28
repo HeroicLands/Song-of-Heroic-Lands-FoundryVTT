@@ -1,6 +1,6 @@
 ---
 shortcode: arthrts
-name: {full: Arthritis, aliases: []}
+name: {full: Arthritis}
 type: trauma
 subType: physcond
 tags: []

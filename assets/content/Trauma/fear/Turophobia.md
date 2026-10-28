@@ -1,6 +1,6 @@
 ---
 shortcode: turophb
-name: {full: Turophobia, aliases: []}
+name: {full: Turophobia}
 type: trauma
 subType: fear
 tags: []

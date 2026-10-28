@@ -1,6 +1,6 @@
 ---
 shortcode: flax
-name: {full: Flax, aliases: []}
+name: {full: Flax}
 type: miscgear
 description: "Dried stalks; raw material of linen, seeds press for oil and meal."
 tags: [food]

@@ -2,7 +2,7 @@
 shortcode: migration
 name:
   full: World Migration Runner
-  aliases: [Migration Runner, World Migration, systemMigrationVersion, sohl.entity.migration]
+  en: [Migration Runner, World Migration, systemMigrationVersion, sohl.entity.migration]
 type: doc
 subType: reference
 description: For developers who change a persisted schema and need old worlds to upgrade seamlessly on load.

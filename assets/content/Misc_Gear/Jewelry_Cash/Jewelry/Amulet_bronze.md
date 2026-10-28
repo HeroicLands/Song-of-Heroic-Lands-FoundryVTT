@@ -1,6 +1,6 @@
 ---
 shortcode: amuletbronze
-name: {full: "Amulet, bronze", aliases: []}
+name: {full: "Amulet, bronze"}
 type: miscgear
 description: "Cast bronze charm-pendant; hard-wearing, and old ones are common heirlooms."
 tags: [jewelry_cash]

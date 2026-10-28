@@ -1,6 +1,6 @@
 ---
 shortcode: clblg
-name: {full: "Club, Large", aliases: []}
+name: {full: "Club, Large"}
 type: weapongear
 description: "Two-handed wooden bludgeon for shattering shields; giant's breach weapon."
 tags: []

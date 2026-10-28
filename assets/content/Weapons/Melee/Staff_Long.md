@@ -1,6 +1,6 @@
 ---
 shortcode: lstf
-name: {full: "Staff, Long", aliases: []}
+name: {full: "Staff, Long"}
 type: weapongear
 description: "Nine-foot hardwood pole; sweeping reach for pike-levies holding ground."
 tags: []

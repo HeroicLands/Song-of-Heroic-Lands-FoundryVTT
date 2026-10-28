@@ -1,6 +1,6 @@
 ---
 shortcode: sthat
-name: {full: Straw Hat, aliases: []}
+name: {full: Straw Hat}
 type: armorgear
 description: "Lightweight breathable straw hat; excellent sun protection for laborers."
 tags: []

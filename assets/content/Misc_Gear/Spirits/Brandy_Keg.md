@@ -1,6 +1,6 @@
 ---
 shortcode: brdykeg
-name: {full: "Brandy, Keg", aliases: []}
+name: {full: "Brandy, Keg"}
 type: miscgear
 description: "Distilled wine spirit in sealed keg; merchant treasure, used sparingly as medicine."
 tags: [spirits]

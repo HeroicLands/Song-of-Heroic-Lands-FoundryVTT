@@ -1,6 +1,6 @@
 ---
 shortcode: pyrophb
-name: {full: Pyrophobia, aliases: []}
+name: {full: Pyrophobia}
 type: trauma
 subType: fear
 tags: []

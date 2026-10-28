@@ -1,6 +1,6 @@
 ---
 shortcode: trtnginj
-name: {full: Treating Injuries, aliases: []}
+name: {full: Treating Injuries}
 type: doc
 subType: rules
 tags: [rules-trauma, rules-trauma-body-injury-sections]

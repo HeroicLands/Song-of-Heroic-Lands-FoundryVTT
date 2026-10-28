@@ -1,6 +1,6 @@
 ---
 shortcode: pipes
-name: {full: Pipes, aliases: []}
+name: {full: Pipes}
 type: miscgear
 description: "Bound bone-and-reed tubes; reedy pastoral voice for dances and love songs."
 tags: [music]

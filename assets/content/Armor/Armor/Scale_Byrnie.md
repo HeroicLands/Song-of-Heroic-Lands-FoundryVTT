@@ -1,6 +1,6 @@
 ---
 shortcode: sbyrn
-name: {full: Scale Byrnie, aliases: []}
+name: {full: Scale Byrnie}
 type: armorgear
 description: "Fabric-backed overlapping metal scales; flexible torso defense."
 tags: []

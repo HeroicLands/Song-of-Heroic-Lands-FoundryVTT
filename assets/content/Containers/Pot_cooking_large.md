@@ -1,6 +1,6 @@
 ---
 shortcode: potcooking
-name: {full: "Pot, cooking, large", aliases: []}
+name: {full: "Pot, cooking, large"}
 type: containergear
 description: "Iron cookpot with wire handle; hangs over fire or sits in embers."
 tags: []

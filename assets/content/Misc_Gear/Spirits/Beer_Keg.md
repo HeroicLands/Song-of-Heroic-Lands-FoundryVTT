@@ -1,6 +1,6 @@
 ---
 shortcode: beerkeg
-name: {full: "Beer, Keg", aliases: []}
+name: {full: "Beer, Keg"}
 type: miscgear
 description: "Small-beer in bulk; thin, sour, cheap for troops and workforces."
 tags: [spirits]

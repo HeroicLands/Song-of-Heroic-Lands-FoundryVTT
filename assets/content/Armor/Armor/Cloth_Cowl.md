@@ -1,6 +1,6 @@
 ---
 shortcode: ccowl
-name: {full: Cloth Cowl, aliases: []}
+name: {full: Cloth Cowl}
 type: armorgear
 description: "Simple cloth cowl offering comfort and everyday warmth."
 tags: []

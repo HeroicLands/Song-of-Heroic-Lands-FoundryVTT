@@ -1,6 +1,6 @@
 ---
 shortcode: combatintro
-name: {full: Combat Introduction, aliases: []}
+name: {full: Combat Introduction}
 type: doc
 subType: rules
 tags: [rules-combat]

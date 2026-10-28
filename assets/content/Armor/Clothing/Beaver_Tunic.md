@@ -1,6 +1,6 @@
 ---
 shortcode: bvtunic
-name: {full: Beaver Tunic, aliases: []}
+name: {full: Beaver Tunic}
 type: armorgear
 description: "Beaver fur tunic blending function and status for cold weather."
 tags: []

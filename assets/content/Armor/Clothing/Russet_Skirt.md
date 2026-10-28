@@ -1,6 +1,6 @@
 ---
 shortcode: rskirt
-name: {full: Russet Skirt, aliases: []}
+name: {full: Russet Skirt}
 type: armorgear
 description: "Reddish-brown wool skirt; practical leg-wear for colder climes."
 tags: []

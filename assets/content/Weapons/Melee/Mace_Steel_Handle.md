@@ -1,6 +1,6 @@
 ---
 shortcode: stlmce
-name: {full: "Mace, Steel Handle", aliases: []}
+name: {full: "Mace, Steel Handle"}
 type: weapongear
 description: "Flanged iron head on steel haft; armored knight's shock-weapon."
 tags: []

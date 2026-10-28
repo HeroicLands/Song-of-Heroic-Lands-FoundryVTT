@@ -1,6 +1,6 @@
 ---
 shortcode: ctptrphb
-name: {full: Catoptrophobia, aliases: []}
+name: {full: Catoptrophobia}
 type: trauma
 subType: fear
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: cmpssnt
-name: {full: Compassionate, aliases: []}
+name: {full: Compassionate}
 type: trauma
 subType: psycond
 tags: []

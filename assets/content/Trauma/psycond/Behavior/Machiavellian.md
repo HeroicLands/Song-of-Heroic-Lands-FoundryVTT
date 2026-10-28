@@ -1,6 +1,6 @@
 ---
 shortcode: mchvlln
-name: {full: Machiavellian, aliases: []}
+name: {full: Machiavellian}
 type: trauma
 subType: psycond
 tags: []

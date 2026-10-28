@@ -1,6 +1,6 @@
 ---
 shortcode: pcwl
-name: {full: Padded Cowl, aliases: []}
+name: {full: Padded Cowl}
 type: armorgear
 description: "Cushioned head and shoulder covering providing warmth and helmet compatibility."
 tags: []

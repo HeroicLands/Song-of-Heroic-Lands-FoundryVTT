@@ -1,6 +1,6 @@
 ---
 shortcode: gphyrphb
-name: {full: Gephyrophobia, aliases: []}
+name: {full: Gephyrophobia}
 type: trauma
 subType: fear
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: tentconica
-name: {full: "Tent, Conical", aliases: []}
+name: {full: "Tent, Conical"}
 type: miscgear
 description: "Linen cone over single pole; peaked roof sheds rain, allows campfire."
 tags: [expedition]

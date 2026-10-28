@@ -1,6 +1,6 @@
 ---
 shortcode: saddleridi
-name: {full: "Saddle, Riding", aliases: []}
+name: {full: "Saddle, Riding"}
 type: miscgear
 description: "Ash-wood and leather frame, high pommel and cantle; supports rider comfortably."
 tags: [tack]

@@ -1,6 +1,6 @@
 ---
 shortcode: inqstv
-name: {full: Inquisitive, aliases: []}
+name: {full: Inquisitive}
 type: trauma
 subType: psycond
 tags: []

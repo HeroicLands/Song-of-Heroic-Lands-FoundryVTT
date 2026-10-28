@@ -1,6 +1,6 @@
 ---
 shortcode: mindtraumaintro
-name: {full: Mind Trauma Introduction, aliases: []}
+name: {full: Mind Trauma Introduction}
 type: doc
 subType: rules
 tags: [rules-trauma, rules-trauma-forms-of-trauma]

@@ -1,6 +1,6 @@
 ---
 shortcode: pdclk
-name: {full: Padded Cloak, aliases: []}
+name: {full: Padded Cloak}
 type: armorgear
 description: "Quilted and padded cloak; cheap protection that doubles as a warm travelling garment."
 tags: []

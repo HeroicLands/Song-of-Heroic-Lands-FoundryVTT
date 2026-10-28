@@ -1,6 +1,6 @@
 ---
 shortcode: drumbass
-name: {full: "Drum, bass", aliases: []}
+name: {full: "Drum, bass"}
 type: miscgear
 description: "Large oak-ash cylinder with ox-hide heads; deep boom signals maneuvers and cadence."
 tags: [music]

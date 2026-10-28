@@ -1,6 +1,6 @@
 ---
 shortcode: tinnitus
-name: {full: Tinnitus, aliases: []}
+name: {full: Tinnitus}
 type: trauma
 subType: physcond
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: lock
-name: {full: Lockcraft, aliases: []}
+name: {full: Lockcraft}
 type: skill
 subType: craft
 description: "Designing locks; picking or bypassing mechanical locking mechanisms."

@@ -1,6 +1,6 @@
 ---
 shortcode: qcui
-name: {full: Quilted Cuisse, aliases: []}
+name: {full: Quilted Cuisse}
 type: armorgear
 description: "Stitched thigh-guard; adds padding beneath heavier armor."
 tags: []

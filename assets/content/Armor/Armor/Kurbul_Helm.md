@@ -1,6 +1,6 @@
 ---
 shortcode: khlm
-name: {full: Kûrbúl Helm, aliases: []}
+name: {full: Kûrbúl Helm}
 type: armorgear
 description: "Plain treated-leather skullcap helm; covers the crown alone and leaves the face open."
 tags: []

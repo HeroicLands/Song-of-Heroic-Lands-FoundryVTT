@@ -1,6 +1,6 @@
 ---
 shortcode: chime
-name: {full: Chime, aliases: []}
+name: {full: Chime}
 type: miscgear
 description: "Bronze tubes on frame, struck with mallet; marks prayer hours in temples."
 tags: [music]

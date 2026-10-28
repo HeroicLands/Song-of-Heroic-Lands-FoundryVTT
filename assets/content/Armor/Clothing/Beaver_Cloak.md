@@ -1,6 +1,6 @@
 ---
 shortcode: bvcloak
-name: {full: Beaver Cloak, aliases: []}
+name: {full: Beaver Cloak}
 type: armorgear
 description: "Dense beaver fur cloak providing exceptional warmth and opulent status marking."
 tags: []

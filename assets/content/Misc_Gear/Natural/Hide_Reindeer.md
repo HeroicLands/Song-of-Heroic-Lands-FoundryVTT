@@ -1,6 +1,6 @@
 ---
 shortcode: hidereinde
-name: {full: "Hide, Reindeer", aliases: []}
+name: {full: "Hide, Reindeer"}
 type: miscgear
 description: "Thick northern hide; salted, dried, water-resistant; arctic cloaks. Price is for one whole skin."
 tags: [natural]

@@ -1,6 +1,6 @@
 ---
 shortcode: arcntlnt
-name: {full: Arcane Talent, aliases: []}
+name: {full: Arcane Talent}
 type: doc
 subType: rules
 tags: [rules-esoterica, rules-esoterica-mystical-abilities-arcane-mysteries]

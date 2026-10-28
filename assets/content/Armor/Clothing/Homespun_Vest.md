@@ -1,6 +1,6 @@
 ---
 shortcode: hsvest
-name: {full: Homespun Vest, aliases: []}
+name: {full: Homespun Vest}
 type: armorgear
 description: "Simple homemade vest offering comfort and practical warmth."
 tags: []

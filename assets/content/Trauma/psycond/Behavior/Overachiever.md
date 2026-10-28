@@ -1,6 +1,6 @@
 ---
 shortcode: ovrchvr
-name: {full: Overachiever, aliases: []}
+name: {full: Overachiever}
 type: trauma
 subType: psycond
 tags: []

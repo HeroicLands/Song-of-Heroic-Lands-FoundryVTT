@@ -1,6 +1,6 @@
 ---
 shortcode: mill
-name: {full: Milling, aliases: []}
+name: {full: Milling}
 type: skill
 subType: craft
 description: "Processing grain into flour and meal using mill mechanics and stone-dressing."

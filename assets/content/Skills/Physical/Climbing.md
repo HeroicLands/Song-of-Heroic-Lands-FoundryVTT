@@ -1,6 +1,6 @@
 ---
 shortcode: clmb
-name: {full: Climbing, aliases: []}
+name: {full: Climbing}
 type: skill
 subType: physical
 description: "Scaling cliffs, walls, trees using handholds, ropes, body technique."

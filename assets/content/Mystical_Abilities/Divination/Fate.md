@@ -1,6 +1,6 @@
 ---
 shortcode: fate
-name: {full: Fate, aliases: []}
+name: {full: Fate}
 type: mysticalability
 subType: divination
 description: "A thread of destiny held and spent to raise a roll that has already settled."

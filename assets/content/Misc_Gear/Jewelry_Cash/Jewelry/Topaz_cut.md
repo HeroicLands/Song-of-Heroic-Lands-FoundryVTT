@@ -1,6 +1,6 @@
 ---
 shortcode: topazcut
-name: {full: "Topaz, cut", aliases: []}
+name: {full: "Topaz, cut"}
 type: miscgear
 description: "Golden-yellow brilliant gem; hard and lustrous; throws light like a miniature sun."
 tags: [jewelry_cash]

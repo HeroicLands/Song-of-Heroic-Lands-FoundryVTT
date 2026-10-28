@@ -1,6 +1,6 @@
 ---
 shortcode: lmntl
-name: {full: Linen Mantle, aliases: []}
+name: {full: Linen Mantle}
 type: armorgear
 description: "Breathable outer layer providing sun protection without causing overheating."
 tags: []

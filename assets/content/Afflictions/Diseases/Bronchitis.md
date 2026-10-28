@@ -1,6 +1,6 @@
 ---
 shortcode: brnchts
-name: {full: Bronchitis, aliases: []}
+name: {full: Bronchitis}
 type: affliction
 subType: disease
 description: "Wet cough, fever, chest pain; inflames airways for weeks."

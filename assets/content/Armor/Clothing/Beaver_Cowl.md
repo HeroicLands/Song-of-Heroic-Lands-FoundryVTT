@@ -1,6 +1,6 @@
 ---
 shortcode: bvcowl
-name: {full: Beaver Cowl, aliases: []}
+name: {full: Beaver Cowl}
 type: armorgear
 description: "Beaver-fur cowl offering warmth and quiet opulence in cold weather."
 tags: []

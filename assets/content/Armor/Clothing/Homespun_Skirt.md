@@ -1,6 +1,6 @@
 ---
 shortcode: hsskirt
-name: {full: Homespun Skirt, aliases: []}
+name: {full: Homespun Skirt}
 type: armorgear
 description: "Simple homemade skirt offering coverage and practical comfort."
 tags: []

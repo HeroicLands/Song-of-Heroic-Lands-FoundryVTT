@@ -1,6 +1,6 @@
 ---
 shortcode: kail
-name: {full: Kûrbúl Ailettes, aliases: []}
+name: {full: Kûrbúl Ailettes}
 type: armorgear
 description: "Lightweight decorated leather shoulder guards, ideal for agile combatants."
 tags: []

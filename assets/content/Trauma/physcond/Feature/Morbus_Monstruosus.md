@@ -1,6 +1,6 @@
 ---
 shortcode: morbusmo
-name: {full: Morbus Monstruosus, aliases: []}
+name: {full: Morbus Monstruosus}
 type: trauma
 subType: physcond
 tags: []

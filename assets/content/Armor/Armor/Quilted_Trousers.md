@@ -1,6 +1,6 @@
 ---
 shortcode: qtrsr
-name: {full: Quilted Trousers, aliases: []}
+name: {full: Quilted Trousers}
 type: armorgear
 description: "Layered quilted leg covering; warmth and light padding."
 tags: []

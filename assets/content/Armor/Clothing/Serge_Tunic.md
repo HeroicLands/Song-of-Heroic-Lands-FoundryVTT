@@ -1,6 +1,6 @@
 ---
 shortcode: sgtunic
-name: {full: Serge Tunic, aliases: []}
+name: {full: Serge Tunic}
 type: armorgear
 description: "Twilled serge tunic; practical, versatile garment for everyday wear."
 tags: []

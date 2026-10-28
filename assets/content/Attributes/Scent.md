@@ -1,6 +1,6 @@
 ---
 shortcode: snt
-name: {full: Scent, aliases: []}
+name: {full: Scent}
 type: attribute
 description: "Smell alone: detecting, distinguishing, and following a trail on the air."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: milkgoat
-name: {full: "Milk, goat", aliases: []}
+name: {full: "Milk, goat"}
 type: miscgear
 description: "Tangy dairy curdles quickly into sharp cheese, richer than sheep's."
 tags: [food]

@@ -1,6 +1,6 @@
 ---
 shortcode: earringssilver
-name: {full: "Earrings, silver", aliases: []}
+name: {full: "Earrings, silver"}
 type: miscgear
 description: "A pair of silver hoops or drops; the ordinary festival gift among townsfolk."
 tags: [jewelry_cash]

@@ -1,6 +1,6 @@
 ---
 shortcode: mdpt
-name: {full: "Mead, Pint", aliases: []}
+name: {full: "Mead, Pint"}
 type: miscgear
 description: "Sweet warming honey mead; festival drink at harvest feasts, noble celebrations."
 tags: [spirits]

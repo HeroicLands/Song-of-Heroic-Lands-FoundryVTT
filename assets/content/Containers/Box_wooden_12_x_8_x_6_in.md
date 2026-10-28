@@ -1,6 +1,6 @@
 ---
 shortcode: boxwood
-name: {full: "Box, wooden, 12 x 8 x 6 in", aliases: []}
+name: {full: "Box, wooden, 12 x 8 x 6 in"}
 type: containergear
 description: "Small carved wooden box with a fitted lid, for oddments and keepsakes."
 tags: []

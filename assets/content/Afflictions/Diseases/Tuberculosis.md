@@ -1,6 +1,6 @@
 ---
 shortcode: tbclos
-name: {full: Tuberculosis, aliases: []}
+name: {full: Tuberculosis}
 type: affliction
 subType: disease
 description: "Contagious lung infection; persistent bloody cough, fever, wasting; airborne spread."

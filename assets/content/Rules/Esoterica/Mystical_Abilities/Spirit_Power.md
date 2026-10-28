@@ -1,6 +1,6 @@
 ---
 shortcode: sprtpwr
-name: {full: Spirit Power, aliases: []}
+name: {full: Spirit Power}
 type: doc
 subType: rules
 tags: [rules-esoterica, rules-esoterica-mystical-abilities-spirit-mysteries]

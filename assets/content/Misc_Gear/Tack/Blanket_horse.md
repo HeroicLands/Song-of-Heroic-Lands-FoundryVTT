@@ -1,6 +1,6 @@
 ---
 shortcode: blankethorse
-name: {full: "Blanket, horse", aliases: []}
+name: {full: "Blanket, horse"}
 type: miscgear
 description: "Coarse woven blanket for a horse, under saddle or against the cold."
 tags: [tack]

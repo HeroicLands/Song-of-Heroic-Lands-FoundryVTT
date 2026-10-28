@@ -1,6 +1,6 @@
 ---
 shortcode: agree
-name: {full: Agreeable, aliases: []}
+name: {full: Agreeable}
 type: trauma
 subType: psycond
 tags: []

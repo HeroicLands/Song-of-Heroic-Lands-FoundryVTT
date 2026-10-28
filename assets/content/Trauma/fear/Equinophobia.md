@@ -1,6 +1,6 @@
 ---
 shortcode: eqnphb
-name: {full: Equinophobia, aliases: []}
+name: {full: Equinophobia}
 type: trauma
 subType: fear
 tags: []

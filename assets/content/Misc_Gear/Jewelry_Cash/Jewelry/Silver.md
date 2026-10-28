@@ -1,6 +1,6 @@
 ---
 shortcode: silver
-name: {full: Silver, aliases: []}
+name: {full: Silver}
 type: miscgear
 description: "Precious metal in ingots or coins; does not tarnish; accepts engraving."
 tags: [jewelry_cash]

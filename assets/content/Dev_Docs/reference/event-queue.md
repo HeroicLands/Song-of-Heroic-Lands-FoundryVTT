@@ -1,8 +1,6 @@
 ---
 shortcode: eventqueue
-name:
-  full: Event Queue
-  aliases: [Trigger Dispatcher, SohlEventQueue, sohl.events, SohlSubscription]
+name: {full: Event Queue, en: [Trigger Dispatcher, SohlEventQueue, sohl.events, SohlSubscription]}
 type: doc
 subType: reference
 description: For developers wiring document behavior to lifecycle moments (combat start/end, round/turn boundaries, world-time scheduling).

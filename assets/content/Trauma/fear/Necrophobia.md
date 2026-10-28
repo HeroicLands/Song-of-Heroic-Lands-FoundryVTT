@@ -1,6 +1,6 @@
 ---
 shortcode: necrophb
-name: {full: Necrophobia, aliases: []}
+name: {full: Necrophobia}
 type: trauma
 subType: fear
 tags: []

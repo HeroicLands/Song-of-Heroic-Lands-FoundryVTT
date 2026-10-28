@@ -1,6 +1,6 @@
 ---
 shortcode: slkvest
-name: {full: Silk Vest, aliases: []}
+name: {full: Silk Vest}
 type: armorgear
 description: "Elegant silk vest; luxurious, refined garment for formal occasions."
 tags: []

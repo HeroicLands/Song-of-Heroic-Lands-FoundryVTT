@@ -1,6 +1,6 @@
 ---
 shortcode: mhbk
-name: {full: Mail Hauberk, aliases: []}
+name: {full: Mail Hauberk}
 type: armorgear
 description: "Long metal ring shirt providing substantial protection for mounted and foot soldiers."
 tags: []

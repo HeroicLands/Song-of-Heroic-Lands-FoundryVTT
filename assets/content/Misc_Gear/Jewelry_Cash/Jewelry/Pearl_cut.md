@@ -1,6 +1,6 @@
 ---
 shortcode: pearlcut
-name: {full: "Pearl, cut", aliases: []}
+name: {full: "Pearl, cut"}
 type: miscgear
 description: "Lustrous oyster gem, soft white-cream-pink; favored for delicate bracelets and necklaces."
 tags: [jewelry_cash]

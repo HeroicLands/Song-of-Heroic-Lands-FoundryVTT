@@ -1,6 +1,6 @@
 ---
 shortcode: pouchbuckram
-name: {full: "Pouch, buckram", aliases: []}
+name: {full: "Pouch, buckram"}
 type: containergear
 description: "Stiffened cloth belt pouch; the cheap alternative to leather."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: hstrsr
-name: {full: Homespun Trousers, aliases: []}
+name: {full: Homespun Trousers}
 type: armorgear
 description: "Simple homemade trousers offering comfort for laborers and folk."
 tags: []

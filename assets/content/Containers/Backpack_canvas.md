@@ -1,6 +1,6 @@
 ---
 shortcode: backpkcvs
-name: {full: "Backpack, canvas", aliases: []}
+name: {full: "Backpack, canvas"}
 type: containergear
 description: "Frameless canvas pack with shoulder straps."
 tags: []

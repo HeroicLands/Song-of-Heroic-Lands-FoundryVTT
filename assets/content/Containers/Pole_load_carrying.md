@@ -1,6 +1,6 @@
 ---
 shortcode: polecarry
-name: {full: "Pole, load carrying", aliases: []}
+name: {full: "Pole, load carrying"}
 type: containergear
 description: "Shoulder pole for carrying slung loads."
 tags: []

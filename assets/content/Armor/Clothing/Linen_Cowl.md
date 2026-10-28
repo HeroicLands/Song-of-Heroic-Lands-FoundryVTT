@@ -1,6 +1,6 @@
 ---
 shortcode: lcowl
-name: {full: Linen Cowl, aliases: []}
+name: {full: Linen Cowl}
 type: armorgear
 description: "Breathable head and shoulder covering providing sun protection without overheating."
 tags: []

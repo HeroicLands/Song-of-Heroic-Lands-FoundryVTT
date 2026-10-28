@@ -1,6 +1,6 @@
 ---
 shortcode: precise
-name: {full: Precise, aliases: []}
+name: {full: Precise}
 type: trauma
 subType: psycond
 tags: []

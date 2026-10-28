@@ -1,6 +1,6 @@
 ---
 shortcode: thlssphb
-name: {full: Thalassophobia, aliases: []}
+name: {full: Thalassophobia}
 type: trauma
 subType: fear
 tags: []

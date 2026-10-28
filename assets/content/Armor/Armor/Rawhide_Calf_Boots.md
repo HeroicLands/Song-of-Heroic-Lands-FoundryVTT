@@ -1,6 +1,6 @@
 ---
 shortcode: rhcboot
-name: {full: Rawhide Calf Boots, aliases: []}
+name: {full: Rawhide Calf Boots}
 type: armorgear
 description: "Stout hide boots; heavy protection for rough travel."
 tags: []

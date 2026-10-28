@@ -1,6 +1,6 @@
 ---
 shortcode: perfumefine
-name: {full: "Perfume, fine", aliases: []}
+name: {full: "Perfume, fine"}
 type: miscgear
 description: "Perfumer's best work, built on costly imported oils."
 tags: [expedition]

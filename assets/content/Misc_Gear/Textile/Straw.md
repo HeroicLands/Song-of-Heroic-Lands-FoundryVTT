@@ -1,6 +1,6 @@
 ---
 shortcode: straw
-name: {full: "Straw, woven, per sq yard", aliases: []}
+name: {full: "Straw, woven, per sq yard"}
 type: miscgear
 description: "Plaited straw worked into sheet; hats, light summer wear and coarse matting."
 tags: [clothing]

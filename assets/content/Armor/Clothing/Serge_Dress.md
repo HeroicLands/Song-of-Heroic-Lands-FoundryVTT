@@ -1,6 +1,6 @@
 ---
 shortcode: sgdress
-name: {full: Serge Dress, aliases: []}
+name: {full: Serge Dress}
 type: armorgear
 description: "Durable twilled serge dress for everyday activities and general wear."
 tags: []

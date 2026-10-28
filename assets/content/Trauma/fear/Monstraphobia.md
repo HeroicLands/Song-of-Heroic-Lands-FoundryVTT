@@ -1,6 +1,6 @@
 ---
 shortcode: mnstrphb
-name: {full: Monstraphobia, aliases: []}
+name: {full: Monstraphobia}
 type: trauma
 subType: fear
 tags: []

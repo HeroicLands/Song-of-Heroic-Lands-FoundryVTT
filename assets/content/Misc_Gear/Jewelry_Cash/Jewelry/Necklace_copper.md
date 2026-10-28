@@ -1,6 +1,6 @@
 ---
 shortcode: necklacecopper
-name: {full: "Necklace, copper", aliases: []}
+name: {full: "Necklace, copper"}
 type: miscgear
 description: "Copper chain or beaten collar; bright when new, green within the season."
 tags: [jewelry_cash]

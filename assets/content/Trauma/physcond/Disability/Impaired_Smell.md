@@ -1,6 +1,6 @@
 ---
 shortcode: impaire2
-name: {full: Impaired Smell, aliases: []}
+name: {full: Impaired Smell}
 type: trauma
 subType: physcond
 tags: []

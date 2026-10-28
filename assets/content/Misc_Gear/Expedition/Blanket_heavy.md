@@ -1,6 +1,6 @@
 ---
 shortcode: hvyblkt
-name: {full: "Blanket, heavy", aliases: []}
+name: {full: "Blanket, heavy"}
 type: miscgear
 description: "Thick felted wool blanket; provides substantial winter warmth for sleeping."
 tags: [expedition]

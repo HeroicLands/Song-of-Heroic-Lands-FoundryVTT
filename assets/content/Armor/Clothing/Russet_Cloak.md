@@ -1,6 +1,6 @@
 ---
 shortcode: rclk
-name: {full: Russet Cloak, aliases: []}
+name: {full: Russet Cloak}
 type: armorgear
 description: "Reddish-brown wool cloak; durable cold-weather outer garment."
 tags: []

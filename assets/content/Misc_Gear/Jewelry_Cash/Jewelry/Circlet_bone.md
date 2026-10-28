@@ -1,6 +1,6 @@
 ---
 shortcode: circletbone
-name: {full: "Circlet, bone", aliases: []}
+name: {full: "Circlet, bone"}
 type: miscgear
 description: "A plain band for the brow, worn by those with rank enough to show it and not enough for a coronet, in carved bone."
 tags: [jewelry_cash]

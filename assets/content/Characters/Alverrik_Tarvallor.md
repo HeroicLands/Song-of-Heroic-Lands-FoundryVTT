@@ -1,6 +1,6 @@
 ---
 shortcode: alverriktarvall
-name: {full: Álverrik Tárvallor, given: Álverrik, clan: Tárvallor, aliases: [Roran Stonefist]}
+name: {full: Álverrik Tárvallor, given: Álverrik, clan: Tárvallor, en: [Roran Stonefist]}
 type: being
 subType: character
 tags: []

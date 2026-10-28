@@ -1,6 +1,6 @@
 ---
 shortcode: dehyd
-name: {full: Dehydrated, aliases: []}
+name: {full: Dehydrated}
 type: trauma
 subType: physcond
 description: "Insufficient water; thirst, dry mouth, dark urine, dizziness, collapse."

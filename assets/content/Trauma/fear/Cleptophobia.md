@@ -1,6 +1,6 @@
 ---
 shortcode: clptphb
-name: {full: Cleptophobia, aliases: []}
+name: {full: Cleptophobia}
 type: trauma
 subType: fear
 tags: []

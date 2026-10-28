@@ -1,6 +1,6 @@
 ---
 shortcode: wpnsmkit
-name: {full: Weaponsmith's Kit, aliases: []}
+name: {full: Weaponsmith's Kit}
 type: miscgear
 description: "Oiled leather roll with files, polishing stones, peening hammer, hilt drifts, grip wrap; weapon finishing and maintenance."
 tags: [instruments]

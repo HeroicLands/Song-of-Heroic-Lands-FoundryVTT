@@ -1,6 +1,6 @@
 ---
 shortcode: optimism
-name: {full: Optimism, aliases: []}
+name: {full: Optimism}
 type: trauma
 subType: psycond
 tags: []

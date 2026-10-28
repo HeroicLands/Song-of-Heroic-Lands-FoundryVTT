@@ -1,6 +1,6 @@
 ---
 shortcode: amaxphb
-name: {full: Amaxophobia, aliases: []}
+name: {full: Amaxophobia}
 type: trauma
 subType: fear
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: obsssv
-name: {full: Obsessive, aliases: []}
+name: {full: Obsessive}
 type: trauma
 subType: psycond
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: traumaintro
-name: {full: Trauma Introduction, aliases: []}
+name: {full: Trauma Introduction}
 type: doc
 subType: rules
 tags: [rules-trauma]

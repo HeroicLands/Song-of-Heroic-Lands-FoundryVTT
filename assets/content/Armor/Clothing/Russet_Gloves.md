@@ -1,6 +1,6 @@
 ---
 shortcode: rglv
-name: {full: Russet Gloves, aliases: []}
+name: {full: Russet Gloves}
 type: armorgear
 description: "Reddish-brown wool hand-covers; cold-weather protection."
 tags: []

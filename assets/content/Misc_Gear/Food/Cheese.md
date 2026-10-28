@@ -1,6 +1,6 @@
 ---
 shortcode: cheese
-name: {full: Cheese, aliases: []}
+name: {full: Cheese}
 type: miscgear
 description: "Aged or fresh curd rounds; soft or hard, keeps weeks traveling safely."
 tags: [food]

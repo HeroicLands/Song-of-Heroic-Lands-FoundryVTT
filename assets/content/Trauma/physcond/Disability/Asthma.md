@@ -1,6 +1,6 @@
 ---
 shortcode: asthma
-name: {full: Asthma, aliases: []}
+name: {full: Asthma}
 type: trauma
 subType: physcond
 tags: []

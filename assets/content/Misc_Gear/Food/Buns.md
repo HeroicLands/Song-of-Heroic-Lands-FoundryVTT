@@ -1,6 +1,6 @@
 ---
 shortcode: buns
-name: {full: Buns, aliases: []}
+name: {full: Buns}
 type: miscgear
 description: "Soft, round dough loaves; market fare studded with dried fruit or herbs."
 tags: [food]

@@ -1,6 +1,6 @@
 ---
 shortcode: selfsuf
-name: {full: Self-sufficient, aliases: []}
+name: {full: Self-sufficient}
 type: trauma
 subType: psycond
 tags: []

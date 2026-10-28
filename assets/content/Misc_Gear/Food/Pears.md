@@ -1,6 +1,6 @@
 ---
 shortcode: pears
-name: {full: Pears, aliases: []}
+name: {full: Pears}
 type: miscgear
 description: "Dried autumn fruit, hardened sweet traveler's treat and childhood prize."
 tags: [food]

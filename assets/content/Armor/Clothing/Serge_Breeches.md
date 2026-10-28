@@ -1,6 +1,6 @@
 ---
 shortcode: sgbrch
-name: {full: Serge Breeches, aliases: []}
+name: {full: Serge Breeches}
 type: armorgear
 description: "Durable twilled serge breeches for everyday wear and reliable attire."
 tags: []

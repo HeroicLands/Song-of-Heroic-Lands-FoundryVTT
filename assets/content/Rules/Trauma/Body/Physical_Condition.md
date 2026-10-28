@@ -1,6 +1,6 @@
 ---
 shortcode: physclcn
-name: {full: Physical Condition, aliases: []}
+name: {full: Physical Condition}
 type: doc
 subType: rules
 tags: [rules-trauma, rules-trauma-body-sections]

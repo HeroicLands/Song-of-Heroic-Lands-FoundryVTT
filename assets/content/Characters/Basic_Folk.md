@@ -1,6 +1,6 @@
 ---
 shortcode: basicfolk
-name: {full: Basic Folk, given: Basic, clan: Folk, aliases: []}
+name: {full: Basic Folk, given: Basic, clan: Folk}
 type: being
 subType: character
 tags: []

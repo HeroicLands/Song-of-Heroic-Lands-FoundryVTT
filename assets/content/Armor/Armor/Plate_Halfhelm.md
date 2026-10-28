@@ -1,6 +1,6 @@
 ---
 shortcode: plhhelm
-name: {full: Plate Halfhelm, aliases: []}
+name: {full: Plate Halfhelm}
 type: armorgear
 description: "Steel helm covering crown and sides; exposes face for visibility."
 tags: []

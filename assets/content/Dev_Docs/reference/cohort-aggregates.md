@@ -1,6 +1,6 @@
 ---
 shortcode: cohortaggregates
-name: {full: Cohort Aggregates, aliases: []}
+name: {full: Cohort Aggregates}
 type: doc
 subType: reference
 description: "Resolved membership and health-band counts exposed by Cohort actors."

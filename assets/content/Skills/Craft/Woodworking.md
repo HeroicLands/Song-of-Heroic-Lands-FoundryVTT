@@ -1,6 +1,6 @@
 ---
 shortcode: wood
-name: {full: Woodworking, aliases: []}
+name: {full: Woodworking}
 type: skill
 subType: craft
 description: "Shaping timber into furniture, tools, carts, and decorative carvings."

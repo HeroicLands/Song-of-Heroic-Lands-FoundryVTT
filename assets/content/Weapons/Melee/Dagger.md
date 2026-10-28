@@ -1,6 +1,6 @@
 ---
 shortcode: dgr
-name: {full: Dagger, aliases: []}
+name: {full: Dagger}
 type: weapongear
 description: "Short double-edged blade for parry and stab; universal sidearm."
 tags: []

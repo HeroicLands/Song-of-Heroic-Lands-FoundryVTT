@@ -2,7 +2,7 @@
 shortcode: bodystructure
 name:
   full: Body Structure
-  aliases: [Body Parts, Body Locations, Hit Location, Anatomy, Strike Spread]
+  en: [Body Parts, Body Locations, Hit Location, Anatomy, Strike Spread]
 type: doc
 subType: reference
 description: For developers and content authors defining creature anatomy.

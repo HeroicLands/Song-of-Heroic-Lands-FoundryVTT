@@ -1,6 +1,6 @@
 ---
 shortcode: sponge
-name: {full: Sponge, aliases: []}
+name: {full: Sponge}
 type: miscgear
 description: "Dried sea sponge; light, absorbent, for bathing, cooking, and healing."
 tags: [expedition]

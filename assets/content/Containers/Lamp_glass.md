@@ -1,6 +1,6 @@
 ---
 shortcode: lampglass
-name: {full: Lamp. glass, aliases: []}
+name: {full: Lamp. glass}
 type: containergear
 description: "Hand-blown glass lamp with open reservoir; shows fuel level clearly."
 tags: []

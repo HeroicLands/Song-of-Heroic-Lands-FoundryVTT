@@ -1,6 +1,6 @@
 ---
 shortcode: wil
-name: {full: Will, aliases: []}
+name: {full: Will}
 type: attribute
 description: "Determination and self-mastery; holding a course despite hardship or fear."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: rbyr
-name: {full: Ring Byrnie, aliases: []}
+name: {full: Ring Byrnie}
 type: armorgear
 description: "Leather tunic reinforced with overlapping metal rings; upper-body defense."
 tags: []

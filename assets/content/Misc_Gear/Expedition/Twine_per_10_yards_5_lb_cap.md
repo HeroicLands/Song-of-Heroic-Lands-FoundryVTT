@@ -1,6 +1,6 @@
 ---
 shortcode: twineper10
-name: {full: "Twine, per 10 yards (5 lb. cap.)", aliases: []}
+name: {full: "Twine, per 10 yards (5 lb. cap.)"}
 type: miscgear
 description: "Jute or hemp twine for bundling firewood and securing pack animals."
 tags: [expedition]

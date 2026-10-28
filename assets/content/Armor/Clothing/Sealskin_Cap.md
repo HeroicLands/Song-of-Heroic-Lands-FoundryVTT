@@ -1,6 +1,6 @@
 ---
 shortcode: slscap
-name: {full: Sealskin Cap, aliases: []}
+name: {full: Sealskin Cap}
 type: armorgear
 description: "Water-resistant seal-fur cap; cold and wet climate protection."
 tags: []

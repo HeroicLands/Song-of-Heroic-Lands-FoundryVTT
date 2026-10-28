@@ -1,6 +1,6 @@
 ---
 shortcode: bipolar
-name: {full: Bipolar Disorder, aliases: []}
+name: {full: Bipolar Disorder}
 type: trauma
 subType: psycond
 tags: []

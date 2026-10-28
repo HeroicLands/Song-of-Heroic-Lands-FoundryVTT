@@ -1,6 +1,6 @@
 ---
 shortcode: gldcrwn
-name: {full: Gold Crown, aliases: []}
+name: {full: Gold Crown}
 type: miscgear
 description: "Royal-sealed coin of alloyed gold; the great coin of merchants, nobles and the crown."
 tags: [jewelry_cash]

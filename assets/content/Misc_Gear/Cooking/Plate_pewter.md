@@ -1,6 +1,6 @@
 ---
 shortcode: platepewte
-name: {full: "Plate, pewter", aliases: []}
+name: {full: "Plate, pewter"}
 type: miscgear
 description: "Flat pewter plate for daily household or tavern meals and service."
 tags: [cooking]

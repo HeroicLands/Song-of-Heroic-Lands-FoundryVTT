@@ -1,6 +1,6 @@
 ---
 shortcode: satchltmd
-name: {full: "Satchel, leather, med", aliases: []}
+name: {full: "Satchel, leather, med"}
 type: containergear
 description: "Moderate leather shoulder bag with a buckled flap."
 tags: []

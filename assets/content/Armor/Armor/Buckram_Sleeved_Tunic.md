@@ -1,6 +1,6 @@
 ---
 shortcode: bstnc
-name: {full: Buckram Sleeved Tunic, aliases: []}
+name: {full: Buckram Sleeved Tunic}
 type: armorgear
 description: "Stiff, structured buckram tunic offering durable and reliable fit."
 tags: []

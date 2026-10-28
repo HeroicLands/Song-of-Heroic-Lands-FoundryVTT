@@ -1,6 +1,6 @@
 ---
 shortcode: cglv
-name: {full: Cloth Gloves, aliases: []}
+name: {full: Cloth Gloves}
 type: armorgear
 description: "Simple cloth gloves offering comfort and protection for everyday tasks."
 tags: []

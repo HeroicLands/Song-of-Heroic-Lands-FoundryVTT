@@ -1,6 +1,6 @@
 ---
 shortcode: clflwrr
-name: {full: Cauliflower Ear, aliases: []}
+name: {full: Cauliflower Ear}
 type: trauma
 subType: physcond
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: hypochon
-name: {full: Hypochondriasis, aliases: []}
+name: {full: Hypochondriasis}
 type: trauma
 subType: psycond
 tags: []

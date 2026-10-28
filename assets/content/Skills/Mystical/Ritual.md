@@ -1,6 +1,6 @@
 ---
 shortcode: ritual
-name: {full: Ritual, aliases: []}
+name: {full: Ritual}
 type: skill
 subType: mystical
 description: "Conducting ceremonies, rites, and worship services for one's faith."

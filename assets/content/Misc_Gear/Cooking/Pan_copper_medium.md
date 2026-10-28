@@ -1,6 +1,6 @@
 ---
 shortcode: pancopperm
-name: {full: "Pan, copper, medium", aliases: []}
+name: {full: "Pan, copper, medium"}
 type: miscgear
 description: "Medium copper pan; even heat distribution for sauces and sautéing vegetables."
 tags: [cooking]

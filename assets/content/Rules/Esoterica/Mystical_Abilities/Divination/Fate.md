@@ -1,6 +1,6 @@
 ---
 shortcode: ftdvn
-name: {full: Fate, aliases: []}
+name: {full: Fate}
 type: doc
 subType: rules
 tags: [rules-esoterica, rules-esoterica-mystical-abilities-divination-the-arts]

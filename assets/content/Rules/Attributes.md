@@ -1,6 +1,6 @@
 ---
 shortcode: attributes
-name: {full: Attributes, aliases: []}
+name: {full: Attributes}
 type: doc
 subType: rules
 tags: [rules-attributes]

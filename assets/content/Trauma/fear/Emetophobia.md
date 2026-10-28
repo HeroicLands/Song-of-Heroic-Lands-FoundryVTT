@@ -1,6 +1,6 @@
 ---
 shortcode: emetophb
-name: {full: Emetophobia, aliases: []}
+name: {full: Emetophobia}
 type: trauma
 subType: fear
 tags: []

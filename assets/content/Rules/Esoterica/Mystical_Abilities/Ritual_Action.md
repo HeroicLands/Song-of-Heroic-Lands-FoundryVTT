@@ -1,6 +1,6 @@
 ---
 shortcode: rtlactn
-name: {full: Ritual Action, aliases: []}
+name: {full: Ritual Action}
 type: doc
 subType: rules
 tags: [rules-esoterica, rules-esoterica-mystical-abilities-divine-mysteries]

@@ -1,6 +1,6 @@
 ---
 shortcode: march
-name: {full: Marching, aliases: [Walking]}
+name: {full: Marching, en: [Walking]}
 type: trauma
 subType: fatigue
 description: "Sustained weariness from long-distance walking at travel pace."

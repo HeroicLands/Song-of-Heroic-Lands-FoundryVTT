@@ -1,6 +1,6 @@
 ---
 shortcode: buildanddeployment
-name: {full: "Build, Deployment, and Release", aliases: []}
+name: {full: "Build, Deployment, and Release"}
 type: doc
 subType: howto
 tags: [dev-how-to]

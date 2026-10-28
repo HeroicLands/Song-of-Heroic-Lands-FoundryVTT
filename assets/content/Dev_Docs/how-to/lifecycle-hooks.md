@@ -1,6 +1,6 @@
 ---
 shortcode: lifecyclehooks
-name: {full: Lifecycle Hooks, aliases: []}
+name: {full: Lifecycle Hooks}
 type: doc
 subType: howto
 tags: [dev-how-to]

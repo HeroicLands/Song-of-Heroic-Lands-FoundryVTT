@@ -1,6 +1,6 @@
 ---
 shortcode: chestwdsm
-name: {full: "Chest, wooden, small", aliases: []}
+name: {full: "Chest, wooden, small"}
 type: containergear
 description: "Small joined wooden chest."
 tags: []

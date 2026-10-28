@@ -1,6 +1,6 @@
 ---
 shortcode: earringsgold
-name: {full: "Earrings, gold", aliases: []}
+name: {full: "Earrings, gold"}
 type: miscgear
 description: "A pair of gold hoops or drops; worn where wealth must be seen, not counted."
 tags: [jewelry_cash]

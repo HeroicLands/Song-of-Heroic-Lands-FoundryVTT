@@ -1,6 +1,6 @@
 ---
 shortcode: ctglphb
-name: {full: Catagelophobia, aliases: []}
+name: {full: Catagelophobia}
 type: trauma
 subType: fear
 tags: []

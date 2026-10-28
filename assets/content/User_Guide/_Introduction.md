@@ -1,6 +1,6 @@
 ---
 shortcode: userguide
-name: {full: Song of Heroic Lands User Guide, aliases: []}
+name: {full: Song of Heroic Lands User Guide}
 type: doc
 subType: userguide
 data: {packFolder: userguide}

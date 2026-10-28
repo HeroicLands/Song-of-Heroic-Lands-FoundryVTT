@@ -1,6 +1,6 @@
 ---
 shortcode: immob
-name: {full: Immobilized, aliases: []}
+name: {full: Immobilized}
 type: trauma
 subType: physcond
 description: "A limb pinned, bound, or paralyzed — it cannot be moved, but it keeps its grip."

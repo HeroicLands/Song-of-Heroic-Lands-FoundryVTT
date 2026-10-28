@@ -1,6 +1,6 @@
 ---
 shortcode: alehgsh
-name: {full: Hogshead Ale, aliases: []}
+name: {full: Hogshead Ale}
 type: miscgear
 description: "Fifty gallons pale ale; garrison staple; drains in weeks of daily supply."
 tags: [spirits]

@@ -1,6 +1,6 @@
 ---
 shortcode: earringswood
-name: {full: "Earrings, wood", aliases: []}
+name: {full: "Earrings, wood"}
 type: miscgear
 description: "Carved wooden drops on a wire or thong; light enough to be worn all day."
 tags: [jewelry_cash]

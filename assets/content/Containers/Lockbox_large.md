@@ -1,6 +1,6 @@
 ---
 shortcode: lockboxlar
-name: {full: "Lockbox, large", aliases: []}
+name: {full: "Lockbox, large"}
 type: containergear
 description: "Iron-banded hardwood chest with wardlock; merchant's vault for valuables."
 tags: []

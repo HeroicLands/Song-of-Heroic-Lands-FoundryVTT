@@ -1,6 +1,6 @@
 ---
 shortcode: dwarfism
-name: {full: Dwarfism, aliases: []}
+name: {full: Dwarfism}
 type: trauma
 subType: physcond
 tags: []

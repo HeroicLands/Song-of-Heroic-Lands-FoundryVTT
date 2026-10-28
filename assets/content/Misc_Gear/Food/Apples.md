@@ -1,6 +1,6 @@
 ---
 shortcode: apples
-name: {full: Apples, aliases: []}
+name: {full: Apples}
 type: miscgear
 description: "Firm orchard fruit; edible into winter when stored cool, sliced dried."
 tags: [food]

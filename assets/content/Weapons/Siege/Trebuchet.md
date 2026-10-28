@@ -1,6 +1,6 @@
 ---
 shortcode: trebch
-name: {full: Trebuchet, aliases: []}
+name: {full: Trebuchet}
 type: weapongear
 description: "Counterweight stone-thrower; the heaviest engine there is, and the only one that breaks a curtain wall."
 tags: []

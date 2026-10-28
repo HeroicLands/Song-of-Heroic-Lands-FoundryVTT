@@ -1,6 +1,6 @@
 ---
 shortcode: ptchphb
-name: {full: Ptochophobia, aliases: []}
+name: {full: Ptochophobia}
 type: trauma
 subType: fear
 tags: []

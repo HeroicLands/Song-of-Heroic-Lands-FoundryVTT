@@ -1,6 +1,6 @@
 ---
 shortcode: spoonpewte
-name: {full: "Spoon, pewter", aliases: []}
+name: {full: "Spoon, pewter"}
 type: miscgear
 description: "Cast pewter spoon with deepened bowl for eating and stirring cooking."
 tags: [cooking]

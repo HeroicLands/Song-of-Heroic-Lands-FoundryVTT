@@ -1,6 +1,6 @@
 ---
 shortcode: dyeochr
-name: {full: "Dye, Ochre Yellow", aliases: []}
+name: {full: "Dye, Ochre Yellow"}
 type: miscgear
 description: "Ground ochre with iron mordants; earthy mustard yellow for peasant cloth."
 tags: [clothing]

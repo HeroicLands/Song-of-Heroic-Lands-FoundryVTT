@@ -1,6 +1,6 @@
 ---
 shortcode: nervous
-name: {full: Nervous, aliases: []}
+name: {full: Nervous}
 type: trauma
 subType: psycond
 tags: []

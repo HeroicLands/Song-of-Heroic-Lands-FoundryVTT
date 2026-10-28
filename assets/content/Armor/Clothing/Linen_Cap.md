@@ -1,6 +1,6 @@
 ---
 shortcode: lcap
-name: {full: Linen Cap, aliases: []}
+name: {full: Linen Cap}
 type: armorgear
 description: "Light breathable head covering protecting from sun in warmer weather."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: bclk
-name: {full: Buckram Cloak, aliases: []}
+name: {full: Buckram Cloak}
 type: armorgear
 description: "Stiff, glue-stiffened cloth cloak providing structure and reliable durability."
 tags: []

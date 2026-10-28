@@ -1,6 +1,6 @@
 ---
 shortcode: hornbonehu
-name: {full: "Horn, bone, hunting", aliases: []}
+name: {full: "Horn, bone, hunting"}
 type: miscgear
 description: "Deer-antler or boar-tusk tapered tube; shrill note; low-cost, portable for common huntsmen."
 tags: [music]

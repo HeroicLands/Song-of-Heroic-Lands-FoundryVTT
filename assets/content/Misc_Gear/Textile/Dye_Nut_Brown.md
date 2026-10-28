@@ -1,6 +1,6 @@
 ---
 shortcode: dyenut
-name: {full: "Dye, Nut Brown", aliases: []}
+name: {full: "Dye, Nut Brown"}
 type: miscgear
 description: "Walnut hulls and iron salts; warm earthy brown for everyday working garments."
 tags: [clothing]

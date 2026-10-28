@@ -1,6 +1,6 @@
 ---
 shortcode: starv
-name: {full: Starving, aliases: []}
+name: {full: Starving}
 type: trauma
 subType: physcond
 description: "Prolonged absence of food; wasting, weakness, organ failure."

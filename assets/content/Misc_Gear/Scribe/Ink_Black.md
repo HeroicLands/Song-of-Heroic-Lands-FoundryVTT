@@ -1,6 +1,6 @@
 ---
 shortcode: inkblk
-name: {full: "Ink, Black", aliases: []}
+name: {full: "Ink, Black"}
 type: miscgear
 description: "Oak-gall ink; indelible black for clerks, scribes, chroniclers' work."
 tags: [scribe]

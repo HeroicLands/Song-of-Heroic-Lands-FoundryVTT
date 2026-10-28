@@ -1,6 +1,6 @@
 ---
 shortcode: hsclk
-name: {full: Homespun Cloak, aliases: []}
+name: {full: Homespun Cloak}
 type: armorgear
 description: "Practical homemade cloak providing basic weather protection."
 tags: []

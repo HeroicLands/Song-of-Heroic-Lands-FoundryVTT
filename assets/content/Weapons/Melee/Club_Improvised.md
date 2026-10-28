@@ -1,6 +1,6 @@
 ---
 shortcode: clbimp
-name: {full: "Club, Improvised", aliases: []}
+name: {full: "Club, Improvised"}
 type: weapongear
 description: "Branch or timber wrenched to hand; widow-maker of necessity."
 tags: []

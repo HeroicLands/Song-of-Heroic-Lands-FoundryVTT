@@ -1,6 +1,6 @@
 ---
 shortcode: chisel
-name: {full: Chisel, aliases: []}
+name: {full: Chisel}
 type: miscgear
 description: "Steel blade beveled for stone and wood, driven by hammer."
 tags: [instruments]

@@ -1,6 +1,6 @@
 ---
 shortcode: broochivory
-name: {full: "Brooch, ivory", aliases: []}
+name: {full: "Brooch, ivory"}
 type: miscgear
 description: "A pin and catch worked into a plate, worn to fasten a cloak at the shoulder, in carved ivory."
 tags: [jewelry_cash]

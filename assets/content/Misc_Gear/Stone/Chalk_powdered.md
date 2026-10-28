@@ -1,6 +1,6 @@
 ---
 shortcode: chalkpowde
-name: {full: "Chalk, powdered", aliases: []}
+name: {full: "Chalk, powdered"}
 type: miscgear
 description: "Ground chalk powder in sealed pot; scribes erase, masons whitewash."
 tags: [stone]

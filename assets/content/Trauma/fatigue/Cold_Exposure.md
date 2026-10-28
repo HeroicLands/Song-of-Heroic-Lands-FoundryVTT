@@ -1,6 +1,6 @@
 ---
 shortcode: coldexp
-name: {full: Cold Exposure, aliases: []}
+name: {full: Cold Exposure}
 type: trauma
 subType: fatigue
 description: "Sustained weariness from prolonged cold exposure short of hypothermia."

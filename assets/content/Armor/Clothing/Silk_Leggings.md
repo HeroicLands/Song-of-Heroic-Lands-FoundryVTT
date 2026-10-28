@@ -1,6 +1,6 @@
 ---
 shortcode: slkleg
-name: {full: Silk Leggings, aliases: []}
+name: {full: Silk Leggings}
 type: armorgear
 description: "Luxurious silk leggings; soft, elegant for formal occasions."
 tags: []

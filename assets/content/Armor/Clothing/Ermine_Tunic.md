@@ -1,6 +1,6 @@
 ---
 shortcode: etunic
-name: {full: Ermine Tunic, aliases: []}
+name: {full: Ermine Tunic}
 type: armorgear
 description: "Ermine-furred tunic; conspicuous wealth worn close."
 tags: []

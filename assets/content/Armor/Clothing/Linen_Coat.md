@@ -1,6 +1,6 @@
 ---
 shortcode: lcoat
-name: {full: Linen Coat, aliases: []}
+name: {full: Linen Coat}
 type: armorgear
 description: "Light breathable torso covering for warmer weather comfort."
 tags: []

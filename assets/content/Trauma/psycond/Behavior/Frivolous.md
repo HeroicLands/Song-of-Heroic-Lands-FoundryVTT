@@ -1,6 +1,6 @@
 ---
 shortcode: frvls
-name: {full: Frivolous, aliases: []}
+name: {full: Frivolous}
 type: trauma
 subType: psycond
 tags: []

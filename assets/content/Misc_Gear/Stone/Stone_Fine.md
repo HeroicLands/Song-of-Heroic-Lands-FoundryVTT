@@ -1,6 +1,6 @@
 ---
 shortcode: stonefine
-name: {full: "Stone, Fine", aliases: []}
+name: {full: "Stone, Fine"}
 type: miscgear
 description: "Squared dressed stone blocks; smooth facing, precise joints; churches, fortifications."
 tags: [stone]

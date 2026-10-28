@@ -1,6 +1,6 @@
 ---
 shortcode: lentils
-name: {full: Lentils, aliases: []}
+name: {full: Lentils}
 type: miscgear
 description: "Dried legume staple, poor man's protein, survives long travel and damp."
 tags: [food]

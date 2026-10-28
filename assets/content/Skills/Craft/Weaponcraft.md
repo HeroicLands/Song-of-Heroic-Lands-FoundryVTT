@@ -1,6 +1,6 @@
 ---
 shortcode: wpnc
-name: {full: Weaponcraft, aliases: []}
+name: {full: Weaponcraft}
 type: skill
 subType: craft
 description: "Forging swords, axes, and weapons with superior balance and performance."

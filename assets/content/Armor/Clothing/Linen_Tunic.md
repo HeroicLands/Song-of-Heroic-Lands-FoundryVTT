@@ -1,6 +1,6 @@
 ---
 shortcode: ltunic
-name: {full: Linen Tunic, aliases: []}
+name: {full: Linen Tunic}
 type: armorgear
 description: "Light breathable torso garment perfect for warm weather casual wear."
 tags: []

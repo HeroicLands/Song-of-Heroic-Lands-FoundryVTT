@@ -1,6 +1,6 @@
 ---
 shortcode: aur
-name: {full: Aura, aliases: []}
+name: {full: Aura}
 type: attribute
 description: "Depth of the soul, and the presence every mystical connexion rests on."
 tags: []

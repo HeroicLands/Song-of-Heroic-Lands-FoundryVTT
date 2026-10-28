@@ -1,6 +1,6 @@
 ---
 shortcode: wxcvtunic
-name: {full: Waxed Canvas Tunic, aliases: []}
+name: {full: Waxed Canvas Tunic}
 type: armorgear
 description: "Waxed canvas tunic proofed against rain and sea spray."
 tags: []

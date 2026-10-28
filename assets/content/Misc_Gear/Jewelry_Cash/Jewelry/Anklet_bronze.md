@@ -1,6 +1,6 @@
 ---
 shortcode: ankletbronze
-name: {full: "Anklet, bronze", aliases: []}
+name: {full: "Anklet, bronze"}
 type: miscgear
 description: "A band worn at the ankle, closed or hinged, and often hung with small charms, in cast bronze."
 tags: [jewelry_cash]

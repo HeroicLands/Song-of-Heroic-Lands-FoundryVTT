@@ -1,6 +1,6 @@
 ---
 shortcode: arwhbrd
-name: {full: Heavy Broad Arrow, aliases: []}
+name: {full: Heavy Broad Arrow}
 type: projectilegear
 subType: arrow
 description: "War-arrow with wide flanged barbs; mortal wounds, hooks bone in skirmish."

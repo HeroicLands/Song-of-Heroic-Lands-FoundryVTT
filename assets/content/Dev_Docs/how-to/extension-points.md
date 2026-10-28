@@ -1,6 +1,6 @@
 ---
 shortcode: extensionpoints
-name: {full: Extension Points (Developer Guide), aliases: []}
+name: {full: Extension Points (Developer Guide)}
 type: doc
 subType: howto
 tags: [dev-how-to]

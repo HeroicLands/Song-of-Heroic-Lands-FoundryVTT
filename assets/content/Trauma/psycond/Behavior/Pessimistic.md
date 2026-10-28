@@ -1,6 +1,6 @@
 ---
 shortcode: pssmstc
-name: {full: Pessimistic, aliases: []}
+name: {full: Pessimistic}
 type: trauma
 subType: psycond
 tags: []

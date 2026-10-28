@@ -1,6 +1,6 @@
 ---
 shortcode: playful
-name: {full: Playful, aliases: []}
+name: {full: Playful}
 type: trauma
 subType: psycond
 tags: []

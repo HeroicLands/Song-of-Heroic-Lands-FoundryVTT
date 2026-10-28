@@ -1,6 +1,6 @@
 ---
 shortcode: trnc
-name: {full: Trance, aliases: []}
+name: {full: Trance}
 type: mysticalability
 subType: spiritaction
 description: "Loosening soul from body in deep meditation to perceive and cross into the spirit world."

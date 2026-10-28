@@ -1,6 +1,6 @@
 ---
 shortcode: plgrvs
-name: {full: Plate Greaves, aliases: []}
+name: {full: Plate Greaves}
 type: armorgear
 description: "Steel plates protecting lower legs and shins."
 tags: []

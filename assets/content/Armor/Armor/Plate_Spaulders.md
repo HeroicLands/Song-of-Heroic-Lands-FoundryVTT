@@ -1,6 +1,6 @@
 ---
 shortcode: plspld
-name: {full: Plate Spaulders, aliases: []}
+name: {full: Plate Spaulders}
 type: armorgear
 description: "Broad steel shoulder-plates; guards vulnerable arm-sockets."
 tags: []

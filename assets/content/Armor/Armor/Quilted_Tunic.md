@@ -1,6 +1,6 @@
 ---
 shortcode: qtnc
-name: {full: Quilted Tunic, aliases: []}
+name: {full: Quilted Tunic}
 type: armorgear
 description: "Padded tunic; stitched layers offer steady warmth."
 tags: []

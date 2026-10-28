@@ -1,6 +1,6 @@
 ---
 shortcode: gold
-name: {full: Gold, aliases: []}
+name: {full: Gold}
 type: miscgear
 description: "Precious metal beaten into ingots, coins by royal mints; foundation of trade."
 tags: [jewelry_cash]

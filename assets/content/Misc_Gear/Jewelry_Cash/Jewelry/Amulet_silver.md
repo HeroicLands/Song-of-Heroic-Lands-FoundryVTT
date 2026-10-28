@@ -1,6 +1,6 @@
 ---
 shortcode: amuletsilver
-name: {full: "Amulet, silver", aliases: []}
+name: {full: "Amulet, silver"}
 type: miscgear
 description: "Silver charm-pendant, engraved with a protective sign; the common warding piece."
 tags: [jewelry_cash]

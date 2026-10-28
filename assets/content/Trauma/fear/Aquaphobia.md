@@ -1,6 +1,6 @@
 ---
 shortcode: aquaphb
-name: {full: Aquaphobia, aliases: []}
+name: {full: Aquaphobia}
 type: trauma
 subType: fear
 tags: []

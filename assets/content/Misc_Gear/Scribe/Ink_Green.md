@@ -1,6 +1,6 @@
 ---
 shortcode: inkgrn
-name: {full: "Ink, Green", aliases: []}
+name: {full: "Ink, Green"}
 type: miscgear
 description: "Verdigris or woad-iron pigment; marks heraldic and legal ornament, light-sensitive."
 tags: [scribe]

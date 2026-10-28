@@ -1,6 +1,6 @@
 ---
 shortcode: groomkit
-name: {full: Grooming Kit, aliases: [Toilet Kit, Personal Grooming Kit]}
+name: {full: Grooming Kit, en: [Toilet Kit, Personal Grooming Kit]}
 type: miscgear
 description: "Leather roll with comb, brush, folding razor, hand mirror, soap, pomade; daily upkeep of hair, beard, and skin."
 tags: [instruments]

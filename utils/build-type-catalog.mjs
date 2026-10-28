@@ -155,7 +155,6 @@ type: doc
 subType: reference
 name:
   full: SoHL Type Catalog
-  aliases: []
 shortcode: typecatalog
 tags: [dev-docs-content-creator-also-relevant-filed-elsewhere, dev-reference]
 description: Every actor and item type the system compiles, with the summary of its Logic class.

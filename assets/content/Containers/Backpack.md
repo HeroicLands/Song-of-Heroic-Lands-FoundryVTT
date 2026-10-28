@@ -1,6 +1,6 @@
 ---
 shortcode: backpk
-name: {full: Backpack, aliases: []}
+name: {full: Backpack}
 type: containergear
 description: "Canvas or oiled-linen shoulder pack for travelers and soldiers."
 tags: []

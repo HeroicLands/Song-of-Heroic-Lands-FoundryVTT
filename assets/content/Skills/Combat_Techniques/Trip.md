@@ -1,6 +1,6 @@
 ---
 shortcode: trip
-name: {full: Trip, aliases: []}
+name: {full: Trip}
 type: skill
 subType: combattechnique
 description: "Taking the legs out from under an opponent, and the fight with them."

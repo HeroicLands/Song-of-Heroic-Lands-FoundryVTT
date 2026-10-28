@@ -1,6 +1,6 @@
 ---
 shortcode: horseshoe
-name: {full: Horseshoe, aliases: []}
+name: {full: Horseshoe}
 type: miscgear
 description: "Curved iron plate nailed to hoof; distributes wear, grips stone and mud."
 tags: [tack]

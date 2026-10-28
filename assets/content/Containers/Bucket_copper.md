@@ -1,6 +1,6 @@
 ---
 shortcode: bucketcopp
-name: {full: "Bucket, copper", aliases: []}
+name: {full: "Bucket, copper"}
 type: containergear
 description: "Tinned-copper bucket for heating and cooking without iron."
 tags: []

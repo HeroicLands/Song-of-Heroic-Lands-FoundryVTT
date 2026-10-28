@@ -1,6 +1,6 @@
 ---
 shortcode: jetcut
-name: {full: "Jet, cut", aliases: []}
+name: {full: "Jet, cut"}
 type: miscgear
 description: "Black fossilized-wood gem; silver or gold setting; favored for mourning jewelry."
 tags: [jewelry_cash]

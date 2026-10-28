@@ -1,6 +1,6 @@
 ---
 shortcode: combatresolutionpipeline
-name: {full: Combat Resolution Pipeline, aliases: []}
+name: {full: Combat Resolution Pipeline}
 type: doc
 subType: reference
 description: For SoHL maintainers extending tests, opposed rolls, or combat outcomes.

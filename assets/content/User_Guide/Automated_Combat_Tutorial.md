@@ -1,6 +1,6 @@
 ---
 shortcode: automatedcombatframing
-name: {full: The Ambush on the Path, aliases: []}
+name: {full: The Ambush on the Path}
 type: doc
 subType: userguide
 tags: [tutorial, guide-combat-basics]

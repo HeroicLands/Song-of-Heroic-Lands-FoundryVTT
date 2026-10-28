@@ -1,6 +1,6 @@
 ---
 shortcode: crdphb
-name: {full: Cardiophobia, aliases: []}
+name: {full: Cardiophobia}
 type: trauma
 subType: fear
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: bkcasetrv
-name: {full: "Book case, travelling", aliases: []}
+name: {full: "Book case, travelling"}
 type: containergear
 description: "Waxed leather shoulder case; shields travelling book and scribe's kit from weather."
 tags: []

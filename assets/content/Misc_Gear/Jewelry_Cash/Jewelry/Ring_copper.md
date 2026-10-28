@@ -1,6 +1,6 @@
 ---
 shortcode: ringcopper
-name: {full: "Ring, copper", aliases: []}
+name: {full: "Ring, copper"}
 type: miscgear
 description: "Cheap copper band; stains the finger green, sold at every fair and festival."
 tags: [jewelry_cash]

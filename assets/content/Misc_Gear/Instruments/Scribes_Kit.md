@@ -1,6 +1,6 @@
 ---
 shortcode: scribekit
-name: {full: Scribe's Kit, aliases: []}
+name: {full: Scribe's Kit}
 type: miscgear
 description: "Hinged wooden case with quills, penknife, inkhorns, sand caster, wax, seals, vellum; scribes and draughtsmen."
 tags: [instruments]

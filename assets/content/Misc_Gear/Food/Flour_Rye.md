@@ -1,6 +1,6 @@
 ---
 shortcode: flourrye
-name: {full: "Flour, Rye", aliases: []}
+name: {full: "Flour, Rye"}
 type: miscgear
 description: "Coarse dark flour; staple for peasant bread, cheaper than wheat flour."
 tags: [food]

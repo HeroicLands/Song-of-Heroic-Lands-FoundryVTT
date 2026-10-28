@@ -1,6 +1,6 @@
 ---
 shortcode: apiaccessmap
-name: {full: API Access Map (Macros and Modules), aliases: []}
+name: {full: API Access Map (Macros and Modules)}
 type: doc
 subType: howto
 tags: [dev-how-to]

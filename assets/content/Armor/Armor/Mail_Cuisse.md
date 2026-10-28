@@ -1,6 +1,6 @@
 ---
 shortcode: mcui
-name: {full: Mail Cuisse, aliases: []}
+name: {full: Mail Cuisse}
 type: armorgear
 description: "Metal ring thigh protection offering flexibility and defense for soldiers."
 tags: []

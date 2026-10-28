@@ -1,6 +1,6 @@
 ---
 shortcode: ampoule1
-name: {full: "Ampoule, single dose, glass", aliases: []}
+name: {full: "Ampoule, single dose, glass"}
 type: containergear
 description: "Sealed single-dose glass ampoule."
 tags: []

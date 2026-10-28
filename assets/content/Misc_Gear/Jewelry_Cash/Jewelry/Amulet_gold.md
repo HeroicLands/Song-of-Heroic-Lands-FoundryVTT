@@ -1,6 +1,6 @@
 ---
 shortcode: amuletgold
-name: {full: "Amulet, gold", aliases: []}
+name: {full: "Amulet, gold"}
 type: miscgear
 description: "Heavy gold pendant worn at the throat; a charm and a fortune together."
 tags: [jewelry_cash]

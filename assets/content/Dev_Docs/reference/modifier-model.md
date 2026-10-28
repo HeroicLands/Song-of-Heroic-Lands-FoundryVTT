@@ -1,6 +1,6 @@
 ---
 shortcode: modifiermodel
-name: {full: Modifier Model, aliases: []}
+name: {full: Modifier Model}
 type: doc
 subType: reference
 tags: [dev-reference]

@@ -1,6 +1,6 @@
 ---
 shortcode: beltpouchl3
-name: {full: "Belt pouch, leather, sm", aliases: []}
+name: {full: "Belt pouch, leather, sm"}
 type: containergear
 description: "Small leather belt pouch barely larger than a fist."
 tags: []

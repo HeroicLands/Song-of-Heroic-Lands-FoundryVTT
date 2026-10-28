@@ -1,6 +1,6 @@
 ---
 shortcode: cagewoodlg
-name: {full: "Cage, wooden, large", aliases: []}
+name: {full: "Cage, wooden, large"}
 type: miscgear
 description: "Large slatted wooden cage for livestock or hounds (roughly 27 cubic feet)."
 tags: [expedition]

@@ -1,6 +1,6 @@
 ---
 shortcode: holysymgold
-name: {full: "Holy Symbol, gold", aliases: []}
+name: {full: "Holy Symbol, gold"}
 type: miscgear
 description: "Gold token of a god; the symbol of a prelate or a great house."
 tags: [religious]

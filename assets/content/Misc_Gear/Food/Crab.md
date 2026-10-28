@@ -1,6 +1,6 @@
 ---
 shortcode: crab
-name: {full: Crab, aliases: []}
+name: {full: Crab}
 type: miscgear
 description: "Sweet firm crustacean meat; fresh at harbor, salted for inland trade."
 tags: [food]

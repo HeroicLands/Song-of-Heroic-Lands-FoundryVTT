@@ -1,6 +1,6 @@
 ---
 shortcode: ringivory
-name: {full: "Ring, ivory", aliases: []}
+name: {full: "Ring, ivory"}
 type: miscgear
 description: "A band for the finger, plain or chased, in carved ivory."
 tags: [jewelry_cash]

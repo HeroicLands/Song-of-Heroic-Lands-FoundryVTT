@@ -1,6 +1,6 @@
 ---
 shortcode: rhlngvst
-name: {full: Rawhide Long Vest, aliases: []}
+name: {full: Rawhide Long Vest}
 type: armorgear
 description: "Extended hide vest; tough torso protection without sleeves."
 tags: []

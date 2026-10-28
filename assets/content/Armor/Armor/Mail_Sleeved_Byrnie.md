@@ -1,6 +1,6 @@
 ---
 shortcode: msbyr
-name: {full: Mail Sleeved Byrnie, aliases: []}
+name: {full: Mail Sleeved Byrnie}
 type: armorgear
 description: "Long sleeved metal ring shirt providing substantial torso and arm protection."
 tags: []

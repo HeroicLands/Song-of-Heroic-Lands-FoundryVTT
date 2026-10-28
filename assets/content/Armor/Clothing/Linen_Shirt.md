@@ -1,6 +1,6 @@
 ---
 shortcode: lshirt
-name: {full: Linen Shirt, aliases: []}
+name: {full: Linen Shirt}
 type: armorgear
 description: "Light breathable torso covering for warm weather and everyday activity."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: arlshck
-name: {full: Aural Shock, aliases: []}
+name: {full: Aural Shock}
 type: doc
 subType: rules
 tags: [rules-trauma, rules-trauma-spirit-sections]

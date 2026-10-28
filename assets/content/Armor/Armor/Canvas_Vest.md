@@ -1,6 +1,6 @@
 ---
 shortcode: cvvest
-name: {full: Canvas Vest, aliases: []}
+name: {full: Canvas Vest}
 type: armorgear
 description: "Sleeveless canvas vest offering tough, unfussy body cover."
 tags: []

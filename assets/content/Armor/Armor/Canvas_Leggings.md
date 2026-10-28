@@ -1,6 +1,6 @@
 ---
 shortcode: cvleg
-name: {full: Canvas Leggings, aliases: []}
+name: {full: Canvas Leggings}
 type: armorgear
 description: "Tough canvas leg-wear built for labour and long marches."
 tags: []

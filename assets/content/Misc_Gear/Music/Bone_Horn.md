@@ -1,6 +1,6 @@
 ---
 shortcode: bonehorn
-name: {full: Bone/Horn, aliases: []}
+name: {full: Bone/Horn}
 type: miscgear
 description: "Hollow bone-horn pipe stoppered with cork; reedy piercing voice carries across moorland."
 tags: [music]

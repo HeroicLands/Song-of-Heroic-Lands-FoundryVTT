@@ -1,6 +1,6 @@
 ---
 shortcode: sleepdep
-name: {full: Sleep Deprivation, aliases: []}
+name: {full: Sleep Deprivation}
 type: trauma
 subType: fatigue
 description: "Extended wakefulness; weariness, slow reflexes, hallucinations, collapse."

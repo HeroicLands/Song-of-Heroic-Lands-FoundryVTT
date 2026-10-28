@@ -1,6 +1,6 @@
 ---
 shortcode: medsupil
-name: {full: "Medical Supplies, per IL", aliases: []}
+name: {full: "Medical Supplies, per IL"}
 type: miscgear
 description: "Bandages, splints, sutures, poultices, salves; one unit treats one injury level."
 tags: [medical]

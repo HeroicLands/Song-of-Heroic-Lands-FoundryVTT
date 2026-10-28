@@ -1,6 +1,6 @@
 ---
 shortcode: kgrvs
-name: {full: Kûrbúl Greaves, aliases: []}
+name: {full: Kûrbúl Greaves}
 type: armorgear
 description: "Treated leather leg armor combining protection and flexibility with decorative patterns."
 tags: []

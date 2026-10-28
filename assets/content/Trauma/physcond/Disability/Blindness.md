@@ -1,6 +1,6 @@
 ---
 shortcode: blndnss
-name: {full: Blindness, aliases: []}
+name: {full: Blindness}
 type: trauma
 subType: physcond
 tags: []

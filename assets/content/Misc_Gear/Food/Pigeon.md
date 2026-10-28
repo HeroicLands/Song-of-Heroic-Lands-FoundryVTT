@@ -1,6 +1,6 @@
 ---
 shortcode: pigeon
-name: {full: Pigeon, aliases: []}
+name: {full: Pigeon}
 type: miscgear
 description: "Mild tender meat from trapped cotes, small carcass rich with fat."
 tags: [food]

@@ -1,6 +1,6 @@
 ---
 shortcode: fish
-name: {full: Fishing, aliases: []}
+name: {full: Fishing}
 type: skill
 subType: nature
 description: "Catching fish using hooks, nets, spears; adapting to local conditions."

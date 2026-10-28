@@ -1,6 +1,6 @@
 ---
 shortcode: honeypot
-name: {full: "Honey, pot", aliases: []}
+name: {full: "Honey, pot"}
 type: miscgear
 description: "Gallon pot of honey; winter household supply or merchant trade good."
 tags: [food]

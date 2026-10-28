@@ -1,6 +1,6 @@
 ---
 shortcode: passivea
-name: {full: Passive-Aggressive, aliases: []}
+name: {full: Passive-Aggressive}
 type: trauma
 subType: psycond
 tags: []

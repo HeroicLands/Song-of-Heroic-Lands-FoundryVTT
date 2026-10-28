@@ -1,6 +1,6 @@
 ---
 shortcode: hideseal
-name: {full: "Hide, Seal", aliases: []}
+name: {full: "Hide, Seal"}
 type: miscgear
 description: "Coastal oiled hide; waterproof supple leather for sea-boots, deckcloaks. Price is for one whole skin."
 tags: [natural]

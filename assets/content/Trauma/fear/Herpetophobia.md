@@ -1,6 +1,6 @@
 ---
 shortcode: hrptphb
-name: {full: Herpetophobia, aliases: []}
+name: {full: Herpetophobia}
 type: trauma
 subType: fear
 tags: []

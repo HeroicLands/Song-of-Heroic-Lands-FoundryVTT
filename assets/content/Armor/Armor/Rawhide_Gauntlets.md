@@ -1,6 +1,6 @@
 ---
 shortcode: rhgntl
-name: {full: Rawhide Gauntlets, aliases: []}
+name: {full: Rawhide Gauntlets}
 type: armorgear
 description: "Thick hide hand-guards; resists abrasion and impact."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: trout
-name: {full: Trout, aliases: []}
+name: {full: Trout}
 type: miscgear
 description: "Swift stream fish, delicate pink flesh, best cooked whole or smoked."
 tags: [food]

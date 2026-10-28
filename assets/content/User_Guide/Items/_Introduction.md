@@ -1,6 +1,6 @@
 ---
 shortcode: ugitems
-name: {full: Items, aliases: []}
+name: {full: Items}
 type: doc
 subType: userguide
 tags: [guide-items]

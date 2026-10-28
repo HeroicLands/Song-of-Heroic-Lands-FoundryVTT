@@ -1,6 +1,6 @@
 ---
 shortcode: rhshoe
-name: {full: Rawhide Shoes, aliases: []}
+name: {full: Rawhide Shoes}
 type: armorgear
 description: "Stout hide footwear; durable and protective."
 tags: []

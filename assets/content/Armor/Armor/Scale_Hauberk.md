@@ -1,6 +1,6 @@
 ---
 shortcode: shaub
-name: {full: Scale Hauberk, aliases: []}
+name: {full: Scale Hauberk}
 type: armorgear
 description: "Full-sleeved scale coat; comprehensive scale-armor coverage."
 tags: []

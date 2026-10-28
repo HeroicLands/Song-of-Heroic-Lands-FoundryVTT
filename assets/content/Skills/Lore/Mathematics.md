@@ -1,6 +1,6 @@
 ---
 shortcode: math
-name: {full: Mathematics, aliases: []}
+name: {full: Mathematics}
 type: skill
 subType: lore
 description: "Numerical calculation, geometry, and reasoning for engineering and commerce."

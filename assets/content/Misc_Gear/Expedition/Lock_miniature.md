@@ -1,6 +1,6 @@
 ---
 shortcode: lockminiat
-name: {full: "Lock, miniature", aliases: []}
+name: {full: "Lock, miniature"}
 type: miscgear
 description: "Finger-length iron lock for jewelry boxes and caskets; master locksmith's fine craft."
 tags: [expedition]

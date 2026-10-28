@@ -1,6 +1,6 @@
 ---
 shortcode: grease
-name: {full: Grease, aliases: []}
+name: {full: Grease}
 type: miscgear
 description: "Rendered mutton-beef-hog fat; cooking, waterproofing leather, axle lubrication."
 tags: [natural]

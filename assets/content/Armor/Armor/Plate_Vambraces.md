@@ -1,6 +1,6 @@
 ---
 shortcode: plvamb
-name: {full: Plate Vambraces, aliases: []}
+name: {full: Plate Vambraces}
 type: armorgear
 description: "Steel forearm-guards; protects wrists and inner arms."
 tags: []

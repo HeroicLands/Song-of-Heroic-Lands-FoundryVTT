@@ -1,6 +1,6 @@
 ---
 shortcode: wmntl
-name: {full: Worsted Mantle, aliases: []}
+name: {full: Worsted Mantle}
 type: armorgear
 description: "Tightly-spun wool mantle; durable, practical protective garment."
 tags: []

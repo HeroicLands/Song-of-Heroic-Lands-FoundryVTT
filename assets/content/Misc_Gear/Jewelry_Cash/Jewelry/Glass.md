@@ -1,6 +1,6 @@
 ---
 shortcode: glass
-name: {full: Glass, aliases: []}
+name: {full: Glass}
 type: miscgear
 description: "Melted sand cast or blown into vessels, lamps, windows, and goblets."
 tags: [jewelry_cash]

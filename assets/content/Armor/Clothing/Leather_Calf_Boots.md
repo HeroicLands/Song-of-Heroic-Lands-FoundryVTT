@@ -1,6 +1,6 @@
 ---
 shortcode: ltcboot
-name: {full: Leather Calf Boots, aliases: []}
+name: {full: Leather Calf Boots}
 type: armorgear
 description: "Lightweight leather leg coverings extending below the knee for active pursuers."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: slghmr
-name: {full: Sledgehammer, aliases: []}
+name: {full: Sledgehammer}
 type: weapongear
 description: "Massive twin-faced forge-hammer for breaching timber, stone, and mail."
 tags: []

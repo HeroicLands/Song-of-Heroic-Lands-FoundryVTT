@@ -1,6 +1,6 @@
 ---
 shortcode: cbw80
-name: {full: Composite Bow 80, aliases: []}
+name: {full: Composite Bow 80}
 type: weapongear
 description: "Eighty-pound cavalry bow for charged volleys from saddle."
 tags: []

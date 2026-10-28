@@ -1,6 +1,6 @@
 ---
 shortcode: common
-name: {full: Common, aliases: []}
+name: {full: Common}
 type: skill
 subType: language
 description: "The shared trade tongue that carries a traveler across realms — broad in reach, thin in nuance."

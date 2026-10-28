@@ -1,6 +1,6 @@
 ---
 shortcode: rhapr
-name: {full: Rawhide Blacksmith Apron, aliases: []}
+name: {full: Rawhide Blacksmith Apron}
 type: armorgear
 description: "Thick hide apron; guards against forge-spark and heat."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: dysphr
-name: {full: Dysphoria, aliases: []}
+name: {full: Dysphoria}
 type: trauma
 subType: psycond
 tags: []

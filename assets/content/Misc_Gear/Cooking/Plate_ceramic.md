@@ -1,6 +1,6 @@
 ---
 shortcode: platecer
-name: {full: "Plate, ceramic", aliases: []}
+name: {full: "Plate, ceramic"}
 type: miscgear
 description: "Glazed earthenware plate, eight inches across."
 tags: [cooking]

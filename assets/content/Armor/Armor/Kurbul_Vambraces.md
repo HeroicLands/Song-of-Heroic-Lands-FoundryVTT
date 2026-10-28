@@ -1,6 +1,6 @@
 ---
 shortcode: kvamb
-name: {full: Kûrbúl Vambraces, aliases: []}
+name: {full: Kûrbúl Vambraces}
 type: armorgear
 description: "Leather forearm guards with intricate designs providing function and style."
 tags: []

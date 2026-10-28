@@ -1,6 +1,6 @@
 ---
 shortcode: bvmntl
-name: {full: Beaver Mantle, aliases: []}
+name: {full: Beaver Mantle}
 type: armorgear
 description: "Beaver fur mantle blending function and status; warm and luxurious."
 tags: []

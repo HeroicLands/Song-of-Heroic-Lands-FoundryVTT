@@ -1,6 +1,6 @@
 ---
 shortcode: burden
-name: {full: Burden, aliases: []}
+name: {full: Burden}
 type: trauma
 subType: fatigue
 description: "Sustained weariness from carrying a heavy load."

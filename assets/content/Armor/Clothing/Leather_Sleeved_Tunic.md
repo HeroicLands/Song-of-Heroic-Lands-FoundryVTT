@@ -1,6 +1,6 @@
 ---
 shortcode: ltstunic
-name: {full: Leather Sleeved Tunic, aliases: []}
+name: {full: Leather Sleeved Tunic}
 type: armorgear
 description: "Rugged leather sleeved garment with stylish look and minimal defense."
 tags: []

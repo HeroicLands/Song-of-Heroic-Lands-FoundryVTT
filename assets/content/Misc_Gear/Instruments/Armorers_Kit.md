@@ -1,6 +1,6 @@
 ---
 shortcode: armrkit
-name: {full: Armorer's Kit, aliases: []}
+name: {full: Armorer's Kit}
 type: miscgear
 description: "Heavy canvas roll with mail pliers, dollies, planishing hammers, rivet set, strap stock; armor fitting and repair."
 tags: [instruments]

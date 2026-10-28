@@ -1,6 +1,6 @@
 ---
 shortcode: astrphb
-name: {full: Astraphobia, aliases: []}
+name: {full: Astraphobia}
 type: trauma
 subType: fear
 tags: []

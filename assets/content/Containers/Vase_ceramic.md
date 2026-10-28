@@ -1,6 +1,6 @@
 ---
 shortcode: vasecer
-name: {full: "Vase, ceramic", aliases: []}
+name: {full: "Vase, ceramic"}
 type: containergear
 description: "Decorative footed earthenware vase for cut flowers or branches."
 tags: []

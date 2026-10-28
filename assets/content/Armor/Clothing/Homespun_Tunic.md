@@ -1,6 +1,6 @@
 ---
 shortcode: hstunic
-name: {full: Homespun Tunic, aliases: []}
+name: {full: Homespun Tunic}
 type: armorgear
 description: "Simple homemade tunic offering warmth and practical comfort."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: msnthrpy
-name: {full: Misanthropy, aliases: []}
+name: {full: Misanthropy}
 type: trauma
 subType: psycond
 tags: []

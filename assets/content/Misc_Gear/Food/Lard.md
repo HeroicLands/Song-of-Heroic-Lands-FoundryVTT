@@ -1,6 +1,6 @@
 ---
 shortcode: lard
-name: {full: Lard, aliases: []}
+name: {full: Lard}
 type: miscgear
 description: "Rendered hog fat for cooking and food preservation, a kitchen staple."
 tags: [food]

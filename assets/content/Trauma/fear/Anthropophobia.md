@@ -1,6 +1,6 @@
 ---
 shortcode: anthpphb
-name: {full: Anthropophobia, aliases: []}
+name: {full: Anthropophobia}
 type: trauma
 subType: fear
 tags: []

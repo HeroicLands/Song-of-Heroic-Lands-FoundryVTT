@@ -1,6 +1,6 @@
 ---
 shortcode: lbw175
-name: {full: Longbow 175, aliases: []}
+name: {full: Longbow 175}
 type: weapongear
 description: "Hundred-seventy-five pound champion's warbow; childhood-trained terror of cavalry."
 tags: []

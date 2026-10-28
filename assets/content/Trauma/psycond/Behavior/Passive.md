@@ -1,6 +1,6 @@
 ---
 shortcode: passive
-name: {full: Passive, aliases: []}
+name: {full: Passive}
 type: trauma
 subType: psycond
 tags: []

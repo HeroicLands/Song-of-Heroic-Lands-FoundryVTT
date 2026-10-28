@@ -1,6 +1,6 @@
 ---
 shortcode: thmtphb
-name: {full: Thaumatophobia, aliases: []}
+name: {full: Thaumatophobia}
 type: trauma
 subType: fear
 tags: []

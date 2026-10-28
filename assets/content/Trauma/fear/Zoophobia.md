@@ -1,6 +1,6 @@
 ---
 shortcode: zoophb
-name: {full: Zoophobia, aliases: []}
+name: {full: Zoophobia}
 type: trauma
 subType: fear
 tags: []

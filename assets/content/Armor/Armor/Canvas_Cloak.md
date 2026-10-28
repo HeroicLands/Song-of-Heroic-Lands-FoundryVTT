@@ -1,6 +1,6 @@
 ---
 shortcode: cvcloak
-name: {full: Canvas Cloak, aliases: []}
+name: {full: Canvas Cloak}
 type: armorgear
 description: "Heavy hemp-weave cloak shedding wind and wear on the road."
 tags: []

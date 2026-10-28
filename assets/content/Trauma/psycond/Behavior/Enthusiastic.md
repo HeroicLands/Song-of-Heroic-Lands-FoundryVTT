@@ -1,6 +1,6 @@
 ---
 shortcode: enthsstc
-name: {full: Enthusiastic, aliases: []}
+name: {full: Enthusiastic}
 type: trauma
 subType: psycond
 tags: []

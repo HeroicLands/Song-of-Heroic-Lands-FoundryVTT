@@ -1,6 +1,6 @@
 ---
 shortcode: pcap
-name: {full: Padded Cap, aliases: []}
+name: {full: Padded Cap}
 type: armorgear
 description: "Cushioned head covering providing warmth for wear under helmets."
 tags: []

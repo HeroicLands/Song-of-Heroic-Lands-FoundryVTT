@@ -1,6 +1,6 @@
 ---
 shortcode: anxiety
-name: {full: Anxiety, aliases: []}
+name: {full: Anxiety}
 type: trauma
 subType: psycond
 tags: []

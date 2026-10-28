@@ -1,6 +1,6 @@
 ---
 shortcode: lnswd
-name: {full: Linen Swaddle, aliases: []}
+name: {full: Linen Swaddle}
 type: armorgear
 description: "Light breathable infant wrapping perfect for warm climates."
 tags: []

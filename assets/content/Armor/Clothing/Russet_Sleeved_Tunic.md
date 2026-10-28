@@ -1,6 +1,6 @@
 ---
 shortcode: rstnc
-name: {full: Russet Sleeved Tunic, aliases: []}
+name: {full: Russet Sleeved Tunic}
 type: armorgear
 description: "Reddish-brown wool tunic; full-arm coverage for warmth."
 tags: []

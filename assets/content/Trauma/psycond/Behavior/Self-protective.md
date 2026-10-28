@@ -1,6 +1,6 @@
 ---
 shortcode: selfpro
-name: {full: Self-protective, aliases: []}
+name: {full: Self-protective}
 type: trauma
 subType: psycond
 tags: []

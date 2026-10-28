@@ -1,6 +1,6 @@
 ---
 shortcode: wtunic
-name: {full: Worsted Tunic, aliases: []}
+name: {full: Worsted Tunic}
 type: armorgear
 description: "Tightly-spun wool tunic; durable, practical garment for activities."
 tags: []

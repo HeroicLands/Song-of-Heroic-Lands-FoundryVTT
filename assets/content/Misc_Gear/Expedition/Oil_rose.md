@@ -1,6 +1,6 @@
 ---
 shortcode: oilrose
-name: {full: "Oil, rose", aliases: []}
+name: {full: "Oil, rose"}
 type: miscgear
 description: "Rose oil pressed from petals in vast quantity; the standard fine scent."
 tags: [expedition]

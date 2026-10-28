@@ -1,6 +1,6 @@
 ---
 shortcode: enrgtc
-name: {full: Energetic, aliases: []}
+name: {full: Energetic}
 type: trauma
 subType: psycond
 tags: []

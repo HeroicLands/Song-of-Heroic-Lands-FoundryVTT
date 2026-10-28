@@ -1,6 +1,6 @@
 ---
 shortcode: ugactors
-name: {full: Actors, aliases: []}
+name: {full: Actors}
 type: doc
 subType: userguide
 tags: [guide-actors]

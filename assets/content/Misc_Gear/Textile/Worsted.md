@@ -1,6 +1,6 @@
 ---
 shortcode: worsted
-name: {full: "Worsted, per sq yard", aliases: []}
+name: {full: "Worsted, per sq yard"}
 type: miscgear
 description: "Fine fulled wool in strong colours; urban guild work only."
 tags: [clothing]

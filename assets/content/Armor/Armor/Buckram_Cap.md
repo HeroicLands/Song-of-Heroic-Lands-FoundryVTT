@@ -1,6 +1,6 @@
 ---
 shortcode: bcap
-name: {full: Buckram Cap, aliases: []}
+name: {full: Buckram Cap}
 type: armorgear
 description: "Stiff buckram cap holding shape well; durable and reliable headwear."
 tags: []

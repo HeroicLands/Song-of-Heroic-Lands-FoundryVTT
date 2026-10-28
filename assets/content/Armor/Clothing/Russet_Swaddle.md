@@ -1,6 +1,6 @@
 ---
 shortcode: rswd
-name: {full: Russet Swaddle, aliases: []}
+name: {full: Russet Swaddle}
 type: armorgear
 description: "Reddish-brown wool wrap; infant comfort in cold."
 tags: []

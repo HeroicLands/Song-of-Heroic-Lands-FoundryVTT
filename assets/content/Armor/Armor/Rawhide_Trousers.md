@@ -1,6 +1,6 @@
 ---
 shortcode: rhtrsr
-name: {full: Rawhide Trousers, aliases: []}
+name: {full: Rawhide Trousers}
 type: armorgear
 description: "Thick untanned hide leg-wear for rough labor and harsh climates."
 tags: []

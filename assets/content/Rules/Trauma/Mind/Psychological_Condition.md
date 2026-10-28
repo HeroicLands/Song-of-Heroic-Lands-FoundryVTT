@@ -1,6 +1,6 @@
 ---
 shortcode: psychlgc
-name: {full: Psychological Condition, aliases: []}
+name: {full: Psychological Condition}
 type: doc
 subType: rules
 tags: [rules-trauma, rules-trauma-mind-sections]

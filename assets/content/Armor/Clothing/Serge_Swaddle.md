@@ -1,6 +1,6 @@
 ---
 shortcode: sgswd
-name: {full: Serge Swaddle, aliases: []}
+name: {full: Serge Swaddle}
 type: armorgear
 description: "Durable twilled serge swaddle for infants; warm, secure, reliable."
 tags: []

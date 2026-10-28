@@ -1,6 +1,6 @@
 ---
 shortcode: htfat
-name: {full: Heat-Fatigued, aliases: []}
+name: {full: Heat-Fatigued}
 type: trauma
 subType: physcond
 description: "Mild heat strain; flushing, sweating, headache, irritability."

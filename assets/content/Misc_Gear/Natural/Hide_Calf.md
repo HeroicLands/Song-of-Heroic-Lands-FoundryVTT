@@ -1,6 +1,6 @@
 ---
 shortcode: hidecalf
-name: {full: "Hide, Calf", aliases: []}
+name: {full: "Hide, Calf"}
 type: miscgear
 description: "Young bovine hide, soft and thin; fine leather for gloves, saddle linings. Price is for one whole skin."
 tags: [natural]

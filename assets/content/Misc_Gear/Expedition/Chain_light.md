@@ -1,6 +1,6 @@
 ---
 shortcode: chainlight
-name: {full: "Chain, light", aliases: []}
+name: {full: "Chain, light"}
 type: miscgear
 description: "Thinner pliable iron link chain; secures smaller items and restrains prisoners' wrists."
 tags: [expedition]

@@ -1,6 +1,6 @@
 ---
 shortcode: clrphb
-name: {full: Coulrophobia, aliases: []}
+name: {full: Coulrophobia}
 type: trauma
 subType: fear
 tags: []

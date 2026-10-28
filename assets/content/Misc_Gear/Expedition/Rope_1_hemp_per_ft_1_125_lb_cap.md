@@ -1,6 +1,6 @@
 ---
 shortcode: rope1hempp
-name: {full: "Rope, 1” hemp, per ft  (1,125 lb cap.)", aliases: []}
+name: {full: "Rope, 1” hemp, per ft  (1,125 lb cap.)"}
 type: miscgear
 description: "Stiff hemp rope for wagons and builders; tarred against weather damage."
 tags: [expedition]

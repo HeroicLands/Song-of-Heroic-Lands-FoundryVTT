@@ -1,6 +1,6 @@
 ---
 shortcode: satchwclg
-name: {full: "Satchel, waxed canvas, lg", aliases: []}
+name: {full: "Satchel, waxed canvas, lg"}
 type: containergear
 description: "Large waxed canvas shoulder bag; sheds rain."
 tags: []

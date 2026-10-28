@@ -1,6 +1,6 @@
 ---
 shortcode: infctn
-name: {full: Infection, aliases: []}
+name: {full: Infection}
 type: doc
 subType: rules
 tags: [rules-trauma, rules-trauma-body-injury-sections]

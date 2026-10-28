@@ -1,6 +1,6 @@
 ---
 shortcode: moonstonec
-name: {full: "Moonstone, cut", aliases: []}
+name: {full: "Moonstone, cut"}
 type: miscgear
 description: "Pale feldspar gem glowing from within; rings and pendants for lunar-marked."
 tags: [jewelry_cash]

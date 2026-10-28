@@ -1,6 +1,6 @@
 ---
 shortcode: beef
-name: {full: Beef, aliases: []}
+name: {full: Beef}
 type: miscgear
 description: "Fresh meat quartered or jointed; spoils quickly unless salted, smoked, jerked."
 tags: [food]

@@ -1,6 +1,6 @@
 ---
 shortcode: leprosy
-name: {full: Leprosy, aliases: []}
+name: {full: Leprosy}
 type: affliction
 subType: disease
 description: "Chronic bacterial infection; skin patches and nerve damage causing permanent disfigurement."

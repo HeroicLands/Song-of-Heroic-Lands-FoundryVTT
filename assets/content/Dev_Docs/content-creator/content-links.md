@@ -1,6 +1,6 @@
 ---
 shortcode: contentlinks
-name: {full: Linking Between Content Notes, aliases: []}
+name: {full: Linking Between Content Notes}
 type: doc
 subType: howto
 description: "Wikilinks for content authors: the three forms, and why an item and its documentation need two different addresses."

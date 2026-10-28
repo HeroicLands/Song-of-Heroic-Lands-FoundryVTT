@@ -1,6 +1,6 @@
 ---
 shortcode: cofferwood
-name: {full: "Coffer, wood", aliases: []}
+name: {full: "Coffer, wood"}
 type: containergear
 description: "Small lidded wooden coffer with a key lock."
 tags: []

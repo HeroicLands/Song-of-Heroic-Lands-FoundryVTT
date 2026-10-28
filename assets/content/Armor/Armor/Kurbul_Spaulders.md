@@ -1,6 +1,6 @@
 ---
 shortcode: kspld
-name: {full: Kûrbúl Spaulders, aliases: []}
+name: {full: Kûrbúl Spaulders}
 type: armorgear
 description: "Treated leather shoulder guards combining functionality with elaborate decorative patterns."
 tags: []

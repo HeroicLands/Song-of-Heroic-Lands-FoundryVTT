@@ -1,6 +1,6 @@
 ---
 shortcode: sgntl
-name: {full: Scale Gauntlets, aliases: []}
+name: {full: Scale Gauntlets}
 type: armorgear
 description: "Reinforced gloves with sewn metal scales; hand-and-wrist protection."
 tags: []

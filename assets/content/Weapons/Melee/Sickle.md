@@ -1,6 +1,6 @@
 ---
 shortcode: skl
-name: {full: Sickle, aliases: []}
+name: {full: Sickle}
 type: weapongear
 description: "Curved harvest-tool-blade for slash and entangle; peasant levy's accessible reach."
 tags: []

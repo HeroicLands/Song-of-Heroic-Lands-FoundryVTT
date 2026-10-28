@@ -1,6 +1,6 @@
 ---
 shortcode: fltch
-name: {full: Fletching, aliases: []}
+name: {full: Fletching}
 type: skill
 subType: craft
 description: "Crafting bows, crossbows, arrows; producing reliable or masterwork projectile weapons."

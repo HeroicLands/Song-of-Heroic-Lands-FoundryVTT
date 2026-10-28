@@ -1,6 +1,6 @@
 ---
 shortcode: jewelerssc
-name: {full: "Jeweler's Scales", aliases: []}
+name: {full: "Jeweler's Scales"}
 type: miscgear
 description: "Brass balance calibrated for carats and ounces; gem-merchants weigh precious metals."
 tags: [instruments]

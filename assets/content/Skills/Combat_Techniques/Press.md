@@ -1,6 +1,6 @@
 ---
 shortcode: press
-name: {full: Press, aliases: []}
+name: {full: Press}
 type: skill
 subType: combattechnique
 description: "A shove: putting an opponent where you want them, and sometimes on the ground."

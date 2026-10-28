@@ -1,6 +1,6 @@
 ---
 shortcode: vnstrphb
-name: {full: Venustraphobia, aliases: []}
+name: {full: Venustraphobia}
 type: trauma
 subType: fear
 tags: []

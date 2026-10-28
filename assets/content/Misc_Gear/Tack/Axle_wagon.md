@@ -1,6 +1,6 @@
 ---
 shortcode: axlewagon
-name: {full: "Axle, wagon", aliases: []}
+name: {full: "Axle, wagon"}
 type: miscgear
 description: "Iron-shod wagon axle; the part that fails first and strands the load."
 tags: [tack]

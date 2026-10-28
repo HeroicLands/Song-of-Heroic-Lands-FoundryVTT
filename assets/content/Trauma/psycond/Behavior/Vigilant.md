@@ -1,6 +1,6 @@
 ---
 shortcode: vigilant
-name: {full: Vigilant, aliases: []}
+name: {full: Vigilant}
 type: trauma
 subType: psycond
 tags: []

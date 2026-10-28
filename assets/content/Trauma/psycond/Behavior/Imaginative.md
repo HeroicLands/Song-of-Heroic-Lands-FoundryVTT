@@ -1,6 +1,6 @@
 ---
 shortcode: imgntv
-name: {full: Imaginative, aliases: []}
+name: {full: Imaginative}
 type: trauma
 subType: psycond
 tags: []

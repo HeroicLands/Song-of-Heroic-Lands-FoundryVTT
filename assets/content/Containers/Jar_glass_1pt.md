@@ -1,6 +1,6 @@
 ---
 shortcode: jarglass1pt
-name: {full: "Jar, glass, 1 pt.", aliases: []}
+name: {full: "Jar, glass, 1 pt."}
 type: containergear
 description: "Hand-blown glass vessel with cork stopper; stores oils and inks safely (1 pint)."
 tags: []

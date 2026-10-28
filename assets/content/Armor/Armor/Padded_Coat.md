@@ -1,6 +1,6 @@
 ---
 shortcode: pcoat
-name: {full: Padded Coat, aliases: []}
+name: {full: Padded Coat}
 type: armorgear
 description: "Cushioned outer layer providing warmth for cold weather conditions."
 tags: []

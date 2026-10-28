@@ -1,6 +1,6 @@
 ---
 shortcode: tomatoes
-name: {full: Tomatoes, aliases: []}
+name: {full: Tomatoes}
 type: miscgear
 description: "Round soft garden fruit, cooked in soups and stews, preserved dried."
 tags: [food]

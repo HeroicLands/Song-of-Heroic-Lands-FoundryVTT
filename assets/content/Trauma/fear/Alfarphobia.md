@@ -1,6 +1,6 @@
 ---
 shortcode: alfrphb
-name: {full: Alfarphobia, aliases: []}
+name: {full: Alfarphobia}
 type: trauma
 subType: fear
 tags: []

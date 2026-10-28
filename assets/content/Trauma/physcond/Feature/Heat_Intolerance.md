@@ -1,6 +1,6 @@
 ---
 shortcode: htntlrnc
-name: {full: Heat Intolerance, aliases: []}
+name: {full: Heat Intolerance}
 type: trauma
 subType: physcond
 tags: []

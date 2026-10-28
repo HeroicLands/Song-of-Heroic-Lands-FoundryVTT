@@ -1,6 +1,6 @@
 ---
 shortcode: scui
-name: {full: Scale Cuisse, aliases: []}
+name: {full: Scale Cuisse}
 type: armorgear
 description: "Fabric-backed metal scales covering thighs; flexible leg armor."
 tags: []

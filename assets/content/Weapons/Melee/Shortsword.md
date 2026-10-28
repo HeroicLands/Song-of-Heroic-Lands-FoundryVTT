@@ -1,6 +1,6 @@
 ---
 shortcode: shrtswd
-name: {full: Shortsword, aliases: []}
+name: {full: Shortsword}
 type: weapongear
 description: "Short double-edged blade for stabbing thrust; footman's close-quarters steel."
 tags: []

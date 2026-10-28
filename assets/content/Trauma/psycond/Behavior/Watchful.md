@@ -1,6 +1,6 @@
 ---
 shortcode: watchful
-name: {full: Watchful, aliases: []}
+name: {full: Watchful}
 type: trauma
 subType: psycond
 tags: []

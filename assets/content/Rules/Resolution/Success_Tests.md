@@ -1,6 +1,6 @@
 ---
 shortcode: sccsstst
-name: {full: Success Tests, aliases: []}
+name: {full: Success Tests}
 type: doc
 subType: rules
 tags: [rules-resolution, rules-resolution-sections]

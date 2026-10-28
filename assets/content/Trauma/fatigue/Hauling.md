@@ -1,6 +1,6 @@
 ---
 shortcode: haul
-name: {full: Hauling, aliases: [Digging / Lifting]}
+name: {full: Hauling, en: [Digging / Lifting]}
 type: trauma
 subType: fatigue
 description: "Acute windedness from heavy physical labor — digging, lifting, hauling loads."

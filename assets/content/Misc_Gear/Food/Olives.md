@@ -1,6 +1,6 @@
 ---
 shortcode: olives
-name: {full: Olives, aliases: []}
+name: {full: Olives}
 type: miscgear
 description: "Pickled brined relish, luxury trade good, keeps indefinitely under brine."
 tags: [food]

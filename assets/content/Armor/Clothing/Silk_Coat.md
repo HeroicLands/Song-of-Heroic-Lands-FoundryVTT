@@ -1,6 +1,6 @@
 ---
 shortcode: slkcoat
-name: {full: Silk Coat, aliases: []}
+name: {full: Silk Coat}
 type: armorgear
 description: "Elegant silk coat; luxurious garment for formal events and occasions."
 tags: []

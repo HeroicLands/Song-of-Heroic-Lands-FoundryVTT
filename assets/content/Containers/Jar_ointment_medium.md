@@ -1,6 +1,6 @@
 ---
 shortcode: jarointmen2
-name: {full: "Jar, ointment, medium", aliases: []}
+name: {full: "Jar, ointment, medium"}
 type: containergear
 description: "Ceramic apothecary jar with wide mouth for creams and medicinal tinctures."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: krebr
-name: {full: Kûrbúl Rerebraces, aliases: []}
+name: {full: Kûrbúl Rerebraces}
 type: armorgear
 description: "Leather upper arm guards offering protection and flexibility with ornamental designs."
 tags: []

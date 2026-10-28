@@ -1,6 +1,6 @@
 ---
 shortcode: paychestir
-name: {full: "Paychest, iron", aliases: []}
+name: {full: "Paychest, iron"}
 type: containergear
 description: "Heavy iron paychest with multiple locks."
 tags: []

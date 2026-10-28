@@ -1,6 +1,6 @@
 ---
 shortcode: hlngbs
-name: {full: Healing Base, aliases: []}
+name: {full: Healing Base}
 type: doc
 subType: rules
 tags: [rules-trauma, rules-trauma-body-injury-sections]

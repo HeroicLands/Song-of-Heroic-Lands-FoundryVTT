@@ -1,6 +1,6 @@
 ---
 shortcode: earringsbronze
-name: {full: "Earrings, bronze", aliases: []}
+name: {full: "Earrings, bronze"}
 type: miscgear
 description: "Hard cast bronze pair; keeps its shape where softer wire pulls open."
 tags: [jewelry_cash]

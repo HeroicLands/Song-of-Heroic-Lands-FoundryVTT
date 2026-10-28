@@ -1,6 +1,6 @@
 ---
 shortcode: antscl
-name: {full: Antisocial, aliases: []}
+name: {full: Antisocial}
 type: trauma
 subType: psycond
 tags: []

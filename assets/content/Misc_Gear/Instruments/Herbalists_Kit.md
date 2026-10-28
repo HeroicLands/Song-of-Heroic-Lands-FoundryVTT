@@ -1,6 +1,6 @@
 ---
 shortcode: herbkit
-name: {full: Herbalist's Kit, aliases: []}
+name: {full: Herbalist's Kit}
 type: miscgear
 description: "Leather satchel with mortar and pestle, pruning knife, vials, filter cloth, drying frame."
 tags: [instruments]

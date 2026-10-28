@@ -1,6 +1,6 @@
 ---
 shortcode: gwinekeg
-name: {full: Keg Good Wine, aliases: []}
+name: {full: Keg Good Wine}
 type: miscgear
 description: "Aged fine wine in keg; lord's cellar treasure, craftsman's yearly wage."
 tags: [spirits]

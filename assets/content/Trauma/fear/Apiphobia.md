@@ -1,6 +1,6 @@
 ---
 shortcode: apiphb
-name: {full: Apiphobia, aliases: []}
+name: {full: Apiphobia}
 type: trauma
 subType: fear
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: cageironsm
-name: {full: "Cage, iron, small", aliases: []}
+name: {full: "Cage, iron, small"}
 type: miscgear
 description: "Small iron cage for birds and small animals; lashable to saddle."
 tags: [expedition]

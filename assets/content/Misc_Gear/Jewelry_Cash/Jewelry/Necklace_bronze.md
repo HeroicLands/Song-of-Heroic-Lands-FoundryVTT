@@ -1,6 +1,6 @@
 ---
 shortcode: necklacebronze
-name: {full: "Necklace, bronze", aliases: []}
+name: {full: "Necklace, bronze"}
 type: miscgear
 description: "Heavy bronze torc or chain; hard-wearing, and old among the tribal peoples."
 tags: [jewelry_cash]

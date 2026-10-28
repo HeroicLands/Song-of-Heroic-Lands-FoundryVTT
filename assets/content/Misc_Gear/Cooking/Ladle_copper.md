@@ -1,6 +1,6 @@
 ---
 shortcode: ladlecoppe
-name: {full: "Ladle, copper", aliases: []}
+name: {full: "Ladle, copper"}
 type: miscgear
 description: "Tinned copper ladle with long handle; serves hot liquids from cauldron safely."
 tags: [cooking]

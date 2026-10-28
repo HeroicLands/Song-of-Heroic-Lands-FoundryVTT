@@ -1,6 +1,6 @@
 ---
 shortcode: mysticalability
-name: {full: Mystical Abilities, aliases: []}
+name: {full: Mystical Abilities}
 type: doc
 subType: reference
 description: Magical and supernatural powers.

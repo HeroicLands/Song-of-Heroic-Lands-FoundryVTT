@@ -1,6 +1,6 @@
 ---
 shortcode: climbkit
-name: {full: Climber's Kit, aliases: []}
+name: {full: Climber's Kit}
 type: miscgear
 description: "Harness, climbing hammer, chalk, padded gloves, knee & elbow pads; the climber's working gear (pitons and grappling hook bought separately)."
 tags: [instruments]

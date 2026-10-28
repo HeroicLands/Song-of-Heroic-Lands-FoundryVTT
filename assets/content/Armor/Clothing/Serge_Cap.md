@@ -1,6 +1,6 @@
 ---
 shortcode: sgcap
-name: {full: Serge Cap, aliases: []}
+name: {full: Serge Cap}
 type: armorgear
 description: "Twilled serge cap; comfortable, durable head covering for daily use."
 tags: []

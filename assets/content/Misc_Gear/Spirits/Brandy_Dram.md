@@ -1,6 +1,6 @@
 ---
 shortcode: brdydrm
-name: {full: "Brandy, Dram", aliases: []}
+name: {full: "Brandy, Dram"}
 type: miscgear
 description: "Clear fiery distilled spirit; warms chest on winter roads, steadies trembling hands."
 tags: [spirits]

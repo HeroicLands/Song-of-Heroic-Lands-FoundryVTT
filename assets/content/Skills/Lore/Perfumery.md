@@ -1,6 +1,6 @@
 ---
 shortcode: pfmy
-name: {full: Perfumery, aliases: []}
+name: {full: Perfumery}
 type: skill
 subType: lore
 description: "Blending herbs, flowers, and essences into scents and aromatic preparations."

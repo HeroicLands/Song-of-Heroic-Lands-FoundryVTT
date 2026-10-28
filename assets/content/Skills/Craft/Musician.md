@@ -1,6 +1,6 @@
 ---
 shortcode: musc
-name: {full: Musician, aliases: []}
+name: {full: Musician}
 type: skill
 subType: craft
 description: "Playing various instruments with technical facility and musical interpretation."

@@ -1,6 +1,6 @@
 ---
 shortcode: metalwrktl
-name: {full: Metalworking Kit, aliases: []}
+name: {full: Metalworking Kit}
 type: miscgear
 description: "Canvas roll with cold chisels, files, hammers, drifts, scribe; smiths finish metalwork."
 tags: [instruments]

@@ -1,6 +1,6 @@
 ---
 shortcode: sackcanvas20
-name: {full: "Sack, canvas, 20 lb", aliases: []}
+name: {full: "Sack, canvas, 20 lb"}
 type: containergear
 description: "Plain canvas sack for grain, flour, or produce (20 lb)."
 tags: []

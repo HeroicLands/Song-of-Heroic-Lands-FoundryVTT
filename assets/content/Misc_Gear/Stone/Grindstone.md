@@ -1,6 +1,6 @@
 ---
 shortcode: grindstone
-name: {full: Grindstone, aliases: []}
+name: {full: Grindstone}
 type: miscgear
 description: "Sandstone or granite disc; horizontal axle; grinds grain, ore, pigment by hand-turn."
 tags: [stone]

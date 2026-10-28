@@ -1,6 +1,6 @@
 ---
 shortcode: gtnc
-name: {full: Gambeson Tunic, aliases: []}
+name: {full: Gambeson Tunic}
 type: armorgear
 description: "Padded tunic offering protection worn under or over armor."
 tags: []

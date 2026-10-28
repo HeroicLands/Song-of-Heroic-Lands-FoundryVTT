@@ -1,6 +1,6 @@
 ---
 shortcode: grapes
-name: {full: Grapes, aliases: []}
+name: {full: Grapes}
 type: miscgear
 description: "Fresh plump in season; dried into raisins for merchant wagons and packs."
 tags: [food]

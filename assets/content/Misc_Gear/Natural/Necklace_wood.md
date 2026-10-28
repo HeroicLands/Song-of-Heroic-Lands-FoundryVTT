@@ -1,6 +1,6 @@
 ---
 shortcode: necklacewood
-name: {full: "Necklace, wood", aliases: []}
+name: {full: "Necklace, wood"}
 type: miscgear
 description: "Strung wooden beads, turned and polished; counted by the devout and the idle alike."
 tags: [jewelry_cash]

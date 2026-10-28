@@ -1,6 +1,6 @@
 ---
 shortcode: salmon
-name: {full: Salmon, aliases: []}
+name: {full: Salmon}
 type: miscgear
 description: "Rich orange-fleshed river fish, firm and oily, smoked or salted."
 tags: [food]

@@ -1,6 +1,6 @@
 ---
 shortcode: wfl
-name: {full: Warflail, aliases: []}
+name: {full: Warflail}
 type: weapongear
 description: "Spiked chain-joined heads bypassing guard; armor-defeating reach for professionals."
 tags: []

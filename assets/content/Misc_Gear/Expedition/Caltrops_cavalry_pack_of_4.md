@@ -1,6 +1,6 @@
 ---
 shortcode: caltropsca
-name: {full: "Caltrops, cavalry, pack of 4", aliases: []}
+name: {full: "Caltrops, cavalry, pack of 4"}
 type: miscgear
 description: "Four cast-iron implements with four points; slows mounted pursuers and damages hooves."
 tags: [expedition]

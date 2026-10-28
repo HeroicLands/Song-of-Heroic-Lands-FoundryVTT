@@ -1,6 +1,6 @@
 ---
 shortcode: duck
-name: {full: Duck, aliases: []}
+name: {full: Duck}
 type: miscgear
 description: "Dark rich meat with fat layer; roasted whole, fat renders for cooking."
 tags: [food]

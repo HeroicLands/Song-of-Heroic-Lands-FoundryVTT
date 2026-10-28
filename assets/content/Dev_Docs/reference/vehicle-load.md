@@ -1,6 +1,6 @@
 ---
 shortcode: vehicleload
-name: {full: Vehicle Capacity and Load, aliases: []}
+name: {full: Vehicle Capacity and Load}
 type: doc
 subType: reference
 description: "Informational occupant counts and load totals exposed by Vehicle actors."

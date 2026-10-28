@@ -1,6 +1,6 @@
 ---
 shortcode: houserulescookbook
-name: {full: House Rules Cookbook, aliases: []}
+name: {full: House Rules Cookbook}
 type: doc
 subType: howto
 tags: [dev-how-to]

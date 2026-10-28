@@ -1,6 +1,6 @@
 ---
 shortcode: gobletpewt
-name: {full: "Goblet, pewter", aliases: []}
+name: {full: "Goblet, pewter"}
 type: miscgear
 description: "Stemmed pewter goblet for merchants and minor lords' formal tables."
 tags: [cooking]

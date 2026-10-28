@@ -1,6 +1,6 @@
 ---
 shortcode: cdpndnt
-name: {full: Codependent, aliases: []}
+name: {full: Codependent}
 type: trauma
 subType: psycond
 tags: []

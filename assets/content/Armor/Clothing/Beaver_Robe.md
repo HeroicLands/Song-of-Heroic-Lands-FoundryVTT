@@ -1,6 +1,6 @@
 ---
 shortcode: bvrobe
-name: {full: Beaver Robe, aliases: []}
+name: {full: Beaver Robe}
 type: armorgear
 description: "Full-length beaver fur robe; heavy warmth and quiet status."
 tags: []

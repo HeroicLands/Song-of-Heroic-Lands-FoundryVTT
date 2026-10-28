@@ -1,6 +1,6 @@
 ---
 shortcode: bvshirt
-name: {full: Beaver Shirt, aliases: []}
+name: {full: Beaver Shirt}
 type: armorgear
 description: "Beaver fur shirt combining function and status for cold regions."
 tags: []

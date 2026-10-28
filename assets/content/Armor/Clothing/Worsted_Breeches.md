@@ -1,6 +1,6 @@
 ---
 shortcode: wbrch
-name: {full: Worsted Breeches, aliases: []}
+name: {full: Worsted Breeches}
 type: armorgear
 description: "Tightly-spun wool breeches; durable, comfortable for regular wear."
 tags: []

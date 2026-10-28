@@ -1,6 +1,6 @@
 ---
 shortcode: bpchmdslk
-name: {full: "Belt pouch, silk, med", aliases: []}
+name: {full: "Belt pouch, silk, med"}
 type: containergear
 description: "Moderate silk belt pouch; conspicuous wealth worn at the hip."
 tags: []

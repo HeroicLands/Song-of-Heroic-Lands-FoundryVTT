@@ -1,6 +1,6 @@
 ---
 shortcode: dyedrgn
-name: {full: "Dye, Dragon's Blood", aliases: []}
+name: {full: "Dye, Dragon's Blood"}
 type: miscgear
 description: "Crimson resin powder; rich red dye for fine silk and noble garments."
 tags: [clothing]

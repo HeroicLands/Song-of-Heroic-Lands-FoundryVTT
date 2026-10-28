@@ -1,6 +1,6 @@
 ---
 shortcode: quickstartug
-name: {full: Song of Heroic Lands Quickstart, aliases: []}
+name: {full: Song of Heroic Lands Quickstart}
 type: doc
 subType: userguide
 tags: [guide-quickstart]

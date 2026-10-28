@@ -1,6 +1,6 @@
 ---
 shortcode: vetches
-name: {full: Vetches, aliases: []}
+name: {full: Vetches}
 type: miscgear
 description: "Small legume seeds, peasant porridge when simmered, enriches exhausted soil."
 tags: [food]

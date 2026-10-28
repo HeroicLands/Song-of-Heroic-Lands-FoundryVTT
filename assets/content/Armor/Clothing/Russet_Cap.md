@@ -1,6 +1,6 @@
 ---
 shortcode: rcap
-name: {full: Russet Cap, aliases: []}
+name: {full: Russet Cap}
 type: armorgear
 description: "Reddish-brown wool head-cover; practical and warm."
 tags: []

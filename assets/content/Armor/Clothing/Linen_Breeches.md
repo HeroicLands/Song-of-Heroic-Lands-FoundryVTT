@@ -1,6 +1,6 @@
 ---
 shortcode: lnbrch
-name: {full: Linen Breeches, aliases: []}
+name: {full: Linen Breeches}
 type: armorgear
 description: "Light breathable leg covering perfect for warm climates or strenuous activity."
 tags: []

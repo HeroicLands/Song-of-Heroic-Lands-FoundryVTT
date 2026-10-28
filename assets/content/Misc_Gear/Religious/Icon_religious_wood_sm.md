@@ -1,6 +1,6 @@
 ---
 shortcode: iconwdsm
-name: {full: "Icon, religious, wood, sm", aliases: []}
+name: {full: "Icon, religious, wood, sm"}
 type: miscgear
 description: "Portable palm-sized icon for pilgrims and soldiers; kept at chest or shelf."
 tags: [religious]

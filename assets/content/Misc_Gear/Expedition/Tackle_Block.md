@@ -1,6 +1,6 @@
 ---
 shortcode: tacklebloc
-name: {full: Tackle Block, aliases: []}
+name: {full: Tackle Block}
 type: miscgear
 description: "Single-wheel pulley; multiplies mechanical advantage for hauling cargo safely."
 tags: [expedition]

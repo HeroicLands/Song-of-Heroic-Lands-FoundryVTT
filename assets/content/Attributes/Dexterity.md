@@ -1,6 +1,6 @@
 ---
 shortcode: dex
-name: {full: Dexterity, aliases: []}
+name: {full: Dexterity}
 type: attribute
 description: "Hand-and-eye coordination, steadiness of grip, and precision of touch."
 tags: []

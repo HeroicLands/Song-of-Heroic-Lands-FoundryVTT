@@ -1,6 +1,6 @@
 ---
 shortcode: lapn
-name: {full: Linen Apron, aliases: []}
+name: {full: Linen Apron}
 type: armorgear
 description: "Breathable linen apron ideal for daily chores and cooking."
 tags: []

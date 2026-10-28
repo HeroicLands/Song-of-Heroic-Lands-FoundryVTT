@@ -1,6 +1,6 @@
 ---
 shortcode: yokeox
-name: {full: "Yoke, ox", aliases: []}
+name: {full: "Yoke, ox"}
 type: miscgear
 description: "Shaped wooden beam coupling a pair of oxen to a plough or cart."
 tags: [tack]

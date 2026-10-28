@@ -1,6 +1,6 @@
 ---
 shortcode: scallions
-name: {full: Scallions, aliases: []}
+name: {full: Scallions}
 type: miscgear
 description: "Young onions with tender greens, fresh or dried, early spring crop."
 tags: [food]

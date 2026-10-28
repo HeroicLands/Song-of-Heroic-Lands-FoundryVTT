@@ -1,6 +1,6 @@
 ---
 shortcode: cgntl
-name: {full: Cloth Gauntlets, aliases: []}
+name: {full: Cloth Gauntlets}
 type: armorgear
 description: "Soft cloth hand coverings offering basic protection for light work."
 tags: []

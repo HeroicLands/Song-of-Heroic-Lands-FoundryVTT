@@ -1,6 +1,6 @@
 ---
 shortcode: hidebeaver
-name: {full: "Hide, Beaver", aliases: []}
+name: {full: "Hide, Beaver"}
 type: miscgear
 description: "Beaver pelt with dense underfur and waterproof guard hairs; cloaks, winter garments. Price is for one whole skin."
 tags: [natural]

@@ -1,6 +1,6 @@
 ---
 shortcode: bottleglas2
-name: {full: "Bottle, glass, medium", aliases: []}
+name: {full: "Bottle, glass, medium"}
 type: containergear
 description: "Hand-blown glass bottle for apothecary use and merchants."
 tags: []

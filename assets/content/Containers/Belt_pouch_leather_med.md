@@ -1,6 +1,6 @@
 ---
 shortcode: bpchmd
-name: {full: "Belt pouch, leather, med", aliases: []}
+name: {full: "Belt pouch, leather, med"}
 type: containergear
 description: "Moderate leather belt pouch for coins and small items."
 tags: []

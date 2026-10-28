@@ -1,6 +1,6 @@
 ---
 shortcode: oatcakes
-name: {full: Oatcakes, aliases: []}
+name: {full: Oatcakes}
 type: miscgear
 description: "Thin griddle rounds, traveler's bread keeping months bundled and dry."
 tags: [food]

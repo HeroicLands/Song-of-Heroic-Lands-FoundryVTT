@@ -1,6 +1,6 @@
 ---
 shortcode: pike
-name: {full: Pike, aliases: []}
+name: {full: Pike}
 type: miscgear
 description: "Freshwater predator with firm white flaky flesh, salts and smokes well."
 tags: [food]

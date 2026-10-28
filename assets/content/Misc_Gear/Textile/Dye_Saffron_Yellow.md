@@ -1,6 +1,6 @@
 ---
 shortcode: dyesfrn
-name: {full: "Dye, Saffron Yellow", aliases: []}
+name: {full: "Dye, Saffron Yellow"}
 type: miscgear
 description: "Dried crocus stigmas; brilliant golden yellow for noble silk garments."
 tags: [clothing]

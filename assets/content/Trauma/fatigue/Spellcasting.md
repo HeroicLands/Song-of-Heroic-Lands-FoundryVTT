@@ -1,6 +1,6 @@
 ---
 shortcode: cast
-name: {full: Spellcasting, aliases: []}
+name: {full: Spellcasting}
 type: trauma
 subType: fatigue
 description: "Acute windedness from casting a spell."

@@ -1,6 +1,6 @@
 ---
 shortcode: bshirt
-name: {full: Buckram Shirt, aliases: []}
+name: {full: Buckram Shirt}
 type: armorgear
 description: "Stiff buckram shirt providing durability and reliable rigid fit."
 tags: []

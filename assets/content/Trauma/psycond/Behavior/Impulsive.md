@@ -1,6 +1,6 @@
 ---
 shortcode: implsv
-name: {full: Impulsive, aliases: []}
+name: {full: Impulsive}
 type: trauma
 subType: psycond
 tags: []

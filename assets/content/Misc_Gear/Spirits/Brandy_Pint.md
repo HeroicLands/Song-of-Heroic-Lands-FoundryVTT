@@ -1,6 +1,6 @@
 ---
 shortcode: brdypt
-name: {full: "Brandy, Pint", aliases: []}
+name: {full: "Brandy, Pint"}
 type: miscgear
 description: "Clear fiery bottle; noble digestif or soldier's wound-cleaner; costs a laborer's wages."
 tags: [spirits]

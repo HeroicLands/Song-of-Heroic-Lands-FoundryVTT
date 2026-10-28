@@ -1,6 +1,6 @@
 ---
 shortcode: chalkbulk
-name: {full: "Chalk, bulk", aliases: []}
+name: {full: "Chalk, bulk"}
 type: miscgear
 description: "Soft quarried chalk block; masons' plaster, scribes' pouncing, shepherd marking stock."
 tags: [stone]

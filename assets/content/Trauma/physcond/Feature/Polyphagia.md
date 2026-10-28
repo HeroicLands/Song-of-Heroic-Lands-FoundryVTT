@@ -1,6 +1,6 @@
 ---
 shortcode: plyphg
-name: {full: Polyphagia, aliases: []}
+name: {full: Polyphagia}
 type: trauma
 subType: physcond
 tags: []

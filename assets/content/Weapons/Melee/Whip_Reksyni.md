@@ -1,6 +1,6 @@
 ---
 shortcode: rwhp
-name: {full: "Whip, Reksyni", aliases: []}
+name: {full: "Whip, Reksyni"}
 type: weapongear
 description: "Sinew-and-leather tribal lash; barbed, heavy, breaking mounted formations."
 tags: []

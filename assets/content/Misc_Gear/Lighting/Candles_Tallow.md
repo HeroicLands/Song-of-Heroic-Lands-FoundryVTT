@@ -1,6 +1,6 @@
 ---
 shortcode: candlestal
-name: {full: "Candles, Tallow", aliases: []}
+name: {full: "Candles, Tallow"}
 type: miscgear
 description: "Rendered mutton-beef fat candles; smoky, acrid, cheap; light of soldiers and poor."
 tags: [lighting]

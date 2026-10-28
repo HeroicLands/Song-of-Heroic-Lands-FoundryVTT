@@ -1,6 +1,6 @@
 ---
 shortcode: saltrock
-name: {full: "Salt, rock", aliases: []}
+name: {full: "Salt, rock"}
 type: miscgear
 description: "Mined rock salt, pure and dense, grinds fine, stores indefinitely."
 tags: [food]

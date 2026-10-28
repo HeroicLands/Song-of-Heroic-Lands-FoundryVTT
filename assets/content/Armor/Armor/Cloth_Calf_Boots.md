@@ -1,6 +1,6 @@
 ---
 shortcode: ccboot
-name: {full: Cloth Calf Boots, aliases: []}
+name: {full: Cloth Calf Boots}
 type: armorgear
 description: "Light, breathable cloth boots for casual wear and comfort."
 tags: []

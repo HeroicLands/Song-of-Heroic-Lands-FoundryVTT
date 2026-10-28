@@ -1,6 +1,6 @@
 ---
 shortcode: sprttraumaintro
-name: {full: Spirit Trauma Introduction, aliases: []}
+name: {full: Spirit Trauma Introduction}
 type: doc
 subType: rules
 tags: [rules-trauma, rules-trauma-forms-of-trauma]

@@ -1,6 +1,6 @@
 ---
 shortcode: hammer
-name: {full: "Hammer", aliases: []}
+name: {full: "Hammer"}
 type: miscgear
 description: "Ordinary iron-headed hammer for nails, joinery, and repair."
 tags: [instruments]

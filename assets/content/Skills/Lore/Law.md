@@ -1,6 +1,6 @@
 ---
 shortcode: law
-name: {full: Law, aliases: []}
+name: {full: Law}
 type: skill
 subType: lore
 description: "Knowledge of legal codes, customs, judicial procedures, guild regulations."

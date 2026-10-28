@@ -1,6 +1,6 @@
 ---
 shortcode: raisins
-name: {full: Raisins, aliases: []}
+name: {full: Raisins}
 type: miscgear
 description: "Dried grapes, chewy and portable, quick energy for soldiers and travelers."
 tags: [food]

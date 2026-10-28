@@ -1,6 +1,6 @@
 ---
 shortcode: mvest
-name: {full: Mail Vest, aliases: []}
+name: {full: Mail Vest}
 type: armorgear
 description: "Metal ring torso armor offering substantial protection and flexibility."
 tags: []

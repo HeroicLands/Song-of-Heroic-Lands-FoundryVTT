@@ -1,6 +1,6 @@
 ---
 shortcode: dyeblk
-name: {full: "Dye, Black", aliases: []}
+name: {full: "Dye, Black"}
 type: miscgear
 description: "Logwood or iron-tannate powder for deep, fast-set black cloth dye."
 tags: [clothing]

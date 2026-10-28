@@ -1,6 +1,6 @@
 ---
 shortcode: vialglassl
-name: {full: "Vial, glass, large", aliases: []}
+name: {full: "Vial, glass, large"}
 type: containergear
 description: "Narrow-necked glass vial for alchemists storing potent liquids and tinctures."
 tags: []

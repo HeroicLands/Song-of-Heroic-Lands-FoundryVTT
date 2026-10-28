@@ -1,6 +1,6 @@
 ---
 shortcode: slsvest
-name: {full: Sealskin Vest, aliases: []}
+name: {full: Sealskin Vest}
 type: armorgear
 description: "Water-resistant seal-fur sleeveless vest; core protection from wet."
 tags: []

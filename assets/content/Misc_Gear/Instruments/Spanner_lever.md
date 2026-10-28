@@ -1,6 +1,6 @@
 ---
 shortcode: spannerlever
-name: {full: "Spanner, lever", aliases: []}
+name: {full: "Spanner, lever"}
 type: miscgear
 description: "Hinged iron lever for spanning a heavy crossbow; multiplies draw fivefold."
 tags: [instruments]

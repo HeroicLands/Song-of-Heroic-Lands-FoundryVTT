@@ -1,6 +1,6 @@
 ---
 shortcode: prctcl
-name: {full: Practical, aliases: []}
+name: {full: Practical}
 type: trauma
 subType: psycond
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: bflkpunch
-name: {full: Folk Punch, aliases: [Punch]}
+name: {full: Folk Punch, en: [Punch]}
 type: skill
 subType: combattechnique
 description: "A closed fist — the plainest thing a person can do in a fight, and the weakest."

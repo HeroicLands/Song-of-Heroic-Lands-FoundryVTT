@@ -1,6 +1,6 @@
 ---
 shortcode: whp
-name: {full: Whip, aliases: []}
+name: {full: Whip}
 type: weapongear
 description: "Leather lash reaching beyond guard; reaches, entangles, intimidates and wounds."
 tags: []

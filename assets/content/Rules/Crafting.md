@@ -1,6 +1,6 @@
 ---
 shortcode: crafting
-name: {full: Crafting, aliases: []}
+name: {full: Crafting}
 type: doc
 subType: rules
 tags: [rules-crafting]

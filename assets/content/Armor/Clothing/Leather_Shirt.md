@@ -1,6 +1,6 @@
 ---
 shortcode: ltshirt
-name: {full: Leather Shirt, aliases: []}
+name: {full: Leather Shirt}
 type: armorgear
 description: "Stylish and practical leather garment offering minimal protection."
 tags: []

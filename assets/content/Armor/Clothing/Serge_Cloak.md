@@ -1,6 +1,6 @@
 ---
 shortcode: sgclk
-name: {full: Serge Cloak, aliases: []}
+name: {full: Serge Cloak}
 type: armorgear
 description: "Durable twilled serge cloak; protective outer garment for all weather."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: workshopqualifiers
-name: {full: Workshop Qualifiers, aliases: []}
+name: {full: Workshop Qualifiers}
 type: doc
 subType: reference
 description: "Use an explicitly selected Structure's workshop stars as a qualifier Target Number."

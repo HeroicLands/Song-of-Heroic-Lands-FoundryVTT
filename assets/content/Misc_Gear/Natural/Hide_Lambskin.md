@@ -1,6 +1,6 @@
 ---
 shortcode: hidelambsk
-name: {full: "Hide, Lambskin", aliases: []}
+name: {full: "Hide, Lambskin"}
 type: miscgear
 description: "Young sheep pelt with wool; light, dyes well; pliant warm leather. Price is for one whole skin."
 tags: [natural]

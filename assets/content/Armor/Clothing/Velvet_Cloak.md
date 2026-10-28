@@ -1,6 +1,6 @@
 ---
 shortcode: vclk
-name: {full: Velvet Cloak, aliases: []}
+name: {full: Velvet Cloak}
 type: armorgear
 description: "Soft plush velvet cloak; opulent garment for nobility and grandeur."
 tags: []

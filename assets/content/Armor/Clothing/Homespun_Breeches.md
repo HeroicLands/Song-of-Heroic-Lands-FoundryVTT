@@ -1,6 +1,6 @@
 ---
 shortcode: hsbrch
-name: {full: Homespun Breeches, aliases: []}
+name: {full: Homespun Breeches}
 type: armorgear
 description: "Simple homemade cloth breeches; practical for laborers and farmers."
 tags: []

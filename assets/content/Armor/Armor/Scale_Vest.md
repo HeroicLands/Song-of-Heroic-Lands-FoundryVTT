@@ -1,6 +1,6 @@
 ---
 shortcode: svest
-name: {full: Scale Vest, aliases: []}
+name: {full: Scale Vest}
 type: armorgear
 description: "Sleeveless scale-armor; overlapping metal scales cover torso only."
 tags: []

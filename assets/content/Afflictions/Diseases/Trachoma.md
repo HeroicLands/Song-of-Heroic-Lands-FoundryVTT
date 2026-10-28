@@ -1,6 +1,6 @@
 ---
 shortcode: trachoma
-name: {full: Trachoma, aliases: []}
+name: {full: Trachoma}
 type: affliction
 subType: disease
 description: "Chlamydia eye infection; scarring eyelids turn inward, scratching cornea."

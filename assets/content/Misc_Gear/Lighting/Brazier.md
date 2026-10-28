@@ -1,6 +1,6 @@
 ---
 shortcode: brazier
-name: {full: Brazier, aliases: []}
+name: {full: Brazier}
 type: miscgear
 description: "Cast-iron or bronze basin on tripod; holds coals for warmth and light."
 tags: [lighting]

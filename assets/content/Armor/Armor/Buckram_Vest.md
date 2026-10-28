@@ -1,6 +1,6 @@
 ---
 shortcode: bvest
-name: {full: Buckram Vest, aliases: []}
+name: {full: Buckram Vest}
 type: armorgear
 description: "Stiff buckram vest offering durable and reliable rigid fit."
 tags: []

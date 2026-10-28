@@ -1,6 +1,6 @@
 ---
 shortcode: lbw100
-name: {full: Longbow 100, aliases: []}
+name: {full: Longbow 100}
 type: weapongear
 description: "Hundred-pound yew warbow; footman archer's competent field standard."
 tags: []

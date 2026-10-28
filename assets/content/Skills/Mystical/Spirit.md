@@ -1,6 +1,6 @@
 ---
 shortcode: spirit
-name: {full: Spirit, aliases: []}
+name: {full: Spirit}
 type: skill
 subType: mystical
 description: "Innate strength of soul, deepened by discipline; what the spirit world is met with."

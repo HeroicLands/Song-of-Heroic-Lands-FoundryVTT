@@ -1,6 +1,6 @@
 ---
 shortcode: tin
-name: {full: Tin, aliases: []}
+name: {full: Tin}
 type: miscgear
 description: "Soft white metal; alloyed with copper for bronze and with lead for pewter."
 tags: [jewelry_cash]

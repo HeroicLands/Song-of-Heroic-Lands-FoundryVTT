@@ -1,6 +1,6 @@
 ---
 shortcode: brobe
-name: {full: Buckram Robe, aliases: []}
+name: {full: Buckram Robe}
 type: armorgear
 description: "Stiff buckram robe offering durability and reliable rigid coverage."
 tags: []

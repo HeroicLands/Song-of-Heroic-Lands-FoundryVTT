@@ -1,6 +1,6 @@
 ---
 shortcode: ladder8
-name: {full: "Ladder, 8 ft", aliases: []}
+name: {full: "Ladder, 8 ft"}
 type: miscgear
 description: "Eight-foot wooden ladder with pegged rungs."
 tags: [furniture]

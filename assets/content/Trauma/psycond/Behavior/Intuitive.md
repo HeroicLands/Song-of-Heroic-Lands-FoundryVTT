@@ -1,6 +1,6 @@
 ---
 shortcode: inttv
-name: {full: Intuitive, aliases: []}
+name: {full: Intuitive}
 type: trauma
 subType: psycond
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: plcou
-name: {full: Plate Coudes, aliases: []}
+name: {full: Plate Coudes}
 type: armorgear
 description: "Steel elbow-caps; joint-guard for armed combat or labor."
 tags: []

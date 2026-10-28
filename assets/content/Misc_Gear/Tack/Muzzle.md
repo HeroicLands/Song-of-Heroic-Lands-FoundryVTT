@@ -1,6 +1,6 @@
 ---
 shortcode: muzzle
-name: {full: Muzzle, aliases: []}
+name: {full: Muzzle}
 type: miscgear
 description: "Leather or iron cage over snout; prevents biting; kennel and hunt use."
 tags: [tack]

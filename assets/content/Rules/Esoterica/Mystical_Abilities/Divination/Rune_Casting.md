@@ -1,6 +1,6 @@
 ---
 shortcode: rncstng
-name: {full: Rune Casting, aliases: []}
+name: {full: Rune Casting}
 type: doc
 subType: rules
 tags: [rules-esoterica, rules-esoterica-mystical-abilities-divination-the-arts]

@@ -1,6 +1,6 @@
 ---
 shortcode: avoidant
-name: {full: Avoidant, aliases: []}
+name: {full: Avoidant}
 type: trauma
 subType: psycond
 tags: []

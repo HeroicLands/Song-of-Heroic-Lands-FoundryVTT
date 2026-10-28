@@ -1,6 +1,6 @@
 ---
 shortcode: peascrate
-name: {full: "Peas, crate", aliases: []}
+name: {full: "Peas, crate"}
 type: miscgear
 description: "Dried legume bushel, stretches meat into thick nourishing pottage for garrisons."
 tags: [food]

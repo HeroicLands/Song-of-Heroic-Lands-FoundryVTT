@@ -1,6 +1,6 @@
 ---
 shortcode: goat
-name: {full: Goat, aliases: []}
+name: {full: Goat}
 type: miscgear
 description: "Fresh lean meat; pungent, stews or smokes well for travel stores."
 tags: [food]

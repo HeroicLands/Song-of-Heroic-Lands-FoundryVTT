@@ -1,6 +1,6 @@
 ---
 shortcode: beerhgsh
-name: {full: "Beer, Hogshead", aliases: []}
+name: {full: "Beer, Hogshead"}
 type: miscgear
 description: "Weak sour small-beer; cheap garrison drink, prevents tainted water sickness."
 tags: [spirits]

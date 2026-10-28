@@ -1,6 +1,6 @@
 ---
 shortcode: ballleathe
-name: {full: "Ball, leather", aliases: []}
+name: {full: "Ball, leather"}
 type: miscgear
 description: "Cloth-core leather sphere; suits children's games and camp recreation safely."
 tags: [expedition]

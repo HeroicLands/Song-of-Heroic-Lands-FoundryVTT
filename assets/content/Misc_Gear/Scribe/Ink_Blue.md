@@ -1,6 +1,6 @@
 ---
 shortcode: inkblu
-name: {full: "Ink, Blue", aliases: []}
+name: {full: "Ink, Blue"}
 type: miscgear
 description: "Indigo or woad-derived; marks official margins and decorative chapter headings."
 tags: [scribe]

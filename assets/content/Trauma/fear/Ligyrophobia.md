@@ -1,6 +1,6 @@
 ---
 shortcode: lgyrphb
-name: {full: Ligyrophobia, aliases: []}
+name: {full: Ligyrophobia}
 type: trauma
 subType: fear
 tags: []

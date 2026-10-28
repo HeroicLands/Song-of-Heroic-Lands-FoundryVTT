@@ -1,6 +1,6 @@
 ---
 shortcode: ringhorn
-name: {full: "Ring, horn", aliases: []}
+name: {full: "Ring, horn"}
 type: miscgear
 description: "A band for the finger, plain or chased, in carved horn."
 tags: [jewelry_cash]

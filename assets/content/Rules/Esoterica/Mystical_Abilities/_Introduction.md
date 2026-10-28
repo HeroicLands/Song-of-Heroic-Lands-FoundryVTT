@@ -1,6 +1,6 @@
 ---
 shortcode: mystabilintro
-name: {full: Mystical Abilities Introduction, aliases: []}
+name: {full: Mystical Abilities Introduction}
 type: doc
 subType: rules
 tags: [rules-esoterica, rules-esoterica-mysteries-and-mystical-abilities]

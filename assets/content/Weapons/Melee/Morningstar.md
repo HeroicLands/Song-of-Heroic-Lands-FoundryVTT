@@ -1,6 +1,6 @@
 ---
 shortcode: mgstr
-name: {full: Morningstar, aliases: []}
+name: {full: Morningstar}
 type: weapongear
 description: "Spiked iron sphere on short haft; mounted man-at-arms' shock-versatility."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: cbw140
-name: {full: Composite Bow 140, aliases: []}
+name: {full: Composite Bow 140}
 type: weapongear
 description: "One-hundred-forty pound master-archer's bow; punches plate at distance."
 tags: []

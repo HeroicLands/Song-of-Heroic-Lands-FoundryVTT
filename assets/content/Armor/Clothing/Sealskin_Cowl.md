@@ -1,6 +1,6 @@
 ---
 shortcode: slscowl
-name: {full: Sealskin Cowl, aliases: []}
+name: {full: Sealskin Cowl}
 type: armorgear
 description: "Water-resistant seal-fur hood; ideal for coastal regions."
 tags: []

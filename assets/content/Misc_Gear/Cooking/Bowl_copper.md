@@ -1,6 +1,6 @@
 ---
 shortcode: bowlcopper
-name: {full: "Bowl, copper", aliases: []}
+name: {full: "Bowl, copper"}
 type: miscgear
 description: "Tinned copper bowl; conducts heat evenly and suits kitchen and table use."
 tags: [cooking]

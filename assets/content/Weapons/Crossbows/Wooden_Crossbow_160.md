@@ -1,6 +1,6 @@
 ---
 shortcode: wcxbw160
-name: {full: Wooden Crossbow 160, aliases: []}
+name: {full: Wooden Crossbow 160}
 type: weapongear
 description: "Heavy prod spanning by cranequin; castle-wall and convoy suppression weapon."
 tags: []

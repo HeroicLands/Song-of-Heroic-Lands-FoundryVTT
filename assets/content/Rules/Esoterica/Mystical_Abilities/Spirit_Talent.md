@@ -1,6 +1,6 @@
 ---
 shortcode: sprttlnt
-name: {full: Spirit Talent, aliases: []}
+name: {full: Spirit Talent}
 type: doc
 subType: rules
 tags: [rules-esoterica, rules-esoterica-mystical-abilities-spirit-mysteries]

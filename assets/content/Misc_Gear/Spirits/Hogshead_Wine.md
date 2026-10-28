@@ -1,6 +1,6 @@
 ---
 shortcode: winehgsh
-name: {full: Hogshead Wine, aliases: []}
+name: {full: Hogshead Wine}
 type: miscgear
 description: "Common wine in large cask; merchant households, feeds season of feasts."
 tags: [spirits]

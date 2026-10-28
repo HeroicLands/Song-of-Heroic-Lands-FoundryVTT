@@ -1,6 +1,6 @@
 ---
 shortcode: issuereporting
-name: {full: Issue Reporting, aliases: []}
+name: {full: Issue Reporting}
 type: doc
 subType: howto
 description: "How issues are typed, prioritized, labeled, and tied to capability milestones."

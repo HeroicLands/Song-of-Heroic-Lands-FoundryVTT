@@ -1,6 +1,6 @@
 ---
 shortcode: bstdswd
-name: {full: Bastard Sword, aliases: []}
+name: {full: Bastard Sword}
 type: weapongear
 description: "Versatile straight blade for one or two hands; knight's choice."
 tags: []

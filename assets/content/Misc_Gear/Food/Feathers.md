@@ -1,6 +1,6 @@
 ---
 shortcode: feathers
-name: {full: Feathers, aliases: []}
+name: {full: Feathers}
 type: miscgear
 description: "Down and flight feathers; stuff quilts and padding, used for arrow fletching."
 tags: [food]

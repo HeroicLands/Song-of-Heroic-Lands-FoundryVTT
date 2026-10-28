@@ -1,6 +1,6 @@
 ---
 shortcode: cageironme
-name: {full: "Cage, iron, medium", aliases: []}
+name: {full: "Cage, iron, medium"}
 type: miscgear
 description: "Forged iron cage; holds child, large dog, or wounded beast securely."
 tags: [expedition]

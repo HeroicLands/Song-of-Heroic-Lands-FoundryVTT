@@ -1,6 +1,6 @@
 ---
 shortcode: rndsh
-name: {full: Roundshield, aliases: []}
+name: {full: Roundshield}
 type: weapongear
 description: "Oak circular shield with iron-domed boss; common soldier's line-wall reliable."
 tags: []

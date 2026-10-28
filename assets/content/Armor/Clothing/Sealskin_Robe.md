@@ -1,6 +1,6 @@
 ---
 shortcode: slsrobe
-name: {full: Sealskin Robe, aliases: []}
+name: {full: Sealskin Robe}
 type: armorgear
 description: "Water-resistant seal-fur robe; comfort for seafaring folk."
 tags: []

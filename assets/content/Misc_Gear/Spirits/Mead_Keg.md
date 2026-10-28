@@ -1,6 +1,6 @@
 ---
 shortcode: mdkeg
-name: {full: "Mead, Keg", aliases: []}
+name: {full: "Mead, Keg"}
 type: miscgear
 description: "Honey-fermented mead; poor lord's luxury; warmed in winter, poured at feasts."
 tags: [spirits]

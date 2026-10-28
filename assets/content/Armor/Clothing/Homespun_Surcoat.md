@@ -1,6 +1,6 @@
 ---
 shortcode: hsscoat
-name: {full: Homespun Surcoat, aliases: []}
+name: {full: Homespun Surcoat}
 type: armorgear
 description: "Simple homemade surcoat providing coverage and practical wear."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: elph
-name: {full: Elephantiasis, aliases: []}
+name: {full: Elephantiasis}
 type: affliction
 subType: disease
 description: "Filarial worm parasite; chronic lymphatic damage causes grotesque limb swelling."

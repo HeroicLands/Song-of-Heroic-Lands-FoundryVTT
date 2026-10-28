@@ -1,6 +1,6 @@
 ---
 shortcode: ptnc
-name: {full: Padded Tunic, aliases: []}
+name: {full: Padded Tunic}
 type: armorgear
 description: "Cushioned garment providing warmth and protection for various activities."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: runtimecontracts
-name: {full: Runtime Contracts, aliases: []}
+name: {full: Runtime Contracts}
 type: doc
 subType: reference
 tags: [dev-reference]

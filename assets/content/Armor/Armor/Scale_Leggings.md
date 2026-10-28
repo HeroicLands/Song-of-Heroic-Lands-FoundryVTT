@@ -1,6 +1,6 @@
 ---
 shortcode: sleg
-name: {full: Scale Leggings, aliases: []}
+name: {full: Scale Leggings}
 type: armorgear
 description: "Leggings with sewn metal scales; leg-and-thigh armor."
 tags: []

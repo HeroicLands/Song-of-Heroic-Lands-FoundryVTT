@@ -1,6 +1,6 @@
 ---
 shortcode: oppsdtst
-name: {full: Opposed Tests, aliases: []}
+name: {full: Opposed Tests}
 type: doc
 subType: rules
 tags: [rules-resolution, rules-resolution-sections]

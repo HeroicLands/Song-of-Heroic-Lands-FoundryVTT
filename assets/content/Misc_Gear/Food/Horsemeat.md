@@ -1,6 +1,6 @@
 ---
 shortcode: horsemeat
-name: {full: Horsemeat, aliases: []}
+name: {full: Horsemeat}
 type: miscgear
 description: "Lean meat from spent beasts; tougher, stewed or smoked for pallability."
 tags: [food]

@@ -1,6 +1,6 @@
 ---
 shortcode: obesity
-name: {full: Obesity, aliases: []}
+name: {full: Obesity}
 type: trauma
 subType: physcond
 tags: []

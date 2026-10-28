@@ -1,6 +1,6 @@
 ---
 shortcode: testing
-name: {full: Testing, aliases: []}
+name: {full: Testing}
 type: doc
 subType: howto
 tags: [dev-how-to]

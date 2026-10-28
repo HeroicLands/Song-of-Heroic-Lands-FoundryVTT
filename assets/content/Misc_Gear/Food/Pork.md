@@ -1,6 +1,6 @@
 ---
 shortcode: pork
-name: {full: Pork, aliases: []}
+name: {full: Pork}
 type: miscgear
 description: "Fatty rich swine meat, salts and smokes excellently, garrison staple."
 tags: [food]

@@ -1,6 +1,6 @@
 ---
 shortcode: dscr
-name: {full: Discourse, aliases: []}
+name: {full: Discourse}
 type: skill
 subType: social
 description: "Convincing through reasoned argument, evidence, and rhetorical skill."

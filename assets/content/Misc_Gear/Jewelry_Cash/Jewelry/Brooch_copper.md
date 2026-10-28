@@ -1,6 +1,6 @@
 ---
 shortcode: broochcopper
-name: {full: "Brooch, copper", aliases: []}
+name: {full: "Brooch, copper"}
 type: miscgear
 description: "A pin and catch worked into a plate, worn to fasten a cloak at the shoulder, in raised copper."
 tags: [jewelry_cash]

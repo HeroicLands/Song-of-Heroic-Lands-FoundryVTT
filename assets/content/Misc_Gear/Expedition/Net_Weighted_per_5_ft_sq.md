@@ -1,6 +1,6 @@
 ---
 shortcode: netweighte
-name: {full: "Net, Weighted, per 5 ft sq.", aliases: []}
+name: {full: "Net, Weighted, per 5 ft sq."}
 type: miscgear
 description: "Hempen fishing net with lead weights for casting and sinking."
 tags: [expedition]

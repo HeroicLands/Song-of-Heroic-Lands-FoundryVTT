@@ -1,6 +1,6 @@
 ---
 shortcode: weapongear
-name: {full: Weapons, aliases: []}
+name: {full: Weapons}
 type: doc
 subType: reference
 description: Arms used in combat.

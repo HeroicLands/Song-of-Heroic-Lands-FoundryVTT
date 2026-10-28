@@ -1,6 +1,6 @@
 ---
 shortcode: psydist
-name: {full: Psychological Distress, aliases: []}
+name: {full: Psychological Distress}
 type: trauma
 subType: fatigue
 description: "Long-term weakness from sustained psychological strain."

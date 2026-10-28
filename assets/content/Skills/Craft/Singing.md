@@ -1,6 +1,6 @@
 ---
 shortcode: sing
-name: {full: Singing, aliases: []}
+name: {full: Singing}
 type: skill
 subType: social
 description: "Vocal performance with control of pitch, tone, and emotional expression."

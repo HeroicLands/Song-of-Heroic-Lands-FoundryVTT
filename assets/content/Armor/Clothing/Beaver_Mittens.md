@@ -1,6 +1,6 @@
 ---
 shortcode: bvmitt
-name: {full: Beaver Mittens, aliases: []}
+name: {full: Beaver Mittens}
 type: armorgear
 description: "Beaver fur mittens offering comfort and warmth for cold climates."
 tags: []

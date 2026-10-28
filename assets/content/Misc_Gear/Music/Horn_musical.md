@@ -1,6 +1,6 @@
 ---
 shortcode: hornmusica
-name: {full: "Horn, musical", aliases: []}
+name: {full: "Horn, musical"}
 type: miscgear
 description: "Polished ox or ram horn; mellow voice; blends with strings and woodwinds."
 tags: [music]

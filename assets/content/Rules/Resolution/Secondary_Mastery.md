@@ -1,6 +1,6 @@
 ---
 shortcode: scndryms
-name: {full: Secondary Mastery, aliases: []}
+name: {full: Secondary Mastery}
 type: doc
 subType: rules
 tags: [rules-resolution, rules-resolution-sections]

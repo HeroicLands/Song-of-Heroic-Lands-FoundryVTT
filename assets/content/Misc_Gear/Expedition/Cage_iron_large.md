@@ -1,6 +1,6 @@
 ---
 shortcode: cageironla
-name: {full: "Cage, iron, large", aliases: []}
+name: {full: "Cage, iron, large"}
 type: miscgear
 description: "Heavy forged iron cage with riveted bars; confines man or dangerous beasts."
 tags: [expedition]

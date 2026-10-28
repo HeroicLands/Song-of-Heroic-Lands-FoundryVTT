@@ -1,6 +1,6 @@
 ---
 shortcode: eczema
-name: {full: Eczema, aliases: []}
+name: {full: Eczema}
 type: trauma
 subType: physcond
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: dyetzch
-name: {full: "Dye, Tazach Purple", aliases: []}
+name: {full: "Dye, Tazach Purple"}
 type: miscgear
 description: "Murex shellfish or Tazach lichen; rare purple marking rank and authority."
 tags: [clothing]

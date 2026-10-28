@@ -1,6 +1,6 @@
 ---
 shortcode: hoplophb
-name: {full: Hoplophobia, aliases: []}
+name: {full: Hoplophobia}
 type: trauma
 subType: fear
 tags: []

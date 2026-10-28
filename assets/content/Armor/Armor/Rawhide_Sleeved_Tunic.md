@@ -1,6 +1,6 @@
 ---
 shortcode: rhstunic
-name: {full: Rawhide Sleeved Tunic, aliases: []}
+name: {full: Rawhide Sleeved Tunic}
 type: armorgear
 description: "Sturdy hide tunic; arms and torso protection."
 tags: []

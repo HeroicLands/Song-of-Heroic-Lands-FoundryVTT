@@ -1,6 +1,6 @@
 ---
 shortcode: chalkstick
-name: {full: Chalk Sticks, aliases: []}
+name: {full: Chalk Sticks}
 type: miscgear
 description: "Soft mineral sticks; marks stone, parchment, and leather for masons and merchants."
 tags: [expedition]

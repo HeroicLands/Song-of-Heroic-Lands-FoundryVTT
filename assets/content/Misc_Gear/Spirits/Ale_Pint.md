@@ -1,6 +1,6 @@
 ---
 shortcode: alept
-name: {full: "Ale, Pint", aliases: []}
+name: {full: "Ale, Pint"}
 type: miscgear
 description: "Pale ale in cup or horn; staple wage for laborers and soldiers."
 tags: [spirits]

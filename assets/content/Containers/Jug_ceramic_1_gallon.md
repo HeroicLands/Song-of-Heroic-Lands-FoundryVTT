@@ -1,6 +1,6 @@
 ---
 shortcode: jugcer1gal
-name: {full: "Jug, ceramic, 1 gallon", aliases: []}
+name: {full: "Jug, ceramic, 1 gallon"}
 type: containergear
 description: "Narrow-necked earthenware jug with a loop handle for pouring (1 gallon)."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: estc
-name: {full: Estoc, aliases: []}
+name: {full: Estoc}
 type: weapongear
 description: "Narrow rigid blade for plate seams; knight's piercing thrust."
 tags: []

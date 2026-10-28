@@ -1,6 +1,6 @@
 ---
 shortcode: divnint
-name: {full: Divine Intervention, aliases: []}
+name: {full: Divine Intervention}
 type: doc
 subType: rules
 tags: [rules-esoterica, rules-esoterica-mystical-abilities-divine-mysteries]

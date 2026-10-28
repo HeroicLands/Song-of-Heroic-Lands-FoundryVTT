@@ -1,6 +1,6 @@
 ---
 shortcode: traphuntin2
-name: {full: "Trap, hunting, small", aliases: []}
+name: {full: "Trap, hunting, small"}
 type: miscgear
 description: "Compact gin-trap for rabbit and hare; sets a dozen along warren paths."
 tags: [expedition]

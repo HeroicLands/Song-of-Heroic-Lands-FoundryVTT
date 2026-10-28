@@ -1,6 +1,6 @@
 ---
 shortcode: anmcft
-name: {full: Animalcraft, aliases: []}
+name: {full: Animalcraft}
 type: skill
 subType: nature
 description: "Domesticating, breeding, caring for animals; training and veterinary expertise."

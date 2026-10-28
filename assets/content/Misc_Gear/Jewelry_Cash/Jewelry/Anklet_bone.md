@@ -1,6 +1,6 @@
 ---
 shortcode: ankletbone
-name: {full: "Anklet, bone", aliases: []}
+name: {full: "Anklet, bone"}
 type: miscgear
 description: "A band worn at the ankle, closed or hinged, and often hung with small charms, in carved bone."
 tags: [jewelry_cash]

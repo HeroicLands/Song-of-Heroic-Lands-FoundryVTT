@@ -1,6 +1,6 @@
 ---
 shortcode: lockboxiblg
-name: {full: "Lockbox, iron-bound, large", aliases: []}
+name: {full: "Lockbox, iron-bound, large"}
 type: containergear
 description: "Large iron-bound strongbox with a key lock."
 tags: []

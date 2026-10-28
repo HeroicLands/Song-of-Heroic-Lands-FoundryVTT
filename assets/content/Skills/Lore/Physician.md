@@ -1,6 +1,6 @@
 ---
 shortcode: pysn
-name: {full: Physician, aliases: []}
+name: {full: Physician}
 type: skill
 subType: lore
 description: "Diagnosing illness, treating injuries, performing surgery, and healing wounds."

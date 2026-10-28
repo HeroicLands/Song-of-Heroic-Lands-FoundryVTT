@@ -1,6 +1,6 @@
 ---
 shortcode: lvest
-name: {full: Linen Vest, aliases: []}
+name: {full: Linen Vest}
 type: armorgear
 description: "Light breathable sleeveless garment perfect for warm weather activities."
 tags: []

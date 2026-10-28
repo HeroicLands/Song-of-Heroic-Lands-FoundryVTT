@@ -1,6 +1,6 @@
 ---
 shortcode: rhvest
-name: {full: Rawhide Vest, aliases: []}
+name: {full: Rawhide Vest}
 type: armorgear
 description: "Thick hide sleeveless vest; torso-only durability."
 tags: []

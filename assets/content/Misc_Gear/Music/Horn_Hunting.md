@@ -1,6 +1,6 @@
 ---
 shortcode: hornhuntin
-name: {full: "Horn, Hunting", aliases: []}
+name: {full: "Horn, Hunting"}
 type: miscgear
 description: "Curved ram-bullock horn; sharp clear signals coordinate huntsmen and call hounds."
 tags: [music]

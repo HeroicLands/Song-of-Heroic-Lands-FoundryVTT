@@ -1,6 +1,6 @@
 ---
 shortcode: spade
-name: {full: "Spade", aliases: []}
+name: {full: "Spade"}
 type: miscgear
 description: "Iron-shod digging spade for earth, peat, and drainage work."
 tags: [instruments]

@@ -1,6 +1,6 @@
 ---
 shortcode: bowcase
-name: {full: Bow case, aliases: []}
+name: {full: Bow case}
 type: miscgear
 description: "Ash-staved leather case on shoulder strap; protects finished bow during travel."
 tags: [expedition]

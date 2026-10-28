@@ -1,6 +1,6 @@
 ---
 shortcode: woolraw
-name: {full: "Wool, Raw", aliases: []}
+name: {full: "Wool, Raw"}
 type: miscgear
 description: "Freshly sheared fleece, carded clean, traded by weight for spinning."
 tags: [food]

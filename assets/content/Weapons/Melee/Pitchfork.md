@@ -1,6 +1,6 @@
 ---
 shortcode: pfrk
-name: {full: Pitchfork, aliases: []}
+name: {full: Pitchfork}
 type: weapongear
 description: "Farm prong-fork for thrusting and binding; levy's accessible polearm."
 tags: []

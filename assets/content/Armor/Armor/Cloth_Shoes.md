@@ -1,6 +1,6 @@
 ---
 shortcode: cshoe
-name: {full: Cloth Shoes, aliases: []}
+name: {full: Cloth Shoes}
 type: armorgear
 description: "Breathable cloth footwear for casual, light-duty wear."
 tags: []

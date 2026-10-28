@@ -1,6 +1,6 @@
 ---
 shortcode: wrapleath
-name: {full: "Wrappings, leather", aliases: []}
+name: {full: "Wrappings, leather"}
 type: containergear
 description: "Leather sheet for wrapping and waterproofing."
 tags: []

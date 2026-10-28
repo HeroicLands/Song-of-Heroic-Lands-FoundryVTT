@@ -1,6 +1,6 @@
 ---
 shortcode: nrcssstc
-name: {full: Narcissistic, aliases: []}
+name: {full: Narcissistic}
 type: trauma
 subType: psycond
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: dge
-name: {full: Dodge, aliases: []}
+name: {full: Dodge}
 type: skill
 subType: combat
 description: "Evading attacks by shifting body; instinctive defense in combat."

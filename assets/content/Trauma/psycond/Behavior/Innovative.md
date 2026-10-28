@@ -1,6 +1,6 @@
 ---
 shortcode: innvtv
-name: {full: Innovative, aliases: []}
+name: {full: Innovative}
 type: trauma
 subType: psycond
 tags: []

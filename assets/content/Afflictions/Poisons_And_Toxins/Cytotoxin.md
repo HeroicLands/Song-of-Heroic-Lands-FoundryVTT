@@ -1,6 +1,6 @@
 ---
 shortcode: cytotxn
-name: {full: Cytotoxin, aliases: []}
+name: {full: Cytotoxin}
 type: affliction
 subType: poisontoxin
 description: "Cell-destroying toxin; intense pain and necrosis at injection site."

@@ -1,6 +1,6 @@
 ---
 shortcode: sgleg
-name: {full: Serge Leggings, aliases: []}
+name: {full: Serge Leggings}
 type: armorgear
 description: "Twilled serge leggings; warm, durable leg covering for daily activities."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: rhmntl
-name: {full: Rawhide Mantle, aliases: []}
+name: {full: Rawhide Mantle}
 type: armorgear
 description: "Heavy hide cloak; harsh-weather outer layer."
 tags: []

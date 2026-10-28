@@ -1,6 +1,6 @@
 ---
 shortcode: cookkit
-name: {full: Cooking Kit, aliases: []}
+name: {full: Cooking Kit}
 type: miscgear
 description: "Oiled-leather satchel holding iron pans, spoons, knife, grater, ladle for field cooking."
 tags: [instruments]

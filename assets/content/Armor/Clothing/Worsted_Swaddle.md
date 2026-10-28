@@ -1,6 +1,6 @@
 ---
 shortcode: wswd
-name: {full: Worsted Swaddle, aliases: []}
+name: {full: Worsted Swaddle}
 type: armorgear
 description: "Tightly-spun wool swaddle; warm, durable infant wrapping."
 tags: []

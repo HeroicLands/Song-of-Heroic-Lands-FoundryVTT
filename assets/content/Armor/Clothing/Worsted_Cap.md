@@ -1,6 +1,6 @@
 ---
 shortcode: wcap
-name: {full: Worsted Cap, aliases: []}
+name: {full: Worsted Cap}
 type: armorgear
 description: "Tightly-spun wool cap; durable, versatile head covering."
 tags: []

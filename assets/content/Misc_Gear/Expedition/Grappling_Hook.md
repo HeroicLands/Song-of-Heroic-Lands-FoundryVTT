@@ -1,6 +1,6 @@
 ---
 shortcode: grphook
-name: {full: Grappling Hook, aliases: [Grapnel, "Hook, grappling"]}
+name: {full: Grappling Hook, en: [Grapnel, "Hook, grappling"]}
 type: miscgear
 description: "Four-pronged iron hook for throwing over walls and ledges. Reusable if the line can be recovered."
 tags: [expedition]

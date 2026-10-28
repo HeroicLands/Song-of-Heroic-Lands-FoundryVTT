@@ -1,6 +1,6 @@
 ---
 shortcode: amnsttl
-name: {full: Total Amnesia, aliases: []}
+name: {full: Total Amnesia}
 type: trauma
 subType: psycond
 tags: []

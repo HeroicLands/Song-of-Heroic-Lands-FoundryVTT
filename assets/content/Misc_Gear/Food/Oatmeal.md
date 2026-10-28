@@ -1,6 +1,6 @@
 ---
 shortcode: oatmeal
-name: {full: Oatmeal, aliases: []}
+name: {full: Oatmeal}
 type: miscgear
 description: "Coarse porridge filling bellies cheaply, stores dry indefinitely for soldiers."
 tags: [food]

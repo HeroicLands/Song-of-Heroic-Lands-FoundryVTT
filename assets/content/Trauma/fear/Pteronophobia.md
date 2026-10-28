@@ -1,6 +1,6 @@
 ---
 shortcode: ptrnphb
-name: {full: Pteronophobia, aliases: []}
+name: {full: Pteronophobia}
 type: trauma
 subType: fear
 tags: []

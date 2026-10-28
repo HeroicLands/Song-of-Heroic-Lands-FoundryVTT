@@ -1,6 +1,6 @@
 ---
 shortcode: divintro
-name: {full: Divination Introduction, aliases: []}
+name: {full: Divination Introduction}
 type: doc
 subType: rules
 tags: [rules-esoterica, rules-esoterica-mystical-abilities-arcane-mysteries]

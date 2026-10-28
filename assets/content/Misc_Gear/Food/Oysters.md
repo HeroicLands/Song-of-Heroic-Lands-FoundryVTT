@@ -1,6 +1,6 @@
 ---
 shortcode: oysters
-name: {full: Oysters, aliases: []}
+name: {full: Oysters}
 type: miscgear
 description: "Briny shellfish fresh at harbor or preserved in salt and smoke."
 tags: [food]

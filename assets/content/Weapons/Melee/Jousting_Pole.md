@@ -1,6 +1,6 @@
 ---
 shortcode: jpole
-name: {full: Jousting Pole, aliases: []}
+name: {full: Jousting Pole}
 type: weapongear
 description: "Blunted tournament pole breaks cleanly; knight's horsemanship-testing reach."
 tags: []

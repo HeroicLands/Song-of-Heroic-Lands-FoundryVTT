@@ -1,6 +1,6 @@
 ---
 shortcode: metrhamr
-name: {full: Meteor Hammer, aliases: []}
+name: {full: Meteor Hammer}
 type: skill
 subType: combat
 description: "Whirling a rope-slung weight through melee and thrown strikes alike; entangling reach for the disciplined."

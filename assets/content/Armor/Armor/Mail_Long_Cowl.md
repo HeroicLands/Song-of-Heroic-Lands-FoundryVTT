@@ -1,6 +1,6 @@
 ---
 shortcode: mlcowl
-name: {full: Mail Long Cowl, aliases: []}
+name: {full: Mail Long Cowl}
 type: armorgear
 description: "Extended metal ring head and neck armor for combat scenarios."
 tags: []

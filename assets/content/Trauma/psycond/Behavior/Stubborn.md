@@ -1,6 +1,6 @@
 ---
 shortcode: stubborn
-name: {full: Stubborn, aliases: []}
+name: {full: Stubborn}
 type: trauma
 subType: psycond
 tags: []

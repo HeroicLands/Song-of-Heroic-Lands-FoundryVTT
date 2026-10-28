@@ -1,6 +1,6 @@
 ---
 shortcode: ringbronze
-name: {full: "Ring, bronze", aliases: []}
+name: {full: "Ring, bronze"}
 type: miscgear
 description: "Cast bronze band, hard and cheap; survives labour that would flatten silver."
 tags: [jewelry_cash]

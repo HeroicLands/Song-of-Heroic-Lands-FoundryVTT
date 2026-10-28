@@ -1,6 +1,6 @@
 ---
 shortcode: systemdevelopment
-name: {full: System Development, aliases: []}
+name: {full: System Development}
 type: doc
 subType: howto
 description: "Standards, the rules of development, and how to submit a change."

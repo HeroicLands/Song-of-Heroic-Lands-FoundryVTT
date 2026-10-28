@@ -2,7 +2,7 @@
 "sohl": patch
 ---
 
-**Combat**
+**Rules and combat**
 
 - Grab now offers owner-confirmed Take and Hold Strength Trials with chosen hands and Tactical Advantages.
 - Take disarms the struck limb and transfers held items and their contents, placing them uncarried when the taker has no free hand.

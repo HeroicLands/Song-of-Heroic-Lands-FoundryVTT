@@ -1,6 +1,6 @@
 ---
 shortcode: mrcn
-name: {full: Mercantilism, aliases: []}
+name: {full: Mercantilism}
 type: skill
 subType: lore
 description: "Trade, commerce, appraisal, negotiation, and understanding market principles."

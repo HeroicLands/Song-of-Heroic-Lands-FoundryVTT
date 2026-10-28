@@ -1,6 +1,6 @@
 ---
 shortcode: dementia
-name: {full: Dementia, aliases: []}
+name: {full: Dementia}
 type: trauma
 subType: psycond
 tags: []

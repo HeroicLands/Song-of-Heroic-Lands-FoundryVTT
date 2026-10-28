@@ -1,6 +1,6 @@
 ---
 shortcode: bagleather15
-name: {full: "Bag, 15 lb, leather", aliases: []}
+name: {full: "Bag, 15 lb, leather"}
 type: containergear
 description: "Leather shoulder bag with a buckled flap (15 lb capacity)."
 tags: []

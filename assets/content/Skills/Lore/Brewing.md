@@ -1,6 +1,6 @@
 ---
 shortcode: brew
-name: {full: Brewing, aliases: []}
+name: {full: Brewing}
 type: skill
 subType: lore
 description: "Producing ales, wines, meads from ingredients; managing fermentation and aging."

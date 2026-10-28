@@ -1,6 +1,6 @@
 ---
 shortcode: mhbgn
-name: {full: Mail Habergeon, aliases: []}
+name: {full: Mail Habergeon}
 type: armorgear
 description: "Mid-length metal ring shirt offering substantial protection against bladed attacks."
 tags: []

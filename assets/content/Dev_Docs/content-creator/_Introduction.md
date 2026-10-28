@@ -1,6 +1,6 @@
 ---
 shortcode: contentcreator
-name: {full: Content Creator, aliases: []}
+name: {full: Content Creator}
 type: doc
 subType: reference
 description: "The section landing: what a content note is, and which page answers which question."

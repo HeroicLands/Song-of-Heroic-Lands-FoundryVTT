@@ -1,6 +1,6 @@
 ---
 shortcode: bgsmcvs
-name: {full: "Bag, sm, canvas", aliases: []}
+name: {full: "Bag, sm, canvas"}
 type: containergear
 description: "Small lightweight canvas pouch for grain or spices."
 tags: []

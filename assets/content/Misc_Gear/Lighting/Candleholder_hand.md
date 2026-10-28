@@ -1,6 +1,6 @@
 ---
 shortcode: candlehold
-name: {full: "Candleholder, hand", aliases: []}
+name: {full: "Candleholder, hand"}
 type: miscgear
 description: "Iron or brass cup with handle; holds single candle, drip-tray included."
 tags: [lighting]

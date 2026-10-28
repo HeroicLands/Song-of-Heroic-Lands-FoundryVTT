@@ -1,6 +1,6 @@
 ---
 shortcode: prone
-name: {full: Prone, aliases: []}
+name: {full: Prone}
 type: doc
 subType: rules
 tags: [rules-combat, rules-combat-sections]

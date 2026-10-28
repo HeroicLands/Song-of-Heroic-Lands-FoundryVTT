@@ -1,6 +1,6 @@
 ---
 shortcode: earringsivory
-name: {full: "Earrings, ivory", aliases: []}
+name: {full: "Earrings, ivory"}
 type: miscgear
 description: "A matched pair, hooked or hung, in carved ivory."
 tags: [jewelry_cash]

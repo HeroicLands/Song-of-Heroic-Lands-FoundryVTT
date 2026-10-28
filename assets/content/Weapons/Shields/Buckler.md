@@ -1,6 +1,6 @@
 ---
 shortcode: bklr
-name: {full: Buckler, aliases: []}
+name: {full: Buckler}
 type: weapongear
 description: "Small light shield for rapid parries; duelist's off-hand ward."
 tags: []

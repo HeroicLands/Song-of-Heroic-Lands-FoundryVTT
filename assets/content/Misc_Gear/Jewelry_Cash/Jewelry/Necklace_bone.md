@@ -1,6 +1,6 @@
 ---
 shortcode: necklacebone
-name: {full: "Necklace, bone", aliases: []}
+name: {full: "Necklace, bone"}
 type: miscgear
 description: "A chain or strung band worn at the throat, in carved bone."
 tags: [jewelry_cash]

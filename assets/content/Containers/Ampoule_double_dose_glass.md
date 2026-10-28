@@ -1,6 +1,6 @@
 ---
 shortcode: ampoule2
-name: {full: "Ampoule, double dose, glass", aliases: []}
+name: {full: "Ampoule, double dose, glass"}
 type: containergear
 description: "Sealed double-dose glass ampoule."
 tags: []

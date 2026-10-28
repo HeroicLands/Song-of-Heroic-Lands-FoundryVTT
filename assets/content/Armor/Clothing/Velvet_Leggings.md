@@ -1,6 +1,6 @@
 ---
 shortcode: vleg
-name: {full: Velvet Leggings, aliases: []}
+name: {full: Velvet Leggings}
 type: armorgear
 description: "Plush velvet leggings; opulent garment for high-status formal occasions."
 tags: []

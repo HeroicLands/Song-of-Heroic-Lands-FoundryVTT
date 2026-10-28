@@ -1,6 +1,6 @@
 ---
 shortcode: bvvest
-name: {full: Beaver Vest, aliases: []}
+name: {full: Beaver Vest}
 type: armorgear
 description: "Beaver fur vest combining comfort and status for the elite wearer."
 tags: []

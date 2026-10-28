@@ -1,6 +1,6 @@
 ---
 shortcode: resolutionintro
-name: {full: Resolution, aliases: []}
+name: {full: Resolution}
 type: doc
 subType: rules
 tags: [rules-resolution]

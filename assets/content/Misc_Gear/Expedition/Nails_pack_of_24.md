@@ -1,6 +1,6 @@
 ---
 shortcode: nailspacko
-name: {full: "Nails, pack of 24", aliases: []}
+name: {full: "Nails, pack of 24"}
 type: miscgear
 description: "Mixed iron nails for quick repairs and affixing tent frames."
 tags: [expedition]

@@ -1,6 +1,6 @@
 ---
 shortcode: bottleglas3
-name: {full: "Bottle, glass, small", aliases: []}
+name: {full: "Bottle, glass, small"}
 type: containergear
 description: "Small pale glass bottle for tinctures and oils."
 tags: []

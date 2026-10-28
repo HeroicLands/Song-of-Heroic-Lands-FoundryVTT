@@ -1,6 +1,6 @@
 ---
 shortcode: augury
-name: {full: Augury, aliases: []}
+name: {full: Augury}
 type: doc
 subType: rules
 tags: [rules-esoterica, rules-esoterica-mystical-abilities-divination-the-arts]

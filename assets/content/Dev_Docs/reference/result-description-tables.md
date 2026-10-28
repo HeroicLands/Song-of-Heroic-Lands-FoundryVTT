@@ -1,6 +1,6 @@
 ---
 shortcode: resultdescriptiontables
-name: {full: Result-description tables, aliases: []}
+name: {full: Result-description tables}
 type: doc
 subType: reference
 tags: [dev-reference]

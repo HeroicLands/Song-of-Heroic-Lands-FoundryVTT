@@ -1,6 +1,6 @@
 ---
 shortcode: weaponadjudication
-name: {full: Weapon Crew and Ammunition Guidance, aliases: []}
+name: {full: Weapon Crew and Ammunition Guidance}
 type: doc
 subType: howto
 description: "Authoring descriptive crew requirements and GM-adjudicated ammunition recovery."

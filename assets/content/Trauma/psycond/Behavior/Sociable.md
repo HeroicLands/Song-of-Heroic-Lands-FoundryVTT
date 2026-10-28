@@ -1,6 +1,6 @@
 ---
 shortcode: sociable
-name: {full: Sociable, aliases: []}
+name: {full: Sociable}
 type: trauma
 subType: psycond
 tags: []

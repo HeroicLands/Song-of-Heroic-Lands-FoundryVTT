@@ -1,6 +1,6 @@
 ---
 shortcode: lbw50
-name: {full: Longbow 50, aliases: []}
+name: {full: Longbow 50}
 type: weapongear
 description: "Fifty-pound short bow for small-game and practice."
 tags: []

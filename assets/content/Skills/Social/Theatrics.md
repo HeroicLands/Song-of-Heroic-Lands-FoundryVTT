@@ -1,6 +1,6 @@
 ---
 shortcode: thtcs
-name: {full: Theatrics, aliases: []}
+name: {full: Theatrics}
 type: skill
 subType: social
 description: "Performance and disguise through role assumption and identity transformation."

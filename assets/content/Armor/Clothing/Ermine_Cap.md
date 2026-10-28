@@ -1,6 +1,6 @@
 ---
 shortcode: ecap
-name: {full: Ermine Cap, aliases: []}
+name: {full: Ermine Cap}
 type: armorgear
 description: "Soft white ermine fur cap signifying nobility and great wealth."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: ambercut
-name: {full: "Amber, cut", aliases: []}
+name: {full: "Amber, cut"}
 type: miscgear
 description: "Translucent golden gem faceted by lapidary; glows warmly for modest jewelry."
 tags: [jewelry_cash]

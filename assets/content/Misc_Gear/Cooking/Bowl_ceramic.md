@@ -1,6 +1,6 @@
 ---
 shortcode: bowlcer
-name: {full: "Bowl, ceramic", aliases: []}
+name: {full: "Bowl, ceramic"}
 type: miscgear
 description: "Glazed earthenware bowl for pottage, milk, or dough."
 tags: [cooking]

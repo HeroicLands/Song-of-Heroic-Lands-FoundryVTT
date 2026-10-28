@@ -1,6 +1,6 @@
 ---
 shortcode: plcui
-name: {full: Plate Cuirass, aliases: []}
+name: {full: Plate Cuirass}
 type: armorgear
 description: "Shaped steel plates protecting torso and ribs."
 tags: []

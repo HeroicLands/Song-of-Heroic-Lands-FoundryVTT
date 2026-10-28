@@ -1,6 +1,6 @@
 ---
 shortcode: melee
-name: {full: Melee, aliases: []}
+name: {full: Melee}
 type: skill
 subType: combat
 description: "Close combat with hand-held weapons; positioning, technique, and tactical awareness."

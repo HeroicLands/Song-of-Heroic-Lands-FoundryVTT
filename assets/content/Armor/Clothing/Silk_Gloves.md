@@ -1,6 +1,6 @@
 ---
 shortcode: slkglv
-name: {full: Silk Gloves, aliases: []}
+name: {full: Silk Gloves}
 type: armorgear
 description: "Soft silk gloves; luxury touch for formal occasions and high-status."
 tags: []

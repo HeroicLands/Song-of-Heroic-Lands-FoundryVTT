@@ -1,6 +1,6 @@
 ---
 shortcode: ocarinaflu
-name: {full: Ocarina Flute, aliases: []}
+name: {full: Ocarina Flute}
 type: miscgear
 description: "Egg-shaped clay-wood vessel with holes; soft mournful voice; shepherd's instrument."
 tags: [music]

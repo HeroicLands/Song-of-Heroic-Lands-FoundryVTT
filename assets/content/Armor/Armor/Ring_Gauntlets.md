@@ -1,6 +1,6 @@
 ---
 shortcode: rmtn
-name: {full: Ring Gauntlets, aliases: []}
+name: {full: Ring Gauntlets}
 type: armorgear
 description: "Leather gloves with ring-reinforced back and fingers."
 tags: []

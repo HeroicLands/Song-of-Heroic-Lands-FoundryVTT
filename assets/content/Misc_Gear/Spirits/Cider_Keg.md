@@ -1,6 +1,6 @@
 ---
 shortcode: cdrkeg
-name: {full: "Cider, Keg", aliases: []}
+name: {full: "Cider, Keg"}
 type: miscgear
 description: "Pressed apple cider, fermented; gentler than ale, spoils in warm weather quickly."
 tags: [spirits]

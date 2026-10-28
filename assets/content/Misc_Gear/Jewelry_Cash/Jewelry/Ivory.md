@@ -1,6 +1,6 @@
 ---
 shortcode: ivory
-name: {full: Ivory, aliases: []}
+name: {full: Ivory}
 type: miscgear
 description: "Polished tooth of great beasts; creamy white, carved into combs, buttons, ornaments."
 tags: [jewelry_cash]

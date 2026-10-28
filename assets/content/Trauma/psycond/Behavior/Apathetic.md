@@ -1,6 +1,6 @@
 ---
 shortcode: apthtc
-name: {full: Apathetic, aliases: []}
+name: {full: Apathetic}
 type: trauma
 subType: psycond
 tags: []

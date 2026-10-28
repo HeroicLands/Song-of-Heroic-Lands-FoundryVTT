@@ -1,6 +1,6 @@
 ---
 shortcode: poison
-name: {full: Poisoned, aliases: [Poison]}
+name: {full: Poisoned, en: [Poison]}
 type: trauma
 subType: fatigue
 description: "Long-term weakness from active poison or toxin in the body."

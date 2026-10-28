@@ -1,6 +1,6 @@
 ---
 shortcode: soap
-name: {full: "Soap", aliases: []}
+name: {full: "Soap"}
 type: miscgear
 description: "Hard milled soap of tallow and ash lye, lightly scented."
 tags: [expedition]

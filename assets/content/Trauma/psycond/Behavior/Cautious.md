@@ -1,6 +1,6 @@
 ---
 shortcode: cautious
-name: {full: Cautious, aliases: []}
+name: {full: Cautious}
 type: trauma
 subType: psycond
 tags: []

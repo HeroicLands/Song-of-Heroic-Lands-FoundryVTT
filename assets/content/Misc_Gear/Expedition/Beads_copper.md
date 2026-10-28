@@ -1,6 +1,6 @@
 ---
 shortcode: beadscoppe
-name: {full: "Beads, copper", aliases: []}
+name: {full: "Beads, copper"}
 type: miscgear
 description: "Cast copper beads; common trade items and clothing decorations for many cultures."
 tags: [expedition]

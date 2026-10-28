@@ -1,6 +1,6 @@
 ---
 shortcode: stlth
-name: {full: Stealth, aliases: []}
+name: {full: Stealth}
 type: skill
 subType: physical
 description: "Moving unseen through shadows, cover, and ambient noise for avoidance."

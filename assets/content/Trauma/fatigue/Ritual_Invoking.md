@@ -1,6 +1,6 @@
 ---
 shortcode: invk
-name: {full: Ritual Invoking, aliases: []}
+name: {full: Ritual Invoking}
 type: trauma
 subType: fatigue
 description: "Acute windedness from channeling power through ritual invocation."

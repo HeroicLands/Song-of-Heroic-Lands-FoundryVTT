@@ -1,6 +1,6 @@
 ---
 shortcode: plums
-name: {full: Plums, aliases: []}
+name: {full: Plums}
 type: miscgear
 description: "Late-summer dried fruit, chewy nuggets sustaining soldiers through cold winter."
 tags: [food]

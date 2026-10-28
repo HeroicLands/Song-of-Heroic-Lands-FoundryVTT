@@ -1,6 +1,6 @@
 ---
 shortcode: slkapn
-name: {full: Silk Apron, aliases: []}
+name: {full: Silk Apron}
 type: armorgear
 description: "Soft silk apron for formal settings; luxurious but delicate."
 tags: []

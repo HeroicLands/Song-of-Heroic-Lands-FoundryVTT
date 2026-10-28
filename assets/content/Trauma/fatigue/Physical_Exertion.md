@@ -1,6 +1,6 @@
 ---
 shortcode: physex
-name: {full: Physical Exertion, aliases: []}
+name: {full: Physical Exertion}
 type: trauma
 subType: fatigue
 description: "Acute windedness from sustained physical exertion."

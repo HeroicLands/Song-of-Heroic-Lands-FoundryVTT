@@ -1,6 +1,6 @@
 ---
 shortcode: lleg
-name: {full: Linen Leggings, aliases: []}
+name: {full: Linen Leggings}
 type: armorgear
 description: "Light breathable leg coverings for warm climates and outdoor activities."
 tags: []

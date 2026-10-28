@@ -1,6 +1,6 @@
 ---
 shortcode: bmntl
-name: {full: Buckram Mantle, aliases: []}
+name: {full: Buckram Mantle}
 type: armorgear
 description: "Stiff buckram mantle providing durability and reliable rigid cloaking."
 tags: []

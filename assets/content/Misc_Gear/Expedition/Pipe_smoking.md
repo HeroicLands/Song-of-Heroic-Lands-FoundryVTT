@@ -1,6 +1,6 @@
 ---
 shortcode: pipesmokin
-name: {full: "Pipe, smoking", aliases: []}
+name: {full: "Pipe, smoking"}
 type: miscgear
 description: "Fruitwood or horn pipe for tobacco; carved for nobles, plain for soldiers."
 tags: [expedition]

@@ -1,6 +1,6 @@
 ---
 shortcode: tentmilita
-name: {full: "Tent, Military", aliases: []}
+name: {full: "Tent, Military"}
 type: miscgear
 description: "Rectangular pavilion for squads or command posts; requires wagon to haul."
 tags: [expedition]

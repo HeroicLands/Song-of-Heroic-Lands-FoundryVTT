@@ -1,6 +1,6 @@
 ---
 shortcode: astr
-name: {full: Astrology, aliases: []}
+name: {full: Astrology}
 type: mysticalability
 subType: divination
 description: "Charting the heavens to read the influences bearing on a life or a venture."

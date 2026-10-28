@@ -1,6 +1,6 @@
 ---
 shortcode: beltwaist
-name: {full: "Belt, Waist", aliases: []}
+name: {full: "Belt, Waist"}
 type: miscgear
 description: "Leather waist belt with buckle; universal for suspending pouches, tools, and weapons."
 tags: [expedition]

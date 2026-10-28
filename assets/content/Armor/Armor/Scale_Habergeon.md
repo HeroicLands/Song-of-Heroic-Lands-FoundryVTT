@@ -1,6 +1,6 @@
 ---
 shortcode: shabg
-name: {full: Scale Habergeon, aliases: []}
+name: {full: Scale Habergeon}
 type: armorgear
 description: "Scaled sleeveless jerkin; overlapping metal scales without sleeves."
 tags: []

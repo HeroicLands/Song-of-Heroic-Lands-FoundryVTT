@@ -1,6 +1,6 @@
 ---
 shortcode: lgdm
-name: {full: Legerdemain, aliases: []}
+name: {full: Legerdemain}
 type: skill
 subType: physical
 description: "Sleight of hand, purse-cutting, juggling; intricate manual dexterity."

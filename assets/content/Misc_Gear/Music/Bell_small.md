@@ -1,6 +1,6 @@
 ---
 shortcode: bellsmall
-name: {full: "Bell, small", aliases: []}
+name: {full: "Bell, small"}
 type: miscgear
 description: "Modest bronze-iron bell with handle; lighter, sharper than hand bell; livestock tracking."
 tags: [music]

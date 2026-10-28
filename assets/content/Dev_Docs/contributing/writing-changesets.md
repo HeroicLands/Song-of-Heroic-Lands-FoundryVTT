@@ -1,6 +1,6 @@
 ---
 shortcode: writingchangesets
-name: {full: Writing Changesets, aliases: []}
+name: {full: Writing Changesets}
 type: doc
 subType: howto
 description: "Record a change for the changelog and release notes."

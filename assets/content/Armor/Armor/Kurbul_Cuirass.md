@@ -1,6 +1,6 @@
 ---
 shortcode: kcui
-name: {full: Kûrbúl Cuirass, aliases: []}
+name: {full: Kûrbúl Cuirass}
 type: armorgear
 description: "Specially treated leather torso armor for those prioritizing agility."
 tags: []

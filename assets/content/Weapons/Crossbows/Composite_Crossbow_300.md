@@ -1,6 +1,6 @@
 ---
 shortcode: ccxbw300
-name: {full: Composite Crossbow 300, aliases: []}
+name: {full: Composite Crossbow 300}
 type: weapongear
 description: "Three-hundred pound windlass-spanned arbalest; wall-breach devastating volley."
 tags: []

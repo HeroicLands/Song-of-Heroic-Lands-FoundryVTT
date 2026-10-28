@@ -1,6 +1,6 @@
 ---
 shortcode: grimoire
-name: {full: Grimoire, aliases: []}
+name: {full: Grimoire}
 type: miscgear
 description: "Leather-bound vellum tome for spells, catalogs, heraldry, scripture."
 tags: [scribe]

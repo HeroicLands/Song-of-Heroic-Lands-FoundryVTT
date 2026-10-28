@@ -1,6 +1,6 @@
 ---
 shortcode: sackwcmd
-name: {full: "Sack, waxed canvas, med", aliases: []}
+name: {full: "Sack, waxed canvas, med"}
 type: containergear
 description: "Moderate waxed canvas sack; keeps the wet out."
 tags: []

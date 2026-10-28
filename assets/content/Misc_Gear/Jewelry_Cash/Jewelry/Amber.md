@@ -1,6 +1,6 @@
 ---
 shortcode: amber
-name: {full: Amber, aliases: []}
+name: {full: Amber}
 type: miscgear
 description: "Fossilized golden resin; craftspeople carve or polish into beads and ornaments."
 tags: [jewelry_cash]

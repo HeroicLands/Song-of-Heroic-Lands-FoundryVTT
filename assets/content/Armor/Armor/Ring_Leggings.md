@@ -1,6 +1,6 @@
 ---
 shortcode: rnleg
-name: {full: Ring Leggings, aliases: []}
+name: {full: Ring Leggings}
 type: armorgear
 description: "Leather leggings studded with rings; thigh and shin protection."
 tags: []

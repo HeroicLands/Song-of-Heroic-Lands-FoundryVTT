@@ -1,6 +1,6 @@
 ---
 shortcode: shock
-name: {full: Shock, aliases: []}
+name: {full: Shock}
 type: doc
 subType: rules
 tags: [rules-trauma, rules-trauma-body-sections]

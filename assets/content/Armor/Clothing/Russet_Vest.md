@@ -1,6 +1,6 @@
 ---
 shortcode: rvest
-name: {full: Russet Vest, aliases: []}
+name: {full: Russet Vest}
 type: armorgear
 description: "Reddish-brown wool vest; sleeveless torso warmth."
 tags: []

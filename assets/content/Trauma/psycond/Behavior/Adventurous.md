@@ -1,6 +1,6 @@
 ---
 shortcode: advs
-name: {full: Adventurous, aliases: []}
+name: {full: Adventurous}
 type: trauma
 subType: psycond
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: paintperga
-name: {full: "Paint, per gallon", aliases: []}
+name: {full: "Paint, per gallon"}
 type: miscgear
 description: "Pigmented oil or lime-wash for painters and masons; premium colors cost more."
 tags: [expedition]

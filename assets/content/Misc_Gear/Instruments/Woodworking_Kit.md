@@ -1,6 +1,6 @@
 ---
 shortcode: woodwrkkit
-name: {full: Woodworking Kit, aliases: []}
+name: {full: Woodworking Kit}
 type: miscgear
 description: "Soft leather roll with whittling blades, gouges, chisels, file, mallet; carvers."
 tags: [instruments]

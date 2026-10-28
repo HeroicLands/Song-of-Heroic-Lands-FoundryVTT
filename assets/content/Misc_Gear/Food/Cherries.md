@@ -1,6 +1,6 @@
 ---
 shortcode: cherries
-name: {full: Cherries, aliases: []}
+name: {full: Cherries}
 type: miscgear
 description: "Tart dried cherries from summer harvest; flavor game, sweeten puddings."
 tags: [food]

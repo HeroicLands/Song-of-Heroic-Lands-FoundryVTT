@@ -1,6 +1,6 @@
 ---
 shortcode: pancopperl
-name: {full: "Pan, copper, large", aliases: []}
+name: {full: "Pan, copper, large"}
 type: miscgear
 description: "Wide tinned copper pan with iron handle; fries and sautés multiple portions."
 tags: [cooking]

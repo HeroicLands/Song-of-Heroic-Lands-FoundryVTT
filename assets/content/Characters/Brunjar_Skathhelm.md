@@ -1,6 +1,6 @@
 ---
 shortcode: brunjarskathhel
-name: {full: Brunjár Skathhelm, given: Brunjár, clan: Skathhelm, aliases: []}
+name: {full: Brunjár Skathhelm, given: Brunjár, clan: Skathhelm}
 type: being
 subType: character
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: bottlecer2pt
-name: {full: "Bottle, ceramic, 2 pints", aliases: []}
+name: {full: "Bottle, ceramic, 2 pints"}
 type: containergear
 description: "Stoneware bottle with a corked neck; travels better than glass (2 pints)."
 tags: []

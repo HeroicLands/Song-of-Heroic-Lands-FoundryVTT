@@ -1,6 +1,6 @@
 ---
 shortcode: beanscrate
-name: {full: "Beans, crate", aliases: []}
+name: {full: "Beans, crate"}
 type: miscgear
 description: "Dried beans in bushel crate; reliable protein, keep for years dry."
 tags: [food]

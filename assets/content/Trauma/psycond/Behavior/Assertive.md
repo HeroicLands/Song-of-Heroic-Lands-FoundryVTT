@@ -1,6 +1,6 @@
 ---
 shortcode: assrtv
-name: {full: Assertive, aliases: []}
+name: {full: Assertive}
 type: trauma
 subType: psycond
 tags: []

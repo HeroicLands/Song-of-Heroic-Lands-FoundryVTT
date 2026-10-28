@@ -1,6 +1,6 @@
 ---
 shortcode: wtr1pt
-name: {full: "Water, 1pt.", aliases: []}
+name: {full: "Water, 1pt."}
 type: miscgear
 description: "Fresh-drawn well water, sustains traveler for light day, precious rationed."
 tags: [food]

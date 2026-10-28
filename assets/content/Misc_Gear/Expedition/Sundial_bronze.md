@@ -1,6 +1,6 @@
 ---
 shortcode: sundialbro
-name: {full: "Sundial, bronze", aliases: []}
+name: {full: "Sundial, bronze"}
 type: miscgear
 description: "Brass-mounted bronze dial; marks hours on clear days when set true."
 tags: [expedition]

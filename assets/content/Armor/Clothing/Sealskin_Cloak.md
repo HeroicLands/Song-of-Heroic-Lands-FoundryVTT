@@ -1,6 +1,6 @@
 ---
 shortcode: slscloak
-name: {full: Sealskin Cloak, aliases: []}
+name: {full: Sealskin Cloak}
 type: armorgear
 description: "Waterproof seal-fur cloak; harsh-weather outer garment for seafarers."
 tags: []

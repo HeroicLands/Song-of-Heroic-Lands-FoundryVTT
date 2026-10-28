@@ -1,6 +1,6 @@
 ---
 shortcode: securitymodel
-name: {full: Security Model & Guardrails, aliases: []}
+name: {full: Security Model & Guardrails}
 type: doc
 subType: concept
 description: "The threat model and the standing rules every change must respect."

@@ -1,6 +1,6 @@
 ---
 shortcode: rope2hempp
-name: {full: "Rope, 2” hemp, per ft (3,875 lb cap.)", aliases: []}
+name: {full: "Rope, 2” hemp, per ft (3,875 lb cap.)"}
 type: miscgear
 description: "Heavy three-strand hemp cable for oxen hauling and ship mainmast rigging."
 tags: [expedition]

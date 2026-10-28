@@ -1,6 +1,6 @@
 ---
 shortcode: herring
-name: {full: Herring, aliases: []}
+name: {full: Herring}
 type: miscgear
 description: "Small oil-rich fish; smoked or salt-packed, heavily salted lasts indefinitely."
 tags: [food]

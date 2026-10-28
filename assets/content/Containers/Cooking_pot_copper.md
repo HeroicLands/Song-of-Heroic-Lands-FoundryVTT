@@ -1,6 +1,6 @@
 ---
 shortcode: cookingpot
-name: {full: "Cooking pot, copper", aliases: []}
+name: {full: "Cooking pot, copper"}
 type: containergear
 description: "Tinned-copper pot with lid for simmering without metallic taste."
 tags: []

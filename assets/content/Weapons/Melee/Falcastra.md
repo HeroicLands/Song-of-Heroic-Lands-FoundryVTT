@@ -1,6 +1,6 @@
 ---
 shortcode: falcstra
-name: {full: Falcastra, aliases: []}
+name: {full: Falcastra}
 type: weapongear
 description: "Curved-blade polearm for shield-wall sweeping; foot soldier's reach."
 tags: []

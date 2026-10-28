@@ -1,6 +1,6 @@
 ---
 shortcode: mlshirt
-name: {full: Mail Longshirt, aliases: []}
+name: {full: Mail Longshirt}
 type: armorgear
 description: "Metal ring torso and upper arm garment providing substantial protection."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: syndacty
-name: {full: Syndactyly, aliases: []}
+name: {full: Syndactyly}
 type: trauma
 subType: physcond
 tags: []

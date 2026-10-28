@@ -1,6 +1,6 @@
 ---
 shortcode: fight
-name: {full: Melee Fighting, aliases: []}
+name: {full: Melee Fighting}
 type: trauma
 subType: fatigue
 description: "Acute windedness from armed close combat."

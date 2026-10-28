@@ -1,6 +1,6 @@
 ---
 shortcode: sprt
-name: {full: Spirit, aliases: []}
+name: {full: Spirit}
 type: mysticalability
 subType: spiritaction
 description: "A discrete act carried out through an allied spirit, governed by its Spirit Power."

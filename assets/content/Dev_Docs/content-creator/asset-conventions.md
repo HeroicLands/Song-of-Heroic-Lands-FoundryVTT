@@ -1,6 +1,6 @@
 ---
 shortcode: assetconventions
-name: {full: Asset Conventions, aliases: []}
+name: {full: Asset Conventions}
 type: doc
 subType: reference
 description: "Where art files live, how a note addresses one, image and SVG standards, and default item art."

@@ -1,6 +1,6 @@
 ---
 shortcode: ambx
-name: {full: Ambitious, aliases: []}
+name: {full: Ambitious}
 type: trauma
 subType: psycond
 tags: []

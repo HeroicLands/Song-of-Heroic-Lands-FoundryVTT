@@ -1,6 +1,6 @@
 ---
 shortcode: muteness
-name: {full: Muteness, aliases: []}
+name: {full: Muteness}
 type: trauma
 subType: physcond
 tags: []

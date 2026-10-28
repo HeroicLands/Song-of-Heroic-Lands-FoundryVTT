@@ -1,6 +1,6 @@
 ---
 shortcode: ltshoe
-name: {full: Leather Shoes, aliases: []}
+name: {full: Leather Shoes}
 type: armorgear
 description: "Comfortable lightweight leather foot covering for everyday wear or light adventuring."
 tags: []

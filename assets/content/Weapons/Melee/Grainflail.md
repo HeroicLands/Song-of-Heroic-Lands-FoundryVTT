@@ -1,6 +1,6 @@
 ---
 shortcode: grnfl
-name: {full: Grainflail, aliases: []}
+name: {full: Grainflail}
 type: weapongear
 description: "Threshing-floor flail for rapid unpredictable arc; militia's accessible reach."
 tags: []

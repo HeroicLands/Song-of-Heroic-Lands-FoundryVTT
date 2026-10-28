@@ -1,6 +1,6 @@
 ---
 shortcode: spigot
-name: {full: Spigot, aliases: []}
+name: {full: Spigot}
 type: miscgear
 description: "Wooden or bronze spigot for controlling flow from barrel or large vessel."
 tags: [cooking]

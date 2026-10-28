@@ -1,6 +1,6 @@
 ---
 shortcode: diligent
-name: {full: Diligent, aliases: []}
+name: {full: Diligent}
 type: trauma
 subType: psycond
 tags: []

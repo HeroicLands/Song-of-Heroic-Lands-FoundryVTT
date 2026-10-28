@@ -1,6 +1,6 @@
 ---
 shortcode: sslbyrn
-name: {full: Scale Sleeved Byrnie, aliases: []}
+name: {full: Scale Sleeved Byrnie}
 type: armorgear
 description: "Scale-armored torso and arms; sleeves add shoulder and arm coverage."
 tags: []

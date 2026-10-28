@@ -1,6 +1,6 @@
 ---
 shortcode: awar
-name: {full: Awareness, aliases: []}
+name: {full: Awareness}
 type: skill
 subType: physical
 description: "Detecting movement, glint of metal, scents; opposing Stealth in vigilance."

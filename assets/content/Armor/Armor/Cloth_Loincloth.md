@@ -1,6 +1,6 @@
 ---
 shortcode: cloin
-name: {full: Cloth Loincloth, aliases: []}
+name: {full: Cloth Loincloth}
 type: armorgear
 description: "Soft cloth loincloth offering basic coverage and casual comfort."
 tags: []

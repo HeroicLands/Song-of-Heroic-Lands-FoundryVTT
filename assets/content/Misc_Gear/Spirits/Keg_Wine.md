@@ -1,6 +1,6 @@
 ---
 shortcode: winekeg
-name: {full: Keg Wine, aliases: []}
+name: {full: Keg Wine}
 type: miscgear
 description: "Common wine keg; cheaper than aged; served at feasts and better tables."
 tags: [spirits]

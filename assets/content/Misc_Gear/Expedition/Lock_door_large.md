@@ -1,6 +1,6 @@
 ---
 shortcode: lockdoorla
-name: {full: "Lock, door, large", aliases: []}
+name: {full: "Lock, door, large"}
 type: miscgear
 description: "Standard iron deadbolt with careful wards; main doors of halls and townhouses."
 tags: [expedition]

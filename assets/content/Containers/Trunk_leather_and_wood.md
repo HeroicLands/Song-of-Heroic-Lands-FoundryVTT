@@ -1,6 +1,6 @@
 ---
 shortcode: trunklw
-name: {full: "Trunk, leather & wood", aliases: []}
+name: {full: "Trunk, leather & wood"}
 type: containergear
 description: "Leather-covered wooden travelling trunk."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: bvcap
-name: {full: Beaver Cap, aliases: []}
+name: {full: Beaver Cap}
 type: armorgear
 description: "Beaver fur cap offering warmth and luxury for high-status individuals."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: milksheep
-name: {full: "Milk, sheep", aliases: []}
+name: {full: "Milk, sheep"}
 type: miscgear
 description: "Silky dairy yielding fine cheese treasured in southern markets and temples."
 tags: [food]

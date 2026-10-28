@@ -1,6 +1,6 @@
 ---
 shortcode: cstnc
-name: {full: Cloth Sleeved Tunic, aliases: []}
+name: {full: Cloth Sleeved Tunic}
 type: armorgear
 description: "Simple cloth tunic offering comfort and everyday coverage."
 tags: []

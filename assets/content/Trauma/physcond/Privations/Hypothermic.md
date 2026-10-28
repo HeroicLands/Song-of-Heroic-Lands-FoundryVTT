@@ -1,6 +1,6 @@
 ---
 shortcode: hypth
-name: {full: Hypothermic, aliases: []}
+name: {full: Hypothermic}
 type: trauma
 subType: physcond
 description: "Core body temperature drops; shivering, slurred speech, stupor, death."

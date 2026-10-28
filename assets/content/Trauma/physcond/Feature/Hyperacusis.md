@@ -1,6 +1,6 @@
 ---
 shortcode: hyprcss
-name: {full: Hyperacusis, aliases: []}
+name: {full: Hyperacusis}
 type: trauma
 subType: physcond
 tags: []

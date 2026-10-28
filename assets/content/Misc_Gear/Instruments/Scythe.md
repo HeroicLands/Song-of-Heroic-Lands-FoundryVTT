@@ -1,6 +1,6 @@
 ---
 shortcode: scythe
-name: {full: "Scythe", aliases: []}
+name: {full: "Scythe"}
 type: miscgear
 description: "Long curved blade on a bent haft for mowing hay and standing grain."
 tags: [instruments]

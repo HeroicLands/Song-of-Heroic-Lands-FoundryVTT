@@ -1,6 +1,6 @@
 ---
 shortcode: tackkit
-name: {full: Tack & Grooming Kit, aliases: []}
+name: {full: Tack & Grooming Kit}
 type: miscgear
 description: "Leather satchel with currycomb, brushes, hoof pick, bridle awl, strap stock, oil; mount care and tack repair."
 tags: [instruments]

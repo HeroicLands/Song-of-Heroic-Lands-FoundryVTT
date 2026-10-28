@@ -1,6 +1,6 @@
 ---
 shortcode: hsleg
-name: {full: Homespun Leggings, aliases: []}
+name: {full: Homespun Leggings}
 type: armorgear
 description: "Simple homemade leggings offering coverage and warmth."
 tags: []

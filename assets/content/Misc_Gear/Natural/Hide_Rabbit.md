@@ -1,6 +1,6 @@
 ---
 shortcode: hiderabbit
-name: {full: "Hide, Rabbit", aliases: []}
+name: {full: "Hide, Rabbit"}
 type: miscgear
 description: "Tiny soft fur pelt; lined winter hoods and muffs by furriers. Price is for one whole skin."
 tags: [natural]

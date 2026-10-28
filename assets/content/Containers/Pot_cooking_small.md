@@ -1,6 +1,6 @@
 ---
 shortcode: potcooking2
-name: {full: "Pot, cooking, small", aliases: []}
+name: {full: "Pot, cooking, small"}
 type: containergear
 description: "Compact iron cookpot for travelers or small household portions."
 tags: []

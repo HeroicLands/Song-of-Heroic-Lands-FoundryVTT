@@ -1,6 +1,6 @@
 ---
 shortcode: fishinglin
-name: {full: "Fishing Line, per 10 ft.", aliases: []}
+name: {full: "Fishing Line, per 10 ft."}
 type: miscgear
 description: "Waxed linen or gut-spun cord; fine enough for wary fish and sturdy."
 tags: [expedition]

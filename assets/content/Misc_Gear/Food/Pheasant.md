@@ -1,6 +1,6 @@
 ---
 shortcode: pheasant
-name: {full: Pheasant, aliases: []}
+name: {full: Pheasant}
 type: miscgear
 description: "Prized game bird, delicate meat roasts well, smokes into jerky."
 tags: [food]

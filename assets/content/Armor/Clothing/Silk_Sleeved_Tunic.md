@@ -1,6 +1,6 @@
 ---
 shortcode: slkstnc
-name: {full: Silk Sleeved Tunic, aliases: []}
+name: {full: Silk Sleeved Tunic}
 type: armorgear
 description: "Elegant flowing silk sleeved tunic; perfect for formal occasions."
 tags: []

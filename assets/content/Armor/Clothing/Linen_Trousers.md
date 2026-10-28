@@ -1,6 +1,6 @@
 ---
 shortcode: ltrsr
-name: {full: Linen Trousers, aliases: []}
+name: {full: Linen Trousers}
 type: armorgear
 description: "Light breathable leg coverings ideal for warm weather comfort."
 tags: []

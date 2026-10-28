@@ -1,6 +1,6 @@
 ---
 shortcode: vtunic
-name: {full: Velvet Tunic, aliases: []}
+name: {full: Velvet Tunic}
 type: armorgear
 description: "Soft plush velvet tunic; symbol of opulence for formal occasions."
 tags: []

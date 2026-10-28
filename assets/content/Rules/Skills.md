@@ -1,6 +1,6 @@
 ---
 shortcode: skills
-name: {full: Skills Introduction, aliases: []}
+name: {full: Skills Introduction}
 type: doc
 subType: rules
 tags: [rules-skills]

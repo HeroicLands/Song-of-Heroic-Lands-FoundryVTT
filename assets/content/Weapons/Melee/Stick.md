@@ -1,6 +1,6 @@
 ---
 shortcode: stk
-name: {full: Stick, aliases: []}
+name: {full: Stick}
 type: weapongear
 description: "Plain ashwood walking-staff pressed into service by travelers in scuffle."
 tags: []

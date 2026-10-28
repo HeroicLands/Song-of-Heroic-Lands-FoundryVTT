@@ -1,6 +1,6 @@
 ---
 shortcode: cnfrmst
-name: {full: Conformist, aliases: []}
+name: {full: Conformist}
 type: trauma
 subType: psycond
 tags: []

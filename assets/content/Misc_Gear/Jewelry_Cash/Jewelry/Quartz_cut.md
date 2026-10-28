@@ -1,6 +1,6 @@
 ---
 shortcode: quartzcut
-name: {full: "Quartz, cut", aliases: []}
+name: {full: "Quartz, cut"}
 type: miscgear
 description: "Clear crystalline gem; affordable and common; catches light creating bright glimmer."
 tags: [jewelry_cash]

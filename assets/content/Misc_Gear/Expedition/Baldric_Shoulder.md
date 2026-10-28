@@ -1,6 +1,6 @@
 ---
 shortcode: baldricsho
-name: {full: "Baldric, Shoulder", aliases: []}
+name: {full: "Baldric, Shoulder"}
 type: miscgear
 description: "Wide leather strap with brass rings worn diagonally across chest and shoulder."
 tags: [expedition]

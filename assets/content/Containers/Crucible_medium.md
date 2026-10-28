@@ -1,6 +1,6 @@
 ---
 shortcode: cruciblemd
-name: {full: "Crucible, medium", aliases: []}
+name: {full: "Crucible, medium"}
 type: containergear
 description: "Moderate thin-walled ceramic crucible."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: ringgold
-name: {full: "Ring, gold", aliases: []}
+name: {full: "Ring, gold"}
 type: miscgear
 description: "Half an ounce of soft gold, sized to a finger; a purse that cannot be cut away."
 tags: [jewelry_cash]

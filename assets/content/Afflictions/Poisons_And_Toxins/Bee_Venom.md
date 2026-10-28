@@ -1,6 +1,6 @@
 ---
 shortcode: beevnm
-name: {full: Bee Venom, aliases: []}
+name: {full: Bee Venom}
 type: affliction
 subType: poisontoxin
 description: "Melittin; localized pain and swelling; systemic anaphylaxis in allergic individuals."

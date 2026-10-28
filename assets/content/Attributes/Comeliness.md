@@ -1,6 +1,6 @@
 ---
 shortcode: cml
-name: {full: Comeliness, aliases: []}
+name: {full: Comeliness}
 type: attribute
 description: "How far a person's physical form pleases the eye."
 tags: []

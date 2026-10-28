@@ -1,6 +1,6 @@
 ---
 shortcode: pcuis
-name: {full: Padded Cuisse, aliases: []}
+name: {full: Padded Cuisse}
 type: armorgear
 description: "Cushioned thigh protection ideal for wear under heavier armor."
 tags: []

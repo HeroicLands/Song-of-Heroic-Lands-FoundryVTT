@@ -1,6 +1,6 @@
 ---
 shortcode: mglphb
-name: {full: Megalophobia, aliases: []}
+name: {full: Megalophobia}
 type: trauma
 subType: fear
 tags: []

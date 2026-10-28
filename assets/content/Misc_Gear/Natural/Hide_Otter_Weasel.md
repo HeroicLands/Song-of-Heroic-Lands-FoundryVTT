@@ -1,6 +1,6 @@
 ---
 shortcode: hideotterw
-name: {full: "Hide, Otter/Weasel", aliases: []}
+name: {full: "Hide, Otter/Weasel"}
 type: miscgear
 description: "Riverland otter-weasel pelt; dense guard hair sheds water; lining and collar facing. Price is for one whole skin."
 tags: [natural]

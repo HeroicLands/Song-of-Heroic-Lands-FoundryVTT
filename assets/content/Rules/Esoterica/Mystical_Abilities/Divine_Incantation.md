@@ -1,6 +1,6 @@
 ---
 shortcode: dvnincnt
-name: {full: Divine Incantation, aliases: []}
+name: {full: Divine Incantation}
 type: doc
 subType: rules
 tags: [rules-esoterica, rules-esoterica-mystical-abilities-divine-mysteries]

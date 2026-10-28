@@ -1,6 +1,6 @@
 ---
 shortcode: ltmntl
-name: {full: Leather Mantle, aliases: []}
+name: {full: Leather Mantle}
 type: armorgear
 description: "Rugged leather outer garment protecting against elements for travelers."
 tags: []

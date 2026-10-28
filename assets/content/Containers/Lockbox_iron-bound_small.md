@@ -1,6 +1,6 @@
 ---
 shortcode: lockboxibsm
-name: {full: "Lockbox, iron-bound, small", aliases: []}
+name: {full: "Lockbox, iron-bound, small"}
 type: containergear
 description: "Small iron-bound strongbox with a key lock."
 tags: []

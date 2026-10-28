@@ -1,6 +1,6 @@
 ---
 shortcode: swan
-name: {full: Swan, aliases: []}
+name: {full: Swan}
 type: miscgear
 description: "Dark gamey waterfowl meat, reserved for noble tables, substantial yield."
 tags: [food]

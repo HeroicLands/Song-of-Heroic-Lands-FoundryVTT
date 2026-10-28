@@ -1,6 +1,6 @@
 ---
 shortcode: ringbone
-name: {full: "Ring, bone", aliases: []}
+name: {full: "Ring, bone"}
 type: miscgear
 description: "A band for the finger, plain or chased, in carved bone."
 tags: [jewelry_cash]

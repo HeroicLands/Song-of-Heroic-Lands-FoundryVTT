@@ -1,6 +1,6 @@
 ---
 shortcode: angerchr
-name: {full: Chronic Anger, aliases: []}
+name: {full: Chronic Anger}
 type: trauma
 subType: psycond
 tags: []

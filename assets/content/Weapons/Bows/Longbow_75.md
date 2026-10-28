@@ -1,6 +1,6 @@
 ---
 shortcode: lbw75
-name: {full: Longbow 75, aliases: []}
+name: {full: Longbow 75}
 type: weapongear
 description: "Seventy-five pound village hunter's reliable bow; skirmish-worthy."
 tags: []

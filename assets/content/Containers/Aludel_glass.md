@@ -1,6 +1,6 @@
 ---
 shortcode: aludelgl
-name: {full: "Aludel, glass", aliases: []}
+name: {full: "Aludel, glass"}
 type: containergear
 description: "Glass sublimation vessel, pear-shaped."
 tags: []

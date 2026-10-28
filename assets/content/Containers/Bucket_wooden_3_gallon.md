@@ -1,6 +1,6 @@
 ---
 shortcode: bucketwood3
-name: {full: "Bucket, wooden, 3 gallon", aliases: []}
+name: {full: "Bucket, wooden, 3 gallon"}
 type: containergear
 description: "Coopered wooden bucket with an iron bail (3 gallons)."
 tags: []

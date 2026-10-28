@@ -1,6 +1,6 @@
 ---
 shortcode: chestwdlg
-name: {full: "Chest, wooden, large", aliases: []}
+name: {full: "Chest, wooden, large"}
 type: containergear
 description: "Large joined wooden chest."
 tags: []

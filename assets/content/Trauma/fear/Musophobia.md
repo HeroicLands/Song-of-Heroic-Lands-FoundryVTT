@@ -1,6 +1,6 @@
 ---
 shortcode: musophb
-name: {full: Musophobia, aliases: []}
+name: {full: Musophobia}
 type: trauma
 subType: fear
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: morale
-name: {full: Morale, aliases: []}
+name: {full: Morale}
 type: doc
 subType: rules
 tags: [rules-trauma, rules-trauma-mind-sections]

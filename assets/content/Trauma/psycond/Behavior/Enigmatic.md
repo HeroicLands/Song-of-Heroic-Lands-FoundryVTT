@@ -1,6 +1,6 @@
 ---
 shortcode: engmtc
-name: {full: Enigmatic, aliases: []}
+name: {full: Enigmatic}
 type: trauma
 subType: psycond
 tags: []

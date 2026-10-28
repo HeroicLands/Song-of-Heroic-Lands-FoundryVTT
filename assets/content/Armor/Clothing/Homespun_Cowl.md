@@ -1,6 +1,6 @@
 ---
 shortcode: hscowl
-name: {full: Homespun Cowl, aliases: []}
+name: {full: Homespun Cowl}
 type: armorgear
 description: "Simple homemade cowl offering warmth and basic protection."
 tags: []

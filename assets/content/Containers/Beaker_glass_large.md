@@ -1,6 +1,6 @@
 ---
 shortcode: beakergllg
-name: {full: "Beaker, glass, large", aliases: []}
+name: {full: "Beaker, glass, large"}
 type: containergear
 description: "Large open glass beaker."
 tags: []

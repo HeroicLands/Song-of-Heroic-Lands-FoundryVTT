@@ -1,6 +1,6 @@
 ---
 shortcode: thro
-name: {full: Throwing, aliases: []}
+name: {full: Throwing}
 type: skill
 subType: combat
 description: "Hurling daggers, axes, javelins, and projectiles with accuracy and force."

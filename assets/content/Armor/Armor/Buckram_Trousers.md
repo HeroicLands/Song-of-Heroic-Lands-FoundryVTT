@@ -1,6 +1,6 @@
 ---
 shortcode: btrsr
-name: {full: Buckram Trousers, aliases: []}
+name: {full: Buckram Trousers}
 type: armorgear
 description: "Stiff buckram trousers providing durability and dependable rigid fit."
 tags: []

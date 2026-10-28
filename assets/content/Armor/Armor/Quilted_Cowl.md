@@ -1,6 +1,6 @@
 ---
 shortcode: qcwl
-name: {full: Quilted Cowl, aliases: []}
+name: {full: Quilted Cowl}
 type: armorgear
 description: "Padded head-and-shoulder cover; light-duty warmth."
 tags: []

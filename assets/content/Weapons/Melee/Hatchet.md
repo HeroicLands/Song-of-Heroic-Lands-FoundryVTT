@@ -1,6 +1,6 @@
 ---
 shortcode: hcht
-name: {full: Hatchet, aliases: []}
+name: {full: Hatchet}
 type: weapongear
 description: "Light tool-blade for kindling and ambush; road's most common sidearm."
 tags: []

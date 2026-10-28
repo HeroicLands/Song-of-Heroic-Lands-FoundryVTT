@@ -1,6 +1,6 @@
 ---
 shortcode: bvtrsr
-name: {full: Beaver Trousers, aliases: []}
+name: {full: Beaver Trousers}
 type: armorgear
 description: "Beaver fur leg-wear for hard winters."
 tags: []

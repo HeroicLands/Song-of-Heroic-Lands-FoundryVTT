@@ -1,6 +1,6 @@
 ---
 shortcode: ltrobe
-name: {full: Leather Robe, aliases: []}
+name: {full: Leather Robe}
 type: armorgear
 description: "Rugged outer garment of treated leather for adventurers and wanderers."
 tags: []

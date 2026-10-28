@@ -1,6 +1,6 @@
 ---
 shortcode: deafness
-name: {full: Deafness, aliases: []}
+name: {full: Deafness}
 type: trauma
 subType: physcond
 tags: []

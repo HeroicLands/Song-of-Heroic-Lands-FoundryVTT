@@ -1,6 +1,6 @@
 ---
 shortcode: automatedcombattour
-name: {full: Automated Combat Tour, aliases: []}
+name: {full: Automated Combat Tour}
 type: doc
 subType: reference
 description: "The two-exchange Automated Combat walkthrough and its deterministic fixture contract."

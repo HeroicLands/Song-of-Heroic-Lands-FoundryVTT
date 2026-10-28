@@ -1,6 +1,6 @@
 ---
 shortcode: perfumetypical
-name: {full: "Perfume, typical", aliases: []}
+name: {full: "Perfume, typical"}
 type: miscgear
 description: "Competently blended scent that lasts an evening."
 tags: [expedition]

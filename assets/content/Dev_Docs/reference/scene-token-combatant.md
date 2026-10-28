@@ -1,6 +1,6 @@
 ---
 shortcode: scenetokencombatant
-name: {full: "Scene, Token, and Combatant Systems", aliases: []}
+name: {full: "Scene, Token, and Combatant Systems"}
 type: doc
 subType: reference
 tags: [dev-reference]

@@ -1,6 +1,6 @@
 ---
 shortcode: qcap
-name: {full: Quilted Cap, aliases: []}
+name: {full: Quilted Cap}
 type: armorgear
 description: "Layered-fabric head-cover; light insulation for mild cold."
 tags: []

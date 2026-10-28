@@ -1,6 +1,6 @@
 ---
 shortcode: hidedeer
-name: {full: "Hide, Deer", aliases: []}
+name: {full: "Hide, Deer"}
 type: miscgear
 description: "Light supple deer hide; used for chamois, fine gloves, soft linings. Price is for one whole skin."
 tags: [natural]

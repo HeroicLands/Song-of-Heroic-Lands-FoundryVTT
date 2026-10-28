@@ -1,6 +1,6 @@
 ---
 shortcode: kni
-name: {full: Knife, aliases: []}
+name: {full: Knife}
 type: weapongear
 description: "Single-edged blade for camp work and brawl alike."
 tags: []

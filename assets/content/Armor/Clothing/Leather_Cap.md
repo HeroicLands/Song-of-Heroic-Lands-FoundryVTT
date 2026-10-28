@@ -1,6 +1,6 @@
 ---
 shortcode: ltcap
-name: {full: Leather Cap, aliases: []}
+name: {full: Leather Cap}
 type: armorgear
 description: "Simple lightweight leather cap offering basic elemental protection and rugged charm."
 tags: []

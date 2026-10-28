@@ -1,6 +1,6 @@
 ---
 shortcode: galeophb
-name: {full: Galeophobia, aliases: []}
+name: {full: Galeophobia}
 type: trauma
 subType: fear
 tags: []

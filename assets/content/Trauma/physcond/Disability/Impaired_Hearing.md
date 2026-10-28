@@ -1,6 +1,6 @@
 ---
 shortcode: impaired
-name: {full: Impaired Hearing, aliases: []}
+name: {full: Impaired Hearing}
 type: trauma
 subType: physcond
 tags: []

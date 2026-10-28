@@ -1,6 +1,6 @@
 ---
 shortcode: spitandsta
-name: {full: "Spit and Stand, iron", aliases: []}
+name: {full: "Spit and Stand, iron"}
 type: miscgear
 description: "Iron roasting spit on adjustable stand for campfire or hearth cooking."
 tags: [expedition]

@@ -1,6 +1,6 @@
 ---
 shortcode: scrying
-name: {full: Scrying, aliases: []}
+name: {full: Scrying}
 type: doc
 subType: rules
 tags: [rules-esoterica, rules-esoterica-mystical-abilities-divination-the-arts]

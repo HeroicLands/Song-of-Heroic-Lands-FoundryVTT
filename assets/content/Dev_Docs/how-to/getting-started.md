@@ -1,6 +1,6 @@
 ---
 shortcode: gettingstarted
-name: {full: Getting Started (New Developer Guide), aliases: []}
+name: {full: Getting Started (New Developer Guide)}
 type: doc
 subType: howto
 tags: [dev-how-to]

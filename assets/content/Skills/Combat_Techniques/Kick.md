@@ -1,6 +1,6 @@
 ---
 shortcode: bflkkick
-name: {full: Folk Kick, aliases: [Kick]}
+name: {full: Folk Kick, en: [Kick]}
 type: skill
 subType: combattechnique
 description: "A boot driven out — the longest reach a person has without a weapon."

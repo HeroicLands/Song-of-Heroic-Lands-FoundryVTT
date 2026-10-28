@@ -1,6 +1,6 @@
 ---
 shortcode: trunch
-name: {full: Truncheon, aliases: []}
+name: {full: Truncheon}
 type: weapongear
 description: "Wooden club; town watch tool enforcing order without obvious intent."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: lockpadloc2
-name: {full: "Lock, padlock", aliases: []}
+name: {full: "Lock, padlock"}
 type: miscgear
 description: "Small iron padlock with U-shackle for securing cargo and tent flaps."
 tags: [expedition]

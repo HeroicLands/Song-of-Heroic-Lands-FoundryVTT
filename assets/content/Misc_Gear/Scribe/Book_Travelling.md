@@ -1,6 +1,6 @@
 ---
 shortcode: booktrvl
-name: {full: "Book, Travelling", aliases: []}
+name: {full: "Book, Travelling"}
 type: miscgear
 description: "Wooden-bound parchment workbook; scribes, sages, herbalists carry afield."
 tags: [scribe]

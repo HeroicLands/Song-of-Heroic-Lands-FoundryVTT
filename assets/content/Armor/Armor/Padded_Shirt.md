@@ -1,6 +1,6 @@
 ---
 shortcode: psht
-name: {full: Padded Shirt, aliases: []}
+name: {full: Padded Shirt}
 type: armorgear
 description: "Cushioned torso covering for warmth and cold weather protection."
 tags: []

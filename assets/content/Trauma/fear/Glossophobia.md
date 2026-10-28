@@ -1,6 +1,6 @@
 ---
 shortcode: glssphb
-name: {full: Glossophobia, aliases: []}
+name: {full: Glossophobia}
 type: trauma
 subType: fear
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: strkmds
-name: {full: Strike Modes, aliases: []}
+name: {full: Strike Modes}
 type: doc
 subType: rules
 tags: [rules-combat, rules-combat-sections]

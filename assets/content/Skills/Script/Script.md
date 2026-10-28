@@ -1,6 +1,6 @@
 ---
 shortcode: script
-name: {full: Script, aliases: []}
+name: {full: Script}
 type: skill
 subType: script
 description: "Reading, writing, and interpreting text in specific writing systems."

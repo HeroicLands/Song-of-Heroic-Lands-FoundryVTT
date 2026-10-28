@@ -1,6 +1,6 @@
 ---
 shortcode: carpentryk
-name: {full: Carpentry Kit, aliases: []}
+name: {full: Carpentry Kit}
 type: miscgear
 description: "Journeyman's leather roll holding chisels, plane, saw, auger, rules."
 tags: [instruments]

@@ -1,6 +1,6 @@
 ---
 shortcode: qvest
-name: {full: Quilted Vest, aliases: []}
+name: {full: Quilted Vest}
 type: armorgear
 description: "Sleeveless padded vest; core warmth without arm-weight."
 tags: []

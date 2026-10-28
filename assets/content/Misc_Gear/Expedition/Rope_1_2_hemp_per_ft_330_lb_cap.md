@@ -1,6 +1,6 @@
 ---
 shortcode: rope12hemp
-name: {full: "Rope, ½” hemp, per ft (330 lb cap.)", aliases: []}
+name: {full: "Rope, ½” hemp, per ft (330 lb cap.)"}
 type: miscgear
 description: "Tarred hemp rope for shipboard, hoisting, and tethering pack animals."
 tags: [expedition]

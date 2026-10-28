@@ -1,6 +1,6 @@
 ---
 shortcode: broochhorn
-name: {full: "Brooch, horn", aliases: []}
+name: {full: "Brooch, horn"}
 type: miscgear
 description: "A pin and catch worked into a plate, worn to fasten a cloak at the shoulder, in carved horn."
 tags: [jewelry_cash]

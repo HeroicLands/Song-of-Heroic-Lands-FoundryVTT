@@ -1,6 +1,6 @@
 ---
 shortcode: hscap
-name: {full: Homespun Cap, aliases: []}
+name: {full: Homespun Cap}
 type: armorgear
 description: "Simple homemade cap offering warmth for common folk."
 tags: []

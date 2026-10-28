@@ -1,6 +1,6 @@
 ---
 shortcode: wheelbarrow
-name: {full: "Wheelbarrow", aliases: []}
+name: {full: "Wheelbarrow"}
 type: miscgear
 description: "Single-wheeled barrow for moving earth, stone, or dung by hand."
 tags: [tack]

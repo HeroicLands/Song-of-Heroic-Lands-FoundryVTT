@@ -1,6 +1,6 @@
 ---
 shortcode: wclk
-name: {full: Worsted Cloak, aliases: []}
+name: {full: Worsted Cloak}
 type: armorgear
 description: "Tightly-spun wool cloak; durable, practical garment for weather."
 tags: []

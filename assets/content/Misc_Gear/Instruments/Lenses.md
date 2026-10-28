@@ -1,6 +1,6 @@
 ---
 shortcode: lenses
-name: {full: "Lenses", aliases: []}
+name: {full: "Lenses"}
 type: miscgear
 description: "Ground and polished glass lenses for magnification; costly and fragile."
 tags: [instruments]

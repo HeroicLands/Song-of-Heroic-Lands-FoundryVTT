@@ -1,6 +1,6 @@
 ---
 shortcode: loyal
-name: {full: Loyal, aliases: []}
+name: {full: Loyal}
 type: trauma
 subType: psycond
 tags: []

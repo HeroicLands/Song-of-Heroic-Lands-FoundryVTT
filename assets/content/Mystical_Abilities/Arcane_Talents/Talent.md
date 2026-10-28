@@ -1,6 +1,6 @@
 ---
 shortcode: tlnt
-name: {full: Talent, aliases: []}
+name: {full: Talent}
 type: mysticalability
 subType: arcanetalent
 description: "An untaught arcane knack, invoked directly and free of the incantation penalty."

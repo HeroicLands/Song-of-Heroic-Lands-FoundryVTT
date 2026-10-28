@@ -1,6 +1,6 @@
 ---
 shortcode: pl34hlm
-name: {full: Plate ¾-Helm, aliases: []}
+name: {full: Plate ¾-Helm}
 type: armorgear
 description: "Steel helm covering crown and face; knight-favored with narrow sight-slit."
 tags: []

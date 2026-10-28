@@ -1,6 +1,6 @@
 ---
 shortcode: armrsup
-name: {full: "Armor Maintenance Supplies, per 1d", aliases: []}
+name: {full: "Armor Maintenance Supplies, per 1d"}
 type: miscgear
 description: "Rings, rivets, straps, buckles, waxed thread, patches, polish; one pence buys one pence of armor upkeep."
 tags: [expedition]

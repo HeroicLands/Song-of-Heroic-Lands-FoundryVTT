@@ -1,6 +1,6 @@
 ---
 shortcode: sgskirt
-name: {full: Serge Skirt, aliases: []}
+name: {full: Serge Skirt}
 type: armorgear
 description: "Twilled serge skirt; practical, durable garment for various activities."
 tags: []

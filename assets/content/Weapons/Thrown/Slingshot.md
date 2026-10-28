@@ -1,6 +1,6 @@
 ---
 shortcode: slngsht
-name: {full: Slingshot, aliases: []}
+name: {full: Slingshot}
 type: weapongear
 description: "Y-framed pouch-cord; concealed, silent, favored by hunters and footpads."
 tags: []

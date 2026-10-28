@@ -1,6 +1,6 @@
 ---
 shortcode: lnc
-name: {full: Lance, aliases: []}
+name: {full: Lance}
 type: weapongear
 description: "Long thrusting pole for couched cavalry charge; shield-breaker."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: table
-name: {full: "Table", aliases: []}
+name: {full: "Table"}
 type: miscgear
 description: "Trestle-mounted board seating several (roughly 4 x 6 feet)."
 tags: [furniture]

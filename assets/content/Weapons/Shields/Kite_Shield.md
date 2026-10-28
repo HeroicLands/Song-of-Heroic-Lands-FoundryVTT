@@ -1,6 +1,6 @@
 ---
 shortcode: kish
-name: {full: Kite Shield, aliases: []}
+name: {full: Kite Shield}
 type: weapongear
 description: "Tall teardrop shield protects mounted leg; cavalry skirmisher's deep coverage."
 tags: []

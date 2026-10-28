@@ -1,6 +1,6 @@
 ---
 shortcode: ltbrcr
-name: {full: Leather Bracers, aliases: []}
+name: {full: Leather Bracers}
 type: armorgear
 description: "Lightweight leather arm guards allowing full flexibility and movement."
 tags: []

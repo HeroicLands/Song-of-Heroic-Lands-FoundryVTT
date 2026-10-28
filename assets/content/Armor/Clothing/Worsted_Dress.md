@@ -1,6 +1,6 @@
 ---
 shortcode: wdress
-name: {full: Worsted Dress, aliases: []}
+name: {full: Worsted Dress}
 type: armorgear
 description: "Tightly-spun wool dress; durable, versatile garment for activities."
 tags: []

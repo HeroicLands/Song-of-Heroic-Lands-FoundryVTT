@@ -1,6 +1,6 @@
 ---
 shortcode: rhloin
-name: {full: Rawhide Loincloth, aliases: []}
+name: {full: Rawhide Loincloth}
 type: armorgear
 description: "Stiff hide garment; minimal coverage for rough environments."
 tags: []

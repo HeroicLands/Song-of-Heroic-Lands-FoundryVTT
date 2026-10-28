@@ -1,6 +1,6 @@
 ---
 shortcode: ploughshare
-name: {full: "Ploughshare", aliases: []}
+name: {full: "Ploughshare"}
 type: miscgear
 description: "Iron cutting share for a plough; the costliest iron on most farms."
 tags: [instruments]

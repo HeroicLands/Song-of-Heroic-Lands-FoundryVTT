@@ -1,6 +1,6 @@
 ---
 shortcode: ppant
-name: {full: Padded Pants, aliases: []}
+name: {full: Padded Pants}
 type: armorgear
 description: "Cushioned leg covering providing warmth under armor or standalone."
 tags: []

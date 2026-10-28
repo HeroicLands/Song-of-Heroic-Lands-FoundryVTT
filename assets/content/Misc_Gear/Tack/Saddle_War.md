@@ -1,6 +1,6 @@
 ---
 shortcode: saddlewar
-name: {full: "Saddle, War", aliases: []}
+name: {full: "Saddle, War"}
 type: miscgear
 description: "Steel-reinforced wood, high pommel, cantle; braces rider in lance-work, combat impacts."
 tags: [tack]

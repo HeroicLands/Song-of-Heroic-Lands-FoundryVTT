@@ -1,6 +1,6 @@
 ---
 shortcode: shortcodeintegrity
-name: {full: Shortcode Integrity, aliases: []}
+name: {full: Shortcode Integrity}
 type: doc
 subType: reference
 tags: [dev-docs-content-creator-also-relevant-filed-elsewhere, dev-reference]
@@ -305,10 +305,9 @@ apostrophes are removed rather than made separators (`Armorer's Kit` >
 **There is no alias namespace.** A wikilink is always qualified —
 `[[type-shortcode|Text]]`, see
 [[doc-contentlinks|Linking Between Content Notes]] — and a note
-authors no top-level `aliases:` field; the build refuses one. The nested
-`name.aliases` is kept but **reserved**: no index, resolver, lint rule or emitter
-consults it, and a note carrying one compiles, resolves and publishes exactly as if
-it were absent.
+authors no alias list. Other names a note goes by sit under
+`name`, in lists keyed by language code (`name: {full: Grappling Hook, en: [Grapnel]}`);
+the wikilink still names the target by address.
 
 The developer documentation (`assets/content/Dev_Docs/`) is content: each page
 is a `doc` note with a shortcode of its own, addressed `doc-<shortcode>`, and

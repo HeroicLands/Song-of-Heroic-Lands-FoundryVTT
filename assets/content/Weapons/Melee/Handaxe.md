@@ -1,6 +1,6 @@
 ---
 shortcode: haxe
-name: {full: Handaxe, aliases: []}
+name: {full: Handaxe}
 type: weapongear
 description: "Light ash-haft axe; foot-soldier's main arm or cavalry sidearm."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: cvscoat
-name: {full: Canvas Surcoat, aliases: []}
+name: {full: Canvas Surcoat}
 type: armorgear
 description: "Hard-wearing canvas surcoat worn over gear on the march."
 tags: []

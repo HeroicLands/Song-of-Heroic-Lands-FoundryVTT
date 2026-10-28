@@ -1,6 +1,6 @@
 ---
 shortcode: torch
-name: {full: Torch, aliases: []}
+name: {full: Torch}
 type: miscgear
 description: "Pitch-wrapped oakwood torch; bright, hot flame; common guard light, expendable."
 tags: [lighting]

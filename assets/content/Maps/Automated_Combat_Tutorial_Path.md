@@ -1,6 +1,6 @@
 ---
 shortcode: automatedcombatpath
-name: {full: Automated Combat Tutorial Path, aliases: []}
+name: {full: Automated Combat Tutorial Path}
 type: map
 subType: battlemap
 tags: [tutorial]

@@ -1,6 +1,6 @@
 ---
 shortcode: lttrsr
-name: {full: Leather Trousers, aliases: []}
+name: {full: Leather Trousers}
 type: armorgear
 description: "Full-length supple leather leg covering for travel and hard wear."
 tags: []

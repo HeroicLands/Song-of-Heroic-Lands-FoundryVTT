@@ -1,6 +1,6 @@
 ---
 shortcode: ctunic
-name: {full: Cloth Tunic, aliases: []}
+name: {full: Cloth Tunic}
 type: armorgear
 description: "Simple cloth tunic offering comfort and warmth for daily wear."
 tags: []

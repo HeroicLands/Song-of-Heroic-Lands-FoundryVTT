@@ -1,6 +1,6 @@
 ---
 shortcode: phlm
-name: {full: Plate Helm, aliases: []}
+name: {full: Plate Helm}
 type: armorgear
 description: "Plain steel skullcap helm; covers the crown alone and leaves the face open."
 tags: []

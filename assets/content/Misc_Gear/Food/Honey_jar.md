@@ -1,6 +1,6 @@
 ---
 shortcode: honeyjar
-name: {full: "Honey, jar", aliases: []}
+name: {full: "Honey, jar"}
 type: miscgear
 description: "Golden honey sealed in clay jar; sweetens porridge and mead, keeps years."
 tags: [food]

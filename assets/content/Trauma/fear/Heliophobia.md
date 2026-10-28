@@ -1,6 +1,6 @@
 ---
 shortcode: heliophb
-name: {full: Heliophobia, aliases: []}
+name: {full: Heliophobia}
 type: trauma
 subType: fear
 tags: []

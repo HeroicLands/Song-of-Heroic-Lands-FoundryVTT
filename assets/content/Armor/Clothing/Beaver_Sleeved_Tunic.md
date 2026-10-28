@@ -1,6 +1,6 @@
 ---
 shortcode: bvstnc
-name: {full: Beaver Sleeved Tunic, aliases: []}
+name: {full: Beaver Sleeved Tunic}
 type: armorgear
 description: "Beaver fur tunic providing warmth and elegance for northern climates."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: dnce
-name: {full: Dancing, aliases: []}
+name: {full: Dancing}
 type: skill
 subType: physical
 description: "Performing formal and folk dances; elevating social gatherings with grace."

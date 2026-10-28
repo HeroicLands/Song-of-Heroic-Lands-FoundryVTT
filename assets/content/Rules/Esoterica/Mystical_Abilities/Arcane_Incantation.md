@@ -1,6 +1,6 @@
 ---
 shortcode: arcnincn
-name: {full: Arcane Incantation, aliases: []}
+name: {full: Arcane Incantation}
 type: doc
 subType: rules
 tags: [rules-esoterica, rules-esoterica-mystical-abilities-arcane-mysteries]

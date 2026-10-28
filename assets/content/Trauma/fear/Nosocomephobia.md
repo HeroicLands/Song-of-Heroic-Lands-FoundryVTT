@@ -1,6 +1,6 @@
 ---
 shortcode: nscmphb
-name: {full: Nosocomephobia, aliases: []}
+name: {full: Nosocomephobia}
 type: trauma
 subType: fear
 tags: []

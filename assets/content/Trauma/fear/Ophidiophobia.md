@@ -1,6 +1,6 @@
 ---
 shortcode: ophdphb
-name: {full: Ophidiophobia, aliases: []}
+name: {full: Ophidiophobia}
 type: trauma
 subType: fear
 tags: []

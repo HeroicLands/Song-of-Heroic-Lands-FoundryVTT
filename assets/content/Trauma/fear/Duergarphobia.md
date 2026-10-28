@@ -1,6 +1,6 @@
 ---
 shortcode: drgrphb
-name: {full: Duergarphobia, aliases: []}
+name: {full: Duergarphobia}
 type: trauma
 subType: fear
 tags: []

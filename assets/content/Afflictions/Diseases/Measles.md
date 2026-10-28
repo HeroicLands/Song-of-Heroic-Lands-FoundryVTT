@@ -1,6 +1,6 @@
 ---
 shortcode: measles
-name: {full: Measles, aliases: []}
+name: {full: Measles}
 type: affliction
 subType: disease
 description: "Viral infection; fever, cough, characteristic red rash; highly contagious."

@@ -1,6 +1,6 @@
 ---
 shortcode: belltiny
-name: {full: "Bell, tiny", aliases: []}
+name: {full: "Bell, tiny"}
 type: miscgear
 description: "Delicate brass bell; high thin tone; amulet or chamber summons."
 tags: [music]

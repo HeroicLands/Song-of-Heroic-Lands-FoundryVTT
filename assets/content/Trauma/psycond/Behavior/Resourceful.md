@@ -1,6 +1,6 @@
 ---
 shortcode: rsrcfl
-name: {full: Resourceful, aliases: []}
+name: {full: Resourceful}
 type: trauma
 subType: psycond
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: alchemy
-name: {full: Alchemy, aliases: []}
+name: {full: Alchemy}
 type: doc
 subType: rules
 tags: [rules-esoterica, rules-esoterica-mystical-abilities-arcane-mysteries]

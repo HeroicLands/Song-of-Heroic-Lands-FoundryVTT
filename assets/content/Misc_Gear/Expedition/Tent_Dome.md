@@ -1,6 +1,6 @@
 ---
 shortcode: tentdome
-name: {full: "Tent, Dome", aliases: []}
+name: {full: "Tent, Dome"}
 type: miscgear
 description: "Low hemispherical shelter; resists wind and sheds rain from all angles."
 tags: [expedition]

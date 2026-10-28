@@ -1,6 +1,6 @@
 ---
 shortcode: clb
-name: {full: Club, aliases: []}
+name: {full: Club}
 type: weapongear
 description: "Iron-bound wooden bludgeon; garrison guard and desperate levy weapon."
 tags: []

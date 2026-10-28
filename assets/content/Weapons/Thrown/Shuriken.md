@@ -1,6 +1,6 @@
 ---
 shortcode: shrkn
-name: {full: Shuriken, aliases: []}
+name: {full: Shuriken}
 type: weapongear
 description: "Iron star-spikes thrown for distraction and wound; assassin's surprise reach."
 tags: []

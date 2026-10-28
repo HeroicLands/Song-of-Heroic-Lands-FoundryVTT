@@ -1,6 +1,6 @@
 ---
 shortcode: amulethorn
-name: {full: "Amulet, horn", aliases: []}
+name: {full: "Amulet, horn"}
 type: miscgear
 description: "A charm hung at the neck on a cord or chain, in carved horn."
 tags: [jewelry_cash]

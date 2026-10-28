@@ -1,6 +1,6 @@
 ---
 shortcode: earringsbone
-name: {full: "Earrings, bone", aliases: []}
+name: {full: "Earrings, bone"}
 type: miscgear
 description: "A matched pair, hooked or hung, in carved bone."
 tags: [jewelry_cash]

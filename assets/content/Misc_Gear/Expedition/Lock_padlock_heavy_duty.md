@@ -1,6 +1,6 @@
 ---
 shortcode: lockpadloc
-name: {full: "Lock, padlock, heavy-duty", aliases: []}
+name: {full: "Lock, padlock, heavy-duty"}
 type: miscgear
 description: "Heavy reinforced padlock with triple-warded body for valuable cargo."
 tags: [expedition]

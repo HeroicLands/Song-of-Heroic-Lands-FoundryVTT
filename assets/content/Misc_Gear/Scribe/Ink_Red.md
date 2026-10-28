@@ -1,6 +1,6 @@
 ---
 shortcode: inkred
-name: {full: "Ink, Red", aliases: []}
+name: {full: "Ink, Red"}
 type: miscgear
 description: "Vermilion or madder-root; reserved for titles, rubrication, illuminated capitals."
 tags: [scribe]

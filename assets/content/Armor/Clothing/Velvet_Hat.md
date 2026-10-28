@@ -1,6 +1,6 @@
 ---
 shortcode: vhat
-name: {full: Velvet Hat, aliases: []}
+name: {full: Velvet Hat}
 type: armorgear
 description: "Soft plush velvet hat; luxury status symbol for formal occasions."
 tags: []

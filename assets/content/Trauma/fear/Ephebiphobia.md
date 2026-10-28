@@ -1,6 +1,6 @@
 ---
 shortcode: ephbphb
-name: {full: Ephebiphobia, aliases: []}
+name: {full: Ephebiphobia}
 type: trauma
 subType: fear
 tags: []

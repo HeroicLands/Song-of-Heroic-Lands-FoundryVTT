@@ -1,6 +1,6 @@
 ---
 shortcode: frigophb
-name: {full: Frigophobia, aliases: []}
+name: {full: Frigophobia}
 type: trauma
 subType: fear
 tags: []

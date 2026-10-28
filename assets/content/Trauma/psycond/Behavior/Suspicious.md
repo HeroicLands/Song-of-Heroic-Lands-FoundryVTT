@@ -1,6 +1,6 @@
 ---
 shortcode: sspcs
-name: {full: Suspicious, aliases: []}
+name: {full: Suspicious}
 type: trauma
 subType: psycond
 tags: []

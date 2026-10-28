@@ -1,6 +1,6 @@
 ---
 shortcode: kind
-name: {full: Kind, aliases: []}
+name: {full: Kind}
 type: trauma
 subType: psycond
 tags: []

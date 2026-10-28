@@ -1,6 +1,6 @@
 ---
 shortcode: mstrylvl
-name: {full: Mastery Level, aliases: []}
+name: {full: Mastery Level}
 type: doc
 subType: rules
 tags: [rules-resolution, rules-resolution-sections]

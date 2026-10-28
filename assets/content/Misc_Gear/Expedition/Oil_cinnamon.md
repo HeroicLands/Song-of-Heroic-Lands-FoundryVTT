@@ -1,6 +1,6 @@
 ---
 shortcode: oilcinnamon
-name: {full: "Oil, cinnamon", aliases: []}
+name: {full: "Oil, cinnamon"}
 type: miscgear
 description: "Distilled cinnamon oil; a costly perfumery base and a medicine."
 tags: [expedition]

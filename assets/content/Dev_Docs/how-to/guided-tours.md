@@ -1,6 +1,6 @@
 ---
 shortcode: guidedtours
-name: {full: Writing Guided Tours, aliases: []}
+name: {full: Writing Guided Tours}
 type: doc
 subType: howto
 description: "The `SohlTour` framework: step kinds, value/action gates, sheet navigation, and how to register a tour."

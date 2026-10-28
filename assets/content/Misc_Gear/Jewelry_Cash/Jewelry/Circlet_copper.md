@@ -1,6 +1,6 @@
 ---
 shortcode: circletcopper
-name: {full: "Circlet, copper", aliases: []}
+name: {full: "Circlet, copper"}
 type: miscgear
 description: "A plain band for the brow, worn by those with rank enough to show it and not enough for a coronet, in raised copper."
 tags: [jewelry_cash]

@@ -1,6 +1,6 @@
 ---
 shortcode: arwlblt
-name: {full: Light Blunt Arrow, aliases: []}
+name: {full: Light Blunt Arrow}
 type: projectilegear
 subType: arrow
 description: "Light shaft with wooden knob or leather pad; squirrel, hare, bird hunting."

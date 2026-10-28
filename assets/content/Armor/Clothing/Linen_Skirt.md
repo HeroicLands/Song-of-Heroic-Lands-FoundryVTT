@@ -1,6 +1,6 @@
 ---
 shortcode: lskirt
-name: {full: Linen Skirt, aliases: []}
+name: {full: Linen Skirt}
 type: armorgear
 description: "Light breathable leg covering for warm weather casual outings."
 tags: []

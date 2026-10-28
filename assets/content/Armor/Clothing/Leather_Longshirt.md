@@ -1,6 +1,6 @@
 ---
 shortcode: ltlgshrt
-name: {full: Leather Longshirt, aliases: []}
+name: {full: Leather Longshirt}
 type: armorgear
 description: "Stylish leather long-sleeved garment with modest coverage for light adventuring."
 tags: []

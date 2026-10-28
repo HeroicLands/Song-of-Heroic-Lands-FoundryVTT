@@ -1,6 +1,6 @@
 ---
 shortcode: dysphn
-name: {full: Dysphonia, aliases: []}
+name: {full: Dysphonia}
 type: trauma
 subType: physcond
 tags: []

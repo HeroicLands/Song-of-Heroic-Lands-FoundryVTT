@@ -1,6 +1,6 @@
 ---
 shortcode: lmbwknss
-name: {full: Limb Weakness, aliases: []}
+name: {full: Limb Weakness}
 type: trauma
 subType: physcond
 tags: []

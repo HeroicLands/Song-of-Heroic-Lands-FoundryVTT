@@ -1,6 +1,6 @@
 ---
 shortcode: qlgsht
-name: {full: Quilted Longshirt, aliases: []}
+name: {full: Quilted Longshirt}
 type: armorgear
 description: "Long stitched tunic; warmth and light padding for cold seasons."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: circlethorn
-name: {full: "Circlet, horn", aliases: []}
+name: {full: "Circlet, horn"}
 type: miscgear
 description: "A plain band for the brow, worn by those with rank enough to show it and not enough for a coronet, in carved horn."
 tags: [jewelry_cash]

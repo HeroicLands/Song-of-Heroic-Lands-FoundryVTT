@@ -1,6 +1,6 @@
 ---
 shortcode: nrotxn
-name: {full: Neurotoxin, aliases: []}
+name: {full: Neurotoxin}
 type: affliction
 subType: poisontoxin
 description: "Nerve toxin; paralysis and convulsions; disrupts neurotransmission leading to respiratory failure."

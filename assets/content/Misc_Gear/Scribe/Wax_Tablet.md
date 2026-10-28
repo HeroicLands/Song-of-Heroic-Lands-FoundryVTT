@@ -1,6 +1,6 @@
 ---
 shortcode: waxtablet
-name: {full: Wax Tablet, aliases: []}
+name: {full: Wax Tablet}
 type: miscgear
 description: "Beeswax-faced hinged boards; erasable notes for merchants' quick reckoning."
 tags: [scribe]

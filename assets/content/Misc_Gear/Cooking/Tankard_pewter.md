@@ -1,6 +1,6 @@
 ---
 shortcode: tankardpew
-name: {full: "Tankard, pewter", aliases: []}
+name: {full: "Tankard, pewter"}
 type: miscgear
 description: "Straight-sided pewter tankard for taverns and barracks serving ale by pint."
 tags: [cooking]

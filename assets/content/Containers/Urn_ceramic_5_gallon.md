@@ -1,6 +1,6 @@
 ---
 shortcode: urncer5gal
-name: {full: "Urn, ceramic, 5 gallon", aliases: []}
+name: {full: "Urn, ceramic, 5 gallon"}
 type: containergear
 description: "Wide-mouthed storage urn for grain, flour, or salt (5 gallons)."
 tags: []

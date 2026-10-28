@@ -1,6 +1,6 @@
 ---
 shortcode: vshirt
-name: {full: Velvet Shirt, aliases: []}
+name: {full: Velvet Shirt}
 type: armorgear
 description: "Soft plush velvet shirt; luxurious garment for formal occasions and status."
 tags: []

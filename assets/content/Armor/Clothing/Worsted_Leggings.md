@@ -1,6 +1,6 @@
 ---
 shortcode: wleg
-name: {full: Worsted Leggings, aliases: []}
+name: {full: Worsted Leggings}
 type: armorgear
 description: "Tightly-spun wool leggings; warm, durable leg coverage."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: voi
-name: {full: Voice, aliases: []}
+name: {full: Voice}
 type: attribute
 description: "The musical quality of speech: timbre, pitch, and natural resonance."
 tags: []

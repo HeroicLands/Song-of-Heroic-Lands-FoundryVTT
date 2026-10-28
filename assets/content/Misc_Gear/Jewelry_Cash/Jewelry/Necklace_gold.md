@@ -1,6 +1,6 @@
 ---
 shortcode: necklacegold
-name: {full: "Necklace, gold", aliases: []}
+name: {full: "Necklace, gold"}
 type: miscgear
 description: "Four ounces of worked gold at the throat; noble regalia, and portable ransom."
 tags: [jewelry_cash]

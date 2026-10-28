@@ -1,6 +1,6 @@
 ---
 shortcode: absntmd
-name: {full: Absent-Minded, aliases: []}
+name: {full: Absent-Minded}
 type: trauma
 subType: psycond
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: bcfl
-name: {full: Ball & Chain Flail, aliases: []}
+name: {full: Ball & Chain Flail}
 type: weapongear
 description: "Chain-slung metal sphere slides past shields; heavy cavalry's armor-breaker."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: ptrsr
-name: {full: Padded Trousers, aliases: []}
+name: {full: Padded Trousers}
 type: armorgear
 description: "Cushioned leg covering providing warmth and added protection."
 tags: []

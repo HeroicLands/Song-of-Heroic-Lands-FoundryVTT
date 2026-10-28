@@ -1,6 +1,6 @@
 ---
 shortcode: ltvest
-name: {full: Leather Vest, aliases: []}
+name: {full: Leather Vest}
 type: armorgear
 description: "Lightweight styled leather sleeveless garment offering minimal protection and edge."
 tags: []

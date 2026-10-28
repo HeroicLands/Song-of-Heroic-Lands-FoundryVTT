@@ -1,6 +1,6 @@
 ---
 shortcode: init
-name: {full: Initiative, aliases: []}
+name: {full: Initiative}
 type: skill
 subType: combat
 description: "Battlefield experience and tactical awareness; acting first in combat."

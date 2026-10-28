@@ -1,6 +1,6 @@
 ---
 shortcode: vrobe
-name: {full: Velvet Robe, aliases: []}
+name: {full: Velvet Robe}
 type: armorgear
 description: "Soft plush velvet robe; opulent garment for formal settings and grandeur."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: applescrat
-name: {full: "Apples, crate", aliases: []}
+name: {full: "Apples, crate"}
 type: miscgear
 description: "Straw-packed apples in wooden crate; heavy, protects fruit on long journeys."
 tags: [food]

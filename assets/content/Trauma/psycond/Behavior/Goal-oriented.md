@@ -1,6 +1,6 @@
 ---
 shortcode: glrntd
-name: {full: Goal-oriented, aliases: []}
+name: {full: Goal-oriented}
 type: trauma
 subType: psycond
 tags: []

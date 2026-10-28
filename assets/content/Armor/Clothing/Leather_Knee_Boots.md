@@ -1,6 +1,6 @@
 ---
 shortcode: ltkboot
-name: {full: Leather Knee Boots, aliases: []}
+name: {full: Leather Knee Boots}
 type: armorgear
 description: "Durable leather foot coverings extending above the knee for flexible footwear."
 tags: []

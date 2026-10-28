@@ -1,6 +1,6 @@
 ---
 shortcode: tarpaulin
-name: {full: "Tarpaulin", aliases: []}
+name: {full: "Tarpaulin"}
 type: miscgear
 description: "Tarred canvas sheet for covering loads and shedding rain."
 tags: [expedition]

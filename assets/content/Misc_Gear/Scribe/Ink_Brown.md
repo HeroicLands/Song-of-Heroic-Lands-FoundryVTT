@@ -1,6 +1,6 @@
 ---
 shortcode: inkbrn
-name: {full: "Ink, Brown", aliases: []}
+name: {full: "Ink, Brown"}
 type: miscgear
 description: "Walnut-husk ink; common in ledgers, fades with time, suits working copies."
 tags: [scribe]

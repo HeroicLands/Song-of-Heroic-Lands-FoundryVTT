@@ -1,6 +1,6 @@
 ---
 shortcode: kknee
-name: {full: Kûrbúl Kneecops, aliases: []}
+name: {full: Kûrbúl Kneecops}
 type: armorgear
 description: "Treated leather knee guards with intricate patterns and decorative appeal."
 tags: []

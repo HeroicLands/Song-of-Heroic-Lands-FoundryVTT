@@ -1,6 +1,6 @@
 ---
 shortcode: sccssvlt
-name: {full: Success Value Tests, aliases: []}
+name: {full: Success Value Tests}
 type: doc
 subType: rules
 tags: [rules-resolution, rules-resolution-sections]

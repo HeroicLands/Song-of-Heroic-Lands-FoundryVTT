@@ -1,6 +1,6 @@
 ---
 shortcode: jade
-name: {full: Jade, aliases: []}
+name: {full: Jade}
 type: miscgear
 description: "Tough green stone, pale celadon to deep forest; carved into amulets."
 tags: [jewelry_cash]

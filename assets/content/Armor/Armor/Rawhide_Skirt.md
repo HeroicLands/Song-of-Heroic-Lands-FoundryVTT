@@ -1,6 +1,6 @@
 ---
 shortcode: rhskirt
-name: {full: Rawhide Skirt, aliases: []}
+name: {full: Rawhide Skirt}
 type: armorgear
 description: "Tough hide garment; leg coverage for hard labor."
 tags: []

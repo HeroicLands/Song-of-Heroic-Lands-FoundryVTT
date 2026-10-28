@@ -1,6 +1,6 @@
 ---
 shortcode: quiverlgsh
-name: {full: "Quiver, lg (shoulder)", aliases: []}
+name: {full: "Quiver, lg (shoulder)"}
 type: containergear
 description: "Leather-wrapped wooden tube worn across back; keeps arrows accessible for archery."
 tags: []

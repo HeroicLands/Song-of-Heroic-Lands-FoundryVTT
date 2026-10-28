@@ -1,6 +1,6 @@
 ---
 shortcode: arwlbod
-name: {full: Light Bodkin Arrow, aliases: []}
+name: {full: Light Bodkin Arrow}
 type: projectilegear
 subType: arrow
 description: "Slender shaft, square-sectioned spike; splits light mail at distance; militia, skirmish use."

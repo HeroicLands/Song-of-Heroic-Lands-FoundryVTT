@@ -1,6 +1,6 @@
 ---
 shortcode: pteromer
-name: {full: Pteromerhanophobia, aliases: []}
+name: {full: Pteromerhanophobia}
 type: trauma
 subType: fear
 tags: []

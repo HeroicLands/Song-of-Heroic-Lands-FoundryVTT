@@ -1,6 +1,6 @@
 ---
 shortcode: kbrst
-name: {full: Kûrbúl Breastplate, aliases: []}
+name: {full: Kûrbúl Breastplate}
 type: armorgear
 description: "Treated leather chest armor offering agility without sacrificing defense."
 tags: []

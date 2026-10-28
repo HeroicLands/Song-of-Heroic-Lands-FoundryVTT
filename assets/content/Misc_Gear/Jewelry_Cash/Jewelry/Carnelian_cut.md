@@ -1,6 +1,6 @@
 ---
 shortcode: carnelianc
-name: {full: "Carnelian, cut", aliases: []}
+name: {full: "Carnelian, cut"}
 type: miscgear
 description: "Translucent warm orange-red gem from iron oxide; durable favorite for rings."
 tags: [jewelry_cash]

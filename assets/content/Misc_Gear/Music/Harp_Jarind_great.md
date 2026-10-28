@@ -1,6 +1,6 @@
 ---
 shortcode: harpjarind
-name: {full: "Harp, Jarind (great)", aliases: []}
+name: {full: "Harp, Jarind (great)"}
 type: miscgear
 description: "Master-crafted frame harp; thirty-plus strings; rich sonorous voice spanning three octaves."
 tags: [music]

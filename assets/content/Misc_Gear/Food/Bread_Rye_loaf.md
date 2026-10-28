@@ -1,6 +1,6 @@
 ---
 shortcode: breadryelo
-name: {full: "Bread, Rye, loaf", aliases: []}
+name: {full: "Bread, Rye, loaf"}
 type: miscgear
 description: "Dense dark loaf; stays fresh for days, fills belly, peasant staple."
 tags: [food]

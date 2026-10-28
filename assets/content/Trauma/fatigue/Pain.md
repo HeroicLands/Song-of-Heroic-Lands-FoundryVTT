@@ -1,6 +1,6 @@
 ---
 shortcode: pain
-name: {full: Pain, aliases: [Injury]}
+name: {full: Pain, en: [Injury]}
 type: trauma
 subType: fatigue
 description: "Long-term weakness from active wounds and persistent pain."

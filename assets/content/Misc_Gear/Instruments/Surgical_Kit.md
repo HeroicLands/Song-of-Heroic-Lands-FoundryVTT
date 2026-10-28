@@ -1,6 +1,6 @@
 ---
 shortcode: surgkit
-name: {full: Surgical Kit, aliases: []}
+name: {full: Surgical Kit}
 type: miscgear
 description: "Oiled-leather case with lancets, bone saw, forceps, scalpels, probes; physicians for grave wounds."
 tags: [instruments]

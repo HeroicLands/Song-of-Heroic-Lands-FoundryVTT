@@ -1,6 +1,6 @@
 ---
 shortcode: leash
-name: {full: Leash, aliases: []}
+name: {full: Leash}
 type: miscgear
 description: "Rope or leather cord with snap and loop; leads dogs, goats, beasts."
 tags: [tack]

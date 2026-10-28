@@ -1,6 +1,6 @@
 ---
 shortcode: inkwellgla
-name: {full: "Inkwell, glass", aliases: []}
+name: {full: "Inkwell, glass"}
 type: containergear
 description: "Fine blown glass inkwell for wealthy scholar or scribe."
 tags: []

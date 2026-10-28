@@ -1,6 +1,6 @@
 ---
 shortcode: effectsintegration
-name: {full: Effects Integration, aliases: []}
+name: {full: Effects Integration}
 type: doc
 subType: reference
 tags: [dev-reference]

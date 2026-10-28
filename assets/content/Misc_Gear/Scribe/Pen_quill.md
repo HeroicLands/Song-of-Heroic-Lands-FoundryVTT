@@ -1,6 +1,6 @@
 ---
 shortcode: penquill
-name: {full: "Pen, quill", aliases: []}
+name: {full: "Pen, quill"}
 type: miscgear
 description: "Goose or swan feather; soft flowing strokes, dulls quickly, needs frequent resharpening."
 tags: [scribe]

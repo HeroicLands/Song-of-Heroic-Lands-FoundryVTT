@@ -1,6 +1,6 @@
 ---
 shortcode: bflkbite
-name: {full: Folk Bite, aliases: [Bite]}
+name: {full: Folk Bite, en: [Bite]}
 type: skill
 subType: combattechnique
 description: "Teeth, at the range where nothing else will reach; small, precise, and it draws blood."

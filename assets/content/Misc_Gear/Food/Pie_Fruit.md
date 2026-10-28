@@ -1,6 +1,6 @@
 ---
 shortcode: piefruit
-name: {full: "Pie, Fruit", aliases: []}
+name: {full: "Pie, Fruit"}
 type: miscgear
 description: "Hand-sized pastry with sweet apple or berry filling from baker."
 tags: [food]

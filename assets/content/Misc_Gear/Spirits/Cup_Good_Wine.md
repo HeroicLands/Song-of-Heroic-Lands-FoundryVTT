@@ -1,6 +1,6 @@
 ---
 shortcode: gwinecup
-name: {full: Cup Good Wine, aliases: []}
+name: {full: Cup Good Wine}
 type: miscgear
 description: "Oak-aged fine wine; fuller-bodied, less sour; marks deals and occasions."
 tags: [spirits]

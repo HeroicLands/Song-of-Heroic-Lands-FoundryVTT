@@ -1,6 +1,6 @@
 ---
 shortcode: nyctophb
-name: {full: Nyctophobia, aliases: []}
+name: {full: Nyctophobia}
 type: trauma
 subType: fear
 tags: []

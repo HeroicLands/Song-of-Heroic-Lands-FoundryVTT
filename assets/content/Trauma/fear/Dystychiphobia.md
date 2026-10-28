@@ -1,6 +1,6 @@
 ---
 shortcode: dystychi
-name: {full: Dystychiphobia, aliases: []}
+name: {full: Dystychiphobia}
 type: trauma
 subType: fear
 tags: []

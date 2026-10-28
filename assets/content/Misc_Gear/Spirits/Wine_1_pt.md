@@ -1,6 +1,6 @@
 ---
 shortcode: winept
-name: {full: "Wine, 1 pt.", aliases: []}
+name: {full: "Wine, 1 pt."}
 type: miscgear
 description: "Tart thin grape wine in bottle; preferable to ale; merchant-class drink."
 tags: [spirits]

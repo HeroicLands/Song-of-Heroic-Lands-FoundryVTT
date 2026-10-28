@@ -1,6 +1,6 @@
 ---
 shortcode: quiversmsh
-name: {full: "Quiver, sm (shoulder or hip)", aliases: []}
+name: {full: "Quiver, sm (shoulder or hip)"}
 type: containergear
 description: "Smaller quiver worn at shoulder or hip for light archery and hunting."
 tags: []

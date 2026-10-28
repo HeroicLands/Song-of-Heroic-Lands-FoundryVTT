@@ -1,6 +1,6 @@
 ---
 shortcode: brandingir
-name: {full: Branding Iron, aliases: []}
+name: {full: Branding Iron}
 type: miscgear
 description: "Forged rod with heraldic stamp, heated and pressed into cattle hide."
 tags: [instruments]

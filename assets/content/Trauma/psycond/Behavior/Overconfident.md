@@ -1,6 +1,6 @@
 ---
 shortcode: overconf
-name: {full: Overconfident, aliases: []}
+name: {full: Overconfident}
 type: trauma
 subType: psycond
 tags: []

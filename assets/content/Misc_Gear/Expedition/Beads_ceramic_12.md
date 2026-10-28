@@ -1,6 +1,6 @@
 ---
 shortcode: beadscer12
-name: {full: "Beads, ceramic, 12", aliases: []}
+name: {full: "Beads, ceramic, 12"}
 type: miscgear
 description: "Dozen fired clay beads, glazed in colour; cheap ornament and small trade goods."
 tags: [expedition]

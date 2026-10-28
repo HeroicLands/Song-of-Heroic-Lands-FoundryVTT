@@ -1,6 +1,6 @@
 ---
 shortcode: bodytrmaintro
-name: {full: Body Trauma Introduction, aliases: []}
+name: {full: Body Trauma Introduction}
 type: doc
 subType: rules
 tags: [rules-trauma, rules-trauma-forms-of-trauma]

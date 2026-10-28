@@ -1,6 +1,6 @@
 ---
 shortcode: gamophb
-name: {full: Gamophobia, aliases: []}
+name: {full: Gamophobia}
 type: trauma
 subType: fear
 tags: []

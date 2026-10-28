@@ -1,6 +1,6 @@
 ---
 shortcode: carpetwool
-name: {full: "Carpet, wool", aliases: []}
+name: {full: "Carpet, wool"}
 type: miscgear
 description: "Knotted wool carpet, three feet square; wall-hanging as often as floor covering."
 tags: [expedition]

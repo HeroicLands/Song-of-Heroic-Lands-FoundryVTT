@@ -1,6 +1,6 @@
 ---
 shortcode: ankletsilver
-name: {full: "Anklet, silver", aliases: []}
+name: {full: "Anklet, silver"}
 type: miscgear
 description: "A band worn at the ankle, closed or hinged, and often hung with small charms, in silver."
 tags: [jewelry_cash]

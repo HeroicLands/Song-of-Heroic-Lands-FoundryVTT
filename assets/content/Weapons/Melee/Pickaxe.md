@@ -1,6 +1,6 @@
 ---
 shortcode: pkaxe
-name: {full: Pickaxe, aliases: []}
+name: {full: Pickaxe}
 type: weapongear
 description: "Mining tool with point and adze; siege and armor-cracking weapon."
 tags: []

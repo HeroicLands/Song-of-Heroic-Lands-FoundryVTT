@@ -1,6 +1,6 @@
 ---
 shortcode: copperbron
-name: {full: Copper/Bronze, aliases: []}
+name: {full: Copper/Bronze}
 type: miscgear
 description: "Melted, cast ingots or sheets; resists weathering, worked into vessels and ornaments."
 tags: [jewelry_cash]

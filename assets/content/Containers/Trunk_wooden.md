@@ -1,6 +1,6 @@
 ---
 shortcode: trunkwood
-name: {full: "Trunk, wooden", aliases: []}
+name: {full: "Trunk, wooden"}
 type: containergear
 description: "Large banded travelling trunk with a domed lid (1.5 x 2 x 3.5 feet)."
 tags: []

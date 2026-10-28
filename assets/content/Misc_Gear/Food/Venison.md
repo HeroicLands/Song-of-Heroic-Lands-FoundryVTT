@@ -1,6 +1,6 @@
 ---
 shortcode: venison
-name: {full: Venison, aliases: []}
+name: {full: Venison}
 type: miscgear
 description: "Lean dark gamey deer meat, roasted fresh or smoked into jerky."
 tags: [food]

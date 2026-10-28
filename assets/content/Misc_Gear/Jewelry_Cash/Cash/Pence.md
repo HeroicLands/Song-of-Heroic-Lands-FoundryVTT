@@ -1,6 +1,6 @@
 ---
 shortcode: pence
-name: {full: Pence, aliases: []}
+name: {full: Pence}
 type: miscgear
 description: "Alloyed silver coin, everyday currency of trade; worth its face, not its metal."
 tags: [jewelry_cash]

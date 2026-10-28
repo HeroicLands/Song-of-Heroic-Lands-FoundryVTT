@@ -1,6 +1,6 @@
 ---
 shortcode: plbreast
-name: {full: Plate Breastplate, aliases: []}
+name: {full: Plate Breastplate}
 type: armorgear
 description: "Steel plate protecting torso; cornerstone of knightly armor."
 tags: []

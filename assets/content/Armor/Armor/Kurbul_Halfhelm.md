@@ -1,6 +1,6 @@
 ---
 shortcode: khlfhelm
-name: {full: Kûrbúl Halfhelm, aliases: []}
+name: {full: Kûrbúl Halfhelm}
 type: armorgear
 description: "Leather helm covering head and jawline with styled design and reduced weight."
 tags: []

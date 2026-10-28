@@ -1,6 +1,6 @@
 ---
 shortcode: andphb
-name: {full: Androphobia, aliases: []}
+name: {full: Androphobia}
 type: trauma
 subType: fear
 tags: []

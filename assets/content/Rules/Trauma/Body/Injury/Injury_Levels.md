@@ -1,6 +1,6 @@
 ---
 shortcode: injrylvl
-name: {full: Injury Levels, aliases: []}
+name: {full: Injury Levels}
 type: doc
 subType: rules
 tags: [rules-trauma, rules-trauma-body-injury-sections]

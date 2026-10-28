@@ -1,6 +1,6 @@
 ---
 shortcode: monophb
-name: {full: Monophobia, aliases: []}
+name: {full: Monophobia}
 type: trauma
 subType: fear
 tags: []

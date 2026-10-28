@@ -1,6 +1,6 @@
 ---
 shortcode: mlntxn
-name: {full: Malnutrition, aliases: []}
+name: {full: Malnutrition}
 type: trauma
 subType: fatigue
 description: "Long-term weakness from depleted nutritional reserves."

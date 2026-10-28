@@ -1,6 +1,6 @@
 ---
 shortcode: ckboot
-name: {full: Cloth Knee Boots, aliases: []}
+name: {full: Cloth Knee Boots}
 type: armorgear
 description: "Soft, breathable cloth knee boots for casual and light duty."
 tags: []

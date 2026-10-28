@@ -1,6 +1,6 @@
 ---
 shortcode: cdgl
-name: {full: Cudgel, aliases: []}
+name: {full: Cudgel}
 type: weapongear
 description: "Short heavy-headed bludgeon for close-quarters; sell-sword's preference."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: baxe
-name: {full: Battleaxe, aliases: []}
+name: {full: Battleaxe}
 type: weapongear
 description: "Massive double-bladed ash-haft for two-handed cleaves; line-breaker."
 tags: []

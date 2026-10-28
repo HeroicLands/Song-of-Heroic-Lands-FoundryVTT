@@ -1,6 +1,6 @@
 ---
 shortcode: sllnss
-name: {full: Silliness, aliases: []}
+name: {full: Silliness}
 type: trauma
 subType: psycond
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: rshirt
-name: {full: Russet Shirt, aliases: []}
+name: {full: Russet Shirt}
 type: armorgear
 description: "Reddish-brown wool shirt; basic cold-weather core."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: cvtunic
-name: {full: Canvas Tunic, aliases: []}
+name: {full: Canvas Tunic}
 type: armorgear
 description: "Stout canvas tunic cut for work and hard travel."
 tags: []

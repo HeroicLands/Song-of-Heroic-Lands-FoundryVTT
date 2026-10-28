@@ -1,6 +1,6 @@
 ---
 shortcode: bltsge
-name: {full: Ballista Bolt, aliases: []}
+name: {full: Ballista Bolt}
 type: projectilegear
 subType: bolt
 description: "Iron-headed shaft the length of a leg; loosed by engine, not by arm."

@@ -1,6 +1,6 @@
 ---
 shortcode: chrptphb
-name: {full: Chiroptophobia, aliases: []}
+name: {full: Chiroptophobia}
 type: trauma
 subType: fear
 tags: []

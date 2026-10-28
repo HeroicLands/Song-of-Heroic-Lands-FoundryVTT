@@ -1,6 +1,6 @@
 ---
 shortcode: vdress
-name: {full: Velvet Dress, aliases: []}
+name: {full: Velvet Dress}
 type: armorgear
 description: "Soft plush velvet dress; symbol of luxury and high status."
 tags: []

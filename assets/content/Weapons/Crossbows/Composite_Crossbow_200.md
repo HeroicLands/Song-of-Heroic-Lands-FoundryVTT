@@ -1,6 +1,6 @@
 ---
 shortcode: ccxbw200
-name: {full: Composite Crossbow 200, aliases: []}
+name: {full: Composite Crossbow 200}
 type: weapongear
 description: "Two-hundred pound horn-and-sinew crossbow; siege crew wall-assault weapon."
 tags: []

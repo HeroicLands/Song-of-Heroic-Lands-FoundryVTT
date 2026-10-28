@@ -1,6 +1,6 @@
 ---
 shortcode: holysymsilver
-name: {full: "Holy Symbol, silver", aliases: []}
+name: {full: "Holy Symbol, silver"}
 type: miscgear
 description: "Silver sign of a god, chased by a jeweller; a cleric's badge of office."
 tags: [religious]

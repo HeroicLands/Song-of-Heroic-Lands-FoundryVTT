@@ -1,6 +1,6 @@
 ---
 shortcode: ringwood
-name: {full: "Ring, wood", aliases: []}
+name: {full: "Ring, wood"}
 type: miscgear
 description: "Ring turned or whittled from close-grained wood; a token, not a valuable."
 tags: [jewelry_cash]

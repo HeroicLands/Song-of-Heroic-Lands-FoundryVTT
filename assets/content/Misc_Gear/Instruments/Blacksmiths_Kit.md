@@ -1,6 +1,6 @@
 ---
 shortcode: blacksmkit
-name: {full: Blacksmith's Kit, aliases: []}
+name: {full: Blacksmith's Kit}
 type: miscgear
 description: "Heavy canvas roll with forging hammers, tongs, hardies, fullers, swages, punches, hot chisels; smiths forge iron at the anvil."
 tags: [instruments]

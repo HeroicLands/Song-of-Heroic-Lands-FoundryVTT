@@ -1,6 +1,6 @@
 ---
 shortcode: cmpldsr
-name: {full: Compulsive Disclosure, aliases: []}
+name: {full: Compulsive Disclosure}
 type: trauma
 subType: psycond
 tags: []

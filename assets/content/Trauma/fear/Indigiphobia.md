@@ -1,6 +1,6 @@
 ---
 shortcode: indgphb
-name: {full: Indigiphobia, aliases: []}
+name: {full: Indigiphobia}
 type: trauma
 subType: fear
 tags: []

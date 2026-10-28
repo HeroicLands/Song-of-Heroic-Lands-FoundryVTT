@@ -1,6 +1,6 @@
 ---
 shortcode: bpchsmslk
-name: {full: "Belt pouch, silk, sm", aliases: []}
+name: {full: "Belt pouch, silk, sm"}
 type: containergear
 description: "Small silk belt pouch; display rather than security."
 tags: []

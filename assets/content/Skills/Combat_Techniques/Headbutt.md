@@ -1,6 +1,6 @@
 ---
 shortcode: bflkheadbutt
-name: {full: Folk Headbutt, aliases: [Headbutt]}
+name: {full: Folk Headbutt, en: [Headbutt]}
 type: skill
 subType: combattechnique
 description: "The forehead driven into a face, from too close for anything else to work."

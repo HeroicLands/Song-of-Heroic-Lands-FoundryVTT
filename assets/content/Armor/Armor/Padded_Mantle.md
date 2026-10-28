@@ -1,6 +1,6 @@
 ---
 shortcode: pmntl
-name: {full: Padded Mantle, aliases: []}
+name: {full: Padded Mantle}
 type: armorgear
 description: "Well-insulated outer garment providing warmth and protection in cold climates."
 tags: []

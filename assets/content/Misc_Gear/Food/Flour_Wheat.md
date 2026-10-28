@@ -1,6 +1,6 @@
 ---
 shortcode: flourwheat
-name: {full: "Flour, Wheat", aliases: []}
+name: {full: "Flour, Wheat"}
 type: miscgear
 description: "Fine pale flour; light breads and pastries, reserved for wealthier folk."
 tags: [food]

@@ -1,6 +1,6 @@
 ---
 shortcode: decisive
-name: {full: Decisive, aliases: []}
+name: {full: Decisive}
 type: trauma
 subType: psycond
 tags: []

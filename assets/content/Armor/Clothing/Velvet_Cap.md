@@ -1,6 +1,6 @@
 ---
 shortcode: vcap
-name: {full: Velvet Cap, aliases: []}
+name: {full: Velvet Cap}
 type: armorgear
 description: "Soft plush velvet cap; luxury status symbol for formal settings."
 tags: []

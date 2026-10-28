@@ -1,6 +1,6 @@
 ---
 shortcode: ehat
-name: {full: Ermine Hat, aliases: []}
+name: {full: Ermine Hat}
 type: armorgear
 description: "White ermine fur hat signifying high status and elite prestige."
 tags: []

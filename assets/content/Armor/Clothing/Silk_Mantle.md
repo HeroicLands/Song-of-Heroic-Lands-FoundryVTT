@@ -1,6 +1,6 @@
 ---
 shortcode: slkmntl
-name: {full: Silk Mantle, aliases: []}
+name: {full: Silk Mantle}
 type: armorgear
 description: "Luxurious silk mantle; elegant cloak for formal high-status occasions."
 tags: []

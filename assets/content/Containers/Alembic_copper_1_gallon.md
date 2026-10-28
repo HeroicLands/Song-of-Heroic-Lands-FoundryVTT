@@ -1,6 +1,6 @@
 ---
 shortcode: alembcu1g
-name: {full: "Alembic, copper, 1 gallon", aliases: []}
+name: {full: "Alembic, copper, 1 gallon"}
 type: containergear
 description: "Copper still-head for distillation, one gallon."
 tags: []

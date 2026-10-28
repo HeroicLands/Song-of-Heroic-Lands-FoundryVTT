@@ -1,6 +1,6 @@
 ---
 shortcode: ringsilver
-name: {full: "Ring, silver", aliases: []}
+name: {full: "Ring, silver"}
 type: miscgear
 description: "Silver band that takes fine engraving; the common betrothal and guild ring."
 tags: [jewelry_cash]

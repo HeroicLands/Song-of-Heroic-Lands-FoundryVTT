@@ -1,6 +1,6 @@
 ---
 shortcode: holysymwood
-name: {full: "Holy Symbol, wood", aliases: []}
+name: {full: "Holy Symbol, wood"}
 type: miscgear
 description: "Carved wooden sign of a god, worn on a thong or carried in the pack."
 tags: [religious]

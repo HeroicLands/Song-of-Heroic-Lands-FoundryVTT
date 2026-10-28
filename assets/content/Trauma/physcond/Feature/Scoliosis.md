@@ -1,6 +1,6 @@
 ---
 shortcode: sclss
-name: {full: Scoliosis, aliases: []}
+name: {full: Scoliosis}
 type: trauma
 subType: physcond
 tags: []

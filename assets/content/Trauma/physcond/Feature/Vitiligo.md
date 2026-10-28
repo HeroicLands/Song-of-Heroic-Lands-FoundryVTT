@@ -1,6 +1,6 @@
 ---
 shortcode: vitiligo
-name: {full: Vitiligo, aliases: []}
+name: {full: Vitiligo}
 type: trauma
 subType: physcond
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: arsenic
-name: {full: Arsenic, aliases: []}
+name: {full: Arsenic}
 type: affliction
 subType: poisontoxin
 description: "Metalloid poison; causes gastrointestinal bleeding and organ failure."

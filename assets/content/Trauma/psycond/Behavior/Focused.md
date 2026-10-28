@@ -1,6 +1,6 @@
 ---
 shortcode: focused
-name: {full: Focused, aliases: []}
+name: {full: Focused}
 type: trauma
 subType: psycond
 tags: []

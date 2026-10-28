@@ -1,6 +1,6 @@
 ---
 shortcode: imprdvsn
-name: {full: Impaired Vision, aliases: []}
+name: {full: Impaired Vision}
 type: trauma
 subType: physcond
 tags: []

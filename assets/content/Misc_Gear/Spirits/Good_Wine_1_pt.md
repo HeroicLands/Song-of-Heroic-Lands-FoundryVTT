@@ -1,6 +1,6 @@
 ---
 shortcode: gwinept
-name: {full: "Good Wine, 1 pt.", aliases: []}
+name: {full: "Good Wine, 1 pt."}
 type: miscgear
 description: "Oak-aged fine wine in bottle; body and sweetness beyond common vintage."
 tags: [spirits]

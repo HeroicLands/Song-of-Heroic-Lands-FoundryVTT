@@ -1,6 +1,6 @@
 ---
 shortcode: arithphb
-name: {full: Authorityophobia, aliases: []}
+name: {full: Authorityophobia}
 type: trauma
 subType: fear
 tags: []

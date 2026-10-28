@@ -1,6 +1,6 @@
 ---
 shortcode: inkwellcop
-name: {full: "Inkwell, copper", aliases: []}
+name: {full: "Inkwell, copper"}
 type: containergear
 description: "Compact tinned-copper travel inkwell for scribes and clerks."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: barrel10gal
-name: {full: "Barrel, 10 gallon", aliases: []}
+name: {full: "Barrel, 10 gallon"}
 type: containergear
 description: "Coopered oak barrel bound with iron hoops (10 gallons)."
 tags: []

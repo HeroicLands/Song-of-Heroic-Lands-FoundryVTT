@@ -1,6 +1,6 @@
 ---
 shortcode: smlpox
-name: {full: Smallpox, aliases: []}
+name: {full: Smallpox}
 type: affliction
 subType: disease
 description: "Viral infection; high fever followed by characteristic pustular rash; often fatal."

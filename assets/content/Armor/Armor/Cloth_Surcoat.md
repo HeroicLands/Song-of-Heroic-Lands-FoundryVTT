@@ -1,6 +1,6 @@
 ---
 shortcode: cscoat
-name: {full: Cloth Surcoat, aliases: []}
+name: {full: Cloth Surcoat}
 type: armorgear
 description: "Simple cloth surcoat providing comfort and practical outer wear."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: stshoes
-name: {full: Straw Sandals, aliases: []}
+name: {full: Straw Sandals}
 type: armorgear
 description: "Light breathable straw sandals; minimal protection, maximum airflow."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: bucketleat
-name: {full: "Bucket, leather", aliases: []}
+name: {full: "Bucket, leather"}
 type: containergear
 description: "Fire-bucket of boiled cowhide with iron rim."
 tags: []

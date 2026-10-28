@@ -1,6 +1,6 @@
 ---
 shortcode: ltskirt
-name: {full: Leather Skirt, aliases: []}
+name: {full: Leather Skirt}
 type: armorgear
 description: "Lightweight styled leather leg garment adding edge with minimal protection."
 tags: []

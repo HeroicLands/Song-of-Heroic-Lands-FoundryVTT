@@ -1,6 +1,6 @@
 ---
 shortcode: cacophb
-name: {full: Cacophobia, aliases: []}
+name: {full: Cacophobia}
 type: trauma
 subType: fear
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: swltr
-name: {full: Sweltering, aliases: [Heat Exposure]}
+name: {full: Sweltering, en: [Heat Exposure]}
 type: trauma
 subType: fatigue
 description: "Sustained weariness from prolonged heat exposure short of heat injury."

@@ -1,6 +1,6 @@
 ---
 shortcode: fluteiron
-name: {full: "Flute, iron", aliases: []}
+name: {full: "Flute, iron"}
 type: miscgear
 description: "Iron pipe with fipple and finger holes; bright piercing voice; durable, weather-resistant."
 tags: [music]

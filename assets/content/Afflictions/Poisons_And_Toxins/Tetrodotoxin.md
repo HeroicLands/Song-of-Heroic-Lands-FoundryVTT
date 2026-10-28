@@ -1,6 +1,6 @@
 ---
 shortcode: tetdtxn
-name: {full: Tetrodotoxin, aliases: []}
+name: {full: Tetrodotoxin}
 type: affliction
 subType: poisontoxin
 description: "Neurotoxin; blocks nerve signals; progressive paralysis including respiratory muscles."

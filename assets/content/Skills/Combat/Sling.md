@@ -1,6 +1,6 @@
 ---
 shortcode: slng
-name: {full: Sling, aliases: []}
+name: {full: Sling}
 type: skill
 subType: combat
 description: "Hurling stones and lead bullets from a sling with accuracy and force."

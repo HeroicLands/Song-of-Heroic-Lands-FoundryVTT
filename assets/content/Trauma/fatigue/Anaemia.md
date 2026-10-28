@@ -1,6 +1,6 @@
 ---
 shortcode: anaemia
-name: {full: Anaemia, aliases: []}
+name: {full: Anaemia}
 type: trauma
 subType: fatigue
 description: "Long-term weakness from depleted blood reserves."

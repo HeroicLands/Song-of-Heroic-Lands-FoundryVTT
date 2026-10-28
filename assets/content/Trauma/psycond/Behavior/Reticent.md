@@ -1,6 +1,6 @@
 ---
 shortcode: reticent
-name: {full: Reticent, aliases: []}
+name: {full: Reticent}
 type: trauma
 subType: psycond
 tags: []

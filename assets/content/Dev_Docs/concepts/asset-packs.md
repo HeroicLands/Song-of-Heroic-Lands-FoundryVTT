@@ -1,6 +1,6 @@
 ---
 shortcode: assetpacks
-name: {full: Asset Packs, aliases: []}
+name: {full: Asset Packs}
 type: doc
 subType: concept
 description: "How art is deployed, how a reference states its address, and how Fix rewrites references to a selected asset pack."

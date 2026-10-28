@@ -1,6 +1,6 @@
 ---
 shortcode: chknpox
-name: {full: Chicken Pox, aliases: []}
+name: {full: Chicken Pox}
 type: affliction
 subType: disease
 description: "Varicella virus; red spots progress to fluid-filled blisters; highly contagious."

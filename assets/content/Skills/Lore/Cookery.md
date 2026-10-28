@@ -1,6 +1,6 @@
 ---
 shortcode: cook
-name: {full: Cookery, aliases: []}
+name: {full: Cookery}
 type: skill
 subType: lore
 description: "Preparing food; transforming ingredients into nourishing, delightful meals."

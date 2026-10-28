@@ -1,6 +1,6 @@
 ---
 shortcode: bmrng
-name: {full: Boomerang, aliases: []}
+name: {full: Boomerang}
 type: skill
 subType: combat
 description: "Throwing curved wooden sticks for hunting and warfare, with returning and non-returning variants."

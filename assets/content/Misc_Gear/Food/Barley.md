@@ -1,6 +1,6 @@
 ---
 shortcode: barley
-name: {full: Barley, aliases: []}
+name: {full: Barley}
 type: miscgear
 description: "Hardy grain, ground into meal or boiled for broth and bread."
 tags: [food]

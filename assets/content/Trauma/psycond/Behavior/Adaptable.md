@@ -1,6 +1,6 @@
 ---
 shortcode: adapt
-name: {full: Adaptable, aliases: []}
+name: {full: Adaptable}
 type: trauma
 subType: psycond
 tags: []

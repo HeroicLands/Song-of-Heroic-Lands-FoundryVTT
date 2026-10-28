@@ -1,6 +1,6 @@
 ---
 shortcode: agl
-name: {full: Agility, aliases: []}
+name: {full: Agility}
 type: attribute
 description: "Quickness, balance, and fluidity of whole-body movement."
 tags: []

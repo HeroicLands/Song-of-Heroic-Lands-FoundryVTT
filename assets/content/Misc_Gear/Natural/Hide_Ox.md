@@ -1,6 +1,6 @@
 ---
 shortcode: hideox
-name: {full: "Hide, Ox", aliases: []}
+name: {full: "Hide, Ox"}
 type: miscgear
 description: "Prime even-grained oxhide; strong stock for saddles, breeches, shoe uppers. Price is for one whole skin."
 tags: [natural]

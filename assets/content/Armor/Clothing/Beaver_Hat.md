@@ -1,6 +1,6 @@
 ---
 shortcode: bvhat
-name: {full: Beaver Hat, aliases: []}
+name: {full: Beaver Hat}
 type: armorgear
 description: "Beaver fur hat combining warmth and opulent comfort for winter months."
 tags: []

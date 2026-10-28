@@ -1,6 +1,6 @@
 ---
 shortcode: ulcer
-name: {full: Ulcer, aliases: []}
+name: {full: Ulcer}
 type: trauma
 subType: physcond
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: cvcowl
-name: {full: Canvas Cowl, aliases: []}
+name: {full: Canvas Cowl}
 type: armorgear
 description: "Coarse canvas cowl giving hard-wearing head and shoulder cover."
 tags: []

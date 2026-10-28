@@ -1,6 +1,6 @@
 ---
 shortcode: traphuntin
-name: {full: "Trap, hunting, large", aliases: []}
+name: {full: "Trap, hunting, large"}
 type: miscgear
 description: "Heavy iron jaw-trap for deer and boar; set along game trails."
 tags: [expedition]

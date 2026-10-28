@@ -1,6 +1,6 @@
 ---
 shortcode: lttunic
-name: {full: Leather Tunic, aliases: []}
+name: {full: Leather Tunic}
 type: armorgear
 description: "Rugged styled leather garment providing minimal protection and style."
 tags: []

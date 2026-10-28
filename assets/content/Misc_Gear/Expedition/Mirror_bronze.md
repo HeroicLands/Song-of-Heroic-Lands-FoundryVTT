@@ -1,6 +1,6 @@
 ---
 shortcode: mirrorbron
-name: {full: "Mirror, bronze", aliases: []}
+name: {full: "Mirror, bronze"}
 type: miscgear
 description: "Hand-sized bronze mirror for signaling, grooming, and spotting pursuers."
 tags: [expedition]

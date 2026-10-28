@@ -1,6 +1,6 @@
 ---
 shortcode: bltlbrd
-name: {full: Light Broad Bolt, aliases: []}
+name: {full: Light Broad Bolt}
 type: projectilegear
 subType: bolt
 description: "Light quarrel, leaf-bladed iron head; opens bleeding wound; hunters, scouts, brigand foes."

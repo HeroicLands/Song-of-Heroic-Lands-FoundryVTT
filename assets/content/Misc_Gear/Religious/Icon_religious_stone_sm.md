@@ -1,6 +1,6 @@
 ---
 shortcode: iconstnsm
-name: {full: "Icon, religious, stone, sm", aliases: []}
+name: {full: "Icon, religious, stone, sm"}
 type: miscgear
 description: "Palm-sized devotional figure cut from soapstone or limestone; heavier and dearer than clay."
 tags: [religious]

@@ -1,6 +1,6 @@
 ---
 shortcode: rtunic
-name: {full: Russet Tunic, aliases: []}
+name: {full: Russet Tunic}
 type: armorgear
 description: "Reddish-brown wool tunic; everyday wear for rough labor."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: hlngrt
-name: {full: Healing Rate, aliases: []}
+name: {full: Healing Rate}
 type: doc
 subType: rules
 tags: [rules-trauma, rules-trauma-body-injury-sections]

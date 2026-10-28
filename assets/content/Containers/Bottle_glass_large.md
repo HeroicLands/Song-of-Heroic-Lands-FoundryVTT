@@ -1,6 +1,6 @@
 ---
 shortcode: bottleglas
-name: {full: "Bottle, glass, large", aliases: []}
+name: {full: "Bottle, glass, large"}
 type: containergear
 description: "Substantial blown glass bottle for liquids and provisions."
 tags: []

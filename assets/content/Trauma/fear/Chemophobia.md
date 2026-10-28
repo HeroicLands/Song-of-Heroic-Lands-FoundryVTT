@@ -1,6 +1,6 @@
 ---
 shortcode: chemophb
-name: {full: Chemophobia, aliases: []}
+name: {full: Chemophobia}
 type: trauma
 subType: fear
 tags: []

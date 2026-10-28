@@ -1,6 +1,6 @@
 ---
 shortcode: rcowl
-name: {full: Russet Cowl, aliases: []}
+name: {full: Russet Cowl}
 type: armorgear
 description: "Reddish-brown wool hood; practical head and neck covering."
 tags: []

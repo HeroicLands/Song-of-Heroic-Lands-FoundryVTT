@@ -1,6 +1,6 @@
 ---
 shortcode: pike
-name: {full: Pike, aliases: []}
+name: {full: Pike}
 type: weapongear
 description: "Nine-foot slender thrusting spear; pike-rank cavalry-breaking wall."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: masonkit
-name: {full: Mason's Kit, aliases: []}
+name: {full: Mason's Kit}
 type: miscgear
 description: "Heavy canvas roll with mallets, pitching tool, chisels, plumb, level; masons shape stone."
 tags: [instruments]

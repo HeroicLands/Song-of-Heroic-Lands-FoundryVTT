@@ -1,6 +1,6 @@
 ---
 shortcode: cleg
-name: {full: Cloth Leggings, aliases: []}
+name: {full: Cloth Leggings}
 type: armorgear
 description: "Simple cloth leg-wear offering comfort and warmth for everyday wear."
 tags: []

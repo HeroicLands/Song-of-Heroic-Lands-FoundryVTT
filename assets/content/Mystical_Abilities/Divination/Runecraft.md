@@ -1,6 +1,6 @@
 ---
 shortcode: runecft
-name: {full: Runecraft, aliases: []}
+name: {full: Runecraft}
 type: mysticalability
 subType: divination
 description: "Casting inscribed lots and reading a terse answer from how they fall."

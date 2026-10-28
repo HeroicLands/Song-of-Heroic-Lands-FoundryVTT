@@ -1,6 +1,6 @@
 ---
 shortcode: cabbage
-name: {full: Cabbage, aliases: []}
+name: {full: Cabbage}
 type: miscgear
 description: "Dense pale head; sweet fresh, soured pickled for winter larder."
 tags: [food]

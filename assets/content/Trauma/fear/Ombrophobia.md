@@ -1,6 +1,6 @@
 ---
 shortcode: ombrophb
-name: {full: Ombrophobia, aliases: []}
+name: {full: Ombrophobia}
 type: trauma
 subType: fear
 tags: []

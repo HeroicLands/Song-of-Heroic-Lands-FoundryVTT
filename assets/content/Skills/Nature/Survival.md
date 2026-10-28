@@ -1,6 +1,6 @@
 ---
 shortcode: srvl
-name: {full: Survival, aliases: []}
+name: {full: Survival}
 type: skill
 subType: nature
 description: "Enduring wilderness through shelter, water, foraging, and hazard navigation."

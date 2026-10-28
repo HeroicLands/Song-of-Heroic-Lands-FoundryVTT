@@ -1,6 +1,6 @@
 ---
 shortcode: curare
-name: {full: Curare, aliases: []}
+name: {full: Curare}
 type: affliction
 subType: poisontoxin
 description: "Plant toxin; neuromuscular paralysis progressing from extremities inward; respiratory failure."

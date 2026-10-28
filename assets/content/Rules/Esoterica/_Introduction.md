@@ -1,6 +1,6 @@
 ---
 shortcode: estrcint
-name: {full: Esoterica Introduction, aliases: []}
+name: {full: Esoterica Introduction}
 type: doc
 subType: rules
 tags: [rules-esoterica]

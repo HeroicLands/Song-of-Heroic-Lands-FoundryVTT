@@ -1,6 +1,6 @@
 ---
 shortcode: iatrophb
-name: {full: Iatrophobia, aliases: []}
+name: {full: Iatrophobia}
 type: trauma
 subType: fear
 tags: []

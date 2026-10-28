@@ -1,6 +1,6 @@
 ---
 shortcode: iron
-name: {full: Iron, aliases: []}
+name: {full: Iron}
 type: miscgear
 description: "Bloomery iron in bars; the commonest working metal, cheap and endlessly reforged."
 tags: [jewelry_cash]

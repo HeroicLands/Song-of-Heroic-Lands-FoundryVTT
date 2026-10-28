@@ -1,6 +1,6 @@
 ---
 shortcode: liteblkt
-name: {full: "Blanket, light", aliases: []}
+name: {full: "Blanket, light"}
 type: miscgear
 description: "Thin linen or light wool blanket; pocketable and quick-drying for mild seasons."
 tags: [expedition]

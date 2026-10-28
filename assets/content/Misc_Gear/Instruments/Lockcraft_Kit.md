@@ -1,6 +1,6 @@
 ---
 shortcode: lkcrftkt
-name: {full: Lockcraft Kit, aliases: []}
+name: {full: Lockcraft Kit}
 type: miscgear
 description: "Leather case with picks, files, hammer, key blanks; locksmith's tools."
 tags: [instruments]

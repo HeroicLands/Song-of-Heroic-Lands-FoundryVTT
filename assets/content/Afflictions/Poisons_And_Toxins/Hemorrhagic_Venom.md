@@ -1,6 +1,6 @@
 ---
 shortcode: hmgfvr
-name: {full: Hemorrhagic Venom, aliases: []}
+name: {full: Hemorrhagic Venom}
 type: affliction
 subType: poisontoxin
 description: "Snake venom disrupts blood clotting; extensive internal and external bleeding."

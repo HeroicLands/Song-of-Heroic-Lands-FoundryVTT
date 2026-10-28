@@ -1,6 +1,6 @@
 ---
 shortcode: macrosandactions
-name: {full: Macros and Actions, aliases: []}
+name: {full: Macros and Actions}
 type: doc
 subType: concept
 tags: [dev-concepts]

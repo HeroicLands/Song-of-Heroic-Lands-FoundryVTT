@@ -1,6 +1,6 @@
 ---
 shortcode: smsh
-name: {full: Seamanship, aliases: []}
+name: {full: Seamanship}
 type: skill
 subType: nature
 description: "Operating sailing vessels on open water through sails, weather, and crew management."

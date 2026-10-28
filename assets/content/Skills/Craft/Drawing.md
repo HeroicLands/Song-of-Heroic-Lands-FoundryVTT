@@ -1,6 +1,6 @@
 ---
 shortcode: draw
-name: {full: Drawing, aliases: []}
+name: {full: Drawing}
 type: skill
 subType: craft
 description: "Painting, sketching, fresco work; creating artistic and technical designs."

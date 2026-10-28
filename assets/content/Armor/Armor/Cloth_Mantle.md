@@ -1,6 +1,6 @@
 ---
 shortcode: cmntl
-name: {full: Cloth Mantle, aliases: []}
+name: {full: Cloth Mantle}
 type: armorgear
 description: "Simple cloth mantle offering comfort and warmth for everyday wear."
 tags: []

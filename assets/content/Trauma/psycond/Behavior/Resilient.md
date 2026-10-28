@@ -1,6 +1,6 @@
 ---
 shortcode: rslnt
-name: {full: Resilient, aliases: []}
+name: {full: Resilient}
 type: trauma
 subType: psycond
 tags: []

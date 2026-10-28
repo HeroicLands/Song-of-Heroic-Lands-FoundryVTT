@@ -1,6 +1,6 @@
 ---
 shortcode: cshirt
-name: {full: Cloth Shirt, aliases: []}
+name: {full: Cloth Shirt}
 type: armorgear
 description: "Simple cloth shirt offering basic comfort and everyday coverage."
 tags: []

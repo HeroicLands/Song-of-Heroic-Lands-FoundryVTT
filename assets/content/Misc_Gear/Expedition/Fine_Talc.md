@@ -1,6 +1,6 @@
 ---
 shortcode: talc
-name: {full: Fine Talc, aliases: []}
+name: {full: Fine Talc}
 type: miscgear
 description: "Fine mineral powder; dries sweat, prevents chafing, dusts wounds, and gives grip to the climber's or wrestler's hands."
 tags: [expedition]

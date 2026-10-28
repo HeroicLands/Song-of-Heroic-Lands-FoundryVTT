@@ -1,6 +1,6 @@
 ---
 shortcode: arrowbag
-name: {full: "Arrow bag", aliases: []}
+name: {full: "Arrow bag"}
 type: containergear
 description: "Stiffened canvas bag holding arrows loose for bulk transport."
 tags: []

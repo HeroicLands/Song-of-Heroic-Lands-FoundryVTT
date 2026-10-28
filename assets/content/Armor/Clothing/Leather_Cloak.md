@@ -1,6 +1,6 @@
 ---
 shortcode: ltcloak
-name: {full: Leather Cloak, aliases: []}
+name: {full: Leather Cloak}
 type: armorgear
 description: "Rugged leather outer garment protecting against wind and light rain."
 tags: []

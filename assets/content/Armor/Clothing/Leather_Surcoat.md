@@ -1,6 +1,6 @@
 ---
 shortcode: ltscoat
-name: {full: Leather Surcoat, aliases: []}
+name: {full: Leather Surcoat}
 type: armorgear
 description: "Rugged styled leather outer layer offering minimal protection and flexibility."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: winecup
-name: {full: Cup Wine, aliases: []}
+name: {full: Cup Wine}
 type: miscgear
 description: "Common wine in cup; less refined than aged vintages; for modest means."
 tags: [spirits]

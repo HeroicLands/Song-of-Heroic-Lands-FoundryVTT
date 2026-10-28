@@ -1,6 +1,6 @@
 ---
 shortcode: perfumecheap
-name: {full: "Perfume, cheap", aliases: []}
+name: {full: "Perfume, cheap"}
 type: miscgear
 description: "Coarse scent of common herbs in weak spirit; fades within the hour."
 tags: [expedition]

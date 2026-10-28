@@ -1,6 +1,6 @@
 ---
 shortcode: clappersbo
-name: {full: "Clappers, bone", aliases: []}
+name: {full: "Clappers, bone"}
 type: miscgear
 description: "Carved bone blades hinged or strung; rhythmic snap for folk dances, processionals."
 tags: [music]

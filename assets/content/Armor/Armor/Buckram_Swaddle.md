@@ -1,6 +1,6 @@
 ---
 shortcode: bswd
-name: {full: Buckram Swaddle, aliases: []}
+name: {full: Buckram Swaddle}
 type: armorgear
 description: "Stiff buckram swaddle offering sturdy rigid infant wrapping."
 tags: []

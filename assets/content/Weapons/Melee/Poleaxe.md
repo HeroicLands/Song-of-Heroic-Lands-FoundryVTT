@@ -1,6 +1,6 @@
 ---
 shortcode: paxe
-name: {full: Poleaxe, aliases: []}
+name: {full: Poleaxe}
 type: weapongear
 description: "Axe-head, hammer, and spike combination; armored melee knight's versatile reach."
 tags: []

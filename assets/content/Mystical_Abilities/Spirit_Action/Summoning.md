@@ -1,6 +1,6 @@
 ---
 shortcode: summ
-name: {full: Summoning, aliases: []}
+name: {full: Summoning}
 type: mysticalability
 subType: spiritaction
 description: "Calling a spirit or other entity, and binding or bargaining it into service."

@@ -1,6 +1,6 @@
 ---
 shortcode: lanternmet
-name: {full: "Lantern, metal", aliases: []}
+name: {full: "Lantern, metal"}
 type: containergear
 description: "Tinned copper lantern with horn panels; protects flame from wind and rain."
 tags: []

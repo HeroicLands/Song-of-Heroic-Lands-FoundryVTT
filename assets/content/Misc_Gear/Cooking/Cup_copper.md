@@ -1,6 +1,6 @@
 ---
 shortcode: cupcopper
-name: {full: "Cup, copper", aliases: []}
+name: {full: "Cup, copper"}
 type: miscgear
 description: "Tinned copper cup; holds warmth well and suits mulled wine or mead."
 tags: [cooking]

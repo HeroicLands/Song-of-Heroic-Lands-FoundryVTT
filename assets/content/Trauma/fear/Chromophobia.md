@@ -1,6 +1,6 @@
 ---
 shortcode: chrmphb
-name: {full: Chromophobia, aliases: []}
+name: {full: Chromophobia}
 type: trauma
 subType: fear
 tags: []

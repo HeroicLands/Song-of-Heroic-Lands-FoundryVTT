@@ -1,6 +1,6 @@
 ---
 shortcode: berries
-name: {full: Berries, aliases: []}
+name: {full: Berries}
 type: miscgear
 description: "Dried summer berries; tart, bright in winter cooking, keeps seasons."
 tags: [food]

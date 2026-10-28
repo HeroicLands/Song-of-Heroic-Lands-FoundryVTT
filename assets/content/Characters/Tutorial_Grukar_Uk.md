@@ -1,6 +1,6 @@
 ---
 shortcode: tutorialgrukaruk
-name: {full: Grukar-uk, aliases: []}
+name: {full: Grukar-uk}
 type: being
 subType: character
 description: "A grukar-uk waiting beside the path."

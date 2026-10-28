@@ -1,6 +1,6 @@
 ---
 shortcode: lockdoorsm
-name: {full: "Lock, door, small", aliases: []}
+name: {full: "Lock, door, small"}
 type: miscgear
 description: "Refined iron lock for chamber doors and cabinet shutters; finely warded."
 tags: [expedition]

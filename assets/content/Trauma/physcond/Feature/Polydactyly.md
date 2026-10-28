@@ -1,6 +1,6 @@
 ---
 shortcode: polydact
-name: {full: Polydactyly, aliases: []}
+name: {full: Polydactyly}
 type: trauma
 subType: physcond
 tags: []

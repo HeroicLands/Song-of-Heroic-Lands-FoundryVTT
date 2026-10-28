@@ -1,6 +1,6 @@
 ---
 shortcode: qcoat
-name: {full: Quilted Coat, aliases: []}
+name: {full: Quilted Coat}
 type: armorgear
 description: "Stitched-layer coat; warms without heavy weight or bulk."
 tags: []

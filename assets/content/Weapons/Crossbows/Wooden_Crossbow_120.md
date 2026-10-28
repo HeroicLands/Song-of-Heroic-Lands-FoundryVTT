@@ -1,6 +1,6 @@
 ---
 shortcode: wcxbw120
-name: {full: Wooden Crossbow 120, aliases: []}
+name: {full: Wooden Crossbow 120}
 type: weapongear
 description: "Town-watch crossbow; balanced draw for long patrols and garrison duty."
 tags: []

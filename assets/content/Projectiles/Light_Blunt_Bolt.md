@@ -1,6 +1,6 @@
 ---
 shortcode: bltlblt
-name: {full: Light Blunt Bolt, aliases: []}
+name: {full: Light Blunt Bolt}
 type: projectilegear
 subType: bolt
 description: "Light quarrel with padded knob; stuns small game; spares fur and feather."

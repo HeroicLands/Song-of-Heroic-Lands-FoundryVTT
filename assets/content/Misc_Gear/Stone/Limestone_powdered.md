@@ -1,6 +1,6 @@
 ---
 shortcode: limestonep
-name: {full: "Limestone, powdered", aliases: []}
+name: {full: "Limestone, powdered"}
 type: miscgear
 description: "White caustic powder; mortar, whitewash, soil acidity; kept sealed, handled cautiously."
 tags: [stone]

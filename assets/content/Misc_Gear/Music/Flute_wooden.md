@@ -1,6 +1,6 @@
 ---
 shortcode: flutewoode
-name: {full: "Flute, wooden", aliases: []}
+name: {full: "Flute, wooden"}
 type: miscgear
 description: "Turned fruitwood pipe with fipple; warm sweet voice, apt for folk melody."
 tags: [music]

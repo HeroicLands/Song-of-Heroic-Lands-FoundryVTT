@@ -1,6 +1,6 @@
 ---
 shortcode: saltbag
-name: {full: "Salt, bag", aliases: []}
+name: {full: "Salt, bag"}
 type: miscgear
 description: "Coarse sea-salt crystals, preserves meat and fish, seasons cooking daily."
 tags: [food]

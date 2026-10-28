@@ -1,6 +1,6 @@
 ---
 shortcode: atkreslv
-name: {full: Attack Resolution, aliases: []}
+name: {full: Attack Resolution}
 type: doc
 subType: rules
 tags: [rules-combat, rules-combat-sections]

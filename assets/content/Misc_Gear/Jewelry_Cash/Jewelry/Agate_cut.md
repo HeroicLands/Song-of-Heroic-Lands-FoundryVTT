@@ -1,6 +1,6 @@
 ---
 shortcode: agatecut
-name: {full: "Agate, cut", aliases: []}
+name: {full: "Agate, cut"}
 type: miscgear
 description: "Banded stone faceted by the lapidary; modest gem for rings and pendants."
 tags: [jewelry_cash]

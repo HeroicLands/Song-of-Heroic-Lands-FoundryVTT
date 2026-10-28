@@ -1,6 +1,6 @@
 ---
 shortcode: acro
-name: {full: Acrobatics, aliases: []}
+name: {full: Acrobatics}
 type: skill
 subType: physical
 description: "Vaulting, balance, tumbling; recovers gracefully from perilous falls."

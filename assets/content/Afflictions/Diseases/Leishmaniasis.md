@@ -1,6 +1,6 @@
 ---
 shortcode: lshmnss
-name: {full: Leishmaniasis, aliases: []}
+name: {full: Leishmaniasis}
 type: affliction
 subType: disease
 description: "Leishmania parasite via sandfly bite; skin sores or organ damage."

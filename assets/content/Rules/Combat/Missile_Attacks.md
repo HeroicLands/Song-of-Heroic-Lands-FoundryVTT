@@ -1,6 +1,6 @@
 ---
 shortcode: msslattc
-name: {full: Missile Attacks, aliases: []}
+name: {full: Missile Attacks}
 type: doc
 subType: rules
 tags: [rules-combat, rules-combat-kinds-of-attack, rules-combat-sections]

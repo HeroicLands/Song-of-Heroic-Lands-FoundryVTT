@@ -1,6 +1,6 @@
 ---
 shortcode: eshirt
-name: {full: Ermine Shirt, aliases: []}
+name: {full: Ermine Shirt}
 type: armorgear
 description: "White ermine fur shirt signifying high status and elite prestige."
 tags: []

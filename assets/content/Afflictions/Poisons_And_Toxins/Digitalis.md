@@ -1,6 +1,6 @@
 ---
 shortcode: dgtls
-name: {full: Digitalis, aliases: []}
+name: {full: Digitalis}
 type: affliction
 subType: poisontoxin
 description: "Foxglove cardiac glycoside; nausea, visual disturbances, severe cardiac effects."

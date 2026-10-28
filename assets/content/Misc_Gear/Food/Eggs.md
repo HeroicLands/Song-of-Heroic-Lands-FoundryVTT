@@ -1,6 +1,6 @@
 ---
 shortcode: eggs
-name: {full: Eggs, aliases: []}
+name: {full: Eggs}
 type: miscgear
 description: "Chicken, duck, or goose eggs; kept cool and eaten within days."
 tags: [food]

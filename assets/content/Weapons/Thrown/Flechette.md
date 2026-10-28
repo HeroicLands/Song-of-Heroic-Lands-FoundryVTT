@@ -1,6 +1,6 @@
 ---
 shortcode: flch
-name: {full: Fléchette, aliases: []}
+name: {full: Fléchette}
 type: weapongear
 description: "Small aerodynamic dart thrown in volleys; skirmisher's ranged harassment."
 tags: []

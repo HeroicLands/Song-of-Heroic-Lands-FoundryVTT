@@ -1,6 +1,6 @@
 ---
 shortcode: horndrinki
-name: {full: "Horn, drinking", aliases: []}
+name: {full: "Horn, drinking"}
 type: miscgear
 description: "Polished steer horn with wooden or horn base; durable for soldiers."
 tags: [expedition]

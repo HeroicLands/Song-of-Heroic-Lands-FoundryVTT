@@ -1,6 +1,6 @@
 ---
 shortcode: hlngtst
-name: {full: Healing Test, aliases: []}
+name: {full: Healing Test}
 type: doc
 subType: rules
 tags: [rules-trauma, rules-trauma-body-injury-sections]

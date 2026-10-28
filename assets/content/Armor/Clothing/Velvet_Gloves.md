@@ -1,6 +1,6 @@
 ---
 shortcode: vglv
-name: {full: Velvet Gloves, aliases: []}
+name: {full: Velvet Gloves}
 type: armorgear
 description: "Plush velvet gloves; opulent garment for high-status formal occasions."
 tags: []

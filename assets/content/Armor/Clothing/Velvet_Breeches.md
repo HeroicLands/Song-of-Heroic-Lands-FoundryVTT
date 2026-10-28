@@ -1,6 +1,6 @@
 ---
 shortcode: vbrch
-name: {full: Velvet Breeches, aliases: []}
+name: {full: Velvet Breeches}
 type: armorgear
 description: "Plush velvet breeches; luxurious garment for high-status formal events."
 tags: []

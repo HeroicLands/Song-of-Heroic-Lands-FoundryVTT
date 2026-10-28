@@ -1,6 +1,6 @@
 ---
 shortcode: prottxn
-name: {full: Protein Toxin, aliases: []}
+name: {full: Protein Toxin}
 type: affliction
 subType: poisontoxin
 description: "Marine spine venom; intense pain and tissue necrosis; cardiovascular distress."

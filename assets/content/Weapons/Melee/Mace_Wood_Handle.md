@@ -1,6 +1,6 @@
 ---
 shortcode: wdmce
-name: {full: "Mace, Wood Handle", aliases: []}
+name: {full: "Mace, Wood Handle"}
 type: weapongear
 description: "Flanged iron head on wooden shaft; footman and guard's bone-cracker."
 tags: []

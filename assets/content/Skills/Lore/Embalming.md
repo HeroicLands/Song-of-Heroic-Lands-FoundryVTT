@@ -1,6 +1,6 @@
 ---
 shortcode: embl
-name: {full: Embalming, aliases: []}
+name: {full: Embalming}
 type: skill
 subType: lore
 description: "Preparing corpses for burial; delaying decomposition through preservation techniques."

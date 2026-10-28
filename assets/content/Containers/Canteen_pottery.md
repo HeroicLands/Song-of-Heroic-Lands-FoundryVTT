@@ -1,6 +1,6 @@
 ---
 shortcode: cantpot
-name: {full: "Canteen, pottery", aliases: []}
+name: {full: "Canteen, pottery"}
 type: containergear
 description: "Glazed earthenware canteen with a stopper."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: pancoppers
-name: {full: "Pan, copper, small", aliases: []}
+name: {full: "Pan, copper, small"}
 type: miscgear
 description: "Small tinned copper pan for warming sauces or cooking for one."
 tags: [cooking]

@@ -1,6 +1,6 @@
 ---
 shortcode: emp
-name: {full: Empathy, aliases: []}
+name: {full: Empathy}
 type: attribute
 description: "Sensing and understanding the feelings and motives of others."
 tags: []

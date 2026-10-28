@@ -1,6 +1,6 @@
 ---
 shortcode: pipewd
-name: {full: Pipe weed, aliases: []}
+name: {full: Pipe weed}
 type: miscgear
 description: "Dried tobacco leaf for smoking; eases fatigue and steadies nerves."
 tags: [expedition]

@@ -1,6 +1,6 @@
 ---
 shortcode: slkclk
-name: {full: Silk Cloak, aliases: []}
+name: {full: Silk Cloak}
 type: armorgear
 description: "Luxurious silk cloak for high-status occasions and formal events."
 tags: []

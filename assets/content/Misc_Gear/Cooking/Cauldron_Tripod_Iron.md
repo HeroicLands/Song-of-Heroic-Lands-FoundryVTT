@@ -1,6 +1,6 @@
 ---
 shortcode: cauldrontr
-name: {full: "Cauldron Tripod, Iron", aliases: []}
+name: {full: "Cauldron Tripod, Iron"}
 type: miscgear
 description: "Wrought-iron tripod frame for hanging cauldron over open fire."
 tags: [cooking]

@@ -1,6 +1,6 @@
 ---
 shortcode: aldrikharvenar
-name: {full: Áldrik Hárvenar, given: Áldrik, clan: Hárvenar, aliases: []}
+name: {full: Áldrik Hárvenar, given: Áldrik, clan: Hárvenar}
 type: being
 subType: character
 tags: []

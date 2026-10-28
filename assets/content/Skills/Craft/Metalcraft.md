@@ -1,6 +1,6 @@
 ---
 shortcode: mtlc
-name: {full: Metalcraft, aliases: []}
+name: {full: Metalcraft}
 type: skill
 subType: craft
 description: "Smelting, forging, and finishing metal into tools, armor, and components."

@@ -1,6 +1,6 @@
 ---
 shortcode: chood
-name: {full: Cloth Hood, aliases: []}
+name: {full: Cloth Hood}
 type: armorgear
 description: "Simple cloth hood covering head and neck."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: wxcvleg
-name: {full: Waxed Canvas Leggings, aliases: []}
+name: {full: Waxed Canvas Leggings}
 type: armorgear
 description: "Waxed canvas leg-wear shedding wet on foul-weather journeys."
 tags: []

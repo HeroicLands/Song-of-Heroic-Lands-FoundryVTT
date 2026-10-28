@@ -1,6 +1,6 @@
 ---
 shortcode: hidesheep
-name: {full: "Hide, Sheep", aliases: []}
+name: {full: "Hide, Sheep"}
 type: miscgear
 description: "Sturdy dried hide; yields suede for jerkins or tanned leather bookbindings. Price is for one whole skin."
 tags: [natural]

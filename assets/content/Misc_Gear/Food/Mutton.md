@@ -1,6 +1,6 @@
 ---
 shortcode: mutton
-name: {full: Mutton, aliases: []}
+name: {full: Mutton}
 type: miscgear
 description: "Dark meat of aging sheep, stronger than lamb, suits hearty dishes."
 tags: [food]

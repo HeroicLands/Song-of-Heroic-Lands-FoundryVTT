@@ -1,6 +1,6 @@
 ---
 shortcode: lbw125
-name: {full: Longbow 125, aliases: []}
+name: {full: Longbow 125}
 type: weapongear
 description: "Hundred-twenty-five pound warbow; recognized veteran archer's plate-piercer."
 tags: []

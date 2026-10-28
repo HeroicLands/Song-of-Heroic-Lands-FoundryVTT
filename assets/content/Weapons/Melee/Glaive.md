@@ -1,6 +1,6 @@
 ---
 shortcode: glv
-name: {full: Glaive, aliases: []}
+name: {full: Glaive}
 type: weapongear
 description: "Single-edged polearm cleaver; line infantry cavalry-breaker."
 tags: []

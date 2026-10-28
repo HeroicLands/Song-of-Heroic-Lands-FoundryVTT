@@ -1,6 +1,6 @@
 ---
 shortcode: cloth
-name: {full: "Cloth, per sq yard", aliases: []}
+name: {full: "Cloth, per sq yard"}
 type: miscgear
 description: "Standard woollen broadcloth, the common measure against which other cloth is priced."
 tags: [clothing]

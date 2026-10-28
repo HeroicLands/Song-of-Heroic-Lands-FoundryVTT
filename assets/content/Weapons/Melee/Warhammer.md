@@ -1,6 +1,6 @@
 ---
 shortcode: whmr
-name: {full: Warhammer, aliases: []}
+name: {full: Warhammer}
 type: weapongear
 description: "Flat-faced hammer with spike; one-handed armor-breaker for knights."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: mor
-name: {full: Morality, aliases: []}
+name: {full: Morality}
 type: attribute
 description: "Ethical conscience, and the willingness to act on it under temptation."
 tags: []

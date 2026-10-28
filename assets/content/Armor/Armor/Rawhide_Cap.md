@@ -1,6 +1,6 @@
 ---
 shortcode: rhcap
-name: {full: Rawhide Cap, aliases: []}
+name: {full: Rawhide Cap}
 type: armorgear
 description: "Thick hide cap; durable head-cover for tough work."
 tags: []

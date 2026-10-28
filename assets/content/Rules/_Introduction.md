@@ -1,6 +1,6 @@
 ---
 shortcode: rulesintro
-name: {full: Song of Heroic Lands Rules, aliases: []}
+name: {full: Song of Heroic Lands Rules}
 type: doc
 subType: rules
 data: {packFolder: rules}

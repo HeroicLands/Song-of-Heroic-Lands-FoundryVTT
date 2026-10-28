@@ -1,6 +1,6 @@
 ---
 shortcode: ecloak
-name: {full: Ermine Cloak, aliases: []}
+name: {full: Ermine Cloak}
 type: armorgear
 description: "White ermine cloak; status symbol of nobility and high prestige."
 tags: []

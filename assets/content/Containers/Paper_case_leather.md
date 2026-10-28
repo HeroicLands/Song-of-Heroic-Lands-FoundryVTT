@@ -1,6 +1,6 @@
 ---
 shortcode: papercasel
-name: {full: "Paper case, leather", aliases: []}
+name: {full: "Paper case, leather"}
 type: containergear
 description: "Waxed leather tube for carrying folded documents and parchment safely."
 tags: []

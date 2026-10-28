@@ -1,6 +1,6 @@
 ---
 shortcode: hrld
-name: {full: Heraldry, aliases: []}
+name: {full: Heraldry}
 type: skill
 subType: lore
 description: "Interpreting coats of arms, crests, badges; revealing lineage and history."

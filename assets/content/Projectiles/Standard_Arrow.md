@@ -1,6 +1,6 @@
 ---
 shortcode: arwstd
-name: {full: Standard Arrow, aliases: []}
+name: {full: Standard Arrow}
 type: projectilegear
 subType: arrow
 description: "Ash or birch shaft, goose-feather fletching; workaday deer or skirmish arrow."

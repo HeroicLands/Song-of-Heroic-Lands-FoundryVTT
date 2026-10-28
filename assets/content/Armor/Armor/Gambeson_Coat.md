@@ -1,6 +1,6 @@
 ---
 shortcode: gcoat
-name: {full: Gambeson Coat, aliases: []}
+name: {full: Gambeson Coat}
 type: armorgear
 description: "Padded coat worn under armor or standalone, offering cushioning protection."
 tags: []

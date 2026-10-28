@@ -1,6 +1,6 @@
 ---
 shortcode: cnfdnt
-name: {full: Confident, aliases: []}
+name: {full: Confident}
 type: trauma
 subType: psycond
 tags: []

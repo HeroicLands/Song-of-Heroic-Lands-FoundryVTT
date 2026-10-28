@@ -1,6 +1,6 @@
 ---
 shortcode: bleg
-name: {full: Buckram Leggings, aliases: []}
+name: {full: Buckram Leggings}
 type: armorgear
 description: "Stiff, structured buckram leg-wear offering durability and reliability."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: backpkwck
-name: {full: "Backpack, wicker", aliases: []}
+name: {full: "Backpack, wicker"}
 type: containergear
 description: "Woven wicker pack, inherently framed."
 tags: []

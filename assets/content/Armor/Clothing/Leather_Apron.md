@@ -1,6 +1,6 @@
 ---
 shortcode: ltapn
-name: {full: Leather Apron, aliases: []}
+name: {full: Leather Apron}
 type: armorgear
 description: "Leather apron for craftsmen and artisans, more style than protection."
 tags: []

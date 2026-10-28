@@ -1,6 +1,6 @@
 ---
 shortcode: sewkit
-name: {full: Sewing Kit, aliases: []}
+name: {full: Sewing Kit}
 type: miscgear
 description: "Small cloth roll with bone and iron needles, linen and silk thread, thimble, shears, awl, beeswax; seamstresses mend and sew."
 tags: [instruments]

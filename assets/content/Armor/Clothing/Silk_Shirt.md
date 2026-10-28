@@ -1,6 +1,6 @@
 ---
 shortcode: slkshirt
-name: {full: Silk Shirt, aliases: []}
+name: {full: Silk Shirt}
 type: armorgear
 description: "Elegant silk shirt; luxurious, refined garment for formal occasions."
 tags: []

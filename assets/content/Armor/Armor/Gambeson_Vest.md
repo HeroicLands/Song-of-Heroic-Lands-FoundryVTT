@@ -1,6 +1,6 @@
 ---
 shortcode: gvest
-name: {full: Gambeson Vest, aliases: []}
+name: {full: Gambeson Vest}
 type: armorgear
 description: "Padded vest providing protection under or worn standalone."
 tags: []

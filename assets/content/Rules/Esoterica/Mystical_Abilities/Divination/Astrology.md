@@ -1,6 +1,6 @@
 ---
 shortcode: astrlgy
-name: {full: Astrology, aliases: []}
+name: {full: Astrology}
 type: doc
 subType: rules
 tags: [rules-esoterica, rules-esoterica-mystical-abilities-divination-the-arts]

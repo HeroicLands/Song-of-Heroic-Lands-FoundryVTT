@@ -1,6 +1,6 @@
 ---
 shortcode: wirecopper
-name: {full: "Wire, copper", aliases: []}
+name: {full: "Wire, copper"}
 type: miscgear
 description: "Flexible copper wire; does not rust, works for snares and armor binding."
 tags: [expedition]

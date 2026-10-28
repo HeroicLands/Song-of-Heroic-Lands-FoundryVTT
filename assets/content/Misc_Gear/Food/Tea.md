@@ -1,6 +1,6 @@
 ---
 shortcode: tea
-name: {full: Tea, aliases: []}
+name: {full: Tea}
 type: miscgear
 description: "Distant leaf brew stretched across days, sharpens mind and warms."
 tags: [food]

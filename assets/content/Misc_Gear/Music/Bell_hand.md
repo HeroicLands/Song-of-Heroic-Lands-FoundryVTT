@@ -1,6 +1,6 @@
 ---
 shortcode: bellhand
-name: {full: "Bell, hand", aliases: []}
+name: {full: "Bell, hand"}
 type: miscgear
 description: "Small bronze-iron bell with handle; bright clear note for summons and announcement."
 tags: [music]

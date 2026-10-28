@@ -1,6 +1,6 @@
 ---
 shortcode: bglgcvs
-name: {full: "Bag, lg, canvas", aliases: []}
+name: {full: "Bag, lg, canvas"}
 type: containergear
 description: "Plain woven canvas sack for storage of goods or supplies."
 tags: []

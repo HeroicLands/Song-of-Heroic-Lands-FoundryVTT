@@ -1,6 +1,6 @@
 ---
 shortcode: oilmyrtle
-name: {full: "Oil, myrtle", aliases: []}
+name: {full: "Oil, myrtle"}
 type: miscgear
 description: "Clean astringent myrtle oil for perfumery and wound washes."
 tags: [expedition]

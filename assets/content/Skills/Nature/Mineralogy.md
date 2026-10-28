@@ -1,6 +1,6 @@
 ---
 shortcode: mnrl
-name: {full: Mineralogy, aliases: []}
+name: {full: Mineralogy}
 type: skill
 subType: nature
 description: "Identifying minerals, ores, and deposits for mining and building projects."

@@ -1,6 +1,6 @@
 ---
 shortcode: emeraldcut
-name: {full: "Emerald, cut", aliases: []}
+name: {full: "Emerald, cut"}
 type: miscgear
 description: "Deep green beryl gem; set into crowns, brooches, and formal rings."
 tags: [jewelry_cash]

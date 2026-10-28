@@ -1,6 +1,6 @@
 ---
 shortcode: rhkboot
-name: {full: Rawhide Knee Boots, aliases: []}
+name: {full: Rawhide Knee Boots}
 type: armorgear
 description: "Rugged hide boots; leg protection in harsh terrain."
 tags: []

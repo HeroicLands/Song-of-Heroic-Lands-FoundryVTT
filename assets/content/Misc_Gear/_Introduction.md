@@ -1,6 +1,6 @@
 ---
 shortcode: miscgear
-name: {full: Miscellaneous Gear, aliases: []}
+name: {full: Miscellaneous Gear}
 type: doc
 subType: reference
 description: Everyday equipment and sundry goods.

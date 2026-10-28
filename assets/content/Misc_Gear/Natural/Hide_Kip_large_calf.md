@@ -1,6 +1,6 @@
 ---
 shortcode: hidekiplar
-name: {full: "Hide, Kip (large calf)", aliases: []}
+name: {full: "Hide, Kip (large calf)"}
 type: miscgear
 description: "Large calf hide between calf and steer; splits into shoe-sole and vamp. Price is for one whole skin."
 tags: [natural]

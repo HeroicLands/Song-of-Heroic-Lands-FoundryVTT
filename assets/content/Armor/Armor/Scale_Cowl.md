@@ -1,6 +1,6 @@
 ---
 shortcode: scwl
-name: {full: Scale Cowl, aliases: []}
+name: {full: Scale Cowl}
 type: armorgear
 description: "Scale-sewn hood; overlapping metal scales for head protection."
 tags: []

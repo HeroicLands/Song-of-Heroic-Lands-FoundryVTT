@@ -1,6 +1,6 @@
 ---
 shortcode: silk
-name: {full: "Silk, per sq yard", aliases: []}
+name: {full: "Silk, per sq yard"}
 type: miscgear
 description: "Imported woven silk, light and lustrous; the dearest cloth in any market."
 tags: [clothing]

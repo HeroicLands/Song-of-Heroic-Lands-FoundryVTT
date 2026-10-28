@@ -1,6 +1,6 @@
 ---
 shortcode: sugar
-name: {full: Sugar, aliases: []}
+name: {full: Sugar}
 type: miscgear
 description: "Luxury cane crystals from distant tropics, sweetens pastries and preserves."
 tags: [food]

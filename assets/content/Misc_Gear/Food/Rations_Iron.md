@@ -1,6 +1,6 @@
 ---
 shortcode: frtns
-name: {full: "Rations, Iron", aliases: []}
+name: {full: "Rations, Iron"}
 type: miscgear
 description: "Compact military bundle of hardtack and salt pork, sustains one day."
 tags: [food]

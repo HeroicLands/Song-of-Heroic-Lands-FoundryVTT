@@ -1,6 +1,6 @@
 ---
 shortcode: ankletgold
-name: {full: "Anklet, gold", aliases: []}
+name: {full: "Anklet, gold"}
 type: miscgear
 description: "A band worn at the ankle, closed or hinged, and often hung with small charms, in gold."
 tags: [jewelry_cash]

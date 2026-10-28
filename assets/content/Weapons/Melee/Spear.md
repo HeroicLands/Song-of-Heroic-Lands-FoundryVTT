@@ -1,6 +1,6 @@
 ---
 shortcode: spr
-name: {full: Spear, aliases: []}
+name: {full: Spear}
 type: weapongear
 description: "Sharpened point on wood; universal polearm for thrust and formation."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: rrobe
-name: {full: Russet Robe, aliases: []}
+name: {full: Russet Robe}
 type: armorgear
 description: "Reddish-brown wool robe; everyday garment for cooler weather."
 tags: []

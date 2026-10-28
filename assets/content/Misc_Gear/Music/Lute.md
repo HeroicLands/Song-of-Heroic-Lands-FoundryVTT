@@ -1,6 +1,6 @@
 ---
 shortcode: lute
-name: {full: Lute, aliases: []}
+name: {full: Lute}
 type: miscgear
 description: "Pear-shaped body, pegged neck, gut strings; warm voice for intricate music."
 tags: [music]

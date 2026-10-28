@@ -1,6 +1,6 @@
 ---
 shortcode: mlhbk
-name: {full: Mail Long Hauberk, aliases: []}
+name: {full: Mail Long Hauberk}
 type: armorgear
 description: "Lengthy metal ring torso armor for extended leg protection."
 tags: []

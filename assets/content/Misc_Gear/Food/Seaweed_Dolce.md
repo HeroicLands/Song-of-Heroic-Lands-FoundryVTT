@@ -1,6 +1,6 @@
 ---
 shortcode: seaweeddol
-name: {full: "Seaweed, Dolce", aliases: []}
+name: {full: "Seaweed, Dolce"}
 type: miscgear
 description: "Dried coastal fronds rehydrating in broth, iodine-rich food and umami."
 tags: [food]

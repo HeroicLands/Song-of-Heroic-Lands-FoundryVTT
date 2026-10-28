@@ -1,6 +1,6 @@
 ---
 shortcode: hsmntl
-name: {full: Homespun Mantle, aliases: []}
+name: {full: Homespun Mantle}
 type: armorgear
 description: "Simple homemade mantle providing weather protection for folk."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: pal
-name: {full: Pall, aliases: []}
+name: {full: Pall}
 type: attribute
 description: "The weight of death and chaos an undead thing presses on the living world."
 tags: []

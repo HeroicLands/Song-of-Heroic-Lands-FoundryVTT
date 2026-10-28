@@ -1,6 +1,6 @@
 ---
 shortcode: credits
-name: {full: "Credits & Attributions", aliases: []}
+name: {full: "Credits & Attributions"}
 type: doc
 subType: reference
 data: {packFolder: credits}

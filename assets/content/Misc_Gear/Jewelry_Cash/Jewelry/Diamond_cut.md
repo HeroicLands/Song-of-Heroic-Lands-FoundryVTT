@@ -1,6 +1,6 @@
 ---
 shortcode: diamondcut
-name: {full: "Diamond, cut", aliases: []}
+name: {full: "Diamond, cut"}
 type: miscgear
 description: "Hardest stone, brilliant-cut gem refracting light into rainbow fire; marks extraordinary wealth."
 tags: [jewelry_cash]

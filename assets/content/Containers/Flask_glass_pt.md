@@ -1,6 +1,6 @@
 ---
 shortcode: flskgls1p
-name: {full: "Flask, glass, 1 pint", aliases: []}
+name: {full: "Flask, glass, 1 pint"}
 type: containergear
 description: "Small glass flask for carrying wine, ink, or drafts."
 tags: []

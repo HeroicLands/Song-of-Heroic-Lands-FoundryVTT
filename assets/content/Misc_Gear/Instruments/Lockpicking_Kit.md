@@ -1,6 +1,6 @@
 ---
 shortcode: lkpickkit
-name: {full: Lockpicking Kit, aliases: []}
+name: {full: Lockpicking Kit}
 type: miscgear
 description: "Concealable wallet of picks, rakes, and tension wrenches; thieves' lock-bypassing kit."
 tags: [instruments]

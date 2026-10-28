@@ -1,6 +1,6 @@
 ---
 shortcode: rope12silk
-name: {full: "Rope, ½” silk, per ft (1000 lb cap.)", aliases: []}
+name: {full: "Rope, ½” silk, per ft (1000 lb cap.)"}
 type: miscgear
 description: "Supple silk rope; strong, light, and prized by climbers and thieves."
 tags: [expedition]

@@ -1,6 +1,6 @@
 ---
 shortcode: bboot
-name: {full: Buckram Knee Boots, aliases: []}
+name: {full: Buckram Knee Boots}
 type: armorgear
 description: "Stiff buckram knee boots offering durability and structured leg protection."
 tags: []

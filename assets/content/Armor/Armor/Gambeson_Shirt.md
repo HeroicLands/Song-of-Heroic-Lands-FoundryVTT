@@ -1,6 +1,6 @@
 ---
 shortcode: gsht
-name: {full: Gambeson Shirt, aliases: []}
+name: {full: Gambeson Shirt}
 type: armorgear
 description: "Padded shirt for under-armor or standalone combat protection."
 tags: []

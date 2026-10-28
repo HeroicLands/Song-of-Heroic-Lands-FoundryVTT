@@ -1,6 +1,6 @@
 ---
 shortcode: mysteryintro
-name: {full: Mysteries Introduction, aliases: []}
+name: {full: Mysteries Introduction}
 type: doc
 subType: rules
 tags: [rules-esoterica, rules-esoterica-mysteries-and-mystical-abilities]

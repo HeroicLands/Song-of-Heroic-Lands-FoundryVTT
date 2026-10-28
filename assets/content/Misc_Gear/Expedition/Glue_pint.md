@@ -1,6 +1,6 @@
 ---
 shortcode: gluept
-name: {full: "Glue, pint", aliases: []}
+name: {full: "Glue, pint"}
 type: miscgear
 description: "Hide glue from bone and sinew; rejoin wood, leather, and bone."
 tags: [expedition]

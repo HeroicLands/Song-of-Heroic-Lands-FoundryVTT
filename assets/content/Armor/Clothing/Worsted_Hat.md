@@ -1,6 +1,6 @@
 ---
 shortcode: what
-name: {full: Worsted Hat, aliases: []}
+name: {full: Worsted Hat}
 type: armorgear
 description: "Tightly-spun wool hat; durable, stylish head covering."
 tags: []

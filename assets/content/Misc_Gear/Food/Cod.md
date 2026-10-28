@@ -1,6 +1,6 @@
 ---
 shortcode: cod
-name: {full: Cod, aliases: []}
+name: {full: Cod}
 type: miscgear
 description: "Salt-cured white fish; dried or salted for long trade voyages."
 tags: [food]

@@ -1,6 +1,6 @@
 ---
 shortcode: stlkhzr
-name: {full: "Steel, Khazárian", aliases: []}
+name: {full: "Steel, Khazárian"}
 type: miscgear
 description: "Crucible steel of Khazárian make; far dearer than common steel, and far better."
 tags: [jewelry_cash]

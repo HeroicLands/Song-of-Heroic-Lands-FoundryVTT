@@ -1,6 +1,6 @@
 ---
 shortcode: sgmntl
-name: {full: Serge Mantle, aliases: []}
+name: {full: Serge Mantle}
 type: armorgear
 description: "Durable twilled serge mantle; versatile protective outer garment."
 tags: []

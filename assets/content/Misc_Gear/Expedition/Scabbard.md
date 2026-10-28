@@ -1,6 +1,6 @@
 ---
 shortcode: scabbard
-name: {full: Scabbard, aliases: []}
+name: {full: Scabbard}
 type: miscgear
 description: "Leather sheath with wooden core; protects blade and user from rust."
 tags: [expedition]

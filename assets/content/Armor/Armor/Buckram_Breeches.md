@@ -1,6 +1,6 @@
 ---
 shortcode: bbrch
-name: {full: Buckram Breeches, aliases: []}
+name: {full: Buckram Breeches}
 type: armorgear
 description: "Stiff, glue-stiffened cloth breeches offering structured fit and durability."
 tags: []

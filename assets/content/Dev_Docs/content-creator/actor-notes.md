@@ -1,6 +1,6 @@
 ---
 shortcode: actornotes
-name: {full: Actor Notes, aliases: []}
+name: {full: Actor Notes}
 type: doc
 subType: howto
 description: "Authoring a `being`, and the `(type, shortcode)` address space its embedded items resolve through."

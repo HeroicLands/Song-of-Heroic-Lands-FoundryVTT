@@ -1,6 +1,6 @@
 ---
 shortcode: ecowl
-name: {full: Ermine Cowl, aliases: []}
+name: {full: Ermine Cowl}
 type: armorgear
 description: "Soft white ermine cowl signifying nobility and wealth."
 tags: []

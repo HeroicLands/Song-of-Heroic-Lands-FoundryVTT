@@ -1,6 +1,6 @@
 ---
 shortcode: chrm
-name: {full: Charm, aliases: []}
+name: {full: Charm}
 type: skill
 subType: social
 description: "Winning trust and favor through warmth, wit, and emotional persuasion."

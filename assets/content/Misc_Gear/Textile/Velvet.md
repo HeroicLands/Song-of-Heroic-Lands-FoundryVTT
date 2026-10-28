@@ -1,6 +1,6 @@
 ---
 shortcode: velvet
-name: {full: "Velvet, per sq yard", aliases: []}
+name: {full: "Velvet, per sq yard"}
 type: miscgear
 description: "Piled silk-faced cloth of great price; court dress and hangings."
 tags: [clothing]

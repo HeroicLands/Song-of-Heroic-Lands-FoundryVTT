@@ -1,6 +1,6 @@
 ---
 shortcode: sprngld
-name: {full: Springald, aliases: []}
+name: {full: Springald}
 type: weapongear
 description: "Light torsion bolt-thrower; two-crew wall-top engine for picking men off a rampart."
 tags: []

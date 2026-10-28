@@ -1,6 +1,6 @@
 ---
 shortcode: fetters
-name: {full: Fetters, aliases: []}
+name: {full: Fetters}
 type: miscgear
 description: "Iron leg-shackles joined by short chain with locks; restrains prisoners during transport."
 tags: [expedition]

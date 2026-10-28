@@ -1,6 +1,6 @@
 ---
 shortcode: rhat
-name: {full: Russet Hat, aliases: []}
+name: {full: Russet Hat}
 type: armorgear
 description: "Reddish-brown wool hat; hardy and practical."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: wheat
-name: {full: Wheat, aliases: []}
+name: {full: Wheat}
 type: miscgear
 description: "Golden grain for fine bread and pastries, stores years when sealed."
 tags: [food]

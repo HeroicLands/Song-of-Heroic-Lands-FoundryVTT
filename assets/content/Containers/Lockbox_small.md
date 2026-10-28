@@ -1,6 +1,6 @@
 ---
 shortcode: lockboxsma
-name: {full: "Lockbox, small", aliases: []}
+name: {full: "Lockbox, small"}
 type: containergear
 description: "Portable iron-banded lockbox for coin, documents, or letters of credit."
 tags: []

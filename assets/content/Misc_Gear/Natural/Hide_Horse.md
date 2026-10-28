@@ -1,6 +1,6 @@
 ---
 shortcode: hidehorse
-name: {full: "Hide, Horse", aliases: []}
+name: {full: "Hide, Horse"}
 type: miscgear
 description: "Supple durable horsehide; favored for saddles and armor linings by cavalry outposts. Price is for one whole skin."
 tags: [natural]

@@ -1,6 +1,6 @@
 ---
 shortcode: rye
-name: {full: Rye, aliases: []}
+name: {full: Rye}
 type: miscgear
 description: "Hardy grain thriving in poor soil, grinds to dark bread flour."
 tags: [food]

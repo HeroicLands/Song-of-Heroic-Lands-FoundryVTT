@@ -1,6 +1,6 @@
 ---
 shortcode: lthat
-name: {full: Leather Hat, aliases: []}
+name: {full: Leather Hat}
 type: armorgear
 description: "Rugged leather head covering providing basic weather protection with adventurer charm."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: wxcvcowl
-name: {full: Waxed Canvas Cowl, aliases: []}
+name: {full: Waxed Canvas Cowl}
 type: armorgear
 description: "Waxed canvas cowl keeping rain off head and shoulders."
 tags: []

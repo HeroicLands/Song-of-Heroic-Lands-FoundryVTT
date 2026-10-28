@@ -1,6 +1,6 @@
 ---
 shortcode: bhat
-name: {full: Buckram Hat, aliases: []}
+name: {full: Buckram Hat}
 type: armorgear
 description: "Stiff buckram hat providing durability and reliable rigid headwear."
 tags: []

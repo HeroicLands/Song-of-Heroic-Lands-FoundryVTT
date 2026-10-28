@@ -1,6 +1,6 @@
 ---
 shortcode: chrysolite
-name: {full: "Chrysolite, cut", aliases: []}
+name: {full: "Chrysolite, cut"}
 type: miscgear
 description: "Pale yellow-green faceted gem; nobility and clergy set in rings."
 tags: [jewelry_cash]

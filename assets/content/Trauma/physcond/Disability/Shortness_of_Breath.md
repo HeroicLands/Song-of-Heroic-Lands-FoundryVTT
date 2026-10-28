@@ -1,6 +1,6 @@
 ---
 shortcode: shrtbrth
-name: {full: Shortness of Breath, aliases: []}
+name: {full: Shortness of Breath}
 type: trauma
 subType: physcond
 tags: []

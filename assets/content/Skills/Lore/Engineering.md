@@ -1,6 +1,6 @@
 ---
 shortcode: eng
-name: {full: Engineering, aliases: []}
+name: {full: Engineering}
 type: skill
 subType: lore
 description: "Designing bridges, mills, siegeworks; managing stress, leverage, materials."

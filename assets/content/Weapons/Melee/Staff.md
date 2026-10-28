@@ -1,6 +1,6 @@
 ---
 shortcode: stf
-name: {full: Staff, aliases: []}
+name: {full: Staff}
 type: weapongear
 description: "Six-foot ashwood pole; reach and parry for peasant and veteran."
 tags: []

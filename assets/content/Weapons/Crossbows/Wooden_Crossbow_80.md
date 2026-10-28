@@ -1,6 +1,6 @@
 ---
 shortcode: wcxbw80
-name: {full: Wooden Crossbow 80, aliases: []}
+name: {full: Wooden Crossbow 80}
 type: weapongear
 description: "Light wooden-prod crossbow; hunter's arm for unarmoured targets."
 tags: []

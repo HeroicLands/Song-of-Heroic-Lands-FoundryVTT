@@ -1,6 +1,6 @@
 ---
 shortcode: plkncp
-name: {full: Plate Kneecops, aliases: []}
+name: {full: Plate Kneecops}
 type: armorgear
 description: "Steel knee-guards; protects joints from heavy blows."
 tags: []

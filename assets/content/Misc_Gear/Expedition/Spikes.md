@@ -1,6 +1,6 @@
 ---
 shortcode: spikes
-name: {full: Spikes, aliases: []}
+name: {full: Spikes}
 type: miscgear
 description: "Foot-long iron spikes for climbing, breaking charges, and lashing boards."
 tags: [expedition]

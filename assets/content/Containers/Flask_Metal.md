@@ -1,6 +1,6 @@
 ---
 shortcode: flaskmetal
-name: {full: "Flask, Metal", aliases: []}
+name: {full: "Flask, Metal"}
 type: containergear
 description: "Hammered tinned copper flask for carrying liquids at belt."
 tags: []

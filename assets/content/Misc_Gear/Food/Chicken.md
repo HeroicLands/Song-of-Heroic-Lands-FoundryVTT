@@ -1,6 +1,6 @@
 ---
 shortcode: chicken
-name: {full: Chicken, aliases: []}
+name: {full: Chicken}
 type: miscgear
 description: "Dressed poultry; delicate white meat, spoils quickly unless preserved promptly."
 tags: [food]

@@ -1,6 +1,6 @@
 ---
 shortcode: wtrsr
-name: {full: Worsted Trousers, aliases: []}
+name: {full: Worsted Trousers}
 type: armorgear
 description: "Tightly-spun wool trousers; warm, durable leg wear."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: rtrsr
-name: {full: Russet Trousers, aliases: []}
+name: {full: Russet Trousers}
 type: armorgear
 description: "Reddish-brown wool breeches; leg-wear for outdoor work."
 tags: []

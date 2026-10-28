@@ -1,6 +1,6 @@
 ---
 shortcode: rea
-name: {full: Reasoning, aliases: []}
+name: {full: Reasoning}
 type: attribute
 description: "Logic, memory, and deduction; the foundation of learning and craft."
 tags: []

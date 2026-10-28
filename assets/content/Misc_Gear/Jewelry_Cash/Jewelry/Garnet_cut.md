@@ -1,6 +1,6 @@
 ---
 shortcode: garnetcut
-name: {full: "Garnet, cut", aliases: []}
+name: {full: "Garnet, cut"}
 type: miscgear
 description: "Deep red-purple gem favored for signet rings by the merchant class."
 tags: [jewelry_cash]

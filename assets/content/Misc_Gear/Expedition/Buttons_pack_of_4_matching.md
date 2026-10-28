@@ -1,6 +1,6 @@
 ---
 shortcode: buttonspac
-name: {full: "Buttons, pack of 4 (matching)", aliases: []}
+name: {full: "Buttons, pack of 4 (matching)"}
 type: miscgear
 description: "Four identical bone, horn, or metal buttons; for garment fastening and repairs."
 tags: [expedition]

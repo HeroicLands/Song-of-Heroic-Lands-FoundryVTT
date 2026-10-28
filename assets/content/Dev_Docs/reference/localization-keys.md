@@ -1,6 +1,6 @@
 ---
 shortcode: localizationkeys
-name: {full: Localization Keys, aliases: []}
+name: {full: Localization Keys}
 type: doc
 subType: reference
 description: "The naming standard for `lang/en.json`: namespaces, group and leaf case, what may never appear in a key, and why keys are permanent."

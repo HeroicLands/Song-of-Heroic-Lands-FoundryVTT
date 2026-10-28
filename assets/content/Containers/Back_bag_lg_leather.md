@@ -1,6 +1,6 @@
 ---
 shortcode: backbaglgl
-name: {full: "Back bag, lg, leather", aliases: []}
+name: {full: "Back bag, lg, leather"}
 type: containergear
 description: "Leather shoulder sack for substantial travel or carrying loads."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: pewter
-name: {full: Pewter, aliases: []}
+name: {full: Pewter}
 type: miscgear
 description: "Soft tin-lead alloy; cheaper than silver; tavern cups and household goods."
 tags: [jewelry_cash]

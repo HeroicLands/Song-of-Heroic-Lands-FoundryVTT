@@ -1,6 +1,6 @@
 ---
 shortcode: typhfvr
-name: {full: Typhoid Fever, aliases: []}
+name: {full: Typhoid Fever}
 type: affliction
 subType: disease
 description: "Salmonella via contaminated water; prolonged fever and abdominal pain."

@@ -1,6 +1,6 @@
 ---
 shortcode: afflctnrules
-name: {full: Afflictions, aliases: []}
+name: {full: Afflictions}
 type: doc
 subType: rules
 tags: [rules-trauma, rules-trauma-body-sections]

@@ -1,6 +1,6 @@
 ---
 shortcode: cbrch
-name: {full: Cloth Breeches, aliases: []}
+name: {full: Cloth Breeches}
 type: armorgear
 description: "Soft cloth breeches offering everyday comfort for all wearers."
 tags: []

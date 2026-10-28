@@ -1,6 +1,6 @@
 ---
 shortcode: cvrobe
-name: {full: Canvas Robe, aliases: []}
+name: {full: Canvas Robe}
 type: armorgear
 description: "Full-length canvas robe favouring durability over comfort."
 tags: []

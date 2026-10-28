@@ -1,6 +1,6 @@
 ---
 shortcode: chestwksm
-name: {full: "Chest, wicker, small", aliases: []}
+name: {full: "Chest, wicker, small"}
 type: containergear
 description: "Small lidded wicker chest."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: coma
-name: {full: Coma, aliases: []}
+name: {full: Coma}
 type: doc
 subType: rules
 tags: [rules-trauma, rules-trauma-body-sections]

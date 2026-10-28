@@ -1,6 +1,6 @@
 ---
 shortcode: slkdress
-name: {full: Silk Dress, aliases: []}
+name: {full: Silk Dress}
 type: armorgear
 description: "Elegant flowing silk dress; perfect for formal events and occasions."
 tags: []

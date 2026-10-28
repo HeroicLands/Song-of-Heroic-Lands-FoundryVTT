@@ -1,6 +1,6 @@
 ---
 shortcode: agri
-name: {full: Agriculture, aliases: []}
+name: {full: Agriculture}
 type: skill
 subType: nature
 description: "Cultivating crops, tending orchards, assessing land and harvest value."

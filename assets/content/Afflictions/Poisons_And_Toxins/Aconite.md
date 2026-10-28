@@ -1,6 +1,6 @@
 ---
 shortcode: aconite
-name: {full: Aconite, aliases: []}
+name: {full: Aconite}
 type: affliction
 subType: poisontoxin
 description: "Wolfsbane alkaloid; burning, numbness, cardiac arrest; smeared on arrows."

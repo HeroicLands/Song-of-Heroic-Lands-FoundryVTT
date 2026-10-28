@@ -1,6 +1,6 @@
 ---
 shortcode: astjourn
-name: {full: Astral Journeying, aliases: []}
+name: {full: Astral Journeying}
 type: trauma
 subType: fatigue
 description: "Sustained weariness from astral travel, paid on reembodiment."

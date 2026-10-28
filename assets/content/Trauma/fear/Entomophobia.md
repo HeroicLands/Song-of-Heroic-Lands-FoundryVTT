@@ -1,6 +1,6 @@
 ---
 shortcode: entmphb
-name: {full: Entomophobia, aliases: []}
+name: {full: Entomophobia}
 type: trauma
 subType: fear
 tags: []

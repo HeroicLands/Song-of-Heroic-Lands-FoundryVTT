@@ -1,6 +1,6 @@
 ---
 shortcode: ricin
-name: {full: Ricin, aliases: []}
+name: {full: Ricin}
 type: affliction
 subType: poisontoxin
 description: "Castor bean toxin; organ failure over days; lethal in tiny amounts."

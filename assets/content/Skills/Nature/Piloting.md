@@ -1,6 +1,6 @@
 ---
 shortcode: pilt
-name: {full: Piloting, aliases: []}
+name: {full: Piloting}
 type: skill
 subType: nature
 description: "Navigating watercraft through coastal waters, harbors, and dangerous passages."

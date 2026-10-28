@@ -1,6 +1,6 @@
 ---
 shortcode: beerpt
-name: {full: "Beer, Pint", aliases: []}
+name: {full: "Beer, Pint"}
 type: miscgear
 description: "Weak cheap small-beer; laborer's drink; safe, ever-present in garrisons."
 tags: [spirits]

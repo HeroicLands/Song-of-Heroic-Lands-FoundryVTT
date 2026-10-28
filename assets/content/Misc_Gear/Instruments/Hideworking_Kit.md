@@ -1,6 +1,6 @@
 ---
 shortcode: hdwkkit
-name: {full: Hideworking Kit, aliases: []}
+name: {full: Hideworking Kit}
 type: miscgear
 description: "Leather roll with scrapers, stretching pegs, fleshing knife; tanners treat raw hides."
 tags: [instruments]

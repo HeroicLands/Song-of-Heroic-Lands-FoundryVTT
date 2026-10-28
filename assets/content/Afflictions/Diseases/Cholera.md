@@ -1,6 +1,6 @@
 ---
 shortcode: cholera
-name: {full: Cholera, aliases: []}
+name: {full: Cholera}
 type: affliction
 subType: disease
 description: "Vibrio bacterium; sudden profuse watery diarrhea; rapid dehydration fatal without treatment."

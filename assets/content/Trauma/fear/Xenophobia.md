@@ -1,6 +1,6 @@
 ---
 shortcode: xenophb
-name: {full: Xenophobia, aliases: []}
+name: {full: Xenophobia}
 type: trauma
 subType: fear
 tags: []

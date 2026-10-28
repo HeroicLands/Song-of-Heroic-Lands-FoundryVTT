@@ -1,6 +1,6 @@
 ---
 shortcode: piemeat
-name: {full: "Pie, Meat", aliases: []}
+name: {full: "Pie, Meat"}
 type: miscgear
 description: "Baked dough with minced spiced meat, feeds one hungry traveler daily."
 tags: [food]

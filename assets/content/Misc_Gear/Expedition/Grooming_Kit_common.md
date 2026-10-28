@@ -1,6 +1,6 @@
 ---
 shortcode: groomkitcom
-name: {full: "Grooming Kit, common", aliases: []}
+name: {full: "Grooming Kit, common"}
 type: miscgear
 description: "Cloth roll with a wooden comb, bristle brush, soap and a linen handkerchief; a poor man's upkeep."
 tags: [instruments]

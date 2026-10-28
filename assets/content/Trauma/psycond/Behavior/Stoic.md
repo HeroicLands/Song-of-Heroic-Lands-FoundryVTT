@@ -1,6 +1,6 @@
 ---
 shortcode: stoic
-name: {full: Stoic, aliases: []}
+name: {full: Stoic}
 type: trauma
 subType: psycond
 tags: []

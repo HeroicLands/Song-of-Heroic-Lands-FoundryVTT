@@ -1,6 +1,6 @@
 ---
 shortcode: sgshirt
-name: {full: Serge Shirt, aliases: []}
+name: {full: Serge Shirt}
 type: armorgear
 description: "Twilled serge shirt; practical, versatile garment for various activities."
 tags: []

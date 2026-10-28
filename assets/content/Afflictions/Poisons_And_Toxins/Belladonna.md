@@ -1,6 +1,6 @@
 ---
 shortcode: bldna
-name: {full: Belladonna, aliases: []}
+name: {full: Belladonna}
 type: affliction
 subType: poisontoxin
 description: "Tropane alkaloids; visual disturbances and delirium; often ingested secretly."

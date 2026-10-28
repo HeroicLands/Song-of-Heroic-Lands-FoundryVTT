@@ -1,6 +1,6 @@
 ---
 shortcode: wxcvcloak
-name: {full: Waxed Canvas Cloak, aliases: []}
+name: {full: Waxed Canvas Cloak}
 type: armorgear
 description: "Wax-impregnated canvas cloak turning rain and spray."
 tags: []

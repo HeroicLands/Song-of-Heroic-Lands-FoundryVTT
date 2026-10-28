@@ -1,6 +1,6 @@
 ---
 shortcode: combatmodel
-name: {full: Combat Model, aliases: []}
+name: {full: Combat Model}
 type: doc
 subType: concept
 description: "Assisted vs. automated combat, and how the combat flow is wired programmatically (combatants, the exchange workflow, resolution)."

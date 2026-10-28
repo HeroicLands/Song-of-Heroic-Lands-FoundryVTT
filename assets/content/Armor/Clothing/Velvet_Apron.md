@@ -1,6 +1,6 @@
 ---
 shortcode: vapn
-name: {full: Velvet Apron, aliases: []}
+name: {full: Velvet Apron}
 type: armorgear
 description: "Plush velvet apron; opulent status symbol for formal settings."
 tags: []

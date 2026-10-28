@@ -1,6 +1,6 @@
 ---
 shortcode: chainheavy
-name: {full: "Chain, heavy", aliases: []}
+name: {full: "Chain, heavy"}
 type: miscgear
 description: "Forged iron link chain; secures large goods, hobbles beasts, binds prisoners."
 tags: [expedition]

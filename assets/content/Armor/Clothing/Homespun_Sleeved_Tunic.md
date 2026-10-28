@@ -1,6 +1,6 @@
 ---
 shortcode: hsstnc
-name: {full: Homespun Sleeved Tunic, aliases: []}
+name: {full: Homespun Sleeved Tunic}
 type: armorgear
 description: "Simple homemade tunic providing comfort and practical warmth."
 tags: []

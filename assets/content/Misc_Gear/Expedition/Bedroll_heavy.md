@@ -1,6 +1,6 @@
 ---
 shortcode: hvybdrl
-name: {full: "Bedroll, heavy", aliases: []}
+name: {full: "Bedroll, heavy"}
 type: miscgear
 description: "Quilted wool and linen roll with oiled canvas cover; durable field bedding."
 tags: [expedition]

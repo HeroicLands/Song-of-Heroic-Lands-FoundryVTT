@@ -1,6 +1,6 @@
 ---
 shortcode: hemotxn
-name: {full: Hemotoxin, aliases: []}
+name: {full: Hemotoxin}
 type: affliction
 subType: poisontoxin
 description: "Venom that destroys red blood cells; severe tissue damage and bleeding."

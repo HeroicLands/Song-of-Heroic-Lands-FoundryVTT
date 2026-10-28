@@ -1,6 +1,6 @@
 ---
 shortcode: biblphb
-name: {full: Bibliophobia, aliases: []}
+name: {full: Bibliophobia}
 type: trauma
 subType: fear
 tags: []

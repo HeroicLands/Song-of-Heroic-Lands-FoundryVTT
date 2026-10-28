@@ -1,6 +1,6 @@
 ---
 shortcode: cvest
-name: {full: Cloth Vest, aliases: []}
+name: {full: Cloth Vest}
 type: armorgear
 description: "Simple cloth vest offering comfort and warmth for casual wear."
 tags: []

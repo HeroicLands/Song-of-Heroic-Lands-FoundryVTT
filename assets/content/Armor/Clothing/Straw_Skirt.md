@@ -1,6 +1,6 @@
 ---
 shortcode: stskirt
-name: {full: Straw Skirt, aliases: []}
+name: {full: Straw Skirt}
 type: armorgear
 description: "Lightweight breathable straw skirt; airy garment for hot climates."
 tags: []

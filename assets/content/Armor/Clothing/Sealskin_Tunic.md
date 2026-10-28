@@ -1,6 +1,6 @@
 ---
 shortcode: slstunic
-name: {full: Sealskin Tunic, aliases: []}
+name: {full: Sealskin Tunic}
 type: armorgear
 description: "Waterproof seal-fur tunic; sleeved torso garment for wet climates."
 tags: []

@@ -1,6 +1,6 @@
 ---
 shortcode: ankletcopper
-name: {full: "Anklet, copper", aliases: []}
+name: {full: "Anklet, copper"}
 type: miscgear
 description: "A band worn at the ankle, closed or hinged, and often hung with small charms, in raised copper."
 tags: [jewelry_cash]

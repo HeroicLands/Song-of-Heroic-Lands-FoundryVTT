@@ -1,6 +1,6 @@
 ---
 shortcode: rhbrcr
-name: {full: Rawhide Bracers, aliases: []}
+name: {full: Rawhide Bracers}
 type: armorgear
 description: "Stiff hide forearm-guards; durable wrist and arm defense."
 tags: []

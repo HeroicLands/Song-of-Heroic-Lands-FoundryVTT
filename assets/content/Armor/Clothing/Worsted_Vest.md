@@ -1,6 +1,6 @@
 ---
 shortcode: wvest
-name: {full: Worsted Vest, aliases: []}
+name: {full: Worsted Vest}
 type: armorgear
 description: "Tightly-spun wool vest; durable, practical protective garment."
 tags: []

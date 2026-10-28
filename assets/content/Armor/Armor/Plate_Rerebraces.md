@@ -1,6 +1,6 @@
 ---
 shortcode: plrebr
-name: {full: Plate Rerebraces, aliases: []}
+name: {full: Plate Rerebraces}
 type: armorgear
 description: "Steel upper-arm guards; covers triceps and rear shoulder."
 tags: []

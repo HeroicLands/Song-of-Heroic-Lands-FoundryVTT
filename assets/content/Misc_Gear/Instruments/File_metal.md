@@ -1,6 +1,6 @@
 ---
 shortcode: filemetal
-name: {full: "File, metal", aliases: []}
+name: {full: "File, metal"}
 type: miscgear
 description: "Broad coarse-toothed steel file hafted in wood; blacksmiths use to true edges."
 tags: [instruments]

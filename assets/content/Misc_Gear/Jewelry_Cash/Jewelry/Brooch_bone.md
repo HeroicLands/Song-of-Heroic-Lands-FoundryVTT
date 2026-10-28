@@ -1,6 +1,6 @@
 ---
 shortcode: broochbone
-name: {full: "Brooch, bone", aliases: []}
+name: {full: "Brooch, bone"}
 type: miscgear
 description: "A pin and catch worked into a plate, worn to fasten a cloak at the shoulder, in carved bone."
 tags: [jewelry_cash]

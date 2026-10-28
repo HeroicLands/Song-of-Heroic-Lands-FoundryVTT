@@ -1,6 +1,6 @@
 ---
 shortcode: maul
-name: {full: Maul, aliases: []}
+name: {full: Maul}
 type: weapongear
 description: "Two-handed wooden hammer for siege breach; assault engineer's door-crasher."
 tags: []

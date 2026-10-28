@@ -1,6 +1,6 @@
 ---
 shortcode: brass
-name: {full: Brass, aliases: []}
+name: {full: Brass}
 type: miscgear
 description: "Copper-and-zinc alloy resistant to corrosion; merchants trade ingots by weight."
 tags: [jewelry_cash]

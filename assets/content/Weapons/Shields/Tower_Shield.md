@@ -1,6 +1,6 @@
 ---
 shortcode: twrsh
-name: {full: Tower Shield, aliases: []}
+name: {full: Tower Shield}
 type: weapongear
 description: "Man-tall standing shield providing total cover against arrow storms."
 tags: []

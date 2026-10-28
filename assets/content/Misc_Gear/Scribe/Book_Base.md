@@ -1,6 +1,6 @@
 ---
 shortcode: bookbase
-name: {full: "Book, Base", aliases: []}
+name: {full: "Book, Base"}
 type: miscgear
 description: "Unbound quires with oak boards and bronze clasps; ready for binding."
 tags: [scribe]

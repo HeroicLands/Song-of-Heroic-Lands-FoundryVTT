@@ -1,6 +1,6 @@
 ---
 shortcode: taburi
-name: {full: Tabûri, aliases: []}
+name: {full: Tabûri}
 type: weapongear
 description: "Short tapered blade; southern thrusting dagger worn at belt."
 tags: []

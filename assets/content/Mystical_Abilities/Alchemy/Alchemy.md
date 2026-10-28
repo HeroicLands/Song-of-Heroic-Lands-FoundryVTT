@@ -1,6 +1,6 @@
 ---
 shortcode: alch
-name: {full: Alchemy, aliases: []}
+name: {full: Alchemy}
 type: mysticalability
 subType: alchemy
 description: "Preparing elixirs and worked substances that carry mystical potency."

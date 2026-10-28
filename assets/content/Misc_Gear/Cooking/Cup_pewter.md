@@ -1,6 +1,6 @@
 ---
 shortcode: cuppewter
-name: {full: "Cup, pewter", aliases: []}
+name: {full: "Cup, pewter"}
 type: miscgear
 description: "Cast pewter cup for ale-houses and tavern daily use and casual damage."
 tags: [cooking]
