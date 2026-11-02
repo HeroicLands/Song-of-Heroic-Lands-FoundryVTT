@@ -151,7 +151,7 @@
         "eslint": "^10.12.0",
         "eslint-config-prettier": "^10.1.1",
         "eslint-plugin-jsdoc": "^65.0.2",
-        "fvtt-types": "github:League-of-Foundry-Developers/foundry-vtt-types#27bf7b9bac68a74a5346c7ca44432917d9f41bdb",
+        "fvtt-types": "github:League-of-Foundry-Developers/foundry-vtt-types#e613e06e85f6fcded8a9621ad23337f20d0bff70",
         "glob": "^14.0.0",
         "globals": "^17.13.0",
         "gray-matter": "^4.0.3",
@@ -187,6 +187,6 @@
         "@codemirror/view": "^6.43.13",
         "@lezer/highlight": "^1.2.5",
         "jsep": "^1.4.0",
-        "source-map": "^0.6.1"
+        "source-map": "^0.8.0"
     }
 }

@@ -11,8 +11,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+/// <reference types="vite/client" />
+
 import { LOGLEVEL, isLogLevel, LogLevel } from "@src/utils/constants";
 import { SourceMapConsumer } from "source-map";
+import mappingsWasmUrl from "source-map/lib/mappings.wasm?url";
 
 /**
  * Resolved information about the call site of a log statement, derived from a
@@ -104,7 +107,10 @@ export class SohlLogger {
             if (!response.ok) throw new Error(`Failed to load source map ${sourceMapUrl}`);
 
             const rawMap = await response.json();
-            SohlLogger.sourceMapConsumer = new SourceMapConsumer(rawMap);
+            // In a browser the consumer parses mappings with a WebAssembly
+            // module, whose location must be set before construction.
+            SourceMapConsumer.initialize({ "lib/mappings.wasm": mappingsWasmUrl });
+            SohlLogger.sourceMapConsumer = await new SourceMapConsumer(rawMap);
 
             console.info("✅ Source map loaded for SohlLogger.");
         } catch (error) {
