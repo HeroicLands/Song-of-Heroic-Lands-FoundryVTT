@@ -968,7 +968,7 @@ Foundry instance, and all of it is one site: everything under
 | `/sohl/api/` | The API documentation                        | TypeDoc (`docs:html`)      | the newest release tag |
 
 `npm run build:site` produces the whole thing locally, and
-`.github/workflows/deploy-sohl.yml` produces and deploys it in CI — one build,
+`.gitea/workflows/deploy-sohl.yml` produces and deploys it in CI — one build,
 one deploy, one hosting project. A few things about it are worth knowing
 before you change any of it.
 
@@ -1021,6 +1021,20 @@ therefore builds the knowledgebase from `main`, checks the newest release tag ou
 into `release/` and builds the API documentation there (with that tag's own
 lockfile — the documentation is a pure function of its tag), and
 `site:assemble` mounts the result at `build/site/sohl/api/`.
+
+Branch pushes and manual dispatches query GitHub's latest published release.
+A tag push first waits for that tag's GitHub release to publish: at most thirty
+checks, twenty seconds apart, with a twenty-second timeout on each request.
+It then resolves latest, so a new stable release updates its own API docs while
+a patch prerelease or an older tag never replaces the newest stable API. A tag
+that exists only in Git is never a documentation source.
+
+The lookup reuses the release workflow's `GH_RELEASE_TOKEN` when it is available.
+HTTP 404 or a draft during the tag's publication window is retried up to the
+bound; a missing latest release, exhausted publication window, denial or transport
+failure selects no ref. Denial diagnostics include only the API message and
+rate-limit or request identifiers, with credentials redacted. The resolver never
+substitutes `main` or the triggering tag after a failure.
 
 **Nothing ships half-built.** `utils/build-site.mjs` refuses to finish unless
 the landing page, the knowledgebase, the API documentation and the `404.html`

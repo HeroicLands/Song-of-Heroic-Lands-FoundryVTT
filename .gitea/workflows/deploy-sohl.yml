@@ -54,7 +54,7 @@ on:
         # A newly published release changes the API half, which tracks the
         # newest release rather than `main`. The release pushes its tag with the
         # release bot's token, which starts workflows, so the tag push itself
-        # republishes the subtree from that tag.
+        # republishes the subtree after resolving the newest published release.
         tags: ["v*"]
     workflow_dispatch:
 
@@ -86,30 +86,16 @@ jobs:
             # main: it documents what people are running (#1452). Resolved here
             # rather than inherited from the triggering ref, which is irrelevant
             # to it.
-            # Releases are published on GitHub, whose API answers without a
-            # token for a public repository. `GITHUB_API_URL` and
-            # `GITHUB_REPOSITORY` name this forge here, so the GitHub address is
-            # written out.
+            # A tag run waits for its release to publish before resolving latest.
+            # An unpublished tag or a beta must never become the API docs ref.
+            # Reuse the GitHub credential already named by the release workflow.
             - name: Resolve the newest release tag
               id: release
-              run: |
-                  set -euo pipefail
-                  # `|| true`: a repository with no release answers 404, and the
-                  # empty-tag branch below reports that far more clearly than
-                  # curl's exit status would under `set -e`.
-                  # A tag push names its release directly; GitHub may not have
-                  # published it yet, so it is not looked up there.
-                  if [ "${{ github.ref_type }}" = "tag" ]; then
-                      TAG="${{ github.ref_name }}"
-                  else
-                      TAG=$(curl -fsS "https://api.github.com/repos/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/releases/latest" | jq -r .tag_name 2>/dev/null || true)
-                  fi
-                  if [ -z "${TAG}" ] || [ "${TAG}" = "null" ]; then
-                      echo "No published release found — there is nothing to document."
-                      exit 1
-                  fi
-                  echo "Building API documentation from ${TAG}."
-                  echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
+              env:
+                  GH_RELEASE_TOKEN: ${{ secrets.GH_RELEASE_TOKEN }}
+                  RELEASE_REF_TYPE: ${{ github.ref_type }}
+                  RELEASE_REF_NAME: ${{ github.ref_name }}
+              run: node utils/resolve-release-tag.mjs
 
             - name: Checkout the release tag
               uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
