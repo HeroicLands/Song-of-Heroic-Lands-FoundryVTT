@@ -37,3 +37,18 @@ If you simply want a more detailed look at the available public API, it is
 publicly available here:
 
 - [API Reference](https://www.heroiclands.org/sohl/api/)
+
+## Pull request checks
+
+A pull request whose title starts with `WIP:` runs the light checks. An existing
+required check runs a short guard and fails, blocking merges while the expensive
+steps stay skipped. Remove the prefix with `earl pr ready`; it starts fresh
+required checks before scheduling a merge. Changing the title by hand does not
+start those checks. Main, release and manual runs keep their existing checks.
+
+Check the workflow gating locally with `node --test utils/wip-workflows.test.mjs`.
+
+The light lint runner reads the tasks from `package.json` at runtime, so static
+guards added to `lint` also run on WIP pull requests. Full content analysis and
+TypeScript compilation stay in the build job. List the selected tasks with
+`node utils/light-ci.mjs --list`.

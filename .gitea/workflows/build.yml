@@ -20,10 +20,9 @@ concurrency:
     cancel-in-progress: true
 
 jobs:
-    test-build:
-        name: Build & Test
-        runs-on: ubuntu-latest
-
+    light:
+        name: Formatting, markdown and light checks
+        runs-on: lint
         steps:
             - name: Checkout code
               uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
@@ -41,14 +40,59 @@ jobs:
 
             - name: Install dependencies
               run: npm ci
+            - name: Static lint guards from package scripts
+              if: ${{ !cancelled() }}
+              run: node utils/light-ci.mjs
+            - name: Check WIP workflow gating
+              if: ${{ !cancelled() }}
+              run: node --test utils/wip-workflows.test.mjs
+    test-build:
+        name: Build & Test
+        needs: light
+        if: ${{ !cancelled() }}
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Require a ready pull request
+              id: ready
+              env:
+                  PR_TITLE: ${{ github.event.pull_request.title }}
+              run: |
+                  case "${PR_TITLE-}" in
+                      [Ww][Ii][Pp]:*)
+                          echo "WIP pull request: the long checks have not run. Remove WIP with earl pr ready." >&2
+                          exit 1
+                          ;;
+                  esac
+            - name: Require light checks
+              run: test "${LIGHT_RESULT-success}" = success
+              env:
+                  LIGHT_RESULT: ${{ needs.light.result }}
+              id: light_checks
+              if: ${{ !startsWith(github.event.pull_request.title, 'WIP:') && steps.ready.outcome == 'success' && (success()) }}
+            - name: Checkout code
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+              if: ${{ !startsWith(github.event.pull_request.title, 'WIP:') && steps.ready.outcome == 'success' && steps.light_checks.outcome == 'success' && (success()) }}
+
+            - name: Setup Node.js
+              uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+              with:
+                  node-version: ${{ vars.CI_NODE_VERSION || '24' }}
+                  cache: npm
+              if: ${{ !startsWith(github.event.pull_request.title, 'WIP:') && steps.ready.outcome == 'success' && steps.light_checks.outcome == 'success' && (success()) }}
+
+            - name: Install dependencies
+              run: npm ci
+              if: ${{ !startsWith(github.event.pull_request.title, 'WIP:') && steps.ready.outcome == 'success' && steps.light_checks.outcome == 'success' && (success()) }}
 
             - name: Build system
               run: npm run build:noci
               env:
                   LINT_MAX_PARALLEL: 4
+              if: ${{ !startsWith(github.event.pull_request.title, 'WIP:') && steps.ready.outcome == 'success' && steps.light_checks.outcome == 'success' && (success()) }}
 
             - name: Upload coverage reports
-              if: always()
+              if: ${{ !startsWith(github.event.pull_request.title, 'WIP:') && steps.ready.outcome == 'success' && steps.light_checks.outcome == 'success' && (always()) }}
               uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
               with:
                   name: coverage-report
@@ -56,9 +100,10 @@ jobs:
 
             - name: Build API documentation
               run: npm run docs:prepare && npm run docs:html
+              if: ${{ !startsWith(github.event.pull_request.title, 'WIP:') && steps.ready.outcome == 'success' && steps.light_checks.outcome == 'success' && (success()) }}
 
             - name: Upload API Documentation
-              if: always()
+              if: ${{ !startsWith(github.event.pull_request.title, 'WIP:') && steps.ready.outcome == 'success' && steps.light_checks.outcome == 'success' && (always()) }}
               uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
               with:
                   name: api-docs
