@@ -253,7 +253,7 @@ const HEADER_HTML = `
 <header class="site-header">
   <div class="header-inner">
     <a href="${WWW}/" class="site-title">
-      <img src="${CDN}/images/sohl-icon-white.webp" alt="Heroic Lands" class="site-logo">
+      <img src="${CDN}/images/brand/hl-dragon-white.svg" alt="Heroic Lands" class="site-logo">
       <span class="title-main">Heroic Lands</span>
     </a>
     <nav class="site-nav">
