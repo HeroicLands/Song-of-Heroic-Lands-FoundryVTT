@@ -27,8 +27,8 @@ Generally speaking, you should avoid using the Create Actor dialog for Beings. I
 6. Click on the Skills tab.
 7. For each initial skill, right click on the skill and choose "Edit" from the context menu. Setup the initial Mastery Level value for the skill.
 8. Click on the Gear tab.
-9. Open the Weapons compendium, and drag over a broadsword and a roundshield, dropping them onto the character sheet. The items should show up on the Gear tab.
-10. Click on the Combat tab. Note that there are no weapons showing. Now click on the Gear tab. Click on the shield ("equip") icon for both the Broadsword and the Roundshield. Go back to the Combat tab. The Roundshield and the Broadsword should now show up under weapons.
+9. Add gear from a setting module or create it in the world, then drag it onto the character sheet.
+10. Equip weapons on the Gear tab. Equipped weapons appear on the Combat tab.
 
 # Perform a Skill Roll
 

@@ -23,12 +23,11 @@ the rows. The declaration is a **SQL query**, in a fenced `sql` block:
 
 ````text
 ```sql
-SELECT address.slug                     AS _ref,
-       name.full                        AS "Name",
-       sohl.system.weightBase           AS "Weight",
-       sohl.system.protectionBase.blunt AS "B"
+SELECT address.slug AS _ref,
+       name.full AS "Name",
+       sohl.system.skillBaseFormula AS "Skill Base"
 FROM notes
-WHERE type = 'armorgear' AND sohl.kbcat = 'cloth'
+WHERE type = 'skill' AND sohl.kbcat = 'combat'
 ORDER BY name.full COLLATE NOCASE
 ```
 ````
@@ -61,13 +60,13 @@ than failing.
 
 The index adds a few fields no note authors:
 
-| Field          | Value                                                                  |
-| -------------- | ---------------------------------------------------------------------- |
-| `address.slug` | The note's address — `armorgear-tunicquilt`. This is what `_ref` wants |
-| `file.path`    | Location below `assets/content/` — `Armor/Cloth/Tunic_Quilted.md`      |
-| `file.folder`  | Its directory — `Armor/Cloth`                                          |
-| `file.name`    | Its filename without the extension — `Tunic_Quilted`                   |
-| `package`      | The package the note belongs to                                        |
+| Field          | Value                                                         |
+| -------------- | ------------------------------------------------------------- |
+| `address.slug` | The note's address — `skill-melee`. This is what `_ref` wants |
+| `file.path`    | Location below `assets/content/` — `Skills/Combat/Melee.md`   |
+| `file.folder`  | Its directory — `Skills/Combat`                               |
+| `file.name`    | Its filename without the extension — `Melee`                  |
+| `package`      | The package the note belongs to                               |
 
 **Beware `packFolder`.** That is a note's _pack_ folder — where the document lands in
 the compendium — not its directory. The directory is `file.folder`.
@@ -109,7 +108,7 @@ ORDER BY sohl.kbcat, name.full COLLATE NOCASE
 
 The authored `ORDER BY` decides the section order too. Use it when the headings _are_
 the grouping value; where a page wants authored headings — `## Knives` over
-`sohl.kbcat = 'knife'` — write a table per heading, as `Rules/Gear.md` does.
+`sohl.kbcat = 'knife'` — write a table per heading.
 
 ## Header arguments
 

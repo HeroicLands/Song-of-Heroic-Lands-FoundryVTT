@@ -94,7 +94,7 @@ See the individual item type guides for details on each gear type.
 
 ## Quality and Durability
 
-Every gear item, whatever its type, carries a **Qual** and a **Dur** field on its Properties tab and in the Gear tab's ledger. **Quality** is a craftsmanship rating, generally set somewhere from 8 to 12; most shipped gear is authored at 0, which reads as untouched rather than as a judgment on the piece. **Durability** is a structural-integrity rating, authored at 0 by default as well. Both are open to trait and effect deltas the way weight is — hovering either column shows the base value and anything currently modifying it.
+Every gear item, whatever its type, carries a **Qual** and a **Dur** field on its Properties tab and in the Gear tab's ledger. **Quality** is a craftsmanship rating, generally set somewhere from 8 to 12; a value of 0 reads as untouched rather than as a judgment on the piece. **Durability** is a structural-integrity rating, authored at 0 by default as well. Both are open to trait and effect deltas the way weight is — hovering either column shows the base value and anything currently modifying it.
 
 Quality has one consumer: when a weapon or shield blocks and the block ties, the attack-result card rolls 3d6 against its Quality and says whether it broke. A Quality of 0 is unrated, so the card says the check is owed and leaves the verdict to you. Nothing else reads either field: quality does not change an item's performance or value, nothing reduces durability, and a broken verdict changes nothing on the item itself.
 

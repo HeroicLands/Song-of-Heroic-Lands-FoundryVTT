@@ -23,6 +23,8 @@ and token actors by tutorial identities. Subsequent drive steps activate that
 scene, start its two-token encounter, advance the turn, and swap targets. Missing
 fixture documents fail explicitly rather than borrowing another scene or actor.
 
+Both tutorial combatants require a usable Club Crush strike mode. The system supplies no club, so the encounter start fails when the imported actors lack the required mode.
+
 The stock Automated Attack macro must occupy hotbar slot 1. The gate checks its
 exact script command, allowing localized names. The stock macro dispatches the
 current combatant’s `automatedCombatStart` action through `executeAction`; the

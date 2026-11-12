@@ -71,172 +71,41 @@ Armour materials and labour are derived from authored sale price and body covera
 | Hideworking  |             40% |                      4 |
 | Weaponcraft  |             15% |                      5 |
 
-These tables are generated at build. Coverage counts a location protected on only one side as half. Materials display to two decimal places in pence and hours to the nearest whole hour; derivation uses unrounded amounts. Display ties round upward. Fast crafting may reduce hours by up to 30%, without reducing materials.
+Coverage is the sum of the fractions for the locations protected:
 
-### Textilecraft Armour {#textilecraft-armour-expense}
+| Body location                             | Fraction per location |
+| ----------------------------------------- | --------------------: |
+| Skull                                     |                  0.04 |
+| Neck                                      |                  0.02 |
+| Shoulder                                  |                 0.015 |
+| Upper arm                                 |                  0.03 |
+| Elbow                                     |                  0.01 |
+| Forearm                                   |                 0.025 |
+| Hand                                      |                 0.025 |
+| Thorax                                    |                  0.12 |
+| Abdomen                                   |                  0.12 |
+| Pelvis                                    |                  0.10 |
+| Thigh                                     |                  0.07 |
+| Knee                                      |                 0.015 |
+| Calf                                      |                  0.06 |
+| Foot                                      |                 0.035 |
+| Jaw, each cheek, each ear, mouth, or nose |              0.03 / 7 |
 
-```sql
-WITH weights(location, fraction) AS (VALUES ('skullloc', 0.04),
-       ('neckloc', 0.02),
-       ('lshldloc', 0.015),
-       ('rshldloc', 0.015),
-       ('lupaloc', 0.03),
-       ('rupaloc', 0.03),
-       ('lelbloc', 0.01),
-       ('relbloc', 0.01),
-       ('lfraloc', 0.025),
-       ('rfraloc', 0.025),
-       ('lhandloc', 0.025),
-       ('rhandloc', 0.025),
-       ('thrxloc', 0.12),
-       ('abdmnloc', 0.12),
-       ('plvisloc', 0.1),
-       ('lthghloc', 0.07),
-       ('rthghloc', 0.07),
-       ('lkneeloc', 0.015),
-       ('rkneeloc', 0.015),
-       ('lcalfloc', 0.06),
-       ('rcalfloc', 0.06),
-       ('lfootloc', 0.035),
-       ('rfootloc', 0.035),
-       ('jawloc', 0.03 / 7),
-       ('lcheekloc', 0.03 / 7),
-       ('rcheekloc', 0.03 / 7),
-       ('learloc', 0.03 / 7),
-       ('rearloc', 0.03 / 7),
-       ('mouthloc', 0.03 / 7),
-       ('noseloc', 0.03 / 7)),
-rates(material, base_rate, craft, share, day_rate) AS (VALUES ('Cloth', 100, 'Textilecraft', 0.45, 3), ('Padded', 200, 'Textilecraft', 0.45, 3), ('Quilted', 400, 'Textilecraft', 0.45, 3), ('Gambeson', 800, 'Textilecraft', 0.45, 3), ('Leather', 400, 'Hideworking', 0.40, 4), ('Kûrbúl', 500, 'Weaponcraft', 0.15, 5), ('Scale', 1000, 'Weaponcraft', 0.15, 5), ('Mail', 1500, 'Weaponcraft', 0.15, 5), ('Ring', 1350, 'Weaponcraft', 0.15, 5), ('Plate', 2000, 'Weaponcraft', 0.15, 5)),
-articles AS (
-    SELECT address.slug AS ref, name.full AS article, sohl.system.valueBase AS price, rates.*,
-           coalesce(sohl.system.locations.flexible, []::VARCHAR[]) || coalesce(sohl.system.locations.rigid, []::VARCHAR[]) AS locations,
-           coalesce(sohl.system.locations.facing, []) AS facing
-    FROM notes JOIN rates ON sohl.system.material = rates.material
-    WHERE type = 'armorgear' AND craft = 'Textilecraft'
-), coverage AS (
-    SELECT articles.*,
-           (SELECT sum(fraction * CASE
-               WHEN (SELECT count(*) FROM unnest(facing) AS sides(f) WHERE f.location = covered.loc) = 0 THEN 1
-               ELSE least((SELECT count(*) FROM unnest(facing) AS sides(f) WHERE f.location = covered.loc), 2) / 2.0 END)
-            FROM unnest(locations) AS covered(loc) JOIN weights ON location = loc) AS coverage
-    FROM articles
-), expenses AS (
-    SELECT *, (1 - share) * least(price, coverage * base_rate) AS labour FROM coverage
-)
-SELECT ref AS _ref, article AS "Article", price AS "Price (d)",
-       round(CAST(price - labour AS DECIMAL(30, 8)), 2) AS "Materials (d)", round(CAST(labour / day_rate * 10 AS DECIMAL(30, 8))) AS "Hours"
-FROM expenses ORDER BY article COLLATE NOCASE
-```
+Coverage counts a location protected on only one side as half. Materials are measured to two decimal places in pence and hours to the nearest whole hour; derivation uses unrounded amounts. Display ties round upward. Fast crafting may reduce hours by up to 30%, without reducing materials.
 
-### Hideworking Armour {#hideworking-armour-expense}
+### Worked examples
 
-```sql
-WITH weights(location, fraction) AS (VALUES ('skullloc', 0.04),
-       ('neckloc', 0.02),
-       ('lshldloc', 0.015),
-       ('rshldloc', 0.015),
-       ('lupaloc', 0.03),
-       ('rupaloc', 0.03),
-       ('lelbloc', 0.01),
-       ('relbloc', 0.01),
-       ('lfraloc', 0.025),
-       ('rfraloc', 0.025),
-       ('lhandloc', 0.025),
-       ('rhandloc', 0.025),
-       ('thrxloc', 0.12),
-       ('abdmnloc', 0.12),
-       ('plvisloc', 0.1),
-       ('lthghloc', 0.07),
-       ('rthghloc', 0.07),
-       ('lkneeloc', 0.015),
-       ('rkneeloc', 0.015),
-       ('lcalfloc', 0.06),
-       ('rcalfloc', 0.06),
-       ('lfootloc', 0.035),
-       ('rfootloc', 0.035),
-       ('jawloc', 0.03 / 7),
-       ('lcheekloc', 0.03 / 7),
-       ('rcheekloc', 0.03 / 7),
-       ('learloc', 0.03 / 7),
-       ('rearloc', 0.03 / 7),
-       ('mouthloc', 0.03 / 7),
-       ('noseloc', 0.03 / 7)),
-rates(material, base_rate, craft, share, day_rate) AS (VALUES ('Cloth', 100, 'Textilecraft', 0.45, 3), ('Padded', 200, 'Textilecraft', 0.45, 3), ('Quilted', 400, 'Textilecraft', 0.45, 3), ('Gambeson', 800, 'Textilecraft', 0.45, 3), ('Leather', 400, 'Hideworking', 0.40, 4), ('Kûrbúl', 500, 'Weaponcraft', 0.15, 5), ('Scale', 1000, 'Weaponcraft', 0.15, 5), ('Mail', 1500, 'Weaponcraft', 0.15, 5), ('Ring', 1350, 'Weaponcraft', 0.15, 5), ('Plate', 2000, 'Weaponcraft', 0.15, 5)),
-articles AS (
-    SELECT address.slug AS ref, name.full AS article, sohl.system.valueBase AS price, rates.*,
-           coalesce(sohl.system.locations.flexible, []::VARCHAR[]) || coalesce(sohl.system.locations.rigid, []::VARCHAR[]) AS locations,
-           coalesce(sohl.system.locations.facing, []) AS facing
-    FROM notes JOIN rates ON sohl.system.material = rates.material
-    WHERE type = 'armorgear' AND craft = 'Hideworking'
-), coverage AS (
-    SELECT articles.*,
-           (SELECT sum(fraction * CASE
-               WHEN (SELECT count(*) FROM unnest(facing) AS sides(f) WHERE f.location = covered.loc) = 0 THEN 1
-               ELSE least((SELECT count(*) FROM unnest(facing) AS sides(f) WHERE f.location = covered.loc), 2) / 2.0 END)
-            FROM unnest(locations) AS covered(loc) JOIN weights ON location = loc) AS coverage
-    FROM articles
-), expenses AS (
-    SELECT *, (1 - share) * least(price, coverage * base_rate) AS labour FROM coverage
-)
-SELECT ref AS _ref, article AS "Article", price AS "Price (d)",
-       round(CAST(price - labour AS DECIMAL(30, 8)), 2) AS "Materials (d)", round(CAST(labour / day_rate * 10 AS DECIMAL(30, 8))) AS "Hours"
-FROM expenses ORDER BY article COLLATE NOCASE
-```
+| Article       | Sale price (d) | Materials (d) | Hours |
+| ------------- | -------------: | ------------: | ----: |
+| Mail hauberk  |            960 |           144 |  1632 |
+| Plate cuirass |            480 |            72 |   816 |
+| Gambeson coat |            530 |        239.60 |   968 |
+| Quilted tunic |            180 |            81 |   330 |
+| Leather vest  |            195 |        137.40 |   144 |
+| Cloth tunic   |             45 |         20.25 |    83 |
+| Silk tunic    |            405 |        380.25 |    83 |
 
-### Weaponcraft Armour {#weaponcraft-armour-expense}
-
-```sql
-WITH weights(location, fraction) AS (VALUES ('skullloc', 0.04),
-       ('neckloc', 0.02),
-       ('lshldloc', 0.015),
-       ('rshldloc', 0.015),
-       ('lupaloc', 0.03),
-       ('rupaloc', 0.03),
-       ('lelbloc', 0.01),
-       ('relbloc', 0.01),
-       ('lfraloc', 0.025),
-       ('rfraloc', 0.025),
-       ('lhandloc', 0.025),
-       ('rhandloc', 0.025),
-       ('thrxloc', 0.12),
-       ('abdmnloc', 0.12),
-       ('plvisloc', 0.1),
-       ('lthghloc', 0.07),
-       ('rthghloc', 0.07),
-       ('lkneeloc', 0.015),
-       ('rkneeloc', 0.015),
-       ('lcalfloc', 0.06),
-       ('rcalfloc', 0.06),
-       ('lfootloc', 0.035),
-       ('rfootloc', 0.035),
-       ('jawloc', 0.03 / 7),
-       ('lcheekloc', 0.03 / 7),
-       ('rcheekloc', 0.03 / 7),
-       ('learloc', 0.03 / 7),
-       ('rearloc', 0.03 / 7),
-       ('mouthloc', 0.03 / 7),
-       ('noseloc', 0.03 / 7)),
-rates(material, base_rate, craft, share, day_rate) AS (VALUES ('Cloth', 100, 'Textilecraft', 0.45, 3), ('Padded', 200, 'Textilecraft', 0.45, 3), ('Quilted', 400, 'Textilecraft', 0.45, 3), ('Gambeson', 800, 'Textilecraft', 0.45, 3), ('Leather', 400, 'Hideworking', 0.40, 4), ('Kûrbúl', 500, 'Weaponcraft', 0.15, 5), ('Scale', 1000, 'Weaponcraft', 0.15, 5), ('Mail', 1500, 'Weaponcraft', 0.15, 5), ('Ring', 1350, 'Weaponcraft', 0.15, 5), ('Plate', 2000, 'Weaponcraft', 0.15, 5)),
-articles AS (
-    SELECT address.slug AS ref, name.full AS article, sohl.system.valueBase AS price, rates.*,
-           coalesce(sohl.system.locations.flexible, []::VARCHAR[]) || coalesce(sohl.system.locations.rigid, []::VARCHAR[]) AS locations,
-           coalesce(sohl.system.locations.facing, []) AS facing
-    FROM notes JOIN rates ON sohl.system.material = rates.material
-    WHERE type = 'armorgear' AND craft = 'Weaponcraft'
-), coverage AS (
-    SELECT articles.*,
-           (SELECT sum(fraction * CASE
-               WHEN (SELECT count(*) FROM unnest(facing) AS sides(f) WHERE f.location = covered.loc) = 0 THEN 1
-               ELSE least((SELECT count(*) FROM unnest(facing) AS sides(f) WHERE f.location = covered.loc), 2) / 2.0 END)
-            FROM unnest(locations) AS covered(loc) JOIN weights ON location = loc) AS coverage
-    FROM articles
-), expenses AS (
-    SELECT *, (1 - share) * least(price, coverage * base_rate) AS labour FROM coverage
-)
-SELECT ref AS _ref, article AS "Article", price AS "Price (d)",
-       round(CAST(price - labour AS DECIMAL(30, 8)), 2) AS "Materials (d)", round(CAST(labour / day_rate * 10 AS DECIMAL(30, 8))) AS "Hours"
-FROM expenses ORDER BY article COLLATE NOCASE
-```
+These examples use setting articles with the stated prices and coverage; a different article can have different expense.
 
 # The Test {#craft-test}
 

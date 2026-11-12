@@ -21,7 +21,7 @@ A traveler walks along a quiet path when a grukar-uk steps out to block the way.
 
 # Guided Automated Combat
 
-The **Automated Combat** guided tour is for the GM. Launch it from **Tour
+The **Automated Combat** guided tour requires each tutorial combatant to have a usable Club Crush strike mode. The system supplies no club, so the tour stops when it starts the encounter. The tour is for the GM. Launch it from **Tour
 Management**. It imports the tutorial and activates the path, then walks through
 two exchanges. You play both the traveler and the grukar-uk on one screen; in a
 normal game, each player controls only their own combatant.

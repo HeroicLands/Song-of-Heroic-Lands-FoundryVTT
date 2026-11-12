@@ -72,8 +72,6 @@ sohl:
     - {model: skill-press, initSkillMult: 2}
     - {model: skill-bflkpunch, initSkillMult: 2}
     - {model: skill-trip, initSkillMult: 2}
-    - {model: mysticalability-sprt}
-    - {model: miscgear-pence}
   system:
     body:
       structure:

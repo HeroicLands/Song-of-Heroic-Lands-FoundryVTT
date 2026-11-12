@@ -56,14 +56,6 @@ sohl:
     - {model: skill-guil, system: {masteryLevelBase: 25}}
     - {model: skill-chrm, system: {masteryLevelBase: 28}}
     - {model: skill-archery, system: {masteryLevelBase: 20}}
-    - {model: weapongear-clb}
-    - {model: weapongear-dgr}
-    - {model: weapongear-slng}
-    - {model: armorgear-hstunic}
-    - {model: armorgear-ltshoe}
-    - {model: containergear-bgsmcvs}
-    - {model: projectilegear-sston, system: {quantity: 2}}
-    - {model: miscgear-pence, system: {quantity: 2}}
     - {model: skill-spirit, initSkillMult: 3}
     - {model: skill-bflkbite, initSkillMult: 2}
     - {model: skill-bflkgrab, initSkillMult: 2}
@@ -73,7 +65,6 @@ sohl:
     - {model: skill-press, initSkillMult: 2}
     - {model: skill-bflkpunch, initSkillMult: 2}
     - {model: skill-trip, initSkillMult: 2}
-    - {model: mysticalability-sprt}
   system:
     body:
       structure:
@@ -410,7 +401,7 @@ sohl:
 
 # Appearance {#appearance}
 
-Brunjár Skathhelm looks like what he is: a boy who ended up in a bad place and is in over his head. He has a round, freckled face that makes him look sixteen rather than twenty-two, with hazel eyes that dart nervously and never quite meet anyone's gaze. His brown hair is shaggy and unkempt, and he has the soft, unfinished look of someone who has not yet grown fully into his frame. He wears a homespun tunic and leather shoes — the worst-equipped member of the gang — and carries a club, a dagger, and a sling with a pouch of stones. He fidgets constantly, picking at his nails, shifting his weight, tugging at his sleeves. He is the member of the Blackpine Wolves that victims remember as "the one who looked like he didn't want to be there."
+Brunjár Skathhelm looks like what he is: a boy who ended up in a bad place and is in over his head. He has a round, freckled face that makes him look sixteen rather than twenty-two, with hazel eyes that dart nervously and never quite meet anyone's gaze. His brown hair is shaggy and unkempt, and he has the soft, unfinished look of someone who has not yet grown fully into his frame. He is the worst-equipped member of the gang. He fidgets constantly, picking at his nails, shifting his weight, tugging at his sleeves. He is the member of the Blackpine Wolves that victims remember as "the one who looked like he didn't want to be there."
 
 # Dossier {#dossier}
 

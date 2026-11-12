@@ -33,7 +33,7 @@ It is a world with weight. Fights are fast and genuinely dangerous, so choosing 
 - **Magic worth building a character around.** The Arcane, Divine, and Spirit traditions play differently from one another — alchemy, runecraft, astrology, tarotry, summoning, trance, spirit work. Some of it is what your character _is_: a birthsign, a state of piety, quietly colouring everything they attempt. Some of it is what your character _does_: a rite, a prayer, an invocation, rolled and resolved in the moment.
 - **Grow in the direction you played.** Skills improve because you used them, not because you spent points on them. Your character finishes the campaign shaped by what actually happened to them.
 - **It keeps the books; you make the calls.** SoHL tracks the wounds, the healing, the calendar, the modifiers — then asks you what you want to do. Nothing happens to your character without your say-so, and every number on the sheet shows where it came from.
-- **Bring your own world.** Run it with _HârnMaster_, with the open-source **Thalorna** setting, or in a world entirely of your own. Hundreds of creatures, weapons, armour, and skills come ready to drag onto a sheet, alongside a complete rules reference you can read at the table without leaving Foundry.
+- **Bring your own world.** Run it with _HârnMaster_, with the open-source **Thalorna** setting, or in a world entirely of your own. The system supplies attributes, skills, sample characters, and a rules reference. Setting modules or your world supply gear and creatures.
 
 ## License and Source Code
 
@@ -73,13 +73,13 @@ it implements.
 
 ### What it ships with
 
-Hundreds of ready characters and items to drag onto a sheet, each documented
-exactly as it is implemented.
+Sample characters, attributes, and skills are ready to use. Setting modules or
+your world provide gear, afflictions, mystical abilities, and trauma.
 
-- [Weapons](doc-weapongear/)
-- [Armour and clothing](doc-armorgear/)
+- [Weapons](doc-weapongearug/)
+- [Armor and clothing](doc-armorgearug/)
 - [Skills and attributes](doc-skill/)
-- [Afflictions](doc-affliction/)
+- [Afflictions](doc-afflctnug/)
 - [Trauma](doc-traumaintro/)
 
 ### Building on it

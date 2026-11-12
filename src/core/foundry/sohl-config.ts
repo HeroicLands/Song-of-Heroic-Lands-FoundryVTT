@@ -596,7 +596,7 @@ export const SOHLCONFIG: SohlConfig = {
             ItemKinds.map((kind) => [kind, ITEM_METADATA[kind].IconCssClass]),
         ),
         types: ItemKinds,
-        compendiums: ["sohl.leg-characteristics", "sohl.leg-possessions", "sohl.leg-mysteries"],
+        compendiums: ["sohl.leg-characteristics", "sohl.leg-mysteries"],
         macros: {},
     },
     ActiveEffect: {

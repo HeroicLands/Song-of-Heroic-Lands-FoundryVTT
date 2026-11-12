@@ -63,9 +63,11 @@ Two further properties are **derived from the part's roles rather than set direc
 
 Most people favor one side of the body — not the hand alone, but the whole side working together. A being's favored side is read from the characteristics it carries:
 
-- **Left Dominance** alone — the left side is dominant.
-- **Right Dominance** alone — the right side is dominant.
+- **Left Dominance** (`ldmnc`) alone — the left side is dominant.
+- **Right Dominance** (`rdmnc`) alone — the right side is dominant.
 - **Both, or neither** — the being is **ambidextrous** and has no dominant side.
+
+Create or add a Trauma item with the appropriate shortcode to record a favored side. A setting can provide these items.
 
 An ambidextrous being has no off hand, and so never suffers a penalty for using one. This is the answer wherever a favored side matters — most visibly the off-hand reduction to the [[doc-strkmds#the-strength-impact-modifier|Strength Impact Modifier]].
 

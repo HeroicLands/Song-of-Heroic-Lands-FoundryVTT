@@ -139,18 +139,12 @@ sohl:
   items:
     - { model: attribute-str, system: { scoreBase: 13 } }
     - { model: attribute-agl, system: { scoreBase: 11 } }
-    - { model: skill-dgr, system: { masteryLevelBase: 40 } }
-    - model: weapongear-dgr
-      system:
-        qualityBase: 2
+    - { model: skill-melee, system: { masteryLevelBase: 40 } }
 ```
 
 An entry names the item it copies with `model` and carries any other keys,
 which are **deep-merged over the resolved item**: plain objects merge key by
-key, while arrays, primitives and `null` replace outright. That is how the
-`weapongear` above ships as a better-than-average dagger without restating the
-dagger, and how an attribute carries its `scoreBase` and a skill its
-`masteryLevelBase`.
+key, while arrays, primitives and `null` replace outright. An attribute carries its `scoreBase` and a skill its `masteryLevelBase` this way. System actor notes use system-owned attributes and skills; setting modules can supply their own item models.
 
 ### When an address does not resolve
 

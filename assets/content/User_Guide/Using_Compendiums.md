@@ -9,7 +9,7 @@ data: {packFolder: userguide}
 
 # Overview {#compendium-overview}
 
-Compendiums are pre-built libraries of actors, items, and journal entries that come with SoHL. They contain ready-to-use characters, creatures, equipment, skills, and reference material. Instead of creating everything from scratch, you import from compendiums and customize.
+Compendiums are pre-built libraries of actors, items, and journal entries that come with SoHL. They contain ready-to-use characters, skills, and reference material. Instead of creating everything from scratch, you import from compendiums and customize.
 
 See also: [[doc-crtngactitemug|Creating Actors and Items]], [[doc-quickstartug|Quickstart]]
 
@@ -19,7 +19,7 @@ SoHL ships with these compendium packs:
 
 ## People & Creatures
 
-Contains pre-built Beings — archetypes and named NPCs ready to use. Each Being comes fully equipped with attributes, skills, body structure, and sometimes gear.
+Contains pre-built Beings — archetypes and named NPCs ready to use. Each Being comes fully equipped with attributes, skills, and body structure.
 
 Animals are in the Thalorna setting's compendium. This pack carries:
 
@@ -49,15 +49,7 @@ Contains items that define character capabilities:
 
 These are typically imported as part of a complete Being, not individually.
 
-## Possessions
-
-Contains gear items:
-
-- **Weapons** — swords, axes, bows, and other weaponry with strike modes
-- **Armor** — protection gear with per-location coverage
-- **Equipment** — miscellaneous gear, containers, tools, and supplies
-
-Drag items directly from this compendium onto a character's sheet.
+Gear, afflictions, mystical abilities, and trauma are supplied by setting modules or created in the world. SoHL provides the item types for them.
 
 ## Journals
 

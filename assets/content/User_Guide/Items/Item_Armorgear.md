@@ -33,24 +33,11 @@ In addition to the [[doc-gearug|Standard Gear Properties]], the following additi
 
 # Material Grades
 
-Standard compendium armor uses the Legendary material-grade values shown in
-[[doc-gearrules|Gear]]. Its grade determines the four Protection Base values and
-starting Durability: Cloth protects at 0/1/0/1, Quilted at 4/3/2/3, and Plate
-at 6/11/9/5, in Blunt/Edged/Piercing/Fire order. Articles of the same grade have
-the same protection values; their coverage determines which locations benefit.
-
-A grade is a catalogue distinction, not the Quality field or an automatic
-runtime material lookup. Editing an item’s Material does not replace its
-Protection Base values.
+A setting's armor defines its Protection Base and starting Durability. Material is descriptive: editing it does not replace those values.
 
 # Crafting Expense
 
-The [[doc-crafting#armour-expense|Crafting armour expense tables]] list materials
-and labour hours for each compendium article. They use its authored sale price
-and body coverage, counting one-sided coverage as half. Labour is capped at
-the plain grade’s price, so a luxury grade adds material expense without
-increasing work hours; a cheaper grade reduces both. These are reference
-figures for the crafting rules, not new fields or actions on the armor sheet.
+The [[doc-crafting#armour-expense|armor crafting rules]] derive materials and labor from an article's price and coverage. These figures are reference values, not fields or actions on the armor sheet.
 
 # Encumbrance
 

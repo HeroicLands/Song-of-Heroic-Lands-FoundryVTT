@@ -36,8 +36,6 @@ sohl:
     - {model: skill-press, initSkillMult: 2}
     - {model: skill-bflkpunch, initSkillMult: 2}
     - {model: skill-trip, initSkillMult: 2}
-    - {model: weapongear-clb}
-    - {model: weapongear-dgr}
   system:
     body:
       structure:

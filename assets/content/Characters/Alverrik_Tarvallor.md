@@ -72,7 +72,6 @@ sohl:
     - {model: skill-mtlc, system: {masteryLevelBase: 14}}
     - {model: skill-mill, system: {masteryLevelBase: 30}}
     - {model: skill-wpnc, system: {masteryLevelBase: 56}}
-    - {model: mysticalability-tlnt, system: {masteryLevelBase: 33}}
     - {model: skill-spirit, initSkillMult: 3}
     - {model: skill-bflkbite, initSkillMult: 2}
     - {model: skill-bflkgrab, initSkillMult: 2}
@@ -82,7 +81,6 @@ sohl:
     - {model: skill-press, initSkillMult: 2}
     - {model: skill-bflkpunch, initSkillMult: 2}
     - {model: skill-trip, initSkillMult: 2}
-    - {model: mysticalability-sprt}
   system:
     body:
       structure:

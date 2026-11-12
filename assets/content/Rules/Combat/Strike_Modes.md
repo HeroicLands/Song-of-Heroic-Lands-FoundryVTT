@@ -38,12 +38,12 @@ Crew requirements are stated in the weapon's description and include the operato
 
 Minimum body parts describes a single wielder's grip; it is not a crew count. Do not increase `minParts` to represent additional people. Crew requirements remain descriptive information for the GM.
 
-| Engine                            | Required crew, including the operator |
-| --------------------------------- | ------------------------------------: |
-| [[weapongear-sprngld\|Springald]] |                                     2 |
-| [[weapongear-ballsta\|Ballista]]  |                                     4 |
-| [[weapongear-onagr\|Onager]]      |                                     6 |
-| [[weapongear-trebch\|Trebuchet]]  |                                    12 |
+| Engine    | Required crew, including the operator |
+| --------- | ------------------------------------: |
+| Springald |                                     2 |
+| Ballista  |                                     4 |
+| Onager    |                                     6 |
+| Trebuchet |                                    12 |
 
 ## The Strength Impact Modifier {#the-strength-impact-modifier}
 
