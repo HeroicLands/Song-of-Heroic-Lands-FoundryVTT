@@ -1,0 +1,24 @@
+---
+shortcode: mshirt
+name: {full: Mail Shirt}
+type: armorgear
+description: "Metal ring torso and upper arm protection with excellent defense."
+tags: []
+data: {icon: mailshirt, templatePriority: 0, packFolder: armorarmor}
+sohl:
+  craft: {skill: wpnc, secondary: [mtlc, mnrl]}
+  kbcat: mail
+  armorType: Shirt
+  detailMaterial: Mail
+  system:
+    weightBase: 14.9
+    valueBase: 495
+    durabilityBase: 13
+    material: Mail
+    locations: {flexible: [], rigid: [lshldloc, rshldloc, lupaloc, rupaloc, thrxloc, abdmnloc]}
+    protectionBase: {blunt: 2, edged: 8, piercing: 7, fire: 3}
+    encumbrance: 0
+    perceptionPenaltyBase: 0
+---
+
+A Mail Shirt, crafted from interlinked metal rings, provides substantial protection for the torso and upper arms. It offers excellent defense against slashes while maintaining flexibility.

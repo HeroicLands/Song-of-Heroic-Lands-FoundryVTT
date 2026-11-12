@@ -32,6 +32,7 @@ import { describe, it, expect } from "vitest";
 import { parse as parseYaml } from "yaml";
 
 const CONTENT = path.resolve(__dirname, "../../assets/content");
+const FIXTURE_SETTING = path.resolve(__dirname, "../fixtures/test-setting");
 
 /**
  * The persisted fields `MysticalAbilityDataModel.defineSchema()` declares,
@@ -75,7 +76,7 @@ function* walk(dir: string): Generator<string> {
 /** A `type: mysticalability` note: its repo-relative path and `sohl:` block. */
 type Note = { rel: string; sohl: Record<string, unknown> };
 
-const NOTES: Note[] = [...walk(CONTENT)].flatMap((file) => {
+const NOTES: Note[] = [...walk(CONTENT), ...walk(FIXTURE_SETTING)].flatMap((file) => {
     const match = /^---\r?\n([\s\S]*?)\r?\n---/.exec(readFileSync(file, "utf8"));
     if (!match) return [];
     const frontmatter = parseYaml(match[1]) as

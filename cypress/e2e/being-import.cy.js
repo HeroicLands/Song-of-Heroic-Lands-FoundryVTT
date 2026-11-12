@@ -13,8 +13,8 @@
 
 /**
  * Scenario 3 (head): import the canonical starter being "Basic Folk" from the
- * `sohl.actors` compendium and confirm it lands fully populated. This also
- * validates the compendium-import seam the gear/combat specs rely on.
+ * `sohl.actors` compendium and confirm it lands fully populated, then confirm
+ * the test setting's copy, which the gear and combat specs import, does too.
  */
 
 import { BASIC_FOLK } from "../support/factories/basicFolk.js";
@@ -24,7 +24,7 @@ describe("being import — Basic Folk", () => {
     afterEach(() => cy.cleanupWorld());
 
     it("imports Basic Folk fully populated (attributes, body, skills)", () => {
-        cy.importActor().then((actor) => {
+        cy.importActor(BASIC_FOLK.pack).then((actor) => {
             expect(actor.type).to.eq("being");
             cy.foundry((win) => {
                 const a = win.game.actors.get(actor.id);
@@ -41,6 +41,30 @@ describe("being import — Basic Folk", () => {
                 expect(r.bodyParts, "has an inline body").to.be.greaterThan(0);
                 expect(r.attrs, "14 attributes").to.eq(14);
                 expect(r.skills, "skills present").to.be.greaterThan(20);
+            });
+        });
+    });
+
+    it("builds the test setting's Basic Folk fully populated, with its setting gear", () => {
+        cy.importActor().then((actor) => {
+            expect(actor.type).to.eq("being");
+            cy.foundry((win) => {
+                const a = win.game.actors.get(actor.id);
+                return {
+                    bodyParts: a.logic.body.structure.parts.length,
+                    attrs: a.items.filter((i) => i.type === "attribute").length,
+                    skills: a.items.filter((i) => i.type === "skill").length,
+                    gear: a.items.filter((i) => i.type === "miscgear").map((i) => i.name),
+                    valid: a.items.contents.every(
+                        (i) => i.system.validate({ strict: false }) && !i.system.invalid,
+                    ),
+                };
+            }).should((r) => {
+                expect(r.bodyParts, "has an inline body").to.be.greaterThan(0);
+                expect(r.attrs, "14 attributes").to.eq(14);
+                expect(r.skills, "skills present").to.be.greaterThan(20);
+                expect(r.gear, "the setting's coin").to.include("Pence");
+                expect(r.valid, "every item validates").to.be.true;
             });
         });
     });

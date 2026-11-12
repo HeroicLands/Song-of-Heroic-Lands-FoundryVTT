@@ -41,6 +41,7 @@ import { MissileStrikeMode } from "@src/entity/strikemode/MissileStrikeMode";
 import { STRIKE_MODE_TYPE } from "@src/utils/constants";
 
 const CONTENT = path.resolve(__dirname, "../../assets/content");
+const FIXTURE_SETTING = path.resolve(__dirname, "../fixtures/test-setting");
 
 /** Every `.md` note under `assets/content/`, as repository-relative paths. */
 function notes(dir: string): string[] {
@@ -127,7 +128,7 @@ function authoredModes(): AuthoredMode[] {
         }
     };
 
-    for (const absolute of notes(CONTENT)) {
+    for (const absolute of [...notes(CONTENT), ...notes(FIXTURE_SETTING)]) {
         const file = path.relative(path.resolve(__dirname, "../.."), absolute);
         const fm = frontmatter(absolute);
         const sohl = fm?.sohl;
@@ -158,7 +159,7 @@ const OWNER = brandLogic({
 describe("authored strike modes match the schema that validates them", () => {
     it("finds the strike modes it is guarding", () => {
         // A walk that found nothing would make the case below vacuously pass.
-        expect(MODES.length).toBeGreaterThan(100);
+        expect(MODES.length).toBeGreaterThan(0);
     });
 
     it("every melee mode declares a defence the schema reads", () => {

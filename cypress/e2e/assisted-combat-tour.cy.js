@@ -166,18 +166,14 @@ describe("Assisted Combat tour (SohlTour)", () => {
         goTo(STEP.gear).should("eq", STEP.gear);
         expectGated(true, "gear gate closed with no weapons");
         cy.get("@being").then((being) => {
-            cy.getFromCompendium("sohl.items", "weapongear", "brdswd").then((w) =>
+            cy.fixtureItem("weapongear", "brdswd").then((w) =>
                 cy.dropOnActor(being, w).as("broadsword"),
             );
-            cy.getFromCompendium("sohl.items", "weapongear", "batlswd").then((w) =>
-                cy.dropOnActor(being, w),
-            );
-            cy.getFromCompendium("sohl.items", "weapongear", "lbw100").then((w) =>
+            cy.fixtureItem("weapongear", "batlswd").then((w) => cy.dropOnActor(being, w));
+            cy.fixtureItem("weapongear", "lbw100").then((w) =>
                 cy.dropOnActor(being, w).as("longbow"),
             );
-            cy.getFromCompendium("sohl.items", "weapongear", "rndsh").then((w) =>
-                cy.dropOnActor(being, w),
-            );
+            cy.fixtureItem("weapongear", "rndsh").then((w) => cy.dropOnActor(being, w));
         });
         expectGated(false, "gear gate opens once all four archetypes exist");
 
@@ -220,7 +216,7 @@ describe("Assisted Combat tour (SohlTour)", () => {
     it("ATK produces a roll and Impact posts a card to chat", () => {
         cy.importActor().as("being");
         cy.get("@being").then((being) => {
-            cy.getFromCompendium("sohl.items", "weapongear", "brdswd").then((w) =>
+            cy.fixtureItem("weapongear", "brdswd").then((w) =>
                 cy.dropOnActor(being, w).as("broadsword"),
             );
         });

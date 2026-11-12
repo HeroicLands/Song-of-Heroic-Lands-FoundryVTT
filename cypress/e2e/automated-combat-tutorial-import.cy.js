@@ -173,14 +173,6 @@ describe("Automated Combat Tutorial Adventure import", () => {
                     y: token.y,
                 })) ?? [];
             const actorSnapshots = actors.map((actor) => {
-                const weapons = actor.items.filter((item) => item.type === "weapongear");
-                const club = weapons.find((item) => item.name === "Club");
-                const heldClubPart = actor.system.body?.structure?.parts?.find(
-                    (part) => part.heldItemId === club?.id,
-                );
-                const heldClub =
-                    heldClubPart ? actor.items.get(heldClubPart.heldItemId) : undefined;
-
                 return {
                     id: actor.id,
                     name: actor.name,
@@ -193,11 +185,6 @@ describe("Automated Combat Tutorial Adventure import", () => {
                     bodyParts: actor.system.body?.structure?.parts?.length ?? 0,
                     attributes: actor.items.filter((item) => item.type === "attribute").length,
                     skills: actor.items.filter((item) => item.type === "skill").length,
-                    weapons: weapons.length,
-                    heldClubResolved: !!heldClub && heldClub.id === club?.id,
-                    heldClubMeleeModes:
-                        heldClub?.system.strikeModes?.filter((mode) => mode.type === "melee")
-                            .length ?? 0,
                 };
             });
             const framing = journals.find((document) => document.name === FRAMING_JOURNAL);
@@ -260,12 +247,6 @@ describe("Automated Combat Tutorial Adventure import", () => {
                 expect(actor.bodyParts, `${actor.name} has its combat body`).to.be.at.least(6);
                 expect(actor.attributes, `${actor.name} has all Attributes`).to.eq(14);
                 expect(actor.skills, `${actor.name} has combat Skills`).to.be.at.least(5);
-                expect(actor.weapons, `${actor.name} has melee weapons`).to.be.at.least(2);
-                expect(actor.heldClubResolved, `${actor.name} holds the imported Club`).to.be.true;
-                expect(
-                    actor.heldClubMeleeModes,
-                    `${actor.name}'s Club has melee modes`,
-                ).to.be.greaterThan(0);
             }
 
             expect(result.scene, "tutorial melee scene imported").to.exist;
@@ -291,6 +272,47 @@ describe("Automated Combat Tutorial Adventure import", () => {
             expect(result.journals.sort()).to.deep.equal([FRAMING_JOURNAL, MAP_JOURNAL].sort());
             expect(result.framingText).to.include("grukar-uk steps out to block the way");
             expect(result.framingText).to.include("ready for a referee to start combat");
+        });
+    });
+
+    it("arms the imported actors from the test setting's weapons", () => {
+        cy.wrap(null).then(() => {
+            const actorIds = importedIds.Actor ?? [];
+            expect(actorIds, "the first test imported the actors").to.have.length(2);
+            actorIds.forEach((id) => cy.armFromFixtures(id, ["clb", "dgr"], "clb"));
+            cy.foundry((win) =>
+                actorIds.map((id) => {
+                    const actor = win.game.actors.get(id);
+                    const weapons = actor.items.filter((item) => item.type === "weapongear");
+                    const club = weapons.find((item) => item.system.shortcode === "clb");
+                    const heldPart = actor.system.body.structure.parts.find(
+                        (part) => part.heldItemId === club?.id,
+                    );
+                    return {
+                        name: actor.name,
+                        weapons: weapons.length,
+                        heldClubResolved:
+                            !!heldPart && actor.items.get(heldPart.heldItemId) === club,
+                        heldClubMeleeModes:
+                            club?.system.strikeModes?.filter((mode) => mode.type === "melee")
+                                .length ?? 0,
+                        itemSystemsValid: actor.items.contents.every(
+                            (item) =>
+                                item.system.validate({ strict: false }) && !item.system.invalid,
+                        ),
+                    };
+                }),
+            ).then((actors) => {
+                for (const actor of actors) {
+                    expect(actor.weapons, `${actor.name} has melee weapons`).to.be.at.least(2);
+                    expect(actor.heldClubResolved, `${actor.name} holds the Club`).to.be.true;
+                    expect(
+                        actor.heldClubMeleeModes,
+                        `${actor.name}'s Club has melee modes`,
+                    ).to.be.greaterThan(0);
+                    expect(actor.itemSystemsValid, `${actor.name}'s Items validate`).to.be.true;
+                }
+            });
         });
     });
 });

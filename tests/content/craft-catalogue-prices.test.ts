@@ -23,6 +23,7 @@ import { readdirSync, readFileSync, statSync } from "node:fs";
 import path from "node:path";
 import { describe, it, expect } from "vitest";
 import matter from "gray-matter";
+import { allNotes } from "./fixture-setting";
 
 const CONTENT = path.resolve(__dirname, "../../assets/content");
 const CRAFT_DIR = path.join(CONTENT, "Skills/Craft");
@@ -35,20 +36,9 @@ const GEAR_TYPES = new Set([
     "projectilegear",
 ]);
 
-function walk(dir: string): string[] {
-    return readdirSync(dir, { withFileTypes: true }).flatMap((e) => {
-        const p = path.join(dir, e.name);
-        return (
-            e.isDirectory() ? walk(p)
-            : p.endsWith(".md") ? [p]
-            : []
-        );
-    });
-}
-
 /** Gear items by their full name, as the catalogue tables name them. */
 const ITEMS_BY_NAME = new Map<string, { valueBase: number; file: string }>();
-for (const file of walk(CONTENT)) {
+for (const file of allNotes()) {
     const { data } = matter(readFileSync(file, "utf8"));
     if (!GEAR_TYPES.has(data.type)) continue;
     const full = data.name?.full;

@@ -219,10 +219,10 @@ describe("Character Creation tour (SohlTour)", () => {
         goTo(STEP.gearWeapons).should("eq", STEP.gearWeapons);
         expectGated(true, "weapons gate closed with no weapons");
         cy.get("@being").then((being) => {
-            cy.getFromCompendium("sohl.items", "weapongear", "brdswd").then((bs) =>
+            cy.fixtureItem("weapongear", "brdswd").then((bs) =>
                 cy.dropOnActor(being, bs).as("broadsword"),
             );
-            cy.getFromCompendium("sohl.items", "weapongear", "rndsh").then((rs) =>
+            cy.fixtureItem("weapongear", "rndsh").then((rs) =>
                 cy.dropOnActor(being, rs).as("roundshield"),
             );
         });
@@ -268,7 +268,7 @@ describe("Character Creation tour (SohlTour)", () => {
         goTo(STEP.gearTunic).should("eq", STEP.gearTunic);
         expectGated(true, "tunic gate closed with no tunic");
         cy.get("@being").then((being) => {
-            cy.getFromCompendium("sohl.items", "armorgear", "lttunic").then((t) =>
+            cy.fixtureItem("armorgear", "lttunic").then((t) =>
                 cy.dropOnActor(being, t).as("tunic"),
             );
         });
@@ -303,7 +303,7 @@ describe("Character Creation tour (SohlTour)", () => {
         goTo(STEP.backpack).should("eq", STEP.backpack);
         expectGated(true, "backpack gate closed");
         cy.get("@being").then((being) => {
-            cy.getFromCompendium("sohl.items", "containergear", "backpk").then((b) =>
+            cy.fixtureItem("containergear", "backpk").then((b) =>
                 cy.dropOnActor(being, b).as("backpack"),
             );
         });
@@ -313,7 +313,7 @@ describe("Character Creation tour (SohlTour)", () => {
         goTo(STEP.tinderbox).should("eq", STEP.tinderbox);
         expectGated(true, "tinderbox gate closed");
         cy.get("@being").then((being) => {
-            cy.getFromCompendium("sohl.items", "miscgear", "tndrbx").then((t) =>
+            cy.fixtureItem("miscgear", "tndrbx").then((t) =>
                 cy.dropOnActor(being, t).as("tinderbox"),
             );
         });

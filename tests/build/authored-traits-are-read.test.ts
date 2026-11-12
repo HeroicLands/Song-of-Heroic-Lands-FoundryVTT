@@ -41,6 +41,7 @@ import { parse as parseYaml } from "yaml";
 
 const ROOT = path.resolve(__dirname, "../..");
 const CONTENT = path.join(ROOT, "assets/content");
+const FIXTURE_SETTING = path.join(ROOT, "tests/fixtures/test-setting");
 const SRC = path.join(ROOT, "src");
 
 /**
@@ -135,7 +136,7 @@ function collectTraitKeys(node: unknown, note: string, into: Map<string, Set<str
 /** The trait names authored anywhere in `assets/content/`, with their notes. */
 function authoredTraits(): Map<string, Set<string>> {
     const found = new Map<string, Set<string>>();
-    for (const file of notes(CONTENT)) {
+    for (const file of [...notes(CONTENT), ...notes(FIXTURE_SETTING)]) {
         const fm = frontmatter(file);
         if (fm) collectTraitKeys(fm, path.relative(ROOT, file), found);
     }

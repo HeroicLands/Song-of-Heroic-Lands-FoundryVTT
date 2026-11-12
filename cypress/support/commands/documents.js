@@ -156,6 +156,24 @@ Cypress.Commands.add("getFromCompendium", (packName, itemType, shortcode) =>
 );
 
 /**
+ * Create a world item from the test-only setting's note for an item type and
+ * shortcode. Gear is a setting's business, so specs take it from
+ * `tests/fixtures/test-setting/` rather than from a shipped compendium. The
+ * item's name is tagged, so {@link cleanupWorld} removes it. Yields the Item
+ * document; pair with {@link dropOnActor} to place it on an actor.
+ *
+ * @param {string} itemType - The item kind (e.g. `"weapongear"`).
+ * @param {string} shortcode - The note's shortcode, unique within the type.
+ * @example cy.fixtureItem("weapongear", "brdswd").then((w) => cy.dropOnActor(actor, w))
+ */
+Cypress.Commands.add("fixtureItem", (itemType, shortcode) =>
+    cy.task("fixtureItem", { type: itemType, shortcode }).then((data) => {
+        const payload = { ...data, name: tagName(data.name) };
+        return cy.foundry((win) => win.Item.create(toRealm(win, payload)));
+    }),
+);
+
+/**
  * Drop an item onto an actor through the actor sheet's real drop handler
  * (`_onDropItem`) — the same path a drag-drop takes, so it clones the item onto
  * the actor. `item` may be a compendium document (see {@link getFromCompendium}),

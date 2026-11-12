@@ -1,0 +1,35 @@
+---
+shortcode: qtnc
+name: {full: Quilted Tunic}
+type: armorgear
+description: "Padded tunic; stitched layers offer steady warmth."
+tags: []
+data: {icon: shirt, templatePriority: 0, packFolder: armorarmor}
+sohl:
+  craft: {skill: txtl, secondary: []}
+  kbcat: quilted
+  armorType: Tunic
+  detailMaterial: Quilted
+  system:
+    weightBase: 8.1
+    valueBase: 180
+    durabilityBase: 11
+    material: Quilted
+    locations:
+      flexible:
+        - lshldloc
+        - rshldloc
+        - lupaloc
+        - rupaloc
+        - lelbloc
+        - relbloc
+        - thrxloc
+        - abdmnloc
+        - plvisloc
+      rigid: []
+    protectionBase: {blunt: 4, edged: 3, piercing: 2, fire: 3}
+    encumbrance: 0
+    perceptionPenaltyBase: 0
+---
+
+Featuring layers of fabric stitched together, the Quilted Tunic offers excellent insulation and warmth. It's suitable for colder climates, providing both comfort and a bit of extra protection.

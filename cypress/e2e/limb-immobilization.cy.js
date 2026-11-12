@@ -22,7 +22,7 @@ import "../support/commands";
  * cycle. The unit suite covers the derivation table exhaustively
  * (`tests/domain/body/BodyPart.test.ts`, `tests/actor/Being.test.ts`); what only
  * a live client proves is the round trip through real documents — the authored
- * **Immobilized** trauma dropping out of the compendium onto a being and pinning
+ * **Immobilized** trauma dropping from the test setting onto a being and pinning
  * the right limb, its deletion freeing that limb, and a grievous wound persisting
  * the drop of the weapon the limb was holding.
  */
@@ -85,8 +85,8 @@ describe("limb immobilization vs. the ability to hold", () => {
         return { part: part.shortcode, location: part.locations[0].shortcode };
     }
 
-    it("the authored Immobilized trauma exists in the items compendium", () => {
-        cy.getFromCompendium("sohl.items", "trauma", "immob").should((doc) => {
+    it("the authored Immobilized trauma is defined by the test setting", () => {
+        cy.fixtureItem("trauma", "immob").should((doc) => {
             expect(doc.system.subType, "a physical condition").to.eq("physcond");
             expect(doc.system.category, "graded as an impediment").to.eq("impediment");
         });
@@ -96,7 +96,7 @@ describe("limb immobilization vs. the ability to hold", () => {
         cy.importActor().then((actor) => {
             cy.prepare(actor);
             cy.foundry((win) => grippingLimbLocation(win, actor.id)).then((limb) => {
-                cy.getFromCompendium("sohl.items", "trauma", "immob").then((immob) => {
+                cy.fixtureItem("trauma", "immob").then((immob) => {
                     cy.dropOnActor(actor, immob);
                     // Name a location on the gripping limb, as a hold (or a
                     // binding spell) would.
@@ -126,7 +126,7 @@ describe("limb immobilization vs. the ability to hold", () => {
         cy.importActor().then((actor) => {
             cy.prepare(actor);
             cy.foundry((win) => grippingLimbLocation(win, actor.id)).then((limb) => {
-                cy.getFromCompendium("sohl.items", "trauma", "immob").then((immob) => {
+                cy.fixtureItem("trauma", "immob").then((immob) => {
                     cy.dropOnActor(actor, immob);
                     cy.foundry(async (win) => {
                         const a = win.game.actors.get(actor.id);

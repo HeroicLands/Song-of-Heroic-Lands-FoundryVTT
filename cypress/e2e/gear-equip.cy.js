@@ -26,7 +26,7 @@
  * were retired: carry became a single toggle, worn moved to the armor-scoped
  * `toggleWorn` action / `isWorn` field, and hold is a Combat-tab operation.)
  *
- * Compendium weapongear cannot be embedded here: every weapon in `sohl.items`
+ * Test-setting weapongear cannot be embedded here: every weapon note
  * still stores `strikeModes.defense` in the old flat schema, which throws in
  * `MeleeStrikeMode` during `prepareData()`. Hold / combat-tab tests
  * therefore use an inline weapon with the correct nested defense schema. The
@@ -35,8 +35,8 @@
  * locations are addressed by shortcode, not by name).
  */
 
-// Stable, id-independent descriptor for the Mail Shirt armorgear (carry & equip
-// toggles) — resolved by `system.shortcode`, so it survives pack-id regeneration.
+// Descriptor for the test setting's Mail Shirt armorgear (carry & equip
+// toggles), resolved by `system.shortcode`.
 const MAIL_SHIRT_REF = { shortcode: "mshirt", type: "armorgear" };
 
 /** Minimal weapongear with the correct nested defense schema. */
@@ -114,25 +114,27 @@ describe("gear equip / hold → combat-tab display", () => {
 
     it("toggleCarried flips isCarried", () => {
         cy.createActor("being", { name: "Carry Being" }).then((actor) => {
-            cy.importItem("sohl.items", MAIL_SHIRT_REF, { actor }).then((armor) => {
-                // Default: isCarried = true
-                cy.foundry((win) => {
-                    const a = win.game.actors.get(actor.id);
-                    return a.items.get(armor.id).system.isCarried;
-                }).should("be.true");
+            cy.fixtureItem(MAIL_SHIRT_REF.type, MAIL_SHIRT_REF.shortcode)
+                .then((item) => cy.dropOnActor(actor, item))
+                .then((armor) => {
+                    // Default: isCarried = true
+                    cy.foundry((win) => {
+                        const a = win.game.actors.get(actor.id);
+                        return a.items.get(armor.id).system.isCarried;
+                    }).should("be.true");
 
-                cy.runAction(armor, "toggleCarried");
-                cy.foundry((win) => {
-                    const a = win.game.actors.get(actor.id);
-                    return a.items.get(armor.id).system.isCarried;
-                }).should("be.false");
+                    cy.runAction(armor, "toggleCarried");
+                    cy.foundry((win) => {
+                        const a = win.game.actors.get(actor.id);
+                        return a.items.get(armor.id).system.isCarried;
+                    }).should("be.false");
 
-                cy.runAction(armor, "toggleCarried");
-                cy.foundry((win) => {
-                    const a = win.game.actors.get(actor.id);
-                    return a.items.get(armor.id).system.isCarried;
-                }).should("be.true");
-            });
+                    cy.runAction(armor, "toggleCarried");
+                    cy.foundry((win) => {
+                        const a = win.game.actors.get(actor.id);
+                        return a.items.get(armor.id).system.isCarried;
+                    }).should("be.true");
+                });
         });
     });
 
@@ -140,25 +142,27 @@ describe("gear equip / hold → combat-tab display", () => {
 
     it("toggleWorn flips isWorn on armor", () => {
         cy.createActor("being", { name: "Worn Being" }).then((actor) => {
-            cy.importItem("sohl.items", MAIL_SHIRT_REF, { actor }).then((armor) => {
-                // Armor defaults to not worn.
-                cy.foundry((win) => {
-                    const a = win.game.actors.get(actor.id);
-                    return a.items.get(armor.id).system.isWorn;
-                }).should("be.false");
+            cy.fixtureItem(MAIL_SHIRT_REF.type, MAIL_SHIRT_REF.shortcode)
+                .then((item) => cy.dropOnActor(actor, item))
+                .then((armor) => {
+                    // Armor defaults to not worn.
+                    cy.foundry((win) => {
+                        const a = win.game.actors.get(actor.id);
+                        return a.items.get(armor.id).system.isWorn;
+                    }).should("be.false");
 
-                cy.runAction(armor, "toggleWorn");
-                cy.foundry((win) => {
-                    const a = win.game.actors.get(actor.id);
-                    return a.items.get(armor.id).system.isWorn;
-                }).should("be.true");
+                    cy.runAction(armor, "toggleWorn");
+                    cy.foundry((win) => {
+                        const a = win.game.actors.get(actor.id);
+                        return a.items.get(armor.id).system.isWorn;
+                    }).should("be.true");
 
-                cy.runAction(armor, "toggleWorn");
-                cy.foundry((win) => {
-                    const a = win.game.actors.get(actor.id);
-                    return a.items.get(armor.id).system.isWorn;
-                }).should("be.false");
-            });
+                    cy.runAction(armor, "toggleWorn");
+                    cy.foundry((win) => {
+                        const a = win.game.actors.get(actor.id);
+                        return a.items.get(armor.id).system.isWorn;
+                    }).should("be.false");
+                });
         });
     });
 
@@ -240,14 +244,16 @@ describe("gear equip / hold → combat-tab display", () => {
 
     it("equipped compendium Mail Shirt aggregates protection onto covered locations", () => {
         cy.importActor().then((actor) => {
-            cy.importItem("sohl.items", MAIL_SHIRT_REF, { actor }).then((armor) => {
-                cy.foundry((win) => setWorn(win, actor.id, armor.id, true));
-                cy.prepare(actor);
-                cy.foundry((win) => thoraxEdgedProtection(win, actor.id)).should(
-                    "be.greaterThan",
-                    0,
-                );
-            });
+            cy.fixtureItem(MAIL_SHIRT_REF.type, MAIL_SHIRT_REF.shortcode)
+                .then((item) => cy.dropOnActor(actor, item))
+                .then((armor) => {
+                    cy.foundry((win) => setWorn(win, actor.id, armor.id, true));
+                    cy.prepare(actor);
+                    cy.foundry((win) => thoraxEdgedProtection(win, actor.id)).should(
+                        "be.greaterThan",
+                        0,
+                    );
+                });
         });
     });
 });

@@ -110,6 +110,19 @@ describe("Automated Combat guided walkthrough", () => {
             await tour.start();
         });
         next(); // Adventure import
+        // The adventure's actors carry no gear of their own; the test setting arms them.
+        cy.foundry((win) =>
+            win.game.actors
+                .filter(
+                    (actor) =>
+                        !beforeIds.Actor.includes(actor.id) &&
+                        actor.getFlag("sohl", "automatedCombatTutorial"),
+                )
+                .map((actor) => actor.id),
+        ).then((ids) => {
+            expect(ids, "the tour imported the tutorial actors").to.have.length(2);
+            ids.forEach((id) => cy.armFromFixtures(id, ["clb", "dgr"], "clb"));
+        });
         next(); // Activate tutorial scene and macro gate
         cy.get('.tour-center-step .step-button[data-action="next"]').should(
             "have.class",

@@ -17,6 +17,11 @@ import { resolvePackageBuildConfig } from "@heroiclands/package-build/config";
 import sharedConfig from "./package-build.config.mjs";
 import { resolveStagePort } from "@heroiclands/package-build/container";
 import { resolveE2EWorld } from "@heroiclands/package-build/e2e";
+import {
+    readFixtureActor,
+    readFixtureItem,
+    readFixtureItems,
+} from "./cypress/support/fixture-setting.mjs";
 
 dotenv.config({ path: ".env.local" });
 dotenv.config({ path: ".env" });
@@ -63,6 +68,11 @@ export default defineConfig({
         fixturesFolder: false,
         video: false,
         setupNodeEvents(on) {
+            on("task", {
+                fixtureItem: readFixtureItem,
+                fixtureItems: readFixtureItems,
+                fixtureActor: readFixtureActor,
+            });
             on("before:browser:launch", (browser, launchOptions) => {
                 if (
                     browser.family === "chromium" &&

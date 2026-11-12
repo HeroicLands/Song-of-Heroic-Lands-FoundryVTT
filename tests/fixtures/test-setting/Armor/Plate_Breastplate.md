@@ -1,0 +1,27 @@
+---
+shortcode: plbreast
+name: {full: Plate Breastplate}
+type: armorgear
+description: "Steel plate protecting torso; cornerstone of knightly armor."
+tags: []
+data: {icon: breastplate, templatePriority: 0, packFolder: armorarmor}
+sohl:
+  craft: {skill: wpnc, secondary: [mtlc, mnrl]}
+  kbcat: plate
+  armorType: Breastplate
+  detailMaterial: Plate
+  system:
+    weightBase: 4.6
+    valueBase: 240
+    durabilityBase: 14
+    material: Plate
+    locations:
+      flexible: []
+      rigid: [thrxloc, abdmnloc]
+      facing: [{location: thrxloc, side: front}, {location: abdmnloc, side: front}]
+    protectionBase: {blunt: 6, edged: 11, piercing: 9, fire: 5}
+    encumbrance: 5
+    perceptionPenaltyBase: 0
+---
+
+Made from solid steel, the Plate Breastplate provides maximum torso protection. It’s the cornerstone of knightly armor, designed to deflect blows and prevent penetration from weapons, though it sacrifices mobility for defense.

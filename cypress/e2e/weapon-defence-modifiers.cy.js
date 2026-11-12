@@ -36,8 +36,8 @@ describe("weapon defence modifiers", () => {
     before(() => cy.login().then(() => cy.cleanupWorld()));
     afterEach(() => cy.cleanupWorld());
 
-    it("carries the authored block and counterstrike modifiers into the compendium document", () => {
-        cy.getFromCompendium("sohl.items", "weapongear", PENALISED.shortcode).should((weapon) => {
+    it("carries the authored block and counterstrike modifiers into the item document", () => {
+        cy.fixtureItem("weapongear", PENALISED.shortcode).should((weapon) => {
             const modes = weapon.system.strikeModes.filter((sm) => sm.type === "melee");
             expect(modes.length, "melee modes").to.be.greaterThan(0);
             for (const mode of modes) {
@@ -64,7 +64,7 @@ describe("weapon defence modifiers", () => {
                 return true;
             });
             cy.ensureSkillML(this.actor, "melee", 60);
-            cy.getFromCompendium("sohl.items", "weapongear", PENALISED.shortcode).then((weapon) =>
+            cy.fixtureItem("weapongear", PENALISED.shortcode).then((weapon) =>
                 cy.dropOnActor(this.actor, weapon),
             );
             cy.prepare(this.actor);
@@ -99,7 +99,7 @@ describe("weapon defence modifiers", () => {
         cy.importActor().as("actor");
         cy.then(function () {
             cy.ensureSkillML(this.actor, "melee", 60);
-            cy.getFromCompendium("sohl.items", "weapongear", UNPENALISED.shortcode).then((weapon) =>
+            cy.fixtureItem("weapongear", UNPENALISED.shortcode).then((weapon) =>
                 cy.dropOnActor(this.actor, weapon),
             );
             cy.prepare(this.actor);

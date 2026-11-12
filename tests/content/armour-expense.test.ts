@@ -21,8 +21,9 @@ import {
     renderSqlTable,
 } from "@heroiclands/package-build/engine/sql-tables";
 import { coverageOf } from "./armour-coverage-helper";
+import { FIXTURE_SETTING } from "./fixture-setting";
 
-const root = "assets/content/Armor";
+const root = path.join(FIXTURE_SETTING, "Armor");
 const records = fs
     .readdirSync(root, { recursive: true })
     .filter((f) => String(f).endsWith(".md"))

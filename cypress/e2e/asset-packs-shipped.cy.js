@@ -62,11 +62,11 @@ describe("asset packs (shipped pack)", () => {
             await win.sohl.apps.foundry.refreshImportLocations();
             const items = win.game.packs.get("sohl.items");
             const index = await items.getIndex();
-            const entry = index.find((e) => e.name === "Torch");
+            const entry = index.find((e) => e.name === "Melee");
             const item = await win.game.items.importFromCompendium(
                 items,
                 entry._id,
-                toRealm(win, { name: tagName("Torch") }),
+                toRealm(win, { name: tagName("Melee") }),
             );
             ids.item = item.id;
             const journals = win.game.packs.get("sohl.journals");

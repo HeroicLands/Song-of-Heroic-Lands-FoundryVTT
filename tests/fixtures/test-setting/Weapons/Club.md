@@ -1,0 +1,92 @@
+---
+shortcode: clb
+name: {full: Club}
+type: weapongear
+description: "Iron-bound wooden bludgeon; garrison guard and desperate levy weapon."
+tags: []
+data: {icon: club, templatePriority: 0, packFolder: weapons}
+sohl:
+  craft: {skill: wood, secondary: []}
+  kbcat: club
+  weaponType: Club
+  system:
+    weightBase: 3
+    valueBase: 12
+    durabilityBase: 9
+    heftBase: 11
+    strikeModes:
+      - shortcode: crush
+        type: melee
+        name: Crush
+        assocSkillCode: melee
+        minParts: 1
+        attack: {spread: 6, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 1, aspect: blunt}
+        traits:
+          meleeMod: 0
+          blockSLMod: 0
+          durabilityMod: 0
+          cxSLMod: 0
+          oppDef: 0
+          impTA: 3
+          AR: 0
+          noAttack: false
+          noBlock: false
+          entangle: false
+          envelop: false
+          couched: false
+          long: false
+          onlyInClose: false
+          shieldMod: 0
+          slow: false
+          thrust: false
+          swung: true
+          halfSword: false
+          bleed: false
+          twoHndLen: 0
+          shaft: false
+          pommel: false
+          noStrMod: false
+          halfImpact: false
+          lowAim: false
+        lengthBase: 4
+        defense: {block: {modifier: 0}, counterstrike: {modifier: 0}}
+      - shortcode: pommel
+        type: melee
+        name: Pommel
+        assocSkillCode: melee
+        minParts: 1
+        attack: {spread: 4, modifier: 0}
+        impactBase: {numDice: 1, die: 6, modifier: 0, aspect: blunt}
+        traits:
+          meleeMod: 0
+          blockSLMod: 0
+          durabilityMod: 0
+          cxSLMod: 0
+          oppDef: 0
+          impTA: 3
+          AR: 0
+          noAttack: false
+          noBlock: false
+          entangle: false
+          envelop: false
+          couched: false
+          long: false
+          onlyInClose: false
+          shieldMod: 0
+          slow: false
+          thrust: false
+          swung: false
+          halfSword: false
+          bleed: false
+          twoHndLen: 0
+          shaft: false
+          pommel: true
+          noStrMod: false
+          halfImpact: false
+          lowAim: false
+        lengthBase: 4
+        defense: {block: {modifier: 0}, counterstrike: {modifier: 0}}
+---
+
+A weighted wooden truncheon bound with iron, the simplest of all bludgeons. Whether turned or hewn from a single piece of heartwood or grafted from a thicker branch fitted to a shorter haft, it swings with enough weight to break bone and crush the breath from a man's chest. Cheap to make and found in the hands of garrison guards, city watch, and desperate levies.

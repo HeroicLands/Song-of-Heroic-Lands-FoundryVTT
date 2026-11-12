@@ -12,14 +12,12 @@
  */
 
 /**
- * The canonical starter being shipped in the `sohl.actors` compendium.
- *
- * "Basic Folk" is fully populated (14 attributes, an inline body at
- * `system.body` with 6 parts plus terrestrial movement at
- * `system.currentMoveMedium`/`system.movementProfiles`, 25 skills with
- * `masteryLevelBase`, 1 mystical ability, 1 misc gear) but ships no weapon,
- * armor, trait, or affiliation. Gear/combat specs import it and add the missing
- * pieces from the `sohl.items` pack.
+ * The canonical starter being, "Basic Folk": fully populated (all attributes,
+ * an inline body with its parts and terrestrial movement, and the everyday
+ * skills) with no weapon, armor, trait or affiliation. The system ships it in
+ * the `sohl.actors` compendium, and the test setting carries a copy that
+ * `cy.importActor()` builds, so gear and combat specs start from the setting's
+ * being and add gear with `cy.fixtureItem`.
  */
 export const BASIC_FOLK = Object.freeze({
     pack: "sohl.actors",

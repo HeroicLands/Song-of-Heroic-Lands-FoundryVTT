@@ -1,0 +1,47 @@
+---
+shortcode: cvcloak
+name: {full: Canvas Cloak}
+type: armorgear
+description: "Heavy hemp-weave cloak shedding wind and wear on the road."
+tags: []
+data: {icon: cloak, templatePriority: 0, packFolder: armorarmor}
+sohl:
+  craft: {skill: txtl, secondary: []}
+  kbcat: cloth
+  armorType: Cloak
+  detailMaterial: Canvas
+  system:
+    weightBase: 2.1
+    valueBase: 31
+    durabilityBase: 11
+    material: Cloth
+    locations:
+      flexible:
+        - lshldloc
+        - rshldloc
+        - thrxloc
+        - abdmnloc
+        - plvisloc
+        - lthghloc
+        - rthghloc
+        - lkneeloc
+        - rkneeloc
+        - lcalfloc
+        - rcalfloc
+      rigid: []
+      facing:
+        - {location: thrxloc, side: back}
+        - {location: abdmnloc, side: back}
+        - {location: plvisloc, side: back}
+        - {location: lthghloc, side: back}
+        - {location: rthghloc, side: back}
+        - {location: lkneeloc, side: back}
+        - {location: rkneeloc, side: back}
+        - {location: lcalfloc, side: back}
+        - {location: rcalfloc, side: back}
+    protectionBase: {blunt: 0, edged: 1, piercing: 0, fire: 1}
+    encumbrance: 0
+    perceptionPenaltyBase: 0
+---
+
+The Canvas Cloak is cut from heavy hemp plain-weave, the same cloth that makes sails and tents. It is stiff when new and softens with use, and it turns wind and brambles far better than an ordinary woollen wrap.

@@ -15,19 +15,7 @@ import { describe, it, expect } from "vitest";
 import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
-
-const CONTENT_ROOT = path.resolve(__dirname, "../../assets/content");
-
-function walk(dir: string): string[] {
-    return fs.readdirSync(dir, { withFileTypes: true }).flatMap((e) => {
-        const p = path.join(dir, e.name);
-        return (
-            e.isDirectory() ? walk(p)
-            : p.endsWith(".md") ? [p]
-            : []
-        );
-    });
-}
+import { allNotes, SYSTEM_CONTENT } from "./fixture-setting";
 
 interface StrikeMode {
     assocSkillCode?: string;
@@ -47,8 +35,8 @@ function strikeModesOf(d: { sohl?: { system?: { strikeModes?: unknown } } }): St
     return [];
 }
 
-const notes = walk(CONTENT_ROOT).map((f) => ({
-    file: path.relative(CONTENT_ROOT, f),
+const notes = allNotes().map((f) => ({
+    file: path.relative(SYSTEM_CONTENT, f),
     data: matter(fs.readFileSync(f, "utf8")).data,
 }));
 

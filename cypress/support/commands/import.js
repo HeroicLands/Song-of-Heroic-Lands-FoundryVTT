@@ -18,6 +18,7 @@
  */
 
 import { tagName } from "../factories/ids.js";
+import { toRealm } from "../resolve.js";
 import { BASIC_FOLK } from "../factories/basicFolk.js";
 
 /**
@@ -72,25 +73,42 @@ function uniquifyImportShortcode(data, existing) {
     data.system.shortcode = sc;
 }
 
+/** The compendium holding the items the system itself defines: attributes and skills. */
+const SYSTEM_ITEMS_PACK = "sohl.items";
+
+/** `overlay` merged over `base`, recursing into plain objects; arrays and scalars replace. */
+function deepMerge(base, overlay) {
+    const isObject = (v) => v !== null && typeof v === "object" && !Array.isArray(v);
+    const out = { ...base };
+    for (const [key, value] of Object.entries(overlay ?? {})) {
+        out[key] = isObject(value) && isObject(base[key]) ? deepMerge(base[key], value) : value;
+    }
+    return out;
+}
+
 /**
- * Import an actor from a compendium pack into the world.
+ * Import an actor into the world.
  *
- * @param {string} [packId] - pack id (default `sohl.actors`).
+ * With no pack argument the actor is the test setting's Basic Folk (see
+ * {@link fixtureActor}), so a spec that needs a populated being, and the gear
+ * that goes with one, does not depend on anything the system ships beyond
+ * attributes and skills. Naming a pack imports from that compendium instead
+ * (`toObject()` carries embedded items), for the specs that test a shipped
+ * actor.
+ *
+ * @param {string} [packId] - pack id; omit for the test setting's Basic Folk.
  * @param {string|{shortcode?: string, name?: string, type?: string}} [docId] -
  *   a literal document id, or a stable descriptor resolved via {@link resolveDocId}
- *   (default: Basic Folk, by shortcode/name).
+ *   (default: Basic Folk, by shortcode/name). Used only with `packId`.
  * @param {object} [opts]   - `{ tag }`: when `false`, do NOT run-tag the name
  *   (use to exercise `_preCreate` duplicate-renaming; the spec must clean up).
  * @returns the created Actor document.
  */
 Cypress.Commands.add(
     "importActor",
-    (
-        packId = BASIC_FOLK.pack,
-        docId = { shortcode: BASIC_FOLK.shortcode, name: BASIC_FOLK.name },
-        opts = {},
-    ) =>
-        cy.foundry(async (win) => {
+    (packId, docId = { shortcode: BASIC_FOLK.shortcode, name: BASIC_FOLK.name }, opts = {}) => {
+        if (packId === undefined) return cy.fixtureActor(BASIC_FOLK.shortcode, opts);
+        return cy.foundry(async (win) => {
             const pack = win.game.packs.get(packId);
             if (!pack) throw new Error(`No compendium pack '${packId}'`);
             const id = await resolveDocId(pack, docId);
@@ -101,7 +119,83 @@ Cypress.Commands.add(
             uniquifyImportShortcode(data, win.game.actors);
             if (opts.tag !== false) data.name = tagName(data.name);
             return win.Actor.create(data);
+        });
+    },
+);
+
+/**
+ * Create a world actor, embedded items included, from the test setting's being
+ * note with the given shortcode. Attributes and skills come from the shipped
+ * `sohl.items` compendium, which holds the system's own compiled definitions,
+ * and everything else from `tests/fixtures/test-setting/`, so the actor carries
+ * no gear the setting does not define.
+ *
+ * @param {string} shortcode - The fixture being's shortcode.
+ * @param {object} [opts]   - `{ tag }`: when `false`, do NOT run-tag the name.
+ * @returns the created Actor document.
+ */
+Cypress.Commands.add("fixtureActor", (shortcode, opts = {}) =>
+    cy.task("fixtureActor", { shortcode }).then((data) =>
+        cy.foundry(async (win) => {
+            const pack = win.game.packs.get(SYSTEM_ITEMS_PACK);
+            if (!pack) throw new Error(`No compendium pack '${SYSTEM_ITEMS_PACK}'`);
+            const items = [];
+            for (const entry of data.items) {
+                if (!entry.pack) {
+                    items.push(entry);
+                    continue;
+                }
+                const id = await resolveDocId(pack, entry.pack);
+                if (!id) {
+                    throw new Error(
+                        `${SYSTEM_ITEMS_PACK} has no ${entry.pack.type} "${entry.pack.shortcode}"`,
+                    );
+                }
+                const doc = await pack.getDocument(id);
+                items.push(deepMerge(doc.toObject(), entry.overlay));
+            }
+            const payload = { ...data, items };
+            uniquifyImportShortcode(payload, win.game.actors);
+            if (opts.tag !== false) payload.name = tagName(payload.name);
+            return win.Actor.create(toRealm(win, payload));
         }),
+    ),
+);
+
+/**
+ * Replace the weapons on a world actor with the test setting's, and put one in
+ * the right hand. Used on the actors a shipped adventure imports, so a combat
+ * spec arms them from the test setting instead of from whatever the system
+ * ships. Weapons already on the actor are deleted first.
+ *
+ * @param {object|string} actor - The actor (doc, id, or `{id}`).
+ * @param {string[]} shortcodes - Fixture `weapongear` shortcodes to add.
+ * @param {string} held - The shortcode, among `shortcodes`, held in the right arm.
+ * @returns the actor's id.
+ */
+Cypress.Commands.add("armFromFixtures", (actor, shortcodes, held) =>
+    cy.task("fixtureItems", { type: "weapongear", shortcodes }).then((payloads) =>
+        cy.foundry(async (win) => {
+            const target = win.game.actors.get(actor?.id ?? actor);
+            if (!target) throw new Error(`armFromFixtures: no actor "${actor?.id ?? actor}"`);
+            const old = target.items.filter((item) => item.type === "weapongear");
+            if (old.length)
+                await target.deleteEmbeddedDocuments(
+                    "Item",
+                    old.map((item) => item.id),
+                );
+            const created = await target.createEmbeddedDocuments("Item", toRealm(win, payloads));
+            const heldItem = created.find((item) => item.system.shortcode === held);
+            if (!heldItem) throw new Error(`armFromFixtures: "${held}" is not among the weapons`);
+            const parts = win.structuredClone(target.system.body.structure.parts);
+            for (const part of parts) {
+                if (part.heldItemId && !target.items.has(part.heldItemId)) part.heldItemId = null;
+            }
+            parts.find((part) => part.shortcode === "rarmpart").heldItemId = heldItem.id;
+            await target.update(toRealm(win, { "system.body.structure.parts": parts }));
+            return target.id;
+        }),
+    ),
 );
 
 /**
