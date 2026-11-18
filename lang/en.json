@@ -1770,6 +1770,7 @@
     "SOHL.Vehicle.Action.removeOccupant": "Remove Occupant",
     "SOHL.Vehicle.FIELDS.occupants.hint": "Shortcodes of actors occupying this vehicle; a Cohort shortcode represents all of its members",
     "SOHL.Vehicle.FIELDS.occupants.label": "Occupants",
+    "SOHL.Vehicle.FIELDS.occupants.quantity.label": "Quantity",
     "SOHL.Vehicle.FIELDS.occupants.role.label": "Role",
     "SOHL.Vehicle.FIELDS.occupants.title.label": "Title",
     "SOHL.Vehicle.Occupant.Role.crew": "Crew",

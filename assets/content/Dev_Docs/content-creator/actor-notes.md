@@ -238,3 +238,22 @@ data the note owns, with nothing to keep it in step with the item it resembles.
 Cross-package _links_ in prose go through the
 [[doc-linkmanifest|link manifest]]; an embedded item is data that has to exist
 at build time.
+
+## Vehicle occupant data
+
+A vehicle's native `sohl.system.occupants` rows hold `actorCodeOrUuid`, `role`,
+optional `title`, and optional numeric `quantity`. Omission initializes the
+quantity to one. For example:
+
+```yaml
+sohl:
+  system:
+    occupants:
+      - actorCodeOrUuid: deckhand
+        role: crew
+        quantity: 4
+```
+
+The quantity is retained as roster data. The vehicle's informational occupant
+count and load use distinct resolved actors, as described in
+[[doc-vehicleload|Vehicle Capacity and Load]].

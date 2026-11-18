@@ -397,7 +397,7 @@ export interface StructureData<
     cargoCapacity: number;
 }
 
-/** Structure occupants use the existing actor-reference, role and title shape. */
-export type StructureOccupant = VehicleOccupant;
+/** Structure occupants store an actor reference, role and title. */
+export type StructureOccupant = Omit<VehicleOccupant, "quantity">;
 /** Read-only sheet rows for stored Structure occupants. */
 export type StructureOccupantRow = VehicleOccupantRow;

@@ -52,6 +52,8 @@ export interface VehicleOccupant {
     actorCodeOrUuid: string;
     /** This occupant's role aboard (crew, passenger, draft creature). */
     role: VehicleOccupantRole;
+    /** Authored roster quantity; the schema supplies one when omitted. */
+    quantity?: number;
     /** An optional style aboard ("Bosun", "Helmsman"), or `null` for none. */
     title: string | null;
 }

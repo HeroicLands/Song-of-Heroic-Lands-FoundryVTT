@@ -20,7 +20,7 @@ import {
 import type { VehicleData, VehicleOccupant } from "@src/document/actor/logic/VehicleLogic";
 import { VehicleLogic } from "@src/document/actor/logic/VehicleLogic";
 
-const { ArrayField, SchemaField, StringField } = foundry.data.fields;
+const { ArrayField, SchemaField, StringField, NumberField } = foundry.data.fields;
 
 /**
  * Defines the data schema for the Vehicle actor.
@@ -50,6 +50,11 @@ function defineVehicleDataSchema(): foundry.data.fields.DataSchema {
                 role: new StringField({
                     choices: VehicleOccupantRoleChoices,
                     initial: VEHICLE_OCCUPANT_ROLE.PASSENGER,
+                }),
+                quantity: new NumberField({
+                    required: false,
+                    nullable: false,
+                    initial: 1,
                 }),
                 title: new StringField({
                     blank: false,

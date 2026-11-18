@@ -101,7 +101,7 @@ describe("non-being actors: cohort / structure / vehicle", () => {
                     // `actorCodeOrUuid` is required; `title` is `blank: false`.
                     "system.occupants": [
                         { actorCodeOrUuid: "ferryman", title: "Captain" },
-                        { actorCodeOrUuid: "deckhand", title: "Crew" },
+                        { actorCodeOrUuid: "deckhand", title: "Crew", quantity: 7 },
                     ],
                 }),
             );
@@ -111,10 +111,15 @@ describe("non-being actors: cohort / structure / vehicle", () => {
                     occupantRefs: s.occupants.map((o) => o.actorCodeOrUuid),
                     occupantTitles: s.occupants.map((o) => o.title),
                     occupantRoles: s.occupants.map((o) => o.role),
+                    occupantQuantities: s.occupants.map((o) => o.quantity),
+                    storedQuantity: win.game.actors.get(actor.id)._source.system.occupants[1]
+                        .quantity,
                 };
             }).should((r) => {
                 expect(r.occupantRefs).to.have.members(["ferryman", "deckhand"]);
                 expect(r.occupantTitles).to.have.members(["Captain", "Crew"]);
+                expect(r.occupantQuantities).to.deep.eq([1, 7]);
+                expect(r.storedQuantity).to.eq(7);
                 expect(
                     r.occupantRoles.every((x) => !!x),
                     "role defaults applied",

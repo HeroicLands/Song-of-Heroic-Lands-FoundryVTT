@@ -13,6 +13,8 @@ A Vehicle is a **conveyance that carries people** — a wagon, a ship, a boat, a
 
 A Vehicle records its occupants, its passenger and carrying capacities, and its current load. Each occupant has a role — **crew**, **passenger**, or **draft creature** — and an optional title such as _Bosun_ or _Helmsman_. An entry may name a single character or a whole [[doc-cohortug|Cohort]], which stands for that cohort's resolved members riding along.
 
+Each native occupant entry also stores a numeric quantity, which defaults to one. The Occupants tab does not display it, and it does not affect the distinct occupant count or the load. The field imposes no integer or minimum restriction.
+
 That is the question a Vehicle exists to answer: **who is on board, and in what capacity.** Everything else it does — holding cargo, carrying actions, taking effects — any actor can do.
 
 Like every actor, a Vehicle carries movement rates for the mediums it can travel in, so a river barge and a mountain wagon can be given different speeds.

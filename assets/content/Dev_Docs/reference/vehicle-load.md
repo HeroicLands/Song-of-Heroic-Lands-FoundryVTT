@@ -15,6 +15,12 @@ See also: [[doc-runtimecontracts|Runtime Contracts]], [[doc-vehicleug|Vehicle]]
 
 `VehicleData.occupantCapacity` is an authored nonnegative integer person count. `VehicleData.carryingCapacity` is an authored nonnegative total weight in pounds. Both have explicit zero initial values; preparation supplies no invented capacity. Author these schema paths under `sohl.system` on an actor note.
 
+Native `VehicleOccupant` rows accept an optional numeric `quantity`. The
+schema initializes an omitted value to one and retains a supplied value; it
+imposes no integer or minimum restriction. The Occupants tab does not display it.
+This roster data is separate from the distinct-Being count and load totals
+below.
+
 `VehicleLogic.deriveVehicleState()` recomputes these read-only properties during evaluation and after embedded items finalize:
 
 | Property         | Meaning                                                                                   |

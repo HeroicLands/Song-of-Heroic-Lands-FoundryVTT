@@ -582,7 +582,26 @@ export const defaultFixPrompts: FixPrompts = {
         return new Promise((resolve) => {
             let settled = false;
             const FP = (foundry.applications.apps as any).FilePicker.implementation;
-            const picker = new FP({
+            /** A folder picker that ignores searches after its window closes. */
+            class FilePicker extends FP {
+                /** Pass folder picker options to Foundry. */
+                constructor(options: Record<string, unknown>) {
+                    super(options);
+                }
+
+                /** Update search results while the picker remains open. */
+                protected _onSearchFilter(
+                    event: KeyboardEvent,
+                    query: string,
+                    rgx: RegExp,
+                    html: HTMLElement,
+                ): void {
+                    // A pending filter has no window to update after the picker closes.
+                    if (!this.rendered || !this.element) return;
+                    super._onSearchFilter(event, query, rgx, html);
+                }
+            }
+            const picker = new FilePicker({
                 type: "folder",
                 current: pack.folder ?? "",
                 window: {

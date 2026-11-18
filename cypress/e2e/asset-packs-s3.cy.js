@@ -82,7 +82,7 @@ describe("asset packs (S3 storage)", () => {
         })).then(({ match }) => expect(match, `${FOLDER_URL} is an S3 URL`).to.equal(true));
     });
 
-    it("downloads into an S3 prefix chosen in the folder picker and repoints references", () => {
+    it("downloads, reuses, and updates artwork in an S3 folder", () => {
         resetAssetPacks();
         cy.foundry(async (win) => {
             const stand = `${INSTALL}icons/missing.svg`;
@@ -138,11 +138,25 @@ describe("asset packs (S3 storage)", () => {
         });
         cy.foundry((win) => {
             const picker = openPicker(win);
+            win.__assetPicker = picker;
+            Cypress.sinon.spy(picker, "setPosition");
+            picker._onSearchFilter(null, "", /(?:)/i, win.document.createElement("div"));
+            expect(picker.setPosition).to.have.been.called;
             picker.element.querySelector('input[name="file"]').value = KEY;
             picker.element.querySelector('button[type="submit"]').click();
             return null;
         });
         cy.submitDialog("yes");
+        cy.window({ timeout: 12000 }).should((win) => {
+            expect(win.__assetPicker.element).to.not.exist;
+        });
+        cy.foundry((win) => {
+            const picker = win.__assetPicker;
+            const calls = picker.setPosition.callCount;
+            picker._onSearchFilter(null, "", /(?:)/i, win.document.createElement("div"));
+            expect(picker.setPosition.callCount).to.equal(calls);
+            return null;
+        });
         cy.foundry((win) => win.__fix).then((report) => {
             expect(report.errors).to.deep.equal([]);
             expect(report.downloaded).to.equal(4);
@@ -180,9 +194,6 @@ describe("asset packs (S3 storage)", () => {
                     img.src = win.game.actors.get(ids.actor).img;
                 }),
         ).should("be.greaterThan", 0);
-    });
-
-    it("a second Fix downloads nothing", () => {
         cy.foundry((win) =>
             ap(win).runFix({
                 chooseFolder: async (_p, pack) => pack.folder,
@@ -193,9 +204,6 @@ describe("asset packs (S3 storage)", () => {
             expect(report.present).to.equal(4);
             expect(report.changed).to.equal(0);
         });
-    });
-
-    it("fetches a changed file again", () => {
         const text = svg("s3 wolf, longer");
         cy.foundry(async (win) => {
             await uploadText(win, `${SRC}/one`, "e2ewolf.svg", text, "image/svg+xml");
