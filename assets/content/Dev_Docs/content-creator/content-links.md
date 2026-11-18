@@ -125,7 +125,7 @@ copy as well as its executable one.
 
 ````markdown
 ```js
-const first = grid[[0]];   <!-- left alone: source, not a link -->
+const first = grid[[0]]; <!-- left alone: source, not a link -->
 ```
 
 Write `[[skill-wpnc]]` to link the skill. <!-- shown, not resolved -->
