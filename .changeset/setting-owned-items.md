@@ -4,5 +4,5 @@
 
 **Compendiums and content**
 
-- SoHL no longer supplies gear, afflictions, mystical abilities, or trauma; use setting modules or create them in your world.
-- Sample and tutorial characters no longer carry system-supplied gear or mystical abilities.
+- The SoHL compendium carries no gear, afflictions, mystical abilities, or trauma; these come from setting modules or items created in your world.
+- Sample and tutorial characters have no system-supplied gear or mystical abilities.
