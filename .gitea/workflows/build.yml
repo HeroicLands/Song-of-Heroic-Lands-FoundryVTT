@@ -30,7 +30,7 @@ jobs:
             # Wants a checkout and nothing else, so it runs before the
             # install and fails in seconds rather than after one.
             - name: Check for forbidden markers
-              uses: HeroicLands/.github/actions/todos@5a31ee2627a7b464710f0942dbfb4c19a4f90f94 # main
+              uses: HeroicLands/.github/actions/todos@37b1fa7cb6eb63fe6e54531e66a4d0ca61094442 # main
 
             - name: Setup Node.js
               uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
