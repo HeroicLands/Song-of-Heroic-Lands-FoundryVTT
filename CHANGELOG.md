@@ -1,5 +1,63 @@
 # sohl
 
+## 0.9.0
+
+**Characters and sheets**
+
+- Cohort sheets show resolved member counts and Health bands.
+- Structures track structural Health, occupants, and advisory cargo and person capacities.
+- Vehicles show capacities and occupant and cargo loads; weight changes no mechanics.
+- Affliction templates hide patient actions and explain that they must belong to a character before onset, treatment, healing, or resolution can run.
+- Attribute scores can be generated from their initial dice formulas, with confirmation before saving.
+- Structure header fields follow the sheet's editing permissions.
+- When a calendar module's picker is active, date fields offer it alongside the basic editor, preserving seconds.
+- The basic editor supports leap days and second edits; date editing offers current-time, clear, and cancel choices.
+- Affiliation items record organizational parents and seat, while each place states its governing body.
+- Affliction transmission and outcome choices and concoction potency display their translated labels on item sheets.
+- Actor appearance summaries show skin conditions and visible physical traits.
+
+**Rules and combat**
+
+- Afflictions with dice-based onset durations use the rolled delay before symptoms begin.
+- Onset, healing, and resolution durations support arithmetic dice formulas in whole seconds; invalid results leave the patient's state unchanged.
+- Armor and clothing provide protection appropriate to their material grade.
+- Active Effects can disable a skill, attribute, healing target, or other modifier outright.
+- Grab offers owner-confirmed Take and Hold Strength Trials with chosen hands and Tactical Advantages.
+- Take disarms the struck limb and transfers held equipment and contents, placing them uncarried when the taker has no free hand.
+- Hold temporarily immobilizes the struck limb without dropping equipment, reminds the victim to Pass, and requires maintenance each round; entangling weapons also offer Hold.
+- Off-side penalties on Punch, Kick, Grab, and Limb Block follow the performing limb and clear when it changes.
+- Strength Trial Impact Tactical Advantages grant Press +2, Grab +3, and Trip +4.
+- Combat skips disabled impact rolls and resolves fixed impact without rolling damage dice, including counterstrikes.
+- Attacking players choose Impact Tactical Advantages without rerolling damage, with zero granting no bonus.
+- The Automated Attack macro starts the attack workflow.
+- The GM's Automated Combat tour demonstrates two exchanges and recording an S2 injury; leaving or restarting the tour restores ordinary rolls.
+- Crafting macros offer player-chosen Value Diamond allocation after rolling, and selected workshops use their star rating as the qualifier Target Number.
+- Injury cards state when a defense determines where a blow lands, distinguishing it from a location chosen by the player.
+- Landed enveloping attacks offer an owner-confirmed Enveloped condition, penalizing attacks and defenses by 20 until removed.
+- Qualifier rolls resolve d10 batches against a shared Target Number and apply the matching effect rung.
+- A tied block checks the blocking weapon’s Quality before reporting breakage; the result card shows the roll or leaves unrated weapons for table adjudication.
+- Weapon crew requirements include the operator and remain under GM adjudication.
+- Spent-ammunition guidance covers head type, target material, bolts, later recovery and the distinction between maintenance and re-making.
+- Weapons penalize attacks and defenses when Strength falls below Heft, account for grip, and reward qualifying two-handed swings; combat techniques remain exempt.
+
+**Compendiums and content**
+
+- The SoHL compendium carries no animals; the bestiary is in the Thalorna setting's compendium.
+- The SoHL compendium carries no gear, afflictions, mystical abilities, or trauma; these come from setting modules or items created in your world.
+- Sample and tutorial characters have no system-supplied gear or mystical abilities.
+- The Crafting journal lists armor material costs and labor time by craft; leather cloak prices and Leather Shoes weight reflect their material and coverage.
+- The **Asset Packs** setting lets GMs choose, per package, between its shipped art and other packs added by their pack-file address.
+- **Fix** downloads selected art to your chosen folder in user data, S3, or the Forge and updates world documents while preserving pictures set by hand.
+- Compendium imports use the selected pack's downloaded art; removing an unselected pack from the setting preserves its downloaded files.
+- The artwork folder picker closes without interrupting downloads.
+- Vehicle occupant quantities supplied by content packages are retained and default to one when omitted.
+- An importable combat tutorial supplies a human, a grukar-uk, and a path scene with adjacent tokens for a referee to start combat.
+
+**Website and documentation**
+
+- Documentation landing pages group their page lists by topic and sort them alphabetically.
+- The sheet guide includes labeled actor layouts and annotated item Properties examples.
+
 ## 0.8.8
 
 ### Patch Changes
